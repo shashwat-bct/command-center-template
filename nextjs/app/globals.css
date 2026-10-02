@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f5f1;
+  --foreground: #1a1a1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-urbanist);
+  --font-serif: var(--font-newsreader);
+  --font-mono: var(--font-spline-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Only used by file-backed dashboard pages ([brand]/page.tsx) — they embed the
+   bravo-platform shell JS which expects #rail, #main, etc. to be unstyled by
+   Tailwind's preflight. */
+.cco-shell * {
+  box-sizing: initial;
+}
