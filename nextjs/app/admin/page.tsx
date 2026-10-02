@@ -56,6 +56,8 @@ export default function AdminPage() {
   const [payloadFileName, setPayloadFileName] = useState<string | null>(null);
   const [pastedJson, setPastedJson] = useState("");
   const [asinsRaw, setAsinsRaw] = useState("");
+  const [aiCategory, setAiCategory] = useState("");
+  const [aiCompetitorsRaw, setAiCompetitorsRaw] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const brandMarkInput = useRef<HTMLInputElement>(null);
@@ -111,7 +113,16 @@ export default function AdminPage() {
           .split(/[,\s\n]+/)
           .map((s) => s.trim().toUpperCase())
           .filter((s) => /^[A-Z0-9]{10}$/.test(s));
-        await runBackendBuild(slug, name, asins, router, setError, setSubmitting);
+        const aiCompetitors = aiCompetitorsRaw
+          .split(/[,\n]+/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+        await runBackendBuild(
+          { slug, name, asins, aiCategory: aiCategory.trim() || null, aiCompetitors },
+          router,
+          setError,
+          setSubmitting,
+        );
         return;
       }
 
@@ -280,33 +291,79 @@ export default function AdminPage() {
               </Field>
             )}
             {source === "backend" && (
-              <div className="space-y-4">
-                <Field
-                  label={
-                    <>
-                      Amazon ASINs <span className="text-xs font-normal normal-case tracking-normal text-neutral-400">· optional, for real pricing + review data</span>
-                    </>
-                  }
-                  hint="Comma- or newline-separated 10-char ASINs. We hit Keepa for each and merge the real list price, street price, discount, rating, and review volume into the subject-brand slot. Leave blank to get a pure Sonos-reference preview."
-                >
-                  <textarea
-                    rows={3}
-                    placeholder="B08SW8MBQX, B01GCGE4DW, B07PGL2N7J"
-                    value={asinsRaw}
-                    onChange={(e) => setAsinsRaw(e.target.value)}
-                    className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 font-mono text-[11px] focus:border-neutral-900 focus:outline-none"
-                  />
-                </Field>
+              <div className="space-y-5">
+                <div>
+                  <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-700">
+                    Data sources
+                  </div>
+                  <div className="space-y-4 rounded-xl border border-dashed border-neutral-300 p-4">
+                    <Field
+                      label={
+                        <>
+                          <span className="rounded bg-green-100 px-1.5 py-0.5 font-mono text-[10px] text-green-800">keepa</span>{" "}
+                          Amazon ASINs
+                        </>
+                      }
+                      hint="Comma- or newline-separated 10-char IDs. Real list price, street price, discount, rating, review volume."
+                    >
+                      <textarea
+                        rows={2}
+                        placeholder="B08SW8MBQX, B01GCGE4DW, B07PGL2N7J"
+                        value={asinsRaw}
+                        onChange={(e) => setAsinsRaw(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 font-mono text-[11px] focus:border-neutral-900 focus:outline-none"
+                      />
+                    </Field>
+
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field
+                        label={
+                          <>
+                            <span className="rounded bg-blue-100 px-1.5 py-0.5 font-mono text-[10px] text-blue-800">claude</span>{" "}
+                            Category
+                          </>
+                        }
+                        hint="What products this brand sells, e.g. 'cordless vacuum', 'wireless speaker'."
+                      >
+                        <input
+                          type="text"
+                          placeholder="cordless vacuum"
+                          value={aiCategory}
+                          onChange={(e) => setAiCategory(e.target.value)}
+                          className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+                        />
+                      </Field>
+
+                      <Field
+                        label={
+                          <>
+                            <span className="rounded bg-blue-100 px-1.5 py-0.5 font-mono text-[10px] text-blue-800">claude</span>{" "}
+                            Competitor brands
+                          </>
+                        }
+                        hint="Comma-separated names to count in Claude's answers."
+                      >
+                        <input
+                          type="text"
+                          placeholder="Shark, Dyson, Miele"
+                          value={aiCompetitorsRaw}
+                          onChange={(e) => setAiCompetitorsRaw(e.target.value)}
+                          className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+                        />
+                      </Field>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="space-y-2 text-xs leading-relaxed text-neutral-500">
                   <p>
-                    <b>Vendored brands</b> (<code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sony</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">shark</code>) always run their own real builder — ASINs are ignored.
+                    <b>Vendored brands</b> (<code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sony</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">shark</code>) always run their own real builder — these inputs are ignored for them.
                   </p>
                   <p>
-                    <b>New brands</b> get real pricing + review data from Keepa if ASINs are supplied. The dashboard&apos;s pricing + review panels become real; other panels (shelf, delivery, in-stock, AI visibility) stay as Sonos reference data with an honest disclosure.
+                    <b>New brands</b> get real data for every lane you supply inputs for. Pricing + reviews from Keepa; AI share-of-mind from Claude. Everything else is Sonos reference data with an honest disclosure.
                   </p>
                   <p>
-                    Build row + log stream to <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">cco_mgmt.builds</code> in BigQuery. Takes ~5–15s end-to-end (Keepa adds ~0.5s per ASIN).
+                    Build takes ~5–30s depending on inputs: Keepa adds ~0.5s per ASIN, AI adds ~15s for 8 shopper questions.
                   </p>
                 </div>
               </div>
@@ -341,10 +398,16 @@ function Section({ title, subtitle, children }: { title: string; subtitle: strin
 
 const ADMIN_TOKEN_KEY = "cct_admin_token";
 
+type BackendBuildArgs = {
+  slug: string;
+  name: string;
+  asins: string[];
+  aiCategory: string | null;
+  aiCompetitors: string[];
+};
+
 async function runBackendBuild(
-  slug: string,
-  name: string,
-  asins: string[],
+  args: BackendBuildArgs,
   router: ReturnType<typeof useRouter>,
   setError: (msg: string) => void,
   setSubmitting: (b: boolean) => void,
@@ -362,10 +425,17 @@ async function runBackendBuild(
     sessionStorage.setItem(ADMIN_TOKEN_KEY, token);
   }
 
+  const { slug, name } = args;
   const res = await fetch("/api/brands", {
     method: "POST",
     headers: { "content-type": "application/json", "x-admin-token": token },
-    body: JSON.stringify({ slug, name, asins }),
+    body: JSON.stringify({
+      slug,
+      name,
+      asins: args.asins,
+      aiCategory: args.aiCategory,
+      aiCompetitors: args.aiCompetitors,
+    }),
   });
   if (res.status === 401) {
     sessionStorage.removeItem(ADMIN_TOKEN_KEY);

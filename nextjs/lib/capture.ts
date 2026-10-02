@@ -17,7 +17,8 @@ import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
 import { uploadLog, uploadPayload } from "./gcs";
 import { fetchKeepaBrand } from "./keepa";
-import { overrideSubjectWithKeepa } from "./launch-override";
+import { fetchAiShareOfMind, type AiSoMResult } from "./ai-visibility";
+import { overrideSubject } from "./launch-override";
 
 // Brands whose config + captures are vendored into the image. These run their
 // own simulation builder with their own numbers.
@@ -39,6 +40,11 @@ export type CreateBuildInput = {
   // supply ASINs — the backend hits Keepa for each one, aggregates pricing +
   // reviews, and overrides the subject-brand slot in a Sonos-based launch-data.
   asins?: string[];
+  // Optional category + competitor seeds that drive the AI Share of Mind step
+  // (the backend asks Claude a battery of shopper questions and counts brand
+  // mentions). If omitted, the AI step is skipped.
+  aiCategory?: string | null;
+  aiCompetitors?: string[];
   options?: BuildOptions;
 };
 
@@ -88,7 +94,11 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   // Fire-and-forget. Cloud Run keeps the container alive during the request;
   // scale-down happens after an idle period, which is long enough for a 1-2 min
   // simulation. For real captures (15-30 min), this needs Cloud Run Jobs.
-  runBuild(build_id, slug, name, options, input.asins ?? []).catch((e: unknown) => {
+  runBuild(build_id, slug, name, options, {
+    asins: input.asins ?? [],
+    aiCategory: input.aiCategory ?? null,
+    aiCompetitors: input.aiCompetitors ?? [],
+  }).catch((e: unknown) => {
     const err = e as { errors?: unknown; response?: unknown; message?: string };
     console.error(
       "[capture] runBuild threw",
@@ -105,17 +115,26 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   };
 }
 
-async function runBuild(build_id: string, slug: string, name: string, options: BuildOptions, asins: string[]) {
+type RunInputs = {
+  asins: string[];
+  aiCategory: string | null;
+  aiCompetitors: string[];
+};
+
+async function runBuild(build_id: string, slug: string, name: string, options: BuildOptions, inputs: RunInputs) {
+  const { asins, aiCategory, aiCompetitors } = inputs;
   // Does this brand have its own config vendored? If not, the builder runs
   // under the reference brand, and we relabel the output.
   const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
   const builderBrand = hasOwnConfig ? slug : REFERENCE_BRAND;
   const relabel = !hasOwnConfig;
   const willHitKeepa = relabel && asins.length > 0;
+  const willHitAI = relabel && !!aiCategory && aiCategory.trim().length > 0;
 
   const steps: BuildStep[] = [
     { name: "config", status: "pending" },
     ...(willHitKeepa ? [{ name: "keepa", status: "pending" as const }] : []),
+    ...(willHitAI ? [{ name: "ai-visibility", status: "pending" as const }] : []),
     { name: "builder", status: "pending" },
     ...(relabel ? [{ name: "relabel", status: "pending" as const }] : []),
     { name: "upload", status: "pending" },
@@ -124,10 +143,15 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   const logLine = (s: string) => logChunks.push(`[${new Date().toISOString()}] ${s}`);
   if (hasOwnConfig) {
     logLine(`brand "${slug}" has a vendored config — running its own builder.`);
-  } else if (willHitKeepa) {
-    logLine(`brand "${slug}" has no vendored config — fetching real Keepa data for ${asins.length} ASIN(s), then running the ${REFERENCE_BRAND} builder with the subject-brand slot overridden with that real data.`);
   } else {
-    logLine(`brand "${slug}" has no vendored config and no ASINs — running the ${REFERENCE_BRAND} builder and relabeling the output as "${name}" (reference-only preview).`);
+    const parts: string[] = [];
+    if (willHitKeepa) parts.push(`Keepa for ${asins.length} ASIN(s)`);
+    if (willHitAI) parts.push(`AI share-of-mind on "${aiCategory}"${aiCompetitors.length ? ` vs ${aiCompetitors.join(", ")}` : ""}`);
+    if (parts.length === 0) {
+      logLine(`brand "${slug}" has no vendored config and no real-data inputs — running the ${REFERENCE_BRAND} builder and relabeling the output as "${name}" (pure reference preview).`);
+    } else {
+      logLine(`brand "${slug}" has no vendored config — real-data sources this build: ${parts.join(" + ")}. Everything else will be ${REFERENCE_BRAND} reference data.`);
+    }
   }
 
   await updateBuild(build_id, { status: "running", started_at: new Date().toISOString(), steps });
@@ -161,7 +185,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   await setStep("config", { status: "done", duration_ms: 0 });
 
   // --- keepa step (optional, only when ASINs supplied + non-vendored brand) ---
-  let keepaAudit: string | null = null;
+  let keepaResult: Awaited<ReturnType<typeof fetchKeepaBrand>> | null = null;
   if (willHitKeepa) {
     await setStep("keepa", { status: "running", started_at: new Date().toISOString() });
     const kStart = Date.now();
@@ -169,24 +193,50 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       const apiKey = process.env.INS_KEEPA_KEY;
       if (!apiKey) throw new Error("INS_KEEPA_KEY not configured on the backend");
       logLine(`calling Keepa for ${asins.length} ASIN(s): ${asins.join(", ")}`);
-      const keepa = await fetchKeepaBrand(asins, apiKey);
-      logLine(`Keepa: ${keepa.asinsWithData}/${keepa.asinsFetched} ASINs returned data (avg list $${keepa.avgListPrice}, avg street $${keepa.avgStreetPrice}, rating ${keepa.avgRating}, reviews ${keepa.totalReviews})`);
-
-      const { launchData, audit } = overrideSubjectWithKeepa(keepa);
-      // The config references launch at public/sonos-speakers-launch-data.json
-      // (because the builder is running under the Sonos config). We write the
-      // overridden launch-data to that same path so the builder picks it up.
-      const launchPath = join(workDir, "public", "sonos-speakers-launch-data.json");
-      writeFileSync(launchPath, JSON.stringify(launchData));
-      keepaAudit = `Real data: ${audit.modifiedPaths.join(", ")}. Withheld (no Keepa return): ${audit.withheldPaths.join(", ") || "none"}.`;
-      logLine(keepaAudit);
+      keepaResult = await fetchKeepaBrand(asins, apiKey);
+      logLine(`Keepa: ${keepaResult.asinsWithData}/${keepaResult.asinsFetched} ASINs returned data (avg list $${keepaResult.avgListPrice}, avg street $${keepaResult.avgStreetPrice}, rating ${keepaResult.avgRating}, reviews ${keepaResult.totalReviews})`);
       await setStep("keepa", { status: "done", duration_ms: Date.now() - kStart });
     } catch (e) {
       const err = (e as Error).message;
-      logLine(`keepa step failed: ${err} — proceeding with pure reference data`);
+      logLine(`keepa step failed: ${err} — proceeding without Keepa data`);
       await setStep("keepa", { status: "done", duration_ms: Date.now() - kStart, error: err });
-      // Non-fatal — we fall through to pure reference-preview mode
+      keepaResult = null;
     }
+  }
+
+  // --- ai-visibility step (optional, only when category supplied + non-vendored brand) ---
+  let aiResult: AiSoMResult | null = null;
+  if (willHitAI && aiCategory) {
+    await setStep("ai-visibility", { status: "running", started_at: new Date().toISOString() });
+    const aStart = Date.now();
+    try {
+      logLine(`asking Claude ~8 shopper questions about "${aiCategory}" and counting brand mentions`);
+      aiResult = await fetchAiShareOfMind({
+        subjectName: name,
+        category: aiCategory,
+        competitors: aiCompetitors,
+      });
+      logLine(`AI Share of Mind: ${aiResult.subjectShare}% (${aiResult.subjectMentions}/${aiResult.totalBrandMentions} brand mentions across ${aiResult.questionsAsked} questions) · per-brand: ${JSON.stringify(aiResult.perBrand)}`);
+      await setStep("ai-visibility", { status: "done", duration_ms: Date.now() - aStart });
+    } catch (e) {
+      const err = (e as Error).message;
+      logLine(`ai-visibility step failed: ${err} — proceeding without AI SoM data`);
+      await setStep("ai-visibility", { status: "done", duration_ms: Date.now() - aStart, error: err });
+      aiResult = null;
+    }
+  }
+
+  // Merge whatever real data we gathered into the launch-data template.
+  let overrideAudit: string | null = null;
+  if (relabel && (keepaResult || aiResult)) {
+    const { launchData, audit } = overrideSubject({
+      keepa: keepaResult ?? undefined,
+      aiSoM: aiResult ?? undefined,
+    });
+    const launchPath = join(workDir, "public", "sonos-speakers-launch-data.json");
+    writeFileSync(launchPath, JSON.stringify(launchData));
+    overrideAudit = `Real data merged into launch-data: ${audit.modifiedPaths.join(", ")}. Withheld: ${audit.withheldPaths.join(", ") || "none"}.`;
+    logLine(overrideAudit);
   }
 
   // --- builder step ---------------------------------------------------------
@@ -234,16 +284,20 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     data.meta.subjectLabel = name;
     data.meta.title = `${name} · Commercial Command Center`;
 
-    const headline = willHitKeepa
-      ? `Pricing + review data for ${name} is real (Keepa). Shelf, delivery, in-stock and AI-visibility lanes are ${REFERENCE_BRAND} reference data.`
-      : `The numbers on this screen are ${REFERENCE_BRAND}'s captured data — ${name} has no vendored config and no ASINs were supplied.`;
-    const body = willHitKeepa
-      ? `${keepaAudit ?? ""} Rendering with the ${REFERENCE_BRAND} builder (because ${name} has no dedicated config file yet). The dashboard panels that read pricing + reviews from the launch file (list price, street price, discount rate, review ratings, review volume) show ${name}'s real Keepa numbers. The other lanes (shelf SOV, delivery promise, in-stock %, AI engine visibility) still show ${REFERENCE_BRAND}'s reference data because the backend doesn't yet run Apify or SimilarWeb for new brands.`
-      : `This dashboard renders with ${REFERENCE_BRAND}'s real anchors under the "${name}" label so you can see the shape of what a captured dashboard looks like. For true ${name} figures, either supply ASINs (we'll run Keepa) or vendor a config + source captures into the image like ${[...BRANDS_WITH_CONFIG].join(", ")}.`;
+    const realSources: string[] = [];
+    if (keepaResult && keepaResult.asinsWithData > 0) realSources.push("Keepa");
+    if (aiResult && aiResult.totalBrandMentions > 0) realSources.push("Claude AI share-of-mind");
+
+    const headline = realSources.length
+      ? `Real data for ${name}: ${realSources.join(" + ")}. Everything else is ${REFERENCE_BRAND} reference data.`
+      : `The numbers on this screen are ${REFERENCE_BRAND}'s captured data — ${name} has no vendored config and no real-data inputs were supplied.`;
+    const body = realSources.length
+      ? `${overrideAudit ?? ""} Rendering with the ${REFERENCE_BRAND} builder because ${name} has no dedicated config file yet. The dashboard panels that read the overridden fields (pricing, reviews, AI share of voice) show ${name}'s real numbers; the other lanes (shelf SOV, delivery promise, in-stock %, competitor pricing) still show ${REFERENCE_BRAND}'s reference data until the backend adds Apify + SimilarWeb + DataForSEO integrations.`
+      : `This dashboard renders with ${REFERENCE_BRAND}'s real anchors under the "${name}" label so you can see the shape of what a captured dashboard looks like. For true ${name} figures, supply ASINs (Keepa pricing) or a category (Claude AI share-of-mind) in the admin form, or vendor a config into the image like ${[...BRANDS_WITH_CONFIG].join(", ")}.`;
 
     data.meta.disclosure = {
       ...(data.meta.disclosure ?? {}),
-      short: willHitKeepa ? "Partial real data · Keepa" : "Reference preview",
+      short: realSources.length ? `Partial real data · ${realSources.join(" + ")}` : "Reference preview",
       headline,
       body,
       anchors: (data.meta.disclosure as { anchors?: unknown } | undefined)?.anchors ?? [],

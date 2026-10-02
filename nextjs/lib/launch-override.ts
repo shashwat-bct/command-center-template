@@ -14,6 +14,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { KeepaBrandAggregate } from "./keepa";
+import type { AiSoMResult } from "./ai-visibility";
 
 const VENDOR_DIR = () => resolve(process.cwd(), "vendor", "bravo-platform");
 
@@ -32,6 +33,11 @@ type LaunchData = {
     inStock?: Record<string, number>;
     [k: string]: unknown;
   };
+  aiSearch?: {
+    overall?: Record<string, number>;
+    overallMentions?: Record<string, number>;
+    [k: string]: unknown;
+  };
   capturedAt?: string;
   [k: string]: unknown;
 };
@@ -42,53 +48,68 @@ export type OverrideResult = {
   mergedAt: string;
 };
 
+export type OverrideInputs = {
+  keepa?: KeepaBrandAggregate;
+  aiSoM?: AiSoMResult;
+};
+
 /**
  * Reads the vendored sonos-speakers-launch-data.json, overrides the "sonos"
- * slot's pricing + review fields with Keepa output, and returns the merged
- * launch-data for writing to the working dir.
+ * slot's pricing/review/aiSearch fields with any real data provided, and
+ * returns the merged launch-data for writing to the working dir.
  */
-export function overrideSubjectWithKeepa(
-  keepa: KeepaBrandAggregate,
-): { launchData: LaunchData; audit: OverrideResult } {
+export function overrideSubject(inputs: OverrideInputs): { launchData: LaunchData; audit: OverrideResult } {
   const templatePath = resolve(VENDOR_DIR(), "public", "sonos-speakers-launch-data.json");
   const template = JSON.parse(readFileSync(templatePath, "utf8")) as LaunchData;
 
   const now = new Date().toISOString();
   const modifiedPaths: string[] = [];
   const withheldPaths: string[] = [];
-
-  // We overwrite the "sonos" key everywhere the subject brand lives — the
-  // display name gets set in meta.subjectLabel elsewhere.
   const S = "sonos";
 
-  if (keepa.avgListPrice != null && template.pricing?.listPrice) {
-    template.pricing.listPrice[S] = keepa.avgListPrice;
-    modifiedPaths.push("pricing.listPrice.sonos");
-  } else withheldPaths.push("pricing.listPrice.sonos");
+  const keepa = inputs.keepa;
+  if (keepa) {
+    if (keepa.avgListPrice != null && template.pricing?.listPrice) {
+      template.pricing.listPrice[S] = keepa.avgListPrice;
+      modifiedPaths.push("pricing.listPrice.sonos");
+    } else withheldPaths.push("pricing.listPrice.sonos");
 
-  if (keepa.avgStreetPrice != null && template.pricing?.streetPrice) {
-    template.pricing.streetPrice[S] = keepa.avgStreetPrice;
-    modifiedPaths.push("pricing.streetPrice.sonos");
-  } else withheldPaths.push("pricing.streetPrice.sonos");
+    if (keepa.avgStreetPrice != null && template.pricing?.streetPrice) {
+      template.pricing.streetPrice[S] = keepa.avgStreetPrice;
+      modifiedPaths.push("pricing.streetPrice.sonos");
+    } else withheldPaths.push("pricing.streetPrice.sonos");
 
-  if (keepa.avgDiscountRate != null && template.pricing?.discountRate) {
-    template.pricing.discountRate[S] = keepa.avgDiscountRate;
-    modifiedPaths.push("pricing.discountRate.sonos");
-  } else withheldPaths.push("pricing.discountRate.sonos");
+    if (keepa.avgDiscountRate != null && template.pricing?.discountRate) {
+      template.pricing.discountRate[S] = keepa.avgDiscountRate;
+      modifiedPaths.push("pricing.discountRate.sonos");
+    } else withheldPaths.push("pricing.discountRate.sonos");
 
-  if (keepa.totalReviews != null && template.pricing?.reviewVolume) {
-    template.pricing.reviewVolume[S] = keepa.totalReviews;
-    modifiedPaths.push("pricing.reviewVolume.sonos");
-  } else withheldPaths.push("pricing.reviewVolume.sonos");
+    if (keepa.totalReviews != null && template.pricing?.reviewVolume) {
+      template.pricing.reviewVolume[S] = keepa.totalReviews;
+      modifiedPaths.push("pricing.reviewVolume.sonos");
+    } else withheldPaths.push("pricing.reviewVolume.sonos");
 
-  if (keepa.avgRating != null && template.retail?.rating) {
-    template.retail.rating[S] = keepa.avgRating;
-    modifiedPaths.push("retail.rating.sonos");
-  } else withheldPaths.push("retail.rating.sonos");
+    if (keepa.avgRating != null && template.retail?.rating) {
+      template.retail.rating[S] = keepa.avgRating;
+      modifiedPaths.push("retail.rating.sonos");
+    } else withheldPaths.push("retail.rating.sonos");
 
-  if (template.retail?.inStock) {
-    template.retail.inStock[S] = keepa.anyInStock ? 1 : 0;
-    modifiedPaths.push("retail.inStock.sonos");
+    if (template.retail?.inStock) {
+      template.retail.inStock[S] = keepa.anyInStock ? 1 : 0;
+      modifiedPaths.push("retail.inStock.sonos");
+    }
+  }
+
+  const aiSoM = inputs.aiSoM;
+  if (aiSoM && template.aiSearch) {
+    if (template.aiSearch.overall) {
+      template.aiSearch.overall[S] = aiSoM.subjectShare;
+      modifiedPaths.push("aiSearch.overall.sonos");
+    }
+    if (template.aiSearch.overallMentions) {
+      template.aiSearch.overallMentions[S] = aiSoM.subjectMentions;
+      modifiedPaths.push("aiSearch.overallMentions.sonos");
+    }
   }
 
   template.capturedAt = now;
@@ -97,4 +118,11 @@ export function overrideSubjectWithKeepa(
     launchData: template,
     audit: { modifiedPaths, withheldPaths, mergedAt: now },
   };
+}
+
+/**
+ * Backwards-compatible wrapper for the Keepa-only path.
+ */
+export function overrideSubjectWithKeepa(keepa: KeepaBrandAggregate) {
+  return overrideSubject({ keepa });
 }
