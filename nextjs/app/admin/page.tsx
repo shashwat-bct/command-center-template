@@ -55,6 +55,7 @@ export default function AdminPage() {
   const [uploadedPayload, setUploadedPayload] = useState<CCOPayload | null>(null);
   const [payloadFileName, setPayloadFileName] = useState<string | null>(null);
   const [pastedJson, setPastedJson] = useState("");
+  const [asinsRaw, setAsinsRaw] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const brandMarkInput = useRef<HTMLInputElement>(null);
@@ -106,7 +107,11 @@ export default function AdminPage() {
     setSubmitting(true);
     try {
       if (source === "backend") {
-        await runBackendBuild(slug, name, router, setError, setSubmitting);
+        const asins = asinsRaw
+          .split(/[,\s\n]+/)
+          .map((s) => s.trim().toUpperCase())
+          .filter((s) => /^[A-Z0-9]{10}$/.test(s));
+        await runBackendBuild(slug, name, asins, router, setError, setSubmitting);
         return;
       }
 
@@ -275,16 +280,35 @@ export default function AdminPage() {
               </Field>
             )}
             {source === "backend" && (
-              <div className="space-y-2 text-xs leading-relaxed text-neutral-500">
-                <p>
-                  Spawns the real simulation builder on the Cloud Run backend, writes the resulting payload to BigQuery + Cloud Storage, and redirects to the live dashboard. The admin token prompt appears on first use (from Secret Manager <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">ADMIN_SHARED_SECRET</code>).
-                </p>
-                <p>
-                  <b>Right now only brands with configs baked into the image can build this way</b> — <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code> at launch. New-brand real captures (Apify + Keepa + SimilarWeb for Meta, Coach, etc.) are the next stage.
-                </p>
-                <p>
-                  Takes ~1–2 min end-to-end. Build row + log stream to <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">cco_mgmt.builds</code> in BigQuery.
-                </p>
+              <div className="space-y-4">
+                <Field
+                  label={
+                    <>
+                      Amazon ASINs <span className="text-xs font-normal normal-case tracking-normal text-neutral-400">· optional, for real pricing + review data</span>
+                    </>
+                  }
+                  hint="Comma- or newline-separated 10-char ASINs. We hit Keepa for each and merge the real list price, street price, discount, rating, and review volume into the subject-brand slot. Leave blank to get a pure Sonos-reference preview."
+                >
+                  <textarea
+                    rows={3}
+                    placeholder="B08SW8MBQX, B01GCGE4DW, B07PGL2N7J"
+                    value={asinsRaw}
+                    onChange={(e) => setAsinsRaw(e.target.value)}
+                    className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 font-mono text-[11px] focus:border-neutral-900 focus:outline-none"
+                  />
+                </Field>
+
+                <div className="space-y-2 text-xs leading-relaxed text-neutral-500">
+                  <p>
+                    <b>Vendored brands</b> (<code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sony</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">shark</code>) always run their own real builder — ASINs are ignored.
+                  </p>
+                  <p>
+                    <b>New brands</b> get real pricing + review data from Keepa if ASINs are supplied. The dashboard&apos;s pricing + review panels become real; other panels (shelf, delivery, in-stock, AI visibility) stay as Sonos reference data with an honest disclosure.
+                  </p>
+                  <p>
+                    Build row + log stream to <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">cco_mgmt.builds</code> in BigQuery. Takes ~5–15s end-to-end (Keepa adds ~0.5s per ASIN).
+                  </p>
+                </div>
               </div>
             )}
           </div>
@@ -320,6 +344,7 @@ const ADMIN_TOKEN_KEY = "cct_admin_token";
 async function runBackendBuild(
   slug: string,
   name: string,
+  asins: string[],
   router: ReturnType<typeof useRouter>,
   setError: (msg: string) => void,
   setSubmitting: (b: boolean) => void,
@@ -340,7 +365,7 @@ async function runBackendBuild(
   const res = await fetch("/api/brands", {
     method: "POST",
     headers: { "content-type": "application/json", "x-admin-token": token },
-    body: JSON.stringify({ slug, name }),
+    body: JSON.stringify({ slug, name, asins }),
   });
   if (res.status === 401) {
     sessionStorage.removeItem(ADMIN_TOKEN_KEY);

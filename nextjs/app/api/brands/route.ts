@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
       retailers: (body.retailers as string[]) ?? undefined,
       models: (body.models as unknown[]) ?? undefined,
       cities: (body.cities as string[]) ?? undefined,
+      asins: Array.isArray(body.asins) ? (body.asins as string[]) : undefined,
       options: (body.options as never) ?? undefined,
     });
     return NextResponse.json(result, { status: 202 });
