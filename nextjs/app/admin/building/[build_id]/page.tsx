@@ -126,11 +126,40 @@ export default function BuildingPage({ params }: PageProps<"/admin/building/[bui
                 : STEP_LABELS[activeStepName] ?? activeStepName}
         </div>
 
-        <div className="building-wave" aria-hidden>
-          {Array.from({ length: 48 }).map((_, i) => (
-            <span key={i} className="building-wave-bar" style={{ animationDelay: `${i * 50}ms` }} />
-          ))}
-        </div>
+        {/* One SVG with a smooth gradient animation — one GPU layer total,
+            instead of 48 CSS-animated divs that overwhelm the compositor and
+            crashed the tab on first-pass. */}
+        <svg
+          className="building-wave"
+          viewBox="0 0 480 56"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="wave-grad" x1="0" x2="1">
+              <stop offset="0%" stopColor="rgba(140,180,255,0)" />
+              <stop offset="50%" stopColor="rgba(140,180,255,0.95)" />
+              <stop offset="100%" stopColor="rgba(140,180,255,0)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 0 28 Q 60 4, 120 28 T 240 28 T 360 28 T 480 28"
+            fill="none"
+            stroke="url(#wave-grad)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            style={{ animation: "wavePath 2.4s ease-in-out infinite" }}
+          />
+          <path
+            d="M 0 28 Q 60 52, 120 28 T 240 28 T 360 28 T 480 28"
+            fill="none"
+            stroke="url(#wave-grad)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            opacity="0.4"
+            style={{ animation: "wavePath2 2.4s ease-in-out infinite reverse" }}
+          />
+        </svg>
 
         <ol className="building-steps">
           {steps.map((s, i) => (
@@ -278,19 +307,18 @@ const sceneStyles = `
   }
 
   .building-wave {
-    display: flex; align-items: center; justify-content: center; gap: 3px;
     width: min(640px, 80vw);
     height: 56px;
     margin-bottom: 48px;
+    overflow: visible;
   }
-  .building-wave-bar {
-    width: 3px;
-    height: 4px;
-    background: linear-gradient(180deg, rgba(140,180,255,0.9), rgba(90,110,160,0.4));
-    border-radius: 2px;
-    animation: wavePulse 1.6s ease-in-out infinite;
-    will-change: transform, opacity;
-    opacity: 0.35;
+  @keyframes wavePath {
+    0%, 100% { d: path("M 0 28 Q 60 8, 120 28 T 240 28 T 360 28 T 480 28"); }
+    50%      { d: path("M 0 28 Q 60 48, 120 28 T 240 28 T 360 28 T 480 28"); }
+  }
+  @keyframes wavePath2 {
+    0%, 100% { d: path("M 0 28 Q 60 44, 120 28 T 240 28 T 360 28 T 480 28"); }
+    50%      { d: path("M 0 28 Q 60 12, 120 28 T 240 28 T 360 28 T 480 28"); }
   }
 
   .building-steps {
@@ -376,9 +404,5 @@ const sceneStyles = `
   @keyframes gridDrift {
     0%   { transform: translate(0,0); }
     100% { transform: translate(44px, 44px); }
-  }
-  @keyframes wavePulse {
-    0%, 100% { transform: scaleY(1); opacity: 0.35; }
-    50%      { transform: scaleY(10); opacity: 1; }
   }
 `;
