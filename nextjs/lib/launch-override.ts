@@ -15,6 +15,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { KeepaBrandAggregate } from "./keepa";
 import type { AiSoMResult } from "./ai-visibility";
+import type { ApifyAmazonAggregate } from "./apify";
 
 const VENDOR_DIR = () => resolve(process.cwd(), "vendor", "bravo-platform");
 
@@ -31,6 +32,7 @@ type LaunchData = {
   retail?: {
     rating?: Record<string, number>;
     inStock?: Record<string, number>;
+    leadTime?: Record<string, number>;
     [k: string]: unknown;
   };
   aiSearch?: {
@@ -38,6 +40,9 @@ type LaunchData = {
     overallMentions?: Record<string, number>;
     [k: string]: unknown;
   };
+  // Provenance tracking — which lanes have real data vs reference. The dashboard
+  // method tab reads this to show the honest story panel-by-panel.
+  provenance?: Record<string, string>;
   capturedAt?: string;
   [k: string]: unknown;
 };
@@ -51,6 +56,10 @@ export type OverrideResult = {
 export type OverrideInputs = {
   keepa?: KeepaBrandAggregate;
   aiSoM?: AiSoMResult;
+  apifyAmazon?: ApifyAmazonAggregate;
+  // When true, the dashboard disclosure explicitly flags SimilarWeb traffic
+  // as not-captured (because SIMILARWEB_API_KEY isn't configured).
+  similarWebMissing?: boolean;
 };
 
 /**
@@ -111,6 +120,42 @@ export function overrideSubject(inputs: OverrideInputs): { launchData: LaunchDat
       modifiedPaths.push("aiSearch.overallMentions.sonos");
     }
   }
+
+  const apify = inputs.apifyAmazon;
+  if (apify && apify.asinsWithData > 0) {
+    if (apify.avgPrice != null && template.pricing?.avgOffer) {
+      template.pricing.avgOffer[S] = apify.avgPrice;
+      modifiedPaths.push("pricing.avgOffer.sonos");
+    }
+    if (apify.totalOffersAvg != null && template.pricing?.totalOffers) {
+      template.pricing.totalOffers[S] = apify.totalOffersAvg;
+      modifiedPaths.push("pricing.totalOffers.sonos");
+    }
+    if (apify.avgDeliveryDays != null && template.retail?.leadTime) {
+      template.retail.leadTime[S] = apify.avgDeliveryDays;
+      modifiedPaths.push("retail.leadTime.sonos");
+    }
+    // Apify is more current than Keepa for in-stock — override even if Keepa
+    // already set it.
+    if (template.retail?.inStock) {
+      template.retail.inStock[S] = apify.anyInStock ? 1 : 0;
+      modifiedPaths.push("retail.inStock.sonos (apify)");
+    }
+  }
+
+  // Provenance stamp — which upstream was consulted. Everything not listed
+  // falls back to the vendored Sonos reference data.
+  template.provenance = {
+    ...(template.provenance ?? {}),
+    keepa: inputs.keepa ? (inputs.keepa.asinsWithData > 0 ? "measured" : "attempted_no_data") : "not_run",
+    ai_sov: inputs.aiSoM ? (inputs.aiSoM.totalBrandMentions > 0 ? "measured" : "attempted_no_mentions") : "not_run",
+    apify_amazon: inputs.apifyAmazon ? (inputs.apifyAmazon.asinsWithData > 0 ? "measured" : "attempted_no_data") : "not_run",
+    similarweb: inputs.similarWebMissing ? "key_missing" : "not_run",
+    multi_retailer_apify: "not_run (needs per-retailer actors)",
+    pdp_promo_apify: "not_run (needs per-retailer actors)",
+    delivery_probes_apify: "not_run (needs checkout-flow actor)",
+    dataforseo_google_ai: "not_run (needs DATAFORSEO_LOGIN)",
+  };
 
   template.capturedAt = now;
 

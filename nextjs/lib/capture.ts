@@ -18,6 +18,7 @@ import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type B
 import { uploadLog, uploadPayload } from "./gcs";
 import { fetchKeepaBrand } from "./keepa";
 import { fetchAiShareOfMind, type AiSoMResult } from "./ai-visibility";
+import { fetchApifyAmazon, type ApifyAmazonAggregate } from "./apify";
 import { overrideSubject } from "./launch-override";
 
 // Brands whose config + captures are vendored into the image. These run their
@@ -130,10 +131,13 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   const relabel = !hasOwnConfig;
   const willHitKeepa = relabel && asins.length > 0;
   const willHitAI = relabel && !!aiCategory && aiCategory.trim().length > 0;
+  const willHitApify = relabel && asins.length > 0 && !!process.env.APIFY_TOKEN;
+  const similarWebMissing = relabel && !process.env.SIMILARWEB_API_KEY;
 
   const steps: BuildStep[] = [
     { name: "config", status: "pending" },
     ...(willHitKeepa ? [{ name: "keepa", status: "pending" as const }] : []),
+    ...(willHitApify ? [{ name: "apify-amazon", status: "pending" as const }] : []),
     ...(willHitAI ? [{ name: "ai-visibility", status: "pending" as const }] : []),
     { name: "builder", status: "pending" },
     ...(relabel ? [{ name: "relabel", status: "pending" as const }] : []),
@@ -146,12 +150,14 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   } else {
     const parts: string[] = [];
     if (willHitKeepa) parts.push(`Keepa for ${asins.length} ASIN(s)`);
+    if (willHitApify) parts.push(`Apify Amazon live for ${asins.length} ASIN(s)`);
     if (willHitAI) parts.push(`AI share-of-mind on "${aiCategory}"${aiCompetitors.length ? ` vs ${aiCompetitors.join(", ")}` : ""}`);
     if (parts.length === 0) {
       logLine(`brand "${slug}" has no vendored config and no real-data inputs — running the ${REFERENCE_BRAND} builder and relabeling the output as "${name}" (pure reference preview).`);
     } else {
       logLine(`brand "${slug}" has no vendored config — real-data sources this build: ${parts.join(" + ")}. Everything else will be ${REFERENCE_BRAND} reference data.`);
     }
+    if (similarWebMissing) logLine(`SimilarWeb traffic lane: no SIMILARWEB_API_KEY configured. Lane will show Sonos reference data with a "key_missing" provenance stamp.`);
   }
 
   await updateBuild(build_id, { status: "running", started_at: new Date().toISOString(), steps });
@@ -204,6 +210,25 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     }
   }
 
+  // --- apify-amazon step (live Amazon product data) ---
+  let apifyResult: ApifyAmazonAggregate | null = null;
+  if (willHitApify) {
+    await setStep("apify-amazon", { status: "running", started_at: new Date().toISOString() });
+    const aStart = Date.now();
+    try {
+      const apifyToken = process.env.APIFY_TOKEN!;
+      logLine(`calling Apify junglee~Amazon-crawler for ${asins.length} ASIN(s): ${asins.join(", ")}`);
+      apifyResult = await fetchApifyAmazon(asins, apifyToken);
+      logLine(`Apify Amazon: ${apifyResult.asinsWithData}/${apifyResult.asinsFetched} ASINs returned data (avg price $${apifyResult.avgPrice}, offers ${apifyResult.totalOffersAvg}, delivery ${apifyResult.avgDeliveryDays}d)`);
+      await setStep("apify-amazon", { status: "done", duration_ms: Date.now() - aStart });
+    } catch (e) {
+      const err = (e as Error).message;
+      logLine(`apify-amazon step failed: ${err} — proceeding without live Amazon data`);
+      await setStep("apify-amazon", { status: "done", duration_ms: Date.now() - aStart, error: err });
+      apifyResult = null;
+    }
+  }
+
   // --- ai-visibility step (optional, only when category supplied + non-vendored brand) ---
   let aiResult: AiSoMResult | null = null;
   if (willHitAI && aiCategory) {
@@ -228,10 +253,12 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   // Merge whatever real data we gathered into the launch-data template.
   let overrideAudit: string | null = null;
-  if (relabel && (keepaResult || aiResult)) {
+  if (relabel && (keepaResult || aiResult || apifyResult || similarWebMissing)) {
     const { launchData, audit } = overrideSubject({
       keepa: keepaResult ?? undefined,
       aiSoM: aiResult ?? undefined,
+      apifyAmazon: apifyResult ?? undefined,
+      similarWebMissing: similarWebMissing || undefined,
     });
     const launchPath = join(workDir, "public", "sonos-speakers-launch-data.json");
     writeFileSync(launchPath, JSON.stringify(launchData));
@@ -286,14 +313,20 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
     const realSources: string[] = [];
     if (keepaResult && keepaResult.asinsWithData > 0) realSources.push("Keepa");
+    if (apifyResult && apifyResult.asinsWithData > 0) realSources.push("Apify Amazon");
     if (aiResult && aiResult.totalBrandMentions > 0) realSources.push("Claude AI share-of-mind");
 
+    const notRunNotes: string[] = [];
+    if (similarWebMissing) notRunNotes.push("SimilarWeb traffic (no SIMILARWEB_API_KEY)");
+    notRunNotes.push("Apify multi-retailer (needs per-retailer actor configs)");
+    notRunNotes.push("Google AI Overviews (needs DATAFORSEO_LOGIN)");
+
     const headline = realSources.length
-      ? `Real data for ${name}: ${realSources.join(" + ")}. Everything else is ${REFERENCE_BRAND} reference data.`
+      ? `Real data for ${name}: ${realSources.join(" + ")}. Reference data for everything else.`
       : `The numbers on this screen are ${REFERENCE_BRAND}'s captured data — ${name} has no vendored config and no real-data inputs were supplied.`;
     const body = realSources.length
-      ? `${overrideAudit ?? ""} Rendering with the ${REFERENCE_BRAND} builder because ${name} has no dedicated config file yet. The dashboard panels that read the overridden fields (pricing, reviews, AI share of voice) show ${name}'s real numbers; the other lanes (shelf SOV, delivery promise, in-stock %, competitor pricing) still show ${REFERENCE_BRAND}'s reference data until the backend adds Apify + SimilarWeb + DataForSEO integrations.`
-      : `This dashboard renders with ${REFERENCE_BRAND}'s real anchors under the "${name}" label so you can see the shape of what a captured dashboard looks like. For true ${name} figures, supply ASINs (Keepa pricing) or a category (Claude AI share-of-mind) in the admin form, or vendor a config into the image like ${[...BRANDS_WITH_CONFIG].join(", ")}.`;
+      ? `${overrideAudit ?? ""} Rendering with the ${REFERENCE_BRAND} builder because ${name} has no dedicated config file yet. Not run on this build: ${notRunNotes.join("; ")}. See the Method tab's provenance table for the field-by-field honest story.`
+      : `This dashboard renders with ${REFERENCE_BRAND}'s real anchors under the "${name}" label so you can see the shape of what a captured dashboard looks like. For true ${name} figures, supply ASINs (Keepa + Apify Amazon live) or a category (Claude AI share-of-mind) in the admin form, or vendor a config into the image like ${[...BRANDS_WITH_CONFIG].join(", ")}.`;
 
     data.meta.disclosure = {
       ...(data.meta.disclosure ?? {}),
