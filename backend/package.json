@@ -1,0 +1,19 @@
+{
+  "name": "command-center-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloud Run service that captures real brand data and serves it to the Commercial Command Center dashboard. See ARCHITECTURE.md.",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local src/server.mjs",
+    "start": "node src/server.mjs"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "fastify": "^5.5.0",
+    "@fastify/cors": "^11.0.0",
+    "nanoid": "^5.0.9"
+  }
+}

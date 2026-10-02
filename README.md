@@ -6,6 +6,7 @@ rendering shell (nav rail, scorecard, driver pages, charts, drawers) is **shared
 across every brand** and never needs to be edited to add a new one.
 
 Lives at: `~/Desktop/code/command-center-template/`
+Deployed to: **https://shashwat-bct.github.io/command-center-template/**
 Based on upstream: `bravo-platform/public/` (Sonos variant for the base; Sony for the full variant).
 
 **Two layers:**
