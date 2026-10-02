@@ -16,7 +16,7 @@ import { join, resolve } from "node:path";
 import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
 import { uploadLog, uploadPayload } from "./gcs";
-import { fetchKeepaBrand } from "./keepa";
+import { fetchKeepaBrand, fetchKeepaSearch } from "./keepa";
 import { fetchAiShareOfMind, type AiSoMResult } from "./ai-visibility";
 import { fetchApifyAmazon, type ApifyAmazonAggregate } from "./apify";
 import { overrideSubject } from "./launch-override";
@@ -67,16 +67,16 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   if (!name) throw new Error("name is required");
 
   // Guard against the "SharkNinja took 3 seconds" trap: if the brand has no
-  // vendored config AND no real-data inputs were supplied, the build would be
-  // a pure Sonos-reference preview. Refuse that unless the caller explicitly
-  // opts in — otherwise the dashboard quietly shows Sonos's numbers under the
-  // typed brand's name, which is misleading.
+  // vendored config AND no inputs were supplied, the build would be a pure
+  // Sonos-reference preview. The category alone is enough to proceed because
+  // the backend will auto-discover ASINs via Keepa search.
   const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
-  const hasRealInput = (input.asins && input.asins.length > 0) || (input.aiCategory && input.aiCategory.trim().length > 0);
+  const hasCategory = !!(input.aiCategory && input.aiCategory.trim().length > 0);
+  const hasAsins = !!(input.asins && input.asins.length > 0);
   const allowRefPreview = input.options && (input.options as { allowReferencePreview?: boolean }).allowReferencePreview === true;
-  if (!hasOwnConfig && !hasRealInput && !allowRefPreview) {
+  if (!hasOwnConfig && !hasCategory && !hasAsins && !allowRefPreview) {
     throw new Error(
-      `brand "${slug}" has no vendored config and no real-data inputs. Supply ASINs (Keepa + Apify) or a category (Claude AI share-of-mind) to run a real-data build. Known vendored brands: ${[...BRANDS_WITH_CONFIG].join(", ")}. To proceed with pure reference data anyway, pass options.allowReferencePreview = true.`,
+      `brand "${slug}" has no vendored config and no inputs. Supply a Category (so the backend can auto-discover top-selling ASINs via Keepa) or paste specific ASINs. Vendored brands: ${[...BRANDS_WITH_CONFIG].join(", ")}.`,
     );
   }
 
@@ -143,13 +143,15 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
   const builderBrand = hasOwnConfig ? slug : REFERENCE_BRAND;
   const relabel = !hasOwnConfig;
-  const willHitKeepa = relabel && asins.length > 0;
+  const willAutoDiscover = relabel && asins.length === 0 && !!aiCategory && aiCategory.trim().length > 0;
+  const willHitKeepa = relabel && (asins.length > 0 || willAutoDiscover);
   const willHitAI = relabel && !!aiCategory && aiCategory.trim().length > 0;
-  const willHitApify = relabel && asins.length > 0 && !!process.env.APIFY_TOKEN;
+  const willHitApify = relabel && (asins.length > 0 || willAutoDiscover) && !!process.env.APIFY_TOKEN;
   const similarWebMissing = relabel && !process.env.SIMILARWEB_API_KEY;
 
   const steps: BuildStep[] = [
     { name: "config", status: "pending" },
+    ...(willAutoDiscover ? [{ name: "asin-discovery", status: "pending" as const }] : []),
     ...(willHitKeepa ? [{ name: "keepa", status: "pending" as const }] : []),
     ...(willHitApify ? [{ name: "apify-amazon", status: "pending" as const }] : []),
     ...(willHitAI ? [{ name: "ai-visibility", status: "pending" as const }] : []),
@@ -163,8 +165,9 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     logLine(`brand "${slug}" has a vendored config — running its own builder.`);
   } else {
     const parts: string[] = [];
-    if (willHitKeepa) parts.push(`Keepa for ${asins.length} ASIN(s)`);
-    if (willHitApify) parts.push(`Apify Amazon live for ${asins.length} ASIN(s)`);
+    const asinDesc = willAutoDiscover ? `auto-discovered ASINs via Keepa search` : `${asins.length} supplied ASIN(s)`;
+    if (willHitKeepa) parts.push(`Keepa for ${asinDesc}`);
+    if (willHitApify) parts.push(`Apify Amazon live for ${asinDesc}`);
     if (willHitAI) parts.push(`AI share-of-mind on "${aiCategory}"${aiCompetitors.length ? ` vs ${aiCompetitors.join(", ")}` : ""}`);
     if (parts.length === 0) {
       logLine(`brand "${slug}" has no vendored config and no real-data inputs — running the ${REFERENCE_BRAND} builder and relabeling the output as "${name}" (pure reference preview).`);
@@ -204,16 +207,45 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   await setStep("config", { status: "done", duration_ms: 0 });
 
-  // --- keepa step (optional, only when ASINs supplied + non-vendored brand) ---
+  // --- asin-discovery step (auto-pick top ASINs when user didn't supply any) ---
+  let effectiveAsins = asins;
+  if (willAutoDiscover && aiCategory) {
+    await setStep("asin-discovery", { status: "running", started_at: new Date().toISOString() });
+    const dStart = Date.now();
+    try {
+      const apiKey = process.env.INS_KEEPA_KEY;
+      if (!apiKey) throw new Error("INS_KEEPA_KEY not configured");
+      const term = `${name} ${aiCategory}`;
+      logLine(`searching Keepa for top ASINs matching "${term}"`);
+      const discovered = await fetchKeepaSearch(term, apiKey, 5);
+      if (discovered.length === 0) {
+        // Fallback: try brand name alone
+        logLine(`no results for "${term}", trying just "${name}"`);
+        const alt = await fetchKeepaSearch(name, apiKey, 5);
+        effectiveAsins = alt;
+      } else {
+        effectiveAsins = discovered;
+      }
+      logLine(`discovered ${effectiveAsins.length} ASIN(s): ${effectiveAsins.join(", ") || "(none)"}`);
+      await setStep("asin-discovery", { status: "done", duration_ms: Date.now() - dStart });
+    } catch (e) {
+      const err = (e as Error).message;
+      logLine(`asin-discovery failed: ${err} — proceeding without ASIN-based real data`);
+      await setStep("asin-discovery", { status: "done", duration_ms: Date.now() - dStart, error: err });
+      effectiveAsins = [];
+    }
+  }
+
+  // --- keepa step (uses supplied or auto-discovered ASINs) ---
   let keepaResult: Awaited<ReturnType<typeof fetchKeepaBrand>> | null = null;
-  if (willHitKeepa) {
+  if (willHitKeepa && effectiveAsins.length > 0) {
     await setStep("keepa", { status: "running", started_at: new Date().toISOString() });
     const kStart = Date.now();
     try {
       const apiKey = process.env.INS_KEEPA_KEY;
       if (!apiKey) throw new Error("INS_KEEPA_KEY not configured on the backend");
-      logLine(`calling Keepa for ${asins.length} ASIN(s): ${asins.join(", ")}`);
-      keepaResult = await fetchKeepaBrand(asins, apiKey);
+      logLine(`calling Keepa for ${effectiveAsins.length} ASIN(s): ${effectiveAsins.join(", ")}`);
+      keepaResult = await fetchKeepaBrand(effectiveAsins, apiKey);
       logLine(`Keepa: ${keepaResult.asinsWithData}/${keepaResult.asinsFetched} ASINs returned data (avg list $${keepaResult.avgListPrice}, avg street $${keepaResult.avgStreetPrice}, rating ${keepaResult.avgRating}, reviews ${keepaResult.totalReviews})`);
       await setStep("keepa", { status: "done", duration_ms: Date.now() - kStart });
     } catch (e) {
@@ -226,13 +258,13 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   // --- apify-amazon step (live Amazon product data) ---
   let apifyResult: ApifyAmazonAggregate | null = null;
-  if (willHitApify) {
+  if (willHitApify && effectiveAsins.length > 0) {
     await setStep("apify-amazon", { status: "running", started_at: new Date().toISOString() });
     const aStart = Date.now();
     try {
       const apifyToken = process.env.APIFY_TOKEN!;
-      logLine(`calling Apify junglee~Amazon-crawler for ${asins.length} ASIN(s): ${asins.join(", ")}`);
-      apifyResult = await fetchApifyAmazon(asins, apifyToken);
+      logLine(`calling Apify junglee~Amazon-crawler for ${effectiveAsins.length} ASIN(s): ${effectiveAsins.join(", ")}`);
+      apifyResult = await fetchApifyAmazon(effectiveAsins, apifyToken);
       logLine(`Apify Amazon: ${apifyResult.asinsWithData}/${apifyResult.asinsFetched} ASINs returned data (avg price $${apifyResult.avgPrice}, offers ${apifyResult.totalOffersAvg}, delivery ${apifyResult.avgDeliveryDays}d)`);
       await setStep("apify-amazon", { status: "done", duration_ms: Date.now() - aStart });
     } catch (e) {

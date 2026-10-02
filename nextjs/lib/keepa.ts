@@ -46,6 +46,24 @@ const latest = (arr: number[] | undefined | null): number | null => {
 
 const cents = (v: number | null): number | null => (v == null ? null : Math.round(v) / 100);
 
+// Keepa product search — turns a free-text query ("Dyson cordless vacuum") into
+// a ranked list of ASINs. Used for auto-discovery so the admin doesn't have to
+// hand-paste ASINs from Amazon URLs. Rank is Keepa's own popularity signal
+// (BSR-weighted). We take the top N and feed them to fetchKeepaBrand +
+// fetchApifyAmazon.
+export async function fetchKeepaSearch(term: string, apiKey: string, limit = 5): Promise<string[]> {
+  const url = `https://api.keepa.com/search?key=${apiKey}&domain=1&type=product&term=${encodeURIComponent(term)}&page=0`;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return [];
+    const j = (await r.json()) as { asinList?: string[]; products?: Array<{ asin?: string }> };
+    const list = j.asinList ?? j.products?.map((p) => p.asin).filter((a): a is string => !!a) ?? [];
+    return list.slice(0, limit);
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchKeepaAsin(asin: string, apiKey: string): Promise<KeepaAsinResult> {
   const url = `${KEEPA_URL}?key=${apiKey}&domain=1&asin=${encodeURIComponent(asin)}&history=1&rating=1&stats=30`;
   try {

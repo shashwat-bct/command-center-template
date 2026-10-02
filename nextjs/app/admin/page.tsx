@@ -124,10 +124,11 @@ export default function AdminPage() {
           .map((s) => s.trim())
           .filter(Boolean);
         const isVendored = VENDORED_BRANDS.some((b) => b.slug === slug);
-        const hasRealInput = asins.length > 0 || aiCategory.trim().length > 0;
+        const hasCategory = aiCategory.trim().length > 0;
+        const hasRealInput = asins.length > 0 || hasCategory;
         if (!isVendored && !hasRealInput) {
           throw new Error(
-            `"${name}" isn't a vendored brand. Supply ASINs (for real Keepa + Apify pricing data) or a Category (for real Claude AI share-of-mind) — otherwise the dashboard will just show Sonos reference data under the ${name} label, which took me 3s last time you tried this.`,
+            `"${name}" isn't a vendored brand. At minimum fill in Category — the backend will auto-discover top-selling ASINs via Keepa search and fetch real pricing + Apify + AI share-of-mind. Specific ASINs are optional overrides.`,
           );
         }
         await runBackendBuild(
@@ -333,36 +334,17 @@ export default function AdminPage() {
 
                 <div>
                   <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-700">
-                    Data sources <span className="text-neutral-400 font-normal normal-case tracking-normal">· for any brand not vendored above</span>
+                    Tell us the category <span className="text-neutral-400 font-normal normal-case tracking-normal">· for any brand not vendored above</span>
                   </div>
                   <div className="space-y-4 rounded-xl border border-dashed border-neutral-300 p-4">
-                    <Field
-                      label={
-                        <>
-                          <span className="rounded bg-green-100 px-1.5 py-0.5 font-mono text-[10px] text-green-800">keepa</span>{" "}
-                          Amazon ASINs
-                        </>
-                      }
-                      hint="Comma- or newline-separated 10-char IDs. Real list price, street price, discount, rating, review volume."
-                    >
-                      <textarea
-                        rows={2}
-                        placeholder="B08SW8MBQX, B01GCGE4DW, B07PGL2N7J"
-                        value={asinsRaw}
-                        onChange={(e) => setAsinsRaw(e.target.value)}
-                        className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 font-mono text-[11px] focus:border-neutral-900 focus:outline-none"
-                      />
-                    </Field>
-
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <Field
                         label={
                           <>
-                            <span className="rounded bg-blue-100 px-1.5 py-0.5 font-mono text-[10px] text-blue-800">claude</span>{" "}
-                            Category
+                            Category <span className="rounded bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] text-amber-800">required</span>
                           </>
                         }
-                        hint="What products this brand sells, e.g. 'cordless vacuum', 'wireless speaker'."
+                        hint="What products this brand sells. Drives Keepa ASIN auto-discovery + Claude's shopper questions."
                       >
                         <input
                           type="text"
@@ -374,12 +356,7 @@ export default function AdminPage() {
                       </Field>
 
                       <Field
-                        label={
-                          <>
-                            <span className="rounded bg-blue-100 px-1.5 py-0.5 font-mono text-[10px] text-blue-800">claude</span>{" "}
-                            Competitor brands
-                          </>
-                        }
+                        label="Competitor brands"
                         hint="Comma-separated names to count in Claude's answers."
                       >
                         <input
@@ -391,18 +368,39 @@ export default function AdminPage() {
                         />
                       </Field>
                     </div>
+                    <div className="rounded-lg bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-900">
+                      <b>How this becomes real data:</b>{" "}
+                      Keepa searches Amazon for &quot;{(name || "Brand").trim()} {(aiCategory || "category").trim()}&quot; and picks the top-5 ASINs by sales rank. Those feed real Keepa pricing/review + Apify live-Amazon fetches. Claude is asked 8 shopper questions in that category to compute real AI share-of-mind.
+                    </div>
                   </div>
                 </div>
 
+                <details className="group rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                  <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-neutral-700 marker:hidden">
+                    <span className="inline-block w-4 text-neutral-400 group-open:rotate-90 transition">▸</span> Advanced — specific ASINs instead of auto-discover <span className="font-normal normal-case tracking-normal text-neutral-400">· optional</span>
+                  </summary>
+                  <div className="mt-4">
+                    <Field
+                      label="Amazon ASINs"
+                      hint="Comma- or newline-separated 10-char IDs. Overrides Keepa's auto-discovery. Use when you want specific products instead of the top-sellers."
+                    >
+                      <textarea
+                        rows={2}
+                        placeholder="B08SW8MBQX, B01GCGE4DW, B07PGL2N7J"
+                        value={asinsRaw}
+                        onChange={(e) => setAsinsRaw(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 font-mono text-[11px] focus:border-neutral-900 focus:outline-none"
+                      />
+                    </Field>
+                  </div>
+                </details>
+
                 <div className="space-y-2 text-xs leading-relaxed text-neutral-500">
                   <p>
-                    <b>Vendored brands</b> (<code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sony</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">shark</code>) always run their own real builder — these inputs are ignored for them.
+                    <b>Vendored brands</b> (<code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sony</code>, <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">shark</code>) run their own real builder — these inputs are ignored.
                   </p>
                   <p>
-                    <b>New brands</b> get real data for every lane you supply inputs for. Pricing + reviews from Keepa; AI share-of-mind from Claude. Everything else is Sonos reference data with an honest disclosure.
-                  </p>
-                  <p>
-                    Build takes ~5–30s depending on inputs: Keepa adds ~0.5s per ASIN, AI adds ~15s for 8 shopper questions.
+                    Build takes ~30-90s: ASIN discovery ~2s, Keepa ~1s/ASIN, Apify ~10s, Claude AI ~15s, builder ~4s.
                   </p>
                 </div>
               </div>
