@@ -62,6 +62,7 @@ export default function AdminPage() {
   const [payloadFileName, setPayloadFileName] = useState<string | null>(null);
   const [pastedJson, setPastedJson] = useState("");
   const [asinsRaw, setAsinsRaw] = useState("");
+  const [productsRaw, setProductsRaw] = useState("");
   const [aiCategory, setAiCategory] = useState("");
   const [aiCompetitorsRaw, setAiCompetitorsRaw] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -119,20 +120,24 @@ export default function AdminPage() {
           .split(/[,\s\n]+/)
           .map((s) => s.trim().toUpperCase())
           .filter((s) => /^[A-Z0-9]{10}$/.test(s));
+        const products = productsRaw
+          .split(/[,\n]+/)
+          .map((s) => s.trim())
+          .filter(Boolean);
         const aiCompetitors = aiCompetitorsRaw
           .split(/[,\n]+/)
           .map((s) => s.trim())
           .filter(Boolean);
         const isVendored = VENDORED_BRANDS.some((b) => b.slug === slug);
         const hasCategory = aiCategory.trim().length > 0;
-        const hasRealInput = asins.length > 0 || hasCategory;
+        const hasRealInput = asins.length > 0 || products.length > 0 || hasCategory;
         if (!isVendored && !hasRealInput) {
           throw new Error(
-            `"${name}" isn't a vendored brand. At minimum fill in Category — the backend will auto-discover top-selling ASINs via Keepa search and fetch real pricing + Apify + AI share-of-mind. Specific ASINs are optional overrides.`,
+            `"${name}" isn't a vendored brand. Fill in at least one of: Category (auto-discover top sellers), Specific products (one Keepa search per name), or Specific ASINs.`,
           );
         }
         await runBackendBuild(
-          { slug, name, asins, aiCategory: aiCategory.trim() || null, aiCompetitors },
+          { slug, name, asins, products, aiCategory: aiCategory.trim() || null, aiCompetitors },
           router,
           setError,
           setSubmitting,
@@ -377,12 +382,24 @@ export default function AdminPage() {
 
                 <details className="group rounded-xl border border-neutral-200 bg-neutral-50 p-4">
                   <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-neutral-700 marker:hidden">
-                    <span className="inline-block w-4 text-neutral-400 group-open:rotate-90 transition">▸</span> Advanced — specific ASINs instead of auto-discover <span className="font-normal normal-case tracking-normal text-neutral-400">· optional</span>
+                    <span className="inline-block w-4 text-neutral-400 group-open:rotate-90 transition">▸</span> Target specific products instead of top-sellers <span className="font-normal normal-case tracking-normal text-neutral-400">· optional</span>
                   </summary>
-                  <div className="mt-4">
+                  <div className="mt-4 space-y-3">
+                    <Field
+                      label="Product names"
+                      hint="One product per line (or comma-separated). Keepa resolves each to its top-ranked ASIN. Overrides the category-based auto-discovery."
+                    >
+                      <textarea
+                        rows={3}
+                        placeholder={`V15 Detect\nV12 Detect Slim\nV8 Absolute`}
+                        value={productsRaw}
+                        onChange={(e) => setProductsRaw(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+                      />
+                    </Field>
                     <Field
                       label="Amazon ASINs"
-                      hint="Comma- or newline-separated 10-char IDs. Overrides Keepa's auto-discovery. Use when you want specific products instead of the top-sellers."
+                      hint="Advanced — raw 10-char Amazon IDs. Overrides both product names and category. Use only when you want exact products."
                     >
                       <textarea
                         rows={2}
@@ -392,6 +409,9 @@ export default function AdminPage() {
                         className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 font-mono text-[11px] focus:border-neutral-900 focus:outline-none"
                       />
                     </Field>
+                    <p className="text-[11px] text-neutral-500">
+                      Priority order: specific ASINs → product names → category auto-discovery.
+                    </p>
                   </div>
                 </details>
 
@@ -439,6 +459,7 @@ type BackendBuildArgs = {
   slug: string;
   name: string;
   asins: string[];
+  products: string[];
   aiCategory: string | null;
   aiCompetitors: string[];
 };
@@ -470,6 +491,7 @@ async function runBackendBuild(
       slug,
       name,
       asins: args.asins,
+      products: args.products,
       aiCategory: args.aiCategory,
       aiCompetitors: args.aiCompetitors,
     }),

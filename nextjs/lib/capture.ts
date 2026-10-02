@@ -41,6 +41,10 @@ export type CreateBuildInput = {
   // supply ASINs — the backend hits Keepa for each one, aggregates pricing +
   // reviews, and overrides the subject-brand slot in a Sonos-based launch-data.
   asins?: string[];
+  // Alternative to ASINs — specific product names. The backend resolves each
+  // to its top-ranked ASIN via Keepa search ({brand} {product}), then feeds
+  // the union through the rest of the pipeline. Easier than hunting ASINs.
+  products?: string[];
   // Optional category + competitor seeds that drive the AI Share of Mind step
   // (the backend asks Claude a battery of shopper questions and counts brand
   // mentions). If omitted, the AI step is skipped.
@@ -73,10 +77,11 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
   const hasCategory = !!(input.aiCategory && input.aiCategory.trim().length > 0);
   const hasAsins = !!(input.asins && input.asins.length > 0);
+  const hasProducts = !!(input.products && input.products.length > 0);
   const allowRefPreview = input.options && (input.options as { allowReferencePreview?: boolean }).allowReferencePreview === true;
-  if (!hasOwnConfig && !hasCategory && !hasAsins && !allowRefPreview) {
+  if (!hasOwnConfig && !hasCategory && !hasAsins && !hasProducts && !allowRefPreview) {
     throw new Error(
-      `brand "${slug}" has no vendored config and no inputs. Supply a Category (so the backend can auto-discover top-selling ASINs via Keepa) or paste specific ASINs. Vendored brands: ${[...BRANDS_WITH_CONFIG].join(", ")}.`,
+      `brand "${slug}" has no vendored config and no inputs. Supply a Category (auto-discover top-selling ASINs via Keepa), specific Product names (Keepa resolves each), or specific ASINs. Vendored brands: ${[...BRANDS_WITH_CONFIG].join(", ")}.`,
     );
   }
 
@@ -111,6 +116,7 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   // simulation. For real captures (15-30 min), this needs Cloud Run Jobs.
   runBuild(build_id, slug, name, options, {
     asins: input.asins ?? [],
+    products: input.products ?? [],
     aiCategory: input.aiCategory ?? null,
     aiCompetitors: input.aiCompetitors ?? [],
   }).catch((e: unknown) => {
@@ -132,18 +138,23 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
 
 type RunInputs = {
   asins: string[];
+  products: string[];
   aiCategory: string | null;
   aiCompetitors: string[];
 };
 
 async function runBuild(build_id: string, slug: string, name: string, options: BuildOptions, inputs: RunInputs) {
-  const { asins, aiCategory, aiCompetitors } = inputs;
+  const { asins, products, aiCategory, aiCompetitors } = inputs;
   // Does this brand have its own config vendored? If not, the builder runs
   // under the reference brand, and we relabel the output.
   const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
   const builderBrand = hasOwnConfig ? slug : REFERENCE_BRAND;
   const relabel = !hasOwnConfig;
-  const willAutoDiscover = relabel && asins.length === 0 && !!aiCategory && aiCategory.trim().length > 0;
+  // Discovery runs when we have NO explicit ASINs but something else to search
+  // with (category OR product names).
+  const willDiscoverByProducts = relabel && asins.length === 0 && products.length > 0;
+  const willDiscoverByCategory = relabel && asins.length === 0 && products.length === 0 && !!aiCategory && aiCategory.trim().length > 0;
+  const willAutoDiscover = willDiscoverByProducts || willDiscoverByCategory;
   const willHitKeepa = relabel && (asins.length > 0 || willAutoDiscover);
   const willHitAI = relabel && !!aiCategory && aiCategory.trim().length > 0;
   const willHitApify = relabel && (asins.length > 0 || willAutoDiscover) && !!process.env.APIFY_TOKEN;
@@ -165,7 +176,11 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     logLine(`brand "${slug}" has a vendored config — running its own builder.`);
   } else {
     const parts: string[] = [];
-    const asinDesc = willAutoDiscover ? `auto-discovered ASINs via Keepa search` : `${asins.length} supplied ASIN(s)`;
+    const asinDesc = willDiscoverByProducts
+      ? `ASINs resolved from ${products.length} product name(s)`
+      : willDiscoverByCategory
+        ? `auto-discovered ASINs via Keepa search`
+        : `${asins.length} supplied ASIN(s)`;
     if (willHitKeepa) parts.push(`Keepa for ${asinDesc}`);
     if (willHitApify) parts.push(`Apify Amazon live for ${asinDesc}`);
     if (willHitAI) parts.push(`AI share-of-mind on "${aiCategory}"${aiCompetitors.length ? ` vs ${aiCompetitors.join(", ")}` : ""}`);
@@ -207,25 +222,44 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   await setStep("config", { status: "done", duration_ms: 0 });
 
-  // --- asin-discovery step (auto-pick top ASINs when user didn't supply any) ---
+  // --- asin-discovery step (resolve products OR category into ASINs) ---
   let effectiveAsins = asins;
-  if (willAutoDiscover && aiCategory) {
+  if (willAutoDiscover) {
     await setStep("asin-discovery", { status: "running", started_at: new Date().toISOString() });
     const dStart = Date.now();
     try {
       const apiKey = process.env.INS_KEEPA_KEY;
       if (!apiKey) throw new Error("INS_KEEPA_KEY not configured");
-      const term = `${name} ${aiCategory}`;
-      logLine(`searching Keepa for top ASINs matching "${term}"`);
-      const discovered = await fetchKeepaSearch(term, apiKey, 5);
-      if (discovered.length === 0) {
-        // Fallback: try brand name alone
-        logLine(`no results for "${term}", trying just "${name}"`);
-        const alt = await fetchKeepaSearch(name, apiKey, 5);
-        effectiveAsins = alt;
-      } else {
-        effectiveAsins = discovered;
+      const discovered: string[] = [];
+      const seen = new Set<string>();
+
+      if (willDiscoverByProducts) {
+        logLine(`resolving ${products.length} product name(s) via Keepa search (1 ASIN per product)`);
+        for (const p of products) {
+          const term = `${name} ${p}`;
+          const r = await fetchKeepaSearch(term, apiKey, 1);
+          const asin = r[0];
+          if (asin && !seen.has(asin)) {
+            seen.add(asin);
+            discovered.push(asin);
+            logLine(`  "${term}" → ${asin}`);
+          } else {
+            logLine(`  "${term}" → no result`);
+          }
+        }
+      } else if (willDiscoverByCategory && aiCategory) {
+        const term = `${name} ${aiCategory}`;
+        logLine(`searching Keepa for top ASINs matching "${term}"`);
+        const r = await fetchKeepaSearch(term, apiKey, 5);
+        for (const a of r) if (!seen.has(a)) { seen.add(a); discovered.push(a); }
+        if (discovered.length === 0) {
+          logLine(`no results for "${term}", trying just "${name}"`);
+          const alt = await fetchKeepaSearch(name, apiKey, 5);
+          for (const a of alt) if (!seen.has(a)) { seen.add(a); discovered.push(a); }
+        }
       }
+
+      effectiveAsins = discovered;
       logLine(`discovered ${effectiveAsins.length} ASIN(s): ${effectiveAsins.join(", ") || "(none)"}`);
       await setStep("asin-discovery", { status: "done", duration_ms: Date.now() - dStart });
     } catch (e) {

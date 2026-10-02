@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
       models: (body.models as unknown[]) ?? undefined,
       cities: (body.cities as string[]) ?? undefined,
       asins: Array.isArray(body.asins) ? (body.asins as string[]) : undefined,
+      products: Array.isArray(body.products) ? (body.products as string[]) : undefined,
       aiCategory: (body.aiCategory as string | null | undefined) ?? null,
       aiCompetitors: Array.isArray(body.aiCompetitors) ? (body.aiCompetitors as string[]) : undefined,
       options: (body.options as never) ?? undefined,
