@@ -11,35 +11,39 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-const BRANDS: Record<string, { title: string; payload: string }> = {
-  sonos: {
-    title: "Sonos · Commercial Command Center",
-    // Point at the live API endpoint so the dashboard always sees the latest
-    // ready build (or the vendored fallback if no builds yet). The committed
-    // /sonos-command-center-data.json path still works as a direct asset.
-    payload: "/api/payloads/sonos",
-  },
+// Any URL-safe slug is accepted. The payload endpoint resolves it to the latest
+// ready build in GCS and 404s only if a build has never run for that slug.
+// A short-list of friendly titles for slugs we've seen before; the generic
+// title is used for the rest.
+const TITLE_OVERRIDES: Record<string, string> = {
+  sonos: "Sonos · Commercial Command Center",
+  sony: "Sony · Commercial Command Center",
+  shark: "Shark · Commercial Command Center",
 };
+
+const SLUG_RE = /^[a-z0-9-]+$/;
 
 export const dynamic = "force-dynamic";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ brand: string }> }) {
   const { brand } = await params;
-  const b = BRANDS[brand];
-  if (!b) return new Response("Not found", { status: 404 });
+  if (!SLUG_RE.test(brand)) return new Response("invalid slug", { status: 400 });
+
+  const title = TITLE_OVERRIDES[brand] ?? `${brand.charAt(0).toUpperCase() + brand.slice(1)} · Commercial Command Center`;
+  const payloadUrl = `/api/payloads/${brand}`;
 
   const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(b.title)}</title>
+<title>${escapeHtml(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/cco-dashboard.css">
 </head>
-<body data-payload="${escapeAttr(b.payload)}">
+<body data-payload="${escapeAttr(payloadUrl)}">
 <a class="sronly" href="#pages">Skip to content</a>
 <nav id="rail" aria-label="Drivers">
   <div class="rail-top">

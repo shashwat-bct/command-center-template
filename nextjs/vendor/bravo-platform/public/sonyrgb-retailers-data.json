@@ -1,0 +1,3501 @@
+{
+  "stem": "sonyrgb-retailers",
+  "subject": "sony",
+  "capturedAt": "2026-08-13T14:42:17.059Z",
+  "market": "US",
+  "retailers": [
+    {
+      "id": "amazon",
+      "label": "Amazon"
+    },
+    {
+      "id": "walmart",
+      "label": "Walmart"
+    },
+    {
+      "id": "target",
+      "label": "Target"
+    },
+    {
+      "id": "bestbuy",
+      "label": "Best Buy"
+    },
+    {
+      "id": "newegg",
+      "label": "Newegg"
+    }
+  ],
+  "models": [
+    {
+      "id": "b9ii-65",
+      "brand": "sony",
+      "label": "BRAVIA 9 II 65\""
+    },
+    {
+      "id": "b7ii-65",
+      "brand": "sony",
+      "label": "BRAVIA 7 II 65\""
+    },
+    {
+      "id": "b7ii-55",
+      "brand": "sony",
+      "label": "BRAVIA 7 II 55\""
+    },
+    {
+      "id": "b9-65",
+      "brand": "sony",
+      "label": "BRAVIA 9 65\""
+    },
+    {
+      "id": "b8ii-65",
+      "brand": "sony",
+      "label": "BRAVIA 8 II 65\""
+    },
+    {
+      "id": "qn80h-65",
+      "brand": "samsung",
+      "label": "Samsung QN80H 65\""
+    },
+    {
+      "id": "s90h-65",
+      "brand": "samsung",
+      "label": "Samsung S90H OLED 65\""
+    },
+    {
+      "id": "g5-65",
+      "brand": "lg",
+      "label": "LG G5 OLED 65\""
+    },
+    {
+      "id": "c5rgb-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\""
+    }
+  ],
+  "matrix": [
+    {
+      "model": "b9ii-65",
+      "label": "BRAVIA 9 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b9ii-65",
+      "label": "BRAVIA 9 II 65\"",
+      "brand": "sony",
+      "retailer": "walmart",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b9ii-65",
+      "label": "BRAVIA 9 II 65\"",
+      "brand": "sony",
+      "retailer": "target",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b9ii-65",
+      "label": "BRAVIA 9 II 65\"",
+      "brand": "sony",
+      "retailer": "bestbuy",
+      "carriage": "carried",
+      "price": 2974.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+      "url": "https://www.bestbuy.com/site/searchpage.jsp?st=Sony+BRAVIA+9+II+65+True+RGB",
+      "promos": [
+        {
+          "type": "open-box",
+          "verbatim": "Open-box as low as $2,974.99",
+          "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+          "via": "unlocker"
+        }
+      ]
+    },
+    {
+      "model": "b9ii-65",
+      "label": "BRAVIA 9 II 65\"",
+      "brand": "sony",
+      "retailer": "newegg",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b7ii-65",
+      "label": "BRAVIA 7 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b7ii-65",
+      "label": "BRAVIA 7 II 65\"",
+      "brand": "sony",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b7ii-65",
+      "label": "BRAVIA 7 II 65\"",
+      "brand": "sony",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b7ii-65",
+      "label": "BRAVIA 7 II 65\"",
+      "brand": "sony",
+      "retailer": "bestbuy",
+      "carriage": "carried",
+      "price": 2599.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+      "url": "https://www.bestbuy.com/site/searchpage.jsp?st=Sony+BRAVIA+7+II+65+True+RGB",
+      "promos": [
+        {
+          "type": "gift with purchase",
+          "verbatim": "Free installation and haul-away",
+          "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+          "via": "unlocker"
+        }
+      ]
+    },
+    {
+      "model": "b7ii-65",
+      "label": "BRAVIA 7 II 65\"",
+      "brand": "sony",
+      "retailer": "newegg",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b7ii-55",
+      "label": "BRAVIA 7 II 55\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b7ii-55",
+      "label": "BRAVIA 7 II 55\"",
+      "brand": "sony",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b7ii-55",
+      "label": "BRAVIA 7 II 55\"",
+      "brand": "sony",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b7ii-55",
+      "label": "BRAVIA 7 II 55\"",
+      "brand": "sony",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b7ii-55",
+      "label": "BRAVIA 7 II 55\"",
+      "brand": "sony",
+      "retailer": "newegg",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 2798,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+      "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "Add a protection plan:",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan for $249.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "verbatim": "Get $50 off instantly: Pay $2,748.00 $2,798.00 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 2798,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-newegg-b9-65.jpg",
+      "url": "https://www.newegg.com/p/16C-0006-00967",
+      "promos": []
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 3298,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+      "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "Add a protection plan:",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan for $289.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (20) from $2,494.95 $2,494 . 95 & FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "& FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "verbatim": "Get $50 off instantly: Pay $3,248.00 $3,298.00 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "bundled content / included benefit",
+          "verbatim": "4K movie credits included",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "bundled content / included benefit",
+          "verbatim": "MOVIES INCLUDED: Get movies included and access to the largest IMAX Enhanced collection with the SONY PICTURES CORE app.",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "protection plan upsell",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": 3619.99,
+      "priceBasis": "search-card",
+      "pdp": "not readable",
+      "url": "https://www.walmart.com/sp/track"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 3299.99,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-newegg-b8ii-65.jpg",
+      "url": "https://www.newegg.com/p/16C-0006-009A6",
+      "promos": []
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 1497.99,
+      "priceBasis": "pdp",
+      "was": 1597.99,
+      "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+      "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "Add a protection plan:",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "verbatim": "Get $50 off instantly: Pay $1,447.99 $1,497.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Samsung QN65S90FAFXZA 65\" 4K TV with a 2 Year Amber Protection Plan (2025)",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping by Amazon",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping on orders over $35 shipped by Amazon",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "percentage discount",
+          "verbatim": "$1,497.99 with 6 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "list price strike through",
+          "verbatim": "List Price: $1,597.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2-Year Samsung Care+ Device Protection| TV Tier 3 | $54.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "5-Year Samsung Care+ Device Protection| TV Tier 3 | $199.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "subscription protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount on alternate size",
+          "verbatim": "$1,047.99 with 19 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount on alternate size",
+          "verbatim": "$2,997.99 with 9 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 1659.99,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-newegg-qn80h-65.jpg",
+      "url": "https://www.newegg.com/samsung-qn80h-65/p/16C-0003-010V8",
+      "promos": []
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 1797.99,
+      "priceBasis": "pdp",
+      "was": 2697.99,
+      "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+      "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "Add a protection plan:",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (14) from $1,617.95 $1,617 . 95 & FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "& FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "verbatim": "Get $50 off instantly: Pay $1,747.99 $1,797.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "percentage discount",
+          "verbatim": "$1,797.99 with 33 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "list price reference",
+          "verbatim": "List Price: $2,697.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2-Year Samsung Care+ Device Protection| TV Tier 4 | $64.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "5-Year Samsung Care+ Device Protection| TV Tier 4 | $249.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "protection plan subscription",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (42 inch)",
+          "verbatim": "$1,297.99 with 7 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (48 inch)",
+          "verbatim": "$1,397.99 with 13 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (55 inch)",
+          "verbatim": "$1,497.99 with 25 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (77 inch)",
+          "verbatim": "$2,799.99 with 24 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (83 inch)",
+          "verbatim": "$4,797.99 with 9 percent savings",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": 1947.99,
+      "priceBasis": "search-card",
+      "pdp": "not readable",
+      "url": "https://www.walmart.com/sp/track"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 1797.99,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-newegg-s90h-65.jpg",
+      "url": "https://www.newegg.com/samsung-s90ha-65/p/16C-0003-01113",
+      "promos": []
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 2299.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+      "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "Add a protection plan:",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan for $249.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (2) from $1,699.00 $1,699 . 00 & FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "& FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "gift with purchase",
+          "verbatim": "Apply for Amazon Store Card and unlock a $10 Amazon Gift Card upon approval. Pay $2,299.99 $2,289.99 for this order. Learn more",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "subscription protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "free returns",
+          "verbatim": "30-day easy returns",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "newegg",
+      "carriage": "not carried"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 1499.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+      "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "Add a protection plan:",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan for $183.99",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (9) from $1,499.99 $1,499 . 99 & FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "& FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "FREE Shipping",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "verbatim": "Get $50 off instantly: Pay $1,449.99 $1,499.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "subscription protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": 1499.99,
+      "priceBasis": "search-card",
+      "pdp": "not readable",
+      "url": "/ip/OLED65C5PUA-AUS/14340769206"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonyrgb-multi/pdp-newegg-c5rgb-65.jpg",
+      "url": "https://www.newegg.com/lg-oled-evo-c5-4k-tv-65/p/16C-000P-007C6",
+      "promos": [],
+      "priceDisputed": "implausible vs other retailers ($139 against a $1499.99 median of 3) — withheld"
+    }
+  ],
+  "promotionTypes": [
+    "discount",
+    "gift with purchase",
+    "delivery offer",
+    "protection plan",
+    "bundled content / included benefit",
+    "free returns",
+    "list price reference",
+    "list price strike through",
+    "open-box",
+    "percentage discount",
+    "percentage discount (42 inch)",
+    "percentage discount (48 inch)",
+    "percentage discount (55 inch)",
+    "percentage discount (77 inch)",
+    "percentage discount (83 inch)",
+    "percentage discount on alternate size",
+    "protection plan subscription",
+    "protection plan upsell",
+    "subscription protection plan"
+  ],
+  "delivery": {
+    "cities": [
+      {
+        "city": "New York, NY",
+        "zip": "10001"
+      },
+      {
+        "city": "Los Angeles, CA",
+        "zip": "90012"
+      },
+      {
+        "city": "Chicago, IL",
+        "zip": "60601"
+      },
+      {
+        "city": "Houston, TX",
+        "zip": "77002"
+      },
+      {
+        "city": "Denver, CO",
+        "zip": "80202"
+      },
+      {
+        "city": "Miami, FL",
+        "zip": "33130"
+      }
+    ],
+    "heat": {
+      "amazon|New York, NY": {
+        "medianDays": 4,
+        "n": 6,
+        "lines": [
+          {
+            "model": "BRAVIA 9 65\"",
+            "line": "FREE delivery Wednesday, August 19"
+          },
+          {
+            "model": "BRAVIA 8 II 65\"",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          },
+          {
+            "model": "Samsung QN80H 65\"",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Los Angeles, CA": {
+        "medianDays": 1,
+        "n": 3,
+        "lines": [
+          {
+            "model": "Samsung S90H OLED 65\"",
+            "line": "delivery as soon as Saturday, August 15"
+          },
+          {
+            "model": "LG G5 OLED 65\"",
+            "line": "delivery as soon as Saturday, August 15"
+          },
+          {
+            "model": "LG C5 OLED 65\"",
+            "line": "FREE delivery Monday, August 17"
+          }
+        ]
+      },
+      "amazon|Chicago, IL": {
+        "medianDays": 1,
+        "n": 6,
+        "lines": [
+          {
+            "model": "BRAVIA 9 65\"",
+            "line": "FREE delivery Saturday, August 15"
+          },
+          {
+            "model": "BRAVIA 8 II 65\"",
+            "line": "FREE delivery Tomorrow"
+          },
+          {
+            "model": "Samsung QN80H 65\"",
+            "line": "FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Houston, TX": {
+        "medianDays": 1,
+        "n": 6,
+        "lines": [
+          {
+            "model": "BRAVIA 9 65\"",
+            "line": "FREE delivery Tomorrow"
+          },
+          {
+            "model": "BRAVIA 8 II 65\"",
+            "line": "delivery Tomorrow"
+          },
+          {
+            "model": "Samsung QN80H 65\"",
+            "line": "delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Denver, CO": {
+        "medianDays": 1,
+        "n": 6,
+        "lines": [
+          {
+            "model": "BRAVIA 9 65\"",
+            "line": "delivery Tomorrow"
+          },
+          {
+            "model": "BRAVIA 8 II 65\"",
+            "line": "delivery Tomorrow"
+          },
+          {
+            "model": "Samsung QN80H 65\"",
+            "line": "delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Miami, FL": {
+        "medianDays": 1,
+        "n": 6,
+        "lines": [
+          {
+            "model": "BRAVIA 9 65\"",
+            "line": "delivery as soon as Saturday, August 15"
+          },
+          {
+            "model": "BRAVIA 8 II 65\"",
+            "line": "delivery as soon as Saturday, August 15"
+          },
+          {
+            "model": "Samsung QN80H 65\"",
+            "line": "FREE delivery Tomorrow"
+          }
+        ]
+      }
+    },
+    "unverifiedRetailers": [
+      {
+        "id": "walmart",
+        "why": "the page never printed the requested zip back, so no promise could be verified for a city"
+      },
+      {
+        "id": "target",
+        "why": "the page never printed the requested zip back, so no promise could be verified for a city"
+      },
+      {
+        "id": "bestbuy",
+        "why": "PDPs refuse automated navigation (HTTP2 reset) — no delivery read at all"
+      },
+      {
+        "id": "newegg",
+        "why": "the page never printed the requested zip back, so no promise could be verified for a city"
+      }
+    ],
+    "rule": "A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+    "verifiedRows": 33,
+    "basis": "One capture run per city with a pinned session; the zip is set through each retailer's own control and every row re-reads the zip the page printed. Only rows whose printed zip matches enter this table."
+  },
+  "shelf": {
+    "terms": [
+      "4k tv",
+      "oled tv",
+      "mini led tv"
+    ],
+    "brands": [
+      {
+        "id": "sony",
+        "label": "Sony Bravia",
+        "aliases": [
+          "sony"
+        ]
+      },
+      {
+        "id": "samsung",
+        "label": "Samsung",
+        "aliases": [
+          "samsung"
+        ]
+      },
+      {
+        "id": "lg",
+        "label": "LG",
+        "aliases": [
+          "lg "
+        ]
+      },
+      {
+        "id": "tcl",
+        "label": "TCL",
+        "aliases": [
+          "tcl"
+        ]
+      }
+    ],
+    "sov": {
+      "amazon": {
+        "byBrand": {
+          "sony": {
+            "mean": 0.1306122448979592,
+            "min": 0,
+            "max": 0.35714285714285715,
+            "n": 7
+          },
+          "samsung": {
+            "mean": 0.44761904761904764,
+            "min": 0.21428571428571427,
+            "max": 0.5714285714285714,
+            "n": 7
+          },
+          "lg": {
+            "mean": 0.2523809523809524,
+            "min": 0.06666666666666667,
+            "max": 0.4,
+            "n": 7
+          },
+          "tcl": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 7
+          }
+        },
+        "unreadable": 2,
+        "state": "measured"
+      },
+      "walmart": {
+        "byBrand": {
+          "sony": {
+            "mean": 0.041666666666666664,
+            "min": 0,
+            "max": 0.125,
+            "n": 9
+          },
+          "samsung": {
+            "mean": 0.10596707818930041,
+            "min": 0,
+            "max": 0.25925925925925924,
+            "n": 9
+          },
+          "lg": {
+            "mean": 0.25900307422046553,
+            "min": 0,
+            "max": 0.5833333333333334,
+            "n": 9
+          },
+          "tcl": {
+            "mean": 0.2423835781323704,
+            "min": 0.16666666666666666,
+            "max": 0.3181818181818182,
+            "n": 9
+          }
+        },
+        "unreadable": 0,
+        "state": "measured"
+      },
+      "target": {
+        "byBrand": {
+          "sony": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 9
+          },
+          "samsung": {
+            "mean": 0.11851851851851854,
+            "min": 0,
+            "max": 0.4,
+            "n": 9
+          },
+          "lg": {
+            "mean": 0.0931216931216931,
+            "min": 0,
+            "max": 0.2857142857142857,
+            "n": 9
+          },
+          "tcl": {
+            "mean": 0.6677248677248676,
+            "min": 0.26666666666666666,
+            "max": 1,
+            "n": 9
+          }
+        },
+        "unreadable": 0,
+        "state": "measured"
+      },
+      "bestbuy": {
+        "byBrand": {
+          "sony": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 8
+          },
+          "samsung": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 8
+          },
+          "lg": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 8
+          },
+          "tcl": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 8
+          }
+        },
+        "unreadable": 1,
+        "state": "measured"
+      },
+      "newegg": {
+        "byBrand": {
+          "sony": {
+            "mean": 0.05952380952380952,
+            "min": 0,
+            "max": 0.17857142857142858,
+            "n": 9
+          },
+          "samsung": {
+            "mean": 0.47268230963883134,
+            "min": 0.32142857142857145,
+            "max": 0.6521739130434783,
+            "n": 9
+          },
+          "lg": {
+            "mean": 0.3595928226363009,
+            "min": 0.21428571428571427,
+            "max": 0.5416666666666666,
+            "n": 9
+          },
+          "tcl": {
+            "mean": 0.011904761904761904,
+            "min": 0,
+            "max": 0.03571428571428571,
+            "n": 9
+          }
+        },
+        "unreadable": 0,
+        "state": "measured"
+      }
+    },
+    "basis": "Organic placements only (sponsored excluded), accessories and renewed excluded, mean of 3 passes per term."
+  },
+  "shelfRows": [
+    {
+      "retailer": "amazon",
+      "term": "4k tv",
+      "state": "measured",
+      "total": 12,
+      "counts": {
+        "sony": 0,
+        "samsung": 7,
+        "lg": 1,
+        "tcl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Featured from Amazon brands Amazon Ember 55\" Mini-LED Series with Fire TV (newest model), QLED 4K UHD smart TV, Dolby Vision IQ, 144hz gaming mode, Am",
+          "brand": null
+        },
+        {
+          "t": "Best Seller Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4HSR, 2026 Model) – Hi-QLED Color, Dolby Audio, Compatible with Alexa, Fu",
+          "brand": null
+        },
+        {
+          "t": "Hisense 32QD4SV 32 inch Class QD4 Series FHD Hi-QLED Smart VIDAA TV Options: 2 sizes 2 sizes 4.0 4.0 out of 5 stars (99) 400+ bought in past month Pri",
+          "brand": null
+        },
+        {
+          "t": "Samsung 43-Inch Class QLED Q7F Series Samsung Vision AI Smart TV (2025 Model, 43Q7F) Quantum HDR, Object Tracking Sound Lite, Q4 AI Gen1 Processor, 4K",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 32-Inch Class QLED Q8F 4K UHD Smart TV (2025 Model) Q4 AI Processor, 100% Color Volume with Quantum Dot, AirSlim Design, Endless Free Content,",
+          "brand": "samsung"
+        },
+        {
+          "t": "PHILIPS 65 Inch 4K QLED Roku TV, 7985 Series, UHD 2160p, Ambilight, HDR, 120PMR Options: 4 sizes 4 sizes Top Brand New on Amazon in past month Price, ",
+          "brand": null
+        },
+        {
+          "t": "Overall Pick Samsung 32-Inch Class HD H5000F Smart TV (2025 Model) HDR, Object Tracking Sound Lite, Knox Security, One UI Tizen Options: 2 sizes 2 siz",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 65-Inch Class OLED S90F 4K Smart TV (2025 Model) NQ4 AI Gen3 Processor Upscaling Pro HDR +, Motion Xcelerator 144Hz, Vision Alexa Built-in Opt",
+          "brand": "samsung"
+        },
+        {
+          "t": "Hisense 32-Inch Class A4 Series FHD 1080p Smart Fire TV (32A4NF, 2025 Model) - DTS Virtual: X, Slim Bezel Design, Alexa Built in 4.5 4.5 out of 5 star",
+          "brand": null
+        },
+        {
+          "t": "LG 65-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "SAMSUNG 32-Inch Class Full HD F6000 Smart TV (2025 Model) HDR, Object Tracking Sound Lite, Knox Security, One UI Tizen, Smart TV Options: 2 sizes 2 si",
+          "brand": "samsung"
+        },
+        {
+          "t": "SAMSUNG 40-Inch Class Full HD F6000 Smart TV (2025 Model) HDR, Object Tracking Sound Lite, Knox Security, One UI Tizen, Smart TV Options: 2 sizes 2 si",
+          "brand": "samsung"
+        },
+        {
+          "t": "Hisense 40-Inch Class QD4 Series Hi-QLED FHD Smart Fire TV (40QD4QF) - Quantum Dot Color, DTS Virtual: X, Alexa Built in, Slim Bezel Design 4.4 4.4 ou",
+          "brand": null
+        },
+        {
+          "t": "Samsung 55” 4K BEFX-H Business Pro TV, CMS-Compatible Digital Signage (LH55BEFHLGFXGO) Options: 6 sizes 6 sizes 3.8 3.8 out of 5 stars (24) 50+ bought",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 43” 4K BEFX-H Business Pro TV, CMS-Compatible Digital Signage (LH43BEFHLGFXGO) Options: 6 sizes 6 sizes 3.8 3.8 out of 5 stars (24) See option",
+          "brand": "samsung"
+        }
+      ],
+      "img": "evidence/sonyrgb-shelf/amazon-4k-tv.jpg",
+      "subjCards": 1
+    },
+    {
+      "retailer": "amazon",
+      "term": "oled tv",
+      "state": "measured",
+      "total": 15,
+      "counts": {
+        "sony": 1,
+        "samsung": 8,
+        "lg": 6,
+        "tcl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Overall Pick Samsung 65-Inch Class OLED S90F 4K Smart TV (2025 Model) NQ4 AI Gen3 Processor Upscaling Pro HDR +, Motion Xcelerator 144Hz, Vision Alexa",
+          "brand": "samsung"
+        },
+        {
+          "t": "LG 65-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 55-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 42-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 55-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "Samsung 43-Inch Class QLED Q7F Series Samsung Vision AI Smart TV (2025 Model, 43Q7F) Quantum HDR, Object Tracking Sound Lite, Q4 AI Gen1 Processor, 4K",
+          "brand": "samsung"
+        },
+        {
+          "t": "LG 83-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Processor with AI Technology, Ultra Sl",
+          "brand": "sony"
+        },
+        {
+          "t": "Samsung 48-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Real Color, OLED HDR+, NQ4 AI Gen3",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 55-Inch Class S85H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, OLED HDR, NQ4 AI Gen2 Processor, 4K AI Upscaling, AI Sound Cont",
+          "brand": "samsung"
+        },
+        {
+          "t": "LG 48-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Compatibl",
+          "brand": "lg"
+        },
+        {
+          "t": "Samsung 48-Inch Class S85H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, OLED HDR, NQ4 AI Gen2 Processor, 4K AI Upscaling, AI Sound Cont",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 83-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Real Color, OLED HDR+, NQ4 AI Gen3",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 77-Inch Class S85H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, OLED HDR, NQ4 AI Gen2 Processor, 4K AI Upscaling, AI Sound Cont",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung QN55S95HAFXZA 55-Inch 4K OLED Vision AI Smart TV Price, product page $2,297.30 $2,297 . 30 $90 delivery Aug 28 - Sep 14 Add to cart",
+          "brand": "samsung"
+        }
+      ],
+      "img": "evidence/sonyrgb-shelf/amazon-oled-tv.jpg",
+      "subjCards": 3
+    },
+    {
+      "retailer": "amazon",
+      "term": "mini led tv",
+      "state": "measured",
+      "total": 14,
+      "counts": {
+        "sony": 5,
+        "samsung": 3,
+        "lg": 3,
+        "tcl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Featured from Amazon brands Amazon Ember 65\" Mini-LED Series with Fire TV (newest model), QLED 4K UHD smart TV, Dolby Vision IQ, 144hz gaming mode, Am",
+          "brand": null
+        },
+        {
+          "t": "Hisense 40-Inch Class QD4 Series Hi-QLED FHD Smart Fire TV (40QD4QF) - Quantum Dot Color, DTS Virtual: X, Alexa Built in, Slim Bezel Design 4.4 4.4 ou",
+          "brand": null
+        },
+        {
+          "t": "Overall Pick Sony 65 Inch BRAVIA 5 Mini LED 4K HDR Smart Google TV (K-65XR50) | XR Processor with AI Technology, Dolby Vision/Atmos, XR Backlight Mast",
+          "brand": "sony"
+        },
+        {
+          "t": "Samsung 32-Inch Class QLED Q8F 4K UHD Smart TV (2025 Model) Q4 AI Processor, 100% Color Volume with Quantum Dot, AirSlim Design, Endless Free Content,",
+          "brand": "samsung"
+        },
+        {
+          "t": "Hisense 32-Inch Class A4 Series HD 720p Smart Roku TV with Alexa Compatibility (32A4HNR) - Dolby Audio, Slim Bezel Design, Google Assistant Options: 3",
+          "brand": null
+        },
+        {
+          "t": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Array, Motion Xcelerator 144Hz, 4",
+          "brand": "samsung"
+        },
+        {
+          "t": "LG 65-Inch Class Gallery TV QNED AI LX7B Series Mini LED Smart TV with Included Snow White Frame, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Or",
+          "brand": "lg"
+        },
+        {
+          "t": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight Master Drive, X-Wide Angle, X-A",
+          "brand": "sony"
+        },
+        {
+          "t": "Sony 85 Inch BRAVIA 7 Mini LED QLED 4K HDR Smart Google TV (K-85XR70) | XR Processor with AI Technology, Dolby Vision/Atmos, PS5 Features, XR Backligh",
+          "brand": "sony"
+        },
+        {
+          "t": "Samsung 85-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Supersize Picture Enhancer, Quantum Mini LED Full Array",
+          "brand": "samsung"
+        },
+        {
+          "t": "Sony 55 Inch BRAVIA 7 Mini LED QLED 4K HDR Smart Google TV (K-55XR70) | XR Processor with AI Technology, Dolby Vision/Atmos, PS5 Features, XR Backligh",
+          "brand": "sony"
+        },
+        {
+          "t": "Sony BRAVIA 5 98 Inch TV, Mini LED, 4K Smart Google TV, XR Processor with AI Technology,120hz Television with Dolby Vision/Atmos, Exclusive Features f",
+          "brand": "sony"
+        },
+        {
+          "t": "LG 55-Inch Class Gallery TV QNED AI LX7B Series Mini LED Smart TV with Included Snow White Frame, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Or",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 100-Inch Class QNED evo AI QNED84B Series Mini LED 4K Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orche",
+          "brand": "lg"
+        },
+        {
+          "t": "Yoidesu Portable TV 5\" ATSC, Mini Digital TV with FM Radio for Car Camping | 5\" 1080P TFT screen, ATSC digital/analog TV, FM radio, USB & TF playback,",
+          "brand": null
+        }
+      ],
+      "img": "evidence/sonyrgb-shelf/amazon-mini-led-tv.jpg",
+      "subjCards": 1
+    },
+    {
+      "retailer": "walmart",
+      "term": "4k tv",
+      "state": "measured",
+      "total": 22,
+      "counts": {
+        "sony": 0,
+        "samsung": 0,
+        "lg": 4,
+        "tcl": 7
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "TCL 85\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 85Q51K $678.00 Add",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 55\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 55Q51K $268.00 Add",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 65\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 65Q51K $368.00 Add",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 75\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 75Q51K $488.00 Add",
+          "brand": "tcl"
+        },
+        {
+          "t": "Hisense 65\" M7 Mini-LED QLED 4K UHD Google Smart TV (65M7SG, 2026 Model) - Mini LED, Hi - QLED, Dolby Vision, Full Array Local Dimming, HDR10+, Built-",
+          "brand": null
+        },
+        {
+          "t": "100+ bought since yesterday LG 65\" 4K UHD UA75 AI Smart TV, 65UA7500 $398.00 Was $468.00 $6.12/in 100+ bought since yesterday Add Sponsored Now$39800 ",
+          "brand": "lg"
+        },
+        {
+          "t": "TCL 43\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 43Q51K $198.00 Add",
+          "brand": "tcl"
+        },
+        {
+          "t": "Rollback VIZIO 43\" Class Quantum 4K QLED HDR Smart TV (VQD43R-10) $188.00 Was $218.00 Rollback Add Now$18800 current price Now $188.00, Was $218.00 $2",
+          "brand": null
+        },
+        {
+          "t": "In 1K+ people's carts VIZIO 65\" Class Quantum 4K QLED HDR Smart TV (VQD65R-10) $328.00 Was $498.00 In 1K+ people's carts Add Now$32800 current price N",
+          "brand": null
+        },
+        {
+          "t": "Best seller VIZIO 50\" Class Quantum 4K QLED HDR Smart TV (VQD50R-10) $208.00 Best seller Add $20800 current price $208.00 VIZIO 50\" Class Quantum 4K Q",
+          "brand": null
+        },
+        {
+          "t": "Best seller TCL 55\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 55Q51K",
+          "brand": "tcl"
+        },
+        {
+          "t": "Hisense 58\" Class 4K UHD LED LCD Roku Smart TV HDR R6 Series 58R6E $238.00 Add $23800 current price $238.00 Hisense 58\" Class 4K UHD LED LCD Roku Smar",
+          "brand": null
+        },
+        {
+          "t": "Rollback VIZIO 55\" Class Quantum 4K QLED HDR Smart TV (VQD55R-10) $228.00 Was $298.00 Rollback Add Now$22800 current price Now $228.00, Was $298.00 $2",
+          "brand": null
+        },
+        {
+          "t": "LG 75\" 4K UHD UA75 AI Smart TV, 75UA7500 $548.00 Add $54800 current price $548.00 LG 75\" 4K UHD UA75 AI Smart TV, 75UA7500 4.3 out of 5 stars 1025 4.3",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 86\" 4K UHD UA75 AI Smart TV, 86UA7500 $848.00 Add $84800 current price $848.00 LG 86\" 4K UHD UA75 AI Smart TV, 86UA7500 4.3 out of 5 stars 1205 4.3",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 55\" 4K UHD UA75 AI Smart TV, 55UA7500 $328.00 Add $32800 current price $328.00 LG 55\" 4K UHD UA75 AI Smart TV, 55UA7500 4.2 out of 5 stars 2272 4.2",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 43\" 43UA7500ZUA 4K UHD UA75 AI Smart TV (2025) $228.00 Was $258.00 $5.30/ea Add Now$22800 current price Now $228.00, Was $258.00 $258.00 $5.30/ea L",
+          "brand": "lg"
+        },
+        {
+          "t": "Hisense 58\" Class 4K UHD LED LCD Roku Smart TV HDR R6 Series 58R6E $238.00 Add $23800 current price $238.00 From $238.00 Hisense 58\" Class 4K UHD LED ",
+          "brand": null
+        },
+        {
+          "t": "Overall pick onn 43\" Class 4K UHD Powered by VIZIO Smart Television, 43S4V1 $148.00 Overall pick Add $14800 current price $148.00 onn 43\" Class 4K UHD",
+          "brand": null
+        },
+        {
+          "t": "TCL 43\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mode - 43Q51K $198.00 Add",
+          "brand": "tcl"
+        },
+        {
+          "t": "Rollback VIZIO 75\" Class Quantum 4K QLED HDR Smart TV (VQD75R-10) $428.00 Was $548.00 Rollback Add Now$42800 current price Now $428.00, Was $548.00 $5",
+          "brand": null
+        },
+        {
+          "t": "In 2K+ people's carts onn 65\" Class 4K UHD Powered by VIZIO Smart Television, 65S4V4 $258.00 Was $278.00 In 2K+ people's carts Add Now$25800 current p",
+          "brand": null
+        },
+        {
+          "t": "100+ bought since yesterday Hisense 65\" Class 4K UHD LCD Roku Smart TV HDR R6 Series 65R6E4 $338.00 Was $378.00 100+ bought since yesterday Add Now$33",
+          "brand": null
+        }
+      ],
+      "img": null,
+      "subjCards": 0
+    },
+    {
+      "retailer": "walmart",
+      "term": "oled tv",
+      "state": "measured",
+      "total": 24,
+      "counts": {
+        "sony": 3,
+        "samsung": 2,
+        "lg": 14,
+        "tcl": 4
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "LG 83\" C5 Series OLED evo AI 4K Smart 25 TV, OLED83C5PUA $3,499.99 $3,49999 current price $3,499.99 LG 83\" C5 Series OLED evo AI 4K Smart 25 TV, OLED8",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 55\" C5 Series 4K UHD OLED evo AI Smart webOS 25 TV, OLED55C5PUA $1,299.99 $1,29999 current price $1,299.99 LG 55\" C5 Series 4K UHD OLED evo AI Smar",
+          "brand": "lg"
+        },
+        {
+          "t": "Top rated for refresh rate LG 55\" C5 Series 4K UHD OLED evo AI Smart webOS 25 TV, OLED55C5PUA $1,299.99 Top rated for refresh rate Add Sponsored $1,29",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 65\" Class 4K UHD OLED Web OS 24 Smart 120 Hz TV with Dolby Vision - OLED65C4PUA $1,269.00 Add $1,26900 current price $1,269.00 LG 65\" Class 4K UHD ",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 65\" C5 Series 4K UHD OLED evo AI Smart webOS 25 TV, OLED65C5PUA $1,499.99 Add $1,49999 current price $1,499.99 LG 65\" C5 Series 4K UHD OLED evo AI ",
+          "brand": "lg"
+        },
+        {
+          "t": "In 200+ people's carts TCL 65\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mo",
+          "brand": "tcl"
+        },
+        {
+          "t": "In 200+ people's carts TCL 55\" Q Series QLED 4K UHD HDR Smart Google TV (NEW 2025) - Dolby Vision, Dolby Atmos, Motion Rate 240, HDR 10+, Auto Game Mo",
+          "brand": "tcl"
+        },
+        {
+          "t": "SAMSUNG 77” Class S90D OLED Smart TV QN77S90DAFXZA 2024 $2,497.99 Add $2,49799 current price $2,497.99 SAMSUNG 77” Class S90D OLED Smart TV QN77S90DAF",
+          "brand": "samsung"
+        },
+        {
+          "t": "Overall pick SAMSUNG 65 Class S90D OLED Smart TV QN65S90DAFXZA 2024 $1,148.00 Overall pick Add $1,14800 current price $1,148.00 SAMSUNG 65 Class S90D ",
+          "brand": "samsung"
+        },
+        {
+          "t": "LG 83\" Class 4K UHD OLED C4 Series 120 Hz Web OS 24 Smart TV with Dolby Vision - OLED83C4PUA $2,599.00 Was $2,996.99 Add Sponsored Now$2,59900 current",
+          "brand": "lg"
+        },
+        {
+          "t": "Sansui 55\" inch OLED 4K 120Hz 0.1ms Ultra HD Smart TV-Dolby Vision&Sound& AI-Powered Karaoke & HDMI 2.1 $901.10 3 sizes Available in additional 3 size",
+          "brand": null
+        },
+        {
+          "t": "Top rated for refresh rate LG 55\" C5 Series 4K UHD OLED evo AI Smart webOS 25 TV, OLED55C5PUA $1,299.99 Top rated for refresh rate Add $1,29999 curren",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 48\" Class 4K UHD OLED Web OS Smart TV with Dolby Vision C4 Series - OLED48C4PUA $1,099.00 Add $1,09900 current price $1,099.00 LG 48\" Class 4K UHD ",
+          "brand": "lg"
+        },
+        {
+          "t": "Sony Bravia XR8B K-55XR8B - 55\" Diagonal Class (54.6\" viewable) OLED TV - Smart TV - Google TV - 4K UHD (2160p) 3840 x 2160 - HDR - self-lit OLED fini",
+          "brand": "sony"
+        },
+        {
+          "t": "LG 77\" C6 Series 4K UHD OLED AI Smart webOS 26 TV, OLED77C6HUP $2,999.99 Was $3,596.99 Add Now$2,99999 current price Now $2,999.99, Was $3,596.99 $3,5",
+          "brand": "lg"
+        },
+        {
+          "t": "Sony 65 class BRAVIA XR8B OLED 4K HDR Smart Google TV K-65XR8B, 2025 Model $1,998.00 Add $1,99800 current price $1,998.00 Sony 65 class BRAVIA XR8B OL",
+          "brand": "sony"
+        },
+        {
+          "t": "LG 83\" Class 4K UHD OLED C4 Series 120 Hz Web OS 24 Smart TV with Dolby Vision - OLED83C4PUA $2,599.00 Was $2,996.99 Add Now$2,59900 current price Now",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 77\" Class OLED C8 Series 4K (2160P) Smart Ultra HD HDR TV - OLED77C8PUA $8,996.99 Add $8,99699 current price $8,996.99 LG 77\" Class OLED C8 Series ",
+          "brand": "lg"
+        },
+        {
+          "t": "TCL 65\" Class QM6K Series QD-Mini LED QLED 4K UHD HDR Smart Google TV (NEW 2025) - 144Hz, Dolby Atmos Onkyo Audio, Halo Control System - 65QM6K $698.0",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 75\" Class QM6K Series QD-Mini LED QLED 4K UHD HDR Smart Google TV (NEW 2025) - 144Hz, Dolby Atmos Onkyo Audio, Halo Control System - 75QM6K $898.0",
+          "brand": "tcl"
+        },
+        {
+          "t": "LG 83\" C5 Series OLED evo AI 4K Smart 25 TV, OLED83C5PUA $3,499.99 Add $3,49999 current price $3,499.99 Options from $2,499.99 LG 83\" C5 Series OLED e",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 83\" C6 Series 4K UHD OLED AI Smart webOS 26 TV, OLED83C6HUP $4,799.99 Was $5,299.99 Add Now$4,79999 current price Now $4,799.99, Was $5,299.99 $5,2",
+          "brand": "lg"
+        },
+        {
+          "t": "LG 65\" C6 Series 4K UHD OLED AI Smart webOS 26 TV, OLED65C6PUA $1,799.99 Add $1,79999 current price $1,799.99 LG 65\" C6 Series 4K UHD OLED AI Smart we",
+          "brand": "lg"
+        },
+        {
+          "t": "Sony 77 class BRAVIA XR8B OLED 4K HDR Smart Google TV K-77XR8B, 2025 Model $2,498.00 Add $2,49800 current price $2,498.00 Sony 77 class BRAVIA XR8B OL",
+          "brand": "sony"
+        }
+      ],
+      "img": "evidence/sonyrgb-shelf/walmart-oled-tv.jpg",
+      "subjCards": 2
+    },
+    {
+      "retailer": "walmart",
+      "term": "mini led tv",
+      "state": "measured",
+      "total": 27,
+      "counts": {
+        "sony": 0,
+        "samsung": 6,
+        "lg": 0,
+        "tcl": 7
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Hisense 55\" M7 Series Mini-LED QLED 4K UHD Smart Google TV (55M7QG, 2025 Model) - MiniLED, Hi-QLED, HDR10+, Dolby Vision, Dolby Atmos, AI 4K Upscaler,",
+          "brand": null
+        },
+        {
+          "t": "Hisense 65\" M7 Mini-LED QLED 4K UHD Google Smart TV (65M7SG, 2026 Model) - Mini LED, Hi - QLED, Dolby Vision, Full Array Local Dimming, HDR10+, Built-",
+          "brand": null
+        },
+        {
+          "t": "Hisense 75\" M7 Mini-LED QLED 4K UHD Google Smart TV (75M7SG, 2026 Model) - Mini LED, Hi - QLED, Dolby Vision, Full Array Local Dimming, HDR10+, Built-",
+          "brand": null
+        },
+        {
+          "t": "Hisense 55\" M7 Mini-LED QLED 4K UHD Google Smart TV (55M7SG, 2026 Model) - Hi - QLED, MiniLED, Full Array Local Dimming, Dolby Vision, HDR10+, Built-i",
+          "brand": null
+        },
+        {
+          "t": "Samsung 75” Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN75M70HBFXZA $648.00 Was $698.00 Add Sponsored Now$6",
+          "brand": "samsung"
+        },
+        {
+          "t": "Hisense 55\" M7 Mini-LED QLED 4K UHD Google Smart TV (55M7SG, 2026 Model) - Hi - QLED, MiniLED, Full Array Local Dimming, Dolby Vision, HDR10+, Built-i",
+          "brand": null
+        },
+        {
+          "t": "Hisense 65\" M7 Mini-LED QLED 4K UHD Google Smart TV (65M7SG, 2026 Model) - Mini LED, Hi - QLED, Dolby Vision, Full Array Local Dimming, HDR10+, Built-",
+          "brand": null
+        },
+        {
+          "t": "Rollback VIZIO 55 Mini LED Quantum 4K QLED HDR Smart TV (NEW 2026) VQM55C-10 $248.00 Was $278.00 Rollback Add Now$24800 current price Now $248.00, Was",
+          "brand": null
+        },
+        {
+          "t": "Rollback VIZIO 65 Mini LED Quantum 4K QLED HDR Smart TV (NEW 2026) VQM65C-10 $358.00 Was $398.00 Rollback Add Now$35800 current price Now $358.00, Was",
+          "brand": null
+        },
+        {
+          "t": "Samsung 43” Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN43M70HBFXZA $298.00 Add Sponsored $29800 current pr",
+          "brand": "samsung"
+        },
+        {
+          "t": "Hisense 75\" M7 Mini-LED QLED 4K UHD Google Smart TV (75M7SG, 2026 Model) - Mini LED, Hi - QLED, Dolby Vision, Full Array Local Dimming, HDR10+, Built-",
+          "brand": null
+        },
+        {
+          "t": "In 100+ people's carts Samsung 65” Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN65M70HBFXZA $478.00 In 100+ ",
+          "brand": "samsung"
+        },
+        {
+          "t": "In 100+ people's carts VIZIO 75\" Mini LED Quantum 4K QLED HDR Smart TV (NEW 2026) VQM75C-10 $498.00 In 100+ people's carts Add $49800 current price $4",
+          "brand": null
+        },
+        {
+          "t": "100+ bought since yesterday Hisense 55\" M7 Series Mini-LED QLED 4K UHD Smart Google TV (55M7QG, 2025 Model) - MiniLED, Hi-QLED, HDR10+, Dolby Vision, ",
+          "brand": null
+        },
+        {
+          "t": "Overall pick Samsung 55” Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN55M70HBFXZA $348.00 Overall pick Add S",
+          "brand": "samsung"
+        },
+        {
+          "t": "TCL 75\" Class QM7K Series QD-Mini LED QLED 4K UHD Smart Google TV (NEW, 2025) - 144Hz, Local Dimming, Audio by Bang & Olufsen - 75QM7K $1,298.00 Add S",
+          "brand": "tcl"
+        },
+        {
+          "t": "Overall pick Samsung 55 Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN55M70HBFXZA $348.00 Overall pick Add $3",
+          "brand": "samsung"
+        },
+        {
+          "t": "TCL 65\" Class QM6K Series QD-Mini LED QLED 4K UHD HDR Smart Google TV (NEW 2025) - 144Hz, Dolby Atmos Onkyo Audio, Halo Control System - 65QM6K $698.0",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 75\" Class QM7K Series QD-Mini LED QLED 4K UHD Smart Google TV (NEW, 2025) - 144Hz, Local Dimming, Audio by Bang & Olufsen - 75QM7K $1,298.00 Add $",
+          "brand": "tcl"
+        },
+        {
+          "t": "Hisense 75\" M7 Mini-LED QLED 4K UHD Google Smart TV (75M7SG, 2026 Model) - Mini LED, Hi - QLED, Dolby Vision, Full Array Local Dimming, HDR10+, Built-",
+          "brand": null
+        },
+        {
+          "t": "Samsung 50” Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN50M70HBFXZA $348.00 Add $34800 current price $348.0",
+          "brand": "samsung"
+        },
+        {
+          "t": "TCL 65\" Class QM8K Series QD-Mini LED QLED 4K UHD Smart Google TV (NEW, 2025) - 144Hz, Local Dimming, CrystGlow WHVA Panel - 65QM8K $1,098.00 Add $1,0",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 85\" Class QM7K Series QD-Mini LED QLED 4K UHD Smart Google TV (NEW, 2025) - 144Hz, Local Dimming, Audio by Bang & Olufsen - 85QM7K $1,798.00 Add $",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 65\" Class QM6K Series QD-Mini LED QLED 4K UHD HDR Smart Google TV (NEW 2025) - 144Hz, Dolby Atmos Onkyo Audio, Halo Control System - 65QM6K $698.0",
+          "brand": "tcl"
+        }
+      ],
+      "img": null,
+      "subjCards": 0
+    },
+    {
+      "retailer": "target",
+      "term": "4k tv",
+      "state": "measured",
+      "total": 8,
+      "counts": {
+        "sony": 0,
+        "samsung": 0,
+        "lg": 0,
+        "tcl": 8
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL",
+          "brand": "tcl"
+        },
+        {
+          "t": "$749.99 New at New at Target TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL In stock Pickup ready within 2 hours Sponsored Add to ",
+          "brand": "tcl"
+        },
+        {
+          "t": "$749.99 New at New at Target TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL In stock Pickup ready within 2 hours Sponsored Add to ",
+          "brand": "tcl"
+        },
+        {
+          "t": "$749.99 New at New at Target TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL In stock Pickup ready within 2 hours Sponsored",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL",
+          "brand": "tcl"
+        }
+      ],
+      "img": null,
+      "subjCards": 0
+    },
+    {
+      "retailer": "target",
+      "term": "oled tv",
+      "state": "measured",
+      "total": 14,
+      "counts": {
+        "sony": 0,
+        "samsung": 1,
+        "lg": 4,
+        "tcl": 7
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "$1,544.99reg $3,596.99 Sale New at New at Target LG 55\" OLED evo AI C6 4K Smart webOS TV with Dolby Vision, Dolby Atmos & 165Hz VRR, 2026 LG Electroni",
+          "brand": "lg"
+        },
+        {
+          "t": "$1,544.99reg $3,596.99 Sale New at New at Target LG 55\" OLED evo AI C6 4K Smart webOS TV with Dolby Vision, Dolby Atmos & 165Hz VRR, 2026 LG Electroni",
+          "brand": "lg"
+        },
+        {
+          "t": "$1,544.99reg $3,596.99 Sale New at New at Target LG 55\" OLED evo AI C6 4K Smart webOS TV with Dolby Vision, Dolby Atmos & 165Hz VRR, 2026 LG Electroni",
+          "brand": "lg"
+        },
+        {
+          "t": "$1,544.99reg $3,596.99 Sale",
+          "brand": null
+        },
+        {
+          "t": "LG 55\" OLED evo AI C6 4K Smart webOS TV with Dolby Vision, Dolby Atmos & 165Hz VRR, 2026 LG Electronics",
+          "brand": "lg"
+        },
+        {
+          "t": "$999.99reg $1,299.99 Sale When purchased online",
+          "brand": null
+        },
+        {
+          "t": "See price in cart When purchased online TCL 55\" Class QM6K-Series 4K UHD HDR QD Mini LED Smart Google TV 55QM6K TCL Shipping Get it tomorrow Ships fre",
+          "brand": "tcl"
+        },
+        {
+          "t": "See price in cart When purchased online TCL 55\" Class QM6K-Series 4K UHD HDR QD Mini LED Smart Google TV 55QM6K TCL Shipping Get it tomorrow Ships fre",
+          "brand": "tcl"
+        },
+        {
+          "t": "See price in cart When purchased online TCL 55\" Class QM6K-Series 4K UHD HDR QD Mini LED Smart Google TV 55QM6K TCL Shipping Get it tomorrow Ships fre",
+          "brand": "tcl"
+        },
+        {
+          "t": "See price in cart When purchased online",
+          "brand": null
+        },
+        {
+          "t": "TCL 55\" Class QM6K-Series 4K UHD HDR QD Mini LED Smart Google TV 55QM6K TCL",
+          "brand": "tcl"
+        },
+        {
+          "t": "1k+ bought in last month $399.99 New at New at Target Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H ",
+          "brand": "samsung"
+        },
+        {
+          "t": "1k+ bought in last month $399.99 New at New at Target Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H ",
+          "brand": "samsung"
+        },
+        {
+          "t": "1k+ bought in last month $399.99 New at New at Target Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H ",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H Samsung 4.5 (497) Loved for: vivid colors",
+          "brand": "samsung"
+        }
+      ],
+      "img": "evidence/sonyrgb-shelf/target-oled-tv.jpg",
+      "subjCards": 1
+    },
+    {
+      "retailer": "target",
+      "term": "mini led tv",
+      "state": "measured",
+      "total": 20,
+      "counts": {
+        "sony": 0,
+        "samsung": 5,
+        "lg": 0,
+        "tcl": 11
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL",
+          "brand": "tcl"
+        },
+        {
+          "t": "$299.99 Rarely returned Hiro 65\" 4K HDR Smart TV Flat Screen LED Television with Roku TV and Dolby Audio Streaming HIRO 3.7 (396) Shipping arrives Sat",
+          "brand": null
+        },
+        {
+          "t": "$299.99 Rarely returned Hiro 65\" 4K HDR Smart TV Flat Screen LED Television with Roku TV and Dolby Audio Streaming HIRO 3.7 (396) Shipping arrives Sat",
+          "brand": null
+        },
+        {
+          "t": "$299.99 Rarely returned Hiro 65\" 4K HDR Smart TV Flat Screen LED Television with Roku TV and Dolby Audio Streaming HIRO 3.7 (396) Shipping arrives Sat",
+          "brand": null
+        },
+        {
+          "t": "Hiro 65\" 4K HDR Smart TV Flat Screen LED Television with Roku TV and Dolby Audio Streaming HIRO 3.7 (396)",
+          "brand": null
+        },
+        {
+          "t": "$749.99 New at New at Target TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL In stock Pickup ready within 2 hours Sponsored Add to ",
+          "brand": "tcl"
+        },
+        {
+          "t": "$749.99 New at New at Target TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL In stock Pickup ready within 2 hours Sponsored Add to ",
+          "brand": "tcl"
+        },
+        {
+          "t": "$749.99 New at New at Target TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL In stock Pickup ready within 2 hours Sponsored",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 75\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 75QM52LR TCL",
+          "brand": "tcl"
+        },
+        {
+          "t": "1k+ bought in last month $399.99 New at New at Target Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H ",
+          "brand": "samsung"
+        },
+        {
+          "t": "1k+ bought in last month $399.99 New at New at Target Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H ",
+          "brand": "samsung"
+        },
+        {
+          "t": "1k+ bought in last month $399.99 New at New at Target Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H ",
+          "brand": "samsung"
+        },
+        {
+          "t": "Samsung 55\" 4K UHD M70H Series Mini LED SamsungVision AI Companion Smart Tizen OS TV - UN55M70H Samsung 4.5 (497) Loved for: vivid colors",
+          "brand": "samsung"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "600+ bought in last month $349.99 New at New at Target TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL In stock Pickup ready within",
+          "brand": "tcl"
+        },
+        {
+          "t": "TCL 50\" 4K UHD QM5 Series Mini LED Smart Roku OS TV - 50QM52LR TCL",
+          "brand": "tcl"
+        }
+      ],
+      "img": null,
+      "subjCards": 0
+    },
+    {
+      "retailer": "bestbuy",
+      "term": "4k tv",
+      "state": "not comparable",
+      "why": "logged-out Best Buy serves a ~4-item featured strip, not a result grid",
+      "total": null,
+      "counts": {}
+    },
+    {
+      "retailer": "bestbuy",
+      "term": "oled tv",
+      "state": "not comparable",
+      "why": "logged-out Best Buy serves a ~4-item featured strip, not a result grid",
+      "total": null,
+      "counts": {}
+    },
+    {
+      "retailer": "bestbuy",
+      "term": "mini led tv",
+      "state": "not comparable",
+      "why": "logged-out Best Buy serves a ~4-item featured strip, not a result grid",
+      "total": null,
+      "counts": {}
+    },
+    {
+      "retailer": "newegg",
+      "term": "4k tv",
+      "state": "measured",
+      "total": 23,
+      "counts": {
+        "sony": 0,
+        "samsung": 15,
+        "lg": 8,
+        "tcl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "QUICK VIEW Newegg Select LG 42-Inch Class OLED evo AI Super Upscaling 4K C5 Series Smart TV w/Dolby Atmos & Vision, HDR10, Filmmaker Mode, Wow Orchest",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW #1 BEST SELLER in LED TV LG 55-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Film",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65QN90DAFXZA 65\" Neo QLED TV with 4K AI Upscaling (2024) Color: Titan Black Maximum Resolution: 3840 x 2160 Aspect Ratio: 16:9 Vi",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 55QNED84B 55 inch Class QNED84B Series 4K Mini LED evo AI Smart TV, 2026 Model $29 promotional gift card w/ purchase, limited offer Bran",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN85LS03HWFXZA 85\" The Frame Pro Neo QLED 4K Smart Tizen TV (2026) Brand: Samsung Series: The Frame Series Year: 2026 Color: Black ",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 65QNED84B 65 inch Class QNED84B Series 4K Mini LED evo AI Smart TV, 2026 Model Brand: LG Electronics Series: QNED84BUA Part#: 65QNED84BU",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65S95FAFXZA 65 Inch OLED HDR Pro 4K Smart TV with a Samsung HW-Q900F Q Series Soundbar 7.1.2 Ch Subwoofer (2025) Brand: Samsung S",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN75QN90FAFXZA 75 Inch Neo QLED 4K QN90F Vision AI Smart TV with a Samsung HW-QS700F 3.1.2 Ch Dolby Atmos Soundbar and Subwoofer (2",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG OLED48C5P 48 inch Class C5 Series 4K OLED Smart TV Brand: LG Electronics Series: LG OLED evo C5 4K TV Part#: OLED48C5PUA Year: 2025 Mode",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW SAMSUNG 65-Inch Class OLED S95F 4K Glare Free Smart TV NQ4 AI Gen3 Processor, OLED HDR Pro, Motion Xcelerator 164Hz, Dolby Atmos Bundle wit",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN75QN90FAFXZA 75 Inch Neo QLED 4K QN90F Vision AI Smart TV with 2 Year Amber Protection Plan (2025) Color: Titan Black TV Type: Ne",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65S95FAFXZA 65 Inch OLED HDR Pro 4K Smart TV with Q-Symphony Pro and 6 Year Amber Protection Plan (2025) Brand: Samsung Series: S",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN98QN90AA 98 Inch Neo QLED QN90 Series 4K Smart TV with an Austere V Series 8-Outlet Power w/Omniport USB (2021) Color: Titan Blac",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW (1) Samsung 50\" Class Q60D Series QLED 4K Smart TV (QN50Q60DAFXZA, 2024) Color: Black TV Type: QLED TV Smart TV: Apple TV / Disney+ / Googl",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 65LX7BPUA 65\" AI Gallery Mini LED 4K QNED Smart TV with Frame (2026) $129 promotional gift card w/ purchase, limited offer Brand: LG Ser",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG 85QNED84B 85 inch Class QNED84B Series 4K Mini LED evo AI Smart TV, 2026 Model Brand: LG Electronics Series: QNED84BUA Part#: 85QNED84BU",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65S95FAFXZA 65 Inch OLED HDR Pro 4K Smart TV with a Samsung HW-QS700F 3.1.2 Ch Dolby Atmos Soundbar and Subwoofer (2025) Brand: S",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN75QN90FAFXZA 75 Inch Neo QLED 4K QN90F Vision AI Smart TV with an Austere 5S-PS4-US1 4-Outlet Power (2025) Brand: Samsung Series:",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN43Q7FAAFXZA 43 Inch QLED Q7F 4K Vision AI Smart TV with a Samsung HW-LS60D 2.0 Channel Photo Frame Speaker with Dolby Atmos (2025",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN100QN80FFXZA 100 Inch Neo QLED QN80F Series Supreme UHD 4K TV with a Walts XXL-TILT-EXTENSION and Amber Protection 3-OUTLET-SURGE",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG OLED65C5P 65 inch Class C5 Series 4K OLED Smart TV $139 promotional gift card w/ purchase, limited offer Brand: LG Series: LG OLED evo C",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65S90FAFXZA 65 Inch 4K OLED Smart TV with a Samsung HW-QS700F 3.1.2 Ch Dolby Atmos Soundbar and Subwoofer (2025) Brand: Samsung S",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65S90FAFXZA 65 Inch 4K OLED Smart TV with an Austere 5S-PS4-US1 4-Outlet Power (2025) Brand: Samsung Series: S90FA Year: 2025 Col",
+          "brand": "samsung"
+        }
+      ],
+      "img": null,
+      "subjCards": 1
+    },
+    {
+      "retailer": "newegg",
+      "term": "oled tv",
+      "state": "measured",
+      "total": 26,
+      "counts": {
+        "sony": 0,
+        "samsung": 12,
+        "lg": 13,
+        "tcl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "QUICK VIEW Newegg Select LG 42-Inch Class OLED evo AI Super Upscaling 4K C5 Series Smart TV w/Dolby Atmos & Vision, HDR10, Filmmaker Mode, Wow Orchest",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW #1 BEST SELLER in LED TV LG 55-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Film",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG OLED48C5P 48 inch Class C5 Series 4K OLED Smart TV Brand: LG Electronics Series: LG OLED evo C5 4K TV Part#: OLED48C5PUA Year: 2025 Mode",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG OLED65C5P 65 inch Class C5 Series 4K OLED Smart TV $139 promotional gift card w/ purchase, limited offer Brand: LG Series: LG OLED evo C",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG OLED42C6PUA 42\" C6 OLED evo AI 4K Smart TV - 2026 Model $119 promotional gift card w/ purchase, limited offer Screen Size: 42\" Model #: ",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG 77-Inch Class OLED evo C4 Series TV with webOS 24 (OLED77C4PUA, 2024) Color: Black Maximum Resolution: 3840 x 2160 Aspect Ratio: 16:9 LE",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN77S90FAFXZA 77 Inch 4K OLED Smart TV with Dolby Atmos and 2 Year Amber Protection Plan (2025) Color: Graphite Black TV Type: OLED",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN77S85HAEXZA 77\" 4K OLED Smart TV with Dolby Atmos (2026) Brand: Samsung Series: S85HA Year: 2026 Color: Black Model #: QN77S85HAE",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN77S90F 77 inch Class OLED 4K S90F Vision AI Smart TV (2025) Model #: QN77S90FAFXZA $1,997.99 FREE SHIPPING from United States ADD",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Watch video (53) LG OLED48C1PUB 4K Smart OLED TV w/ AI ThinQ (2021) Color: Black TV Type: OLED TV Smart TV: Yes Maximum Resolution: 3840 x ",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN55S95F 55 inch Class OLED 4K S95F Vision AI Smart TV (2025) Model #: QN55S95FAFXZA $2,197.99 More options from $2,148.00 - $2,999",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 83-Inch Class OLED G4 Series TV with webOS 24 (OLED83G4WUA, 2024) Color: Black Maximum Resolution: 3840 x 2160 Aspect Ratio: 16:9 LED Te",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW (33) LG 48\" Class C2 Series OLED 4K evo Smart TV (OLED48C2PUA, 2022) Color: Dark Silver TV Type: OLED TV Smart TV: Yes Maximum Resolution: ",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN55S85F 55 inch Class S85F Series 4K OLED Vision AI Smart Tizen TV Model #: QN55S85FAFXZA $997.99 More options from $997.99 - $1,0",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN77S85F 77 inch Class S85F Series 4K OLED Vision AI Smart Tizen TV Model #: QN77S85FAEXZA $2,197.99 $1,397.99 Save: $800.00 (36%) ",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN65S90HAEXZA 65\" S90H Series OLED 4K UHD Smart Vision AI TV (2026) Brand: Samsung Series: S90H Year: 2026 Color: Graphite Black Mo",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung S85F OLED TV 83-Inch 4K Smart in Graphite Black - QN83S85FAEXZA Model #: QN83S85FAEXZA $3,959.99 More options from $2,186.97 - $3,9",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung 65 inch Class S85D OLED HDR 4KSmart TV Model #: QN65S85DAEXZA $1,897.99 $1,274.99 Save: $623.00 (32%) FREE SHIPPING from United Sta",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG OLED55C6P 55 inch Class C6 Series 4K OLED Smart webOS TV $159 promotional gift card w/ purchase, limited offer Brand: LG Series: C6 Part",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW SAMSUNG 83-Inch Class OLED S95F 4K Glare Free Smart TV (2025 Model) Screen Size: 83\" Model #: QN83S95FAEXZA $5,079.99 $4,736.99 Save: $343.",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG OLED77B6GUA 77\" OLED 4K AI Smart webOS TV - 2026 Model $249 promotional gift card w/ purchase, limited offer Screen Size: 77\" Model #: O",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW (3) LG OLED evo C3 48 inch 4K Smart TV (OLED48C3PUA, 2023) Color: Black TV Type: OLED TV Smart TV: Yes Maximum Resolution: 4K Ultra HD (3,8",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG OLED83B6GUA 83\" OLED 4K AI Smart webOS TV - 2026 Model $379 promotional gift card w/ purchase, limited offer Screen Size: 83\" Model #: O",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung S85H OLED 65-Inch 4K Smart TV with Samsung Vision AI - QN65S85HAEXZA Screen Size: 65\" Model #: QN65S85HAE $1,997.99 $1,697.99 Save:",
+          "brand": "samsung"
+        }
+      ],
+      "img": null,
+      "subjCards": 0
+    },
+    {
+      "retailer": "newegg",
+      "term": "mini led tv",
+      "state": "measured",
+      "total": 28,
+      "counts": {
+        "sony": 5,
+        "samsung": 9,
+        "lg": 6,
+        "tcl": 1
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "QUICK VIEW Roku 55-Inch Plus Series 4K QLED Mini-LED Smart TV Dolby Vision & Atmos, HDR, Voice, 12-Month CPS Screen Size: 55\" Model #: 55R6C7KIT1 $529",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW LG 55QNED75B 55 inch Class QNED75B Series 4K Mini LED Smart webOS TV Model #: 55QNED75BUA $479.99 More options from $459.90 - $479.99 FREE ",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW LG 100QNED84BU 100\" QNED evo AI QNED84B Mini LED 4K Smart TV with a 6 Year Amber Protection Plan (2026) Brand: LG Series: QNED84BU Year: 20",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Samsung M70H Mini LED 4K UHD Smart TV 75-Inch with Samsung Vision AI - UN75M70HAFXZA Screen Size: 75\" Model #: UN75M70HAFXZA $877.99 More o",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 55QNED84B 55 inch Class QNED84B Series 4K Mini LED evo AI Smart TV, 2026 Model $29 promotional gift card w/ purchase, limited offer Bran",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Roku 65R8C5 65 inch Class Pro Series 4K QLED Mini-LED Smart TV $49 promotional gift card w/ purchase, limited offer Model #: 65R8C5 $999.99",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Samsung M70H Mini LED 4K UHD Smart TV 65-Inch with Samsung Vision AI - UN65M70HAFXZA Screen Size: 65\" Model #: UN65M70HAFXZA $637.72 More o",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 65QNED84B 65 inch Class QNED84B Series 4K Mini LED evo AI Smart TV, 2026 Model Brand: LG Electronics Series: QNED84BUA Part#: 65QNED84BU",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Sony 75 Inch Mini LED QLED 4K Ultra HD TV BRAVIA 9 Smart Google TV with Dolby Vision HDR and Exclusive Features for PlayStation 5 (K-75XR90",
+          "brand": "sony"
+        },
+        {
+          "t": "QUICK VIEW Samsung M70H Mini LED 4K UHD Smart TV 55-Inch with Samsung Vision AI - UN55M70HAFXZA Screen Size: 55\" Model #: UN55M70HAFXZA $569.99 More o",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 65LX7BPUA 65\" AI Gallery Mini LED 4K QNED Smart TV with Frame (2026) $129 promotional gift card w/ purchase, limited offer Brand: LG Ser",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Roku 75R6C7 75 inch Class Plus Series 4K QLED Mini-LED Smart TV Model #: 75R6C7 $849.99 FREE SHIPPING from United States ADD TO CART Compar",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Sony 85 Inch Mini LED QLED 4K Ultra HD TV BRAVIA 9 Smart Google TV with Dolby Vision HDR and Exclusive Features for PlayStation 5 (K-85XR90",
+          "brand": "sony"
+        },
+        {
+          "t": "QUICK VIEW Samsung M70H Mini LED 4K UHD Smart TV 85-Inch with Samsung Vision AI - UN85M70HAFXZA Screen Size: 85\" Model #: UN85M70HAFXZA $1,227.95 More",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Samsung 43\" Class QN70H Series 4K UHD Neo QLED Mini LED Smart TV Screen Size: 43\" Model #: QN43QN70HAFXZA $597.99 More options from $589.00",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW LG 85QNED84B 85 inch Class QNED84B Series 4K Mini LED evo AI Smart TV, 2026 Model Brand: LG Electronics Series: QNED84BUA Part#: 85QNED84BU",
+          "brand": "lg"
+        },
+        {
+          "t": "QUICK VIEW Roku 75R8C5 75 inch Class Pro Series 4K QLED Mini-LED Smart TV $67 promotional gift card w/ purchase, limited offer Model #: 75R8C5 $1,349.",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Samsung QN70H Neo QLED Mini LED 4K UHD Smart TV 75-Inch with Samsung Vision AI - QN75QN70HAFXZA Screen Size: 75\" Model #: QN75QN70HAFXZA $1",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Roku 65R6C7 65 inch Class Plus Series 4K QLED Mini-LED Smart TV $39 promotional gift card w/ purchase, limited offer Model #: 65R6C7 $679.9",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Samsung QN70H Neo QLED Mini LED 4K UHD Smart TV 55-Inch with Samsung Vision AI - QN55QN70HAFXZA Screen Size: 55\" Model #: QN55QN70HAFXZA $8",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW Sony BRAVIA 7 55\" 4K HDR Smart QLED Mini-LED TV (K-55XR70) Model #: K55XR70 $1,429.99 $1,398.00 More options from $1,199.99 - $1,398.00 FRE",
+          "brand": "sony"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN80H Neo QLED Mini LED 4K UHD Smart TV 75-Inch with Samsung Vision AI - QN75QN80HAFXZA Brand: Samsung Series: QN80H Year: 2026 Col",
+          "brand": "samsung"
+        },
+        {
+          "t": "QUICK VIEW TCL 98QM8K 98 inch Class QM8K Series 4K QD-Mini LED UHD HDR Smart TV (2025) Model #: 98QM8K $3,999.99 More options from $3,997.99 - $6,499.",
+          "brand": "tcl"
+        },
+        {
+          "t": "QUICK VIEW Samsung QN50QN70H 50 inch Class QN70H Series 4K UHD Neo QLED Mini LED Smart TV Model #: QN50QN70HAFXZA $747.99 More options from $747.99 - ",
+          "brand": "samsung"
+        }
+      ],
+      "img": null,
+      "subjCards": 5
+    }
+  ],
+  "pricingByRetailer": {
+    "amazon": [
+      {
+        "model": "b9-65",
+        "label": "BRAVIA 9 65\"",
+        "brand": "sony",
+        "price": 2798,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+        "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "Add a protection plan:",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan for $249.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "discount",
+            "verbatim": "Get $50 off instantly: Pay $2,748.00 $2,798.00 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "b8ii-65",
+        "label": "BRAVIA 8 II 65\"",
+        "brand": "sony",
+        "price": 3298,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+        "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "Add a protection plan:",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan for $289.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (20) from $2,494.95 $2,494 . 95 & FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "& FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "discount",
+            "verbatim": "Get $50 off instantly: Pay $3,248.00 $3,298.00 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "bundled content / included benefit",
+            "verbatim": "4K movie credits included",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "bundled content / included benefit",
+            "verbatim": "MOVIES INCLUDED: Get movies included and access to the largest IMAX Enhanced collection with the SONY PICTURES CORE app.",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "protection plan upsell",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "qn80h-65",
+        "label": "Samsung QN80H 65\"",
+        "brand": "samsung",
+        "price": 1497.99,
+        "priceBasis": "pdp",
+        "was": 1597.99,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+        "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "Add a protection plan:",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "discount",
+            "verbatim": "Get $50 off instantly: Pay $1,447.99 $1,497.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Samsung QN65S90FAFXZA 65\" 4K TV with a 2 Year Amber Protection Plan (2025)",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping by Amazon",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping on orders over $35 shipped by Amazon",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "percentage discount",
+            "verbatim": "$1,497.99 with 6 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "list price strike through",
+            "verbatim": "List Price: $1,597.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2-Year Samsung Care+ Device Protection| TV Tier 3 | $54.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "5-Year Samsung Care+ Device Protection| TV Tier 3 | $199.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "subscription protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount on alternate size",
+            "verbatim": "$1,047.99 with 19 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount on alternate size",
+            "verbatim": "$2,997.99 with 9 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "s90h-65",
+        "label": "Samsung S90H OLED 65\"",
+        "brand": "samsung",
+        "price": 1797.99,
+        "priceBasis": "pdp",
+        "was": 2697.99,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+        "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "Add a protection plan:",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (14) from $1,617.95 $1,617 . 95 & FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "& FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "discount",
+            "verbatim": "Get $50 off instantly: Pay $1,747.99 $1,797.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "percentage discount",
+            "verbatim": "$1,797.99 with 33 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "list price reference",
+            "verbatim": "List Price: $2,697.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2-Year Samsung Care+ Device Protection| TV Tier 4 | $64.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "5-Year Samsung Care+ Device Protection| TV Tier 4 | $249.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "protection plan subscription",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount (42 inch)",
+            "verbatim": "$1,297.99 with 7 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount (48 inch)",
+            "verbatim": "$1,397.99 with 13 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount (55 inch)",
+            "verbatim": "$1,497.99 with 25 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount (77 inch)",
+            "verbatim": "$2,799.99 with 24 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "percentage discount (83 inch)",
+            "verbatim": "$4,797.99 with 9 percent savings",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "g5-65",
+        "label": "LG G5 OLED 65\"",
+        "brand": "lg",
+        "price": 2299.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+        "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "Add a protection plan:",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan for $249.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (2) from $1,699.00 $1,699 . 00 & FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "& FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "gift with purchase",
+            "verbatim": "Apply for Amazon Store Card and unlock a $10 Amazon Gift Card upon approval. Pay $2,299.99 $2,289.99 for this order. Learn more",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "subscription protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "free returns",
+            "verbatim": "30-day easy returns",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "c5rgb-65",
+        "label": "LG C5 OLED 65\"",
+        "brand": "lg",
+        "price": 1499.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+        "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "Add a protection plan:",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan for $183.99",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "4-Year Protection Plan",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (9) from $1,499.99 $1,499 . 99 & FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "& FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "FREE Shipping",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "discount",
+            "verbatim": "Get $50 off instantly: Pay $1,449.99 $1,499.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "subscription protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+            "via": "llm"
+          }
+        ]
+      }
+    ],
+    "walmart": [
+      {
+        "model": "b8ii-65",
+        "label": "BRAVIA 8 II 65\"",
+        "brand": "sony",
+        "price": 3619.99,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": null,
+        "url": "https://www.walmart.com/sp/track",
+        "pdp": "not readable",
+        "promos": []
+      },
+      {
+        "model": "s90h-65",
+        "label": "Samsung S90H OLED 65\"",
+        "brand": "samsung",
+        "price": 1947.99,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": null,
+        "url": "https://www.walmart.com/sp/track",
+        "pdp": "not readable",
+        "promos": []
+      },
+      {
+        "model": "c5rgb-65",
+        "label": "LG C5 OLED 65\"",
+        "brand": "lg",
+        "price": 1499.99,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": null,
+        "url": "/ip/OLED65C5PUA-AUS/14340769206",
+        "pdp": "not readable",
+        "promos": []
+      }
+    ],
+    "bestbuy": [
+      {
+        "model": "b9ii-65",
+        "label": "BRAVIA 9 II 65\"",
+        "brand": "sony",
+        "price": 2974.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+        "url": "https://www.bestbuy.com/site/searchpage.jsp?st=Sony+BRAVIA+9+II+65+True+RGB",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "open-box",
+            "verbatim": "Open-box as low as $2,974.99",
+            "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+            "via": "unlocker"
+          }
+        ]
+      },
+      {
+        "model": "b7ii-65",
+        "label": "BRAVIA 7 II 65\"",
+        "brand": "sony",
+        "price": 2599.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+        "url": "https://www.bestbuy.com/site/searchpage.jsp?st=Sony+BRAVIA+7+II+65+True+RGB",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "gift with purchase",
+            "verbatim": "Free installation and haul-away",
+            "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+            "via": "unlocker"
+          }
+        ]
+      }
+    ],
+    "newegg": [
+      {
+        "model": "b9-65",
+        "label": "BRAVIA 9 65\"",
+        "brand": "sony",
+        "price": 2798,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-newegg-b9-65.jpg",
+        "url": "https://www.newegg.com/p/16C-0006-00967",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "b8ii-65",
+        "label": "BRAVIA 8 II 65\"",
+        "brand": "sony",
+        "price": 3299.99,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-newegg-b8ii-65.jpg",
+        "url": "https://www.newegg.com/p/16C-0006-009A6",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "qn80h-65",
+        "label": "Samsung QN80H 65\"",
+        "brand": "samsung",
+        "price": 1659.99,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-newegg-qn80h-65.jpg",
+        "url": "https://www.newegg.com/samsung-qn80h-65/p/16C-0003-010V8",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "s90h-65",
+        "label": "Samsung S90H OLED 65\"",
+        "brand": "samsung",
+        "price": 1797.99,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-newegg-s90h-65.jpg",
+        "url": "https://www.newegg.com/samsung-s90ha-65/p/16C-0003-01113",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "c5rgb-65",
+        "label": "LG C5 OLED 65\"",
+        "brand": "lg",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "implausible vs other retailers ($139 against a $1499.99 median of 3) — withheld",
+        "promosWithheld": null,
+        "img": "evidence/sonyrgb-multi/pdp-newegg-c5rgb-65.jpg",
+        "url": "https://www.newegg.com/lg-oled-evo-c5-4k-tv-65/p/16C-000P-007C6",
+        "pdp": null,
+        "promos": []
+      }
+    ]
+  },
+  "deliveryRows": [
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Wednesday, August 19"
+      ],
+      "days": 5,
+      "img": "evidence/delivery/sonyrgb-amazon-b9-65-10001.jpg"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonyrgb-amazon-b8ii-65-10001.jpg"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonyrgb-amazon-qn80h-65-10001.jpg"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Wednesday, August 19"
+      ],
+      "days": 5,
+      "img": "evidence/delivery/sonyrgb-amazon-s90h-65-10001.jpg"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonyrgb-amazon-g5-65-10001.jpg"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonyrgb-amazon-c5rgb-65-10001.jpg"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "delivery as soon as Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-s90h-65-90012.jpg"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "delivery as soon as Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-g5-65-90012.jpg"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Monday, August 17"
+      ],
+      "days": 3,
+      "img": "evidence/delivery/sonyrgb-amazon-c5rgb-65-90012.jpg"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b9-65-60601.jpg"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b8ii-65-60601.jpg"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-qn80h-65-60601.jpg"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-s90h-65-60601.jpg"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "delivery as soon as Monday, August 17"
+      ],
+      "days": 3,
+      "img": "evidence/delivery/sonyrgb-amazon-g5-65-60601.jpg"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Wednesday, August 19"
+      ],
+      "days": 5,
+      "img": "evidence/delivery/sonyrgb-amazon-c5rgb-65-60601.jpg"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b9-65-77002.jpg"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b8ii-65-77002.jpg"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-qn80h-65-77002.jpg"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-s90h-65-77002.jpg"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-g5-65-77002.jpg"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery August 16 - 18. Order within 5 hrs 10 mins. Details"
+      ],
+      "days": 2,
+      "img": "evidence/delivery/sonyrgb-amazon-c5rgb-65-77002.jpg"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b9-65-80202.jpg"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b8ii-65-80202.jpg"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-qn80h-65-80202.jpg"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-s90h-65-80202.jpg"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-g5-65-80202.jpg"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery August 16 - 17. Order within 5 hrs 10 mins. Details"
+      ],
+      "days": 2,
+      "img": "evidence/delivery/sonyrgb-amazon-c5rgb-65-80202.jpg"
+    },
+    {
+      "model": "b9-65",
+      "label": "BRAVIA 9 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "delivery as soon as Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b9-65-33130.jpg"
+    },
+    {
+      "model": "b8ii-65",
+      "label": "BRAVIA 8 II 65\"",
+      "brand": "sony",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "delivery as soon as Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-b8ii-65-33130.jpg"
+    },
+    {
+      "model": "qn80h-65",
+      "label": "Samsung QN80H 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tomorrow"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-qn80h-65-33130.jpg"
+    },
+    {
+      "model": "s90h-65",
+      "label": "Samsung S90H OLED 65\"",
+      "brand": "samsung",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "delivery as soon as Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-s90h-65-33130.jpg"
+    },
+    {
+      "model": "g5-65",
+      "label": "LG G5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "delivery as soon as Saturday, August 15"
+      ],
+      "days": 1,
+      "img": "evidence/delivery/sonyrgb-amazon-g5-65-33130.jpg"
+    },
+    {
+      "model": "c5rgb-65",
+      "label": "LG C5 OLED 65\"",
+      "brand": "lg",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "delivery as soon as Sunday, August 16"
+      ],
+      "days": 2,
+      "img": "evidence/delivery/sonyrgb-amazon-c5rgb-65-33130.jpg"
+    }
+  ],
+  "aiSearch": {
+    "overall": {
+      "samsung": 28,
+      "tcl": 13,
+      "lg": 24,
+      "sony": 35
+    },
+    "byStage": {
+      "awareness": {
+        "sony": 10,
+        "samsung": 34,
+        "lg": 27,
+        "tcl": 29
+      },
+      "consideration": {
+        "sony": 25,
+        "samsung": 34,
+        "lg": 33,
+        "tcl": 9
+      },
+      "evaluation": {
+        "sony": 47,
+        "samsung": 29,
+        "lg": 14,
+        "tcl": 9
+      },
+      "decision": {
+        "sony": 65,
+        "samsung": 13,
+        "lg": 13,
+        "tcl": 9
+      }
+    },
+    "byEngine": {
+      "gpt": {
+        "sony": 34,
+        "samsung": 32,
+        "lg": 22,
+        "tcl": 12
+      },
+      "perplexity": {
+        "sony": 30,
+        "samsung": 28,
+        "lg": 27,
+        "tcl": 15
+      },
+      "gemini": {
+        "sony": 31,
+        "samsung": 30,
+        "lg": 22,
+        "tcl": 16
+      }
+    },
+    "basis": "Unchanged lane — measured for the sony-launch report across ChatGPT, Perplexity and Gemini."
+  },
+  "coverage": {
+    "pdpNotReadable": [
+      "bestbuy (HTTP2 reset on every PDP route tried)",
+      "newegg (product region renders a 483px widget to automated sessions)"
+    ],
+    "excludedRetailers": [
+      "B&H, Crutchfield, Costco — WAF 403 on residential exits (measured 2026-08-13)"
+    ],
+    "shelfNotComparable": [
+      "bestbuy — logged-out sessions get a ~4-item featured strip, not a result grid"
+    ]
+  },
+  "sources": {
+    "carriage": "data/carriage/sonos-sony.json",
+    "pdp": "data/pdp-promo/sonyrgb-multiretailer.json",
+    "shelf": "data/shelf-multi/sonos-sony.json",
+    "delivery": "data/delivery-cities/sonyrgb.json"
+  }
+}

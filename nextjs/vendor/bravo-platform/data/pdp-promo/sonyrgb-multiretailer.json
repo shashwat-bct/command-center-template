@@ -1,0 +1,8277 @@
+{
+  "stem": "sonyrgb-multiretailer",
+  "subject": "sony",
+  "capturedAt": "2026-08-13T14:42:17.059Z",
+  "market": "us",
+  "currency": "USD",
+  "channels": [
+    "newegg",
+    "amazon"
+  ],
+  "source": "retailer product pages, one visit each (Apify puppeteer-scraper, US residential). No clicks — only what the page shows on load.",
+  "rule": "A promotion is listed only if it could be located in the captured image and outlined. Delivery text here is the exit's default zip and is flagged defaultZip — city delivery comes only from the city lane.",
+  "rows": [
+    {
+      "asin": "newegg-b9-65",
+      "sku": "b9-65",
+      "channel": "newegg",
+      "brand": "sony",
+      "model": "BRAVIA 9 65\"",
+      "title": "Sony 65 Inch Mini LED QLED 4K Ultra HD TV BRAVIA 9 Smart Google TV with Dolby Vision HDR and Exclusive Features for PlayStation 5 (K-65XR90)",
+      "url": "https://www.newegg.com/p/16C-0006-00967",
+      "currency": "USD",
+      "price": null,
+      "priceTxt": "",
+      "priceRect": null,
+      "was": null,
+      "deliveryText": "",
+      "deliveryZip": null,
+      "defaultZip": true,
+      "availability": "ree Shipping Volume Discounts Available Sort By: Best Seller Rating L",
+      "clip": {
+        "x": 30,
+        "y": 205,
+        "w": 538,
+        "h": 483
+      },
+      "readBottom": 483,
+      "idx": [],
+      "img": "evidence/sonyrgb-multi/pdp-newegg-b9-65.jpg",
+      "promos": []
+    },
+    {
+      "asin": "amazon-b9-65",
+      "sku": "b9-65",
+      "channel": "amazon",
+      "brand": "sony",
+      "model": "BRAVIA 9 65\"",
+      "title": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight Master Drive, X-Wide ",
+      "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+      "currency": "USD",
+      "price": 2798,
+      "priceTxt": "$2,798.00",
+      "priceRect": {
+        "x": 1257,
+        "y": 178,
+        "w": 93,
+        "h": 24
+      },
+      "was": null,
+      "deliveryText": "00 FREE delivery Saturday, August 15",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "- Update location Only 2 left in stock - order soon",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 1288,
+      "idx": [
+        {
+          "t": "Sponsored",
+          "r": {
+            "x": 1468,
+            "y": 59,
+            "w": 70,
+            "h": 12
+          }
+        },
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 89,
+            "w": 59,
+            "h": 14
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 89,
+            "w": 98,
+            "h": 14
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 203,
+            "y": 89,
+            "w": 59,
+            "h": 14
+          }
+        },
+        {
+          "t": "LED & LCD TVs",
+          "r": {
+            "x": 276,
+            "y": 89,
+            "w": 86,
+            "h": 14
+          }
+        },
+        {
+          "t": "Buy New",
+          "r": {
+            "x": 1257,
+            "y": 150,
+            "w": 59,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,798.00",
+          "r": {
+            "x": 1257,
+            "y": 178,
+            "w": 93,
+            "h": 24
+          }
+        },
+        {
+          "t": "Saturday, August 15",
+          "r": {
+            "x": 1257,
+            "y": 228,
+            "w": 156,
+            "h": 36
+          }
+        },
+        {
+          "t": "5 hrs 55 mins",
+          "r": {
+            "x": 1257,
+            "y": 248,
+            "w": 205,
+            "h": 36
+          }
+        },
+        {
+          "t": "Details",
+          "r": {
+            "x": 1294,
+            "y": 268,
+            "w": 43,
+            "h": 16
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 298,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "Only 2 left in stock - order soon.",
+          "r": {
+            "x": 1257,
+            "y": 353,
+            "w": 173,
+            "h": 36
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1257,
+            "y": 403,
+            "w": 63,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1269,
+            "y": 411,
+            "w": 56,
+            "h": 16
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 448,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 488,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 537,
+            "w": 82,
+            "h": 14
+          }
+        },
+        {
+          "t": "Walts TV",
+          "r": {
+            "x": 1354,
+            "y": 536,
+            "w": 48,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 565,
+            "w": 42,
+            "h": 14
+          }
+        },
+        {
+          "t": "30-day refund/replacement",
+          "r": {
+            "x": 1354,
+            "y": 564,
+            "w": 104,
+            "h": 32
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 609,
+            "w": 47,
+            "h": 14
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1354,
+            "y": 608,
+            "w": 100,
+            "h": 16
+          }
+        },
+        {
+          "t": "Add a protection plan:",
+          "r": {
+            "x": 1257,
+            "y": 655,
+            "w": 149,
+            "h": 16
+          }
+        },
+        {
+          "t": "4-Year Protection Plan",
+          "r": {
+            "x": 1278,
+            "y": 677,
+            "w": 140,
+            "h": 16
+          }
+        },
+        {
+          "t": "$249.99",
+          "r": {
+            "x": 1278,
+            "y": 697,
+            "w": 51,
+            "h": 16
+          }
+        },
+        {
+          "t": "Complete Protect: One plan covers all eligible past and future purchases (Best Value)",
+          "r": {
+            "x": 1278,
+            "y": 721,
+            "w": 173,
+            "h": 76
+          }
+        },
+        {
+          "t": "$16.99/month",
+          "r": {
+            "x": 1342,
+            "y": 781,
+            "w": 86,
+            "h": 16
+          }
+        },
+        {
+          "t": "Used - Like New",
+          "r": {
+            "x": 1257,
+            "y": 854,
+            "w": 107,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 1257,
+            "y": 876,
+            "w": 93,
+            "h": 24
+          }
+        },
+        {
+          "t": "You will be contacted by carrier to arrange a specific date.",
+          "r": {
+            "x": 1257,
+            "y": 902,
+            "w": 206,
+            "h": 60
+          }
+        },
+        {
+          "t": "August 18 - 21",
+          "r": {
+            "x": 1257,
+            "y": 996,
+            "w": 96,
+            "h": 16
+          }
+        },
+        {
+          "t": "Ships from:",
+          "r": {
+            "x": 1257,
+            "y": 1030,
+            "w": 70,
+            "h": 14
+          }
+        },
+        {
+          "t": "Arsenal PC",
+          "r": {
+            "x": 1327,
+            "y": 1030,
+            "w": 64,
+            "h": 14
+          }
+        },
+        {
+          "t": "Sold by:",
+          "r": {
+            "x": 1257,
+            "y": 1050,
+            "w": 50,
+            "h": 14
+          }
+        },
+        {
+          "t": "Arsenal PC",
+          "r": {
+            "x": 1307,
+            "y": 1050,
+            "w": 64,
+            "h": 14
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1239,
+            "y": 1115,
+            "w": 242,
+            "h": 30
+          }
+        },
+        {
+          "t": "Other sellers on Amazon",
+          "r": {
+            "x": 1251,
+            "y": 1176,
+            "w": 188,
+            "h": 17
+          }
+        },
+        {
+          "t": "New & Used (8) from",
+          "r": {
+            "x": 1251,
+            "y": 1225,
+            "w": 131,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 1386,
+            "y": 1222,
+            "w": 71,
+            "h": 20
+          }
+        },
+        {
+          "t": "& FREE Delivery",
+          "r": {
+            "x": 1251,
+            "y": 1245,
+            "w": 105,
+            "h": 16
+          }
+        },
+        {
+          "t": "16+",
+          "r": {
+            "x": 27,
+            "y": 402,
+            "w": 24,
+            "h": 20
+          }
+        },
+        {
+          "t": "13 VIDEOS",
+          "r": {
+            "x": 18,
+            "y": 483,
+            "w": 40,
+            "h": 18
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 230,
+            "y": 599,
+            "w": 126,
+            "h": 16
+          }
+        },
+        {
+          "t": "Product Energy Guide",
+          "r": {
+            "x": 74,
+            "y": 655,
+            "w": 138,
+            "h": 16
+          }
+        },
+        {
+          "t": "Visit the Sony Store",
+          "r": {
+            "x": 545,
+            "y": 167,
+            "w": 123,
+            "h": 16
+          }
+        },
+        {
+          "t": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight Master Drive, X-Wide Angle, X-Anti Reflection, 4K movie credits included",
+          "r": {
+            "x": 545,
+            "y": 187,
+            "w": 642,
+            "h": 123
+          }
+        },
+        {
+          "t": "4.4",
+          "r": {
+            "x": 545,
+            "y": 319,
+            "w": 20,
+            "h": 14
+          }
+        },
+        {
+          "t": "4.4 out of 5 stars",
+          "r": {
+            "x": 565,
+            "y": 321,
+            "w": 60,
+            "h": 12
+          }
+        },
+        {
+          "t": "(210)",
+          "r": {
+            "x": 643,
+            "y": 319,
+            "w": 28,
+            "h": 14
+          }
+        },
+        {
+          "t": "Amazon's Choice",
+          "r": {
+            "x": 549,
+            "y": 344,
+            "w": 93,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,798.00",
+          "r": {
+            "x": 545,
+            "y": 400,
+            "w": 62,
+            "h": 20
+          }
+        },
+        {
+          "t": "$50",
+          "r": {
+            "x": 612,
+            "y": 439,
+            "w": 23,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,748.00",
+          "r": {
+            "x": 746,
+            "y": 439,
+            "w": 62,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,798.00",
+          "r": {
+            "x": 812,
+            "y": 439,
+            "w": 62,
+            "h": 16
+          }
+        },
+        {
+          "t": "Select to learn more",
+          "r": {
+            "x": 545,
+            "y": 502,
+            "w": 125,
+            "h": 16
+          }
+        },
+        {
+          "t": "Ships from Walts TV",
+          "r": {
+            "x": 563,
+            "y": 577,
+            "w": 57,
+            "h": 34
+          }
+        },
+        {
+          "t": "30-day easy returns",
+          "r": {
+            "x": 653,
+            "y": 577,
+            "w": 65,
+            "h": 34
+          }
+        },
+        {
+          "t": "Customer Support",
+          "r": {
+            "x": 753,
+            "y": 577,
+            "w": 52,
+            "h": 34
+          }
+        },
+        {
+          "t": "other sellers",
+          "r": {
+            "x": 736,
+            "y": 652,
+            "w": 76,
+            "h": 16
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 680,
+            "w": 35,
+            "h": 16
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 580,
+            "y": 680,
+            "w": 64,
+            "h": 16
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 556,
+            "y": 708,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,798.00",
+          "r": {
+            "x": 556,
+            "y": 729,
+            "w": 62,
+            "h": 20
+          }
+        },
+        {
+          "t": "$2,798.00",
+          "r": {
+            "x": 556,
+            "y": 732,
+            "w": 53,
+            "h": 14
+          }
+        },
+        {
+          "t": "75 inches",
+          "r": {
+            "x": 664,
+            "y": 708,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,398.00",
+          "r": {
+            "x": 664,
+            "y": 729,
+            "w": 62,
+            "h": 20
+          }
+        },
+        {
+          "t": "$3,398.00",
+          "r": {
+            "x": 664,
+            "y": 732,
+            "w": 53,
+            "h": 14
+          }
+        },
+        {
+          "t": "85 inches",
+          "r": {
+            "x": 772,
+            "y": 708,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,299.99",
+          "r": {
+            "x": 772,
+            "y": 729,
+            "w": 62,
+            "h": 20
+          }
+        },
+        {
+          "t": "$3,299.99",
+          "r": {
+            "x": 772,
+            "y": 732,
+            "w": 53,
+            "h": 14
+          }
+        },
+        {
+          "t": "Used",
+          "r": {
+            "x": 772,
+            "y": 748,
+            "w": 86,
+            "h": 16
+          }
+        },
+        {
+          "t": "Style:",
+          "r": {
+            "x": 545,
+            "y": 780,
+            "w": 39,
+            "h": 16
+          }
+        },
+        {
+          "t": "TV Only",
+          "r": {
+            "x": 584,
+            "y": 780,
+            "w": 53,
+            "h": 16
+          }
+        },
+        {
+          "t": "Bundles with this item",
+          "r": {
+            "x": 545,
+            "y": 816,
+            "w": 662,
+            "h": 20
+          }
+        },
+        {
+          "t": "Screen Size",
+          "r": {
+            "x": 545,
+            "y": 860,
+            "w": 79,
+            "h": 16
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 708,
+            "y": 860,
+            "w": 60,
+            "h": 16
+          }
+        },
+        {
+          "t": "Brand",
+          "r": {
+            "x": 545,
+            "y": 886,
+            "w": 40,
+            "h": 16
+          }
+        },
+        {
+          "t": "Sony",
+          "r": {
+            "x": 708,
+            "y": 886,
+            "w": 32,
+            "h": 16
+          }
+        },
+        {
+          "t": "Display Technology",
+          "r": {
+            "x": 545,
+            "y": 912,
+            "w": 131,
+            "h": 16
+          }
+        },
+        {
+          "t": "Mini Led",
+          "r": {
+            "x": 708,
+            "y": 912,
+            "w": 53,
+            "h": 16
+          }
+        },
+        {
+          "t": "Resolution",
+          "r": {
+            "x": 545,
+            "y": 938,
+            "w": 72,
+            "h": 16
+          }
+        },
+        {
+          "t": "Refresh Rate",
+          "r": {
+            "x": 545,
+            "y": 964,
+            "w": 86,
+            "h": 16
+          }
+        },
+        {
+          "t": "120 hertz",
+          "r": {
+            "x": 708,
+            "y": 964,
+            "w": 58,
+            "h": 16
+          }
+        },
+        {
+          "t": "Special Feature",
+          "r": {
+            "x": 545,
+            "y": 990,
+            "w": 104,
+            "h": 16
+          }
+        },
+        {
+          "t": "Included Components",
+          "r": {
+            "x": 545,
+            "y": 1056,
+            "w": 147,
+            "h": 16
+          }
+        },
+        {
+          "t": "Power Cable, Remote Control, Stand, Manuals",
+          "r": {
+            "x": 708,
+            "y": 1056,
+            "w": 291,
+            "h": 16
+          }
+        },
+        {
+          "t": "Connectivity Technology",
+          "r": {
+            "x": 545,
+            "y": 1082,
+            "w": 84,
+            "h": 36
+          }
+        },
+        {
+          "t": "Bluetooth, Ethernet, HDMI, USB, Wi-Fi",
+          "r": {
+            "x": 708,
+            "y": 1082,
+            "w": 240,
+            "h": 16
+          }
+        },
+        {
+          "t": "Aspect Ratio",
+          "r": {
+            "x": 545,
+            "y": 1128,
+            "w": 86,
+            "h": 16
+          }
+        },
+        {
+          "t": "16:9",
+          "r": {
+            "x": 708,
+            "y": 1128,
+            "w": 27,
+            "h": 16
+          }
+        },
+        {
+          "t": "Product Dimensions",
+          "r": {
+            "x": 545,
+            "y": 1154,
+            "w": 136,
+            "h": 16
+          }
+        },
+        {
+          "t": "13.38\"D x 56.88\"W x 33.38\"H",
+          "r": {
+            "x": 708,
+            "y": 1154,
+            "w": 183,
+            "h": 16
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 560,
+            "y": 1040,
+            "w": 61,
+            "h": 16
+          }
+        },
+        {
+          "t": "MINI LED BRIGHTNESS AND CONTRAST: Thousands of Mini LEDs are precisely controlled by XR Backlight Master Drive to deliver authentic contrast and our brightest ever 4K TV.",
+          "r": {
+            "x": 563,
+            "y": 1113,
+            "w": 618,
+            "h": 36
+          }
+        },
+        {
+          "t": "BILLIONS OF REAL-WORLD QLED COLORS: Access billions of accurate real-world colors with QLED technology and XR Triluminos Pro.",
+          "r": {
+            "x": 563,
+            "y": 1157,
+            "w": 638,
+            "h": 36
+          }
+        },
+        {
+          "t": "POWERFUL TV PROCESSING: XR Processor intelligently enhances every scene in real-time boosting color, contrast, and clarity.",
+          "r": {
+            "x": 563,
+            "y": 1201,
+            "w": 639,
+            "h": 36
+          }
+        },
+        {
+          "t": "BEAUTIFUL PICTURE FROM ANY ANGLE: Beautiful picture from any angle – Get a premium picture, with reduced glare, from every seat in the room with X-Wide Angle and X-Anti Reflection.",
+          "r": {
+            "x": 563,
+            "y": 1245,
+            "w": 632,
+            "h": 36
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+      "promos": [
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Add a protection plan:",
+          "rect": {
+            "x": 1257,
+            "y": 653,
+            "w": 206,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan for $249.99",
+          "rect": {
+            "x": 1257,
+            "y": 677,
+            "w": 206,
+            "h": 40
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "rect": {
+            "x": 1278,
+            "y": 677,
+            "w": 140,
+            "h": 16
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "label": "Savings",
+          "verbatim": "Get $50 off instantly: Pay $2,748.00 $2,798.00 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 586,
+            "y": 437,
+            "w": 586,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect monthly plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 721,
+            "w": 173,
+            "h": 76
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "amazon-b8ii-65",
+      "sku": "b8ii-65",
+      "channel": "amazon",
+      "brand": "sony",
+      "model": "BRAVIA 8 II 65\"",
+      "title": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Processor with AI Technology",
+      "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+      "currency": "USD",
+      "price": 3298,
+      "priceTxt": "$3,298.00",
+      "priceRect": {
+        "x": 1257,
+        "y": 150,
+        "w": 97,
+        "h": 25
+      },
+      "was": null,
+      "deliveryText": "00 FREE delivery Saturday, August 15",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "Vista 72714 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 1",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 1448,
+      "idx": [
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 58,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 58,
+            "w": 100,
+            "h": 15
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 205,
+            "y": 58,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "OLED TVs",
+          "r": {
+            "x": 278,
+            "y": 58,
+            "w": 54,
+            "h": 15
+          }
+        },
+        {
+          "t": "Buy New",
+          "r": {
+            "x": 1257,
+            "y": 119,
+            "w": 57,
+            "h": 17
+          }
+        },
+        {
+          "t": "$3,298.00",
+          "r": {
+            "x": 1257,
+            "y": 150,
+            "w": 97,
+            "h": 25
+          }
+        },
+        {
+          "t": "Saturday, August 15",
+          "r": {
+            "x": 1257,
+            "y": 198,
+            "w": 201,
+            "h": 37
+          }
+        },
+        {
+          "t": "5 hrs 54 mins",
+          "r": {
+            "x": 1364,
+            "y": 218,
+            "w": 85,
+            "h": 17
+          }
+        },
+        {
+          "t": "Details",
+          "r": {
+            "x": 1257,
+            "y": 238,
+            "w": 43,
+            "h": 17
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 269,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "In Stock",
+          "r": {
+            "x": 1257,
+            "y": 323,
+            "w": 66,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1257,
+            "y": 358,
+            "w": 65,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1269,
+            "y": 365,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 403,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 443,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 491,
+            "w": 85,
+            "h": 15
+          }
+        },
+        {
+          "t": "Walts TV",
+          "r": {
+            "x": 1357,
+            "y": 491,
+            "w": 48,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 519,
+            "w": 42,
+            "h": 15
+          }
+        },
+        {
+          "t": "30-day refund/replacement",
+          "r": {
+            "x": 1357,
+            "y": 519,
+            "w": 101,
+            "h": 48
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 579,
+            "w": 48,
+            "h": 15
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1357,
+            "y": 579,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "Add a protection plan:",
+          "r": {
+            "x": 1257,
+            "y": 625,
+            "w": 148,
+            "h": 17
+          }
+        },
+        {
+          "t": "4-Year Protection Plan",
+          "r": {
+            "x": 1278,
+            "y": 647,
+            "w": 142,
+            "h": 17
+          }
+        },
+        {
+          "t": "$289.99",
+          "r": {
+            "x": 1278,
+            "y": 667,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Complete Protect: One plan covers all eligible past and future purchases (Best Value)",
+          "r": {
+            "x": 1278,
+            "y": 691,
+            "w": 177,
+            "h": 77
+          }
+        },
+        {
+          "t": "$16.99/month",
+          "r": {
+            "x": 1344,
+            "y": 751,
+            "w": 93,
+            "h": 17
+          }
+        },
+        {
+          "t": "Used - Like New",
+          "r": {
+            "x": 1257,
+            "y": 824,
+            "w": 105,
+            "h": 17
+          }
+        },
+        {
+          "t": "$2,495.00",
+          "r": {
+            "x": 1257,
+            "y": 848,
+            "w": 97,
+            "h": 25
+          }
+        },
+        {
+          "t": "August 18 - 20",
+          "r": {
+            "x": 1350,
+            "y": 875,
+            "w": 96,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from:",
+          "r": {
+            "x": 1257,
+            "y": 909,
+            "w": 68,
+            "h": 15
+          }
+        },
+        {
+          "t": "Beach Camera Same Day Shipping",
+          "r": {
+            "x": 1325,
+            "y": 907,
+            "w": 192,
+            "h": 17
+          }
+        },
+        {
+          "t": "Sold by:",
+          "r": {
+            "x": 1257,
+            "y": 929,
+            "w": 49,
+            "h": 15
+          }
+        },
+        {
+          "t": "Beach Camera Same Day Shipping",
+          "r": {
+            "x": 1306,
+            "y": 927,
+            "w": 192,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1239,
+            "y": 995,
+            "w": 242,
+            "h": 30
+          }
+        },
+        {
+          "t": "Other sellers on Amazon",
+          "r": {
+            "x": 1251,
+            "y": 1055,
+            "w": 185,
+            "h": 20
+          }
+        },
+        {
+          "t": "New & Used (20) from",
+          "r": {
+            "x": 1251,
+            "y": 1105,
+            "w": 141,
+            "h": 17
+          }
+        },
+        {
+          "t": "$2,494.95",
+          "r": {
+            "x": 1395,
+            "y": 1104,
+            "w": 74,
+            "h": 20
+          }
+        },
+        {
+          "t": "& FREE Shipping",
+          "r": {
+            "x": 1258,
+            "y": 1125,
+            "w": 109,
+            "h": 17
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 1272,
+            "y": 1125,
+            "w": 95,
+            "h": 17
+          }
+        },
+        {
+          "t": "12+",
+          "r": {
+            "x": 27,
+            "y": 372,
+            "w": 25,
+            "h": 20
+          }
+        },
+        {
+          "t": "9 VIDEOS",
+          "r": {
+            "x": 18,
+            "y": 453,
+            "w": 40,
+            "h": 18
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 228,
+            "y": 568,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Energy Guide",
+          "r": {
+            "x": 74,
+            "y": 624,
+            "w": 138,
+            "h": 17
+          }
+        },
+        {
+          "t": "Visit the Sony Store",
+          "r": {
+            "x": 545,
+            "y": 136,
+            "w": 125,
+            "h": 17
+          }
+        },
+        {
+          "t": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Processor with AI Technology, Ultra Slim Design, 4K movie credits included",
+          "r": {
+            "x": 545,
+            "y": 157,
+            "w": 660,
+            "h": 124
+          }
+        },
+        {
+          "t": "4.4",
+          "r": {
+            "x": 545,
+            "y": 288,
+            "w": 20,
+            "h": 15
+          }
+        },
+        {
+          "t": "4.4 out of 5 stars",
+          "r": {
+            "x": 565,
+            "y": 290,
+            "w": 60,
+            "h": 12
+          }
+        },
+        {
+          "t": "(196)",
+          "r": {
+            "x": 643,
+            "y": 288,
+            "w": 29,
+            "h": 15
+          }
+        },
+        {
+          "t": "50+ bought",
+          "r": {
+            "x": 545,
+            "y": 310,
+            "w": 65,
+            "h": 15
+          }
+        },
+        {
+          "t": "in past month",
+          "r": {
+            "x": 610,
+            "y": 310,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,298.00",
+          "r": {
+            "x": 545,
+            "y": 360,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$50",
+          "r": {
+            "x": 605,
+            "y": 398,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "$3,248.00",
+          "r": {
+            "x": 744,
+            "y": 398,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "$3,298.00",
+          "r": {
+            "x": 812,
+            "y": 398,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "Select to learn more",
+          "r": {
+            "x": 545,
+            "y": 461,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from Walts TV",
+          "r": {
+            "x": 562,
+            "y": 536,
+            "w": 59,
+            "h": 35
+          }
+        },
+        {
+          "t": "30-day easy returns",
+          "r": {
+            "x": 653,
+            "y": 536,
+            "w": 65,
+            "h": 35
+          }
+        },
+        {
+          "t": "Customer Support",
+          "r": {
+            "x": 753,
+            "y": 536,
+            "w": 52,
+            "h": 35
+          }
+        },
+        {
+          "t": "other sellers",
+          "r": {
+            "x": 742,
+            "y": 611,
+            "w": 78,
+            "h": 17
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 639,
+            "w": 33,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 inch",
+          "r": {
+            "x": 578,
+            "y": 639,
+            "w": 48,
+            "h": 17
+          }
+        },
+        {
+          "t": "55 inch",
+          "r": {
+            "x": 556,
+            "y": 668,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,598.00",
+          "r": {
+            "x": 556,
+            "y": 689,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$2,598.00",
+          "r": {
+            "x": 556,
+            "y": 692,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "65 inch",
+          "r": {
+            "x": 664,
+            "y": 668,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,298.00",
+          "r": {
+            "x": 664,
+            "y": 689,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$3,298.00",
+          "r": {
+            "x": 664,
+            "y": 692,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "Style:",
+          "r": {
+            "x": 545,
+            "y": 723,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV Only",
+          "r": {
+            "x": 584,
+            "y": 723,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Bundles with this item",
+          "r": {
+            "x": 545,
+            "y": 760,
+            "w": 662,
+            "h": 20
+          }
+        },
+        {
+          "t": "Screen Size",
+          "r": {
+            "x": 545,
+            "y": 803,
+            "w": 75,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 708,
+            "y": 803,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Brand",
+          "r": {
+            "x": 545,
+            "y": 829,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "Sony",
+          "r": {
+            "x": 708,
+            "y": 829,
+            "w": 31,
+            "h": 17
+          }
+        },
+        {
+          "t": "Display Technology",
+          "r": {
+            "x": 545,
+            "y": 855,
+            "w": 128,
+            "h": 17
+          }
+        },
+        {
+          "t": "OLED",
+          "r": {
+            "x": 708,
+            "y": 855,
+            "w": 36,
+            "h": 17
+          }
+        },
+        {
+          "t": "Resolution",
+          "r": {
+            "x": 545,
+            "y": 881,
+            "w": 70,
+            "h": 17
+          }
+        },
+        {
+          "t": "4K, 1080p, 720p",
+          "r": {
+            "x": 708,
+            "y": 881,
+            "w": 105,
+            "h": 17
+          }
+        },
+        {
+          "t": "Refresh Rate",
+          "r": {
+            "x": 545,
+            "y": 907,
+            "w": 83,
+            "h": 17
+          }
+        },
+        {
+          "t": "120 hertz",
+          "r": {
+            "x": 708,
+            "y": 907,
+            "w": 62,
+            "h": 17
+          }
+        },
+        {
+          "t": "Special Feature",
+          "r": {
+            "x": 545,
+            "y": 933,
+            "w": 101,
+            "h": 17
+          }
+        },
+        {
+          "t": "Built-in Mic Switch, ECO Dashboard, Exclusive features for PlayStation 5, Perfect for PlayStation 5, Sony Pictures CORE",
+          "r": {
+            "x": 708,
+            "y": 933,
+            "w": 504,
+            "h": 36
+          }
+        },
+        {
+          "t": "Built-in Mic Switch, ECO Dashboard, Exclusive features for PlayStation 5, Perfect for PlayStation 5, Sony Pictures CORE",
+          "r": {
+            "x": 708,
+            "y": 932,
+            "w": 504,
+            "h": 36
+          }
+        },
+        {
+          "t": "Included Components",
+          "r": {
+            "x": 545,
+            "y": 981,
+            "w": 144,
+            "h": 17
+          }
+        },
+        {
+          "t": "Power Cable, Remote Control, Stand, User Manual, Warranty Card",
+          "r": {
+            "x": 708,
+            "y": 981,
+            "w": 416,
+            "h": 17
+          }
+        },
+        {
+          "t": "Connectivity Technology",
+          "r": {
+            "x": 545,
+            "y": 1007,
+            "w": 83,
+            "h": 37
+          }
+        },
+        {
+          "t": "Bluetooth, Ethernet, HDMI, USB, Wi-Fi",
+          "r": {
+            "x": 708,
+            "y": 1007,
+            "w": 242,
+            "h": 17
+          }
+        },
+        {
+          "t": "Aspect Ratio",
+          "r": {
+            "x": 545,
+            "y": 1053,
+            "w": 82,
+            "h": 17
+          }
+        },
+        {
+          "t": "16:9",
+          "r": {
+            "x": 708,
+            "y": 1053,
+            "w": 28,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Dimensions",
+          "r": {
+            "x": 545,
+            "y": 1079,
+            "w": 132,
+            "h": 17
+          }
+        },
+        {
+          "t": "13.35\"D x 56.88\"W x 32.75\"H",
+          "r": {
+            "x": 708,
+            "y": 1079,
+            "w": 186,
+            "h": 17
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 560,
+            "y": 983,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "HANDPICKED BY AMAZON: They did the research so you don’t have to.",
+          "r": {
+            "x": 563,
+            "y": 1056,
+            "w": 447,
+            "h": 17
+          }
+        },
+        {
+          "t": "PURE BLACK AND OUR HIGHEST OLED BRIGHTNESS: Over 8 million self-lit pixels are precisely controlled to produce pure black with our highest OLED brightness.",
+          "r": {
+            "x": 563,
+            "y": 1080,
+            "w": 596,
+            "h": 37
+          }
+        },
+        {
+          "t": "BILLIONS OF REAL-WORLD COLORS: See billions of accurate real-world colors with a Quantum Dot panel and XR Triluminos Max.",
+          "r": {
+            "x": 563,
+            "y": 1124,
+            "w": 627,
+            "h": 37
+          }
+        },
+        {
+          "t": "POWERFUL TV PROCESSING WITH AI: XR Processor with AI technology intelligently enhances every scene in real-time boosting color, contrast, and clarity.",
+          "r": {
+            "x": 563,
+            "y": 1168,
+            "w": 629,
+            "h": 37
+          }
+        },
+        {
+          "t": "EVERYTHING YOU STREAM. ALL IN ONE SCREEN: Get access to all your favorite streaming apps in one place with Google TV. With Google Assistant, simply use your voice to search and ask questions.",
+          "r": {
+            "x": 563,
+            "y": 1212,
+            "w": 645,
+            "h": 37
+          }
+        },
+        {
+          "t": "EFFORTLESSLY STREAM TO YOUR TV: Easily stream to your TV with support for Apple AirPlay 2 and Google Cast.",
+          "r": {
+            "x": 563,
+            "y": 1256,
+            "w": 633,
+            "h": 37
+          }
+        },
+        {
+          "t": "MOVIES INCLUDED: Get movies included and access to the largest IMAX Enhanced collection with the SONY PICTURES CORE app.",
+          "r": {
+            "x": 563,
+            "y": 1300,
+            "w": 641,
+            "h": 37
+          }
+        },
+        {
+          "t": "Show more",
+          "r": {
+            "x": 560,
+            "y": 1346,
+            "w": 72,
+            "h": 17
+          }
+        },
+        {
+          "t": "See more product details",
+          "r": {
+            "x": 559,
+            "y": 1369,
+            "w": 159,
+            "h": 17
+          }
+        },
+        {
+          "t": "Report an issue with this product or seller",
+          "r": {
+            "x": 545,
+            "y": 1405,
+            "w": 288,
+            "h": 17
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+      "promos": [
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Add a protection plan:",
+          "rect": {
+            "x": 1257,
+            "y": 624,
+            "w": 206,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan for $289.99",
+          "rect": {
+            "x": 1257,
+            "y": 648,
+            "w": 206,
+            "h": 40
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "rect": {
+            "x": 1278,
+            "y": 647,
+            "w": 142,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "New & Used (20) from $2,494.95 $2,494 . 95 & FREE Shipping",
+          "rect": {
+            "x": 1251,
+            "y": 1103,
+            "w": 218,
+            "h": 41
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "& FREE Shipping",
+          "rect": {
+            "x": 1258,
+            "y": 1125,
+            "w": 109,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping",
+          "rect": {
+            "x": 1272,
+            "y": 1125,
+            "w": 95,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "label": "Savings",
+          "verbatim": "Get $50 off instantly: Pay $3,248.00 $3,298.00 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 579,
+            "y": 397,
+            "w": 599,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "bundled content / included benefit",
+          "label": "4K movie credits included",
+          "verbatim": "4K movie credits included",
+          "rect": {
+            "x": 545,
+            "y": 157,
+            "w": 660,
+            "h": 124
+          },
+          "via": "llm"
+        },
+        {
+          "type": "bundled content / included benefit",
+          "label": "Movies included with Sony Pictures Core",
+          "verbatim": "MOVIES INCLUDED: Get movies included and access to the largest IMAX Enhanced collection with the SONY PICTURES CORE app.",
+          "rect": {
+            "x": 563,
+            "y": 1300,
+            "w": 641,
+            "h": 37
+          },
+          "via": "llm"
+        },
+        {
+          "type": "protection plan upsell",
+          "label": "Complete Protect monthly plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 691,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "amazon-qn80h-65",
+      "sku": "qn80h-65",
+      "channel": "amazon",
+      "brand": "samsung",
+      "model": "Samsung QN80H 65\"",
+      "title": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Array, Motion Xcelerato",
+      "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+      "currency": "USD",
+      "price": 1497.99,
+      "priceTxt": "$1,497.99",
+      "priceRect": {
+        "x": 1257,
+        "y": 123,
+        "w": 129,
+        "h": 33
+      },
+      "was": 1597.99,
+      "deliveryText": "99 FREE delivery Saturday, August 15",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "- Update location Only 1 left in stock - order soon",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 3600,
+      "idx": [
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 58,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 58,
+            "w": 100,
+            "h": 15
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 205,
+            "y": 58,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "QLED TVs",
+          "r": {
+            "x": 278,
+            "y": 58,
+            "w": 54,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,497.99",
+          "r": {
+            "x": 1257,
+            "y": 123,
+            "w": 129,
+            "h": 33
+          }
+        },
+        {
+          "t": "Saturday, August 15",
+          "r": {
+            "x": 1257,
+            "y": 168,
+            "w": 201,
+            "h": 37
+          }
+        },
+        {
+          "t": "4 hrs 23 mins",
+          "r": {
+            "x": 1364,
+            "y": 188,
+            "w": 85,
+            "h": 17
+          }
+        },
+        {
+          "t": "Details",
+          "r": {
+            "x": 1257,
+            "y": 208,
+            "w": 43,
+            "h": 17
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 239,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "Only 1 left in stock - order soon.",
+          "r": {
+            "x": 1257,
+            "y": 293,
+            "w": 174,
+            "h": 37
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 345,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 385,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 433,
+            "w": 85,
+            "h": 15
+          }
+        },
+        {
+          "t": "Walts TV",
+          "r": {
+            "x": 1357,
+            "y": 433,
+            "w": 48,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 461,
+            "w": 42,
+            "h": 15
+          }
+        },
+        {
+          "t": "30-day refund/replacement",
+          "r": {
+            "x": 1357,
+            "y": 461,
+            "w": 101,
+            "h": 48
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 521,
+            "w": 48,
+            "h": 15
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1357,
+            "y": 521,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "Add a protection plan:",
+          "r": {
+            "x": 1257,
+            "y": 567,
+            "w": 148,
+            "h": 17
+          }
+        },
+        {
+          "t": "2-Year Samsung Care+ Device Protection| TV Tier 3",
+          "r": {
+            "x": 1278,
+            "y": 589,
+            "w": 176,
+            "h": 37
+          }
+        },
+        {
+          "t": "$54.99",
+          "r": {
+            "x": 1300,
+            "y": 629,
+            "w": 45,
+            "h": 17
+          }
+        },
+        {
+          "t": "5-Year Samsung Care+ Device Protection| TV Tier 3",
+          "r": {
+            "x": 1278,
+            "y": 653,
+            "w": 176,
+            "h": 37
+          }
+        },
+        {
+          "t": "$199.99",
+          "r": {
+            "x": 1300,
+            "y": 693,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Complete Protect: One plan covers all eligible past and future purchases (Best Value)",
+          "r": {
+            "x": 1278,
+            "y": 717,
+            "w": 177,
+            "h": 77
+          }
+        },
+        {
+          "t": "$16.99/month",
+          "r": {
+            "x": 1344,
+            "y": 777,
+            "w": 93,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1258,
+            "y": 824,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Other sellers on Amazon",
+          "r": {
+            "x": 1251,
+            "y": 899,
+            "w": 185,
+            "h": 20
+          }
+        },
+        {
+          "t": "New (4)",
+          "r": {
+            "x": 1251,
+            "y": 948,
+            "w": 49,
+            "h": 17
+          }
+        },
+        {
+          "t": "6 VIDEOS",
+          "r": {
+            "x": 18,
+            "y": 453,
+            "w": 40,
+            "h": 18
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 228,
+            "y": 568,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Energy Guide",
+          "r": {
+            "x": 74,
+            "y": 624,
+            "w": 138,
+            "h": 17
+          }
+        },
+        {
+          "t": "Visit the Samsung Store",
+          "r": {
+            "x": 545,
+            "y": 133,
+            "w": 152,
+            "h": 17
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Array, Motion Xcelerator 144Hz, 4K AI Upscaling, Color Booster Pro, Alexa Built-in",
+          "r": {
+            "x": 545,
+            "y": 154,
+            "w": 648,
+            "h": 124
+          }
+        },
+        {
+          "t": "4.3",
+          "r": {
+            "x": 545,
+            "y": 285,
+            "w": 20,
+            "h": 15
+          }
+        },
+        {
+          "t": "4.3 out of 5 stars",
+          "r": {
+            "x": 565,
+            "y": 287,
+            "w": 60,
+            "h": 12
+          }
+        },
+        {
+          "t": "(40)",
+          "r": {
+            "x": 643,
+            "y": 285,
+            "w": 22,
+            "h": 15
+          }
+        },
+        {
+          "t": "50+ bought",
+          "r": {
+            "x": 545,
+            "y": 307,
+            "w": 65,
+            "h": 15
+          }
+        },
+        {
+          "t": "in past month",
+          "r": {
+            "x": 610,
+            "y": 307,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,497.99 with 6 percent savings",
+          "r": {
+            "x": 545,
+            "y": 357,
+            "w": 210,
+            "h": 20
+          }
+        },
+        {
+          "t": "-6%",
+          "r": {
+            "x": 545,
+            "y": 346,
+            "w": 46,
+            "h": 28
+          }
+        },
+        {
+          "t": "List Price: $1,597.99",
+          "r": {
+            "x": 545,
+            "y": 379,
+            "w": 110,
+            "h": 16
+          }
+        },
+        {
+          "t": "List Price:",
+          "r": {
+            "x": 545,
+            "y": 379,
+            "w": 52,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,597.99",
+          "r": {
+            "x": 600,
+            "y": 380,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,597.99",
+          "r": {
+            "x": 600,
+            "y": 379,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$50",
+          "r": {
+            "x": 605,
+            "y": 415,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,447.99",
+          "r": {
+            "x": 744,
+            "y": 415,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,497.99",
+          "r": {
+            "x": 812,
+            "y": 415,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "Select to learn more",
+          "r": {
+            "x": 545,
+            "y": 478,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from Walts TV",
+          "r": {
+            "x": 562,
+            "y": 553,
+            "w": 59,
+            "h": 35
+          }
+        },
+        {
+          "t": "30-day easy returns",
+          "r": {
+            "x": 653,
+            "y": 553,
+            "w": 65,
+            "h": 35
+          }
+        },
+        {
+          "t": "Customer Support",
+          "r": {
+            "x": 753,
+            "y": 553,
+            "w": 52,
+            "h": 35
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 628,
+            "w": 33,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 Inch",
+          "r": {
+            "x": 578,
+            "y": 628,
+            "w": 48,
+            "h": 17
+          }
+        },
+        {
+          "t": "55 Inch",
+          "r": {
+            "x": 556,
+            "y": 657,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,047.99 with 19 percent savings",
+          "r": {
+            "x": 556,
+            "y": 618,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,047.99",
+          "r": {
+            "x": 556,
+            "y": 681,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,297.99",
+          "r": {
+            "x": 556,
+            "y": 697,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,297.99",
+          "r": {
+            "x": 556,
+            "y": 698,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "65 Inch",
+          "r": {
+            "x": 664,
+            "y": 657,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,497.99 with 6 percent savings",
+          "r": {
+            "x": 664,
+            "y": 618,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,497.99",
+          "r": {
+            "x": 664,
+            "y": 681,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,597.99",
+          "r": {
+            "x": 664,
+            "y": 697,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,597.99",
+          "r": {
+            "x": 664,
+            "y": 698,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "75 Inch",
+          "r": {
+            "x": 772,
+            "y": 657,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,997.99",
+          "r": {
+            "x": 772,
+            "y": 678,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$1,997.99",
+          "r": {
+            "x": 772,
+            "y": 681,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "85 Inch",
+          "r": {
+            "x": 880,
+            "y": 657,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,997.99 with 9 percent savings",
+          "r": {
+            "x": 880,
+            "y": 618,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$2,997.99",
+          "r": {
+            "x": 880,
+            "y": 681,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,297.99",
+          "r": {
+            "x": 880,
+            "y": 697,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$3,297.99",
+          "r": {
+            "x": 880,
+            "y": 698,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "See 1 options with no featured offers",
+          "r": {
+            "x": 986,
+            "y": 660,
+            "w": 81,
+            "h": 51
+          }
+        },
+        {
+          "t": "Style:",
+          "r": {
+            "x": 545,
+            "y": 732,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV Only",
+          "r": {
+            "x": 584,
+            "y": 732,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Screen Size",
+          "r": {
+            "x": 545,
+            "y": 764,
+            "w": 75,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 708,
+            "y": 764,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Brand",
+          "r": {
+            "x": 545,
+            "y": 790,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "Samsung",
+          "r": {
+            "x": 708,
+            "y": 790,
+            "w": 58,
+            "h": 17
+          }
+        },
+        {
+          "t": "Display Technology",
+          "r": {
+            "x": 545,
+            "y": 816,
+            "w": 128,
+            "h": 17
+          }
+        },
+        {
+          "t": "QLED",
+          "r": {
+            "x": 708,
+            "y": 816,
+            "w": 36,
+            "h": 17
+          }
+        },
+        {
+          "t": "Resolution",
+          "r": {
+            "x": 545,
+            "y": 842,
+            "w": 70,
+            "h": 17
+          }
+        },
+        {
+          "t": "Refresh Rate",
+          "r": {
+            "x": 545,
+            "y": 868,
+            "w": 83,
+            "h": 17
+          }
+        },
+        {
+          "t": "120",
+          "r": {
+            "x": 708,
+            "y": 868,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "Special Feature",
+          "r": {
+            "x": 545,
+            "y": 894,
+            "w": 101,
+            "h": 17
+          }
+        },
+        {
+          "t": "Built-In Speaker, Game Mode",
+          "r": {
+            "x": 708,
+            "y": 894,
+            "w": 184,
+            "h": 17
+          }
+        },
+        {
+          "t": "Included Components",
+          "r": {
+            "x": 545,
+            "y": 920,
+            "w": 144,
+            "h": 17
+          }
+        },
+        {
+          "t": "Power Cable, Remote Control, Stand, User Manual, Warranty Card",
+          "r": {
+            "x": 708,
+            "y": 920,
+            "w": 416,
+            "h": 17
+          }
+        },
+        {
+          "t": "Connectivity Technology",
+          "r": {
+            "x": 545,
+            "y": 946,
+            "w": 83,
+            "h": 37
+          }
+        },
+        {
+          "t": "Bluetooth, HDMI, USB, Wi-Fi",
+          "r": {
+            "x": 708,
+            "y": 946,
+            "w": 179,
+            "h": 17
+          }
+        },
+        {
+          "t": "Aspect Ratio",
+          "r": {
+            "x": 545,
+            "y": 992,
+            "w": 82,
+            "h": 17
+          }
+        },
+        {
+          "t": "16:9",
+          "r": {
+            "x": 708,
+            "y": 992,
+            "w": 28,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Dimensions",
+          "r": {
+            "x": 545,
+            "y": 1018,
+            "w": 132,
+            "h": 17
+          }
+        },
+        {
+          "t": "10.1\"D x 56.8\"W x 35.1\"H",
+          "r": {
+            "x": 708,
+            "y": 1018,
+            "w": 161,
+            "h": 17
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 560,
+            "y": 944,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "AUTO HDR REMASTERING: Intelligently transforms SDR content to HDR-like quality with brighter highlights, more vibrant colors, and clearer details for a dazzling picture.",
+          "r": {
+            "x": 563,
+            "y": 1313,
+            "w": 616,
+            "h": 37
+          }
+        },
+        {
+          "t": "See more product details",
+          "r": {
+            "x": 559,
+            "y": 1358,
+            "w": 159,
+            "h": 17
+          }
+        },
+        {
+          "t": "Report an issue with this product or seller",
+          "r": {
+            "x": 545,
+            "y": 1394,
+            "w": 288,
+            "h": 17
+          }
+        },
+        {
+          "t": "Customers who viewed this item also viewed",
+          "r": {
+            "x": 18,
+            "y": 1437,
+            "w": 965,
+            "h": 24
+          }
+        },
+        {
+          "t": "Previous set of slides",
+          "r": {
+            "x": 35,
+            "y": 1643,
+            "w": 34,
+            "h": 37
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class QN70H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED, 100% Color Volume with Quantum Dot, NQ4 AI Processor, 4K Upscaling, Alexa Built-in",
+          "r": {
+            "x": 89,
+            "y": 1655,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.3 out of 5 stars",
+          "r": {
+            "x": 89,
+            "y": 1756,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "$997.99",
+          "r": {
+            "x": 89,
+            "y": 1776,
+            "w": 64,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 89,
+            "y": 1800,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 122,
+            "y": 1800,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 89,
+            "y": 1820,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class M80H Series, Mini LED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Mini LED with AI Mode, Motion Xcelerator 144Hz, Pure Spectrum Color, Auto HDR Remastering, Alexa Built-in",
+          "r": {
+            "x": 283,
+            "y": 1655,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.2 out of 5 stars",
+          "r": {
+            "x": 283,
+            "y": 1756,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "163",
+          "r": {
+            "x": 366,
+            "y": 1756,
+            "w": 21,
+            "h": 15
+          }
+        },
+        {
+          "t": "MSRP",
+          "r": {
+            "x": 283,
+            "y": 1776,
+            "w": 37,
+            "h": 20
+          }
+        },
+        {
+          "t": "Click for details",
+          "r": {
+            "x": 283,
+            "y": 1776,
+            "w": 98,
+            "h": 17
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 283,
+            "y": 1798,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 316,
+            "y": 1798,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 283,
+            "y": 1818,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class OLED S90F 4K Smart TV (2025 Model) NQ4 AI Gen3 Processor Upscaling Pro HDR +, Motion Xcelerator 144Hz, Vision Alexa Built-in",
+          "r": {
+            "x": 477,
+            "y": 1655,
+            "w": 165,
+            "h": 80
+          }
+        },
+        {
+          "t": "4.5 out of 5 stars",
+          "r": {
+            "x": 477,
+            "y": 1736,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "565",
+          "r": {
+            "x": 560,
+            "y": 1736,
+            "w": 21,
+            "h": 15
+          }
+        },
+        {
+          "t": "Amazon's Choice",
+          "r": {
+            "x": 481,
+            "y": 1758,
+            "w": 91,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,397.99",
+          "r": {
+            "x": 477,
+            "y": 1777,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 477,
+            "y": 1801,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 510,
+            "y": 1801,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 477,
+            "y": 1821,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 75-Inch Class Neo QLED 4K QN90F Series, Vision AI, Mini LED Smart TV (2025 Model, 75QN90F) Neo Quantum HDR+, Object Tracking Sound+ w/Dolby Atmos, Glare Free, Gaming Hub, Alexa Built-in",
+          "r": {
+            "x": 671,
+            "y": 1655,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.5 out of 5 stars",
+          "r": {
+            "x": 671,
+            "y": 1756,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "348",
+          "r": {
+            "x": 754,
+            "y": 1756,
+            "w": 21,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,697.99",
+          "r": {
+            "x": 671,
+            "y": 1776,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it as soon as Thursday, Aug 27",
+          "r": {
+            "x": 671,
+            "y": 1800,
+            "w": 147,
+            "h": 35
+          }
+        },
+        {
+          "t": "Thursday, Aug 27",
+          "r": {
+            "x": 671,
+            "y": 1800,
+            "w": 147,
+            "h": 35
+          }
+        },
+        {
+          "t": "Samsung QN65S90FAFXZA 65\" 4K TV with a 2 Year Amber Protection Plan (2025)",
+          "r": {
+            "x": 865,
+            "y": 1655,
+            "w": 165,
+            "h": 80
+          }
+        },
+        {
+          "t": "4.7 out of 5 stars",
+          "r": {
+            "x": 865,
+            "y": 1736,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "$1,397.99",
+          "r": {
+            "x": 865,
+            "y": 1756,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it as soon as Saturday, Aug 15",
+          "r": {
+            "x": 865,
+            "y": 1780,
+            "w": 145,
+            "h": 35
+          }
+        },
+        {
+          "t": "Saturday, Aug 15",
+          "r": {
+            "x": 865,
+            "y": 1780,
+            "w": 145,
+            "h": 35
+          }
+        },
+        {
+          "t": "FREE Shipping by Amazon",
+          "r": {
+            "x": 865,
+            "y": 1820,
+            "w": 142,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class Neo QLED QN990F 8K Mini LED Smart TV (2025 Model) NQ8 AI Gen3 Processor, Upscaling Pro, Wireless One Connect, Glare Free, Samsung Vision AI, Alexa Built-in",
+          "r": {
+            "x": 1059,
+            "y": 1655,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "3.6 out of 5 stars",
+          "r": {
+            "x": 1059,
+            "y": 1756,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "MSRP",
+          "r": {
+            "x": 1059,
+            "y": 1776,
+            "w": 37,
+            "h": 20
+          }
+        },
+        {
+          "t": "Click for details",
+          "r": {
+            "x": 1059,
+            "y": 1776,
+            "w": 98,
+            "h": 17
+          }
+        },
+        {
+          "t": "Get it as soon as Tuesday, Aug 18",
+          "r": {
+            "x": 1059,
+            "y": 1798,
+            "w": 140,
+            "h": 35
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 1059,
+            "y": 1798,
+            "w": 140,
+            "h": 35
+          }
+        },
+        {
+          "t": "FREE Shipping on orders over $35 shipped by Amazon",
+          "r": {
+            "x": 1059,
+            "y": 1838,
+            "w": 160,
+            "h": 35
+          }
+        },
+        {
+          "t": "Only 11 left in stock - order soon.",
+          "r": {
+            "x": 1059,
+            "y": 1875,
+            "w": 165,
+            "h": 16
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class S85H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, OLED HDR, NQ4 AI Gen2 Processor, 4K AI Upscaling, AI Sound Controller, Color Booster Pro, Alexa Built-in",
+          "r": {
+            "x": 1253,
+            "y": 1655,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.3 out of 5 stars",
+          "r": {
+            "x": 1253,
+            "y": 1756,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "$1,697.99",
+          "r": {
+            "x": 1253,
+            "y": 1776,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 1253,
+            "y": 1800,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 1286,
+            "y": 1800,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 1253,
+            "y": 1820,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Only 9 left in stock (more on the way).",
+          "r": {
+            "x": 1253,
+            "y": 1837,
+            "w": 165,
+            "h": 16
+          }
+        },
+        {
+          "t": "Next set of slides",
+          "r": {
+            "x": 1454,
+            "y": 1643,
+            "w": 34,
+            "h": 37
+          }
+        },
+        {
+          "t": "What other items do customers buy after viewing this item?",
+          "r": {
+            "x": 18,
+            "y": 1928,
+            "w": 965,
+            "h": 24
+          }
+        },
+        {
+          "t": "Previous set of slides",
+          "r": {
+            "x": 35,
+            "y": 2113,
+            "w": 34,
+            "h": 37
+          }
+        },
+        {
+          "t": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Alexa Built-in (OLED65C5PUA, 2025)",
+          "r": {
+            "x": 89,
+            "y": 2146,
+            "w": 165,
+            "h": 80
+          }
+        },
+        {
+          "t": "4.4 out of 5 stars",
+          "r": {
+            "x": 89,
+            "y": 2227,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "1,491",
+          "r": {
+            "x": 172,
+            "y": 2227,
+            "w": 31,
+            "h": 15
+          }
+        },
+        {
+          "t": "#1 Best Seller",
+          "r": {
+            "x": 93,
+            "y": 2248,
+            "w": 75,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 89,
+            "y": 2267,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it as soon as Saturday, Aug 22",
+          "r": {
+            "x": 89,
+            "y": 2291,
+            "w": 145,
+            "h": 35
+          }
+        },
+        {
+          "t": "Saturday, Aug 22",
+          "r": {
+            "x": 89,
+            "y": 2291,
+            "w": 145,
+            "h": 35
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class M80H Series, Mini LED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Mini LED with AI Mode, Motion Xcelerator 144Hz, Pure Spectrum Color, Auto HDR Remastering, Alexa Built-in",
+          "r": {
+            "x": 283,
+            "y": 2146,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.2 out of 5 stars",
+          "r": {
+            "x": 283,
+            "y": 2247,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "163",
+          "r": {
+            "x": 366,
+            "y": 2247,
+            "w": 21,
+            "h": 15
+          }
+        },
+        {
+          "t": "MSRP",
+          "r": {
+            "x": 283,
+            "y": 2267,
+            "w": 37,
+            "h": 20
+          }
+        },
+        {
+          "t": "Click for details",
+          "r": {
+            "x": 283,
+            "y": 2267,
+            "w": 98,
+            "h": 17
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 283,
+            "y": 2289,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 316,
+            "y": 2289,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 283,
+            "y": 2309,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "INSIGNIA 50\" Class F50 Series LED 4K UHD Smart Fire TV, Voice Remote with Alexa, Stream Live TV Without Cable",
+          "r": {
+            "x": 477,
+            "y": 2146,
+            "w": 165,
+            "h": 80
+          }
+        },
+        {
+          "t": "4.3 out of 5 stars",
+          "r": {
+            "x": 477,
+            "y": 2227,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "11,524",
+          "r": {
+            "x": 560,
+            "y": 2227,
+            "w": 38,
+            "h": 15
+          }
+        },
+        {
+          "t": "#1 Best Seller",
+          "r": {
+            "x": 481,
+            "y": 2248,
+            "w": 75,
+            "h": 16
+          }
+        },
+        {
+          "t": "$179.99",
+          "r": {
+            "x": 477,
+            "y": 2267,
+            "w": 64,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Aug 18 - 20",
+          "r": {
+            "x": 477,
+            "y": 2291,
+            "w": 98,
+            "h": 15
+          }
+        },
+        {
+          "t": "Aug 18 - 20",
+          "r": {
+            "x": 510,
+            "y": 2291,
+            "w": 65,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 477,
+            "y": 2311,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class OLED S90F 4K Smart TV (2025 Model) NQ4 AI Gen3 Processor Upscaling Pro HDR +, Motion Xcelerator 144Hz, Vision Alexa Built-in",
+          "r": {
+            "x": 671,
+            "y": 2146,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.5 out of 5 stars",
+          "r": {
+            "x": 671,
+            "y": 2247,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "565",
+          "r": {
+            "x": 754,
+            "y": 2247,
+            "w": 21,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,397.99",
+          "r": {
+            "x": 671,
+            "y": 2267,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 671,
+            "y": 2291,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 704,
+            "y": 2291,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 671,
+            "y": 2311,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class The Frame LS03F 4K QLED Smart TV (2025 Model) Slim Fit Wall Mount, Modern Frame Design, NQ4 AI Gen2 Processor, Art Mode, Artful Picture Quality, Samsung Vision AI, Alexa Built-in",
+          "r": {
+            "x": 865,
+            "y": 2146,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.0 out of 5 stars",
+          "r": {
+            "x": 865,
+            "y": 2247,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "$1,297.99",
+          "r": {
+            "x": 865,
+            "y": 2267,
+            "w": 78,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 865,
+            "y": 2291,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 898,
+            "y": 2291,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 865,
+            "y": 2311,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class QN70H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED, 100% Color Volume with Quantum Dot, NQ4 AI Processor, 4K Upscaling, Alexa Built-in",
+          "r": {
+            "x": 1059,
+            "y": 2146,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.3 out of 5 stars",
+          "r": {
+            "x": 1059,
+            "y": 2247,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "$997.99",
+          "r": {
+            "x": 1059,
+            "y": 2267,
+            "w": 64,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it Tuesday, Aug 18",
+          "r": {
+            "x": 1059,
+            "y": 2291,
+            "w": 124,
+            "h": 15
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 1092,
+            "y": 2291,
+            "w": 91,
+            "h": 15
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 1059,
+            "y": 2311,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "Amazon Fire TV Stick 4K Max (newest model), streaming device, with AI-powered Fire TV Search, supports Wi-Fi 6E, free & live TV without cable or satellite, find shows faster with Alexa+",
+          "r": {
+            "x": 1253,
+            "y": 2146,
+            "w": 165,
+            "h": 100
+          }
+        },
+        {
+          "t": "4.6 out of 5 stars",
+          "r": {
+            "x": 1253,
+            "y": 2247,
+            "w": 80,
+            "h": 18
+          }
+        },
+        {
+          "t": "81,313",
+          "r": {
+            "x": 1336,
+            "y": 2247,
+            "w": 38,
+            "h": 15
+          }
+        },
+        {
+          "t": "$59.99",
+          "r": {
+            "x": 1253,
+            "y": 2267,
+            "w": 54,
+            "h": 21
+          }
+        },
+        {
+          "t": "Get it as soon as Tuesday, Aug 18",
+          "r": {
+            "x": 1253,
+            "y": 2291,
+            "w": 140,
+            "h": 35
+          }
+        },
+        {
+          "t": "Tuesday, Aug 18",
+          "r": {
+            "x": 1253,
+            "y": 2291,
+            "w": 140,
+            "h": 35
+          }
+        },
+        {
+          "t": "FREE Shipping by Amazon",
+          "r": {
+            "x": 1253,
+            "y": 2331,
+            "w": 142,
+            "h": 15
+          }
+        },
+        {
+          "t": "1 sustainability feature",
+          "r": {
+            "x": 1267,
+            "y": 2351,
+            "w": 129,
+            "h": 15
+          }
+        },
+        {
+          "t": "Next set of slides",
+          "r": {
+            "x": 1454,
+            "y": 2113,
+            "w": 34,
+            "h": 37
+          }
+        },
+        {
+          "t": "Visit the Store",
+          "r": {
+            "x": 888,
+            "y": 3021,
+            "w": 90,
+            "h": 17
+          }
+        },
+        {
+          "t": "Visit the Store",
+          "r": {
+            "x": 1280,
+            "y": 3021,
+            "w": 90,
+            "h": 17
+          }
+        },
+        {
+          "t": "Display",
+          "r": {
+            "x": 36,
+            "y": 3162,
+            "w": 69,
+            "h": 23
+          }
+        },
+        {
+          "t": "Measurements",
+          "r": {
+            "x": 36,
+            "y": 3212,
+            "w": 137,
+            "h": 23
+          }
+        },
+        {
+          "t": "Connectivity",
+          "r": {
+            "x": 36,
+            "y": 3262,
+            "w": 119,
+            "h": 23
+          }
+        },
+        {
+          "t": "Installation",
+          "r": {
+            "x": 36,
+            "y": 3312,
+            "w": 108,
+            "h": 23
+          }
+        },
+        {
+          "t": "Amazon.com Return Policy",
+          "r": {
+            "x": 30,
+            "y": 3379,
+            "w": 170,
+            "h": 17
+          }
+        },
+        {
+          "t": "Amazon.com Voluntary 30-Day Return Guarantee:",
+          "r": {
+            "x": 209,
+            "y": 3379,
+            "w": 329,
+            "h": 17
+          }
+        },
+        {
+          "t": "here",
+          "r": {
+            "x": 198,
+            "y": 3440,
+            "w": 28,
+            "h": 16
+          }
+        },
+        {
+          "t": "Product Warranty:",
+          "r": {
+            "x": 30,
+            "y": 3481,
+            "w": 121,
+            "h": 17
+          }
+        },
+        {
+          "t": "click here",
+          "r": {
+            "x": 488,
+            "y": 3482,
+            "w": 59,
+            "h": 16
+          }
+        },
+        {
+          "t": "tell us about a lower price?",
+          "r": {
+            "x": 144,
+            "y": 3540,
+            "w": 200,
+            "h": 24
+          }
+        },
+        {
+          "t": "Item details",
+          "r": {
+            "x": 771,
+            "y": 3162,
+            "w": 112,
+            "h": 23
+          }
+        },
+        {
+          "t": "Audio",
+          "r": {
+            "x": 771,
+            "y": 3212,
+            "w": 55,
+            "h": 23
+          }
+        },
+        {
+          "t": "Power",
+          "r": {
+            "x": 771,
+            "y": 3262,
+            "w": 59,
+            "h": 23
+          }
+        },
+        {
+          "t": "Features",
+          "r": {
+            "x": 771,
+            "y": 3312,
+            "w": 80,
+            "h": 23
+          }
+        },
+        {
+          "t": "System",
+          "r": {
+            "x": 771,
+            "y": 3362,
+            "w": 68,
+            "h": 23
+          }
+        },
+        {
+          "t": "Additional details",
+          "r": {
+            "x": 771,
+            "y": 3412,
+            "w": 167,
+            "h": 23
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+      "promos": [
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Add a protection plan:",
+          "rect": {
+            "x": 1257,
+            "y": 566,
+            "w": 206,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "label": "Savings",
+          "verbatim": "Get $50 off instantly: Pay $1,447.99 $1,497.99 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 579,
+            "y": 414,
+            "w": 599,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping",
+          "rect": {
+            "x": 89,
+            "y": 1820,
+            "w": 79,
+            "h": 15
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Samsung QN65S90FAFXZA 65\" 4K TV with a 2 Year Amber Protection Plan (2025)",
+          "rect": {
+            "x": 865,
+            "y": 1655,
+            "w": 165,
+            "h": 80
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping by Amazon",
+          "rect": {
+            "x": 865,
+            "y": 1820,
+            "w": 142,
+            "h": 15
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping on orders over $35 shipped by Amazon",
+          "rect": {
+            "x": 1059,
+            "y": 1838,
+            "w": 160,
+            "h": 35
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "percentage discount",
+          "label": "6% off with savings",
+          "verbatim": "$1,497.99 with 6 percent savings",
+          "rect": {
+            "x": 545,
+            "y": 357,
+            "w": 210,
+            "h": 20
+          },
+          "via": "llm"
+        },
+        {
+          "type": "list price strike through",
+          "label": "List Price",
+          "verbatim": "List Price: $1,597.99",
+          "rect": {
+            "x": 545,
+            "y": 379,
+            "w": 110,
+            "h": 16
+          },
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "label": "2-Year Samsung Care+",
+          "verbatim": "2-Year Samsung Care+ Device Protection| TV Tier 3 | $54.99",
+          "rect": {
+            "x": 1278,
+            "y": 589,
+            "w": 176,
+            "h": 37
+          },
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "label": "5-Year Samsung Care+",
+          "verbatim": "5-Year Samsung Care+ Device Protection| TV Tier 3 | $199.99",
+          "rect": {
+            "x": 1278,
+            "y": 653,
+            "w": 176,
+            "h": 37
+          },
+          "via": "llm"
+        },
+        {
+          "type": "subscription protection plan",
+          "label": "Complete Protect Monthly",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 717,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount on alternate size",
+          "label": "55 Inch 19% off",
+          "verbatim": "$1,047.99 with 19 percent savings",
+          "rect": {
+            "x": 556,
+            "y": 618,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount on alternate size",
+          "label": "85 Inch 9% off",
+          "verbatim": "$2,997.99 with 9 percent savings",
+          "rect": {
+            "x": 880,
+            "y": 618,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "newegg-b8ii-65",
+      "sku": "b8ii-65",
+      "channel": "newegg",
+      "brand": "sony",
+      "model": "BRAVIA 8 II 65\"",
+      "title": "Sony BRAVIA 8 II QD-OLED TV 65-Inch 4K Smart with Google TV - K65XR80M2 - Newegg.com",
+      "url": "https://www.newegg.com/p/16C-0006-009A6",
+      "currency": "USD",
+      "price": null,
+      "priceTxt": "",
+      "priceRect": null,
+      "was": null,
+      "deliveryText": "",
+      "deliveryZip": null,
+      "defaultZip": true,
+      "availability": "ree Shipping Volume Discounts Available Sort By: Best Seller Rating L",
+      "clip": {
+        "x": 30,
+        "y": 205,
+        "w": 538,
+        "h": 483
+      },
+      "readBottom": 483,
+      "idx": [],
+      "img": "evidence/sonyrgb-multi/pdp-newegg-b8ii-65.jpg",
+      "promos": []
+    },
+    {
+      "asin": "newegg-qn80h-65",
+      "sku": "qn80h-65",
+      "channel": "newegg",
+      "brand": "samsung",
+      "model": "Samsung QN80H 65\"",
+      "title": "Samsung QN65QN80HAFXZA 65\" Neo QLED 4K TV with Dolby Atmos (2026) - Newegg.com",
+      "url": "https://www.newegg.com/samsung-qn80h-65/p/16C-0003-010V8",
+      "currency": "USD",
+      "price": null,
+      "priceTxt": "",
+      "priceRect": null,
+      "was": null,
+      "deliveryText": "",
+      "deliveryZip": null,
+      "defaultZip": true,
+      "availability": "0-day Returns This product is available at a lower price from other s",
+      "clip": {
+        "x": 30,
+        "y": 261,
+        "w": 538,
+        "h": 483
+      },
+      "readBottom": 483,
+      "idx": [],
+      "img": "evidence/sonyrgb-multi/pdp-newegg-qn80h-65.jpg",
+      "promos": []
+    },
+    {
+      "asin": "amazon-s90h-65",
+      "sku": "s90h-65",
+      "channel": "amazon",
+      "brand": "samsung",
+      "model": "Samsung S90H OLED 65\"",
+      "title": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Real Color, OLED HDR+, N",
+      "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+      "currency": "USD",
+      "price": 1797.99,
+      "priceTxt": "$1,797.99",
+      "priceRect": {
+        "x": 1257,
+        "y": 180,
+        "w": 97,
+        "h": 25
+      },
+      "was": 2697.99,
+      "deliveryText": "99 FREE delivery Saturday, August 15",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "- Update location Only 3 left in stock - order soon",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 1299,
+      "idx": [
+        {
+          "t": "Sponsored",
+          "r": {
+            "x": 1468,
+            "y": 58,
+            "w": 70,
+            "h": 13
+          }
+        },
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 88,
+            "w": 100,
+            "h": 15
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 205,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "OLED TVs",
+          "r": {
+            "x": 278,
+            "y": 88,
+            "w": 54,
+            "h": 15
+          }
+        },
+        {
+          "t": "Buy New",
+          "r": {
+            "x": 1257,
+            "y": 149,
+            "w": 57,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,797.99",
+          "r": {
+            "x": 1257,
+            "y": 180,
+            "w": 97,
+            "h": 25
+          }
+        },
+        {
+          "t": "Saturday, August 15",
+          "r": {
+            "x": 1257,
+            "y": 228,
+            "w": 201,
+            "h": 37
+          }
+        },
+        {
+          "t": "5 hrs 52 mins",
+          "r": {
+            "x": 1364,
+            "y": 248,
+            "w": 85,
+            "h": 17
+          }
+        },
+        {
+          "t": "Details",
+          "r": {
+            "x": 1257,
+            "y": 268,
+            "w": 43,
+            "h": 17
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 299,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "Only 3 left in stock - order soon.",
+          "r": {
+            "x": 1257,
+            "y": 353,
+            "w": 174,
+            "h": 37
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1257,
+            "y": 404,
+            "w": 65,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1269,
+            "y": 411,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 449,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 489,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 537,
+            "w": 85,
+            "h": 15
+          }
+        },
+        {
+          "t": "Walts TV",
+          "r": {
+            "x": 1357,
+            "y": 537,
+            "w": 48,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 565,
+            "w": 42,
+            "h": 15
+          }
+        },
+        {
+          "t": "30-day refund/replacement",
+          "r": {
+            "x": 1357,
+            "y": 565,
+            "w": 101,
+            "h": 48
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 625,
+            "w": 48,
+            "h": 15
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1357,
+            "y": 625,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "Add a protection plan:",
+          "r": {
+            "x": 1257,
+            "y": 671,
+            "w": 148,
+            "h": 17
+          }
+        },
+        {
+          "t": "2-Year Samsung Care+ Device Protection| TV Tier 4",
+          "r": {
+            "x": 1278,
+            "y": 693,
+            "w": 176,
+            "h": 37
+          }
+        },
+        {
+          "t": "$64.99",
+          "r": {
+            "x": 1300,
+            "y": 733,
+            "w": 45,
+            "h": 17
+          }
+        },
+        {
+          "t": "5-Year Samsung Care+ Device Protection| TV Tier 4",
+          "r": {
+            "x": 1278,
+            "y": 757,
+            "w": 176,
+            "h": 37
+          }
+        },
+        {
+          "t": "$249.99",
+          "r": {
+            "x": 1300,
+            "y": 797,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Complete Protect: One plan covers all eligible past and future purchases (Best Value)",
+          "r": {
+            "x": 1278,
+            "y": 821,
+            "w": 177,
+            "h": 77
+          }
+        },
+        {
+          "t": "$16.99/month",
+          "r": {
+            "x": 1344,
+            "y": 881,
+            "w": 93,
+            "h": 17
+          }
+        },
+        {
+          "t": "Used - Like New",
+          "r": {
+            "x": 1257,
+            "y": 954,
+            "w": 105,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,617.95",
+          "r": {
+            "x": 1257,
+            "y": 978,
+            "w": 97,
+            "h": 25
+          }
+        },
+        {
+          "t": "August 22 - 24",
+          "r": {
+            "x": 1350,
+            "y": 1005,
+            "w": 96,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from:",
+          "r": {
+            "x": 1257,
+            "y": 1039,
+            "w": 68,
+            "h": 15
+          }
+        },
+        {
+          "t": "Video & Audio Center - Same Day Shipping",
+          "r": {
+            "x": 1325,
+            "y": 1037,
+            "w": 242,
+            "h": 17
+          }
+        },
+        {
+          "t": "Sold by:",
+          "r": {
+            "x": 1257,
+            "y": 1059,
+            "w": 49,
+            "h": 15
+          }
+        },
+        {
+          "t": "Video & Audio Center - Same Day Shipping",
+          "r": {
+            "x": 1306,
+            "y": 1057,
+            "w": 242,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1239,
+            "y": 1125,
+            "w": 242,
+            "h": 30
+          }
+        },
+        {
+          "t": "Other sellers on Amazon",
+          "r": {
+            "x": 1251,
+            "y": 1185,
+            "w": 185,
+            "h": 20
+          }
+        },
+        {
+          "t": "New & Used (14) from",
+          "r": {
+            "x": 1251,
+            "y": 1235,
+            "w": 141,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,617.95",
+          "r": {
+            "x": 1395,
+            "y": 1234,
+            "w": 74,
+            "h": 20
+          }
+        },
+        {
+          "t": "& FREE Shipping",
+          "r": {
+            "x": 1258,
+            "y": 1255,
+            "w": 109,
+            "h": 17
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 1272,
+            "y": 1255,
+            "w": 95,
+            "h": 17
+          }
+        },
+        {
+          "t": "7 VIDEOS",
+          "r": {
+            "x": 18,
+            "y": 483,
+            "w": 40,
+            "h": 18
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 228,
+            "y": 598,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Energy Guide",
+          "r": {
+            "x": 74,
+            "y": 654,
+            "w": 138,
+            "h": 17
+          }
+        },
+        {
+          "t": "Visit the Samsung Store",
+          "r": {
+            "x": 545,
+            "y": 163,
+            "w": 152,
+            "h": 17
+          }
+        },
+        {
+          "t": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Real Color, OLED HDR+, NQ4 AI Gen3 Processor, Alexa Built-in",
+          "r": {
+            "x": 545,
+            "y": 184,
+            "w": 644,
+            "h": 124
+          }
+        },
+        {
+          "t": "4.3",
+          "r": {
+            "x": 545,
+            "y": 315,
+            "w": 20,
+            "h": 15
+          }
+        },
+        {
+          "t": "4.3 out of 5 stars",
+          "r": {
+            "x": 565,
+            "y": 317,
+            "w": 60,
+            "h": 12
+          }
+        },
+        {
+          "t": "(81)",
+          "r": {
+            "x": 643,
+            "y": 315,
+            "w": 22,
+            "h": 15
+          }
+        },
+        {
+          "t": "Amazon's Choice",
+          "r": {
+            "x": 549,
+            "y": 341,
+            "w": 91,
+            "h": 16
+          }
+        },
+        {
+          "t": "200+ bought",
+          "r": {
+            "x": 545,
+            "y": 372,
+            "w": 72,
+            "h": 15
+          }
+        },
+        {
+          "t": "in past month",
+          "r": {
+            "x": 617,
+            "y": 372,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,797.99 with 33 percent savings",
+          "r": {
+            "x": 545,
+            "y": 422,
+            "w": 218,
+            "h": 20
+          }
+        },
+        {
+          "t": "-33%",
+          "r": {
+            "x": 545,
+            "y": 411,
+            "w": 60,
+            "h": 28
+          }
+        },
+        {
+          "t": "List Price: $2,697.99",
+          "r": {
+            "x": 545,
+            "y": 444,
+            "w": 110,
+            "h": 16
+          }
+        },
+        {
+          "t": "List Price:",
+          "r": {
+            "x": 545,
+            "y": 444,
+            "w": 52,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,697.99",
+          "r": {
+            "x": 600,
+            "y": 445,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,697.99",
+          "r": {
+            "x": 600,
+            "y": 444,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$50",
+          "r": {
+            "x": 605,
+            "y": 480,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,747.99",
+          "r": {
+            "x": 744,
+            "y": 480,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,797.99",
+          "r": {
+            "x": 812,
+            "y": 480,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "Select to learn more",
+          "r": {
+            "x": 545,
+            "y": 543,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from Walts TV",
+          "r": {
+            "x": 562,
+            "y": 618,
+            "w": 59,
+            "h": 35
+          }
+        },
+        {
+          "t": "30-day easy returns",
+          "r": {
+            "x": 653,
+            "y": 618,
+            "w": 65,
+            "h": 35
+          }
+        },
+        {
+          "t": "Customer Support",
+          "r": {
+            "x": 753,
+            "y": 618,
+            "w": 52,
+            "h": 35
+          }
+        },
+        {
+          "t": "other sellers",
+          "r": {
+            "x": 742,
+            "y": 693,
+            "w": 78,
+            "h": 17
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 721,
+            "w": 33,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 Inch",
+          "r": {
+            "x": 578,
+            "y": 721,
+            "w": 48,
+            "h": 17
+          }
+        },
+        {
+          "t": "42 Inch",
+          "r": {
+            "x": 556,
+            "y": 750,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,297.99 with 7 percent savings",
+          "r": {
+            "x": 556,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,297.99",
+          "r": {
+            "x": 556,
+            "y": 774,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,397.99",
+          "r": {
+            "x": 556,
+            "y": 790,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,397.99",
+          "r": {
+            "x": 556,
+            "y": 791,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "48 Inch",
+          "r": {
+            "x": 664,
+            "y": 750,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,397.99 with 13 percent savings",
+          "r": {
+            "x": 664,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,397.99",
+          "r": {
+            "x": 664,
+            "y": 774,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,597.99",
+          "r": {
+            "x": 664,
+            "y": 790,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,597.99",
+          "r": {
+            "x": 664,
+            "y": 791,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "55 Inch",
+          "r": {
+            "x": 772,
+            "y": 750,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,497.99 with 25 percent savings",
+          "r": {
+            "x": 772,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,497.99",
+          "r": {
+            "x": 772,
+            "y": 774,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,997.99",
+          "r": {
+            "x": 772,
+            "y": 790,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,997.99",
+          "r": {
+            "x": 772,
+            "y": 791,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "65 Inch",
+          "r": {
+            "x": 880,
+            "y": 750,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,797.99 with 33 percent savings",
+          "r": {
+            "x": 880,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,797.99",
+          "r": {
+            "x": 880,
+            "y": 774,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,697.99",
+          "r": {
+            "x": 880,
+            "y": 790,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$2,697.99",
+          "r": {
+            "x": 880,
+            "y": 791,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "77 Inch",
+          "r": {
+            "x": 988,
+            "y": 750,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,799.99 with 24 percent savings",
+          "r": {
+            "x": 988,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$2,799.99",
+          "r": {
+            "x": 988,
+            "y": 774,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,697.99",
+          "r": {
+            "x": 988,
+            "y": 790,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$3,697.99",
+          "r": {
+            "x": 988,
+            "y": 791,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "83 Inch",
+          "r": {
+            "x": 1096,
+            "y": 750,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$4,797.99 with 9 percent savings",
+          "r": {
+            "x": 1096,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$4,797.99",
+          "r": {
+            "x": 1096,
+            "y": 774,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$5,297.99",
+          "r": {
+            "x": 1096,
+            "y": 790,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$5,297.99",
+          "r": {
+            "x": 1096,
+            "y": 791,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "Screen Size",
+          "r": {
+            "x": 545,
+            "y": 825,
+            "w": 75,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 708,
+            "y": 825,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Brand",
+          "r": {
+            "x": 545,
+            "y": 851,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "Samsung",
+          "r": {
+            "x": 708,
+            "y": 851,
+            "w": 58,
+            "h": 17
+          }
+        },
+        {
+          "t": "Display Technology",
+          "r": {
+            "x": 545,
+            "y": 877,
+            "w": 128,
+            "h": 17
+          }
+        },
+        {
+          "t": "OLED",
+          "r": {
+            "x": 708,
+            "y": 877,
+            "w": 36,
+            "h": 17
+          }
+        },
+        {
+          "t": "Resolution",
+          "r": {
+            "x": 545,
+            "y": 903,
+            "w": 70,
+            "h": 17
+          }
+        },
+        {
+          "t": "Refresh Rate",
+          "r": {
+            "x": 545,
+            "y": 929,
+            "w": 83,
+            "h": 17
+          }
+        },
+        {
+          "t": "120",
+          "r": {
+            "x": 708,
+            "y": 929,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "Special Feature",
+          "r": {
+            "x": 545,
+            "y": 955,
+            "w": 101,
+            "h": 17
+          }
+        },
+        {
+          "t": "Built-In Speaker, Game Mode",
+          "r": {
+            "x": 708,
+            "y": 955,
+            "w": 184,
+            "h": 17
+          }
+        },
+        {
+          "t": "Included Components",
+          "r": {
+            "x": 545,
+            "y": 981,
+            "w": 144,
+            "h": 17
+          }
+        },
+        {
+          "t": "Power Cable, Remote Control, Stand, User Manual, Warranty Card",
+          "r": {
+            "x": 708,
+            "y": 981,
+            "w": 416,
+            "h": 17
+          }
+        },
+        {
+          "t": "Connectivity Technology",
+          "r": {
+            "x": 545,
+            "y": 1007,
+            "w": 83,
+            "h": 37
+          }
+        },
+        {
+          "t": "Bluetooth, HDMI, USB, Wi-Fi",
+          "r": {
+            "x": 708,
+            "y": 1007,
+            "w": 179,
+            "h": 17
+          }
+        },
+        {
+          "t": "Aspect Ratio",
+          "r": {
+            "x": 545,
+            "y": 1053,
+            "w": 82,
+            "h": 17
+          }
+        },
+        {
+          "t": "16:9",
+          "r": {
+            "x": 708,
+            "y": 1053,
+            "w": 28,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Dimensions",
+          "r": {
+            "x": 545,
+            "y": 1079,
+            "w": 132,
+            "h": 17
+          }
+        },
+        {
+          "t": "10.4\"D x 56.9\"W x 35.3\"H",
+          "r": {
+            "x": 708,
+            "y": 1079,
+            "w": 161,
+            "h": 17
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 560,
+            "y": 1005,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "OLED HDR+ WITH GLARE FREE*: Experience incredible brightness and deep contrast. Advanced AI enhances details, while Glare Free technology eliminates distracting reflections.*",
+          "r": {
+            "x": 563,
+            "y": 1078,
+            "w": 617,
+            "h": 37
+          }
+        },
+        {
+          "t": "NQ4 AI GEN3 PROCESSOR: Powered by 128 neural networks to deliver AI-enhanced picture and sound, resulting in an exceptional 4K experience for streaming, gaming, live sports and more.*",
+          "r": {
+            "x": 563,
+            "y": 1122,
+            "w": 606,
+            "h": 37
+          }
+        },
+        {
+          "t": "4K AI UPSCALING PRO: See impressive details on screen. Our AI processor upscales everything you watch to 4K using 128 AI neural networks and ensures incredibly sharp and smooth picture quality.*",
+          "r": {
+            "x": 563,
+            "y": 1230,
+            "w": 632,
+            "h": 37
+          }
+        },
+        {
+          "t": "AI MOTION ENHANCER PRO: The AI processor smooths the motion of fast-moving balls and text, reducing blur and flickering, so you don't lose sight of the action.*",
+          "r": {
+            "x": 563,
+            "y": 1274,
+            "w": 613,
+            "h": 37
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+      "promos": [
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Add a protection plan:",
+          "rect": {
+            "x": 1257,
+            "y": 670,
+            "w": 206,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "New & Used (14) from $1,617.95 $1,617 . 95 & FREE Shipping",
+          "rect": {
+            "x": 1251,
+            "y": 1233,
+            "w": 218,
+            "h": 41
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "& FREE Shipping",
+          "rect": {
+            "x": 1258,
+            "y": 1255,
+            "w": 109,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping",
+          "rect": {
+            "x": 1272,
+            "y": 1255,
+            "w": 95,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "label": "Savings",
+          "verbatim": "Get $50 off instantly: Pay $1,747.99 $1,797.99 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 579,
+            "y": 479,
+            "w": 599,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "percentage discount",
+          "label": "33% off list price",
+          "verbatim": "$1,797.99 with 33 percent savings",
+          "rect": {
+            "x": 545,
+            "y": 422,
+            "w": 218,
+            "h": 20
+          },
+          "via": "llm"
+        },
+        {
+          "type": "list price reference",
+          "label": "Original list price",
+          "verbatim": "List Price: $2,697.99",
+          "rect": {
+            "x": 545,
+            "y": 444,
+            "w": 110,
+            "h": 16
+          },
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "label": "2-Year Samsung Care+",
+          "verbatim": "2-Year Samsung Care+ Device Protection| TV Tier 4 | $64.99",
+          "rect": {
+            "x": 1278,
+            "y": 693,
+            "w": 176,
+            "h": 37
+          },
+          "via": "llm"
+        },
+        {
+          "type": "protection plan",
+          "label": "5-Year Samsung Care+",
+          "verbatim": "5-Year Samsung Care+ Device Protection| TV Tier 4 | $249.99",
+          "rect": {
+            "x": 1278,
+            "y": 757,
+            "w": 176,
+            "h": 37
+          },
+          "via": "llm"
+        },
+        {
+          "type": "protection plan subscription",
+          "label": "Complete Protect monthly plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 821,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (42 inch)",
+          "label": "7% off on 42 Inch",
+          "verbatim": "$1,297.99 with 7 percent savings",
+          "rect": {
+            "x": 556,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (48 inch)",
+          "label": "13% off on 48 Inch",
+          "verbatim": "$1,397.99 with 13 percent savings",
+          "rect": {
+            "x": 664,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (55 inch)",
+          "label": "25% off on 55 Inch",
+          "verbatim": "$1,497.99 with 25 percent savings",
+          "rect": {
+            "x": 772,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (77 inch)",
+          "label": "24% off on 77 Inch",
+          "verbatim": "$2,799.99 with 24 percent savings",
+          "rect": {
+            "x": 988,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (83 inch)",
+          "label": "9% off on 83 Inch",
+          "verbatim": "$4,797.99 with 9 percent savings",
+          "rect": {
+            "x": 1096,
+            "y": 711,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "newegg-s90h-65",
+      "sku": "s90h-65",
+      "channel": "newegg",
+      "brand": "samsung",
+      "model": "Samsung S90H OLED 65\"",
+      "title": "Samsung QN65S90HAEXZA 65 Inch S90H Series OLED 4K UHD Smart Vision AI TV with a 2 Year Amber Protection Plan (2026) - Newegg.com",
+      "url": "https://www.newegg.com/samsung-s90ha-65/p/16C-0003-01113",
+      "currency": "USD",
+      "price": null,
+      "priceTxt": "",
+      "priceRect": null,
+      "was": null,
+      "deliveryText": "",
+      "deliveryZip": null,
+      "defaultZip": true,
+      "availability": "",
+      "clip": {
+        "x": 30,
+        "y": 261,
+        "w": 538,
+        "h": 483
+      },
+      "readBottom": 483,
+      "idx": [],
+      "img": "evidence/sonyrgb-multi/pdp-newegg-s90h-65.jpg",
+      "promos": []
+    },
+    {
+      "asin": "amazon-g5-65",
+      "sku": "g5-65",
+      "channel": "amazon",
+      "brand": "lg",
+      "model": "LG G5 OLED 65\"",
+      "title": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Orchestra, Alexa Built-",
+      "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+      "currency": "USD",
+      "price": 2299.99,
+      "priceTxt": "$2,299.99",
+      "priceRect": {
+        "x": 1257,
+        "y": 180,
+        "w": 97,
+        "h": 25
+      },
+      "was": null,
+      "deliveryText": "00 FREE delivery August 18 - 20 Ships from: B&L Labs LLC Sold by: B&L Labs LLC Add to List Other",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "Update location Only 11 left in stock (more on the way)",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 1219,
+      "idx": [
+        {
+          "t": "Sponsored",
+          "r": {
+            "x": 1468,
+            "y": 58,
+            "w": 70,
+            "h": 13
+          }
+        },
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 88,
+            "w": 100,
+            "h": 15
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 205,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "OLED TVs",
+          "r": {
+            "x": 278,
+            "y": 88,
+            "w": 54,
+            "h": 15
+          }
+        },
+        {
+          "t": "Buy New",
+          "r": {
+            "x": 1257,
+            "y": 149,
+            "w": 57,
+            "h": 17
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 1257,
+            "y": 180,
+            "w": 97,
+            "h": 25
+          }
+        },
+        {
+          "t": "8 AM - 8 PM",
+          "r": {
+            "x": 1257,
+            "y": 267,
+            "w": 79,
+            "h": 20
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 299,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "Only 11 left in stock (more on the way).",
+          "r": {
+            "x": 1257,
+            "y": 353,
+            "w": 197,
+            "h": 37
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1257,
+            "y": 404,
+            "w": 65,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1269,
+            "y": 411,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 449,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 489,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 537,
+            "w": 85,
+            "h": 15
+          }
+        },
+        {
+          "t": "Amazon.com",
+          "r": {
+            "x": 1357,
+            "y": 537,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 561,
+            "w": 42,
+            "h": 15
+          }
+        },
+        {
+          "t": "30-day refund / replacement",
+          "r": {
+            "x": 1357,
+            "y": 561,
+            "w": 101,
+            "h": 32
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 605,
+            "w": 48,
+            "h": 15
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1357,
+            "y": 605,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 1277,
+            "y": 637,
+            "w": 51,
+            "h": 15
+          }
+        },
+        {
+          "t": "Add a protection plan:",
+          "r": {
+            "x": 1257,
+            "y": 675,
+            "w": 148,
+            "h": 17
+          }
+        },
+        {
+          "t": "4-Year Protection Plan",
+          "r": {
+            "x": 1278,
+            "y": 697,
+            "w": 142,
+            "h": 17
+          }
+        },
+        {
+          "t": "$249.99",
+          "r": {
+            "x": 1278,
+            "y": 717,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Complete Protect: One plan covers all eligible past and future purchases (Best Value)",
+          "r": {
+            "x": 1278,
+            "y": 741,
+            "w": 177,
+            "h": 77
+          }
+        },
+        {
+          "t": "$16.99/month",
+          "r": {
+            "x": 1344,
+            "y": 801,
+            "w": 93,
+            "h": 17
+          }
+        },
+        {
+          "t": "Used - Good",
+          "r": {
+            "x": 1257,
+            "y": 874,
+            "w": 81,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,699.00",
+          "r": {
+            "x": 1257,
+            "y": 898,
+            "w": 97,
+            "h": 25
+          }
+        },
+        {
+          "t": "August 18 - 20",
+          "r": {
+            "x": 1350,
+            "y": 925,
+            "w": 96,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from:",
+          "r": {
+            "x": 1257,
+            "y": 959,
+            "w": 68,
+            "h": 15
+          }
+        },
+        {
+          "t": "B&L Labs LLC",
+          "r": {
+            "x": 1325,
+            "y": 959,
+            "w": 75,
+            "h": 15
+          }
+        },
+        {
+          "t": "Sold by:",
+          "r": {
+            "x": 1257,
+            "y": 979,
+            "w": 49,
+            "h": 15
+          }
+        },
+        {
+          "t": "B&L Labs LLC",
+          "r": {
+            "x": 1306,
+            "y": 979,
+            "w": 75,
+            "h": 15
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1239,
+            "y": 1045,
+            "w": 242,
+            "h": 30
+          }
+        },
+        {
+          "t": "Other sellers on Amazon",
+          "r": {
+            "x": 1251,
+            "y": 1105,
+            "w": 185,
+            "h": 20
+          }
+        },
+        {
+          "t": "New & Used (2) from",
+          "r": {
+            "x": 1251,
+            "y": 1155,
+            "w": 133,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,699.00",
+          "r": {
+            "x": 1387,
+            "y": 1154,
+            "w": 74,
+            "h": 20
+          }
+        },
+        {
+          "t": "& FREE Shipping",
+          "r": {
+            "x": 1251,
+            "y": 1175,
+            "w": 109,
+            "h": 17
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 1265,
+            "y": 1175,
+            "w": 95,
+            "h": 17
+          }
+        },
+        {
+          "t": "13+",
+          "r": {
+            "x": 27,
+            "y": 402,
+            "w": 25,
+            "h": 20
+          }
+        },
+        {
+          "t": "8 VIDEOS",
+          "r": {
+            "x": 18,
+            "y": 483,
+            "w": 40,
+            "h": 18
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 228,
+            "y": 598,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Energy Guide",
+          "r": {
+            "x": 74,
+            "y": 654,
+            "w": 138,
+            "h": 17
+          }
+        },
+        {
+          "t": "Visit the LG Store",
+          "r": {
+            "x": 545,
+            "y": 174,
+            "w": 110,
+            "h": 17
+          }
+        },
+        {
+          "t": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Orchestra, Alexa Built-in (OLED65G5WUA, 2025)",
+          "r": {
+            "x": 545,
+            "y": 195,
+            "w": 646,
+            "h": 92
+          }
+        },
+        {
+          "t": "4.5",
+          "r": {
+            "x": 545,
+            "y": 294,
+            "w": 20,
+            "h": 15
+          }
+        },
+        {
+          "t": "4.5 out of 5 stars",
+          "r": {
+            "x": 565,
+            "y": 296,
+            "w": 60,
+            "h": 12
+          }
+        },
+        {
+          "t": "(305)",
+          "r": {
+            "x": 643,
+            "y": 294,
+            "w": 29,
+            "h": 15
+          }
+        },
+        {
+          "t": "50+ bought",
+          "r": {
+            "x": 545,
+            "y": 316,
+            "w": 65,
+            "h": 15
+          }
+        },
+        {
+          "t": "in past month",
+          "r": {
+            "x": 610,
+            "y": 316,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 545,
+            "y": 366,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$10",
+          "r": {
+            "x": 818,
+            "y": 404,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 1088,
+            "y": 404,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "$2,289.99",
+          "r": {
+            "x": 545,
+            "y": 424,
+            "w": 65,
+            "h": 17
+          }
+        },
+        {
+          "t": "Learn more",
+          "r": {
+            "x": 704,
+            "y": 424,
+            "w": 72,
+            "h": 17
+          }
+        },
+        {
+          "t": "Savings",
+          "r": {
+            "x": 545,
+            "y": 458,
+            "w": 60,
+            "h": 20
+          }
+        },
+        {
+          "t": "Shop items",
+          "r": {
+            "x": 902,
+            "y": 458,
+            "w": 89,
+            "h": 20
+          }
+        },
+        {
+          "t": "Select to learn more",
+          "r": {
+            "x": 545,
+            "y": 517,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Unpack & Delivery to your room of choice available",
+          "r": {
+            "x": 549,
+            "y": 592,
+            "w": 87,
+            "h": 75
+          }
+        },
+        {
+          "t": "Ships from Amazon.com",
+          "r": {
+            "x": 650,
+            "y": 592,
+            "w": 70,
+            "h": 35
+          }
+        },
+        {
+          "t": "30-day easy returns",
+          "r": {
+            "x": 747,
+            "y": 592,
+            "w": 65,
+            "h": 35
+          }
+        },
+        {
+          "t": "Customer Support",
+          "r": {
+            "x": 847,
+            "y": 592,
+            "w": 52,
+            "h": 35
+          }
+        },
+        {
+          "t": "other sellers",
+          "r": {
+            "x": 742,
+            "y": 707,
+            "w": 78,
+            "h": 17
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 735,
+            "w": 33,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 Inches",
+          "r": {
+            "x": 578,
+            "y": 735,
+            "w": 62,
+            "h": 17
+          }
+        },
+        {
+          "t": "55 Inches",
+          "r": {
+            "x": 556,
+            "y": 764,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,899.99",
+          "r": {
+            "x": 556,
+            "y": 785,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$1,899.99",
+          "r": {
+            "x": 556,
+            "y": 788,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "65 Inches",
+          "r": {
+            "x": 664,
+            "y": 764,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 664,
+            "y": 785,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$2,299.99",
+          "r": {
+            "x": 664,
+            "y": 788,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "77 Inches",
+          "r": {
+            "x": 772,
+            "y": 764,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$2,999.99",
+          "r": {
+            "x": 772,
+            "y": 785,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$2,999.99",
+          "r": {
+            "x": 772,
+            "y": 788,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "83 Inches",
+          "r": {
+            "x": 880,
+            "y": 764,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$4,999.99",
+          "r": {
+            "x": 880,
+            "y": 785,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$4,999.99",
+          "r": {
+            "x": 880,
+            "y": 788,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "97 Inches",
+          "r": {
+            "x": 988,
+            "y": 764,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$16,249.99",
+          "r": {
+            "x": 988,
+            "y": 785,
+            "w": 73,
+            "h": 20
+          }
+        },
+        {
+          "t": "$16,249.99",
+          "r": {
+            "x": 988,
+            "y": 788,
+            "w": 62,
+            "h": 15
+          }
+        },
+        {
+          "t": "Style:",
+          "r": {
+            "x": 545,
+            "y": 819,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV Only",
+          "r": {
+            "x": 584,
+            "y": 819,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Bundles with this item",
+          "r": {
+            "x": 545,
+            "y": 856,
+            "w": 662,
+            "h": 20
+          }
+        },
+        {
+          "t": "Want a bit of help with this product?",
+          "r": {
+            "x": 545,
+            "y": 956,
+            "w": 241,
+            "h": 17
+          }
+        },
+        {
+          "t": "2 options starting at",
+          "r": {
+            "x": 545,
+            "y": 980,
+            "w": 138,
+            "h": 17
+          }
+        },
+        {
+          "t": "$0.00",
+          "r": {
+            "x": 683,
+            "y": 980,
+            "w": 37,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Only",
+          "r": {
+            "x": 570,
+            "y": 1030,
+            "w": 87,
+            "h": 17
+          }
+        },
+        {
+          "t": "Delivery to your room of choice",
+          "r": {
+            "x": 568,
+            "y": 1088,
+            "w": 207,
+            "h": 20
+          }
+        },
+        {
+          "t": "FREE",
+          "r": {
+            "x": 568,
+            "y": 1110,
+            "w": 37,
+            "h": 20
+          }
+        },
+        {
+          "t": "$19.99",
+          "r": {
+            "x": 640,
+            "y": 1136,
+            "w": 38,
+            "h": 15
+          }
+        },
+        {
+          "t": "Delivery to your room of choice. Does NOT include unpacking, product assembly, packaging removal or haul away.",
+          "r": {
+            "x": 568,
+            "y": 1155,
+            "w": 579,
+            "h": 33
+          }
+        },
+        {
+          "t": "Delivery and unpacking",
+          "r": {
+            "x": 568,
+            "y": 1225,
+            "w": 156,
+            "h": 20
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+      "promos": [
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Add a protection plan:",
+          "rect": {
+            "x": 1257,
+            "y": 674,
+            "w": 206,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan for $249.99",
+          "rect": {
+            "x": 1257,
+            "y": 698,
+            "w": 206,
+            "h": 40
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "rect": {
+            "x": 1278,
+            "y": 697,
+            "w": 142,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "New & Used (2) from $1,699.00 $1,699 . 00 & FREE Shipping",
+          "rect": {
+            "x": 1251,
+            "y": 1153,
+            "w": 218,
+            "h": 41
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "& FREE Shipping",
+          "rect": {
+            "x": 1251,
+            "y": 1175,
+            "w": 109,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping",
+          "rect": {
+            "x": 1265,
+            "y": 1175,
+            "w": 95,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "gift with purchase",
+          "label": "Gift card",
+          "verbatim": "Apply for Amazon Store Card and unlock a $10 Amazon Gift Card upon approval. Pay $2,299.99 $2,289.99 for this order. Learn more",
+          "rect": {
+            "x": 545,
+            "y": 403,
+            "w": 667,
+            "h": 40
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "subscription protection plan",
+          "label": "Complete Protect Monthly",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 741,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm"
+        },
+        {
+          "type": "free returns",
+          "label": "30-Day Easy Returns",
+          "verbatim": "30-day easy returns",
+          "rect": {
+            "x": 747,
+            "y": 592,
+            "w": 65,
+            "h": 35
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "amazon-c5rgb-65",
+      "sku": "c5rgb-65",
+      "channel": "amazon",
+      "brand": "lg",
+      "model": "LG C5 OLED 65\"",
+      "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra,",
+      "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+      "currency": "USD",
+      "price": 1499.99,
+      "priceTxt": "$1,499.99",
+      "priceRect": {
+        "x": 1257,
+        "y": 153,
+        "w": 129,
+        "h": 33
+      },
+      "was": null,
+      "deliveryText": "99 FREE delivery as soon as Tue, Aug 18, 8 AM - 8 PM LG 83-Inch Class OLED AI 4K B6 Series Smart",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "Vista 72714 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 1",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 1039,
+      "idx": [
+        {
+          "t": "Sponsored",
+          "r": {
+            "x": 1468,
+            "y": 58,
+            "w": 70,
+            "h": 13
+          }
+        },
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 88,
+            "w": 100,
+            "h": 15
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 205,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "OLED TVs",
+          "r": {
+            "x": 278,
+            "y": 88,
+            "w": 54,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 1257,
+            "y": 153,
+            "w": 129,
+            "h": 33
+          }
+        },
+        {
+          "t": "You will be contacted by carrier to arrange a specific date.",
+          "r": {
+            "x": 1257,
+            "y": 197,
+            "w": 206,
+            "h": 40
+          }
+        },
+        {
+          "t": "August 17 - 20",
+          "r": {
+            "x": 1257,
+            "y": 250,
+            "w": 203,
+            "h": 37
+          }
+        },
+        {
+          "t": "3 hrs 20 mins",
+          "r": {
+            "x": 1257,
+            "y": 270,
+            "w": 188,
+            "h": 37
+          }
+        },
+        {
+          "t": "Details",
+          "r": {
+            "x": 1295,
+            "y": 290,
+            "w": 43,
+            "h": 17
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 321,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "In Stock",
+          "r": {
+            "x": 1257,
+            "y": 375,
+            "w": 66,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1257,
+            "y": 410,
+            "w": 65,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1269,
+            "y": 417,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 455,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 495,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 543,
+            "w": 85,
+            "h": 15
+          }
+        },
+        {
+          "t": "Electronic Express",
+          "r": {
+            "x": 1357,
+            "y": 543,
+            "w": 98,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 571,
+            "w": 42,
+            "h": 15
+          }
+        },
+        {
+          "t": "30-day refund/replacement",
+          "r": {
+            "x": 1357,
+            "y": 571,
+            "w": 101,
+            "h": 48
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 631,
+            "w": 48,
+            "h": 15
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1357,
+            "y": 631,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "Add a protection plan:",
+          "r": {
+            "x": 1257,
+            "y": 677,
+            "w": 148,
+            "h": 17
+          }
+        },
+        {
+          "t": "4-Year Protection Plan",
+          "r": {
+            "x": 1278,
+            "y": 699,
+            "w": 142,
+            "h": 17
+          }
+        },
+        {
+          "t": "$183.99",
+          "r": {
+            "x": 1278,
+            "y": 719,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Complete Protect: One plan covers all eligible past and future purchases (Best Value)",
+          "r": {
+            "x": 1278,
+            "y": 743,
+            "w": 177,
+            "h": 77
+          }
+        },
+        {
+          "t": "$16.99/month",
+          "r": {
+            "x": 1344,
+            "y": 803,
+            "w": 93,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1258,
+            "y": 850,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Other sellers on Amazon",
+          "r": {
+            "x": 1251,
+            "y": 925,
+            "w": 185,
+            "h": 20
+          }
+        },
+        {
+          "t": "New & Used (9) from",
+          "r": {
+            "x": 1251,
+            "y": 975,
+            "w": 133,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 1387,
+            "y": 974,
+            "w": 74,
+            "h": 20
+          }
+        },
+        {
+          "t": "& FREE Shipping",
+          "r": {
+            "x": 1251,
+            "y": 995,
+            "w": 109,
+            "h": 17
+          }
+        },
+        {
+          "t": "FREE Shipping",
+          "r": {
+            "x": 1265,
+            "y": 995,
+            "w": 95,
+            "h": 17
+          }
+        },
+        {
+          "t": "11+",
+          "r": {
+            "x": 27,
+            "y": 402,
+            "w": 25,
+            "h": 20
+          }
+        },
+        {
+          "t": "12 VIDEOS",
+          "r": {
+            "x": 18,
+            "y": 483,
+            "w": 40,
+            "h": 18
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 228,
+            "y": 598,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Product Energy Guide",
+          "r": {
+            "x": 74,
+            "y": 654,
+            "w": 138,
+            "h": 17
+          }
+        },
+        {
+          "t": "Visit the LG Store",
+          "r": {
+            "x": 545,
+            "y": 174,
+            "w": 110,
+            "h": 17
+          }
+        },
+        {
+          "t": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker Mode, Wow Orchestra, Alexa Built-in (OLED65C5PUA, 2025)",
+          "r": {
+            "x": 545,
+            "y": 195,
+            "w": 664,
+            "h": 124
+          }
+        },
+        {
+          "t": "4.4",
+          "r": {
+            "x": 545,
+            "y": 326,
+            "w": 20,
+            "h": 15
+          }
+        },
+        {
+          "t": "4.4 out of 5 stars",
+          "r": {
+            "x": 565,
+            "y": 328,
+            "w": 60,
+            "h": 12
+          }
+        },
+        {
+          "t": "(1,491)",
+          "r": {
+            "x": 643,
+            "y": 326,
+            "w": 39,
+            "h": 15
+          }
+        },
+        {
+          "t": "Amazon's Choice",
+          "r": {
+            "x": 549,
+            "y": 352,
+            "w": 91,
+            "h": 16
+          }
+        },
+        {
+          "t": "1K+ bought",
+          "r": {
+            "x": 545,
+            "y": 383,
+            "w": 66,
+            "h": 15
+          }
+        },
+        {
+          "t": "in past month",
+          "r": {
+            "x": 611,
+            "y": 383,
+            "w": 79,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 545,
+            "y": 433,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$50",
+          "r": {
+            "x": 605,
+            "y": 471,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,449.99",
+          "r": {
+            "x": 744,
+            "y": 471,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 812,
+            "y": 471,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "Select to learn more",
+          "r": {
+            "x": 545,
+            "y": 534,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "Ships from Electronic Express",
+          "r": {
+            "x": 562,
+            "y": 609,
+            "w": 59,
+            "h": 55
+          }
+        },
+        {
+          "t": "30-day easy returns",
+          "r": {
+            "x": 653,
+            "y": 609,
+            "w": 65,
+            "h": 35
+          }
+        },
+        {
+          "t": "Customer Support",
+          "r": {
+            "x": 753,
+            "y": 609,
+            "w": 52,
+            "h": 35
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 704,
+            "w": 33,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 Inches",
+          "r": {
+            "x": 578,
+            "y": 704,
+            "w": 62,
+            "h": 17
+          }
+        },
+        {
+          "t": "42 Inches",
+          "r": {
+            "x": 556,
+            "y": 733,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$999.99",
+          "r": {
+            "x": 556,
+            "y": 754,
+            "w": 53,
+            "h": 20
+          }
+        },
+        {
+          "t": "$999.99",
+          "r": {
+            "x": 556,
+            "y": 757,
+            "w": 45,
+            "h": 15
+          }
+        },
+        {
+          "t": "55 Inches",
+          "r": {
+            "x": 664,
+            "y": 733,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,077.95",
+          "r": {
+            "x": 664,
+            "y": 754,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$1,077.95",
+          "r": {
+            "x": 664,
+            "y": 757,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "Used",
+          "r": {
+            "x": 664,
+            "y": 773,
+            "w": 86,
+            "h": 16
+          }
+        },
+        {
+          "t": "65 Inches",
+          "r": {
+            "x": 772,
+            "y": 733,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 772,
+            "y": 754,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$1,499.99",
+          "r": {
+            "x": 772,
+            "y": 757,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "77 Inches",
+          "r": {
+            "x": 880,
+            "y": 733,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,879.99",
+          "r": {
+            "x": 880,
+            "y": 754,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$1,879.99",
+          "r": {
+            "x": 880,
+            "y": 757,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "83 Inches",
+          "r": {
+            "x": 988,
+            "y": 733,
+            "w": 86,
+            "h": 15
+          }
+        },
+        {
+          "t": "$3,499.99",
+          "r": {
+            "x": 988,
+            "y": 754,
+            "w": 64,
+            "h": 20
+          }
+        },
+        {
+          "t": "$3,499.99",
+          "r": {
+            "x": 988,
+            "y": 757,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "See 1 options with no featured offers",
+          "r": {
+            "x": 1094,
+            "y": 736,
+            "w": 81,
+            "h": 51
+          }
+        },
+        {
+          "t": "Style:",
+          "r": {
+            "x": 545,
+            "y": 808,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV Only",
+          "r": {
+            "x": 584,
+            "y": 808,
+            "w": 53,
+            "h": 17
+          }
+        },
+        {
+          "t": "Screen Size",
+          "r": {
+            "x": 545,
+            "y": 840,
+            "w": 75,
+            "h": 17
+          }
+        },
+        {
+          "t": "65 inches",
+          "r": {
+            "x": 708,
+            "y": 840,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Brand",
+          "r": {
+            "x": 545,
+            "y": 866,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "Display Technology",
+          "r": {
+            "x": 545,
+            "y": 892,
+            "w": 128,
+            "h": 17
+          }
+        },
+        {
+          "t": "OLED",
+          "r": {
+            "x": 708,
+            "y": 892,
+            "w": 36,
+            "h": 17
+          }
+        },
+        {
+          "t": "Resolution",
+          "r": {
+            "x": 545,
+            "y": 918,
+            "w": 70,
+            "h": 17
+          }
+        },
+        {
+          "t": "Refresh Rate",
+          "r": {
+            "x": 545,
+            "y": 944,
+            "w": 83,
+            "h": 17
+          }
+        },
+        {
+          "t": "120 hertz",
+          "r": {
+            "x": 708,
+            "y": 944,
+            "w": 62,
+            "h": 17
+          }
+        },
+        {
+          "t": "Special Feature",
+          "r": {
+            "x": 545,
+            "y": 970,
+            "w": 101,
+            "h": 17
+          }
+        },
+        {
+          "t": "Amd freesync, Built-In Speaker, Chromecast, Multiple Voice Assistance, Nvidia G Sync",
+          "r": {
+            "x": 708,
+            "y": 970,
+            "w": 503,
+            "h": 37
+          }
+        },
+        {
+          "t": "Included Components",
+          "r": {
+            "x": 545,
+            "y": 1016,
+            "w": 144,
+            "h": 17
+          }
+        },
+        {
+          "t": "Power Cable, Remote Control, Stand, User Manual",
+          "r": {
+            "x": 708,
+            "y": 1016,
+            "w": 317,
+            "h": 17
+          }
+        },
+        {
+          "t": "Connectivity Technology",
+          "r": {
+            "x": 545,
+            "y": 1042,
+            "w": 83,
+            "h": 37
+          }
+        },
+        {
+          "t": "Bluetooth, Ethernet, HDMI, USB, Wi-Fi",
+          "r": {
+            "x": 708,
+            "y": 1042,
+            "w": 242,
+            "h": 17
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 560,
+            "y": 1020,
+            "w": 60,
+            "h": 17
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+      "promos": [
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "Add a protection plan:",
+          "rect": {
+            "x": 1257,
+            "y": 676,
+            "w": 206,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan for $183.99",
+          "rect": {
+            "x": 1257,
+            "y": 700,
+            "w": 206,
+            "h": 40
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "label": "Protection plan",
+          "verbatim": "4-Year Protection Plan",
+          "rect": {
+            "x": 1278,
+            "y": 699,
+            "w": 142,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "New & Used (9) from $1,499.99 $1,499 . 99 & FREE Shipping",
+          "rect": {
+            "x": 1251,
+            "y": 973,
+            "w": 218,
+            "h": 41
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "& FREE Shipping",
+          "rect": {
+            "x": 1251,
+            "y": 995,
+            "w": 109,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "label": "Free shipping",
+          "verbatim": "FREE Shipping",
+          "rect": {
+            "x": 1265,
+            "y": 995,
+            "w": 95,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "label": "Savings",
+          "verbatim": "Get $50 off instantly: Pay $1,449.99 $1,499.99 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 579,
+            "y": 470,
+            "w": 599,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "subscription protection plan",
+          "label": "Complete Protect Monthly",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 743,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "amazon-qm8k-65",
+      "sku": "qm8k-65",
+      "channel": "amazon",
+      "brand": "tcl",
+      "model": "TCL QM8K 65\"",
+      "title": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound Bar with Dolby Atmos",
+      "url": "https://www.amazon.com/TCL-65-Inch-QD-Mini-Google-Channel/dp/B0FJLGCJ6G/ref=sr_1_6",
+      "currency": "USD",
+      "price": 1197.98,
+      "priceTxt": "$1,197.98",
+      "priceRect": {
+        "x": 1257,
+        "y": 153,
+        "w": 129,
+        "h": 33
+      },
+      "was": 1629.98,
+      "deliveryText": "99 FREE delivery as soon as Tue, Aug 18, 8 AM - 8 PM Hisense 65\" U7 Mini-LED ULED 4K UHD Best Pr",
+      "deliveryZip": "72714",
+      "defaultZip": true,
+      "availability": "Vista 72714 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 1",
+      "clip": {
+        "x": 50,
+        "y": 149,
+        "w": 1500,
+        "h": 3600
+      },
+      "readBottom": 682,
+      "idx": [
+        {
+          "t": "Sponsored",
+          "r": {
+            "x": 1468,
+            "y": 58,
+            "w": 70,
+            "h": 13
+          }
+        },
+        {
+          "t": "Electronics",
+          "r": {
+            "x": 18,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "Television & Video",
+          "r": {
+            "x": 91,
+            "y": 88,
+            "w": 100,
+            "h": 15
+          }
+        },
+        {
+          "t": "Televisions",
+          "r": {
+            "x": 205,
+            "y": 88,
+            "w": 59,
+            "h": 15
+          }
+        },
+        {
+          "t": "QLED TVs",
+          "r": {
+            "x": 278,
+            "y": 88,
+            "w": 54,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,197.98",
+          "r": {
+            "x": 1257,
+            "y": 153,
+            "w": 129,
+            "h": 33
+          }
+        },
+        {
+          "t": "Tuesday, August 18",
+          "r": {
+            "x": 1313,
+            "y": 198,
+            "w": 127,
+            "h": 17
+          }
+        },
+        {
+          "t": "34 mins",
+          "r": {
+            "x": 1345,
+            "y": 218,
+            "w": 52,
+            "h": 17
+          }
+        },
+        {
+          "t": "Delivering to Bella Vista 72714 - Update location",
+          "r": {
+            "x": 1278,
+            "y": 249,
+            "w": 185,
+            "h": 36
+          }
+        },
+        {
+          "t": "In Stock",
+          "r": {
+            "x": 1257,
+            "y": 303,
+            "w": 66,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1257,
+            "y": 338,
+            "w": 65,
+            "h": 22
+          }
+        },
+        {
+          "t": "Quantity:",
+          "r": {
+            "x": 1269,
+            "y": 345,
+            "w": 60,
+            "h": 17
+          }
+        },
+        {
+          "t": "Add to cart",
+          "r": {
+            "x": 1258,
+            "y": 383,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Buy Now",
+          "r": {
+            "x": 1258,
+            "y": 423,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Shipper / Seller",
+          "r": {
+            "x": 1262,
+            "y": 471,
+            "w": 85,
+            "h": 15
+          }
+        },
+        {
+          "t": "Amazon.com",
+          "r": {
+            "x": 1357,
+            "y": 471,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "Returns",
+          "r": {
+            "x": 1262,
+            "y": 495,
+            "w": 42,
+            "h": 15
+          }
+        },
+        {
+          "t": "30-day refund / replacement",
+          "r": {
+            "x": 1357,
+            "y": 495,
+            "w": 101,
+            "h": 32
+          }
+        },
+        {
+          "t": "Payment",
+          "r": {
+            "x": 1262,
+            "y": 539,
+            "w": 48,
+            "h": 15
+          }
+        },
+        {
+          "t": "Secure transaction",
+          "r": {
+            "x": 1357,
+            "y": 539,
+            "w": 101,
+            "h": 16
+          }
+        },
+        {
+          "t": "See more",
+          "r": {
+            "x": 1277,
+            "y": 571,
+            "w": 51,
+            "h": 15
+          }
+        },
+        {
+          "t": "Add to List",
+          "r": {
+            "x": 1258,
+            "y": 622,
+            "w": 204,
+            "h": 30
+          }
+        },
+        {
+          "t": "Click to see full view",
+          "r": {
+            "x": 228,
+            "y": 598,
+            "w": 129,
+            "h": 17
+          }
+        },
+        {
+          "t": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound Bar with Dolby Atmos",
+          "r": {
+            "x": 545,
+            "y": 139,
+            "w": 665,
+            "h": 92
+          }
+        },
+        {
+          "t": "Visit the TCL Store",
+          "r": {
+            "x": 545,
+            "y": 234,
+            "w": 117,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,197.98 with 27 percent savings",
+          "r": {
+            "x": 545,
+            "y": 282,
+            "w": 218,
+            "h": 20
+          }
+        },
+        {
+          "t": "-27%",
+          "r": {
+            "x": 545,
+            "y": 271,
+            "w": 60,
+            "h": 28
+          }
+        },
+        {
+          "t": "Bundle List Price: $1,629.98",
+          "r": {
+            "x": 545,
+            "y": 304,
+            "w": 151,
+            "h": 16
+          }
+        },
+        {
+          "t": "Bundle List Price:",
+          "r": {
+            "x": 545,
+            "y": 304,
+            "w": 96,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,629.98",
+          "r": {
+            "x": 641,
+            "y": 305,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,629.98",
+          "r": {
+            "x": 641,
+            "y": 304,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$50",
+          "r": {
+            "x": 605,
+            "y": 340,
+            "w": 25,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,147.98",
+          "r": {
+            "x": 744,
+            "y": 340,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "$1,197.98",
+          "r": {
+            "x": 812,
+            "y": 340,
+            "w": 64,
+            "h": 17
+          }
+        },
+        {
+          "t": "Size:",
+          "r": {
+            "x": 545,
+            "y": 370,
+            "w": 33,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV 65 inches + S45H Soundbar",
+          "r": {
+            "x": 578,
+            "y": 370,
+            "w": 202,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV 65 inches + S45H Soundbar",
+          "r": {
+            "x": 556,
+            "y": 399,
+            "w": 86,
+            "h": 30
+          }
+        },
+        {
+          "t": "$1,197.98 with 27 percent savings",
+          "r": {
+            "x": 556,
+            "y": 375,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$1,197.98",
+          "r": {
+            "x": 556,
+            "y": 438,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$1,629.98",
+          "r": {
+            "x": 556,
+            "y": 454,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$1,629.98",
+          "r": {
+            "x": 556,
+            "y": 455,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "TV 98 inches + S45H Soundbar",
+          "r": {
+            "x": 664,
+            "y": 399,
+            "w": 86,
+            "h": 30
+          }
+        },
+        {
+          "t": "$4,097.98 with 1 percent savings",
+          "r": {
+            "x": 664,
+            "y": 375,
+            "w": 86,
+            "h": 80
+          }
+        },
+        {
+          "t": "$4,097.98",
+          "r": {
+            "x": 664,
+            "y": 438,
+            "w": 55,
+            "h": 15
+          }
+        },
+        {
+          "t": "$4,129.98",
+          "r": {
+            "x": 664,
+            "y": 454,
+            "w": 46,
+            "h": 16
+          }
+        },
+        {
+          "t": "$4,129.98",
+          "r": {
+            "x": 664,
+            "y": 455,
+            "w": 46,
+            "h": 12
+          }
+        },
+        {
+          "t": "TV 75 inches + S45H Soundbar",
+          "r": {
+            "x": 772,
+            "y": 399,
+            "w": 86,
+            "h": 30
+          }
+        },
+        {
+          "t": "Currently unavailable.",
+          "r": {
+            "x": 772,
+            "y": 438,
+            "w": 60,
+            "h": 33
+          }
+        },
+        {
+          "t": "TV 85 inches + S45H Soundbar",
+          "r": {
+            "x": 880,
+            "y": 399,
+            "w": 86,
+            "h": 30
+          }
+        },
+        {
+          "t": "Currently unavailable.",
+          "r": {
+            "x": 880,
+            "y": 438,
+            "w": 60,
+            "h": 33
+          }
+        },
+        {
+          "t": "Brand",
+          "r": {
+            "x": 545,
+            "y": 493,
+            "w": 39,
+            "h": 17
+          }
+        },
+        {
+          "t": "TCL",
+          "r": {
+            "x": 723,
+            "y": 493,
+            "w": 23,
+            "h": 17
+          }
+        },
+        {
+          "t": "Operating System",
+          "r": {
+            "x": 545,
+            "y": 519,
+            "w": 119,
+            "h": 17
+          }
+        },
+        {
+          "t": "Google TV",
+          "r": {
+            "x": 723,
+            "y": 519,
+            "w": 66,
+            "h": 17
+          }
+        },
+        {
+          "t": "Size",
+          "r": {
+            "x": 545,
+            "y": 545,
+            "w": 27,
+            "h": 17
+          }
+        },
+        {
+          "t": "TV 65 inches + S45H Soundbar",
+          "r": {
+            "x": 723,
+            "y": 545,
+            "w": 196,
+            "h": 17
+          }
+        },
+        {
+          "t": "QD-MINI LED: This premium level Mini LED TV, now with the New TCL Halo Control System, ensures a stunning viewing experience.",
+          "r": {
+            "x": 563,
+            "y": 616,
+            "w": 641,
+            "h": 37
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-amazon-qm8k-65.jpg",
+      "promos": [
+        {
+          "type": "bundle",
+          "label": "Bundle",
+          "verbatim": "Bundle List Price: $1,629.98 Bundle List Price: $1,629.98 $1,629.98",
+          "rect": {
+            "x": 545,
+            "y": 302,
+            "w": 154,
+            "h": 17
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "bundle",
+          "label": "Bundle",
+          "verbatim": "Bundle List Price: $1,629.98",
+          "rect": {
+            "x": 545,
+            "y": 304,
+            "w": 151,
+            "h": 16
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "bundle",
+          "label": "Bundle",
+          "verbatim": "Bundle List Price: $1,629.98 $1,629.98",
+          "rect": {
+            "x": 545,
+            "y": 304,
+            "w": 154,
+            "h": 15
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "discount",
+          "label": "Savings",
+          "verbatim": "Get $50 off instantly: Pay $1,147.98 $1,197.98 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 579,
+            "y": 339,
+            "w": 599,
+            "h": 20
+          },
+          "via": "pattern"
+        },
+        {
+          "type": "percentage discount",
+          "label": "27% off bundle",
+          "verbatim": "$1,197.98 with 27 percent savings",
+          "rect": {
+            "x": 545,
+            "y": 282,
+            "w": 218,
+            "h": 20
+          },
+          "via": "llm"
+        },
+        {
+          "type": "percentage discount (alternate size)",
+          "label": "1% off larger bundle",
+          "verbatim": "$4,097.98 with 1 percent savings",
+          "rect": {
+            "x": 664,
+            "y": 375,
+            "w": 86,
+            "h": 80
+          },
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "asin": "newegg-c5rgb-65",
+      "sku": "c5rgb-65",
+      "channel": "newegg",
+      "brand": "lg",
+      "model": "LG C5 OLED 65\"",
+      "title": "LG OLED65C5P 65 inch Class C5 Series 4K OLED Smart TV - Newegg.com",
+      "url": "https://www.newegg.com/lg-oled-evo-c5-4k-tv-65/p/16C-000P-007C6",
+      "currency": "USD",
+      "price": null,
+      "priceTxt": "",
+      "priceRect": null,
+      "was": null,
+      "deliveryText": "",
+      "deliveryZip": null,
+      "defaultZip": true,
+      "availability": "ree Shipping Volume Discounts Available Sort By: Best Seller Rating L",
+      "clip": {
+        "x": 30,
+        "y": 261,
+        "w": 538,
+        "h": 483
+      },
+      "readBottom": 483,
+      "idx": [
+        {
+          "t": "See more",
+          "r": {
+            "x": 468,
+            "y": 423,
+            "w": 57,
+            "h": 57
+          }
+        }
+      ],
+      "img": "evidence/sonyrgb-multi/pdp-newegg-c5rgb-65.jpg",
+      "promos": []
+    },
+    {
+      "asin": "bestbuy-b9ii-65",
+      "sku": "b9ii-65",
+      "channel": "bestbuy",
+      "brand": "sony",
+      "model": "BRAVIA 9 II 65\"",
+      "title": "Sony 65\" Class BRAVIA 9 II True RGB 4K HDR Google TV with Gemini and Anti-Glare screen",
+      "url": "https://www.bestbuy.com/site/searchpage.jsp?st=Sony+BRAVIA+9+II+65+True+RGB",
+      "currency": "USD",
+      "price": 2974.99,
+      "was": null,
+      "priceBasisNote": "open-box — the new unit is Unavailable at Best Buy",
+      "availability": "New unavailable · open-box from $2,974.99",
+      "deliveryText": "",
+      "defaultZip": true,
+      "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+      "via": "unlocker",
+      "promos": [
+        {
+          "type": "open-box",
+          "label": "open-box",
+          "verbatim": "Open-box as low as $2,974.99",
+          "via": "unlocker",
+          "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg"
+        }
+      ],
+      "proofNote": "Found by searching Best Buy through the Bright Data Web Unlocker (Apify cannot read BB TV pages). Price, availability and rating read off the captured results page shown; this proof frames both 65-inch True RGB heroes."
+    },
+    {
+      "asin": "bestbuy-b7ii-65",
+      "sku": "b7ii-65",
+      "channel": "bestbuy",
+      "brand": "sony",
+      "model": "BRAVIA 7 II 65\"",
+      "title": "Sony 65\" Class BRAVIA 7 II True RGB 4K HDR Google TV with Gemini",
+      "url": "https://www.bestbuy.com/site/searchpage.jsp?st=Sony+BRAVIA+7+II+65+True+RGB",
+      "currency": "USD",
+      "price": 2599.99,
+      "was": null,
+      "availability": "In stock",
+      "deliveryText": "Delivery as soon as Fri, Aug 14 (default zip)",
+      "defaultZip": true,
+      "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg",
+      "via": "unlocker",
+      "promos": [
+        {
+          "type": "gift with purchase",
+          "label": "free installation",
+          "verbatim": "Free installation and haul-away",
+          "via": "unlocker",
+          "img": "evidence/sonyrgb-multi/bb-rgb-heroes-search.jpg"
+        }
+      ],
+      "proofNote": "Found by searching Best Buy through the Bright Data Web Unlocker (Apify cannot read BB TV pages). Price, availability and rating read off the captured results page shown; this proof frames both 65-inch True RGB heroes."
+    }
+  ]
+}

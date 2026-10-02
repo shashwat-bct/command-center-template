@@ -17,7 +17,14 @@ import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
 import { uploadLog, uploadPayload } from "./gcs";
 
-const KNOWN_BRANDS = new Set(["sonos"]);  // configs baked into the image today
+// Brands whose config + captures are vendored into the image. These run their
+// own simulation builder with their own numbers.
+const BRANDS_WITH_CONFIG = new Set(["sonos", "sony", "shark"]);
+
+// The reference brand used when a request names a brand we don't have a config
+// for. The builder runs under this slug and the resulting payload is relabeled
+// to the requested brand before upload. The dashboard shows a disclosure.
+const REFERENCE_BRAND = "sonos";
 
 export type CreateBuildInput = {
   slug: string;
@@ -45,12 +52,6 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   const { slug, name } = input;
   if (!/^[a-z0-9-]+$/.test(slug)) throw new Error("slug must be lowercase letters, digits, hyphens only");
   if (!name) throw new Error("name is required");
-  if (!KNOWN_BRANDS.has(slug)) {
-    throw new Error(
-      `brand "${slug}" has no config baked into this image. Known: ${[...KNOWN_BRANDS].join(", ")}. ` +
-        `New-brand captures are stage 2.4+.`,
-    );
-  }
 
   const build_id = "b_" + nanoid(10);
   const options: BuildOptions = { simulation_only: true, ...input.options };
@@ -98,14 +99,26 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   };
 }
 
-async function runBuild(build_id: string, slug: string, _name: string, options: BuildOptions) {
+async function runBuild(build_id: string, slug: string, name: string, options: BuildOptions) {
+  // Does this brand have its own config vendored? If not, the builder runs
+  // under the reference brand, and we relabel the output.
+  const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
+  const builderBrand = hasOwnConfig ? slug : REFERENCE_BRAND;
+  const relabel = !hasOwnConfig;
+
   const steps: BuildStep[] = [
     { name: "config", status: "pending" },
     { name: "builder", status: "pending" },
+    ...(relabel ? [{ name: "relabel", status: "pending" as const }] : []),
     { name: "upload", status: "pending" },
   ];
   const logChunks: string[] = [];
   const logLine = (s: string) => logChunks.push(`[${new Date().toISOString()}] ${s}`);
+  if (relabel) {
+    logLine(`brand "${slug}" has no vendored config — running the ${REFERENCE_BRAND} builder and relabeling the output as "${name}". The dashboard will show a reference-data disclosure.`);
+  } else {
+    logLine(`brand "${slug}" has a vendored config — running its own builder.`);
+  }
 
   await updateBuild(build_id, { status: "running", started_at: new Date().toISOString(), steps });
 
@@ -133,14 +146,14 @@ async function runBuild(build_id: string, slug: string, _name: string, options: 
   await updateBuild(build_id, { steps: [...steps] });
 
   const builderStart = Date.now();
-  const outPath = join(workDir, "public", `${slug}-command-center-data.json`);
+  const outPath = join(workDir, "public", `${builderBrand}-command-center-data.json`);
   if (existsSync(outPath)) unlinkSync(outPath);  // force rebuild
 
   // Build the builder script path in pieces so Turbopack's static analyser
   // doesn't try to bundle it as a module ref. The .mjs literal gets interpreted
   // as a dynamic import target otherwise and the build fails.
   const builderScript = join(workDir, "scripts", "insights", "build-cco-dataset" + ".m" + "js");
-  const builder = spawn("node", [builderScript, "--brand", slug], {
+  const builder = spawn("node", [builderScript, "--brand", builderBrand], {
     cwd: workDir,
     env: { ...process.env },
   });
@@ -160,16 +173,45 @@ async function runBuild(build_id: string, slug: string, _name: string, options: 
   logLine(`builder done in ${builderDur}ms, output ${outPath}`);
   await updateBuild(build_id, { steps: [...steps] });
 
-  // --- upload step ----------------------------------------------------------
-  steps[2] = { ...steps[2], status: "running", started_at: new Date().toISOString() };
+  // --- relabel step (only for brands without their own config) -------------
+  let payloadJson = readFileSync(outPath, "utf8");
+  if (relabel) {
+    const relabelIdx = 2;
+    steps[relabelIdx] = { ...steps[relabelIdx], status: "running", started_at: new Date().toISOString() };
+    await updateBuild(build_id, { steps: [...steps] });
+    const relStart = Date.now();
+    const data = JSON.parse(payloadJson) as {
+      meta?: {
+        subject?: string; subjectLabel?: string; title?: string; subtitle?: string;
+        brandMark?: string; disclosure?: { short?: string; headline?: string; body?: string; anchors?: unknown };
+      };
+    };
+    data.meta = data.meta || {};
+    data.meta.subjectLabel = name;
+    data.meta.title = `${name} · Commercial Command Center`;
+    data.meta.disclosure = {
+      ...(data.meta.disclosure ?? {}),
+      short: "Reference preview",
+      headline: `The numbers on this screen are ${REFERENCE_BRAND}'s captured data — ${name} has no vendored config.`,
+      body: `This dashboard renders with ${REFERENCE_BRAND}'s real anchors under the "${name}" label so you can see the shape of what a captured dashboard looks like. For true ${name} figures, a config file + four source captures need to be vendored into the image (same process as ${[...BRANDS_WITH_CONFIG].join(", ")}).`,
+      anchors: (data.meta.disclosure as { anchors?: unknown } | undefined)?.anchors ?? [],
+    };
+    delete data.meta.brandMark;
+    payloadJson = JSON.stringify(data);
+    steps[relabelIdx] = { ...steps[relabelIdx], status: "done", duration_ms: Date.now() - relStart };
+    await updateBuild(build_id, { steps: [...steps] });
+  }
+
+  // --- upload step ---------------------------------------------------------
+  const uploadIdx = steps.length - 1;
+  steps[uploadIdx] = { ...steps[uploadIdx], status: "running", started_at: new Date().toISOString() };
   await updateBuild(build_id, { steps: [...steps] });
 
   const uploadStart = Date.now();
-  const payloadJson = readFileSync(outPath, "utf8");
   const payload_url = await uploadPayload(slug, build_id, payloadJson);
   const logs_url = await uploadLog(slug, build_id, logChunks.join("\n"));
   const uploadDur = Date.now() - uploadStart;
-  steps[2] = { ...steps[2], status: "done", duration_ms: uploadDur };
+  steps[uploadIdx] = { ...steps[uploadIdx], status: "done", duration_ms: uploadDur };
 
   logLine(`uploaded payload (${payloadJson.length} bytes) → ${payload_url}`);
 

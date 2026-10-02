@@ -1,0 +1,1021 @@
+{
+  "stem": "shark-vacuums",
+  "subject": "shark",
+  "capturedAt": "2026-08-15T19:19:27.703Z",
+  "market": "US",
+  "derived": true,
+  "retailers": [
+    {
+      "id": "amazon",
+      "label": "Amazon"
+    }
+  ],
+  "models": [
+    {
+      "id": "B0F2GS1SN6",
+      "brand": "shark",
+      "label": "PowerPro Flex Reveal Plus Cordless Vacuum, Java, IZ382H | FloorDetect & Dirt-Reveal T"
+    },
+    {
+      "id": "B0DDZVKVNJ",
+      "brand": "shark",
+      "label": "PowerDetect Cordless Stick Vacuum, Dark Gray, IP1251"
+    },
+    {
+      "id": "B0D15LVBJB",
+      "brand": "shark",
+      "label": "Clean & Empty Cordless Stick Vacuum, White & Blue, BU3523 | Auto-Empty, Lightweight,"
+    },
+    {
+      "id": "B0GTC14BFW",
+      "brand": "dyson",
+      "label": "V15 Detect™ Origin Cordless Vacuum"
+    },
+    {
+      "id": "B0GYPLWHKJ",
+      "brand": "dyson",
+      "label": "V16 Piston Animal Cordless Vacuum"
+    },
+    {
+      "id": "B0GY5Z5BT4",
+      "brand": "dyson",
+      "label": "V16 Piston Animal Submarine™ Cordless Wet and Dry Vacuum"
+    },
+    {
+      "id": "B0F43B9K65",
+      "brand": "tineco",
+      "label": "Pure ONE S70 Cordless Vacuum Cleaner, 200AW Powerful Suction, Up to 95min Runtime, Z"
+    },
+    {
+      "id": "B0FKM65DLZ",
+      "brand": "tineco",
+      "label": "Pure ONE A90S Cordless Vacuum Cleaner, 270AW Powerful Suction, Up to 105min Runtime,"
+    },
+    {
+      "id": "B0GXTVBT2B",
+      "brand": "tineco",
+      "label": "Pure ONE Station 5 Pro Cordless Vacuum, Automatic Dust Collection, Full-Path Self-Cl"
+    },
+    {
+      "id": "B0F146NL5W",
+      "brand": "lg",
+      "label": "Cordzero Q3 Cordless Stick Vacuum Cleaner"
+    },
+    {
+      "id": "B0CS45SYW7",
+      "brand": "lg",
+      "label": "CordZero A949"
+    }
+  ],
+  "matrix": [
+    {
+      "model": "B0F2GS1SN6",
+      "label": "PowerPro Flex Reveal Plus Cordless Vacuum, Java, IZ382H | FloorDetect & Dirt-Reveal T",
+      "brand": "shark",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 379.95,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sharkvacuums/pdp-B0F2GS1SN6.jpg",
+      "url": "https://www.amazon.com/dp/B0F2GS1SN6",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $329.95 $379.95 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 391,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 391,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0F2GS1SN6-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect subscription",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 954,
+            "w": 173,
+            "h": 76
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 954,
+              "w": 173,
+              "h": 76
+            },
+            {
+              "x": 1273,
+              "y": 864,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 908,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0F2GS1SN6-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0DDZVKVNJ",
+      "label": "PowerDetect Cordless Stick Vacuum, Dark Gray, IP1251",
+      "brand": "shark",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 349.95,
+      "priceBasis": "pdp",
+      "was": 449.99,
+      "img": "evidence/sharkvacuums/pdp-B0DDZVKVNJ.jpg",
+      "url": "https://www.amazon.com/dp/B0DDZVKVNJ",
+      "promos": [
+        {
+          "type": "discount",
+          "label": "Discount vs list",
+          "verbatim": "List Price: $449.99",
+          "rect": {
+            "x": 699,
+            "y": 341,
+            "w": 513,
+            "h": 33
+          },
+          "via": "selector",
+          "rects": [
+            {
+              "x": 699,
+              "y": 341,
+              "w": 513,
+              "h": 33
+            },
+            {
+              "x": 699,
+              "y": 377,
+              "w": 103,
+              "h": 15
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0DDZVKVNJ-p1.jpg"
+        },
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $299.95 $349.95 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 412,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 412,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0DDZVKVNJ-p2.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect subscription",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 970,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 970,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 881,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 925,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0DDZVKVNJ-p3.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0D15LVBJB",
+      "label": "Clean & Empty Cordless Stick Vacuum, White & Blue, BU3523 | Auto-Empty, Lightweight,",
+      "brand": "shark",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 417.98,
+      "priceBasis": "pdp",
+      "was": 449.99,
+      "img": "evidence/sharkvacuums/pdp-B0D15LVBJB.jpg",
+      "url": "https://www.amazon.com/dp/B0D15LVBJB",
+      "promos": [
+        {
+          "type": "discount",
+          "label": "Discount vs list",
+          "verbatim": "$417.98 with 7 percent savings -7% $417.98",
+          "rect": {
+            "x": 699,
+            "y": 451,
+            "w": 513,
+            "h": 33
+          },
+          "via": "selector",
+          "rects": [
+            {
+              "x": 699,
+              "y": 451,
+              "w": 513,
+              "h": 33
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0D15LVBJB-p1.jpg"
+        },
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $367.98 $417.98 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 522,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 522,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0D15LVBJB-p2.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect subscription",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 881,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 881,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 792,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 836,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0D15LVBJB-p3.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0GTC14BFW",
+      "label": "V15 Detect™ Origin Cordless Vacuum",
+      "brand": "dyson",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 839.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sharkvacuums/pdp-B0GTC14BFW.jpg",
+      "url": "https://www.amazon.com/dp/B0GTC14BFW",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $789.99 $839.99 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 339,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 339,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GTC14BFW-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect subscription plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 1045,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 1045,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 956,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 1000,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GTC14BFW-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0GYPLWHKJ",
+      "label": "V16 Piston Animal Cordless Vacuum",
+      "brand": "dyson",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 849.99,
+      "priceBasis": "pdp",
+      "was": 979.99,
+      "img": "evidence/sharkvacuums/pdp-B0GYPLWHKJ.jpg",
+      "url": "https://www.amazon.com/dp/B0GYPLWHKJ",
+      "promos": [
+        {
+          "type": "discount",
+          "label": "Discount vs list",
+          "verbatim": "$849.99 with 13 percent savings -13% $849.99",
+          "rect": {
+            "x": 699,
+            "y": 288,
+            "w": 513,
+            "h": 33
+          },
+          "via": "selector",
+          "rects": [
+            {
+              "x": 699,
+              "y": 288,
+              "w": 513,
+              "h": 33
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GYPLWHKJ-p1.jpg"
+        },
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $799.99 $849.99 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 359,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 359,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GYPLWHKJ-p2.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect monthly plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 951,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 951,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 862,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 906,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GYPLWHKJ-p3.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0GY5Z5BT4",
+      "label": "V16 Piston Animal Submarine™ Cordless Wet and Dry Vacuum",
+      "brand": "dyson",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 1099.95,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sharkvacuums/pdp-B0GY5Z5BT4.jpg",
+      "url": "https://www.amazon.com/dp/B0GY5Z5BT4",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $1,049.95 $1,099.95 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 407,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 407,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GY5Z5BT4-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect Monthly Plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 1045,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 1045,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 956,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 1000,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GY5Z5BT4-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0F43B9K65",
+      "label": "Pure ONE S70 Cordless Vacuum Cleaner, 200AW Powerful Suction, Up to 95min Runtime, Z",
+      "brand": "tineco",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 569,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sharkvacuums/pdp-B0F43B9K65.jpg",
+      "url": "https://www.amazon.com/dp/B0F43B9K65",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $519.00 $569.00 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 434,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 434,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0F43B9K65-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect subscription",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 1011,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 1011,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 922,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 966,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0F43B9K65-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0FKM65DLZ",
+      "label": "Pure ONE A90S Cordless Vacuum Cleaner, 270AW Powerful Suction, Up to 105min Runtime,",
+      "brand": "tineco",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 749,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sharkvacuums/pdp-B0FKM65DLZ.jpg",
+      "url": "https://www.amazon.com/dp/B0FKM65DLZ",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $699.00 $749.00 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 434,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 434,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0FKM65DLZ-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect subscription",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 1027,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 1027,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 938,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 982,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0FKM65DLZ-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0GXTVBT2B",
+      "label": "Pure ONE Station 5 Pro Cordless Vacuum, Automatic Dust Collection, Full-Path Self-Cl",
+      "brand": "tineco",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 599,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sharkvacuums/pdp-B0GXTVBT2B.jpg",
+      "url": "https://www.amazon.com/dp/B0GXTVBT2B",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $549.00 $599.00 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 407,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 407,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GXTVBT2B-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect monthly plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 1057,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 1057,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 968,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 1012,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0GXTVBT2B-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0F146NL5W",
+      "label": "Cordzero Q3 Cordless Stick Vacuum Cleaner",
+      "brand": "lg",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 319,
+      "priceBasis": "pdp",
+      "was": 549.99,
+      "img": "evidence/sharkvacuums/pdp-B0F146NL5W.jpg",
+      "url": "https://www.amazon.com/dp/B0F146NL5W",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $269.00 $319.00 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 403,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 403,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0F146NL5W-p1.jpg"
+        },
+        {
+          "type": "protection plan",
+          "label": "Complete Protect monthly plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) for $16.99/month",
+          "rect": {
+            "x": 1278,
+            "y": 931,
+            "w": 177,
+            "h": 77
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 1278,
+              "y": 931,
+              "w": 177,
+              "h": 77
+            },
+            {
+              "x": 1273,
+              "y": 842,
+              "w": 188,
+              "h": 40
+            },
+            {
+              "x": 1273,
+              "y": 886,
+              "w": 188,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0F146NL5W-p2.jpg"
+        }
+      ]
+    },
+    {
+      "model": "B0CS45SYW7",
+      "label": "CordZero A949",
+      "brand": "lg",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 249.99,
+      "priceBasis": "pdp",
+      "was": 299.99,
+      "img": "evidence/sharkvacuums/pdp-B0CS45SYW7.jpg",
+      "url": "https://www.amazon.com/dp/B0CS45SYW7",
+      "promos": [
+        {
+          "type": "card offer",
+          "label": "$50 off with Amazon Visa",
+          "verbatim": "Get $50 off instantly: Pay $912.52 $962.52 upon approval for Amazon Visa. No annual fee.",
+          "rect": {
+            "x": 699,
+            "y": 644,
+            "w": 513,
+            "h": 40
+          },
+          "via": "llm",
+          "rects": [
+            {
+              "x": 699,
+              "y": 644,
+              "w": 513,
+              "h": 40
+            }
+          ],
+          "img": "evidence/sharkvacuums/pdp-B0CS45SYW7-p1.jpg"
+        }
+      ]
+    }
+  ],
+  "promotionTypes": [
+    "card offer",
+    "protection plan",
+    "discount"
+  ],
+  "shelf": {
+    "terms": [
+      {
+        "id": "category",
+        "label": "category grid"
+      }
+    ],
+    "brands": [
+      "shark",
+      "dyson",
+      "tineco",
+      "samsung",
+      "lg"
+    ],
+    "sov": {
+      "amazon": {
+        "byBrand": {
+          "shark": {
+            "mean": 0.2,
+            "min": 0.2,
+            "max": 0.2,
+            "n": 1
+          },
+          "dyson": {
+            "mean": 0.1,
+            "min": 0.1,
+            "max": 0.1,
+            "n": 1
+          },
+          "tineco": {
+            "mean": 0.13,
+            "min": 0.13,
+            "max": 0.13,
+            "n": 1
+          },
+          "samsung": {
+            "mean": 0.11,
+            "min": 0.11,
+            "max": 0.11,
+            "n": 1
+          },
+          "lg": {
+            "mean": 0.11,
+            "min": 0.11,
+            "max": 0.11,
+            "n": 1
+          }
+        },
+        "unreadable": 0,
+        "state": "measured"
+      }
+    },
+    "basis": {
+      "rating": "Amazon listing star rating, per product page",
+      "inStock": "Keepa buyable-days · 2026-06",
+      "leadTime": "Amazon product-page delivery block, mean per brand",
+      "capturedAt": "2026-08-14"
+    }
+  },
+  "delivery": {
+    "cities": []
+  },
+  "deliveryRows": [
+    {
+      "model": "B0F2GS1SN6",
+      "retailer": "amazon",
+      "city": null,
+      "days": 5.7,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0DDZVKVNJ",
+      "retailer": "amazon",
+      "city": null,
+      "days": 5.7,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0D15LVBJB",
+      "retailer": "amazon",
+      "city": null,
+      "days": 5.7,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0GTC14BFW",
+      "retailer": "amazon",
+      "city": null,
+      "days": 6.7,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0GYPLWHKJ",
+      "retailer": "amazon",
+      "city": null,
+      "days": 6.7,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0GY5Z5BT4",
+      "retailer": "amazon",
+      "city": null,
+      "days": 6.7,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0F43B9K65",
+      "retailer": "amazon",
+      "city": null,
+      "days": 3,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0FKM65DLZ",
+      "retailer": "amazon",
+      "city": null,
+      "days": 3,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0GXTVBT2B",
+      "retailer": "amazon",
+      "city": null,
+      "days": 3,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0F146NL5W",
+      "retailer": "amazon",
+      "city": null,
+      "days": 6.5,
+      "basis": "brand mean from the listing capture"
+    },
+    {
+      "model": "B0CS45SYW7",
+      "retailer": "amazon",
+      "city": null,
+      "days": 6.5,
+      "basis": "brand mean from the listing capture"
+    }
+  ],
+  "coverage": {
+    "retailers": 1,
+    "measured": [
+      "Amazon carriage, shelf price and promotions for every tracked listing",
+      "Amazon shelf share per brand",
+      "the listing lead time per brand",
+      "six months of audited price and availability history"
+    ],
+    "note": "Amazon is measured. The rest of the retail estate, the search terms beyond the one grid that was read, and the metro delivery spread are extrapolated from these anchors — this dashboard is a simulated forward view and says so on every screen.",
+    "extrapolated": [
+      "carriage and price at the four retailers beyond Amazon",
+      "shelf share per retailer per term",
+      "the metro delivery spread"
+    ]
+  },
+  "sources": {
+    "launch": "public/shark-vacuums-data.json",
+    "promo": "data/pdp-promo/shark-vacuums.json"
+  }
+}
