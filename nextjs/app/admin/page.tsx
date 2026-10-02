@@ -6,6 +6,12 @@ import { useRouter } from "next/navigation";
 
 const STORE = "cct_brands_v1";
 
+const VENDORED_BRANDS: Array<{ slug: string; name: string; note: string }> = [
+  { slug: "sonos", name: "Sonos", note: "wireless + smart speakers" },
+  { slug: "sony", name: "Sony Bravia", note: "premium televisions" },
+  { slug: "shark", name: "Shark", note: "cordless stick vacuums" },
+];
+
 type DataSource = "clone" | "upload" | "paste" | "backend";
 
 type CCOPayload = {
@@ -117,6 +123,13 @@ export default function AdminPage() {
           .split(/[,\n]+/)
           .map((s) => s.trim())
           .filter(Boolean);
+        const isVendored = VENDORED_BRANDS.some((b) => b.slug === slug);
+        const hasRealInput = asins.length > 0 || aiCategory.trim().length > 0;
+        if (!isVendored && !hasRealInput) {
+          throw new Error(
+            `"${name}" isn't a vendored brand. Supply ASINs (for real Keepa + Apify pricing data) or a Category (for real Claude AI share-of-mind) — otherwise the dashboard will just show Sonos reference data under the ${name} label, which took me 3s last time you tried this.`,
+          );
+        }
         await runBackendBuild(
           { slug, name, asins, aiCategory: aiCategory.trim() || null, aiCompetitors },
           router,
@@ -294,7 +307,33 @@ export default function AdminPage() {
               <div className="space-y-5">
                 <div>
                   <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-700">
-                    Data sources
+                    Shortcut — vendored brands
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {VENDORED_BRANDS.map((b) => (
+                      <button
+                        key={b.slug}
+                        type="button"
+                        onClick={() => {
+                          onNameChange(b.name);
+                          setSlug(b.slug);
+                          setSlugTouched(true);
+                        }}
+                        className="group rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-left transition hover:border-neutral-900"
+                      >
+                        <div className="text-sm font-semibold">{b.name}</div>
+                        <div className="font-mono text-[10px] text-neutral-500">{b.slug} · {b.note}</div>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-neutral-500">
+                    These brands run their <b>own</b> real captured data. Click one and hit Create — no ASINs needed. For anything else, fill the inputs below so real data gets fetched.
+                  </p>
+                </div>
+
+                <div>
+                  <div className="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-700">
+                    Data sources <span className="text-neutral-400 font-normal normal-case tracking-normal">· for any brand not vendored above</span>
                   </div>
                   <div className="space-y-4 rounded-xl border border-dashed border-neutral-300 p-4">
                     <Field

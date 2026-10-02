@@ -66,6 +66,20 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
   if (!/^[a-z0-9-]+$/.test(slug)) throw new Error("slug must be lowercase letters, digits, hyphens only");
   if (!name) throw new Error("name is required");
 
+  // Guard against the "SharkNinja took 3 seconds" trap: if the brand has no
+  // vendored config AND no real-data inputs were supplied, the build would be
+  // a pure Sonos-reference preview. Refuse that unless the caller explicitly
+  // opts in — otherwise the dashboard quietly shows Sonos's numbers under the
+  // typed brand's name, which is misleading.
+  const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
+  const hasRealInput = (input.asins && input.asins.length > 0) || (input.aiCategory && input.aiCategory.trim().length > 0);
+  const allowRefPreview = input.options && (input.options as { allowReferencePreview?: boolean }).allowReferencePreview === true;
+  if (!hasOwnConfig && !hasRealInput && !allowRefPreview) {
+    throw new Error(
+      `brand "${slug}" has no vendored config and no real-data inputs. Supply ASINs (Keepa + Apify) or a category (Claude AI share-of-mind) to run a real-data build. Known vendored brands: ${[...BRANDS_WITH_CONFIG].join(", ")}. To proceed with pure reference data anyway, pass options.allowReferencePreview = true.`,
+    );
+  }
+
   const build_id = "b_" + nanoid(10);
   const options: BuildOptions = { simulation_only: true, ...input.options };
 
