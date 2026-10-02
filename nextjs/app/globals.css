@@ -8,18 +8,18 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-urbanist);
-  --font-serif: var(--font-newsreader);
-  --font-mono: var(--font-spline-mono);
+  --font-sans: Urbanist, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: Newsreader, Georgia, serif;
+  --font-mono: "Spline Sans Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  font-family: Urbanist, ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Only used by file-backed dashboard pages ([brand]/page.tsx) — they embed the
+/* Only used by file-backed dashboard pages ([brand]/route.ts) — they embed the
    bravo-platform shell JS which expects #rail, #main, etc. to be unstyled by
    Tailwind's preflight. */
 .cco-shell * {

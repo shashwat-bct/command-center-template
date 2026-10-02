@@ -1,0 +1,11 @@
+[
+  { "name": "slug",            "type": "STRING",    "mode": "REQUIRED", "description": "Brand slug, URL-safe, soft primary key" },
+  { "name": "name",            "type": "STRING",    "mode": "REQUIRED", "description": "Display label" },
+  { "name": "category",        "type": "STRING",    "mode": "NULLABLE", "description": "e.g. wireless speakers" },
+  { "name": "retailers",       "type": "JSON",      "mode": "NULLABLE", "description": "Array of retailer slugs" },
+  { "name": "models",          "type": "JSON",      "mode": "NULLABLE", "description": "Array of {id, asin, msrp}" },
+  { "name": "cities",          "type": "JSON",      "mode": "NULLABLE", "description": "Array of delivery-probe city slugs" },
+  { "name": "latest_build_id", "type": "STRING",    "mode": "NULLABLE", "description": "FK into builds — latest ready build" },
+  { "name": "created_at",      "type": "TIMESTAMP", "mode": "REQUIRED" },
+  { "name": "updated_at",      "type": "TIMESTAMP", "mode": "REQUIRED" }
+]

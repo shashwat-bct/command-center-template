@@ -14,7 +14,10 @@ import { resolve } from "node:path";
 const BRANDS: Record<string, { title: string; payload: string }> = {
   sonos: {
     title: "Sonos · Commercial Command Center",
-    payload: "/sonos-command-center-data.json",
+    // Point at the live API endpoint so the dashboard always sees the latest
+    // ready build (or the vendored fallback if no builds yet). The committed
+    // /sonos-command-center-data.json path still works as a direct asset.
+    payload: "/api/payloads/sonos",
   },
 };
 

@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start"
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^9.1.0",
+    "@google-cloud/storage": "^8.2.0",
+    "nanoid": "^6.0.1",
     "next": "16.3.8",
     "react": "19.2.8",
     "react-dom": "19.2.8"

@@ -1,0 +1,4715 @@
+{
+  "stem": "sonos-retailers",
+  "subject": "sonos",
+  "capturedAt": "2026-08-13T08:16:52.974Z",
+  "market": "US",
+  "retailers": [
+    {
+      "id": "amazon",
+      "label": "Amazon"
+    },
+    {
+      "id": "walmart",
+      "label": "Walmart"
+    },
+    {
+      "id": "target",
+      "label": "Target"
+    },
+    {
+      "id": "bestbuy",
+      "label": "Best Buy"
+    },
+    {
+      "id": "newegg",
+      "label": "Newegg"
+    }
+  ],
+  "models": [
+    {
+      "id": "era100",
+      "brand": "sonos",
+      "label": "Era 100"
+    },
+    {
+      "id": "era300",
+      "brand": "sonos",
+      "label": "Era 300"
+    },
+    {
+      "id": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)"
+    },
+    {
+      "id": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5"
+    },
+    {
+      "id": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6"
+    },
+    {
+      "id": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max"
+    },
+    {
+      "id": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+"
+    },
+    {
+      "id": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max"
+    },
+    {
+      "id": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio"
+    }
+  ],
+  "matrix": [
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 219,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-amazon-era100-promo.jpg",
+      "url": "https://www.amazon.com/Sonos-Era-100-Wireless-Speaker/dp/B0BW34LCB8/ref=sr_1_5",
+      "promos": [
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $169.00 $219.00 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-era100-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2-Year Protection Plan for $24.99",
+          "img": "evidence/sonos-multi/pdp-amazon-era100-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (6) from $189.95 & FREE Shipping",
+          "img": "evidence/sonos-multi/pdp-amazon-era100-p3.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "bestbuy",
+      "carriage": "carried",
+      "price": 219,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-bestbuy-era100.png",
+      "url": "https://www.bestbuy.com/product/sonos-era-100-wifi-and-bluetooth-smart-speaker-each-black/J39H373RL3",
+      "promos": [
+        {
+          "type": "deal",
+          "verbatim": "Top Deals Deal of the Day Gift Ideas My Best Buy Membershi",
+          "img": "evidence/sonos-multi/pdp-bestbuy-era100.png",
+          "via": "unlocker"
+        }
+      ]
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-era100.jpg",
+      "url": "https://www.newegg.com/p/3C6-00V6-02FT2",
+      "promos": [],
+      "priceDisputed": "implausible vs other retailers ($57.99 against a $219 median of 3) — withheld"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 479,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-amazon-era300-promo.jpg",
+      "url": "https://www.amazon.com/Sonos-Era-300-Wireless-Speaker/dp/B0BW2LV57K/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $429.00 $479.00 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-era300-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonos-multi/pdp-amazon-era300-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (6) from $424.03 & FREE Shipping.",
+          "img": "evidence/sonos-multi/pdp-amazon-era300-p3.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "walmart",
+      "carriage": "not readable"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "carriage": "carried",
+      "price": 479,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-target-era300-promo.jpg",
+      "url": "https://www.target.com/p/sonos-era-300-voice-controlled-wireless-smart-speaker-with-bluetooth-trueplay-acoustic-tuning-technology-alexa-built-in/-/A-88879938",
+      "promos": [
+        {
+          "type": "delivery offer",
+          "verbatim": "Ships free- exclusions apply",
+          "img": "evidence/sonos-multi/pdp-target-era300-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2 Year Audio Products Protection Plan ($450-$499.99) - Allstate",
+          "img": "evidence/sonos-multi/pdp-target-era300-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "financing",
+          "verbatim": "Pay as low as $45/mo",
+          "img": "evidence/sonos-multi/pdp-target-era300-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "buy now pay later",
+          "verbatim": "Pay in 4 interest-free payments of $119.75",
+          "img": "evidence/sonos-multi/pdp-target-era300-p4.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "bestbuy",
+      "carriage": "not carried"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "newegg",
+      "carriage": "not carried"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 499,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-amazon-beamg2-promo.jpg",
+      "url": "https://www.amazon.com/Sonos-Beam-Gen-2-Black/dp/B09GPYL7BJ/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $449.00 $499.00 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-beamg2-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonos-multi/pdp-amazon-beamg2-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (10) from $426.99 & FREE Shipping",
+          "img": "evidence/sonos-multi/pdp-amazon-beamg2-p3.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-walmart-beamg2-promo.jpg",
+      "url": "https://www.walmart.com/ip/Sonos-Beam-Gen-2-Compact-Smart-Sound-Bar-with-Dolby-Atmos-Black/847417720",
+      "promos": [
+        {
+          "type": "delivery offer",
+          "verbatim": "Free shipping",
+          "img": "evidence/sonos-multi/pdp-walmart-beamg2-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "free trial offer",
+          "verbatim": "Try 30 days for just $1! Choose a plan at checkout.",
+          "img": "evidence/sonos-multi/pdp-walmart-beamg2-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "discount",
+          "verbatim": "ULTIMEA Poseidon M4T 5.1 Dolby Atmos Sound Bar, 410W Peak Power Surround Sound Bar, Bluetooth $169.99 Was $239.99",
+          "img": "evidence/sonos-multi/pdp-walmart-beamg2-p3.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "carriage": "carried",
+      "price": 499,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-target-beamg2-promo.jpg",
+      "url": "https://www.target.com/p/sonos-beam-gen-2-compact-smart-sound-bar-with-dolby-atmos/-/A-84694001",
+      "promos": [
+        {
+          "type": "delivery offer",
+          "verbatim": "Ships free- exclusions apply",
+          "img": "evidence/sonos-multi/pdp-target-beamg2-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2 Year Audio Products Protection Plan ($450-$499.99) - Allstate",
+          "img": "evidence/sonos-multi/pdp-target-beamg2-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "financing",
+          "verbatim": "Pay as low as $47/mo",
+          "img": "evidence/sonos-multi/pdp-target-beamg2-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "buy now pay later",
+          "verbatim": "Pay in 4 interest-free payments of $124.75",
+          "img": "evidence/sonos-multi/pdp-target-beamg2-p4.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "bestbuy",
+      "carriage": "carried",
+      "price": 473,
+      "priceBasis": "pdp",
+      "was": 499,
+      "img": "evidence/sonos-multi/pdp-bestbuy-beamg2.png",
+      "url": "https://www.bestbuy.com/product/sonos-beam-gen-2-5-0-channel-smart-soundbar-with-dolby-atmos-black/J39H373LWC",
+      "promos": [
+        {
+          "type": "discount",
+          "verbatim": "Save $26 The comparable value is Comp",
+          "img": "evidence/sonos-multi/pdp-bestbuy-beamg2.png",
+          "via": "unlocker"
+        },
+        {
+          "type": "deal",
+          "verbatim": "Top Deals Deal of the Day Gift Ideas My Best Buy Membershi",
+          "img": "evidence/sonos-multi/pdp-bestbuy-beamg2.png",
+          "via": "unlocker"
+        }
+      ]
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-beamg2.jpg",
+      "url": "https://www.newegg.com/p/19S-08GT-001T8",
+      "promos": [],
+      "priceDisputed": "implausible vs other retailers ($988.97 against a $499 median of 4) — withheld"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 134.95,
+      "priceBasis": "pdp",
+      "was": 179.95,
+      "img": "evidence/sonos-multi/pdp-amazon-charge5-promo.jpg",
+      "url": "https://www.amazon.com/JBL-CHARGE-Portable-Bluetooth-Waterproof/dp/B08X4YMTPM/ref=sr_1_3",
+      "promos": [
+        {
+          "type": "discount",
+          "verbatim": "$134.95 with 25 percent savings",
+          "img": "evidence/sonos-multi/pdp-amazon-charge5-p1.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "list price strike throug",
+          "verbatim": "List Price: $179.95",
+          "img": "evidence/sonos-multi/pdp-amazon-charge5-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $84.95 $134.95 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-charge5-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) $16.99/month",
+          "img": "evidence/sonos-multi/pdp-amazon-charge5-p4.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (20) from $120.95 & FREE Shipping",
+          "img": "evidence/sonos-multi/pdp-amazon-charge5-p5.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": 179.95,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-walmart-charge5-promo.jpg",
+      "url": "https://www.walmart.com/ip/JBL-Charge-5-Portable-Waterproof-Bluetooth-Speaker-with-Powerbank-Black/625340678",
+      "promos": [
+        {
+          "type": "discount",
+          "verbatim": "Black, $134.95, was $179.95",
+          "img": "evidence/sonos-multi/pdp-walmart-charge5-p1.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 134.95,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-charge5.jpg",
+      "url": "https://www.newegg.com/p/2MA-003E-00396",
+      "promos": []
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 149.95,
+      "priceBasis": "pdp",
+      "was": 199.95,
+      "img": "evidence/sonos-multi/pdp-amazon-charge6-promo.jpg",
+      "url": "https://www.amazon.com/JBL-Charge-Waterproof-Drop-Proof-Built/dp/B0DN2ZCZX6/ref=sr_1_3",
+      "promos": [
+        {
+          "type": "discount",
+          "verbatim": "$149.95 with 25 percent savings",
+          "img": "evidence/sonos-multi/pdp-amazon-charge6-p1.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $99.95 $149.95 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-charge6-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2-Year Protection Plan for $16.99",
+          "img": "evidence/sonos-multi/pdp-amazon-charge6-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (22) from $141.03 & FREE Shipping.",
+          "img": "evidence/sonos-multi/pdp-amazon-charge6-p4.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-walmart-charge6-promo.jpg",
+      "url": "https://www.walmart.com/sp/track",
+      "promos": [],
+      "promosWithheld": "coarse-region read — promotions unrecoverable from this capture",
+      "priceDisputed": "implausible vs other retailers ($70.74 against a $149.95 median of 3) — withheld"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "bestbuy",
+      "carriage": "not carried"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 199.95,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-charge6.jpg",
+      "url": "https://www.newegg.com/p/26J-05F2-00066",
+      "promos": []
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 309.99,
+      "priceBasis": "pdp",
+      "was": 399,
+      "img": "evidence/sonos-multi/pdp-amazon-slmax-promo.jpg",
+      "url": "https://www.amazon.com/Bose-SoundLink-Portable-Waterproof-Bluetooth/dp/B0CVL1K7DX/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "discount",
+          "verbatim": "$309.99 with 22 percent savings",
+          "img": "evidence/sonos-multi/pdp-amazon-slmax-p1.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "list price comparison",
+          "verbatim": "List Price: $399.00",
+          "img": "evidence/sonos-multi/pdp-amazon-slmax-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $259.99 $309.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-slmax-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonos-multi/pdp-amazon-slmax-p4.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (12) from $309.99 & FREE Shipping.",
+          "img": "evidence/sonos-multi/pdp-amazon-slmax-p5.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "walmart",
+      "carriage": "carried",
+      "price": 399,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-walmart-slmax-promo.jpg",
+      "url": "https://www.walmart.com/ip/Bose-SoundLink-Max-Waterproof-Wireless-Bluetooth-Portable-Speaker-Black/5229777068",
+      "promos": [
+        {
+          "type": "financing",
+          "verbatim": "As low as $36/mo with Learn more",
+          "img": "evidence/sonos-multi/pdp-walmart-slmax-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "bundle",
+          "verbatim": "5 free offers, including Apple Music up to 1 month free",
+          "img": "evidence/sonos-multi/pdp-walmart-slmax-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "Free shipping",
+          "img": "evidence/sonos-multi/pdp-walmart-slmax-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Walmart Protection Plan by Allstate",
+          "img": "evidence/sonos-multi/pdp-walmart-slmax-p4.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "trial offer",
+          "verbatim": "Try 30 days for just $1! Choose a plan at checkout.",
+          "img": "evidence/sonos-multi/pdp-walmart-slmax-p5.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "carriage": "carried",
+      "price": 399.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-target-slmax-promo.jpg",
+      "url": "https://www.target.com/p/bose-soundlink-max-portable-bluetooth-wireless-speaker/-/A-92087078",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "2 Year Audio Products Protection Plan ($350-$399.99) - Allstate",
+          "img": "evidence/sonos-multi/pdp-target-slmax-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "financing",
+          "verbatim": "Pay as low as $38/mo",
+          "img": "evidence/sonos-multi/pdp-target-slmax-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "buy now pay later",
+          "verbatim": "Pay in 4 interest-free payments of $100.00",
+          "img": "evidence/sonos-multi/pdp-target-slmax-p3.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "bestbuy",
+      "carriage": "not carried"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": 399,
+      "priceBasis": "search-card",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-slmax.jpg",
+      "url": "https://www.newegg.com/bose-soundlink-max-portable-speaker-black/p/N82E16855772064",
+      "promos": []
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 254.99,
+      "priceBasis": "pdp",
+      "was": 329,
+      "img": "evidence/sonos-multi/pdp-amazon-slrevp-promo.jpg",
+      "url": "https://www.amazon.com/Bose-SoundLink-Portable-Long-Lasting-Bluetooth/dp/B06XCW4VFS/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $204.99 $254.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-slrevp-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+          "img": "evidence/sonos-multi/pdp-amazon-slrevp-p2.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "delivery offer",
+          "verbatim": "New & Used (3) from $229.00 & FREE Shipping",
+          "img": "evidence/sonos-multi/pdp-amazon-slrevp-p3.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "walmart",
+      "carriage": "not carried"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "target",
+      "carriage": "not carried"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-slrevp.jpg",
+      "url": "https://www.newegg.com/p/14R-03D7-001M8",
+      "promos": [],
+      "priceDisputed": "two irreconcilable prices ($34.89 search-card vs $254.99 pdp) — the search-card figure withheld"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-amazon-echodotmax-promo.jpg",
+      "url": "https://www.amazon.com/Amazon-Echo-Dot-Max-Alexa-Speaker-Graphite-Amazon/dp/B0D6SX8VLQ/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $49.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "trade-in",
+          "verbatim": "Save 20% with Trade-In",
+          "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Protection Plan: 2 year $13.99",
+          "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "bundle",
+          "verbatim": "Smart Plug: 2-pack $36.98 Bundle List Price: $49.98",
+          "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p4.jpg",
+          "via": "pattern"
+        }
+      ],
+      "priceDisputed": "two irreconcilable prices ($99.99 vs $49.99) — both withheld pending a re-read"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "walmart",
+      "carriage": "not carried"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-target-echodotmax-promo.jpg",
+      "url": "https://www.target.com/p/amazon-echo-dot-5th-gen-2022-smart-speaker-with-alexa/-/A-87740774",
+      "promos": [
+        {
+          "type": "protection plan",
+          "verbatim": "2 Year Audio Products Protection Plan ($18-$49.99) - Allstate",
+          "img": "evidence/sonos-multi/pdp-target-echodotmax-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "financing",
+          "verbatim": "With Affirm on orders over $50",
+          "img": "evidence/sonos-multi/pdp-target-echodotmax-p2.jpg",
+          "via": "pattern"
+        }
+      ],
+      "priceDisputed": "two irreconcilable prices ($99.99 vs $49.99) — both withheld pending a re-read"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "bestbuy",
+      "carriage": "not readable"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "newegg",
+      "carriage": "not carried"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "carriage": "carried",
+      "price": 219.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-amazon-echostudio-promo.jpg",
+      "url": "https://www.amazon.com/Amazon-Echo-Studio-Alexa-Speaker-Graphite-Amazon/dp/B0DMQ1QMVV/ref=sr_1_1",
+      "promos": [
+        {
+          "type": "card offer",
+          "verbatim": "Get $50 off instantly: Pay $169.99 upon approval for Amazon Visa. No annual fee.",
+          "img": "evidence/sonos-multi/pdp-amazon-echostudio-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "trade-in",
+          "verbatim": "Save 20% with Trade-In",
+          "img": "evidence/sonos-multi/pdp-amazon-echostudio-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "Protection Plan: 2 year $29.99",
+          "img": "evidence/sonos-multi/pdp-amazon-echostudio-p3.jpg",
+          "via": "pattern"
+        }
+      ]
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "walmart",
+      "carriage": "not carried"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "carriage": "carried",
+      "price": 219.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-target-echostudio-promo.jpg",
+      "url": "https://www.target.com/p/amazon-echo-studio-2025/-/A-95002747",
+      "promos": [
+        {
+          "type": "delivery offer",
+          "verbatim": "Ships free- exclusions apply",
+          "img": "evidence/sonos-multi/pdp-target-echostudio-p1.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "protection plan",
+          "verbatim": "2 Year Audio Products Protection Plan ($200-$249.99) - Allstate",
+          "img": "evidence/sonos-multi/pdp-target-echostudio-p2.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "financing",
+          "verbatim": "4 interest-free payments or as low as $21/mo",
+          "img": "evidence/sonos-multi/pdp-target-echostudio-p3.jpg",
+          "via": "pattern"
+        },
+        {
+          "type": "buy now pay later",
+          "verbatim": "Pay in 4 interest-free payments of $55.00",
+          "img": "evidence/sonos-multi/pdp-target-echostudio-p4.jpg",
+          "via": "llm"
+        },
+        {
+          "type": "bundle",
+          "verbatim": "Alexa+ is free with Prime.",
+          "img": "evidence/sonos-multi/pdp-target-echostudio-p5.jpg",
+          "via": "llm"
+        }
+      ]
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "bestbuy",
+      "carriage": "carried",
+      "price": 219.99,
+      "priceBasis": "pdp",
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-bestbuy-echostudio.png",
+      "url": "https://www.bestbuy.com/product/amazon-echo-studio-newest-model-our-best-echo-studio-yet-immersive-spatial-audio-and-dolby-atmos-designed-for-alexa-graphite/J39TLSY9YV",
+      "promos": [
+        {
+          "type": "deal",
+          "verbatim": "Top Deals Deal of the Day Gift Ideas My Best Buy Membershi",
+          "img": "evidence/sonos-multi/pdp-bestbuy-echostudio.png",
+          "via": "unlocker"
+        },
+        {
+          "type": "financing",
+          "verbatim": "$19.99/month",
+          "img": "evidence/sonos-multi/pdp-bestbuy-echostudio.png",
+          "via": "unlocker"
+        }
+      ]
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "newegg",
+      "carriage": "carried",
+      "price": null,
+      "priceBasis": null,
+      "was": null,
+      "img": "evidence/sonos-multi/pdp-newegg-echostudio.jpg",
+      "url": "https://www.newegg.com/p/1GS-0178-000E4",
+      "promos": []
+    }
+  ],
+  "promotionTypes": [
+    "discount",
+    "deal",
+    "card offer",
+    "trade-in",
+    "bundle",
+    "financing",
+    "delivery offer",
+    "protection plan",
+    "buy now pay later",
+    "free trial offer",
+    "list price comparison",
+    "list price strike throug",
+    "trial offer"
+  ],
+  "delivery": {
+    "cities": [
+      {
+        "city": "New York, NY",
+        "zip": "10001"
+      },
+      {
+        "city": "Los Angeles, CA",
+        "zip": "90012"
+      },
+      {
+        "city": "Chicago, IL",
+        "zip": "60601"
+      },
+      {
+        "city": "Houston, TX",
+        "zip": "77002"
+      },
+      {
+        "city": "Denver, CO",
+        "zip": "80202"
+      },
+      {
+        "city": "Miami, FL",
+        "zip": "33130"
+      }
+    ],
+    "heat": {
+      "amazon|New York, NY": {
+        "medianDays": 4,
+        "n": 9,
+        "lines": [
+          {
+            "model": "Era 100",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Era 300",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Los Angeles, CA": {
+        "medianDays": 4,
+        "n": 8,
+        "lines": [
+          {
+            "model": "Era 100",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Era 300",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Chicago, IL": {
+        "medianDays": 4,
+        "n": 9,
+        "lines": [
+          {
+            "model": "Era 100",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Era 300",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          }
+        ]
+      },
+      "amazon|Houston, TX": {
+        "medianDays": 4,
+        "n": 9,
+        "lines": [
+          {
+            "model": "Era 100",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Era 300",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Denver, CO": {
+        "medianDays": 4,
+        "n": 9,
+        "lines": [
+          {
+            "model": "Era 100",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Era 300",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "amazon|Miami, FL": {
+        "medianDays": 4,
+        "n": 9,
+        "lines": [
+          {
+            "model": "Era 100",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+          },
+          {
+            "model": "Era 300",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+          }
+        ]
+      },
+      "target|New York, NY": {
+        "medianDays": 1,
+        "n": 5,
+        "lines": [
+          {
+            "model": "Era 300",
+            "line": "Arrives by Sat, Aug 15"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "Arrives by Sat, Aug 15"
+          },
+          {
+            "model": "SoundLink Max",
+            "line": "Arrives by Sat, Aug 15"
+          }
+        ]
+      },
+      "target|Los Angeles, CA": {
+        "medianDays": 1,
+        "n": 5,
+        "lines": [
+          {
+            "model": "Era 300",
+            "line": "Arrives by Thu, Aug 20"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "Arrives by Thu, Aug 20"
+          },
+          {
+            "model": "SoundLink Max",
+            "line": "Arrives by Sat, Aug 15"
+          }
+        ]
+      },
+      "target|Chicago, IL": {
+        "medianDays": 1,
+        "n": 5,
+        "lines": [
+          {
+            "model": "Era 300",
+            "line": "Arrives by Tue, Aug 18"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "Arrives by Tue, Aug 18"
+          },
+          {
+            "model": "SoundLink Max",
+            "line": "Get it tomorrow"
+          }
+        ]
+      },
+      "target|Houston, TX": {
+        "medianDays": 2,
+        "n": 5,
+        "lines": [
+          {
+            "model": "Era 300",
+            "line": "Arrives by Wed, Aug 19"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "Arrives by Wed, Aug 19"
+          },
+          {
+            "model": "SoundLink Max",
+            "line": "Get it tomorrow"
+          }
+        ]
+      },
+      "target|Denver, CO": {
+        "medianDays": 1,
+        "n": 5,
+        "lines": [
+          {
+            "model": "Era 300",
+            "line": "Arrives by Wed, Aug 19"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "Arrives by Wed, Aug 19"
+          },
+          {
+            "model": "SoundLink Max",
+            "line": "Get it tomorrow"
+          }
+        ]
+      },
+      "target|Miami, FL": {
+        "medianDays": 3,
+        "n": 5,
+        "lines": [
+          {
+            "model": "Era 300",
+            "line": "Arrives by Tue, Aug 18"
+          },
+          {
+            "model": "Beam (Gen 2)",
+            "line": "Arrives by Tue, Aug 18"
+          },
+          {
+            "model": "SoundLink Max",
+            "line": "Get it tomorrow"
+          }
+        ]
+      }
+    },
+    "unverifiedRetailers": [
+      {
+        "id": "walmart",
+        "why": "the page never printed the requested zip back, so no promise could be verified for a city"
+      },
+      {
+        "id": "bestbuy",
+        "why": "PDPs refuse automated navigation (HTTP2 reset) — no delivery read at all"
+      },
+      {
+        "id": "newegg",
+        "why": "the page never printed the requested zip back, so no promise could be verified for a city"
+      }
+    ],
+    "rule": "A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+    "verifiedRows": 84,
+    "basis": "One capture run per city with a pinned session; the zip is set through each retailer's own control and every row re-reads the zip the page printed. Only rows whose printed zip matches enter this table."
+  },
+  "shelf": {
+    "terms": [
+      "wireless speaker",
+      "smart speaker",
+      "bluetooth speaker"
+    ],
+    "brands": [
+      {
+        "id": "sonos",
+        "label": "Sonos",
+        "aliases": [
+          "sonos"
+        ]
+      },
+      {
+        "id": "amazon",
+        "label": "Amazon Echo",
+        "aliases": [
+          "echo",
+          "amazon echo"
+        ]
+      },
+      {
+        "id": "apple",
+        "label": "Apple HomePod",
+        "aliases": [
+          "homepod"
+        ]
+      },
+      {
+        "id": "bose",
+        "label": "Bose",
+        "aliases": [
+          "bose"
+        ]
+      },
+      {
+        "id": "jbl",
+        "label": "JBL",
+        "aliases": [
+          "jbl"
+        ]
+      }
+    ],
+    "sov": {
+      "amazon": {
+        "byBrand": {
+          "sonos": {
+            "mean": 0.05357142857142857,
+            "min": 0,
+            "max": 0.1875,
+            "n": 7
+          },
+          "amazon": {
+            "mean": 0.22448979591836735,
+            "min": 0,
+            "max": 0.5,
+            "n": 7
+          },
+          "apple": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 7
+          },
+          "bose": {
+            "mean": 0.08758503401360544,
+            "min": 0.047619047619047616,
+            "max": 0.125,
+            "n": 7
+          },
+          "jbl": {
+            "mean": 0.18452380952380953,
+            "min": 0,
+            "max": 0.3125,
+            "n": 7
+          }
+        },
+        "unreadable": 2,
+        "state": "measured"
+      },
+      "walmart": {
+        "byBrand": {
+          "sonos": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 9
+          },
+          "amazon": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 9
+          },
+          "apple": {
+            "mean": 0.013162393162393165,
+            "min": 0,
+            "max": 0.04,
+            "n": 9
+          },
+          "bose": {
+            "mean": 0.08798375740904477,
+            "min": 0,
+            "max": 0.16,
+            "n": 9
+          },
+          "jbl": {
+            "mean": 0.019724705548460335,
+            "min": 0,
+            "max": 0.07407407407407407,
+            "n": 9
+          }
+        },
+        "unreadable": 0,
+        "state": "measured"
+      },
+      "target": {
+        "byBrand": {
+          "sonos": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 7
+          },
+          "amazon": {
+            "mean": 0.21428571428571427,
+            "min": 0,
+            "max": 0.875,
+            "n": 7
+          },
+          "apple": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 7
+          },
+          "bose": {
+            "mean": 0.1458646616541353,
+            "min": 0,
+            "max": 0.21052631578947367,
+            "n": 7
+          },
+          "jbl": {
+            "mean": 0.10225563909774436,
+            "min": 0,
+            "max": 0.4,
+            "n": 7
+          }
+        },
+        "unreadable": 2,
+        "state": "measured"
+      },
+      "bestbuy": {
+        "unreadable": 2,
+        "state": "not comparable",
+        "why": "Best Buy renders a ~4-item featured strip to logged-out sessions (same items across all 3 passes — Hisense on 4k tv, Marshall on wireless speaker), not a result grid. A share computed on 4 placements is noise; the strip looks paid, and organic share cannot be derived from it."
+      },
+      "newegg": {
+        "byBrand": {
+          "sonos": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 9
+          },
+          "amazon": {
+            "mean": 0.06772486772486773,
+            "min": 0,
+            "max": 0.23333333333333334,
+            "n": 9
+          },
+          "apple": {
+            "mean": 0,
+            "min": 0,
+            "max": 0,
+            "n": 9
+          },
+          "bose": {
+            "mean": 0.1881651766709238,
+            "min": 0,
+            "max": 0.3793103448275862,
+            "n": 9
+          },
+          "jbl": {
+            "mean": 0.011375661375661376,
+            "min": 0,
+            "max": 0.03571428571428571,
+            "n": 9
+          }
+        },
+        "unreadable": 0,
+        "state": "measured"
+      }
+    },
+    "basis": "Organic placements only (sponsored excluded), accessories and renewed excluded, mean of 3 passes per term."
+  },
+  "shelfRows": [
+    {
+      "retailer": "amazon",
+      "term": "wireless speaker",
+      "state": "measured",
+      "total": 21,
+      "counts": {
+        "sonos": 0,
+        "amazon": 4,
+        "apple": 0,
+        "bose": 2,
+        "jbl": 5
+      },
+      "passes": 2,
+      "cards": [
+        {
+          "t": "Best Seller Featured from Amazon brands Amazon Echo Dot (newest model) - Vibrant sounding speaker, Designed for Alexa+, Great for bedrooms, dining roo",
+          "brand": "amazon"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Fire TV Soundbar, 2.0 speaker with DTS Virtual:X and Dolby Audio, Bluetooth connectivity 4.3 4.3 out of 5 stars (6.",
+          "brand": null
+        },
+        {
+          "t": "Overall Pick Bluetooth Speaker, 20W HD Sound, Portable Wireless, IPX5 Waterproof, Up to 24H Playtime, TWS Pairing, for Home/Party/Outdoor/Camping/Beac",
+          "brand": null
+        },
+        {
+          "t": "Anker soundcore 2 Portable Bluetooth Speaker, Stereo Sound, IPX7 | BassUp, 24H Playtime, Bluetooth 6, Wireless Speaker for Home, Outdoors, Travel Top ",
+          "brand": null
+        },
+        {
+          "t": "BOYISEN 2-in-1 Split Magnetic Golf Cart Speaker, Portable Bluetooth Speaker | TWS True Wireless Stereo, IPX5 Waterproof, 24H Playtime, Golf Cart Acces",
+          "brand": null
+        },
+        {
+          "t": "JBL Charge 6 Portable Bluetooth Speaker, Waterproof, Drop-Proof - Black | Long Battery Life Up To 28 Hours, Quick Charging, Built-In Powerbank, Weathe",
+          "brand": "jbl"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Spot (newest model), Great for nightstands, offices and kitchens, Smart alarm clock, Designed for Alexa+, Ocea",
+          "brand": "amazon"
+        },
+        {
+          "t": "Best Seller Portable Bluetooth Speaker Beach Essentials: IPX5 Waterproof for Outdoor | Powerful HD Sound,Dynamic Light,All Day Playtime,Wireless BT 5.",
+          "brand": null
+        },
+        {
+          "t": "Ortizan X10 Portable Bluetooth Speaker (1st Gen), IPX7 Waterproof, Wireless | Big Sound and Deep Bass, TWS Pairing, 30Hrs of Playtime, for Home/Party/",
+          "brand": null
+        },
+        {
+          "t": "JBL Go 4 - Ultra-Portable, Waterproof and Dustproof Bluetooth Speaker, Big JBL Pro Sound with Punchy bass, 7-Hour Built-in Battery, Made in Part with ",
+          "brand": "jbl"
+        },
+        {
+          "t": "BassBloom Roar 3 Portable Bluetooth Speaker,20W Powerful Sound with Deep Bass,IPX6 Waterproof,24H Playtime,Bluetooth 5.4,RGB Lights,Wireless TWS Pairi",
+          "brand": null
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Dot Max (newest model), Alexa speaker with room-filling sound and nearly 3x bass, Great for living rooms and m",
+          "brand": "amazon"
+        },
+        {
+          "t": "Bose SoundLink Flex Bluetooth Speaker (2nd Gen) - Portable Outdoor Speaker with Hi-Fi Audio, Waterproof and Dustproof, USB-C, Up to 12 Hours Battery L",
+          "brand": "bose"
+        },
+        {
+          "t": "JBL Flip 7 Portable Bluetooth Speaker, Waterproof and Drop-Proof - Blue | Up To 16 Hours Playtime, IP68 Dustproof Build, Clip-On Loop, USB C Lossless ",
+          "brand": "jbl"
+        },
+        {
+          "t": "Anker soundcore 2 Portable Bluetooth Speaker, Stereo Sound, IPX7 | BassUp, 24H Playtime, Bluetooth 6, Wireless Speaker for Home, Outdoors, Travel-Moch",
+          "brand": null
+        },
+        {
+          "t": "Soundcore Boom 2 by Anker, 80W Outdoor Bluetooth Speaker, 24H Playtime | IPX7 Waterproof, BassUp 2.0, 20H Playtime, Fast Charge, RGB Lights, Power Ban",
+          "brand": null
+        },
+        {
+          "t": "Sony SRS-XB100 Wireless Bluetooth Portable Lightweight Speaker, Black | 16 Hr Battery, Super-Compact Travel Speaker, IP67 Waterproof & Dustproof Showe",
+          "brand": null
+        },
+        {
+          "t": "Beats Pill - Portable Bluetooth Speaker- Up to 24H Battery Life, Water Resistant, Bluetooth, Apple & Android Compatible, Seriously Loud Sound for Home",
+          "brand": null
+        },
+        {
+          "t": "JBL PartyBox 110 - Portable Party Speaker with Built-in Lights, Powerful Sound and deep bass, Black | Powerful JBL Original Pro Sound, Dynamic light s",
+          "brand": "jbl"
+        },
+        {
+          "t": "Bose SoundLink Flex Bluetooth Speaker (2nd Gen) - Portable Outdoor Speaker with Hi-Fi Audio, Waterproof and Dustproof, USB-C, Up to 12 Hours Battery L",
+          "brand": "bose"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Studio (newest model), Immersive spatial audio and Dolby Atmos, Designed for Alexa+, Glacier White 4.1 4.1 out",
+          "brand": "amazon"
+        }
+      ]
+    },
+    {
+      "retailer": "amazon",
+      "term": "smart speaker",
+      "state": "measured",
+      "total": 18,
+      "counts": {
+        "sonos": 2,
+        "amazon": 10,
+        "apple": 0,
+        "bose": 1,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Featured from Amazon brands Amazon Echo Dot Kids (newest model), Smart speaker to enjoy age-appropriate audiobooks, sleep routines and Alexa+ experien",
+          "brand": "amazon"
+        },
+        {
+          "t": "Best Seller Featured from Amazon brands Amazon Echo Dot (newest model) - Vibrant sounding speaker, Designed for Alexa+, Great for bedrooms, dining roo",
+          "brand": "amazon"
+        },
+        {
+          "t": "Overall Pick Amazon Echo Dot (newest model) - Vibrant sounding speaker, Designed for Alexa+, Great for bedrooms, dining rooms and offices, Deep Sea Bl",
+          "brand": "amazon"
+        },
+        {
+          "t": "Best Seller Amazon Echo Dot (newest model) - Vibrant sounding speaker, Designed for Alexa+, Great for bedrooms, dining rooms and offices, Glacier Whit",
+          "brand": "amazon"
+        },
+        {
+          "t": "Best Seller Amazon Echo Dot (newest model) - Vibrant sounding speaker, Designed for Alexa+, Great for bedrooms, dining rooms and offices, Charcoal #1 ",
+          "brand": "amazon"
+        },
+        {
+          "t": "Mini Bluetooth Speaker, Smart Wireless Portable Speaker with Touchscreen, Loud HD Sound, LED Lights, BT5.4, All In One Small Audio for Home/Outdoor/Tr",
+          "brand": null
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Pop Kids (newest model), Enjoy age-appropriate audiobooks, sleep routines and Alexa+ experiences to create and",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Spot (newest model), Great for nightstands, offices and kitchens, Smart alarm clock, Designed for Alexa+, Glacier White 4.6 4.6 out of 5 s",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Dot Max (newest model), Alexa speaker with room-filling sound and nearly 3x bass, Great for living rooms and medium-sized spaces, Designed",
+          "brand": "amazon"
+        },
+        {
+          "t": "Gemini Home Speaker with AI Voice Assistant Access & Built-in Mic, Bluetooth White Noise Machine for Bedroom, 16 Sleep Sounds, 8 RGB Night Light Modes",
+          "brand": null
+        },
+        {
+          "t": "JBL Authentics 200 - Smart Home Speaker - Black | Superb sound and performance, Inspired by retro design, Music streaming services via built-in Wi-Fi ",
+          "brand": "jbl"
+        },
+        {
+          "t": "Amazon Echo Dot Max (newest model), Alexa speaker with room-filling sound and nearly 3x bass, Great for living rooms and medium-sized spaces, Designed",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Spot (newest model), Great for nightstands, offices and kitchens, Smart alarm clock, Designed for Alexa+, Black 4.6 4.6 out of 5 stars (44",
+          "brand": "amazon"
+        },
+        {
+          "t": "Anker soundcore 2 Portable Bluetooth Speaker, Stereo Sound, IPX7 | BassUp, 24H Playtime, Bluetooth 6, Wireless Speaker for Home, Outdoors, Travel 4.5 ",
+          "brand": null
+        },
+        {
+          "t": "Best Seller Amazon Echo Show 5 (newest model), Smart display, Designed for Alexa+, 2x the bass and clearer sound, Charcoal 4.2 4.2 out of 5 stars (70.",
+          "brand": "amazon"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Dot Max (newest model), Alexa speaker with room-filling sound and nearly 3x bass, Great for living rooms and m",
+          "brand": "amazon"
+        },
+        {
+          "t": "Best Seller Bluetooth Speaker, 20W HD Sound, Portable Wireless, IPX5 Waterproof, Up to 24H Playtime, TWS Pairing, for Home/Party/Outdoor/Camping/Beach",
+          "brand": null
+        },
+        {
+          "t": "Sonos Era 100 - Black - Wireless, Alexa Enabled Smart Speaker Options: 2 sizes 2 sizes 4.4 4.4 out of 5 stars (2.7K) 1K+ bought in past month Price, p",
+          "brand": "sonos"
+        },
+        {
+          "t": "Sony SRS-XB100 Wireless Bluetooth Portable Lightweight Speaker, Black | 16 Hr Battery, Super-Compact Travel Speaker, IP67 Waterproof & Dustproof Showe",
+          "brand": null
+        },
+        {
+          "t": "Google Audio Bluetooth Speaker with Keychain LED - Wireless Music Streaming - Chalk 4.4 4.4 out of 5 stars (326) 300+ bought in past month Price, prod",
+          "brand": null
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Spot (newest model), Great for nightstands, offices and kitchens, Smart alarm clock, Designed for Alexa+, Glac",
+          "brand": "amazon"
+        }
+      ]
+    },
+    {
+      "retailer": "amazon",
+      "term": "bluetooth speaker",
+      "state": "measured",
+      "total": 18,
+      "counts": {
+        "sonos": 0,
+        "amazon": 1,
+        "apple": 0,
+        "bose": 2,
+        "jbl": 5
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Best Seller Featured from Amazon brands Amazon Echo Dot (newest model) - Vibrant sounding speaker, Designed for Alexa+, Great for bedrooms, dining roo",
+          "brand": "amazon"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Fire TV Soundbar, 2.0 speaker with DTS Virtual:X and Dolby Audio, Bluetooth connectivity 4.3 4.3 out of 5 stars (6.",
+          "brand": null
+        },
+        {
+          "t": "Overall Pick Bluetooth Speaker, 20W HD Sound, Portable Wireless, IPX5 Waterproof, Up to 24H Playtime, TWS Pairing, for Home/Party/Outdoor/Camping/Beac",
+          "brand": null
+        },
+        {
+          "t": "Anker soundcore 2 Portable Bluetooth Speaker, Stereo Sound, IPX7 | BassUp, 24H Playtime, Bluetooth 6, Wireless Speaker for Home, Outdoors, Travel 4.5 ",
+          "brand": null
+        },
+        {
+          "t": "JBL Charge 6 Portable Bluetooth Speaker, Waterproof, Drop-Proof - Black | Long Battery Life Up To 28 Hours, Quick Charging, Built-In Powerbank, Weathe",
+          "brand": "jbl"
+        },
+        {
+          "t": "JBL Go 4 - Ultra-Portable, Waterproof and Dustproof Bluetooth Speaker, Big JBL Pro Sound with Punchy bass, 7-Hour Built-in Battery, Made in Part with ",
+          "brand": "jbl"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Dot Max (newest model), Alexa speaker with room-filling sound and nearly 3x bass, Great for living rooms and m",
+          "brand": "amazon"
+        },
+        {
+          "t": "Best Seller Portable Bluetooth Speaker Beach Essentials: IPX5 Waterproof for Outdoor | Powerful HD Sound,Dynamic Light,All Day Playtime,Wireless BT 5.",
+          "brand": null
+        },
+        {
+          "t": "Soundcore Boom 2 by Anker, 80W Outdoor Bluetooth Speaker, 24H Playtime | IPX7 Waterproof, BassUp 2.0, 20H Playtime, Fast Charge, RGB Lights, Power Ban",
+          "brand": null
+        },
+        {
+          "t": "Mini Portable Bluetooth Speaker | Bluetooth 6.0 | 5W full-range speake | easy to carry around | Battery life: 4–6 hours New on Amazon in past month Pr",
+          "brand": null
+        },
+        {
+          "t": "Ortizan X10 Portable Bluetooth Speaker (1st Gen), IPX7 Waterproof, Wireless | Big Sound and Deep Bass, TWS Pairing, 30Hrs of Playtime, for Home/Party/",
+          "brand": null
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Pop Kids (newest model), Enjoy age-appropriate audiobooks, sleep routines and Alexa+ experiences to create and",
+          "brand": "amazon"
+        },
+        {
+          "t": "Monster S620 Bluetooth Speaker, Wireless Portable Outdoor Bluetooth Speakers, 60W True Wireless Stereo IPX8 Waterproof, Dual PairingBluetooth 5.4 Buil",
+          "brand": null
+        },
+        {
+          "t": "JBL Flip 7 Portable Bluetooth Speaker, Waterproof and Drop-Proof - Blue | Up To 16 Hours Playtime, IP68 Dustproof Build, Clip-On Loop, USB C Lossless ",
+          "brand": "jbl"
+        },
+        {
+          "t": "Bose SoundLink Flex Bluetooth Speaker (2nd Gen) - Portable Outdoor Speaker with Hi-Fi Audio, Waterproof and Dustproof, USB-C, Up to 12 Hours Battery L",
+          "brand": "bose"
+        },
+        {
+          "t": "Anker soundcore 2 Portable Bluetooth Speaker, Stereo Sound, IPX7 | BassUp, 24H Playtime, Bluetooth 6, Wireless Speaker for Home, Outdoors, Travel-Moch",
+          "brand": null
+        },
+        {
+          "t": "JBL PartyBox 110 - Portable Party Speaker with Built-in Lights, Powerful Sound and deep bass, Black | Powerful JBL Original Pro Sound, Dynamic light s",
+          "brand": "jbl"
+        },
+        {
+          "t": "Bose SoundLink Flex Bluetooth Speaker (2nd Gen) - Portable Outdoor Speaker with Hi-Fi Audio, Waterproof and Dustproof, USB-C, Up to 12 Hours Battery L",
+          "brand": "bose"
+        },
+        {
+          "t": "Soundcore Select 4 Go Bluetooth Shower Speaker by Anker, IP67 | 20H Playtime, Floatable, Dustproof, Ultra-Portable Bluetooth Speaker, Powerful Sound, ",
+          "brand": null
+        },
+        {
+          "t": "JBL Flip 6 - Portable Waterproof Speaker - Blue | Louder, more powerful sound, IP67 waterproof and dustproof, 12 Hours of Playtime, Bold design 4.7 4.",
+          "brand": "jbl"
+        },
+        {
+          "t": "Featured from Amazon brands Amazon Echo Studio (newest model), Immersive spatial audio and Dolby Atmos, Designed for Alexa+, Glacier White 4.1 4.1 out",
+          "brand": "amazon"
+        }
+      ]
+    },
+    {
+      "retailer": "walmart",
+      "term": "wireless speaker",
+      "state": "measured",
+      "total": 28,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 0,
+        "bose": 0,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof Wireless Speaker with 20W Powerful Speaker 24Hrs Playtime Colorful Flashing Lights TWS Wireless Pairing for",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker, 30W Super Loud Bluetooth 5.4 Speaker Wireless, Boost Bass 3.0, 30H Playtime, 8 RGB Modes, IPX7 Waterproof Speaker, TWS Pai",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof Wireless Speaker with 30W Powerful Speaker 24Hrs Playtime Colorful Flashing Lights TWS Wireless Pairing for",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof, 30W Loud Sound, Deep Bass, Bluetooth 5.4, LED Lights, Wireless Stereo Pairing, 24H Playtime, for Home/Outd",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker, Bluetooth 5.4 Wireless Speaker, IPX7 Waterproof Outdoor Speaker with RGB Party Lights, 20W Stereo Sound, 20H Playtime, TWS",
+          "brand": null
+        },
+        {
+          "t": "In 200+ people's carts OKKO Sonic Bass V4 Portable Bluetooth Speaker – Wireless Party Speaker with Deep Bass, Karaoke Speaker with Microphone Port, LE",
+          "brand": null
+        },
+        {
+          "t": "Bluetooth Speaker, IPX7 Water Resistance, Featuring Powerful 20w Stereo Sound, 15 Hours Of Battery Life, And Dynamic Rgb Lighting Perfect for Use In t",
+          "brand": null
+        },
+        {
+          "t": "In 200+ people's carts OKKO Sonic Bass V4 Portable Bluetooth Speaker Wireless Party Speaker with Deep Bass, Karaoke Speaker with Microphone Port, LED ",
+          "brand": null
+        },
+        {
+          "t": "Oraolo Bluetooth Speaker with Deep Bass Basser Portable Speakers, Wireless Stereo Sound, IPX6 Waterproof, TF/SD Card, AUX-in, USB Input, Built-in Mic,",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof Wireless Speaker with 20W Powerful Speaker 24Hrs Playtime Colorful Flashing Lights TWS Wireless Pairing for",
+          "brand": null
+        },
+        {
+          "t": "Portable Wireless Bluetooth Speaker with 10W Loud Stereo Sound, Bluetooth 5.0, 30-Hour Playtime, and 66 ft Range – Perfect for Home, Party $16.99 Was ",
+          "brand": null
+        },
+        {
+          "t": "Wireless Bluetooth Speaker, 60W Loud Party Speaker with Beat Sync Lights, TWS Stereo, 4400mAh Power Bank, FM, AUX, TF, USB, Portable Handle Speaker fo",
+          "brand": null
+        },
+        {
+          "t": "Portable Wireless Bluetooth Speaker with 10W Loud Stereo Sound, Bluetooth 5.0, 30-Hour Playtime, and 66 ft Range – Perfect for Home, Party $16.99 Was ",
+          "brand": null
+        },
+        {
+          "t": "ETEPEHI Portable Bluetooth Speaker, Bluetooth 5.4 Wireless Speaker with Loud Stereo Sound, 20H Playtime, IPX5 Waterproof, Home/Party/Outdoor/Beach (Bl",
+          "brand": null
+        },
+        {
+          "t": "Tukio Bluetooth Speaker, IPX7 Waterproof Shower Speaker with Suction Cup, Mini Portable Speaker, 12H Playtime, Bluetooth 5.4, 360° Sound, RGB LED, Han",
+          "brand": null
+        },
+        {
+          "t": "Best seller Portable Bluetooth Speaker IPX7 Waterproof, 30W Loud Sound, Deep Bass, Bluetooth 5.4, LED Lights, Wireless Stereo Pairing, 24H Playtime, f",
+          "brand": null
+        },
+        {
+          "t": "In 200+ people's carts onn Large Party Speaker Gen 2 with LED Lighting $129.00 Was $149.00 In 200+ people's carts Add Now$12900 current price Now $129",
+          "brand": null
+        },
+        {
+          "t": "VILINICE Portable Bluetooth Speaker, IPX7 Waterproof Wireless Speaker, Bluetooth 5.0, TWS Mini Speaker for Home/Party/Outdoor/Travel/Gifts, Black $17.",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof Wireless Speaker with 20W Powerful Speaker 24Hrs Playtime Colorful Flashing Lights TWS Wireless Pairing for",
+          "brand": null
+        },
+        {
+          "t": "Wearable Bluetooth Speaker Clip-On Wireless Water-Resistant Mini Speaker $25.49 Was $99.99 Add Now$2549 current price Now $25.49, Was $99.99 $99.99 Op",
+          "brand": null
+        },
+        {
+          "t": "Oraolo Bluetooth Speaker with Deep Bass Basser Portable Speakers, Wireless Stereo Sound, IPX6 Waterproof, TF/SD Card, AUX-in, USB Input, Built-in Mic,",
+          "brand": null
+        },
+        {
+          "t": "Waterproof Bluetooth Shower Speaker, Small Portable Wireless Speaker with Crystal Sound, LED Display & Mic, IPX7 Rated for Bathroom, Beach, Outdoor & ",
+          "brand": null
+        },
+        {
+          "t": "JYX Bluetooth Speaker, IPX5 Waterproof Wireless Portable Outdoor Party Speakers with Rgb Lights, 40W Stereo Deep Bass Boombox for Pool, Beach, D16 $59",
+          "brand": null
+        },
+        {
+          "t": "Bluetooth Speaker, 2026 Portable Wireless Speakers with Led Light, Bluetooth 5.4, 15H Playtime, Enhanced Bass, IPX7 Waterproof, Outdoor Speaker for Tr",
+          "brand": null
+        }
+      ]
+    },
+    {
+      "retailer": "walmart",
+      "term": "smart speaker",
+      "state": "measured",
+      "total": 25,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 1,
+        "bose": 4,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Best seller Google Home Speaker - Smart Speaker with 360 - Degree Sound and Gemini For Home Voice Assistant - Hazel Best seller Add Sponsored $ 99 00 ",
+          "brand": null
+        },
+        {
+          "t": "Google Nest Audio - Smart Speaker with Google Assistant - Chalk Add $ 94 99 Options from $94.99 – $137.99 Google Nest Audio - Smart Speaker with Googl",
+          "brand": null
+        },
+        {
+          "t": "Best seller Google Home Speaker - Smart Speaker with 360 - Degree Sound and Gemini For Home Voice Assistant - Hazel Best seller Add $ 99 00 Google Hom",
+          "brand": null
+        },
+        {
+          "t": "In 200+ people's carts OKKO Sonic Bass V4 Portable Bluetooth Speaker – Wireless Party Speaker with Deep Bass, Karaoke Speaker with Microphone Port, LE",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof, 30W Loud Sound, Deep Bass, Bluetooth 5.4, LED Lights, Wireless Stereo Pairing, 24H Playtime, for Home/Outd",
+          "brand": null
+        },
+        {
+          "t": "Teissuly Small Portable Wireless Bluetooth Speakers,Handheld Pocket Size With HD Sound And Bass For Smart Devices Add $ 9 99 +$3.90 shipping Teissuly ",
+          "brand": null
+        },
+        {
+          "t": "VALSEEL Bluetooth Speaker Outdoor,Wireless Bluetooth Speaker Mobile Smart Mini Speaker Outdoor Sports Portable Speaker Add Now $ 6 19 $7.19 +$7.99 shi",
+          "brand": null
+        },
+        {
+          "t": "In 100+ people's carts Portable Bluetooth Speaker IPX7 Waterproof Wireless Speaker with 20W Powerful Speaker 24Hrs Playtime Colorful Flashing Lights T",
+          "brand": null
+        },
+        {
+          "t": "smart Speaker with 5.3 Wireless & AI Voice Assistant, 4.0\" TFT Screen, RGB Lights, Hi-Fi Stereo, Weather, Alarm Clock, Portable Alexa Speaker for Home",
+          "brand": null
+        },
+        {
+          "t": "RBCKVXZ Bluetooth Speakers,Intelligent Voice Full Screen LED Color Lights Wireless Mini Bluetooth Audio Outdoor Portable Car Subwoofer Bluetooth Audio",
+          "brand": null
+        },
+        {
+          "t": "Clearance Falleo Clearance AEC Smart Mini Portable Bluetooth Speaker with TF Player and Volume Control BT-209 Black Clearance Add Now $ 17 29 $19.29 +",
+          "brand": null
+        },
+        {
+          "t": "MINGYUE Ultimate Alexa Compatible Bluetooth Portable Speaker, Black Add $ 9 98 +$5.99 shipping MINGYUE Ultimate Alexa Compatible Bluetooth Portable Sp",
+          "brand": null
+        },
+        {
+          "t": "YZEGDCH Portable Bluetooth Speaker with Lights Portable Home Wireless Bluetooth Samll Speaker for Home Outdoor Party Beach,Birthday Gift Add $ 18 20 O",
+          "brand": null
+        },
+        {
+          "t": "HUISZJ Smart Speaker, Voice Assistant Portable BT Speaker with RGB Lights, Speaker Alarm Clock for Bedroom Living Room (Black) 2 options Available in ",
+          "brand": null
+        },
+        {
+          "t": "Zerak Mini G-Shaped Smart Wireless Speaker & Charger – 10 Light Effects, Bluetooth Audio, Wake-Up Light Alarm Clock, Night Light Lamp Add $ 22 99 Zera",
+          "brand": null
+        },
+        {
+          "t": "Apple HomePod 2nd Generation, Midnight Add $ 349 00 Apple HomePod 2nd Generation, Midnight 4.4 out of 5 stars 61 4.4 out of 5 Stars. 61 reviews Save w",
+          "brand": "apple"
+        },
+        {
+          "t": "Best seller Bose SoundLink Flex II Wireless Waterproof Portable Bluetooth Speaker, Black Best seller Add $ 159 00 Options from $129.00 Bose SoundLink ",
+          "brand": "bose"
+        },
+        {
+          "t": "Bose SoundLink Max Bluetooth Speaker, Waterproof Portable Speaker, Black Add $ 399 00 Bose SoundLink Max Bluetooth Speaker, Waterproof Portable Speake",
+          "brand": "bose"
+        },
+        {
+          "t": "Bose SoundLink Micro II Bluetooth Speaker, Wireless Waterproof Portable Speaker, Blue Add $ 129 00 Options from $99.00 Bose SoundLink Micro II Bluetoo",
+          "brand": "bose"
+        },
+        {
+          "t": "Portable Bluetooth Speaker, 30W Super Loud Bluetooth 5.4 Speaker Wireless, Boost Bass 3.0, 30H Playtime, 8 RGB Modes, IPX7 Waterproof Speaker, TWS Pai",
+          "brand": null
+        },
+        {
+          "t": "Bose SoundLink Plus Bluetooth Speaker, Waterproof Portable Speaker, Citrus Add $ 269 00 Bose SoundLink Plus Bluetooth Speaker, Waterproof Portable Spe",
+          "brand": "bose"
+        },
+        {
+          "t": "Deal Wearable Bluetooth Speaker Clip-On Wireless Water-Resistant Mini Speaker Deal Add Now $ 19 08 $69.99 Options from $19.08 – $25.49 Wearable Blueto",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker, IP67 Waterproof Shower Speaker with Digital Battery Display, Powerful Sound, 24H Playtime, TWS Pairing, USB/TF Card, Small",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof, 30W Loud Sound, Deep Bass, Bluetooth 5.4, LED Lights, Wireless Stereo Pairing, 24H Playtime, for Home/Outd",
+          "brand": null
+        }
+      ]
+    },
+    {
+      "retailer": "walmart",
+      "term": "bluetooth speaker",
+      "state": "measured",
+      "total": 28,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 0,
+        "bose": 3,
+        "jbl": 2
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Portable Bluetooth Speaker, Bluetooth 5.4 Wireless Speaker, IPX7 Waterproof Outdoor Speaker with RGB Party Lights, 20W Stereo Sound, 20H Playtime, TWS",
+          "brand": null
+        },
+        {
+          "t": "Deal Portable Bluetooth Speaker, IP67 Waterproof Shower Speaker with Digital Battery Display, Powerful Sound, 24H Playtime, TWS Pairing, USB/TF Card, ",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker, 30W Super Loud Bluetooth 5.4 Speaker Wireless, Boost Bass 3.0, 30H Playtime, 8 RGB Modes, IPX7 Waterproof Speaker, TWS Pai",
+          "brand": null
+        },
+        {
+          "t": "Overall pick onn Large Party Speaker Gen 2 with LED Lighting Overall pick Add Now $ 129 00 $149.00 You save $ 20.00 onn Large Party Speaker Gen 2 with",
+          "brand": null
+        },
+        {
+          "t": "In 200+ people's carts OKKO Sonic Bass V4 Portable Bluetooth Speaker Wireless Party Speaker with Deep Bass, Karaoke Speaker with Microphone Port, LED ",
+          "brand": null
+        },
+        {
+          "t": "In 200+ people's carts OKKO Sonic Bass V4 Portable Bluetooth Speaker – Wireless Party Speaker with Deep Bass, Karaoke Speaker with Microphone Port, LE",
+          "brand": null
+        },
+        {
+          "t": "Rollback Altec Lansing Hydra Jolt 2.0 Everything-Proof Wireless Magnetic Bluetooth Portable Speaker for Travel, Black Rollback Add Sponsored Now $ 29 ",
+          "brand": null
+        },
+        {
+          "t": "2024 New on Clearance, Bluetooth Speaker, Dance Wireless Bluetooth Handheld Speaker Wireless Outdoor Bluetooth Speaker Add $ 21 52 +$7.99 shipping 202",
+          "brand": null
+        },
+        {
+          "t": "Pillow Speaker for Sleeping, Bluetooth Under Pillow Speaker with White Noise & Sleep Timer, Ultra-Thin Bed Speaker for Side Sleepers, 48H Battery Life",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof, 30W Loud Sound, Deep Bass, Bluetooth 5.4, LED Lights, Wireless Stereo Pairing, 24H Playtime, for Home/Outd",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof Wireless Speaker with 20W Powerful Speaker 24Hrs Playtime Colorful Flashing Lights TWS Wireless Pairing for",
+          "brand": null
+        },
+        {
+          "t": "Portable Bluetooth Speaker IPX7 Waterproof, 30W Loud Sound, Deep Bass, Bluetooth 5.4, LED Lights, Wireless Stereo Pairing, 24H Playtime, for Home/Outd",
+          "brand": null
+        },
+        {
+          "t": "RBCKVXZ Bluetooth Speakers,Intelligent Voice Full Screen LED Color Lights Wireless Mini Bluetooth Audio Outdoor Portable Car Subwoofer Bluetooth Audio",
+          "brand": null
+        },
+        {
+          "t": "Best seller onn Medium Party Speaker Gen 2 with LED Lighting Best seller Add $ 84 94 onn Medium Party Speaker Gen 2 with LED Lighting 4.6 out of 5 sta",
+          "brand": null
+        },
+        {
+          "t": "Tuphregyow Portable Bluetooth Speakers,Wireless Speaker Loud Stereo Sound,Outdoor Speaker With Bluetooth 5.0,Deep Bass,Clear Stereo Sound,Dual Pairing",
+          "brand": null
+        },
+        {
+          "t": "Beats Pill Waterproof Built-in Microphone Wireless Bluetooth Portable Speaker, Navy Blue Add $ 99 95 Options from $72.00 Beats Pill Waterproof Built-i",
+          "brand": null
+        },
+        {
+          "t": "Best seller JBL Charge 6 - Portable Waterproof and Drop-Proof Bluetooth Speaker - Black Best seller Add Now $ 149 95 $199.95 You save $ 50.00 Options ",
+          "brand": "jbl"
+        },
+        {
+          "t": "Deal Ortizan Rugged Portable Bluetooth Speaker, IPX7 Waterproof, 24W Loud Stereo Sound, 30H Playtime, Multi-Colored Deal Add $ 28 49 Options from $28.",
+          "brand": null
+        },
+        {
+          "t": "Bluetooth Speaker, 2026 Portable Wireless Speakers with Led Light, Bluetooth 5.4, 15H Playtime, Enhanced Bass, IPX7 Waterproof, Outdoor Speaker for Tr",
+          "brand": null
+        },
+        {
+          "t": "Tukio Bluetooth Speaker, IPX7 Waterproof Shower Speaker with Suction Cup, Mini Portable Speaker, 12H Playtime, Bluetooth 5.4, 360° Sound, RGB LED, Han",
+          "brand": null
+        },
+        {
+          "t": "Deal Oraolo Luster Bluetooth Speaker , Portable Speaker with Colorful Lights, Stereo Sound, Bluetooth 5.3, 24H Playtime, IPX6 Waterproof, AUX-in, Spea",
+          "brand": null
+        },
+        {
+          "t": "Deal Wearable Bluetooth Speaker Clip-On Wireless Water-Resistant Mini Speaker Deal Add Now $ 19 08 $69.99 You save $ 50.91 Options from $19.08 – $25.4",
+          "brand": null
+        },
+        {
+          "t": "Bose SoundLink Plus Bluetooth Speaker, Waterproof Portable Speaker, Citrus Add $ 269 00 Bose SoundLink Plus Bluetooth Speaker, Waterproof Portable Spe",
+          "brand": "bose"
+        },
+        {
+          "t": "Portable Bluetooth Speaker IP7 Waterproof, 40W Loud Sound Wireless Ultra Bluetooth Speaker, 30H Playtime, Deep Bass, Colorful LED Lights, BT5.4, Suita",
+          "brand": null
+        }
+      ]
+    },
+    {
+      "retailer": "target",
+      "term": "wireless speaker",
+      "state": "measured",
+      "total": 19,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 0,
+        "bose": 4,
+        "jbl": 5
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Highly rated $34.99 JLab Go Party Portable Speaker JLab 4.8 (1841) In stock Pickup ready within 2 hours Delivery as soon as 1pm Shipping arrives Sat, ",
+          "brand": null
+        },
+        {
+          "t": "Highly rated $34.99 JLab Go Party Portable Speaker JLab 4.8 (1841) In stock Pickup ready within 2 hours Delivery as soon as 1pm Shipping arrives Sat, ",
+          "brand": null
+        },
+        {
+          "t": "Highly rated $34.99 JLab Go Party Portable Speaker JLab 4.8 (1841) In stock Pickup ready within 2 hours Delivery as soon as 1pm Shipping arrives Sat, ",
+          "brand": null
+        },
+        {
+          "t": "JLab Go Party Portable Speaker JLab 4.8 (1841)",
+          "brand": null
+        },
+        {
+          "t": "Highly rated $159.99 Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound Shipping arrives Sat, Aug 15 S",
+          "brand": "bose"
+        },
+        {
+          "t": "Highly rated $159.99 Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound Shipping arrives Sat, Aug 15 S",
+          "brand": "bose"
+        },
+        {
+          "t": "Highly rated $159.99 Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound Shipping arrives Sat, Aug 15 S",
+          "brand": "bose"
+        },
+        {
+          "t": "Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound",
+          "brand": "bose"
+        },
+        {
+          "t": "1k+ bought in last month $79.99reg $99.99 Sale JBL Portable Grip Speaker JBL 4.3 (176) Loved for: powerful sound In stock Pickup ready within 2 hours ",
+          "brand": "jbl"
+        },
+        {
+          "t": "1k+ bought in last month $79.99reg $99.99 Sale JBL Portable Grip Speaker JBL 4.3 (176) Loved for: powerful sound In stock Pickup ready within 2 hours ",
+          "brand": "jbl"
+        },
+        {
+          "t": "1k+ bought in last month $79.99reg $99.99 Sale JBL Portable Grip Speaker JBL 4.3 (176) Loved for: powerful sound In stock Pickup ready within 2 hours ",
+          "brand": "jbl"
+        },
+        {
+          "t": "JBL Portable Grip Speaker JBL 4.3 (176) Loved for: powerful sound",
+          "brand": "jbl"
+        },
+        {
+          "t": "2k+ bought in last month $99.99reg $149.99 Sale Rarely returned Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound In stock ",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $99.99reg $149.99 Sale Rarely returned Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound In stock ",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $99.99reg $149.99 Sale Rarely returned Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound In stock ",
+          "brand": null
+        },
+        {
+          "t": "Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $44.99reg $54.99 Sale New at New at Target JBL Go 5 Portable Bluetooth Speaker JBL 4.5 (63) In stock Pickup ready within 2 ho",
+          "brand": "jbl"
+        },
+        {
+          "t": "2k+ bought in last month $44.99reg $54.99 Sale New at New at Target JBL Go 5 Portable Bluetooth Speaker JBL 4.5 (63) In stock Pickup ready within 2 ho",
+          "brand": "jbl"
+        },
+        {
+          "t": "2k+ bought in last month $44.99reg $54.99 Sale New at New at Target JBL Go 5 Portable Bluetooth Speaker JBL 4.5 (63) In stock Pickup ready within 2 ho",
+          "brand": "jbl"
+        },
+        {
+          "t": "JBL Go 5 Portable Bluetooth Speaker JBL 4.5 (63)",
+          "brand": "jbl"
+        }
+      ]
+    },
+    {
+      "retailer": "target",
+      "term": "smart speaker",
+      "state": "measured",
+      "total": 16,
+      "counts": {
+        "sonos": 0,
+        "amazon": 12,
+        "apple": 0,
+        "bose": 0,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "8k+ bought in last month $49.99 Rarely returned Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599) In stock Pickup ready withi",
+          "brand": "amazon"
+        },
+        {
+          "t": "8k+ bought in last month $49.99 Rarely returned Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599) In stock Pickup ready withi",
+          "brand": "amazon"
+        },
+        {
+          "t": "8k+ bought in last month $49.99 Rarely returned Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599) In stock Pickup ready withi",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599)",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Studio (2025) Amazon 4.6 (29)",
+          "brand": "amazon"
+        },
+        {
+          "t": "100+ bought in last month $99.99 New at New at Target Google Home Speaker - Smart Speaker with 360 Degree Sound and Gemini For Home Voice Assistant Go",
+          "brand": null
+        },
+        {
+          "t": "100+ bought in last month $99.99 New at New at Target Google Home Speaker - Smart Speaker with 360 Degree Sound and Gemini For Home Voice Assistant Go",
+          "brand": null
+        },
+        {
+          "t": "100+ bought in last month $99.99 New at New at Target Google Home Speaker - Smart Speaker with 360 Degree Sound and Gemini For Home Voice Assistant Go",
+          "brand": null
+        },
+        {
+          "t": "Google Home Speaker - Smart Speaker with 360 Degree Sound and Gemini For Home Voice Assistant Google 3.2 (7)",
+          "brand": null
+        },
+        {
+          "t": "Bestseller $89.99 Amazon Echo Show 5 (3rd Gen, 2023 release) | Smart Display with Deeper Bass and Clearer Sound Amazon 4.2 (296) Loved for: great soun",
+          "brand": "amazon"
+        },
+        {
+          "t": "Bestseller $89.99 Amazon Echo Show 5 (3rd Gen, 2023 release) | Smart Display with Deeper Bass and Clearer Sound Amazon 4.2 (296) Loved for: great soun",
+          "brand": "amazon"
+        },
+        {
+          "t": "Bestseller $89.99 Amazon Echo Show 5 (3rd Gen, 2023 release) | Smart Display with Deeper Bass and Clearer Sound Amazon 4.2 (296) Loved for: great soun",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Show 5 (3rd Gen, 2023 release) | Smart Display with Deeper Bass and Clearer Sound Amazon 4.2 (296) Loved for: great sound",
+          "brand": "amazon"
+        },
+        {
+          "t": "100+ bought in last month $49.99 Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599) Shipping arrives Sat, Aug 15 Shipping date",
+          "brand": "amazon"
+        },
+        {
+          "t": "100+ bought in last month $49.99 Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599) Shipping arrives Sat, Aug 15 Shipping date",
+          "brand": "amazon"
+        },
+        {
+          "t": "100+ bought in last month $49.99 Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599) Shipping arrives Sat, Aug 15 Shipping date",
+          "brand": "amazon"
+        },
+        {
+          "t": "Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa Amazon 4.7 (599)",
+          "brand": "amazon"
+        }
+      ]
+    },
+    {
+      "retailer": "target",
+      "term": "bluetooth speaker",
+      "state": "measured",
+      "total": 20,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 0,
+        "bose": 4,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "Highly rated $34.99 Rarely returned JLab Go Party Portable Speaker JLab 4.8 (1841) In stock Pickup ready within 2 hours Delivery as soon as 1pm Shippi",
+          "brand": null
+        },
+        {
+          "t": "Highly rated $34.99 Rarely returned JLab Go Party Portable Speaker JLab 4.8 (1841) In stock Pickup ready within 2 hours Delivery as soon as 1pm Shippi",
+          "brand": null
+        },
+        {
+          "t": "Highly rated $34.99 Rarely returned JLab Go Party Portable Speaker JLab 4.8 (1841) In stock Pickup ready within 2 hours Delivery as soon as 1pm Shippi",
+          "brand": null
+        },
+        {
+          "t": "JLab Go Party Portable Speaker JLab 4.8 (1841)",
+          "brand": null
+        },
+        {
+          "t": "Highly rated $159.99 Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound In stock Pickup ready within 2",
+          "brand": "bose"
+        },
+        {
+          "t": "Highly rated $159.99 Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound In stock Pickup ready within 2",
+          "brand": "bose"
+        },
+        {
+          "t": "Highly rated $159.99 Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound In stock Pickup ready within 2",
+          "brand": "bose"
+        },
+        {
+          "t": "Bose SoundLink Flex Portable Bluetooth Speaker (2nd Gen) Bose 4.7 (944) + 4 Loved for: great sound",
+          "brand": "bose"
+        },
+        {
+          "t": "2k+ bought in last month $24.99 Rarely returned JLab Pop Party Portable Speaker JLab 4.7 (635) Loved for: great sound In stock Pickup ready within 2 h",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $24.99 Rarely returned JLab Pop Party Portable Speaker JLab 4.7 (635) Loved for: great sound In stock Pickup ready within 2 h",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $24.99 Rarely returned JLab Pop Party Portable Speaker JLab 4.7 (635) Loved for: great sound In stock Pickup ready within 2 h",
+          "brand": null
+        },
+        {
+          "t": "JLab Pop Party Portable Speaker JLab 4.7 (635) Loved for: great sound",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $99.99reg $149.99 Sale Rarely returned Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound In stock ",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $99.99reg $149.99 Sale Rarely returned Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound In stock ",
+          "brand": null
+        },
+        {
+          "t": "2k+ bought in last month $99.99reg $149.99 Sale Rarely returned Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound In stock ",
+          "brand": null
+        },
+        {
+          "t": "Beats Pill Wireless Bluetooth Speaker Beats 4.4 (637) Loved for: great sound",
+          "brand": null
+        },
+        {
+          "t": "$24.99 New at New at Target Anker Soundcore Select 4 Go Portable Waterproof Bluetooth Speaker - Midnight Anker 5 (4) In stock Pickup ready within 2 ho",
+          "brand": null
+        },
+        {
+          "t": "$24.99 New at New at Target Anker Soundcore Select 4 Go Portable Waterproof Bluetooth Speaker - Midnight Anker 5 (4) In stock Pickup ready within 2 ho",
+          "brand": null
+        },
+        {
+          "t": "$24.99 New at New at Target Anker Soundcore Select 4 Go Portable Waterproof Bluetooth Speaker - Midnight Anker 5 (4) In stock Pickup ready within 2 ho",
+          "brand": null
+        },
+        {
+          "t": "Anker Soundcore Select 4 Go Portable Waterproof Bluetooth Speaker - Midnight Anker 5 (4)",
+          "brand": null
+        }
+      ]
+    },
+    {
+      "retailer": "bestbuy",
+      "term": "wireless speaker",
+      "state": "not comparable",
+      "why": "logged-out Best Buy serves a ~4-item featured strip, not a result grid",
+      "total": null,
+      "counts": {}
+    },
+    {
+      "retailer": "bestbuy",
+      "term": "smart speaker",
+      "state": "not comparable",
+      "why": "logged-out Best Buy serves a ~4-item featured strip, not a result grid",
+      "total": null,
+      "counts": {}
+    },
+    {
+      "retailer": "bestbuy",
+      "term": "bluetooth speaker",
+      "state": "not comparable",
+      "why": "logged-out Best Buy serves a ~4-item featured strip, not a result grid",
+      "total": null,
+      "counts": {}
+    },
+    {
+      "retailer": "newegg",
+      "term": "wireless speaker",
+      "state": "measured",
+      "total": 27,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 0,
+        "bose": 5,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "QUICK VIEW Ultimate Ears EVERBOOM Wireless Bluetooth Speaker - Charcoal Black Brand: Ultimate Ears Name: ULTIMATE EARS EVERBOOM WIRELESS BLUETOOTH SPE",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Ultimate Ears MEGABOOM 4 Wireless Bluetooth Speaker - Active Black Brand: Ultimate Ears Name: Ultimate Ears MEGABOOM 4 Wireless Bluetooth® ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Choyong Voyager Bluetooth Speaker Wireless Internet Radio with WIFI/4G,World Radio Station,BT5.3, Electronics for Home/Travel/Outdoor mini ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW HEYSONG Portable Bluetooth Speaker, Waterproof Wireless Speakers, IPX7 Waterproof, 40H Playtime, TF Card, Loud Stereo Sound for Beach, Boat",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (1) Ultimate Ears WONDERBOOM 4 Wireless Bluetooth Speaker - Black Brand: Ultimate Ears Name: ULTIMATE EARS WONDERBOOM™ 4 - BLACK Part Numbe",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (20) Anker Soundcore 2 Portable Bluetooth Speaker with 12W Stereo Sound, Bluetooth 5, Bassup, IPX7 Waterproof, 24-Hour Playtime, Wireless S",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof/Dustproof Design - Sunset Peach +4 Brand: Bose Part Number: 887612",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW 1in Speaker 26mm 8 ohm 1/4 Watt (0.25w) Nominal / 1/2 Watt (0.5 w) Maximum Power Output - Green Plastic Shell with 4 in (104 mm) Wires Bran",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Jabra Speak 510 Portable Speaker, USB or Wireless Bluetooth Speaker for Meetings and Calls with Crystal-Clear Sound, Works with All Meeting",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Adiven Computer Speakers with 3.5 mm Aux,Desktop Speakers with Various Colorful RGB Lights,Gaming Speakers with Volume Control,Computer Spe",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Plus Portable Bluetooth Speaker, Wireless Outdoor Speaker, Up to 20 Hours Battery Life, Waterproof and Dustproof, Blue Dusk ",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Micro Wireless Portable Bluetooth Speaker (2nd Gen) 895098-0900 - Sunset Peach +2 Brand: Bose Part Number: 895098-0900 Color",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Plus Portable Bluetooth Speaker, Wireless Outdoor Speaker, Up to 20 Hours Battery Life, Waterproof and Dustproof, Black Bran",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Plus Portable Bluetooth Speaker, Wireless Outdoor Speaker, Up to 20 Hours Battery Life, Waterproof and Dustproof, Sunset Pea",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW (1) Ultimate Ears WONDERBOOM 4 Wireless Bluetooth Speaker - Pink Brand: Ultimate Ears Name: ULTIMATE EARS WONDERBOOM™ 4 - Pink Part Number:",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Portable Bluetooth Speaker Beach Essentials: IPX5 Waterproof for Outdoor/Powerful HD Sound/Dynamic Light/All Day Playtime/Wireless BT 5.3/T",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Watch video LOWEST PRICEin 30 days Newegg Select JYX Portable Karaoke Machine for Adults & Kids with 2 Wireless Microphones, Portable Bluet",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Portable Bluetooth Speaker 120W Peak 80W Wireless Speakers, TWS Pairing, Deep Bass, Hi-Fi Loud Speaker, IPX6 Waterproof, DSP Sound Boombox ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bluetooth Speaker, 2026 Portable Wireless Speakers with Led Light, Bluetooth 5.4, 15H Playtime, Enhanced Bass, IPX7 Waterproof, Outdoor Spe",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Portable Bluetooth Speaker, 2026 Bluetooth 5.4 Wireless Speaker with 20W HD Loud Stereo Sound, TWS Pairing, 20H playtime, RGB Lights, IP7, ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (1) Ultimate Ears WONDERBOOM 4 Wireless Bluetooth Speaker - Gray Brand: Ultimate Ears Name: ULTIMATE EARS WONDERBOOM™ 4 - Gray Part Number:",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Ultimate Ears - BOOM 4 Portable Wireless Bluetooth Speaker with Waterproof, Dustproof and Floatable design - Black Brand: Ultimate Ears Nam",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bluetooth Speaker with HD Sound and Lights, Portable Wireless, Long-lasting battery life, TWS Pairing, for Home/Party/Outdoor/Travel/Beach,",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Portable Mini Bluetooth Speaker, Small Wireless Speaker Bluetooth 5.3 with Stereo Sound, Deep Bass, TWS Pairing, IP7 Waterproof, 8 Hours of",
+          "brand": null
+        }
+      ]
+    },
+    {
+      "retailer": "newegg",
+      "term": "smart speaker",
+      "state": "measured",
+      "total": 29,
+      "counts": {
+        "sonos": 0,
+        "amazon": 6,
+        "apple": 0,
+        "bose": 0,
+        "jbl": 1
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 with 1.85inch Touch Round LCD Development Board, 360x360, Support W-i-Fi & BLE 5, Smart Speaker Box, AI Speech, Supports AI Speech",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Choyong Voyager Bluetooth Speaker Wireless Internet Radio with WIFI/4G,World Radio Station,BT5.3, Electronics for Home/Travel/Outdoor mini ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-P4-WIFI6 3.5inch Touch LCD Smart Vision Dev Board, Equipped with 3.5inch Touch Display 320480 Resolution and 5MP OV5647 Camera, Built",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Dual Microphones, Noise Reduction, RGB Lighting, External Display & Camera Support Limited tim",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction and Echo Cancell",
+          "brand": "amazon"
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction and Echo Cancell",
+          "brand": "amazon"
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction and Echo Cancell",
+          "brand": "amazon"
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 with 1.85inch Touch Round LCD Development Board, 360x360, Support W-i-Fi & BLE 5, Smart Speaker Box, AI Speech, Supports AI Speech",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Waveshare ESP32-S3 AI Smart Speaker Development Board, Dual Microphones, Noise Reduction, RGB Lighting, External Display & Camera Support M",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Waveshare ESP32-S3 1.85inch Round LCD Development Board, 360×360, Supports Wi-Fi & Bluetooth BLE 5, AI Speech, Smart Speaker Box, ESP32 wit",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (2) JBL Link 10 Smart Voice-Activated Portable Wireless Bluetooth Speaker with Google Assistant, IPX7 Waterproof, Black Color: Black Speake",
+          "brand": "jbl"
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction and Echo Cancell",
+          "brand": "amazon"
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 1.85inch Round Touch LCD Development Board, 360x360, Supports Wi-Fi & BLE 5, AI Speech, Smart Speaker Box, Support AI Interaction ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board Onboard Dual Microphone Array, AI Speech, Surround RGB Lighting, Supports Connecting External L",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Support AI Speech Interaction, Dual Digital Microphone Array, Noise Reduction, Support Externa",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board, Supports Dual-MIC Audio Capture, AI Speech Interaction, Surround RGB Lighting, External LCD Di",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Waveshare ESP32-S3 1.85inch Round LCD Development Board, 360×360, Supports Wi-Fi & Bluetooth BLE 5, AI Speech, Smart Speaker Box, ESP32 wit",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW ESP32-S3 AI Smart Speaker Development Board,Supports Noise Reduction and Echo Cancellation, Surround RGB Lighting,Supports External LCD Dis",
+          "brand": "amazon"
+        }
+      ]
+    },
+    {
+      "retailer": "newegg",
+      "term": "bluetooth speaker",
+      "state": "measured",
+      "total": 29,
+      "counts": {
+        "sonos": 0,
+        "amazon": 0,
+        "apple": 0,
+        "bose": 11,
+        "jbl": 0
+      },
+      "passes": 3,
+      "cards": [
+        {
+          "t": "QUICK VIEW Ultimate Ears EVERBOOM Wireless Bluetooth Speaker - Charcoal Black Brand: Ultimate Ears Name: ULTIMATE EARS EVERBOOM WIRELESS BLUETOOTH SPE",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Portable Bluetooth Speaker Beach Essentials: IPX5 Waterproof for Outdoor/Powerful HD Sound/Dynamic Light/All Day Playtime/Wireless BT 5.3/T",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (1) Edifier MP230 Portable Bluetooth Speaker, Wireless Speaker with Stereo Sound for Outdoor Travel, 10-Hour Playtime, Supports USB Soundca",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW RECENTLY LAUNCHED Bose SoundLink Flex Bluetooth Speaker (2nd Gen) - Portable Outdoor Speaker with Hi-Fi Audio, Waterproof and Dustproof, US",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Ultimate Ears MEGABOOM 4 Wireless Bluetooth Speaker - Active Black Brand: Ultimate Ears Name: Ultimate Ears MEGABOOM 4 Wireless Bluetooth® ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (20) Anker Soundcore Motion Boom Outdoor Speaker with Titanium Drivers, BassUp Technology, IPX7 Waterproof, 24H Playtime, Soundcore App, Bu",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (17) Anker Soundcore Bluetooth Speaker with IPX5 Waterproof, Stereo Sound, 24H Playtime, Portable Wireless Speaker for iPhone, Samsung and ",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof/Dustproof Design - Twilight Blue +4 Brand: Bose Name: SoundLink Fl",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Watch video Sourcingbay Retro Mini Bluetooth Speaker, USB Rechargeable Boombox for Desk, Shelf, Bedside, Small Spaces and Dry Terrarium Set",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (1) Ultimate Ears WONDERBOOM 4 Wireless Bluetooth Speaker - Black Brand: Ultimate Ears Name: ULTIMATE EARS WONDERBOOM™ 4 - BLACK Part Numbe",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof/Dustproof Design - Sunset Peach +4 Brand: Bose Part Number: 887612",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW HEYSONG Portable Bluetooth Speaker, Waterproof Wireless Speakers, IPX7 Waterproof, 40H Playtime, TF Card, Loud Stereo Sound for Beach, Boat",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW LOWEST PRICEin 30 days (13) Soundcore Boom 2 Outdoor Speaker, 80W, Subwoofer, BassUp 2.0, 24H Playtime, IPX7 Waterproof, Floatable, RGB Lig",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW RECENTLY LAUNCHED Bose SoundLink Flex Bluetooth Speaker (2nd Gen) - Portable Outdoor Speaker with Hi-Fi Audio, Waterproof and Dustproof, US",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW #1 BEST SELLER in Portable Speakers Newegg Select Bose SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof/Dustproof Design",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof/Dustproof Design - Blue Dusk +4 Brand: Bose Name: SoundLink Flex (",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof/Dustproof Design - Fog Grey +4 Brand: Bose Name: SoundLink Flex (2",
+          "brand": "bose"
+        },
+        {
+          "t": "QUICK VIEW LOWEST PRICEin 30 days (11) Soundcore 3 Bluetooth Speaker with Stereo Sound, Pure Titanium Diaphragm Drivers, PartyCast Technology, BassUp,",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Jabra Speak 510 Portable Speaker, USB or Wireless Bluetooth Speaker for Meetings and Calls with Crystal-Clear Sound, Works with All Meeting",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Ion Audio Trouper 100 - Portable Bluetooth Speaker, 100w Brand: ION Name: Ion Audio Trouper 100 - Portable Bluetooth Speaker, 100w Part Num",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW (9 from soundcore.com) Soundcore Boom 2 Plus Outdoor Speaker, 140W, 2+2 Channel, BassUp 2.0, 20H, Fast Charge, IPX7 Waterproof, RGB Lights,",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Edifier D32 Tabletop Bluetooth Speakers, Portable Retro Wireless Speaker, 60W RMS Wi-Fi and Bluetooth Sound System Compatible with AirPlay2",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Soundcore Boom Go 3i Portable Bluetooth Speaker by Anker, 15W Punchy Sound, 24H Playtime, IP68, BassUp 2.0, Emergency Charging, Bluetooth 6",
+          "brand": null
+        },
+        {
+          "t": "QUICK VIEW Bose SoundLink Micro Wireless Portable Bluetooth Speaker (2nd Gen) 895098-0900 - Sunset Peach +2 Brand: Bose Part Number: 895098-0900 Color",
+          "brand": "bose"
+        }
+      ]
+    }
+  ],
+  "pricingByRetailer": {
+    "amazon": [
+      {
+        "model": "era100",
+        "label": "Era 100",
+        "brand": "sonos",
+        "price": 219,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-era100-promo.jpg",
+        "url": "https://www.amazon.com/Sonos-Era-100-Wireless-Speaker/dp/B0BW34LCB8/ref=sr_1_5",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $169.00 $219.00 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-era100-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2-Year Protection Plan for $24.99",
+            "img": "evidence/sonos-multi/pdp-amazon-era100-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (6) from $189.95 & FREE Shipping",
+            "img": "evidence/sonos-multi/pdp-amazon-era100-p3.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "era300",
+        "label": "Era 300",
+        "brand": "sonos",
+        "price": 479,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-era300-promo.jpg",
+        "url": "https://www.amazon.com/Sonos-Era-300-Wireless-Speaker/dp/B0BW2LV57K/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $429.00 $479.00 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-era300-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonos-multi/pdp-amazon-era300-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (6) from $424.03 & FREE Shipping.",
+            "img": "evidence/sonos-multi/pdp-amazon-era300-p3.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "beamg2",
+        "label": "Beam (Gen 2)",
+        "brand": "sonos",
+        "price": 499,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-beamg2-promo.jpg",
+        "url": "https://www.amazon.com/Sonos-Beam-Gen-2-Black/dp/B09GPYL7BJ/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $449.00 $499.00 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-beamg2-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonos-multi/pdp-amazon-beamg2-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (10) from $426.99 & FREE Shipping",
+            "img": "evidence/sonos-multi/pdp-amazon-beamg2-p3.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "charge5",
+        "label": "JBL Charge 5",
+        "brand": "jbl",
+        "price": 134.95,
+        "priceBasis": "pdp",
+        "was": 179.95,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-charge5-promo.jpg",
+        "url": "https://www.amazon.com/JBL-CHARGE-Portable-Bluetooth-Waterproof/dp/B08X4YMTPM/ref=sr_1_3",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "discount",
+            "verbatim": "$134.95 with 25 percent savings",
+            "img": "evidence/sonos-multi/pdp-amazon-charge5-p1.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "list price strike throug",
+            "verbatim": "List Price: $179.95",
+            "img": "evidence/sonos-multi/pdp-amazon-charge5-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $84.95 $134.95 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-charge5-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) $16.99/month",
+            "img": "evidence/sonos-multi/pdp-amazon-charge5-p4.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (20) from $120.95 & FREE Shipping",
+            "img": "evidence/sonos-multi/pdp-amazon-charge5-p5.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "charge6",
+        "label": "JBL Charge 6",
+        "brand": "jbl",
+        "price": 149.95,
+        "priceBasis": "pdp",
+        "was": 199.95,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-charge6-promo.jpg",
+        "url": "https://www.amazon.com/JBL-Charge-Waterproof-Drop-Proof-Built/dp/B0DN2ZCZX6/ref=sr_1_3",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "discount",
+            "verbatim": "$149.95 with 25 percent savings",
+            "img": "evidence/sonos-multi/pdp-amazon-charge6-p1.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $99.95 $149.95 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-charge6-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2-Year Protection Plan for $16.99",
+            "img": "evidence/sonos-multi/pdp-amazon-charge6-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (22) from $141.03 & FREE Shipping.",
+            "img": "evidence/sonos-multi/pdp-amazon-charge6-p4.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "slmax",
+        "label": "SoundLink Max",
+        "brand": "bose",
+        "price": 309.99,
+        "priceBasis": "pdp",
+        "was": 399,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-slmax-promo.jpg",
+        "url": "https://www.amazon.com/Bose-SoundLink-Portable-Waterproof-Bluetooth/dp/B0CVL1K7DX/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "discount",
+            "verbatim": "$309.99 with 22 percent savings",
+            "img": "evidence/sonos-multi/pdp-amazon-slmax-p1.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "list price comparison",
+            "verbatim": "List Price: $399.00",
+            "img": "evidence/sonos-multi/pdp-amazon-slmax-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $259.99 $309.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-slmax-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonos-multi/pdp-amazon-slmax-p4.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (12) from $309.99 & FREE Shipping.",
+            "img": "evidence/sonos-multi/pdp-amazon-slmax-p5.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "slrevp",
+        "label": "SoundLink Revolve+",
+        "brand": "bose",
+        "price": 254.99,
+        "priceBasis": "pdp",
+        "was": 329,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-slrevp-promo.jpg",
+        "url": "https://www.amazon.com/Bose-SoundLink-Portable-Long-Lasting-Bluetooth/dp/B06XCW4VFS/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $204.99 $254.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-slrevp-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month",
+            "img": "evidence/sonos-multi/pdp-amazon-slrevp-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "New & Used (3) from $229.00 & FREE Shipping",
+            "img": "evidence/sonos-multi/pdp-amazon-slrevp-p3.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "echodotmax",
+        "label": "Echo Dot Max",
+        "brand": "amazon",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "two irreconcilable prices ($99.99 vs $49.99) — both withheld pending a re-read",
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-echodotmax-promo.jpg",
+        "url": "https://www.amazon.com/Amazon-Echo-Dot-Max-Alexa-Speaker-Graphite-Amazon/dp/B0D6SX8VLQ/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $49.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "trade-in",
+            "verbatim": "Save 20% with Trade-In",
+            "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Protection Plan: 2 year $13.99",
+            "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "bundle",
+            "verbatim": "Smart Plug: 2-pack $36.98 Bundle List Price: $49.98",
+            "img": "evidence/sonos-multi/pdp-amazon-echodotmax-p4.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "echostudio",
+        "label": "Echo Studio",
+        "brand": "amazon",
+        "price": 219.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-amazon-echostudio-promo.jpg",
+        "url": "https://www.amazon.com/Amazon-Echo-Studio-Alexa-Speaker-Graphite-Amazon/dp/B0DMQ1QMVV/ref=sr_1_1",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "card offer",
+            "verbatim": "Get $50 off instantly: Pay $169.99 upon approval for Amazon Visa. No annual fee.",
+            "img": "evidence/sonos-multi/pdp-amazon-echostudio-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "trade-in",
+            "verbatim": "Save 20% with Trade-In",
+            "img": "evidence/sonos-multi/pdp-amazon-echostudio-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Protection Plan: 2 year $29.99",
+            "img": "evidence/sonos-multi/pdp-amazon-echostudio-p3.jpg",
+            "via": "pattern"
+          }
+        ]
+      }
+    ],
+    "walmart": [
+      {
+        "model": "beamg2",
+        "label": "Beam (Gen 2)",
+        "brand": "sonos",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-walmart-beamg2-promo.jpg",
+        "url": "https://www.walmart.com/ip/Sonos-Beam-Gen-2-Compact-Smart-Sound-Bar-with-Dolby-Atmos-Black/847417720",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "delivery offer",
+            "verbatim": "Free shipping",
+            "img": "evidence/sonos-multi/pdp-walmart-beamg2-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "free trial offer",
+            "verbatim": "Try 30 days for just $1! Choose a plan at checkout.",
+            "img": "evidence/sonos-multi/pdp-walmart-beamg2-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "discount",
+            "verbatim": "ULTIMEA Poseidon M4T 5.1 Dolby Atmos Sound Bar, 410W Peak Power Surround Sound Bar, Bluetooth $169.99 Was $239.99",
+            "img": "evidence/sonos-multi/pdp-walmart-beamg2-p3.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "charge5",
+        "label": "JBL Charge 5",
+        "brand": "jbl",
+        "price": 179.95,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-walmart-charge5-promo.jpg",
+        "url": "https://www.walmart.com/ip/JBL-Charge-5-Portable-Waterproof-Bluetooth-Speaker-with-Powerbank-Black/625340678",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "discount",
+            "verbatim": "Black, $134.95, was $179.95",
+            "img": "evidence/sonos-multi/pdp-walmart-charge5-p1.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "charge6",
+        "label": "JBL Charge 6",
+        "brand": "jbl",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "implausible vs other retailers ($70.74 against a $149.95 median of 3) — withheld",
+        "promosWithheld": "coarse-region read — promotions unrecoverable from this capture",
+        "img": "evidence/sonos-multi/pdp-walmart-charge6-promo.jpg",
+        "url": "https://www.walmart.com/sp/track",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "slmax",
+        "label": "SoundLink Max",
+        "brand": "bose",
+        "price": 399,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-walmart-slmax-promo.jpg",
+        "url": "https://www.walmart.com/ip/Bose-SoundLink-Max-Waterproof-Wireless-Bluetooth-Portable-Speaker-Black/5229777068",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "financing",
+            "verbatim": "As low as $36/mo with Learn more",
+            "img": "evidence/sonos-multi/pdp-walmart-slmax-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "bundle",
+            "verbatim": "5 free offers, including Apple Music up to 1 month free",
+            "img": "evidence/sonos-multi/pdp-walmart-slmax-p2.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "delivery offer",
+            "verbatim": "Free shipping",
+            "img": "evidence/sonos-multi/pdp-walmart-slmax-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "Walmart Protection Plan by Allstate",
+            "img": "evidence/sonos-multi/pdp-walmart-slmax-p4.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "trial offer",
+            "verbatim": "Try 30 days for just $1! Choose a plan at checkout.",
+            "img": "evidence/sonos-multi/pdp-walmart-slmax-p5.jpg",
+            "via": "llm"
+          }
+        ]
+      }
+    ],
+    "target": [
+      {
+        "model": "era300",
+        "label": "Era 300",
+        "brand": "sonos",
+        "price": 479,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-target-era300-promo.jpg",
+        "url": "https://www.target.com/p/sonos-era-300-voice-controlled-wireless-smart-speaker-with-bluetooth-trueplay-acoustic-tuning-technology-alexa-built-in/-/A-88879938",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "delivery offer",
+            "verbatim": "Ships free- exclusions apply",
+            "img": "evidence/sonos-multi/pdp-target-era300-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2 Year Audio Products Protection Plan ($450-$499.99) - Allstate",
+            "img": "evidence/sonos-multi/pdp-target-era300-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "financing",
+            "verbatim": "Pay as low as $45/mo",
+            "img": "evidence/sonos-multi/pdp-target-era300-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "buy now pay later",
+            "verbatim": "Pay in 4 interest-free payments of $119.75",
+            "img": "evidence/sonos-multi/pdp-target-era300-p4.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "beamg2",
+        "label": "Beam (Gen 2)",
+        "brand": "sonos",
+        "price": 499,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-target-beamg2-promo.jpg",
+        "url": "https://www.target.com/p/sonos-beam-gen-2-compact-smart-sound-bar-with-dolby-atmos/-/A-84694001",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "delivery offer",
+            "verbatim": "Ships free- exclusions apply",
+            "img": "evidence/sonos-multi/pdp-target-beamg2-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2 Year Audio Products Protection Plan ($450-$499.99) - Allstate",
+            "img": "evidence/sonos-multi/pdp-target-beamg2-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "financing",
+            "verbatim": "Pay as low as $47/mo",
+            "img": "evidence/sonos-multi/pdp-target-beamg2-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "buy now pay later",
+            "verbatim": "Pay in 4 interest-free payments of $124.75",
+            "img": "evidence/sonos-multi/pdp-target-beamg2-p4.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "slmax",
+        "label": "SoundLink Max",
+        "brand": "bose",
+        "price": 399.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-target-slmax-promo.jpg",
+        "url": "https://www.target.com/p/bose-soundlink-max-portable-bluetooth-wireless-speaker/-/A-92087078",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "2 Year Audio Products Protection Plan ($350-$399.99) - Allstate",
+            "img": "evidence/sonos-multi/pdp-target-slmax-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "financing",
+            "verbatim": "Pay as low as $38/mo",
+            "img": "evidence/sonos-multi/pdp-target-slmax-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "buy now pay later",
+            "verbatim": "Pay in 4 interest-free payments of $100.00",
+            "img": "evidence/sonos-multi/pdp-target-slmax-p3.jpg",
+            "via": "llm"
+          }
+        ]
+      },
+      {
+        "model": "echodotmax",
+        "label": "Echo Dot Max",
+        "brand": "amazon",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "two irreconcilable prices ($99.99 vs $49.99) — both withheld pending a re-read",
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-target-echodotmax-promo.jpg",
+        "url": "https://www.target.com/p/amazon-echo-dot-5th-gen-2022-smart-speaker-with-alexa/-/A-87740774",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "protection plan",
+            "verbatim": "2 Year Audio Products Protection Plan ($18-$49.99) - Allstate",
+            "img": "evidence/sonos-multi/pdp-target-echodotmax-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "financing",
+            "verbatim": "With Affirm on orders over $50",
+            "img": "evidence/sonos-multi/pdp-target-echodotmax-p2.jpg",
+            "via": "pattern"
+          }
+        ]
+      },
+      {
+        "model": "echostudio",
+        "label": "Echo Studio",
+        "brand": "amazon",
+        "price": 219.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-target-echostudio-promo.jpg",
+        "url": "https://www.target.com/p/amazon-echo-studio-2025/-/A-95002747",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "delivery offer",
+            "verbatim": "Ships free- exclusions apply",
+            "img": "evidence/sonos-multi/pdp-target-echostudio-p1.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "protection plan",
+            "verbatim": "2 Year Audio Products Protection Plan ($200-$249.99) - Allstate",
+            "img": "evidence/sonos-multi/pdp-target-echostudio-p2.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "financing",
+            "verbatim": "4 interest-free payments or as low as $21/mo",
+            "img": "evidence/sonos-multi/pdp-target-echostudio-p3.jpg",
+            "via": "pattern"
+          },
+          {
+            "type": "buy now pay later",
+            "verbatim": "Pay in 4 interest-free payments of $55.00",
+            "img": "evidence/sonos-multi/pdp-target-echostudio-p4.jpg",
+            "via": "llm"
+          },
+          {
+            "type": "bundle",
+            "verbatim": "Alexa+ is free with Prime.",
+            "img": "evidence/sonos-multi/pdp-target-echostudio-p5.jpg",
+            "via": "llm"
+          }
+        ]
+      }
+    ],
+    "bestbuy": [
+      {
+        "model": "era100",
+        "label": "Era 100",
+        "brand": "sonos",
+        "price": 219,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-bestbuy-era100.png",
+        "url": "https://www.bestbuy.com/product/sonos-era-100-wifi-and-bluetooth-smart-speaker-each-black/J39H373RL3",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "deal",
+            "verbatim": "Top Deals Deal of the Day Gift Ideas My Best Buy Membershi",
+            "img": "evidence/sonos-multi/pdp-bestbuy-era100.png",
+            "via": "unlocker"
+          }
+        ]
+      },
+      {
+        "model": "beamg2",
+        "label": "Beam (Gen 2)",
+        "brand": "sonos",
+        "price": 473,
+        "priceBasis": "pdp",
+        "was": 499,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-bestbuy-beamg2.png",
+        "url": "https://www.bestbuy.com/product/sonos-beam-gen-2-5-0-channel-smart-soundbar-with-dolby-atmos-black/J39H373LWC",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "discount",
+            "verbatim": "Save $26 The comparable value is Comp",
+            "img": "evidence/sonos-multi/pdp-bestbuy-beamg2.png",
+            "via": "unlocker"
+          },
+          {
+            "type": "deal",
+            "verbatim": "Top Deals Deal of the Day Gift Ideas My Best Buy Membershi",
+            "img": "evidence/sonos-multi/pdp-bestbuy-beamg2.png",
+            "via": "unlocker"
+          }
+        ]
+      },
+      {
+        "model": "echostudio",
+        "label": "Echo Studio",
+        "brand": "amazon",
+        "price": 219.99,
+        "priceBasis": "pdp",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-bestbuy-echostudio.png",
+        "url": "https://www.bestbuy.com/product/amazon-echo-studio-newest-model-our-best-echo-studio-yet-immersive-spatial-audio-and-dolby-atmos-designed-for-alexa-graphite/J39TLSY9YV",
+        "pdp": null,
+        "promos": [
+          {
+            "type": "deal",
+            "verbatim": "Top Deals Deal of the Day Gift Ideas My Best Buy Membershi",
+            "img": "evidence/sonos-multi/pdp-bestbuy-echostudio.png",
+            "via": "unlocker"
+          },
+          {
+            "type": "financing",
+            "verbatim": "$19.99/month",
+            "img": "evidence/sonos-multi/pdp-bestbuy-echostudio.png",
+            "via": "unlocker"
+          }
+        ]
+      }
+    ],
+    "newegg": [
+      {
+        "model": "era100",
+        "label": "Era 100",
+        "brand": "sonos",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "implausible vs other retailers ($57.99 against a $219 median of 3) — withheld",
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-era100.jpg",
+        "url": "https://www.newegg.com/p/3C6-00V6-02FT2",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "beamg2",
+        "label": "Beam (Gen 2)",
+        "brand": "sonos",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "implausible vs other retailers ($988.97 against a $499 median of 4) — withheld",
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-beamg2.jpg",
+        "url": "https://www.newegg.com/p/19S-08GT-001T8",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "charge5",
+        "label": "JBL Charge 5",
+        "brand": "jbl",
+        "price": 134.95,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-charge5.jpg",
+        "url": "https://www.newegg.com/p/2MA-003E-00396",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "charge6",
+        "label": "JBL Charge 6",
+        "brand": "jbl",
+        "price": 199.95,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-charge6.jpg",
+        "url": "https://www.newegg.com/p/26J-05F2-00066",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "slmax",
+        "label": "SoundLink Max",
+        "brand": "bose",
+        "price": 399,
+        "priceBasis": "search-card",
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-slmax.jpg",
+        "url": "https://www.newegg.com/bose-soundlink-max-portable-speaker-black/p/N82E16855772064",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "slrevp",
+        "label": "SoundLink Revolve+",
+        "brand": "bose",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": "two irreconcilable prices ($34.89 search-card vs $254.99 pdp) — the search-card figure withheld",
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-slrevp.jpg",
+        "url": "https://www.newegg.com/p/14R-03D7-001M8",
+        "pdp": null,
+        "promos": []
+      },
+      {
+        "model": "echostudio",
+        "label": "Echo Studio",
+        "brand": "amazon",
+        "price": null,
+        "priceBasis": null,
+        "was": null,
+        "priceDisputed": null,
+        "promosWithheld": null,
+        "img": "evidence/sonos-multi/pdp-newegg-echostudio.jpg",
+        "url": "https://www.newegg.com/p/1GS-0178-000E4",
+        "pdp": null,
+        "promos": []
+      }
+    ]
+  },
+  "deliveryRows": [
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era100-10001.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era300-10001.jpg"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-beamg2-10001.jpg"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge5-10001.jpg"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge6-10001.jpg"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Saturday, August 15"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slmax-10001.jpg"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Wednesday, August 19 Or fastest delivery Monday, August 17"
+      ],
+      "days": 5,
+      "img": "evidence/delivery/sonos-amazon-slrevp-10001.jpg"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echodotmax-10001.jpg"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echostudio-10001.jpg"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era100-90012.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era300-90012.jpg"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-beamg2-90012.jpg"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge5-90012.jpg"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge6-90012.jpg"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slmax-90012.jpg"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tomorrow"
+      ],
+      "days": null,
+      "img": "evidence/delivery/sonos-amazon-slrevp-90012.jpg"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echodotmax-90012.jpg"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echostudio-90012.jpg"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era100-60601.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era300-60601.jpg"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-beamg2-60601.jpg"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge5-60601.jpg"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge6-60601.jpg"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slmax-60601.jpg"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Sunday, August 16"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slrevp-60601.jpg"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echodotmax-60601.jpg"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echostudio-60601.jpg"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era100-77002.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era300-77002.jpg"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-beamg2-77002.jpg"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge5-77002.jpg"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge6-77002.jpg"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slmax-77002.jpg"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Thursday, August 20"
+      ],
+      "days": 6,
+      "img": "evidence/delivery/sonos-amazon-slrevp-77002.jpg"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echodotmax-77002.jpg"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echostudio-77002.jpg"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era100-80202.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era300-80202.jpg"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-beamg2-80202.jpg"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge5-80202.jpg"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge6-80202.jpg"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slmax-80202.jpg"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Saturday, August 15"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slrevp-80202.jpg"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echodotmax-80202.jpg"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echostudio-80202.jpg"
+    },
+    {
+      "model": "era100",
+      "label": "Era 100",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era100-33130.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-era300-33130.jpg"
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-beamg2-33130.jpg"
+    },
+    {
+      "model": "charge5",
+      "label": "JBL Charge 5",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge5-33130.jpg"
+    },
+    {
+      "model": "charge6",
+      "label": "JBL Charge 6",
+      "brand": "jbl",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-charge6-33130.jpg"
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-slmax-33130.jpg"
+    },
+    {
+      "model": "slrevp",
+      "label": "SoundLink Revolve+",
+      "brand": "bose",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery August 19 - 20 Or fastest delivery Tuesday, August 18"
+      ],
+      "days": 5,
+      "img": "evidence/delivery/sonos-amazon-slrevp-33130.jpg"
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echodotmax-33130.jpg"
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "days": 4,
+      "img": "evidence/delivery/sonos-amazon-echostudio-33130.jpg"
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "Arrives by Sun, Aug 16"
+      ],
+      "days": 2,
+      "img": null
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zip": "10001",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "Arrives by Thu, Aug 20"
+      ],
+      "days": 6,
+      "img": null
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "Arrives by Thu, Aug 20"
+      ],
+      "days": 6,
+      "img": null
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zip": "90012",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "days": 4,
+      "img": null
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "days": 4,
+      "img": null
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zip": "60601",
+      "deliveryLines": [
+        "get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "days": 5,
+      "img": null
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "days": 5,
+      "img": null
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zip": "77002",
+      "deliveryLines": [
+        "Arrives by Sun, Aug 16"
+      ],
+      "days": 2,
+      "img": null
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "days": 5,
+      "img": null
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "days": 5,
+      "img": null
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zip": "80202",
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "era300",
+      "label": "Era 300",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "days": 4,
+      "img": null
+    },
+    {
+      "model": "beamg2",
+      "label": "Beam (Gen 2)",
+      "brand": "sonos",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "days": 4,
+      "img": null
+    },
+    {
+      "model": "slmax",
+      "label": "SoundLink Max",
+      "brand": "bose",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echodotmax",
+      "label": "Echo Dot Max",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "days": 1,
+      "img": null
+    },
+    {
+      "model": "echostudio",
+      "label": "Echo Studio",
+      "brand": "amazon",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zip": "33130",
+      "deliveryLines": [
+        "Arrives by Mon, Aug 17"
+      ],
+      "days": 3,
+      "img": null
+    }
+  ],
+  "aiSearch": {
+    "overall": {
+      "jbl": 14,
+      "sonos": 43,
+      "bose": 12,
+      "amazon": 20,
+      "apple": 11
+    },
+    "byStage": {
+      "awareness": {
+        "sonos": 28,
+        "amazon": 18,
+        "apple": 16,
+        "bose": 18,
+        "jbl": 19
+      },
+      "consideration": {
+        "sonos": 28,
+        "amazon": 22,
+        "apple": 18,
+        "bose": 15,
+        "jbl": 17
+      },
+      "evaluation": {
+        "sonos": 47,
+        "amazon": 27,
+        "apple": 14,
+        "bose": 9,
+        "jbl": 3
+      },
+      "decision": {
+        "sonos": 39,
+        "amazon": 21,
+        "apple": 15,
+        "bose": 8,
+        "jbl": 16
+      }
+    },
+    "byEngine": {
+      "gpt": {
+        "sonos": 42,
+        "amazon": 27,
+        "apple": 10,
+        "bose": 14,
+        "jbl": 7
+      },
+      "perplexity": {
+        "sonos": 32,
+        "amazon": 19,
+        "apple": 16,
+        "bose": 15,
+        "jbl": 18
+      },
+      "gemini": {
+        "sonos": 36,
+        "amazon": 23,
+        "apple": 18,
+        "bose": 10,
+        "jbl": 13
+      }
+    },
+    "basis": "Unchanged lane — measured for the sonos-speakers-launch report across ChatGPT, Perplexity and Gemini."
+  },
+  "coverage": {
+    "pdpNotReadable": [
+      "bestbuy (HTTP2 reset on every PDP route tried)",
+      "newegg (product region renders a 483px widget to automated sessions)"
+    ],
+    "excludedRetailers": [
+      "B&H, Crutchfield, Costco — WAF 403 on residential exits (measured 2026-08-13)"
+    ],
+    "shelfNotComparable": [
+      "bestbuy — logged-out sessions get a ~4-item featured strip, not a result grid"
+    ]
+  },
+  "sources": {
+    "carriage": "data/carriage/sonos-sony.json",
+    "pdp": "data/pdp-promo/sonos-multiretailer.json",
+    "shelf": "data/shelf-multi/sonos-sony.json",
+    "delivery": "data/delivery-cities/sonos.json"
+  }
+}

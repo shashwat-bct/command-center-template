@@ -1,0 +1,366 @@
+{
+  "source": "similarweb.com public website profile, fetched through brightdata:web_unlocker1",
+  "capturedAt": "2026-09-01T05:44:57.106Z",
+  "note": "Visits are SimilarWeb's monthly estimate for the WHOLE DOMAIN, worldwide. usShare is the share of those visits from the United States, so usVisits is a derivation and not itself a published figure. proxyQuality says whether the domain can stand for the brand in this category at all: a notRepresentative domain is captured for the record and withheld from the dashboard.",
+  "brands": {
+    "sonos": {
+      "brand": "sonos",
+      "set": "sonos",
+      "domain": "sonos.com",
+      "proxyQuality": "brand",
+      "visitsMonthly": 4500000,
+      "bounceRate": 42.28,
+      "pagesPerVisit": 4.23,
+      "visitDuration": 280,
+      "leadChannel": "Direct",
+      "leadChannelPct": 38.96,
+      "channelOrder": [
+        "Direct",
+        "Organic Search",
+        "Paid Search"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 49.35,
+        "Germany": 6.48,
+        "United Kingdom": 6.16,
+        "Netherlands": 5.44,
+        "Canada": 4.26
+      },
+      "usShare": 49.35,
+      "textLen": 17266,
+      "usVisits": 2220750,
+      "usable": true,
+      "source": "similarweb.com/website/sonos.com/ via brightdata:web_unlocker1"
+    },
+    "bose": {
+      "brand": "bose",
+      "set": "sonos",
+      "domain": "bose.com",
+      "proxyQuality": "brand",
+      "visitsMonthly": 10100000,
+      "bounceRate": 52.05,
+      "pagesPerVisit": 2.39,
+      "visitDuration": 90,
+      "leadChannel": "Organic Search",
+      "leadChannelPct": 26.05,
+      "channelOrder": [
+        "Organic Search",
+        "Direct",
+        "Paid Search"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 65.4,
+        "Canada": 2.63,
+        "France": 2.1,
+        "United Kingdom": 1.81,
+        "Australia": 1.81
+      },
+      "usShare": 65.4,
+      "textLen": 13821,
+      "usVisits": 6605400,
+      "usable": true,
+      "source": "similarweb.com/website/bose.com/ via brightdata:web_unlocker1"
+    },
+    "jbl": {
+      "brand": "jbl",
+      "set": "sonos",
+      "domain": "jbl.com",
+      "proxyQuality": "brand",
+      "visitsMonthly": 6200000,
+      "bounceRate": 48.97,
+      "pagesPerVisit": 3,
+      "visitDuration": 106,
+      "leadChannel": "Organic Search",
+      "leadChannelPct": 52.3,
+      "channelOrder": [
+        "Organic Search",
+        "Direct",
+        "Paid Search"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 25.17,
+        "India": 12.41,
+        "Germany": 8.61,
+        "France": 6.29,
+        "Japan": 5.25
+      },
+      "usShare": 25.17,
+      "textLen": 13524,
+      "usVisits": 1560540,
+      "usable": true,
+      "source": "similarweb.com/website/jbl.com/ via brightdata:web_unlocker1"
+    },
+    "amazon": {
+      "brand": "amazon",
+      "set": "sonos",
+      "domain": "amazon.com",
+      "proxyQuality": "notRepresentative",
+      "why": "amazon.com is a retailer. Echo is a rounding error inside its traffic, so this figure cannot stand for the speaker line.",
+      "visitsMonthly": 2700000000,
+      "bounceRate": 30.57,
+      "pagesPerVisit": 9.18,
+      "visitDuration": 352,
+      "leadChannel": "Direct",
+      "leadChannelPct": 53.07,
+      "channelOrder": [
+        "Direct",
+        "Organic Search",
+        "Social"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 85.2,
+        "India": 1.12,
+        "China": 0.85,
+        "Canada": 0.83,
+        "United Kingdom": 0.81
+      },
+      "usShare": 85.2,
+      "textLen": 13395,
+      "usVisits": 2300400000,
+      "usable": false,
+      "source": "similarweb.com/website/amazon.com/ via brightdata:web_unlocker1"
+    },
+    "apple": {
+      "brand": "apple",
+      "set": "sonos",
+      "domain": "apple.com",
+      "proxyQuality": "notRepresentative",
+      "why": "apple.com is led by iPhone. HomePod is a fraction of it, so this figure cannot stand for the speaker line.",
+      "visitsMonthly": 582000000,
+      "bounceRate": 52.64,
+      "pagesPerVisit": 3.32,
+      "visitDuration": 144,
+      "leadChannel": "Direct",
+      "leadChannelPct": 38.4,
+      "channelOrder": [
+        "Direct",
+        "Organic Search",
+        "Referrals"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 36.19,
+        "India": 4.92,
+        "United Kingdom": 4.32,
+        "Japan": 4.04,
+        "Canada": 3.52
+      },
+      "usShare": 36.19,
+      "textLen": 13600,
+      "usVisits": 210625800,
+      "usable": false,
+      "source": "similarweb.com/website/apple.com/ via brightdata:web_unlocker1"
+    },
+    "sony": {
+      "brand": "sony",
+      "set": "sony",
+      "domain": "sony.com",
+      "proxyQuality": "multiLine",
+      "why": "sony.com spans PlayStation, cameras and audio — Bravia is one line inside it.",
+      "visitsMonthly": 38600000,
+      "bounceRate": 35.55,
+      "pagesPerVisit": 4.26,
+      "visitDuration": 140,
+      "leadChannel": "Referrals",
+      "leadChannelPct": 44.57,
+      "channelOrder": [
+        "Referrals",
+        "Organic Search",
+        "Direct"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 37.27,
+        "Japan": 5.07,
+        "Brazil": 4.86,
+        "United Kingdom": 3.99,
+        "Canada": 3.15
+      },
+      "usShare": 37.27,
+      "textLen": 10615,
+      "usVisits": 14386220,
+      "usable": true,
+      "source": "similarweb.com/website/sony.com/ via brightdata:web_unlocker1"
+    },
+    "samsung": {
+      "brand": "samsung",
+      "set": "sony",
+      "domain": "samsung.com",
+      "proxyQuality": "notRepresentative",
+      "why": "samsung.com is led by phones at a scale that buries the television line — 186M US visits against sony.com's 14M is a handset number, not a TV one.",
+      "visitsMonthly": 864900000,
+      "bounceRate": 38.87,
+      "pagesPerVisit": 2.58,
+      "visitDuration": 103,
+      "leadChannel": "Organic Search",
+      "leadChannelPct": 35.31,
+      "channelOrder": [
+        "Organic Search",
+        "Direct"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 21.49,
+        "Republic of": 12.59,
+        "India": 8.62,
+        "Brazil": 4.85,
+        "Germany": 4.56
+      },
+      "usShare": 21.49,
+      "textLen": 44291,
+      "usVisits": 185867010,
+      "usable": false,
+      "source": "similarweb.com/website/samsung.com/ via brightdata:web_unlocker1"
+    },
+    "lg": {
+      "brand": "lg",
+      "set": "shark",
+      "domain": "lg.com",
+      "proxyQuality": "multiLine",
+      "why": "lg.com spans appliances, televisions and phones.",
+      "visitsMonthly": 36200000,
+      "bounceRate": 52.81,
+      "pagesPerVisit": 2.81,
+      "visitDuration": 125,
+      "leadChannel": "Organic Search",
+      "leadChannelPct": 39.14,
+      "channelOrder": [
+        "Organic Search",
+        "Direct"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 28.83,
+        "Brazil": 7.7,
+        "India": 7.36,
+        "Germany": 3.89,
+        "Canada": 3.19
+      },
+      "usShare": 28.83,
+      "textLen": 8844,
+      "usVisits": 10436460,
+      "usable": true,
+      "source": "similarweb.com/website/lg.com/ via brightdata:web_unlocker1"
+    },
+    "tcl": {
+      "brand": "tcl",
+      "set": "sony",
+      "domain": "tcl.com",
+      "proxyQuality": "brand",
+      "visitsMonthly": 6100000,
+      "bounceRate": 37.24,
+      "pagesPerVisit": 6.67,
+      "visitDuration": 309,
+      "leadChannel": "Direct",
+      "leadChannelPct": 42.72,
+      "channelOrder": [
+        "Direct",
+        "Organic Search"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "China": 38.03,
+        "United States": 11.88,
+        "India": 5.12,
+        "Japan": 2.78,
+        "Brazil": 2.64
+      },
+      "usShare": 11.88,
+      "textLen": 13496,
+      "usVisits": 724680,
+      "usable": true,
+      "source": "similarweb.com/website/tcl.com/ via brightdata:web_unlocker1"
+    },
+    "shark": {
+      "brand": "shark",
+      "set": "shark",
+      "domain": "sharkclean.com",
+      "proxyQuality": "brand",
+      "visitsMonthly": 462300,
+      "bounceRate": 77.1,
+      "pagesPerVisit": 1.58,
+      "visitDuration": 69,
+      "leadChannel": null,
+      "leadChannelPct": null,
+      "channelOrder": [],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 75,
+        "United Kingdom": 9.28,
+        "Colombia": 6.13,
+        "Canada": 5.78,
+        "Australia": 3.81
+      },
+      "usShare": 75,
+      "textLen": 5571,
+      "usVisits": 346725,
+      "usable": true,
+      "source": "similarweb.com/website/sharkclean.com/ via brightdata:web_unlocker1"
+    },
+    "dyson": {
+      "brand": "dyson",
+      "set": "shark",
+      "domain": "dyson.com",
+      "proxyQuality": "multiLine",
+      "why": "dyson.com spans haircare and air treatment as well as floorcare — the cordless line is one part of it.",
+      "visitsMonthly": 4300000,
+      "bounceRate": 48.87,
+      "pagesPerVisit": 4.12,
+      "visitDuration": 163,
+      "leadChannel": "Organic Search",
+      "leadChannelPct": 23.07,
+      "channelOrder": [
+        "Organic Search",
+        "Referrals",
+        "Direct"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 64.84,
+        "Republic of": 17.17,
+        "United Kingdom": 2.56,
+        "India": 1.2,
+        "Canada": 0.87
+      },
+      "usShare": 64.84,
+      "textLen": 13639,
+      "usVisits": 2788120,
+      "usable": true,
+      "source": "similarweb.com/website/dyson.com/ via brightdata:web_unlocker1"
+    },
+    "tineco": {
+      "brand": "tineco",
+      "set": "shark",
+      "domain": "tineco.com",
+      "proxyQuality": "brand",
+      "visitsMonthly": 1000000,
+      "bounceRate": 46.21,
+      "pagesPerVisit": 3.07,
+      "visitDuration": 187,
+      "leadChannel": "Organic Search",
+      "leadChannelPct": 31.77,
+      "channelOrder": [
+        "Organic Search",
+        "Direct",
+        "Paid Search"
+      ],
+      "channelsGated": "SimilarWeb publishes only the leading channel's share and the ordering of the next two without a subscription",
+      "geo": {
+        "United States": 28.59,
+        "France": 17.51,
+        "Netherlands": 11.2,
+        "Canada": 11.01,
+        "Italy": 6.46
+      },
+      "usShare": 28.59,
+      "textLen": 13661,
+      "usVisits": 285900,
+      "usable": true,
+      "source": "similarweb.com/website/tineco.com/ via brightdata:web_unlocker1"
+    }
+  }
+}

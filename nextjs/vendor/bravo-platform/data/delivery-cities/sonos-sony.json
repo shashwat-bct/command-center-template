@@ -1,0 +1,4512 @@
+{
+  "capturedAt": "2026-08-13T08:06:00.095Z",
+  "probe": false,
+  "cities": [
+    {
+      "city": "New York, NY",
+      "zip": "10001"
+    },
+    {
+      "city": "Los Angeles, CA",
+      "zip": "90012"
+    },
+    {
+      "city": "Chicago, IL",
+      "zip": "60601"
+    },
+    {
+      "city": "Houston, TX",
+      "zip": "77002"
+    },
+    {
+      "city": "Denver, CO",
+      "zip": "80202"
+    },
+    {
+      "city": "Miami, FL",
+      "zip": "33130"
+    }
+  ],
+  "rule": "A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+  "rows": [
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Pickup Not available Delivery Check availability Shipping Arrives by Sat, Aug 15 Not sold at Chelsea 23rd and 8th Notify me when available Available near you Ready within"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 6 PM - 11 PM",
+        "95 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne",
+        "89 FREE delivery Tue, Aug 18 W-KING Portable Loud Bluetooth Speakers, 120W Max with Wireless Microphone"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Color Glacier White Ship to 10001 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ronics › Home Audio › Wireless & Streaming Audio › Wireless Multiroom Systems Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "03 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Edifier T5s Powered Subwoofer, 70W RMS, 8\" Woofer, 35Hz Deep Bass, Black"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ware Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "75 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Samsung 43-Inch Class M70H Series, Mini LED, 4K, Smart TV, 2026 Model"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 10001 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "ard shortcut shift + alt + D Electronics › Home Audio › Speakers › Sound Bars Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "65 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Sonos Arc Ultra Soundbar - Black 688 $1,099"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ware Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "99 FREE delivery Tue, Aug 18 Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD Smart Fire TV (65E7SF, 2026 NE",
+        "99 FREE delivery Tue, Aug 18 Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4HSR, 2026… 167 #1 New R"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color white Ship to 10001 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "14 (44% off) Ship to 10001 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ware Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "99 FREE delivery Tue, Aug 18 LG 65-Inch Class Gallery TV QNED AI LX7B Series Mini LED Smart TV with Included Sno",
+        "99 FREE delivery Tue, Aug 18 Hisense 50\" E6 Cinema Series Hi-QLED 4K UHD Smart Fire TV (50E6QF) - AI Light Senso"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 6 PM - 11 PM",
+        "95 FREE delivery August 17 - 19 Ships from: CellularStream Sold by: CellularStream Add to List Other selle",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly Soundcore Boom 2 Plus Portable Speaker By Anker, 140W, 2+2 Channe"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "walmart",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 6 PM - 11 PM",
+        "45 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly W-KING 270W Max Party Portable Bluetooth Speaker Loudest Large Bi"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Deliver to New York 10001‌ Temporarily out of stock",
+        "46 FREE delivery Wednesday, August 19 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "99 FREE delivery Tue, Aug 18 Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4HSR, 2026… 167 #1 New R"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "90 (27% off) Ship to 10001 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Saturday, August 15",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly Klipsch The Three Plus Premium Bluetooth Speaker System, Walnut 2",
+        "99 FREE delivery Tue, Aug 18 Portable Bluetooth Speakers Wireless , 120W Peak Loud Outdoor w/2*Deep… 201 Limited time"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "Sponsored Electronics › Television & Video › Televisions › QLED TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "Join Prime FREE delivery August 23 - 31 Or fastest delivery August 23 - 29 Deliver to New York 10001‌ Quantity: 1",
+        "99 FREE delivery Tue, Aug 18 Hisense 43-Inch S5 DécoTV Series Hi-QLED 4K UHD Smart Fire TV (43S5QF, 2026 Model)",
+        "99 FREE delivery Tue, Aug 18 Hisense 50\" E6 Cinema Series Hi-QLED 4K UHD Smart Fire TV (50E6QF) - AI Light Senso"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "k Black Blue Dusk Citrus Yellow Pickup Not available Delivery Check availability Shipping Arrives by Sat, Aug 15 Out of stock at Chelsea 23rd and 8th Notify me when available Available near you Ready wi"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "walmart",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "ui(Sacramento, 95829)",
+      "verified": false,
+      "deliveryLines": [
+        "667 reviews Save with Shipping arrives tomorrow Samsung 85” Class U8000H Series Crystal UHD 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 -",
+        "441 reviews Save with Shipping arrives today Samsung 43” Class M70HB Series Mini LED 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 - UN4",
+        "374 reviews Save with Shipping arrives tomorrow Best seller Samsung 32” Class HD H5000F Smart TV 2025 - UN32H5000FFXZA $98",
+        "3642 reviews Save with Shipping arrives tomorrow Samsung 50” Class U8000H Series Crystal UHD 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 -"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "14412"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18",
+        "99 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "99 FREE delivery Tue, Aug 18 LG 83-Inch Class OLED AI 4K B6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10,",
+        "99 FREE delivery Tomorrow, Aug 14 Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD Smart Fire TV (65E7SF, 2026 NE"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Wednesday, August 19 Or fastest delivery Monday, August 17 Deliver to New York 10001‌ Quantity: 1 2 3 4 5 6 7 8 9 10 11 12 13 Quantity:1 Add to cart",
+        "00 FREE delivery August 17 - 19 Ships from: CellularStream Sold by: CellularStream Add to List Other selle",
+        "99 FREE delivery Tue, Aug 18 on $35 of items shipped by Amazon Save $8"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "95 FREE delivery August 17 - 19",
+        "99 FREE delivery Tue, Aug 18 LG Amazon Exclusive 85-Inch Class QNED AI 4K QNED73B Series Mini LED Smart TV w/AI",
+        "99 FREE delivery Tomorrow, Aug 14 LG 65-Inch Class QNED evo AI QNED84B Series Mini LED 4K Smart TV w/HDR10, AI Super",
+        "99 FREE delivery Tue, Aug 18 LG 75-Inch Class Nano AI 4K NU85 Series Smart TV w/AI Sound Pro, HDR10, AI 4K Super"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 6 PM - 11 PM"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "oal Deep Sea Blue Glacier White Pickup Not available Delivery Check availability Shipping Arrives by Sun, Aug 16 Out of stock at Chelsea 23rd and 8th Notify me when available Available near you Ready wi"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "newegg",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "99705"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "99 FREE delivery Monday, August 17",
+        "Order within 2 mins Or fastest delivery Sunday, August 16 Delivering to North Pole 99705 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 10"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tue, Aug 18 TCL 75-Inch F8D Series 4K QLED (75F8D, 2026 Model) with Dolby Vision HDR & Dolby At",
+        "99 FREE delivery Tomorrow, Aug 14 TCL 75-Inch F7D Series QLED 4K UHD Smart TV (75F7D, 2026 Model)",
+        "99 FREE delivery Tomorrow, Aug 14 TCL 75 Inch Class QM7L Series",
+        "99 FREE delivery Sat, Aug 15 TCL 55\" T7 4K QLED Google TV with 144Hz Gaming (55T7)"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Pickup Not available Delivery Check availability Shipping Arrives by Fri, Aug 21 Not sold at LA Bonnie Brae Notify me when available Available near you Ready within 2 hou"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Color Glacier White Ship to 90012 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ronics › Home Audio › Wireless & Streaming Audio › Wireless Multiroom Systems Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "03 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 90012 Edit ZIP code Arrives by Thu, Aug 20 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "32 FREE delivery Friday, August 21 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery as soon as Sat, Aug 15, 8 AM - 8 PM Samsung 43-Inch Class M70H Series, Mini LED, 4K, Smar",
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 8 PM TCL 98 Inch Class QM6K Series",
+        "00 FREE delivery Thu, Aug 20 Mounting Dream UL Listed TV Wall Mount for Most 26-60 Inch TV Full Motion"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "ard shortcut shift + alt + D Electronics › Home Audio › Speakers › Sound Bars Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "65 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Bose Smart Ultra Dolby Atmos Soundbar, All-in-One Surround Sound System for TV, A"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "walmart",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "43110",
+        "11350"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "s Aug 20 Free Pickup Not available Delivery Not available Ships toCanal Winchester, 43110 Arrives by Thu, Aug 20",
+        "5361 reviews Shipping arrives tomorrow monTEK Full Motion TV Wall Mount for 13 –43\" TVs, Articulating Swivel Bracket with Cable",
+        "47 reviews Shipping arrives tomorrow In 50+ people's carts LG 43\" 43UA7500ZUA 4K UHD UA75 AI Smart TV (2025) $228",
+        "5550 reviews Delivery as soon as 10am Shipping arrives Sat, Aug 15 Pickup today Sony 85” class BRAVIA 5 Mini LED 4K HDR Smart Google TV K-85XR50, 2025 Model"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color white Ship to 90012 Edit ZIP code Arrives by Thu, Aug 20 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "walmart",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "14 (44% off) Ship to 90012 Edit ZIP code Arrives by Thu, Aug 20 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly Soundcore Boom 2 by Anker, 80W Outdoor Bluetooth Speaker, 24H Pla"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "ware Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Deliver to Los Angeles 90012‌ Temporarily out of stock",
+        "46 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "99 FREE delivery Thu, Aug 20 Mounting Dream TV Mount Fixed for Most 42-84 Inch Flat Screen TV UL Listed"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "45 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "walmart",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "90 (27% off) Ship to 90012 Edit ZIP code Arrives by Thu, Aug 20 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 8 PM Hisense 43-Inch S5 DécoTV Series Hi-QLED 4K UHD Smart",
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 8 PM Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD",
+        "99 FREE delivery as soon as Thu, Aug 20, 8 AM - 11 AM Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart",
+        "99 FREE delivery Tue, Aug 18 LG 83-Inch Class OLED AI 4K B6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10,"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "k Black Blue Dusk Citrus Yellow Pickup Not available Delivery Check availability Shipping Arrives by Sat, Aug 15 Not sold at LA Bonnie Brae Notify me when available Available near you Ready within 3 hou"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 & FREE Delivery Sponsored 11+ 12 VIDEOS Click to see full view Product Energy Guide Visit the LG Store LG"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow, August 14",
+        "00 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "95 FREE delivery Monday, August 17",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Only 7 left in stock - order soon"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "newegg",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "oal Deep Sea Blue Glacier White Pickup Not available Delivery Check availability Shipping Arrives by Sat, Aug 15 Out of stock at LA Bonnie Brae Notify me when available Available near you Ready within 2"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 8 PM TCL 75-Inch F8D Series 4K QLED (75F8D, 2026 Model) wi",
+        "99 FREE delivery Sat, Aug 15 TCL 75-Inch F7D Series QLED 4K UHD Smart TV (75F7D, 2026 Model)",
+        "99 FREE delivery Sat, Aug 15 TCL 75 Inch Class QM7L Series",
+        "99 FREE delivery Sat, Aug 15 TCL 55\" T7 4K QLED Google TV with 144Hz Gaming (55T7)"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012",
+        "12445"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "walmart",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "98133"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "9741 reviews Save with Shipping arrives tomorrow Best seller SANUS VuePoint Full-Motion TV Wall Mount for TVs 42\"-90\" up to 120 lbs – Heig",
+        "364 reviews Save with Delivery as soon as 7am Shipping arrives Sun, Aug 16 Pickup as soon as 3am Sanus Soundbar Mount for Sonos Beam $89",
+        "1 reviews Save with Shipping arrives tomorrow Restored Apple 10",
+        "1 reviews Shipping arrives Sat, Aug 15 Restored: Like New Sonos Ace Wireless Noise Canceling Over Ear Headphones, White $399"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Pickup Not available Delivery Check availability Shipping Arrives by Thu, Aug 20 Not sold at Chicago State St"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Color Glacier White Ship to 60601 Edit ZIP code Order by 11pm, get it tomorrow Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "20149"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "Games Software Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "75 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 FREE delivery August 17 - 18 Ships from: CellularStream Sold by: CellularStream Add to List Other selle"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "14 (44% off) Ship to 60601 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "ronics › Home Audio › Wireless & Streaming Audio › Wireless Multiroom Systems Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 5 PM - 10 PM",
+        "03 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 60601 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery as soon as Sat, Aug 15, 12 PM - 5 PM Sony 85 Inch BRAVIA 3 II LED 4K HDR Smart Google TV",
+        "00 FREE delivery Sat, Aug 15 Sony K55XR50 BRAVIA 5 55\" Mini LED 4K HDR TV (2025) Bundle with CPS Exclusive 26 Mo",
+        "00 FREE delivery Sat, Aug 15 Hisense 55\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD Smart Fire TV (55E7SF, 2026 NE",
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 1 PM Samsung 55-Inch Class M70H Series, Mini LED, 4K, Smar"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ard shortcut shift + alt + D Electronics › Home Audio › Speakers › Sound Bars Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 5 PM - 10 PM",
+        "65 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "walmart",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "Games Software Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Deliver to Chicago 60601‌ Temporarily out of stock",
+        "46 FREE delivery Wednesday, August 19 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color white Ship to 60601 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "90 (27% off) Ship to 60601 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 5 PM - 10 PM",
+        "95 FREE delivery August 17 - 18 Ships from: CellularStream Sold by: CellularStream Add to List Other selle"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "walmart",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "1161 reviews Save with Shipping arrives tomorrow JBL Charge 5 - Portable Waterproof Speaker with Powerbank - Grey (Sold without manufactur",
+        "1489 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup today JBL Charge 6 - Portable waterproof & drop-proof Bluetooth speaker, JBL Pro S",
+        "823 reviews Save with Shipping arrives tomorrow Reduced price JBL Charge 6 - Portable waterproof & drop-proof Bluetooth speaker, Bold JBL",
+        "2770 reviews Save with Shipping arrives tomorrow JBL Charge 5 Portable Bluetooth Speaker, IP67 Waterproof, 20 Hour Battery, Black Bundle w"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "45 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Wednesday, August 19"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 5 PM - 10 PM",
+        "99 FREE delivery Aug 23 - 24 Turtlebox Ranger, Ultra-Portable Bluetooth Speaker, Waterproof, Gray",
+        "00 FREE delivery Tue, Aug 18 Sonos Roam 2 - Black - Portable Waterproof Bluetooth Speaker 1,648 $177"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "95 FREE delivery August 16 - 18"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "walmart",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "How do you want your item? Shipping Arrives today Order within 13 hr 37 min Free Pickup Check nearby Delivery Not available Ships toSacrame"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Blue Dusk Citrus Yellow Pickup Ready within 2 hours Delivery Check availability Shipping Get it tomorrow Pick up at Chicago State St"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Sunday, August 16",
+        "00 FREE delivery August 17 - 18 Ships from: CellularStream Sold by: CellularStream Add to List Other selle",
+        "00 FREE delivery Tue, Aug 18 Turtlebox Ranger, Ultra-Portable Bluetooth Speaker, Waterproof, Orange"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "20146"
+      ],
+      "zipSet": "glow",
+      "verified": false,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Delivering to Ashburn 20146 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 10 11+"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 Get it Today, Aug 13 Echo Studio Bundle: Includes Amazon Echo Studio (newest model)",
+        "98 Get it Today, Aug 13 Amazon Echo Show 11 (newest model), Vibrant Full-HD 11\" display with more viewing",
+        "97 Get it Today, Aug 13 Next set of slides See personalized recommendations Sign in New customer? Start h"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "p Sea Blue Glacier White Pickup Ready within 2 hours Delivery Check availability Shipping Get it tomorrow Pick up at Chicago State St"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Pickup Ready within 2 hours Delivery Check availability Shipping Arrives by Mon, Aug 17 Pick up at Houston Central Check other stores Ready within 2 hours for pickup inside the"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Color Glacier White Ship to 77002 Edit ZIP code Arrives by Sun, Aug 16 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "60477"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "95 FREE delivery August 17 - 18 Ships from: CellularStream Sold by: CellularStream Add to List Other selle",
+        "89 FREE delivery Tue, Aug 18 Monster S620 Bluetooth Speaker, Wireless Portable Outdoor Bluetooth Speakers,… 142 Limite"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "00 Get it Tomorrow, Aug 14 FREE Shipping Only 2 left in stock - order soon",
+        "00 FREE delivery Tomorrow, Aug 14 Ultra Slim Flush TV Wall Mount Bracket for Sony BRAVIA XR XR50 Mini LED 4K Smart (2",
+        "99 FREE delivery Wed, Aug 19 Pipishell Full Motion TV Wall Mount for Echo Show 21/15 and 13-43 Inch Flat Curved",
+        "99 FREE delivery Tue, Aug 18 on $35 of items shipped by Amazon Climate Pledge Friendly Mounting Dream Full Motion TV W"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "walmart",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "Arrives Aug 20 Free Pickup Not available Delivery Not available Ships toSacramento, 95829 Arrives by Thu, Aug 20"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "98160"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "ronics › Home Audio › Wireless & Streaming Audio › Wireless Multiroom Systems Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or fastest delivery Monday, August 17 Delivering to Seattle 98160 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 10 11",
+        "03 FREE delivery Wednesday, August 19 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 77002 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "98160"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "Games Software Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or fastest delivery Monday, August 17"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "walmart",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "98160"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "ard shortcut shift + alt + D Electronics › Home Audio › Speakers › Sound Bars Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or fastest delivery Monday, August 17 Delivering to Seattle 98160 - Update location In Stock Quantity: 1 2 3 4 5 6 7 8 9 10 11",
+        "65 FREE delivery Thursday, August 20 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "walmart",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "How do you want your item? Shipping Arrives tomorrow Order within 11 hr 40 min Free Pickup Check nearby Delivery Not available Ships toSacrame"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "14 (44% off) Ship to 77002 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color white Ship to 77002 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "98160"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "Games Software Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or fastest delivery Monday, August 17"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 7 AM - 11 AM",
+        "95 FREE delivery August 17 - 19 Ships from: CellularStream Sold by: CellularStream Add to List Other selle"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "walmart",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "ui(Sacramento, 95829)",
+      "verified": false,
+      "deliveryLines": [
+        "2770 reviews Save with Shipping arrives today Best seller JBL Flip 6 - Portable Waterproof Speaker - Black $114",
+        "4744 reviews Save with Delivery as soon as 6am Shipping arrives tomorrow Pickup today JBL Charge 6 - Portable waterproof & drop-proof Bluetooth speaker, JBL Pro S",
+        "278 reviews Save with Shipping arrives Sat, Aug 15 Beats Pill - Wireless Bluetooth Speaker - Matte Black $99",
+        "877 reviews Save with Delivery as soon as 6am Shipping arrives tomorrow Pickup today JBL Flip 5 Portable Waterproof Wireless Bluetooth Speaker - Ocean Blue (Sold"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "Games Software Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Deliver to Houston 77002‌ Temporarily out of stock",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 43-Inch Class U8000H Series Crystal UHD, 4K, Smart TV, 2026",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping SAMSUNG 40-Inch Class Full HD F6000 Smart TV (2025 Model) HDR, Obje"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 7 AM - 11 AM",
+        "45 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "90 (27% off) Ship to 77002 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class U8000H Series Crystal UHD, 4K, Smart TV, 2026",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class M80H Series, Mini LED, 4K, Smart TV, 2026 Mod",
+        "2 out of 5 stars 163 MSRP Click for details Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class Crystal UHD U8000F 4K Smart TV (2025 Model) E",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Amazon Basics Ultra Premium Wireless Keyboard and Mouse Combo, Rech"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "00 FREE delivery Tue, Aug 18 Turtlebox Original Gen 3 Outdoor Bluetooth Speaker, Waterproof, Tan",
+        "00 FREE delivery Tue, Aug 18 Devialet Mania - High Fidelity Portable Smart Speaker - Deep Black"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "walmart",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "ui(Sacramento, 95829)",
+      "verified": false,
+      "deliveryLines": [
+        "667 reviews Save with Shipping arrives tomorrow Samsung 85” Class U8000H Series Crystal UHD 4K UHD Samsung Vision AI Companion Smart Tizen TV 2026 -",
+        "932 reviews Save with Delivery as soon as 6am Shipping arrives tomorrow Pickup today 100+ bought since yesterday TCL 43\" Q Series QLED 4K UHD HDR Smart Google TV",
+        "5550 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup today Samsung 43” Class U8000H Series Crystal UHD 4K UHD Samsung Vision AI Compani",
+        "997 reviews Save with Shipping arrives tomorrow Best seller onn 55\" Class 4K UHD Powered by VIZIO Smart Television, 55S4V1 $198"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow 8 AM - 8 PM LG Amazon Exclusive 85-Inch Class QNED AI 4K QNED73B Series Mini LED",
+        "99 FREE delivery Tomorrow 8 AM - 8 PM LG 65-Inch Class QNED evo AI QNED84B Series Mini LED 4K Smart TV w/H",
+        "99 FREE delivery Tomorrow 8 AM - 8 PM TCL 55 Inch Class QM64L Series",
+        "99 FREE delivery Tomorrow 8 AM - 8 PM LG 65-Inch Class Gallery TV QNED AI LX7B Series Mini LED Smart TV wi"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "k Black Blue Dusk Citrus Yellow Pickup Not available Delivery Check availability Shipping Get it tomorrow No longer sold at Houston Central Notify me when available Available near you Ready withi"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "22157"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "95 FREE delivery August 16 - 18",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 55-Inch Class OLED S95F 4K Glare Free Smart TV (2025 Model)",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Only 14 left in stock - order soon",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping LG 55-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, D"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Thursday, August 20",
+        "99 FREE delivery August 18 - 20 Ships from: Amazon Sold by: Tech Geeks Used - Very Good $229",
+        "00 FREE delivery August 17 - 19 Ships from: CellularStream Sold by: CellularStream Add to List Other selle"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "75214"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "newegg",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 7 AM - 11 AM",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping Only 2 left in stock - order soon",
+        "2 out of 5 stars 163 MSRP Click for details Get it Tomorrow, Aug 14 FREE Shipping Bose Portable Smart Speaker — Wireless Bluetooth Speaker with Alexa"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Only 13 left in stock - order soon",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Next set of slides Based on your recent shopping trends Page 1 of 3",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class M80H Series, Mini LED, 4K, Smart TV, 2026 Mod",
+        "2 out of 5 stars 163 MSRP Click for details Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class U8000H Series Crystal UHD, 4K, Smart TV, 2026"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002",
+        "12445"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "p Sea Blue Glacier White Pickup Ready within 2 hours Delivery Check availability Shipping Get it tomorrow Pick up at Houston Central Check other stores Ready within 2 hours for pickup inside the"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 7 AM - 11 AM",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Sony 55 Inch BRAVIA XR8B OLED 4K HDR Smart Google TV (K-55XR8B)",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping Only 2 left in stock - order soon",
+        "2 out of 5 stars 163 MSRP Click for details Get it Tomorrow, Aug 14 FREE Shipping See personalized recommendations Sign in New customer? Start here"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Pickup Not available Delivery Check availability Shipping Arrives by Sun, Aug 16 Not sold at Denver Downtown Notify me when available Available near you Ready within 2 ho"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Color Glacier White Ship to 80202 Edit ZIP code Arrives by Sat, Aug 15 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "32 FREE delivery Thursday, August 20 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tomorrow 10 AM - 3 PM Samsung 43-Inch Class M70H Series, Mini LED, 4K, Smart TV, 2026 Mod",
+        "99 FREE delivery Tomorrow 10 AM - 3 PM TCL 98 Inch Class QM6K Series",
+        "00 FREE delivery Thu, Aug 20 Mounting Dream TV Wall Mount for Most 32-65 Inch TV"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "walmart",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "07666",
+        "11350"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "1671 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup as soon as 6am 100+ bought since yesterday onn 85\" Class 4K UHD Powered by VIZIO S",
+        "1149 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup as soon as 6am 100+ bought since yesterday onn 70\" Class 4K UHD Powered by VIZIO S",
+        "488 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup as soon as 6am 100+ bought since yesterday onn 75\" Class 4K UHD Powered by VIZIO S",
+        "492 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup as soon as 6am VIZIO 85\" Class Quantum 4K QLED HDR Smart TV (NEW) VQD85R-10 $698"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "00 Get it Tomorrow, Aug 14 FREE Shipping Only 12 left in stock (more on the way)",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class M80H Series, Mini LED, 4K, Smart TV, 2026 Mod",
+        "2 out of 5 stars 163 MSRP Click for details Get it Tomorrow, Aug 14 FREE Shipping Sony 65 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-65S20M2)",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 65-Inch Class M70H Series, Mini LED, 4K, Smart TV, 2026 Mod"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "walmart",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "14 (44% off) Ship to 80202 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "00 FREE delivery Tomorrow, Aug 14 Sony K55XR50 BRAVIA 5 55\" Mini LED 4K HDR TV (2025) Bundle with CPS Exclusive 26 Mo",
+        "00 FREE delivery Sat, Aug 15 Sony 65 Inch 4K Ultra HD TV X90L Series: BRAVIA XR Full Array LED Smart Google TV 13 $829",
+        "00 FREE delivery Aug 18 - 20 Sony K75S20M2 BRAVIA 2 II 75\" 4K HDR Smart LED TV 2025 Bundle with CPS Exclus",
+        "99 FREE delivery Aug 19 - 27 Samsung 55-Inch Class M70H Series, Mini LED, 4K, Smart TV, 2026 Model"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "walmart",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "ware Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Deliver to Denver 80202‌ Temporarily out of stock",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Only 20 left in stock (more on the way)",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping SAMSUNG 40-Inch Class Full HD F6000 Smart TV (2025 Model) HDR, Obje"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "90 (27% off) Ship to 80202 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow 10 AM - 3 PM TCL 50-Inch F7D Series QLED 4K UHD Smart TV (50F7D, 2026 Model)",
+        "99 FREE delivery as soon as Sun, Aug 16, 12 PM - 5 PM Samsung 43 Inch Smart TV 2025 Class U8000 Series Cry",
+        "94 FREE delivery as soon as Sat, Aug 15, 10 AM - 3 PM LG 83-Inch Class OLED evo AI 4K C6 Series Smart TV w",
+        "99 FREE delivery as soon as Sun, Aug 16, 12 PM - 5 PM TCL 65 Inch Class QM6K Series"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne",
+        "89 FREE delivery Tue, Aug 18 Monster S620 Bluetooth Speaker, Wireless Portable Outdoor Bluetooth Speakers,… 142 Limite"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 & FREE Delivery Sponsored 11+ 12 VIDEOS Click to see full view Product Energy Guide Visit the LG Store LG",
+        "99 FREE delivery Tomorrow 10 AM - 3 PM LG 83-Inch Class OLED AI 4K B6 Series Smart TV w/Dolby Atmos, Dolby",
+        "99 FREE delivery as soon as Sat, Aug 15, 10 AM - 3 PM Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD",
+        "99 FREE delivery Tomorrow 10 AM - 3 PM Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4H"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "95 FREE delivery August 16 - 17",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 55-Inch Class OLED S95F 4K Glare Free Smart TV (2025 Model)",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Only 2 left in stock - order soon",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping LG 55-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, D"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ronics › Home Audio › Wireless & Streaming Audio › Wireless Multiroom Systems Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "03 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Sonos Move 2 - Black - Wireless Portable Bluetooth Speaker 1,101 Limited time deal -20% $"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 80202 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow 10 AM - 3 PM TCL 50 Inch Class QM6K Series",
+        "99 FREE delivery Tomorrow 10 AM - 3 PM TCL 75-Inch F8D Series 4K QLED (75F8D, 2026 Model) with Dolby Visio",
+        "99 FREE delivery as soon as Sat, Aug 15, 10 AM - 3 PM TCL 50-Inch F7D Series QLED 4K UHD Smart TV (50F7D,",
+        "99 FREE delivery as soon as Sun, Aug 16, 12 PM - 5 PM TCL 55\" T7 4K QLED Google TV with 144Hz Gaming (55T7"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ard shortcut shift + alt + D Electronics › Home Audio › Speakers › Sound Bars Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "65 FREE delivery Wednesday, August 19 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Bose Smart Ultra Dolby Atmos Soundbar, All-in-One Surround Sound System for TV, A"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202",
+        "12445"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color white Ship to 80202 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne",
+        "99 FREE delivery Tue, Aug 18 on $35 of items shipped by Amazon Save $8"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "45 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly Pyle Portable Bluetooth Boombox Speaker - 100W Peak Power, 19H Ba"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly W-KING 270W Max Party Portable Bluetooth Speaker Loudest Large Bi",
+        "99 FREE delivery Tue, Aug 18 Soundcore Boom 2 by Anker, 80W Outdoor Bluetooth Speaker, 24H Playtime"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "k Black Blue Dusk Citrus Yellow Pickup Not available Delivery Check availability Shipping Get it tomorrow Not sold at Denver Downtown Notify me when available Available near you Ready within 2 ho"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202",
+        "12682"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Saturday, August 15",
+        "00 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne",
+        "00 FREE delivery Tue, Aug 18 Turtlebox Ranger, Ultra-Portable Bluetooth Speaker, Waterproof, Orange"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "newegg",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "p Sea Blue Glacier White Pickup Ready within 2 hours Delivery Check availability Shipping Get it tomorrow Pick up at Denver Downtown Check other stores Ready within 2 hours for pickup inside the"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "98 Get it Today, Aug 13 Amazon Echo Show 11 (newest model), Vibrant Full-HD 11\" display with more viewing",
+        "98 Get it Today, Aug 13 Amazon Echo Dot (newest model), Officially Licensed Limited-Edition design in cel"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "walmart",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "How do you want your item? Shipping Arrives tomorrow Order within 11 hr 14 min Free Pickup Check nearby Delivery Not available Ships toSacrame"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Pickup Not available Delivery Check availability Shipping Arrives by Mon, Aug 17 Not sold at Miami Downtown Notify me when available Available near you Ready within 2 hou"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "qm6k-65",
+      "brand": "tcl",
+      "label": "TCL QM6K 65\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "75044"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "95 FREE delivery Thursday, August 20 Ships from: CellularStream Sold by: CellularStream Add to List Other sellers on Amazon Ne",
+        "89 FREE delivery Tue, Aug 18 Monster S620 Bluetooth Speaker, Wireless Portable Outdoor Bluetooth Speakers,… 142 Limite"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "99 Color Glacier White Ship to 33130 Edit ZIP code Arrives by Mon, Aug 17 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "16501"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "ronics › Home Audio › Wireless & Streaming Audio › Wireless Multiroom Systems Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "03 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Edifier T5s Powered Subwoofer, 70W RMS, 8\" Woofer, 35Hz Deep Bass, Black"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 33130 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ard shortcut shift + alt + D Electronics › Home Audio › Speakers › Sound Bars Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "65 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "00 FREE delivery Tue, Aug 18 Bose Smart Ultra Dolby Atmos Soundbar, All-in-One Surround Sound System for TV, A"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "00 FREE delivery Tomorrow 12 PM - 5 PM Samsung 43-Inch Class M70H Series, Mini LED, 4K, Smart TV, 2026 Mod",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM TCL 98 Inch Class QM6K Series",
+        "00 FREE delivery Thu, Aug 20 Mounting Dream UL Listed TV Wall Mount for Most 26-60 Inch TV Full Motion",
+        "99 FREE delivery Tue, Aug 18 on $35 of items shipped by Amazon Climate Pledge Friendly Mounting Dream Full Motion TV W"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-43",
+      "brand": "sony",
+      "label": "Bravia 2 II 43\"",
+      "retailer": "walmart",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "37066"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "g Arrives Aug 20 Free Pickup Not available Delivery Not available Ships toGallatin, 37066 Arrives by Thu, Aug 20",
+        "2 reviews Delivery as soon as 11am Shipping arrives tomorrow Pickup today WD_BLACK 4TB SN8100 NVMe SSD, without Heatsink, PCIe Gen 5 - WDS400T1X0M-00C",
+        "10 reviews Shipping arrives tomorrow Open Ear Earbuds, Bluetooth Headphones 6",
+        "312 reviews Shipping arrives Sat, Aug 15 Wireless Earbuds,Bluetooth 5"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow 12 PM - 5 PM Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD Smart Fire TV",
+        "99 FREE delivery as soon as Wed, Sep 2, 8 AM - 1 PM Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Ro",
+        "99 FREE delivery Tue, Aug 18 Hisense 50\" E6 Cinema Series Hi-QLED 4K UHD Smart Fire TV (50E6QF) - AI Light Senso",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM Hisense 43-Inch S5 DécoTV Series Hi-QLED 4K UHD Smart Fire TV (43S5"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color white Ship to 33130 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Add to cart Sign in to buy no"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "walmart",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "14 (44% off) Ship to 33130 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav3-65",
+      "brand": "sony",
+      "label": "Bravia 3 65\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "07657"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "95 FREE delivery August 17 - 19 Ships from: CellularStream Sold by: CellularStream Add to List Other selle",
+        "5,797 Amazon's Choice FREE delivery Tue, Aug 18 Climate Pledge Friendly Sonos Roam 2 - Black - Portable Waterproof Bluetooth Speaker 1,64"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "07657"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": false,
+      "deliveryLines": [
+        "Order within 7 hrs 5 mins Or fastest delivery Tomorrow, August 14 Delivering to Ridgefield 07657 - Update location Only 6 left in stock (more on the way)",
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 1 PM LG 65-Inch Class Gallery TV QNED AI LX7B Series Mini",
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 1 PM Hisense 50\" E6 Cinema Series Hi-QLED 4K UHD Smart Fir",
+        "99 FREE delivery as soon as Sat, Aug 15, 8 AM - 1 PM Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "walmart",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "49201"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "2216 reviews Save with Delivery as soon as 7am Shipping arrives today Pickup as soon as 6am Rollback Bose SoundLink Flex II Wireless Waterproof Portable Blueto",
+        "2929 reviews Save with Delivery as soon as 1 hour Shipping arrives tomorrow Pickup as soon as 6am onn Party Speaker Bundle $213",
+        "94 onn Party Speaker Bundle Save with Shipping arrives tomorrow Best seller onn Medium Party Speaker Gen 2 with LED Lighting $84",
+        "3526 reviews Save with Delivery as soon as 7am Shipping arrives tomorrow Pickup as soon as 6am In 200+ people's carts onn Large Party Speaker Gen 2 with LED Light"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "walmart",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "brav2-55",
+      "brand": "sony",
+      "label": "Bravia 2 II 55\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "95 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 10 AM - 3 PM",
+        "45 FREE delivery Tuesday, August 18 Ships from: Amazon Sold by: Amazon Resale Add to List Other sellers on Amazon New & Used",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly W-KING 270W Max Party Portable Bluetooth Speaker Loudest Large Bi"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "walmart",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "ware Sponsored Electronics › Television & Video › Televisions › LED & LCD TVs Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Deliver to Miami 33130‌ Temporarily out of stock",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4H",
+        "99 FREE delivery Tue, Aug 18 Hisense 50\" E6 Cinema Series Hi-QLED 4K UHD Smart Fire TV (50E6QF) - AI Light Senso"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow, August 14",
+        "99 FREE delivery Tue, Aug 18 Climate Pledge Friendly W-KING 270W Max Party Portable Bluetooth Speaker Loudest Large Bi",
+        "99 FREE delivery Tue, Aug 18 OHAYO Portable Bluetooth Speaker, IPX7 Waterproof, 24W Stereo, LED Lights"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "90 (27% off) Ship to 33130 Edit ZIP code Arrives by Wed, Aug 19 Ships free- exclusions apply This item isn’t sold in stores Sign in to buy now Add plans"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "u8000f",
+      "brand": "samsung",
+      "label": "Samsung U8000F 43\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "k Black Blue Dusk Citrus Yellow Pickup Not available Delivery Check availability Shipping Get it tomorrow Out of stock at Miami Downtown Notify me when available Available near you Ready within 2"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow 12 PM - 5 PM Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD Smart Fire TV",
+        "99 FREE delivery as soon as Wed, Sep 2, 8 AM - 1 PM Hisense 50\" E6 Cinema Series Hi-QLED 4K UHD Smart Fire",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4H",
+        "99 FREE delivery Tue, Aug 18 LG 83-Inch Class OLED AI 4K B6 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10,"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "walmart",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "49201"
+      ],
+      "zipSet": "ui(Jackson, 49201)",
+      "verified": false,
+      "deliveryLines": [
+        "628 reviews Save with Delivery as soon as 7am Shipping arrives today Pickup as soon as 6am 100+ bought since yesterday TCL 43\" Q Series QLED 4K UHD HDR Smart",
+        "5550 reviews Save with Delivery as soon as 7am Shipping arrives Sat, Aug 15 Pickup as soon as 6am Samsung 32” Class Full HD F6000F Smart TV 2025 - UN32F6000FFXZA $17",
+        "1295 reviews Save with Shipping arrives Sat, Aug 15 Best seller Samsung 32” Class HD H5000F Smart TV 2025 - UN32H5000FFXZA $98",
+        "3642 reviews Save with Shipping arrives tomorrow In 500+ people's carts onn 32\" Class 720P HD Powered by VIZIO Smart Television, 32S2V1 $8"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "22157"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "table Audio & Video › Portable Speakers & Docks › Portable Bluetooth Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "99 FREE delivery August 19 - 20 Or fastest delivery Tuesday, August 18 Deliver to Miami 33130‌ Quantity: 1 2 3 4 5 6 7 8 9 10 11 12 13 Quantity:1 Add to cart Bu",
+        "00 FREE delivery August 17 - 19 Ships from: CellularStream Sold by: CellularStream Add to List Other selle",
+        "99 FREE delivery Tue, Aug 18 on $35 of items shipped by Amazon Save $8"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q7f",
+      "brand": "samsung",
+      "label": "Samsung Q7F QLED",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 & FREE Delivery Sponsored 11+ Click to see full view Product Energy Guide Visit the LG Store LG 65-Inch C",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM LG 83-Inch Class OLED AI 4K B6 Series Smart TV w/Dolby Atmos, Dolby",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM Hisense 32-Inch Class QD4SR Series Hi-QLED HD Smart Roku TV (32QD4H",
+        "99 FREE delivery Tue, Aug 18 Hisense 65\" E7 Cinema Series Hi-QLED Mini-LED 4K UHD Smart Fire TV (65E7SF, 2026 NE"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "14412"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "c5-65",
+      "brand": "lg",
+      "label": "LG C5 OLED 65\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 10 AM - 3 PM"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "95 FREE delivery August 18 - 20",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping Samsung 55-Inch Class S90F Smart TV (2025 Model, 55S90F), NQ4 Gen3",
+        "99 Get it Tomorrow, Aug 14 FREE Shipping 1 sustainability feature LG 65-Inch Class OLED evo AI 4K C6 Series",
+        "00 Get it Tomorrow, Aug 14 FREE Shipping LG 55-Inch Class OLED evo AI 4K C6 Series Smart TV w/Dolby Atmos, D"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "oal Deep Sea Blue Glacier White Pickup Not available Delivery Check availability Shipping Get it tomorrow Out of stock at Miami Downtown Notify me when available Available near you Ready within 2"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "c5-55",
+      "brand": "lg",
+      "label": "LG C5 OLED 55\"",
+      "retailer": "newegg",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "99 FREE delivery Tomorrow 12 PM - 5 PM TCL 75-Inch F8D Series 4K QLED (75F8D, 2026 Model) with Dolby Visio",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM TCL 75-Inch F7D Series QLED 4K UHD Smart TV (75F7D, 2026 Model)",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM TCL 75 Inch Class QM7L Series",
+        "99 FREE delivery Tomorrow 12 PM - 5 PM TCL 55\" T7 4K QLED Google TV with 144Hz Gaming (55T7)"
+      ]
+    },
+    {
+      "report": "sony",
+      "model": "q65-55",
+      "brand": "tcl",
+      "label": "TCL Q65 55\"",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130",
+        "12445"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": []
+    }
+  ]
+}

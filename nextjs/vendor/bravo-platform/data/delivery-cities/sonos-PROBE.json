@@ -1,0 +1,81 @@
+{
+  "capturedAt": "2026-08-13T10:36:54.484Z",
+  "probe": true,
+  "cities": [
+    {
+      "city": "Chicago, IL",
+      "zip": "60601"
+    }
+  ],
+  "rule": "A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+  "rows": [
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "walmart",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "33712"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "Arrives tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "img": "evidence/delivery/sonos-target-era300-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [],
+      "img": null
+    }
+  ]
+}

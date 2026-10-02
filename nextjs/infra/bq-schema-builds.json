@@ -1,0 +1,14 @@
+[
+  { "name": "build_id",     "type": "STRING",    "mode": "REQUIRED", "description": "Primary key, generated like b_<nanoid>" },
+  { "name": "brand_slug",   "type": "STRING",    "mode": "REQUIRED", "description": "FK into brands" },
+  { "name": "status",       "type": "STRING",    "mode": "REQUIRED", "description": "queued | running | ready | failed | cancelled" },
+  { "name": "options",      "type": "JSON",      "mode": "NULLABLE", "description": "Snapshot of {run_apify, run_keepa, ...} at build time" },
+  { "name": "steps",        "type": "JSON",      "mode": "NULLABLE", "description": "Array of {name, status, duration_ms, error}" },
+  { "name": "started_at",   "type": "TIMESTAMP", "mode": "NULLABLE" },
+  { "name": "finished_at",  "type": "TIMESTAMP", "mode": "NULLABLE" },
+  { "name": "payload_url",  "type": "STRING",    "mode": "NULLABLE", "description": "gs:// URL of final payload" },
+  { "name": "logs_url",     "type": "STRING",    "mode": "NULLABLE", "description": "gs:// URL of combined logs" },
+  { "name": "error",        "type": "STRING",    "mode": "NULLABLE", "description": "null unless failed" },
+  { "name": "created_at",   "type": "TIMESTAMP", "mode": "REQUIRED" },
+  { "name": "updated_at",   "type": "TIMESTAMP", "mode": "REQUIRED" }
+]

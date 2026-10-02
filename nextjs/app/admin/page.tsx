@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const STORE = "cct_brands_v1";
 
-type DataSource = "clone" | "upload" | "paste";
+type DataSource = "clone" | "upload" | "paste" | "backend";
 
 type CCOPayload = {
   meta?: {
@@ -105,6 +105,11 @@ export default function AdminPage() {
 
     setSubmitting(true);
     try {
+      if (source === "backend") {
+        await runBackendBuild(slug, name, router, setError, setSubmitting);
+        return;
+      }
+
       let payload: CCOPayload;
       if (source === "clone") {
         payload = await cloneSonosPayload(name, brandMarkDataURL);
@@ -209,8 +214,8 @@ export default function AdminPage() {
         </Section>
 
         <Section title="Data" subtitle="The dashboard reads a single JSON payload. Pick where it comes from.">
-          <div className="inline-flex gap-1 rounded-xl bg-neutral-200/70 p-0.5">
-            {(["clone", "upload", "paste"] as DataSource[]).map((k) => (
+          <div className="inline-flex flex-wrap gap-1 rounded-xl bg-neutral-200/70 p-0.5">
+            {(["clone", "upload", "paste", "backend"] as DataSource[]).map((k) => (
               <button
                 key={k}
                 type="button"
@@ -219,7 +224,10 @@ export default function AdminPage() {
                   source === k ? "bg-white font-medium shadow-sm" : "text-neutral-500"
                 }`}
               >
-                {k === "clone" ? "Clone Sonos sample" : k === "upload" ? "Upload JSON file" : "Paste JSON"}
+                {k === "clone" ? "Clone Sonos sample" :
+                 k === "upload" ? "Upload JSON file" :
+                 k === "paste" ? "Paste JSON" :
+                 "Run real build (backend)"}
               </button>
             ))}
           </div>
@@ -266,6 +274,19 @@ export default function AdminPage() {
                 />
               </Field>
             )}
+            {source === "backend" && (
+              <div className="space-y-2 text-xs leading-relaxed text-neutral-500">
+                <p>
+                  Spawns the real simulation builder on the Cloud Run backend, writes the resulting payload to BigQuery + Cloud Storage, and redirects to the live dashboard. The admin token prompt appears on first use (from Secret Manager <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">ADMIN_SHARED_SECRET</code>).
+                </p>
+                <p>
+                  <b>Right now only brands with configs baked into the image can build this way</b> — <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">sonos</code> at launch. New-brand real captures (Apify + Keepa + SimilarWeb for Meta, Coach, etc.) are the next stage.
+                </p>
+                <p>
+                  Takes ~1–2 min end-to-end. Build row + log stream to <code className="rounded bg-neutral-200 px-1.5 py-0.5 font-mono text-[11px]">cco_mgmt.builds</code> in BigQuery.
+                </p>
+              </div>
+            )}
           </div>
         </Section>
 
@@ -292,6 +313,51 @@ function Section({ title, subtitle, children }: { title: string; subtitle: strin
       <div className="mt-4 space-y-4">{children}</div>
     </section>
   );
+}
+
+const ADMIN_TOKEN_KEY = "cct_admin_token";
+
+async function runBackendBuild(
+  slug: string,
+  name: string,
+  router: ReturnType<typeof useRouter>,
+  setError: (msg: string) => void,
+  setSubmitting: (b: boolean) => void,
+) {
+  // The /api endpoints require an admin token (set once in Secret Manager at
+  // deploy time). Prompt once per browser session, cache in sessionStorage.
+  let token = sessionStorage.getItem(ADMIN_TOKEN_KEY);
+  if (!token) {
+    token = prompt("Admin token (set in Secret Manager as ADMIN_SHARED_SECRET):");
+    if (!token) {
+      setError("admin token required for backend builds");
+      setSubmitting(false);
+      return;
+    }
+    sessionStorage.setItem(ADMIN_TOKEN_KEY, token);
+  }
+
+  const res = await fetch("/api/brands", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-admin-token": token },
+    body: JSON.stringify({ slug, name }),
+  });
+  if (res.status === 401) {
+    sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+    setError("admin token rejected — try again");
+    setSubmitting(false);
+    return;
+  }
+  if (!res.ok) {
+    const body = (await res.json().catch(() => ({}))) as { error?: string };
+    setError(body.error ?? `backend returned ${res.status}`);
+    setSubmitting(false);
+    return;
+  }
+  const { build_id } = (await res.json()) as { build_id: string };
+
+  // Redirect to a page that polls the build and redirects to /<slug> on done.
+  router.push(`/admin/building/${build_id}?slug=${encodeURIComponent(slug)}`);
 }
 
 function Field({ label, hint, children }: { label: React.ReactNode; hint?: string; children: React.ReactNode }) {

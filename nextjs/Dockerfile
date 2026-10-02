@@ -27,6 +27,9 @@ RUN addgroup -g 1001 -S app && adduser -u 1001 -S app -G app
 COPY --from=builder --chown=app:app /app/.next/standalone ./
 COPY --from=builder --chown=app:app /app/.next/static ./.next/static
 COPY --from=builder --chown=app:app /app/public ./public
+# The vendored bravo-platform CCO builder + Sonos source files. The capture
+# orchestration spawns scripts from here. See lib/capture.ts.
+COPY --from=builder --chown=app:app /app/vendor ./vendor
 
 USER app
 EXPOSE 8080

@@ -1,0 +1,1545 @@
+{
+  "capturedAt": "2026-08-13T12:15:31.957Z",
+  "probe": false,
+  "cities": [
+    {
+      "city": "New York, NY",
+      "zip": "10001"
+    },
+    {
+      "city": "Los Angeles, CA",
+      "zip": "90012"
+    },
+    {
+      "city": "Chicago, IL",
+      "zip": "60601"
+    },
+    {
+      "city": "Houston, TX",
+      "zip": "77002"
+    },
+    {
+      "city": "Denver, CO",
+      "zip": "80202"
+    },
+    {
+      "city": "Miami, FL",
+      "zip": "33130"
+    }
+  ],
+  "rule": "A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+  "rows": [
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era100-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era300-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-beamg2-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge5-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge6-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Saturday, August 15"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slmax-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Wednesday, August 19 Or fastest delivery Monday, August 17"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slrevp-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echodotmax-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echostudio-10001.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era100-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era300-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-beamg2-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge5-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge6-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slmax-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slrevp-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echodotmax-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echostudio-90012.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era100-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era300-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-beamg2-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge5-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge6-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slmax-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Sunday, August 16"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slrevp-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echodotmax-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echostudio-60601.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era100-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era300-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-beamg2-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge5-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge6-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slmax-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Thursday, August 20"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slrevp-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echodotmax-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echostudio-77002.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era100-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era300-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-beamg2-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge5-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge6-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slmax-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Saturday, August 15"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slrevp-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echodotmax-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echostudio-80202.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era100-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-era300-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow-input-missing",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow"
+      ],
+      "img": "evidence/delivery/sonos-amazon-beamg2-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge5",
+      "brand": "jbl",
+      "label": "JBL Charge 5",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge5-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "charge6",
+      "brand": "jbl",
+      "label": "JBL Charge 6",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-charge6-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slmax-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "slrevp",
+      "brand": "bose",
+      "label": "SoundLink Revolve+",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery August 19 - 20 Or fastest delivery Tuesday, August 18"
+      ],
+      "img": "evidence/delivery/sonos-amazon-slrevp-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echodotmax-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "amazon",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today"
+      ],
+      "img": "evidence/delivery/sonos-amazon-echostudio-33130.jpg"
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sun, Aug 16"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "New York, NY",
+      "zipRequested": "10001",
+      "zipPrinted": [
+        "10001"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Thu, Aug 20"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Thu, Aug 20"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Los Angeles, CA",
+      "zipRequested": "90012",
+      "zipPrinted": [
+        "90012"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Houston, TX",
+      "zipRequested": "77002",
+      "zipPrinted": [
+        "77002"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sun, Aug 16"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Wed, Aug 19"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Denver, CO",
+      "zipRequested": "80202",
+      "zipPrinted": [
+        "80202"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Sat, Aug 15"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "beamg2",
+      "brand": "sonos",
+      "label": "Beam (Gen 2)",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Tue, Aug 18"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "slmax",
+      "brand": "bose",
+      "label": "SoundLink Max",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echodotmax",
+      "brand": "amazon",
+      "label": "Echo Dot Max",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Get it tomorrow"
+      ],
+      "img": null
+    },
+    {
+      "report": "sonos",
+      "model": "echostudio",
+      "brand": "amazon",
+      "label": "Echo Studio",
+      "retailer": "target",
+      "city": "Miami, FL",
+      "zipRequested": "33130",
+      "zipPrinted": [
+        "33130"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "Arrives by Mon, Aug 17"
+      ],
+      "img": null
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "capturedAt": "2026-08-13T07:03:04.239Z",
+  "probe": true,
+  "cities": [
+    {
+      "city": "Chicago, IL",
+      "zip": "60601"
+    }
+  ],
+  "rule": "A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+  "rows": [
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "amazon",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "glow",
+      "verified": true,
+      "deliveryLines": [
+        "lt + D Electronics › Home Audio › Wireless & Streaming Audio › Smart Speakers Enjoy fast, free delivery, exclusive deals, and award-winning movies & TV shows",
+        "00 FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Today 2 PM - 6 PM",
+        "95 FREE delivery August 17 - 18 Ships from: CellularStream Sold by: CellularStream Add to List Other selle"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "walmart",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "95829"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": [
+        "hin 14 hr 5 min Free Pickup Check nearby Delivery Not available Ships toSacramento, 95829 Arrives by Fri, Aug 14"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era300",
+      "brand": "sonos",
+      "label": "Era 300",
+      "retailer": "target",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [
+        "60601"
+      ],
+      "zipSet": "no-zip-input",
+      "verified": true,
+      "deliveryLines": [
+        "00 color black Ship to 60601 Edit ZIP code Arrives by Tue, Aug 18 Ships free- exclusions apply This item isn’t sold in stores Qty 1 Add to cart Sign in to"
+      ]
+    },
+    {
+      "report": "sonos",
+      "model": "era100",
+      "brand": "sonos",
+      "label": "Era 100",
+      "retailer": "newegg",
+      "city": "Chicago, IL",
+      "zipRequested": "60601",
+      "zipPrinted": [],
+      "zipSet": "no-zip-input",
+      "verified": false,
+      "deliveryLines": []
+    }
+  ]
+}
