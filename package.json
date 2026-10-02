@@ -1,0 +1,14 @@
+{
+  "name": "command-center-template",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Standalone static template of the Atlas Commercial Command Center dashboard, with a bridge to the bravo-platform build pipeline.",
+  "scripts": {
+    "dev": "npx --yes serve -l 4321 .",
+    "start": "npx --yes serve -l 4321 .",
+    "build": "node --env-file-if-exists=.env.local scripts/build-brand.mjs",
+    "build:sonos": "node --env-file-if-exists=.env.local scripts/build-brand.mjs --brand sonos",
+    "build:sony": "node --env-file-if-exists=.env.local scripts/build-brand.mjs --brand sony",
+    "build:shark": "node --env-file-if-exists=.env.local scripts/build-brand.mjs --brand shark"
+  }
+}

@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add a brand · Command Center admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: Urbanist, system-ui, sans-serif; background: #f6f5f1; color: #1a1a1a; min-height: 100vh; padding: 48px 32px; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  .back { display: inline-flex; align-items: center; gap: 6px; color: #6a6a6a; text-decoration: none; font-size: 13px; margin-bottom: 24px; }
+  .back:hover { color: #1a1a1a; }
+  h1 { font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: 40px; letter-spacing: -0.01em; margin: 0 0 8px; }
+  .sub { color: #6a6a6a; font-size: 15px; margin: 0 0 36px; max-width: 540px; line-height: 1.5; }
+  .card { background: #fff; border: 1px solid #e5e3dd; border-radius: 16px; padding: 28px 30px; margin-bottom: 20px; }
+  .card h2 { font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: 22px; margin: 0 0 4px; }
+  .card .cardsub { color: #8a8a8a; font-size: 13px; margin: 0 0 20px; }
+  label { display: block; font-size: 12px; font-weight: 600; color: #4a4a4a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  input[type=text], textarea, select { width: 100%; font: inherit; font-size: 15px; padding: 10px 14px; border: 1px solid #d8d6ce; border-radius: 10px; background: #fff; color: inherit; }
+  input[type=text]:focus, textarea:focus, select:focus { outline: none; border-color: #1a1a1a; }
+  textarea { font-family: 'Spline Sans Mono', ui-monospace, monospace; font-size: 12px; min-height: 140px; resize: vertical; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  .row.single { grid-template-columns: 1fr; }
+  .note { font-size: 12px; color: #8a8a8a; margin-top: 6px; line-height: 1.5; }
+  .seg { display: inline-flex; background: #ececec; border-radius: 10px; padding: 3px; gap: 2px; }
+  .seg button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; background: transparent; color: #6a6a6a; border-radius: 8px; cursor: pointer; }
+  .seg button.on { background: #fff; color: #1a1a1a; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .filepick { display: flex; align-items: center; gap: 12px; }
+  .filepick label.pickbtn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #1a1a1a; color: #fff; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; margin: 0; text-transform: none; letter-spacing: 0; }
+  .filepick label.pickbtn:hover { background: #333; }
+  .filepick input[type=file] { display: none; }
+  .filepick .filename { color: #6a6a6a; font-size: 13px; }
+  .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+  button.primary { font: inherit; font-size: 15px; font-weight: 600; padding: 12px 24px; background: #1a1a1a; color: #fff; border: 0; border-radius: 10px; cursor: pointer; }
+  button.primary:hover { background: #333; }
+  button.primary:disabled { background: #c8c8c8; cursor: not-allowed; }
+  .err { color: #c0392b; font-size: 13px; margin-top: 10px; }
+  .ok { color: #27ae60; font-size: 13px; margin-top: 10px; }
+  .brandlist { margin-top: 32px; }
+  .brandlist h2 { font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: 22px; margin: 0 0 14px; }
+  .brandrow { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #fff; border: 1px solid #e5e3dd; border-radius: 12px; margin-bottom: 8px; }
+  .brandrow .meta { display: flex; align-items: center; gap: 12px; }
+  .brandrow .mk { width: 28px; height: 28px; object-fit: contain; }
+  .brandrow .nm { font-weight: 600; }
+  .brandrow .sl { font-family: 'Spline Sans Mono', ui-monospace, monospace; font-size: 11px; color: #8a8a8a; margin-left: 8px; }
+  .brandrow .act { display: flex; gap: 8px; }
+  .brandrow a, .brandrow button { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; text-decoration: none; cursor: pointer; border: 0; }
+  .brandrow .view { background: #1a1a1a; color: #fff; }
+  .brandrow .del { background: #f0eee8; color: #c0392b; }
+  .empty { color: #a8a8a8; font-size: 13px; padding: 14px 0; }
+  code { background: #ececec; padding: 1px 6px; border-radius: 4px; font-family: 'Spline Sans Mono', ui-monospace, monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← all brands</a>
+  <h1>Add a brand</h1>
+  <p class="sub">Spin up a command-centre dashboard for a new brand. Everything lives in your browser's localStorage — no server, no file writes. You can promote any created brand to a real file-backed page later.</p>
+
+  <form id="form">
+    <div class="card">
+      <h2>Brand</h2>
+      <p class="cardsub">What appears in the top-left of the dashboard.</p>
+      <div class="row">
+        <div>
+          <label for="brandName">Brand name</label>
+          <input type="text" id="brandName" placeholder="e.g. Meta" required autocomplete="off">
+        </div>
+        <div>
+          <label for="brandSlug">Slug</label>
+          <input type="text" id="brandSlug" placeholder="meta" required autocomplete="off" pattern="[a-z0-9-]+">
+          <div class="note">URL-safe id. Auto-filled from the name.</div>
+        </div>
+      </div>
+      <div class="row single">
+        <div>
+          <label>Brand mark <span style="font-weight: 400; color: #a8a8a8; text-transform: none; letter-spacing: 0;">· optional</span></label>
+          <div class="filepick">
+            <label class="pickbtn" for="brandMark">Choose image</label>
+            <input type="file" id="brandMark" accept="image/*">
+            <span class="filename" id="brandMarkName">no file — the text name will show instead</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Data</h2>
+      <p class="cardsub">The dashboard reads a single JSON payload. Pick where it comes from.</p>
+      <div class="seg" id="srcSeg" role="group">
+        <button type="button" data-src="clone" class="on">Clone Sonos sample</button>
+        <button type="button" data-src="upload">Upload JSON file</button>
+        <button type="button" data-src="paste">Paste JSON</button>
+      </div>
+
+      <div class="row single" style="margin-top: 18px;">
+        <div id="srcClone">
+          <div class="note">The dashboard will render with Sonos's real captured numbers under the new brand name. Great for a shell preview; <b>the numbers are Sonos's, not the new brand's</b> — swap for a real payload before showing it to anyone.</div>
+        </div>
+
+        <div id="srcUpload" hidden>
+          <label>Payload JSON file</label>
+          <div class="filepick">
+            <label class="pickbtn" for="payloadFile">Choose JSON</label>
+            <input type="file" id="payloadFile" accept="application/json,.json">
+            <span class="filename" id="payloadFileName">no file</span>
+          </div>
+          <div class="note">Must match the shape in <code>sonos-command-center-data.json</code>. See the README for the 15 top-level keys.</div>
+        </div>
+
+        <div id="srcPaste" hidden>
+          <label for="payloadPaste">Payload JSON</label>
+          <textarea id="payloadPaste" placeholder='{ "meta": { ... }, "dims": { ... }, "scorecard": { ... }, ... }'></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary" id="submit">Create dashboard</button>
+    </div>
+    <div id="msg"></div>
+  </form>
+
+  <div class="brandlist">
+    <h2>Your brands</h2>
+    <div id="list"></div>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const STORE = "cct_brands_v1";
+
+const slugify = (s) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+function loadBrands() { try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { return {}; } }
+function saveBrands(b) { localStorage.setItem(STORE, JSON.stringify(b)); }
+
+function renderList() {
+  const brands = loadBrands();
+  const slugs = Object.keys(brands);
+  const el = $("#list");
+  if (!slugs.length) { el.innerHTML = '<div class="empty">No brands created yet.</div>'; return; }
+  el.innerHTML = slugs.map((slug) => {
+    const b = brands[slug];
+    const mark = b.brandMark ? `<img class="mk" src="${b.brandMark}" alt="">` : '<div class="mk" style="background:#1a1a1a;border-radius:6px;"></div>';
+    return `<div class="brandrow">
+      <div class="meta">${mark}<span class="nm">${b.name}</span><span class="sl">${slug}</span></div>
+      <div class="act">
+        <a class="view" href="./view.html?slug=${encodeURIComponent(slug)}">Open</a>
+        <button type="button" class="del" data-slug="${slug}">Delete</button>
+      </div>
+    </div>`;
+  }).join("");
+  el.querySelectorAll("button.del").forEach((b) => {
+    b.onclick = () => { const brands = loadBrands(); delete brands[b.dataset.slug]; saveBrands(brands); renderList(); };
+  });
+}
+
+$("#brandName").addEventListener("input", (e) => {
+  const slugEl = $("#brandSlug");
+  if (!slugEl.dataset.touched) slugEl.value = slugify(e.target.value);
+});
+$("#brandSlug").addEventListener("input", (e) => { e.target.dataset.touched = "1"; e.target.value = slugify(e.target.value); });
+
+let brandMarkDataURL = null;
+$("#brandMark").addEventListener("change", async (e) => {
+  const f = e.target.files[0];
+  if (!f) { brandMarkDataURL = null; $("#brandMarkName").textContent = "no file — the text name will show instead"; return; }
+  $("#brandMarkName").textContent = f.name;
+  brandMarkDataURL = await new Promise((res) => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(f); });
+});
+
+let currentSrc = "clone";
+$("#srcSeg").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  currentSrc = b.dataset.src;
+  $("#srcSeg").querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+  ["clone", "upload", "paste"].forEach((k) => { $(`#src${k[0].toUpperCase() + k.slice(1)}`).hidden = (k !== currentSrc); });
+});
+
+let uploadedPayload = null;
+$("#payloadFile").addEventListener("change", async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  $("#payloadFileName").textContent = f.name;
+  try { uploadedPayload = JSON.parse(await f.text()); } catch (err) { msg("err", "Could not parse JSON: " + err.message); uploadedPayload = null; }
+});
+
+function msg(cls, text) { const m = $("#msg"); m.className = cls; m.textContent = text; }
+
+async function cloneSonosPayload(name, slug, markDataURL) {
+  const r = await fetch("./sonos-command-center-data.json");
+  if (!r.ok) throw new Error("Could not load the Sonos sample payload (HTTP " + r.status + ")");
+  const d = await r.json();
+  d.meta = d.meta || {};
+  // Only the display label and the brand mark are swapped. The underlying
+  // `subject` id stays "sonos" because every number in the payload (scorecard,
+  // trend, pricing, reads, …) is keyed off it. Renaming the id in meta without
+  // rewriting the keyed data makes the KPI panels look up a brand that isn't in
+  // the data and fall back to "average". The cloned view is clearly labelled as
+  // Sonos's data under the new brand's name; the README calls this out.
+  d.meta.subjectLabel = name;
+  d.meta.title = name + " · Commercial Command Center";
+  if (!d.meta.subtitle) d.meta.subtitle = "A quarter of continuous collection, extrapolated from the measured snapshot";
+  if (markDataURL) d.meta.brandMark = markDataURL;
+  else delete d.meta.brandMark;
+  return d;
+}
+
+$("#form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  msg("", "");
+  const name = $("#brandName").value.trim();
+  const slug = $("#brandSlug").value.trim();
+  if (!name || !slug) { msg("err", "Brand name and slug are required."); return; }
+
+  $("#submit").disabled = true; $("#submit").textContent = "Creating…";
+  try {
+    let payload;
+    if (currentSrc === "clone") payload = await cloneSonosPayload(name, slug, brandMarkDataURL);
+    else if (currentSrc === "upload") {
+      if (!uploadedPayload) throw new Error("Choose a JSON file first.");
+      payload = uploadedPayload;
+    } else {
+      const text = $("#payloadPaste").value.trim();
+      if (!text) throw new Error("Paste a JSON payload first.");
+      payload = JSON.parse(text);
+    }
+
+    if (currentSrc !== "clone") {
+      payload.meta = payload.meta || {};
+      payload.meta.subject = payload.meta.subject || slug;
+      payload.meta.subjectLabel = payload.meta.subjectLabel || name;
+      payload.meta.title = payload.meta.title || (name + " · Commercial Command Center");
+      if (brandMarkDataURL) payload.meta.brandMark = brandMarkDataURL;
+    }
+
+    const brands = loadBrands();
+    brands[slug] = {
+      name, slug, createdAt: new Date().toISOString(),
+      brandMark: brandMarkDataURL || payload.meta.brandMark || null,
+      payload,
+    };
+    saveBrands(brands);
+    location.href = "./view.html?slug=" + encodeURIComponent(slug);
+  } catch (err) {
+    msg("err", err.message);
+    $("#submit").disabled = false; $("#submit").textContent = "Create dashboard";
+  }
+});
+
+renderList();
+</script>
+</body>
+</html>

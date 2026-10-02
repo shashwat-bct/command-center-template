@@ -1,0 +1,20 @@
+node_modules/
+.DS_Store
+*.log
+
+# Secrets — never commit. Any file named .env, .env.*, *.env, or anything
+# matching the common patterns is excluded. If you add a new secret file,
+# add it here first.
+.env
+.env.*
+*.env
+.env.local
+.env.production
+.env.development
+.env.test
+secrets/
+service-account*.json
+*service-account*.json
+*credentials*.json
+__test-flow.html
+.secrets-tmp/

@@ -1,0 +1,22 @@
+# Never ship secrets or local-only tooling to the deploy.
+.env
+.env.*
+*.env
+.env.local
+.env.production
+secrets/
+service-account*.json
+*service-account*.json
+*credentials*.json
+
+# The build bridge is local-only (talks to the sibling bravo-platform clone).
+scripts/
+
+# OS + editor cruft.
+.DS_Store
+*.log
+node_modules/
+
+# Dev-only test fixtures.
+__test-*.html
+.secrets-tmp/
