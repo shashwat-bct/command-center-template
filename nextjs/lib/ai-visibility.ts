@@ -70,6 +70,48 @@ export async function fetchProductNames(brand: string, category: string, count =
   }
 }
 
+// For each competitor brand, fetch N product names. Runs serially to avoid
+// hammering the LLM proxy with parallel requests.
+export async function fetchCompetitorProductNames(
+  competitors: string[],
+  category: string,
+  countPerBrand = 4,
+): Promise<string[][]> {
+  const out: string[][] = [];
+  for (const comp of competitors) {
+    try {
+      const names = await fetchProductNames(comp, category, countPerBrand);
+      out.push(names);
+    } catch {
+      out.push([]);
+    }
+  }
+  return out;
+}
+
+// Ask Claude for the key review aspects of a category (what buyers care about).
+// Used to replace Sonos's speaker-specific aspects (Sound quality, Bass, Battery
+// life) with ones appropriate for the category (coolers → Ice retention,
+// Capacity, Durability, …).
+export async function fetchReviewAspects(category: string, count = 8): Promise<string[]> {
+  const user = `List ${count} key review aspects that shoppers evaluate when buying a ${category}. Short 1-3 word phrases, one per line, no explanations, no numbering. Example for 'cordless vacuum':\nSuction power\nBattery life\nWeight\nAttachments\nNoise level`;
+  try {
+    const text = await callLLM({
+      system: "You are a product-category assistant. Reply with just the aspect names, nothing else.",
+      user,
+      maxTokens: 200,
+      temperature: 0.3,
+    });
+    return text
+      .split("\n")
+      .map((s) => s.replace(/^[-\d.*\s]+/, "").trim())
+      .filter((s) => s.length > 0 && s.length < 40)
+      .slice(0, count);
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchAiShareOfMind(input: AiSoMInput): Promise<AiSoMResult> {
   const n = Math.min(input.questionCount ?? 8, QUESTION_TEMPLATES.length);
   const questions = QUESTION_TEMPLATES.slice(0, n).map((t) => t.replace("{CAT}", input.category));

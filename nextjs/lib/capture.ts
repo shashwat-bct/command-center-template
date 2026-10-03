@@ -17,7 +17,7 @@ import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
 import { uploadLog, uploadPayload } from "./gcs";
 import { fetchKeepaBrand, fetchKeepaSearch } from "./keepa";
-import { fetchAiShareOfMind, fetchProductNames, type AiSoMResult } from "./ai-visibility";
+import { fetchAiShareOfMind, fetchProductNames, fetchCompetitorProductNames, fetchReviewAspects, type AiSoMResult } from "./ai-visibility";
 import { fetchApifyAmazon, type ApifyAmazonAggregate } from "./apify";
 import { overrideSubject } from "./launch-override";
 import { rebrandPayload } from "./rebrand";
@@ -445,27 +445,48 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     await setStep("relabel", { status: "done", duration_ms: Date.now() - relStart });
   }
 
-  // --- rebrand step (replace Sonos competitor set + model catalogue) -------
+  // --- rebrand step (replace Sonos competitor set + model catalogue + aspects) --
   if (relabel) {
     await setStep("rebrand", { status: "running", started_at: new Date().toISOString() });
     const rStart = Date.now();
     try {
-      // Use user-provided product names if available; else ask Claude for 6.
-      let productNames = products;
-      if (productNames.length === 0 && aiCategory) {
+      // Subject products
+      let subjectProducts = products;
+      if (subjectProducts.length === 0 && aiCategory) {
         logLine(`asking Claude for ${name}'s top product names in "${aiCategory}"`);
-        productNames = await fetchProductNames(name, aiCategory, 6);
-        logLine(`Claude suggested products: ${productNames.join(", ") || "(none)"}`);
+        subjectProducts = await fetchProductNames(name, aiCategory, 7);
+        logLine(`Claude: subject products → ${subjectProducts.join(", ") || "(none)"}`);
       }
+
+      // Competitor products — N per competitor
+      let competitorProducts: string[][] = [];
+      if (aiCompetitors.length > 0 && aiCategory) {
+        logLine(`asking Claude for competitor products in "${aiCategory}" × ${aiCompetitors.length} brand(s)`);
+        competitorProducts = await fetchCompetitorProductNames(aiCompetitors, aiCategory, 4);
+        for (let i = 0; i < aiCompetitors.length; i++) {
+          logLine(`  ${aiCompetitors[i]} → ${(competitorProducts[i] ?? []).join(", ") || "(none)"}`);
+        }
+      }
+
+      // Review aspects for the category
+      let reviewAspects: string[] = [];
+      if (aiCategory) {
+        logLine(`asking Claude for review aspects shoppers care about in "${aiCategory}"`);
+        reviewAspects = await fetchReviewAspects(aiCategory, 8);
+        logLine(`Claude: aspects → ${reviewAspects.join(", ") || "(none)"}`);
+      }
+
       const data = JSON.parse(payloadJson) as unknown;
       const rebranded = rebrandPayload(data, {
         subject: { name, slug },
         competitors: aiCompetitors,
-        products: productNames,
+        subjectProducts,
+        competitorProducts,
+        reviewAspects,
       });
       payloadJson = JSON.stringify(rebranded);
       logLine(
-        `rebranded payload: subject "${name}" (${slug}), competitors [${aiCompetitors.join(", ") || "(none)"}], ${productNames.length} products`,
+        `rebranded payload: subject "${name}" (${slug}), competitors [${aiCompetitors.join(", ") || "(none)"}], ${subjectProducts.length} subject products, ${competitorProducts.reduce((n, a) => n + a.length, 0)} competitor products, ${reviewAspects.length} aspects`,
       );
       await setStep("rebrand", { status: "done", duration_ms: Date.now() - rStart });
     } catch (e) {

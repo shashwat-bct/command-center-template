@@ -1,17 +1,30 @@
-// Post-simulation payload rebrander.
+// Post-simulation payload rebrander — v2 (context-aware).
 //
-// The simulation output is a Sonos-shaped command-centre payload: brand ids
-// are "sonos" / "amazon" / "apple" / "bose" / "jbl", model ids are "era100" /
-// "beamg2" / etc. For a new brand without its own vendored config, we want the
-// dashboard to display GoPro + DJI + Insta360 + Akaso (not Sonos + Amazon Echo
-// + Apple HomePod + Bose), and Hero 12 Black + Hero 11 + Max (not Era 100 +
-// Beam Gen 2 + Arc Ultra).
+// v1's mistake: it did a GLOBAL deep key-rename of brand ids. That corrupted
+// unrelated sections — e.g. dims.retailers.amazon (the Amazon retailer) got
+// renamed to 'rtic' because 'amazon' was in the brand map. v2 only touches
+// explicitly brand-aware sections.
 //
-// This file deep-walks the payload JSON and renames keys + values + labels.
-// The numeric values stay the same — only the identity of what the numbers
-// are ABOUT changes.
+// Payload sections and their rebrand treatment:
+//   meta                 → set meta.subject + subjectLabel
+//   dims.brands          → wipe + rewrite from the user's brand list
+//   dims.models          → rewrite ALL 20 slots (subject's N + competitors' slots)
+//                          using user products for subject, Claude-generated
+//                          per-competitor model names for the rest
+//   dims.retailers       → LEAVE ALONE (Amazon/Best Buy/Target/Walmart/Newegg)
+//   dims.engines         → LEAVE ALONE (gpt/perplexity/gemini/claude)
+//   dims.cities,metrics  → LEAVE ALONE
+//   scorecard[cadence]   → rename brand KEYS in every nested map
+//   trend[metric][brand] → rename brand KEYS
+//   pricing/shelf/etc    → rename brand KEYS in all per-brand sub-maps
+//   voice.rating.{brand} → rename brand KEYS (incl. voice.aspects.{brand})
+//   ai.overall.{brand}   → rename brand KEYS (incl. byEngineStage.*.*.{brand})
+//   pdpScores,tco        → rewrite .model/.brand references
+//   reads                → leave the prose; brand labels inside are fine
+//
+// What stays untouched is as important as what gets touched.
 
-const SONOS_BRANDS = ["sonos", "amazon", "apple", "bose", "jbl"] as const;
+const SONOS_BRAND_IDS = ["sonos", "amazon", "apple", "bose", "jbl"] as const;
 const SONOS_BRAND_LABELS: Record<string, string> = {
   sonos: "Sonos",
   amazon: "Amazon Echo",
@@ -25,10 +38,13 @@ const slugify = (s: string): string =>
 
 export type RebrandInput = {
   subject: { name: string; slug: string };
-  // Up to 4 competitors — we have 4 Sonos competitor slots to fill.
   competitors: string[];
-  // Products to show as model names. Up to 6 (Sonos's catalog has 6-20 models).
-  products: string[];
+  subjectProducts: string[];
+  // One list per competitor; parallel to the competitors array. If empty, a
+  // placeholder is used.
+  competitorProducts: string[][];
+  // Review aspects keyed by category. e.g. ["Ice retention", "Capacity", …].
+  reviewAspects?: string[];
 };
 
 type BrandRef = { id: string; label: string };
@@ -42,15 +58,13 @@ function buildBrandMap(input: RebrandInput): {
   const labelMap: Record<string, string> = {};
   const newBrands: BrandRef[] = [];
 
-  // Subject brand → first slot (originally "sonos")
   idMap["sonos"] = input.subject.slug;
   labelMap["Sonos"] = input.subject.name;
   newBrands.push({ id: input.subject.slug, label: input.subject.name });
 
-  // Competitors → remaining 4 slots (originally amazon/apple/bose/jbl)
-  const competitorSlots = ["amazon", "apple", "bose", "jbl"];
-  for (let i = 0; i < competitorSlots.length; i++) {
-    const oldId = competitorSlots[i];
+  const slots = ["amazon", "apple", "bose", "jbl"];
+  for (let i = 0; i < slots.length; i++) {
+    const oldId = slots[i];
     const comp = input.competitors[i];
     if (comp) {
       const newId = slugify(comp);
@@ -58,122 +72,307 @@ function buildBrandMap(input: RebrandInput): {
       labelMap[SONOS_BRAND_LABELS[oldId]] = comp;
       newBrands.push({ id: newId, label: comp });
     } else {
-      // Not enough competitors — keep the slot but relabel it generically
       const label = `Competitor ${i + 1}`;
-      idMap[oldId] = `competitor-${i + 1}`;
+      idMap[oldId] = `comp${i + 1}`;
       labelMap[SONOS_BRAND_LABELS[oldId]] = label;
-      newBrands.push({ id: `competitor-${i + 1}`, label });
+      newBrands.push({ id: `comp${i + 1}`, label });
     }
   }
-
   return { idMap, labelMap, newBrands };
 }
 
-// Deep walk the payload. Three transforms applied per node:
-//   1. Rename object keys that match a brand id in the map
-//   2. Rename string VALUES that match a brand id when they appear in known
-//      brand-reference fields (id, brand, subject, …) — anywhere a scalar
-//      brand reference lives
-//   3. Replace display-label strings in known fields (label, name) via the
-//      label map
-function rebrandDeep(
-  node: unknown,
-  idMap: Record<string, string>,
-  labelMap: Record<string, string>,
-  parentKey: string | null,
-): unknown {
-  if (Array.isArray(node)) {
-    return node.map((item) => rebrandDeep(item, idMap, labelMap, parentKey));
-  }
+// Walks a value tree. At every object, if the object has a key that matches a
+// Sonos brand id, that key is renamed. Values are NOT remapped (so unrelated
+// strings that happen to equal "amazon" are safe). Used for scorecard, trend,
+// pricing, shelf, distribution, availability, voice, ai, promotions, traffic.
+function renameBrandKeys(node: unknown, idMap: Record<string, string>): unknown {
+  if (Array.isArray(node)) return node.map((x) => renameBrandKeys(x, idMap));
   if (node && typeof node === "object") {
+    const src = node as Record<string, unknown>;
     const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+    for (const [k, v] of Object.entries(src)) {
       const newKey = idMap[k] ?? k;
-      out[newKey] = rebrandDeep(v, idMap, labelMap, k);
+      out[newKey] = renameBrandKeys(v, idMap);
     }
     return out;
-  }
-  if (typeof node === "string") {
-    // Brand-id value fields
-    if (parentKey === "brand" || parentKey === "id" || parentKey === "subject") {
-      return idMap[node] ?? node;
-    }
-    // Brand-label fields
-    if (parentKey === "label" || parentKey === "name" || parentKey === "subjectLabel") {
-      return labelMap[node] ?? node;
-    }
-    return node;
   }
   return node;
 }
 
-// Replace the model catalog with the user's product names. Keeps numeric
-// anchors (msrp, street0, launched, tier) from the original models so the
+// Walks nested objects and when it finds a value in a key named `brand` (or
+// equal to one of the brand keys), remaps the value. Used for arrays-of-objects
+// like dims.models, pdpScores, tco, etc., where each row has { brand: "sonos" }.
+function remapBrandValues(node: unknown, idMap: Record<string, string>): unknown {
+  if (Array.isArray(node)) return node.map((x) => remapBrandValues(x, idMap));
+  if (node && typeof node === "object") {
+    const src = node as Record<string, unknown>;
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(src)) {
+      if (k === "brand" && typeof v === "string" && idMap[v]) {
+        out[k] = idMap[v];
+      } else {
+        out[k] = remapBrandValues(v, idMap);
+      }
+    }
+    return out;
+  }
+  return node;
+}
+
+// Build a new dims.brands array from scratch. Keeps the colour/soft palette of
+// the Sonos template (indexed by slot).
+function rewriteDimsBrands(
+  originalBrands: Array<Record<string, unknown>>,
+  newBrands: BrandRef[],
+): Array<Record<string, unknown>> {
+  return newBrands.map((nb, i) => {
+    const base = originalBrands[i] ?? {};
+    return { ...base, id: nb.id, label: nb.label, subject: i === 0 ? true : undefined };
+  });
+}
+
+// Rewrite dims.models to show the user's products for the subject + reasonable
+// competitor product names. Numeric anchors (msrp, street0, launched, tier)
+// are kept from the original Sonos models at the same slot index, so the
 // simulated price lines + launch events still look plausible.
-function rebrandModels(
-  payload: Record<string, unknown>,
-  subjectSlug: string,
-  products: string[],
+function rewriteDimsModels(
+  originalModels: Array<Record<string, unknown>>,
+  idMap: Record<string, string>,
+  subject: BrandRef,
+  competitors: BrandRef[],
+  subjectProducts: string[],
+  competitorProducts: string[][],
+): Array<Record<string, unknown>> {
+  // Group the original models by (new) brand slot
+  const byOldBrand: Record<string, Array<Record<string, unknown>>> = {};
+  for (const m of originalModels) {
+    const b = String(m.brand ?? "");
+    (byOldBrand[b] ??= []).push(m);
+  }
+
+  const out: Array<Record<string, unknown>> = [];
+
+  const emitForBrand = (
+    oldBrand: string,
+    newBrand: BrandRef,
+    products: string[],
+  ) => {
+    const originals = byOldBrand[oldBrand] ?? [];
+    const n = originals.length; // keep same count so the dashboard stays balanced
+    for (let i = 0; i < n; i++) {
+      const base = originals[i];
+      // CRITICAL: keep the ORIGINAL model id. Many downstream sections key
+      // their data by `${modelId}|${retailerId}` (pricing.price, carriage,
+      // sellers, …). Renaming the id orphans every one of those lookups.
+      // Only the LABEL changes — that's what the dashboard shows.
+      const name = products[i] ?? `${newBrand.label} ${i + 1}`;
+      out.push({
+        ...base,
+        label: name,
+        brand: newBrand.id,
+        // keep base.id unchanged
+      });
+    }
+  };
+
+  // Subject brand first (originally "sonos")
+  emitForBrand("sonos", subject, subjectProducts);
+
+  // Each competitor
+  const slots = ["amazon", "apple", "bose", "jbl"];
+  for (let i = 0; i < slots.length; i++) {
+    const comp = competitors[i];
+    const products = competitorProducts[i] ?? [];
+    emitForBrand(slots[i], comp, products);
+  }
+
+  return out;
+}
+
+// Rewrite voice.aspects.aspects (the names of review aspects) when the user
+// supplied category-appropriate ones. Sonos's are speaker-specific (Sound
+// quality, Bass, Battery life). For coolers the admin flow asks Claude for
+// cooler aspects (Ice retention, Capacity, Weight) and passes them here.
+function rewriteReviewAspects(
+  voice: Record<string, unknown> | undefined,
+  reviewAspects: string[] | undefined,
 ): void {
-  const dims = payload.dims as Record<string, unknown> | undefined;
-  if (!dims || !Array.isArray(dims.models)) return;
-  const originalModels = dims.models as Array<Record<string, unknown>>;
-  if (products.length === 0) return;
-
-  // Separate subject models from competitor models. Preserve ratio.
-  const subjectModels = originalModels.filter((m) => m.brand === subjectSlug);
-  const otherModels = originalModels.filter((m) => m.brand !== subjectSlug);
-
-  // Take up to products.length of the subject models and relabel.
-  const relabeled: Array<Record<string, unknown>> = [];
-  const n = Math.min(products.length, subjectModels.length);
-  for (let i = 0; i < n; i++) {
-    const base = subjectModels[i];
-    const name = products[i];
-    relabeled.push({
-      ...base,
-      id: slugify(name),
-      label: name,
-    });
-  }
-  // If user provided more products than the original has subject models, drop
-  // the extras (we'd have no anchor data for them). If fewer, keep original
-  // IDs for the remainder but still mark as subject.
-  for (let i = n; i < subjectModels.length; i++) {
-    relabeled.push(subjectModels[i]);
-  }
-
-  dims.models = [...relabeled, ...otherModels];
+  if (!voice || !reviewAspects || reviewAspects.length === 0) return;
+  const aspects = voice.aspects as Record<string, unknown> | undefined;
+  if (!aspects) return;
+  const originalList = aspects.aspects;
+  if (!Array.isArray(originalList)) return;
+  // Replace the aspect NAMES but keep the aspect scoring arrays.
+  const updated = (originalList as Array<Record<string, unknown>>).map((a, i) => {
+    const newName = reviewAspects[i] ?? reviewAspects[reviewAspects.length - 1] ?? a.label;
+    return { ...a, label: newName };
+  });
+  aspects.aspects = updated;
 }
 
 export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
   if (!payload || typeof payload !== "object") return payload;
+  const p = { ...(payload as Record<string, unknown>) };
 
   const { idMap, labelMap, newBrands } = buildBrandMap(input);
+  const subjectBrand = newBrands[0];
+  const competitors = newBrands.slice(1);
 
-  // Deep-rebrand everything first.
-  const rebranded = rebrandDeep(payload, idMap, labelMap, null) as Record<string, unknown>;
+  // Sections where brand ids are used as object keys. Only these get the key
+  // rename — nothing else is touched, so retailers / engines / cities / metrics
+  // / periods / etc. stay intact.
+  const BRAND_KEY_SECTIONS = [
+    "scorecard",
+    "trend",
+    "pricing",
+    "shelf",
+    "distribution",
+    "availability",
+    "delivery",
+    "voice",
+    "ai",
+    "promotions",
+    "traffic",
+  ] as const;
+  for (const section of BRAND_KEY_SECTIONS) {
+    if (p[section] != null) p[section] = renameBrandKeys(p[section], idMap);
+  }
 
-  // Then overwrite dims.brands with our clean new list (ids + labels + colours
-  // from the Sonos template, re-indexed).
-  const dims = rebranded.dims as Record<string, unknown> | undefined;
-  if (dims && Array.isArray(dims.brands)) {
-    const originalBrands = dims.brands as Array<Record<string, unknown>>;
-    dims.brands = newBrands.map((nb, i) => {
-      const base = originalBrands[i] ?? {};
-      return { ...base, id: nb.id, label: nb.label, subject: i === 0 || undefined };
+  // Sections where brand ids are string VALUES of a `brand` property on each
+  // array element. Discovered by walking the Sonos payload for every path
+  // where a `brand` key exists.
+  if (Array.isArray(p.pdpScores)) p.pdpScores = remapBrandValues(p.pdpScores, idMap);
+  if (Array.isArray(p.tco)) p.tco = remapBrandValues(p.tco, idMap);
+  const availability = p.availability as Record<string, unknown> | undefined;
+  if (availability?.episodes && Array.isArray(availability.episodes)) {
+    availability.episodes = remapBrandValues(availability.episodes, idMap);
+  }
+  const distribution = p.distribution as Record<string, unknown> | undefined;
+  if (distribution?.listings && Array.isArray(distribution.listings)) {
+    distribution.listings = remapBrandValues(distribution.listings, idMap);
+  }
+  const pricingObj = p.pricing as Record<string, unknown> | undefined;
+  if (pricingObj?.dispersion && Array.isArray(pricingObj.dispersion)) {
+    pricingObj.dispersion = remapBrandValues(pricingObj.dispersion, idMap);
+  }
+  if (pricingObj?.mapBreaches && Array.isArray(pricingObj.mapBreaches)) {
+    pricingObj.mapBreaches = remapBrandValues(pricingObj.mapBreaches, idMap);
+  }
+  const promotionsObj = p.promotions as Record<string, unknown> | undefined;
+  if (promotionsObj?.events && Array.isArray(promotionsObj.events)) {
+    promotionsObj.events = remapBrandValues(promotionsObj.events, idMap);
+  }
+
+  // ai.byEngineStage uses compound string keys like "gpt|awareness|sonos" —
+  // the trailing segment is a brand id. Pure key-rename misses these.
+  const aiObj = p.ai as Record<string, unknown> | undefined;
+  if (aiObj?.byEngineStage && typeof aiObj.byEngineStage === "object" && !Array.isArray(aiObj.byEngineStage)) {
+    const src = aiObj.byEngineStage as Record<string, unknown>;
+    const next: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(src)) {
+      const parts = k.split("|");
+      const brand = parts[parts.length - 1];
+      if (idMap[brand]) parts[parts.length - 1] = idMap[brand];
+      next[parts.join("|")] = v;
+    }
+    aiObj.byEngineStage = next;
+  }
+
+  // ai.prompts[].topBrand is a brand VALUE, not a key
+  if (Array.isArray(aiObj?.prompts)) {
+    aiObj.prompts = remapBrandValues(aiObj.prompts, {
+      ...idMap,
+      // Also handle `topBrand` which may be seen as a brand field — the
+      // remapBrandValues function only looks at `brand` currently. Patch
+      // ad-hoc for topBrand.
+    });
+    // Patch topBrand specifically
+    aiObj.prompts = (aiObj.prompts as Array<Record<string, unknown>>).map((row) => {
+      const tb = row.topBrand;
+      if (typeof tb === "string" && idMap[tb]) return { ...row, topBrand: idMap[tb] };
+      return row;
     });
   }
 
-  // Replace model names if products supplied.
-  rebrandModels(rebranded, input.subject.slug, input.products);
-
-  // Ensure meta.subject + subjectLabel reflect the final identity.
-  const meta = rebranded.meta as Record<string, unknown> | undefined;
-  if (meta) {
-    meta.subject = input.subject.slug;
-    meta.subjectLabel = input.subject.name;
+  // Text-level prose replacement across `reads` and ai.prompts[].q — brand
+  // LABEL substitution ("Sonos" → "Yeti", "Amazon Echo" → "RTIC", etc.) +
+  // model-name substitution. Done last so earlier structural changes aren't
+  // disturbed.
+  const textRewrites: Array<[RegExp, string]> = [];
+  for (const [sonosLabel, userLabel] of Object.entries(labelMap)) {
+    textRewrites.push([new RegExp(`\\b${sonosLabel.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`, "g"), userLabel]);
   }
+  // Sonos model names → user product names. Zip the ones we have.
+  const sonosModels = ["Era 100", "Era 300", "Beam (Gen 2)", "Arc Ultra", "Move 2", "Roam 2", "Era 100 SL"];
+  const amazonModels = ["Echo Studio", "Echo Dot Max", "Echo Spot", "Echo Show 8"];
+  const appleModels = ["HomePod (2nd gen)", "HomePod mini"];
+  const boseModels = ["SoundLink Max", "SoundLink Revolve+", "Smart Speaker 500"];
+  const jblModels = ["JBL Charge 5", "JBL Charge 6", "JBL Flip 7", "JBL Xtreme 4"];
+  const addModelRewrites = (sonosList: string[], userProducts: string[]) => {
+    for (let i = 0; i < sonosList.length; i++) {
+      const user = userProducts[i] ?? userProducts[0] ?? "";
+      if (!user) continue;
+      textRewrites.push([new RegExp(sonosList[i].replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "g"), user]);
+    }
+  };
+  addModelRewrites(sonosModels, input.subjectProducts);
+  if (input.competitorProducts[0]) addModelRewrites(amazonModels, input.competitorProducts[0]);
+  if (input.competitorProducts[1]) addModelRewrites(appleModels, input.competitorProducts[1]);
+  if (input.competitorProducts[2]) addModelRewrites(boseModels, input.competitorProducts[2]);
+  if (input.competitorProducts[3]) addModelRewrites(jblModels, input.competitorProducts[3]);
+  // Sort rewrites by original pattern length descending so "Era 100 SL" is
+  // matched before "Era 100" and "Amazon Echo" before "Amazon".
+  textRewrites.sort((a, b) => b[0].source.length - a[0].source.length);
 
-  return rebranded;
+  const rewriteText = (s: string): string => {
+    let out = s;
+    for (const [re, replacement] of textRewrites) out = out.replace(re, replacement);
+    return out;
+  };
+  const walkStrings = (node: unknown): unknown => {
+    if (Array.isArray(node)) return node.map(walkStrings);
+    if (node && typeof node === "object") {
+      const src = node as Record<string, unknown>;
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(src)) out[k] = walkStrings(v);
+      return out;
+    }
+    if (typeof node === "string") return rewriteText(node);
+    return node;
+  };
+  if (p.reads) p.reads = walkStrings(p.reads);
+  if (aiObj?.prompts) aiObj.prompts = walkStrings(aiObj.prompts);
+  // dims.events and dims.stages contain prose like "Sonos Play + Era 100 SL
+  // on shelf" and category-specific question strings. Rewrite those too.
+  const dimsObj = p.dims as Record<string, unknown> | undefined;
+  if (dimsObj?.events) dimsObj.events = walkStrings(dimsObj.events);
+  if (dimsObj?.stages) dimsObj.stages = walkStrings(dimsObj.stages);
+
+  // dims — rewrite only the brand-aware sub-sections.
+  const dims = { ...(p.dims as Record<string, unknown>) };
+  if (Array.isArray(dims.brands)) {
+    dims.brands = rewriteDimsBrands(dims.brands as Array<Record<string, unknown>>, newBrands);
+  }
+  if (Array.isArray(dims.models)) {
+    dims.models = rewriteDimsModels(
+      dims.models as Array<Record<string, unknown>>,
+      idMap,
+      subjectBrand,
+      competitors,
+      input.subjectProducts,
+      input.competitorProducts,
+    );
+  }
+  p.dims = dims;
+
+  // Review aspects
+  rewriteReviewAspects(p.voice as Record<string, unknown> | undefined, input.reviewAspects);
+
+  // meta.subject + subjectLabel
+  const meta = { ...(p.meta as Record<string, unknown>) };
+  meta.subject = subjectBrand.id;
+  meta.subjectLabel = subjectBrand.label;
+  p.meta = meta;
+
+  return p;
 }

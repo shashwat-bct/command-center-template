@@ -12,3 +12,7 @@ Dockerfile*
 *.log
 AGENTS.md
 CLAUDE.md
+
+# Local test scripts
+test-verify.mjs
+test-rebrand-local.mjs
