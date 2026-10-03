@@ -84,6 +84,20 @@ const prepRow = <T extends Record<string, unknown>>(row: T): Record<string, unkn
   return out;
 };
 
+// BigQuery returns our JSON columns as strings (we store them as serialised
+// strings for the streaming-insert API). Inflate them back to objects/arrays
+// so the API response is immediately usable client-side.
+function inflateJsonFields<T extends Record<string, unknown>>(row: T): T {
+  const out = { ...row };
+  for (const k of JSON_FIELDS) {
+    const v = (out as Record<string, unknown>)[k];
+    if (typeof v === "string" && v.length > 0) {
+      try { (out as Record<string, unknown>)[k] = JSON.parse(v); } catch { /* leave as-is */ }
+    }
+  }
+  return out;
+}
+
 export async function insertBuild(row: Omit<BuildRow, "created_at" | "updated_at"> & { steps?: BuildStep[]; options?: BuildOptions | null }) {
   const createdAt = now();
   const r = prepRow({ ...row, steps: row.steps ?? null, options: row.options ?? null, created_at: createdAt, updated_at: createdAt });
@@ -121,7 +135,8 @@ export async function getLatestBuild(build_id: string): Promise<BuildRow | null>
             LIMIT 1`,
     params: { build_id },
   });
-  return (rows[0] as BuildRow) ?? null;
+  const row = rows[0] as BuildRow | undefined;
+  return row ? inflateJsonFields(row) : null;
 }
 
 export async function listLatestBuildsPerBrand(limit = 50): Promise<BuildRow[]> {
@@ -138,7 +153,7 @@ export async function listLatestBuildsPerBrand(limit = 50): Promise<BuildRow[]> 
             LIMIT @lim`,
     params: { lim: limit },
   });
-  return rows as BuildRow[];
+  return (rows as BuildRow[]).map(inflateJsonFields);
 }
 
 export async function listLatestReadyBuildPerBrand(): Promise<Record<string, BuildRow>> {
@@ -158,7 +173,7 @@ export async function listLatestReadyBuildPerBrand(): Promise<Record<string, Bui
             SELECT * EXCEPT(rn) FROM ranked WHERE rn = 1`,
   });
   const out: Record<string, BuildRow> = {};
-  for (const r of rows as BuildRow[]) out[r.brand_slug] = r;
+  for (const r of (rows as BuildRow[]).map(inflateJsonFields)) out[r.brand_slug] = r;
   return out;
 }
 
@@ -180,7 +195,8 @@ export async function getBrand(slug: string): Promise<BrandRow | null> {
             LIMIT 1`,
     params: { slug },
   });
-  return (rows[0] as BrandRow) ?? null;
+  const row = rows[0] as BrandRow | undefined;
+  return row ? inflateJsonFields(row) : null;
 }
 
 export async function listBrands(): Promise<BrandRow[]> {
@@ -193,5 +209,5 @@ export async function listBrands(): Promise<BrandRow[]> {
             )
             SELECT * FROM latest ORDER BY created_at DESC`,
   });
-  return rows as BrandRow[];
+  return (rows as BrandRow[]).map(inflateJsonFields);
 }

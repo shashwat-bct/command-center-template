@@ -118,7 +118,7 @@ export default function AdminPage() {
             </Field>
             <Field label="Slug" hint="URL-safe id. Auto-filled.">
               <input
-                type="text" required autoComplete="off" pattern="[a-z0-9-]+"
+                type="text" required autoComplete="off" pattern="[-a-z0-9]+"
                 placeholder="dyson"
                 value={slug}
                 onChange={(e) => onSlugChange(e.target.value)}
