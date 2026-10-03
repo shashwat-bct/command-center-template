@@ -48,6 +48,28 @@ function countMentions(text: string, brand: string): number {
   return (text.match(rx) ?? []).length;
 }
 
+// Short Claude call to list a brand's top products in a category, used when
+// the admin didn't type any product names and we still want the dashboard's
+// model table to show real-looking entries instead of Era 100 / Beam Gen 2.
+export async function fetchProductNames(brand: string, category: string, count = 6): Promise<string[]> {
+  const user = `List ${count} flagship product names from ${brand} in the ${category} category. Just the product names, one per line, no explanations, no numbering. Example format:\nHero 12 Black\nMax\nHero 11 Black`;
+  try {
+    const text = await callLLM({
+      system: "You are a product-knowledge assistant. Reply with just the product names, nothing else.",
+      user,
+      maxTokens: 200,
+      temperature: 0.3,
+    });
+    return text
+      .split("\n")
+      .map((s) => s.replace(/^[-\d.*\s]+/, "").trim())
+      .filter((s) => s.length > 0 && s.length < 60)
+      .slice(0, count);
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchAiShareOfMind(input: AiSoMInput): Promise<AiSoMResult> {
   const n = Math.min(input.questionCount ?? 8, QUESTION_TEMPLATES.length);
   const questions = QUESTION_TEMPLATES.slice(0, n).map((t) => t.replace("{CAT}", input.category));

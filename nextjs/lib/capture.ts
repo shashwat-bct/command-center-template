@@ -17,9 +17,10 @@ import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
 import { uploadLog, uploadPayload } from "./gcs";
 import { fetchKeepaBrand, fetchKeepaSearch } from "./keepa";
-import { fetchAiShareOfMind, type AiSoMResult } from "./ai-visibility";
+import { fetchAiShareOfMind, fetchProductNames, type AiSoMResult } from "./ai-visibility";
 import { fetchApifyAmazon, type ApifyAmazonAggregate } from "./apify";
 import { overrideSubject } from "./launch-override";
+import { rebrandPayload } from "./rebrand";
 
 // Brands whose config + captures are vendored into the image. These run their
 // own simulation builder with their own numbers.
@@ -190,6 +191,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     ...(willHitAI ? [{ name: "ai-visibility", status: "pending" as const }] : []),
     { name: "builder", status: "pending" },
     ...(relabel ? [{ name: "relabel", status: "pending" as const }] : []),
+    ...(relabel ? [{ name: "rebrand", status: "pending" as const }] : []),
     { name: "upload", status: "pending" },
   ];
   const logChunks: string[] = [];
@@ -441,6 +443,36 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     delete data.meta.brandMark;
     payloadJson = JSON.stringify(data);
     await setStep("relabel", { status: "done", duration_ms: Date.now() - relStart });
+  }
+
+  // --- rebrand step (replace Sonos competitor set + model catalogue) -------
+  if (relabel) {
+    await setStep("rebrand", { status: "running", started_at: new Date().toISOString() });
+    const rStart = Date.now();
+    try {
+      // Use user-provided product names if available; else ask Claude for 6.
+      let productNames = products;
+      if (productNames.length === 0 && aiCategory) {
+        logLine(`asking Claude for ${name}'s top product names in "${aiCategory}"`);
+        productNames = await fetchProductNames(name, aiCategory, 6);
+        logLine(`Claude suggested products: ${productNames.join(", ") || "(none)"}`);
+      }
+      const data = JSON.parse(payloadJson) as unknown;
+      const rebranded = rebrandPayload(data, {
+        subject: { name, slug },
+        competitors: aiCompetitors,
+        products: productNames,
+      });
+      payloadJson = JSON.stringify(rebranded);
+      logLine(
+        `rebranded payload: subject "${name}" (${slug}), competitors [${aiCompetitors.join(", ") || "(none)"}], ${productNames.length} products`,
+      );
+      await setStep("rebrand", { status: "done", duration_ms: Date.now() - rStart });
+    } catch (e) {
+      const err = (e as Error).message;
+      logLine(`rebrand step failed: ${err} — uploading un-rebranded payload`);
+      await setStep("rebrand", { status: "done", duration_ms: Date.now() - rStart, error: err });
+    }
   }
 
   // --- upload step ---------------------------------------------------------
