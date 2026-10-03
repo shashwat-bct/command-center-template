@@ -104,7 +104,7 @@ export default function AdminPage() {
         Type a brand + category and the backend auto-discovers top products on Amazon, fetches real pricing from Keepa, live listings from Apify, and AI share-of-mind from Claude. ~90s end-to-end.
       </p>
 
-      <form onSubmit={submit} className="mt-9">
+      <form onSubmit={submit} className="mt-9" autoComplete="off" data-form-type="other">
         <Section title="Brand">
           <div className="grid grid-cols-2 gap-4">
             <Field label="Brand name">
@@ -130,7 +130,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 gap-4">
             <Field label="Brand link" hint="Where the brand lives online.">
               <input
-                type="url" autoComplete="off"
+                type="url" autoComplete="off" name="brand-link-opaque" data-lpignore="true" data-1p-ignore="true"
                 placeholder="https://dyson.com"
                 value={brandLink}
                 onChange={(e) => setBrandLink(e.target.value)}
@@ -190,7 +190,7 @@ export default function AdminPage() {
               hint="What this brand sells. Drives Keepa product discovery + Claude's shopper questions."
             >
               <input
-                type="text" required
+                type="text" required autoComplete="off" name="ai-category-opaque" data-lpignore="true" data-1p-ignore="true"
                 placeholder="cordless vacuum"
                 value={aiCategory}
                 onChange={(e) => setAiCategory(e.target.value)}
@@ -199,7 +199,7 @@ export default function AdminPage() {
             </Field>
             <Field label="Competitor brands" hint="Comma-separated. Counted in Claude's AI share-of-mind.">
               <input
-                type="text"
+                type="text" autoComplete="off" name="ai-competitors-opaque" data-lpignore="true" data-1p-ignore="true"
                 placeholder="Shark, Miele, Bissell"
                 value={aiCompetitorsRaw}
                 onChange={(e) => setAiCompetitorsRaw(e.target.value)}
