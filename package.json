@@ -1,14 +1,30 @@
 {
-  "name": "command-center-template",
-  "version": "0.2.0",
+  "name": "nextjs",
+  "version": "0.1.0",
   "private": true,
-  "description": "Standalone static template of the Atlas Commercial Command Center dashboard, with a bridge to the bravo-platform build pipeline.",
   "scripts": {
-    "dev": "npx --yes serve -l 4321 .",
-    "start": "npx --yes serve -l 4321 .",
-    "build": "node --env-file-if-exists=.env.local scripts/build-brand.mjs",
-    "build:sonos": "node --env-file-if-exists=.env.local scripts/build-brand.mjs --brand sonos",
-    "build:sony": "node --env-file-if-exists=.env.local scripts/build-brand.mjs --brand sony",
-    "build:shark": "node --env-file-if-exists=.env.local scripts/build-brand.mjs --brand shark"
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "test:relabel": "tsx scripts/verify-relabel.ts"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^9.1.0",
+    "@google-cloud/storage": "^8.2.0",
+    "firebase": "^12.19.0",
+    "nanoid": "^6.0.1",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
   }
 }
