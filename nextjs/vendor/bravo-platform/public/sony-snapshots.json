@@ -1,0 +1,5642 @@
+{
+ "instance": "sony",
+ "subject": "sony",
+ "builtAt": "2026-09-21T17:15:57.124Z",
+ "lanes": [
+  {
+   "id": "shelf",
+   "label": "Retail shelf",
+   "pages": [
+    "shelf"
+   ],
+   "what": "Page-1 search results; the subject brand's listings outlined and numbered.",
+   "n": 6
+  },
+  {
+   "id": "landing",
+   "label": "Landing page",
+   "pages": [
+    "landing",
+    "carriage"
+   ],
+   "what": "The product page as a shopper meets it: title, rating, price, delivery and stock marked.",
+   "n": 15
+  },
+  {
+   "id": "pricing",
+   "label": "Pricing",
+   "pages": [
+    "pricing",
+    "tco"
+   ],
+   "what": "The price the buy box printed, and any reference price beside it.",
+   "n": 13
+  },
+  {
+   "id": "promotions",
+   "label": "Promotions",
+   "pages": [
+    "promotions",
+    "calendar",
+    "strategy"
+   ],
+   "what": "Every offer the page showed on load — discounts, card offers, protection plans, bundles.",
+   "n": 13
+  },
+  {
+   "id": "stock",
+   "label": "Availability",
+   "pages": [
+    "stock"
+   ],
+   "what": "The stock line the buy box printed.",
+   "n": 11
+  },
+  {
+   "id": "delivery",
+   "label": "Delivery",
+   "pages": [
+    "delivery"
+   ],
+   "what": "The delivery promise printed for the requested zip, and the six-city probe.",
+   "n": 41
+  },
+  {
+   "id": "reviews",
+   "label": "Reviews",
+   "pages": [
+    "voice"
+   ],
+   "what": "Verified owner reviews with the rating and the mentioned aspects marked.",
+   "n": 2
+  }
+ ],
+ "retailers": [
+  {
+   "id": "amazon",
+   "label": "Amazon",
+   "n": 101
+  }
+ ],
+ "brands": [
+  {
+   "id": "sony",
+   "label": "Sony",
+   "n": 40
+  },
+  {
+   "id": "samsung",
+   "label": "Samsung",
+   "n": 25
+  },
+  {
+   "id": "lg",
+   "label": "LG",
+   "n": 23
+  },
+  {
+   "id": "tcl",
+   "label": "TCL",
+   "n": 13
+  }
+ ],
+ "dates": [
+  {
+   "id": "2026-08-29",
+   "n": 4
+  },
+  {
+   "id": "2026-08-13",
+   "n": 94
+  },
+  {
+   "id": "2026-07-16",
+   "n": 3
+  }
+ ],
+ "products": [
+  {
+   "id": "\"4k tv\"",
+   "n": 2
+  },
+  {
+   "id": "\"65 inch tv\"",
+   "n": 1
+  },
+  {
+   "id": "\"mini led tv\"",
+   "n": 1
+  },
+  {
+   "id": "\"oled tv\"",
+   "n": 2
+  },
+  {
+   "id": "BRAVIA 2 II 43\"",
+   "n": 5
+  },
+  {
+   "id": "BRAVIA 2 II 55\"",
+   "n": 5
+  },
+  {
+   "id": "BRAVIA 3 65\"",
+   "n": 5
+  },
+  {
+   "id": "BRAVIA 8 II",
+   "n": 1
+  },
+  {
+   "id": "BRAVIA 8 II 65\"",
+   "n": 10
+  },
+  {
+   "id": "BRAVIA 9 65\"",
+   "n": 8
+  },
+  {
+   "id": "C5 OLED 65\"",
+   "n": 13
+  },
+  {
+   "id": "G5 OLED 65\"",
+   "n": 10
+  },
+  {
+   "id": "OLED S95F",
+   "n": 1
+  },
+  {
+   "id": "OLED S95F 65\"",
+   "n": 1
+  },
+  {
+   "id": "Q65 55\"",
+   "n": 4
+  },
+  {
+   "id": "QM8K 65\"",
+   "n": 9
+  },
+  {
+   "id": "QN80H 65\"",
+   "n": 8
+  },
+  {
+   "id": "S90H OLED 65\"",
+   "n": 10
+  },
+  {
+   "id": "U8000F 43\"",
+   "n": 5
+  }
+ ],
+ "marks": 245,
+ "sources": [
+  {
+   "file": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "method": "retailer product pages, one visit each (Apify puppeteer-scraper, US residential). No clicks — only what the page shows on load.",
+   "n": 7,
+   "lanes": [
+    "landing",
+    "pricing",
+    "promotions",
+    "stock",
+    "delivery"
+   ]
+  },
+  {
+   "file": "data/pdp-promo/sony-multiretailer.json",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "method": "retailer product pages, one visit each (Apify puppeteer-scraper, US residential). No clicks — only what the page shows on load.",
+   "n": 8,
+   "lanes": [
+    "landing",
+    "pricing",
+    "promotions",
+    "stock",
+    "delivery"
+   ]
+  },
+  {
+   "file": "data/shelf-multi/sonyrgb.json",
+   "capturedAt": "2026-08-13T18:20:33.687Z",
+   "method": "Page-1 search results per term and retailer (Apify, US residential); the subject brand's cards outlined and numbered in the page before the screenshot.",
+   "n": 3,
+   "lanes": [
+    "shelf"
+   ]
+  },
+  {
+   "file": "data/insights-dummy-sony/retail-sov.json",
+   "capturedAt": "2026-07-16",
+   "method": "live Amazon page-1 capture (annotated)",
+   "n": 3,
+   "lanes": [
+    "shelf"
+   ]
+  },
+  {
+   "file": "data/delivery-cities/sonyrgb.json",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "method": "Delivery promise read per product in 6 cities, with the zip set in the page first. A delivery promise is only a data point if the page PRINTED the zip we requested. verified:false rows never enter the heatmap.",
+   "n": 39,
+   "lanes": [
+    "delivery"
+   ]
+  },
+  {
+   "file": "data/insights-dummy-braviapp/evidence-manifest.json",
+   "capturedAt": "2026-08-29T11:43:53.351Z",
+   "method": "amazon.com (US, residential cloud browser)",
+   "n": 4,
+   "lanes": [
+    "landing",
+    "reviews"
+   ]
+  }
+ ],
+ "dropped": [
+  "amazon-q7f: buy box read $44.99 — the captured page is not the named television",
+  "amazon-c5-55: buy box on this visit was a used offer — its delivery and stock lines are not the product's",
+  "amazon-q65-55: rects rebased 60px down (clip filed before the top banner loaded)",
+  "amazon-brav2-43: rects rebased 60px down (clip filed before the top banner loaded)",
+  "amazon|4k tv: capture numbered 1 card(s), 0 outline(s) read back within the 5200px saved crop",
+  "amazon|oled tv: capture numbered 3 card(s), 2 outline(s) read back within the 5200px saved crop",
+  "b9-65/60601: saved crop is the store header or title, not the promise line — not shown",
+  "qn80h-65/60601: saved crop is the store header or title, not the promise line — not shown",
+  "s90h-65/60601: saved crop is the store header or title, not the promise line — not shown",
+  "g5-65/60601: saved crop is the store header or title, not the promise line — not shown",
+  "c5rgb-65/60601: saved crop is the store header or title, not the promise line — not shown",
+  "qm8k-65/60601: saved crop is the store header or title, not the promise line — not shown",
+  "b9-65/77002: saved crop is the store header or title, not the promise line — not shown",
+  "b8ii-65/77002: saved crop is the store header or title, not the promise line — not shown",
+  "qn80h-65/77002: saved crop is the store header or title, not the promise line — not shown",
+  "c5rgb-65/77002: saved crop is the store header or title, not the promise line — not shown",
+  "qm8k-65/77002: saved crop is the store header or title, not the promise line — not shown"
+ ],
+ "entries": [
+  {
+   "id": "landing|bravia-8-ii-65|2026-08-29",
+   "lane": "landing",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "date": "2026-08-29",
+   "capturedAt": "2026-08-29T11:43:53.351Z",
+   "img": "/evidence/braviapp/pdp-B0DYK7Y2YB-annot.jpg",
+   "source": "data/insights-dummy-braviapp/evidence-manifest.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 451,
+     "y": 69,
+     "w": 154,
+     "h": 33,
+     "kind": "outline",
+     "label": "Rating"
+    },
+    {
+     "x": 451,
+     "y": 257,
+     "w": 447,
+     "h": 187,
+     "kind": "outline",
+     "label": "The delivery / returns / support terms buyers see at purchase"
+    }
+   ],
+   "bakedNote": "The numbered red marks were drawn onto the capture by the study's annotation step; the caption says what they point at, and the boxes here are those marks read back off the image.",
+   "read": "Rating and the delivery / returns / support terms buyers see at purchase.",
+   "extra": "Amazon · product page",
+   "w": 900,
+   "h": 1500,
+   "focus": {
+    "x": 260,
+    "y": 17,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-bravia-8-ii-65-2026-08-29.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "landing|oled-s95f-65|2026-08-29",
+   "lane": "landing",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "OLED S95F 65\"",
+   "date": "2026-08-29",
+   "capturedAt": "2026-08-29T11:43:53.351Z",
+   "img": "/evidence/braviapp/pdp-B0DXMJFJ7W-annot.jpg",
+   "source": "data/insights-dummy-braviapp/evidence-manifest.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 451,
+     "y": 158,
+     "w": 152,
+     "h": 34,
+     "kind": "outline",
+     "label": "Rating"
+    },
+    {
+     "x": 451,
+     "y": 241,
+     "w": 447,
+     "h": 192,
+     "kind": "outline",
+     "label": "The delivery / returns / support terms buyers see at purchase"
+    }
+   ],
+   "bakedNote": "The numbered red marks were drawn onto the capture by the study's annotation step; the caption says what they point at, and the boxes here are those marks read back off the image.",
+   "read": "Rating and the delivery / returns / support terms buyers see at purchase.",
+   "extra": "Amazon · product page",
+   "w": 900,
+   "h": 1500,
+   "focus": {
+    "x": 260,
+    "y": 56,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-oled-s95f-65-2026-08-29.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "reviews|bravia-8-ii|2026-08-29",
+   "lane": "reviews",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II",
+   "date": "2026-08-29",
+   "capturedAt": "2026-08-29T11:43:53.351Z",
+   "img": "/evidence/braviapp/reviews-B0DYK7Y2YB-annot.jpg",
+   "source": "data/insights-dummy-braviapp/evidence-manifest.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 1,
+     "y": 43,
+     "w": 200,
+     "h": 143,
+     "kind": "outline",
+     "label": "The 4.3★ rating"
+    },
+    {
+     "x": 267,
+     "y": 138,
+     "w": 478,
+     "h": 55,
+     "kind": "outline",
+     "label": "The owner-mentioned aspects"
+    },
+    {
+     "x": 277,
+     "y": 1265,
+     "w": 464,
+     "h": 191,
+     "kind": "outline",
+     "label": "A verified warranty complaint"
+    }
+   ],
+   "bakedNote": "The numbered red marks were drawn onto the capture by the study's annotation step; the caption says what they point at, and the boxes here are those marks read back off the image.",
+   "read": "The 4.3★ rating, the owner-mentioned aspects, and a verified warranty complaint",
+   "extra": "Amazon · verified owner reviews",
+   "w": 900,
+   "h": 1850,
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 840,
+    "h": 630
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/reviews-bravia-8-ii-2026-08-29.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "id": "reviews|oled-s95f|2026-08-29",
+   "lane": "reviews",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "OLED S95F",
+   "date": "2026-08-29",
+   "capturedAt": "2026-08-29T11:43:53.351Z",
+   "img": "/evidence/braviapp/reviews-B0DXMJFJ7W-annot.jpg",
+   "source": "data/insights-dummy-braviapp/evidence-manifest.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 1,
+     "y": 5,
+     "w": 199,
+     "h": 144,
+     "kind": "outline",
+     "label": "The 4.4★ rating"
+    },
+    {
+     "x": 275,
+     "y": 131,
+     "w": 384,
+     "h": 51,
+     "kind": "outline",
+     "label": "Owner-mentioned aspects"
+    },
+    {
+     "x": 277,
+     "y": 1214,
+     "w": 462,
+     "h": 213,
+     "kind": "outline",
+     "label": "A verified software/casting complaint"
+    }
+   ],
+   "bakedNote": "The numbered red marks were drawn onto the capture by the study's annotation step; the caption says what they point at, and the boxes here are those marks read back off the image.",
+   "read": "The 4.4★ rating, owner-mentioned aspects, and a verified software/casting complaint",
+   "extra": "Amazon · verified owner reviews",
+   "w": 900,
+   "h": 1850,
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 754,
+    "h": 566
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/reviews-oled-s95f-2026-08-29.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "id": "shelf|amazon|mini led tv|2026-08-13",
+   "lane": "shelf",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "\"mini led tv\"",
+   "term": "mini led tv",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T18:20:33.687Z",
+   "img": "/evidence/sonyrgb-shelf/amazon-mini-led-tv.jpg",
+   "source": "data/shelf-multi/sonyrgb.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 7,
+     "y": 4101,
+     "w": 1229,
+     "h": 226,
+     "kind": "outline",
+     "label": "Sony listing #1"
+    }
+   ],
+   "bakedNote": "The Sony listings on page 1 were outlined in red and numbered in the page by the capture itself, so what is marked is what was counted; the numbered boxes here are those outlines read back off the image.",
+   "read": "1 Sony listing on page 1 for \"mini led tv\"",
+   "url": "https://www.amazon.com/s?k=mini%20led%20tv",
+   "extra": "Mean page-1 share across the run's three passes: Sony 13% · Samsung 45% · LG 25% · TCL 0%",
+   "w": 1243,
+   "h": 5200,
+   "focus": {
+    "x": 0,
+    "y": 3717,
+    "w": 1243,
+    "h": 994
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/shelf-amazon-mini-led-tv-2026-08-13.jpg",
+    "w": 720,
+    "h": 576
+   }
+  },
+  {
+   "id": "shelf|amazon|oled tv|2026-08-13",
+   "lane": "shelf",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "\"oled tv\"",
+   "term": "oled tv",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T18:20:33.687Z",
+   "img": "/evidence/sonyrgb-shelf/amazon-oled-tv.jpg",
+   "source": "data/shelf-multi/sonyrgb.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 7,
+     "y": 1177,
+     "w": 1229,
+     "h": 240,
+     "kind": "outline",
+     "label": "Sony listing #1"
+    },
+    {
+     "x": 7,
+     "y": 3888,
+     "w": 1229,
+     "h": 274,
+     "kind": "outline",
+     "label": "Sony listing #2"
+    }
+   ],
+   "bakedNote": "The Sony listings on page 1 were outlined in red and numbered in the page by the capture itself, so what is marked is what was counted; the numbered boxes here are those outlines read back off the image. The saved screenshot stops at 5200px, and one outlined card sits below that line.",
+   "read": "3 Sony listings counted on page 1 for \"oled tv\" — 2 within the saved crop",
+   "url": "https://www.amazon.com/s?k=oled%20tv",
+   "extra": "Mean page-1 share across the run's three passes: Sony 13% · Samsung 45% · LG 25% · TCL 0%",
+   "w": 1243,
+   "h": 5200,
+   "focus": {
+    "x": 0,
+    "y": 800,
+    "w": 1243,
+    "h": 994
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/shelf-amazon-oled-tv-2026-08-13.jpg",
+    "w": 720,
+    "h": 576
+   }
+  },
+  {
+   "id": "shelf|amazon|4k tv|2026-08-13",
+   "lane": "shelf",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "\"4k tv\"",
+   "term": "4k tv",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T18:20:33.687Z",
+   "img": "/evidence/sonyrgb-shelf/amazon-4k-tv.jpg",
+   "source": "data/shelf-multi/sonyrgb.json",
+   "baked": true,
+   "boxes": [],
+   "bakedNote": "The Sony listings on page 1 were outlined in red and numbered in the page by the capture itself, so what is marked is what was counted; the numbered boxes here are those outlines read back off the image. The saved screenshot stops at 5200px, and one outlined card sits below that line.",
+   "read": "1 Sony listing counted on page 1 for \"4k tv\" — the outlined card lies beyond the saved crop",
+   "url": "https://www.amazon.com/s?k=4k%20tv",
+   "extra": "Mean page-1 share across the run's three passes: Sony 13% · Samsung 45% · LG 25% · TCL 0%",
+   "w": 1243,
+   "h": 5200,
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 1243,
+    "h": 932
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/shelf-amazon-4k-tv-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 43\"",
+   "asin": "amazon-brav2-43",
+   "sku": "brav2-43",
+   "title": "Sony 43 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-43S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-43S20M2/dp/B0DYKBNW89/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-43.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-brav2-43|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 217,
+     "w": 661,
+     "h": 92,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 318,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.2 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 316,
+     "w": 29,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 637"
+    },
+    {
+     "x": 1257,
+     "y": 382,
+     "w": 79,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $399.99"
+    },
+    {
+     "x": 1257,
+     "y": 430,
+     "w": 196,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Tuesday, August 18"
+    },
+    {
+     "x": 1257,
+     "y": 535,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "Stock · In Stock"
+    }
+   ],
+   "read": "4.2 out of 5 stars · 637 ratings · $399.99 · FREE delivery Tuesday, August 18 · In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 496,
+    "y": 11,
+    "w": 1004,
+    "h": 753
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-brav2-43-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 55\"",
+   "asin": "amazon-brav2-55",
+   "sku": "brav2-55",
+   "title": "Sony 55 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-55S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-55S20M2/dp/B0DYKCTM3Y/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-brav2-55|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 157,
+     "w": 661,
+     "h": 92,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 258,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.2 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 256,
+     "w": 29,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 637"
+    },
+    {
+     "x": 1257,
+     "y": 295,
+     "w": 105,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $599.99"
+    },
+    {
+     "x": 1257,
+     "y": 340,
+     "w": 196,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Tuesday, August 18"
+    },
+    {
+     "x": 1257,
+     "y": 517,
+     "w": 197,
+     "h": 37,
+     "kind": "stock",
+     "label": "Stock · Only 20 left in stock (more on the way)"
+    }
+   ],
+   "read": "4.2 out of 5 stars · 637 ratings · $599.99 · FREE delivery Tuesday, August 18 · Only 20 left in stock (more on the way)",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 495,
+    "y": 0,
+    "w": 1005,
+    "h": 754
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-brav2-55-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 3 65\"",
+   "asin": "amazon-brav3-65",
+   "sku": "brav3-65",
+   "title": "Sony 65 Inch BRAVIA 3 LED 4K HDR Smart Google TV (K-65S30) | Dolby Vision/Atmos, Exclusive Features for PlayStation®5,…",
+   "url": "https://www.amazon.com/Sony-BRAVIA-Smart-Google-K-65S30/dp/B0CVPMF4HQ/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav3-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-brav3-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 157,
+     "w": 621,
+     "h": 124,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 290,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.3 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 288,
+     "w": 39,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 1,544"
+    },
+    {
+     "x": 1257,
+     "y": 295,
+     "w": 105,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $799.99"
+    },
+    {
+     "x": 1257,
+     "y": 340,
+     "w": 196,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Tuesday, August 18"
+    },
+    {
+     "x": 1257,
+     "y": 517,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "Stock · In Stock"
+    }
+   ],
+   "read": "4.3 out of 5 stars · 1,544 ratings · $799.99 · FREE delivery Tuesday, August 18 · In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 496,
+    "y": 0,
+    "w": 1004,
+    "h": 753
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-brav3-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "amazon-b8ii-65",
+   "sku": "b8ii-65",
+   "title": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Process…",
+   "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-b8ii-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 157,
+     "w": 660,
+     "h": 124,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 290,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.4 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 288,
+     "w": 29,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 196"
+    },
+    {
+     "x": 1257,
+     "y": 150,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $3,298.00"
+    },
+    {
+     "x": 1257,
+     "y": 198,
+     "w": 201,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Saturday, August 15"
+    },
+    {
+     "x": 1257,
+     "y": 323,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "Stock · In Stock"
+    }
+   ],
+   "read": "4.4 out of 5 stars · 196 ratings · $3,298.00 · FREE delivery Saturday, August 15 · In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 491,
+    "y": 0,
+    "w": 1009,
+    "h": 757
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-b8ii-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "amazon-b9-65",
+   "sku": "b9-65",
+   "title": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-b9-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 187,
+     "w": 642,
+     "h": 123,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 321,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.4 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 319,
+     "w": 28,
+     "h": 14,
+     "kind": "rating",
+     "label": "Ratings · 210"
+    },
+    {
+     "x": 1257,
+     "y": 178,
+     "w": 93,
+     "h": 24,
+     "kind": "price",
+     "label": "Price · $2,798.00"
+    },
+    {
+     "x": 1257,
+     "y": 228,
+     "w": 156,
+     "h": 36,
+     "kind": "delivery",
+     "label": "Delivery · Saturday, August 15"
+    },
+    {
+     "x": 1257,
+     "y": 353,
+     "w": 173,
+     "h": 36,
+     "kind": "stock",
+     "label": "Stock · Only 2 left in stock - order soon"
+    }
+   ],
+   "read": "4.4 out of 5 stars · 210 ratings · $2,798.00 · FREE delivery Saturday, August 15 · Only 2 left in stock - order soon",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 497,
+    "y": 0,
+    "w": 981,
+    "h": 736
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-b9-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5rgb-65",
+   "sku": "c5rgb-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-c5rgb-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 195,
+     "w": 664,
+     "h": 124,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 328,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.4 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 326,
+     "w": 39,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 1,491"
+    },
+    {
+     "x": 1257,
+     "y": 153,
+     "w": 129,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $1,499.99"
+    },
+    {
+     "x": 1257,
+     "y": 250,
+     "w": 203,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · August 17 - 20"
+    },
+    {
+     "x": 1257,
+     "y": 375,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "Stock · In Stock"
+    }
+   ],
+   "read": "4.4 out of 5 stars · 1,491 ratings · $1,499.99 · FREE delivery August 17 - 20 · In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 489,
+    "y": 0,
+    "w": 1011,
+    "h": 758
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-c5rgb-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5-65",
+   "sku": "c5-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-c5-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-c5-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 165,
+     "w": 664,
+     "h": 124,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 298,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.4 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 296,
+     "w": 39,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 1,489"
+    },
+    {
+     "x": 1257,
+     "y": 150,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $1,499.99"
+    },
+    {
+     "x": 1257,
+     "y": 198,
+     "w": 168,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Wednesday, August 19"
+    }
+   ],
+   "read": "4.4 out of 5 stars · 1,489 ratings · $1,499.99 · FREE delivery Wednesday, August 19",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 497,
+    "y": 0,
+    "w": 976,
+    "h": 732
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-c5-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "amazon-g5-65",
+   "sku": "g5-65",
+   "title": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Or…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-g5-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 195,
+     "w": 646,
+     "h": 92,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 296,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.5 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 294,
+     "w": 29,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 305"
+    },
+    {
+     "x": 1257,
+     "y": 180,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $2,299.99"
+    },
+    {
+     "x": 1350,
+     "y": 925,
+     "w": 96,
+     "h": 17,
+     "kind": "delivery",
+     "label": "Delivery · August 18 - 20"
+    },
+    {
+     "x": 1257,
+     "y": 353,
+     "w": 197,
+     "h": 37,
+     "kind": "stock",
+     "label": "Stock · Only 11 left in stock (more on the way)"
+    }
+   ],
+   "read": "4.5 out of 5 stars · 305 ratings · $2,299.99 · FREE delivery August 18 - 20 · Only 11 left in stock (more on the way)",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 356,
+    "y": 132,
+    "w": 1144,
+    "h": 858
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-g5-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "Q65 55\"",
+   "asin": "amazon-q65-55",
+   "sku": "q65-55",
+   "title": "TCL 55-Inch Q65 QLED 4K UHD Smart TV with Google TV (55Q651G, 2024 Model) S45H S Class 2.0 Channel Sound Bar with Dolby…",
+   "url": "https://www.amazon.com/TCL-55-Inch-Google-55Q651G-Channel/dp/B0DDV28YG6/ref=sr_1_10",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-q65-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-q65-55|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 169,
+     "w": 664,
+     "h": 92,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 290,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 5.0 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 288,
+     "w": 15,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 1"
+    },
+    {
+     "x": 1257,
+     "y": 183,
+     "w": 105,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $417.99"
+    },
+    {
+     "x": 1313,
+     "y": 228,
+     "w": 96,
+     "h": 17,
+     "kind": "delivery",
+     "label": "Delivery · August 26 - 28"
+    }
+   ],
+   "read": "5.0 out of 5 stars · 1 rating · $417.99 · Delivery August 26 - 28",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 497,
+    "y": 0,
+    "w": 960,
+    "h": 720
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-q65-55-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "amazon-qm8k-65",
+   "sku": "qm8k-65",
+   "title": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound…",
+   "url": "https://www.amazon.com/TCL-65-Inch-QD-Mini-Google-Channel/dp/B0FJLGCJ6G/ref=sr_1_6",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qm8k-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-qm8k-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 139,
+     "w": 665,
+     "h": 92,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 1257,
+     "y": 153,
+     "w": 129,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $1,197.98"
+    },
+    {
+     "x": 1313,
+     "y": 198,
+     "w": 127,
+     "h": 17,
+     "kind": "delivery",
+     "label": "Delivery · Tuesday, August 18"
+    },
+    {
+     "x": 1257,
+     "y": 303,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "Stock · In Stock"
+    }
+   ],
+   "read": "$1,197.98 · FREE delivery Tuesday, August 18 · In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 497,
+    "y": 0,
+    "w": 991,
+    "h": 743
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-qm8k-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "amazon-qn80h-65",
+   "sku": "qn80h-65",
+   "title": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Ar…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-qn80h-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 154,
+     "w": 648,
+     "h": 124,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 287,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.3 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 285,
+     "w": 22,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 40"
+    },
+    {
+     "x": 1257,
+     "y": 123,
+     "w": 129,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $1,497.99"
+    },
+    {
+     "x": 1257,
+     "y": 168,
+     "w": 201,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Saturday, August 15"
+    },
+    {
+     "x": 1257,
+     "y": 293,
+     "w": 174,
+     "h": 37,
+     "kind": "stock",
+     "label": "Stock · Only 1 left in stock - order soon"
+    }
+   ],
+   "read": "4.3 out of 5 stars · 40 ratings · $1,497.99 · FREE delivery Saturday, August 15 · Only 1 left in stock - order soon",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 491,
+    "y": 0,
+    "w": 1009,
+    "h": 757
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-qn80h-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "amazon-s90h-65",
+   "sku": "s90h-65",
+   "title": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Rea…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-s90h-65|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 184,
+     "w": 644,
+     "h": 124,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 317,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.3 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 315,
+     "w": 22,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 81"
+    },
+    {
+     "x": 1257,
+     "y": 180,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $1,797.99"
+    },
+    {
+     "x": 1257,
+     "y": 228,
+     "w": 201,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Saturday, August 15"
+    },
+    {
+     "x": 1257,
+     "y": 353,
+     "w": 174,
+     "h": 37,
+     "kind": "stock",
+     "label": "Stock · Only 3 left in stock - order soon"
+    }
+   ],
+   "read": "4.3 out of 5 stars · 81 ratings · $1,797.99 · FREE delivery Saturday, August 15 · Only 3 left in stock - order soon",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 491,
+    "y": 0,
+    "w": 1009,
+    "h": 757
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-s90h-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "U8000F 43\"",
+   "asin": "amazon-u8000f",
+   "sku": "u8000f",
+   "title": "Samsung 43-Inch Class Crystal UHD U8000F 4K Smart TV (2025 Model) Endless Free Content, Processor, MetalStream Design,…",
+   "url": "https://www.amazon.com/Samsung-43-Inch-Processor-MetalStream-Security/dp/B0DXMXR1PV/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-u8000f.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "landing|amazon-u8000f|2026-08-13",
+   "lane": "landing",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 154,
+     "w": 647,
+     "h": 92,
+     "kind": "title",
+     "label": "Title"
+    },
+    {
+     "x": 565,
+     "y": 255,
+     "w": 60,
+     "h": 12,
+     "kind": "rating",
+     "label": "Rating · 4.2 out of 5 stars"
+    },
+    {
+     "x": 643,
+     "y": 253,
+     "w": 39,
+     "h": 15,
+     "kind": "rating",
+     "label": "Ratings · 3,928"
+    },
+    {
+     "x": 1257,
+     "y": 322,
+     "w": 79,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $229.99"
+    },
+    {
+     "x": 1257,
+     "y": 1247,
+     "w": 200,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery · Tuesday, August 18"
+    },
+    {
+     "x": 1257,
+     "y": 455,
+     "w": 204,
+     "h": 22,
+     "kind": "stock",
+     "label": "Stock · Temporarily out of stock"
+    }
+   ],
+   "read": "4.2 out of 5 stars · 3,928 ratings · $229.99 · FREE delivery Tuesday, August 18 · Temporarily out of stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 488,
+    "y": 0,
+    "w": 1012,
+    "h": 759
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/landing-amazon-u8000f-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 43\"",
+   "asin": "amazon-brav2-43",
+   "sku": "brav2-43",
+   "title": "Sony 43 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-43S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-43S20M2/dp/B0DYKBNW89/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-43.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-brav2-43|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 382,
+     "w": 79,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $399.99"
+    }
+   ],
+   "read": "$399.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 155,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-brav2-43-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 55\"",
+   "asin": "amazon-brav2-55",
+   "sku": "brav2-55",
+   "title": "Sony 55 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-55S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-55S20M2/dp/B0DYKCTM3Y/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-brav2-55|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 295,
+     "w": 105,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $599.99"
+    }
+   ],
+   "read": "$599.99 · reference $949.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 72,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-brav2-55-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 3 65\"",
+   "asin": "amazon-brav3-65",
+   "sku": "brav3-65",
+   "title": "Sony 65 Inch BRAVIA 3 LED 4K HDR Smart Google TV (K-65S30) | Dolby Vision/Atmos, Exclusive Features for PlayStation®5,…",
+   "url": "https://www.amazon.com/Sony-BRAVIA-Smart-Google-K-65S30/dp/B0CVPMF4HQ/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav3-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-brav3-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 295,
+     "w": 105,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $799.99"
+    }
+   ],
+   "read": "$799.99 · reference $949.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 72,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-brav3-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "amazon-b8ii-65",
+   "sku": "b8ii-65",
+   "title": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Process…",
+   "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-b8ii-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 150,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $3,298.00"
+    }
+   ],
+   "read": "$3,298.00",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-b8ii-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "amazon-b9-65",
+   "sku": "b9-65",
+   "title": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-b9-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 178,
+     "w": 93,
+     "h": 24,
+     "kind": "price",
+     "label": "Price · $2,798.00"
+    }
+   ],
+   "read": "$2,798.00",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-b9-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5rgb-65",
+   "sku": "c5rgb-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-c5rgb-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 153,
+     "w": 129,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $1,499.99"
+    }
+   ],
+   "read": "$1,499.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-c5rgb-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5-65",
+   "sku": "c5-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-c5-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-c5-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 150,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $1,499.99"
+    }
+   ],
+   "read": "$1,499.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-c5-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "amazon-g5-65",
+   "sku": "g5-65",
+   "title": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Or…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-g5-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 180,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $2,299.99"
+    }
+   ],
+   "read": "$2,299.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-g5-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "Q65 55\"",
+   "asin": "amazon-q65-55",
+   "sku": "q65-55",
+   "title": "TCL 55-Inch Q65 QLED 4K UHD Smart TV with Google TV (55Q651G, 2024 Model) S45H S Class 2.0 Channel Sound Bar with Dolby…",
+   "url": "https://www.amazon.com/TCL-55-Inch-Google-55Q651G-Channel/dp/B0DDV28YG6/ref=sr_1_10",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-q65-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-q65-55|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 183,
+     "w": 105,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $417.99"
+    }
+   ],
+   "read": "$417.99 · reference $1,999.00",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-q65-55-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "amazon-qm8k-65",
+   "sku": "qm8k-65",
+   "title": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound…",
+   "url": "https://www.amazon.com/TCL-65-Inch-QD-Mini-Google-Channel/dp/B0FJLGCJ6G/ref=sr_1_6",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qm8k-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-qm8k-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 153,
+     "w": 129,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $1,197.98"
+    }
+   ],
+   "read": "$1,197.98 · reference $1,629.98",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-qm8k-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "amazon-qn80h-65",
+   "sku": "qn80h-65",
+   "title": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Ar…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-qn80h-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 123,
+     "w": 129,
+     "h": 33,
+     "kind": "price",
+     "label": "Price · $1,497.99"
+    }
+   ],
+   "read": "$1,497.99 · reference $1,597.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-qn80h-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "amazon-s90h-65",
+   "sku": "s90h-65",
+   "title": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Rea…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-s90h-65|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 180,
+     "w": 97,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $1,797.99"
+    }
+   ],
+   "read": "$1,797.99 · reference $2,697.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-s90h-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "U8000F 43\"",
+   "asin": "amazon-u8000f",
+   "sku": "u8000f",
+   "title": "Samsung 43-Inch Class Crystal UHD U8000F 4K Smart TV (2025 Model) Endless Free Content, Processor, MetalStream Design,…",
+   "url": "https://www.amazon.com/Samsung-43-Inch-Processor-MetalStream-Security/dp/B0DXMXR1PV/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-u8000f.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "pricing|amazon-u8000f|2026-08-13",
+   "lane": "pricing",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 322,
+     "w": 79,
+     "h": 25,
+     "kind": "price",
+     "label": "Price · $229.99"
+    }
+   ],
+   "read": "$229.99 · reference $949.99",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 95,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/pricing-amazon-u8000f-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 43\"",
+   "asin": "amazon-brav2-43",
+   "sku": "brav2-43",
+   "title": "Sony 43 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-43S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-43S20M2/dp/B0DYKBNW89/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-43.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-brav2-43|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 591,
+     "y": 460,
+     "w": 576,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $349.99 $399.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1278,
+     "y": 923,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect Monthly",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    },
+    {
+     "x": 1251,
+     "y": 1355,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (4) from $341.75 & FREE Shipping."
+    }
+   ],
+   "read": "3 offers on load · Savings, Complete Protect Monthly, Free shipping",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 124,
+    "y": 412,
+    "w": 1376,
+    "h": 1032
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-brav2-43-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 55\"",
+   "asin": "amazon-brav2-55",
+   "sku": "brav2-55",
+   "title": "Sony 55 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-55S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-55S20M2/dp/B0DYKCTM3Y/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-brav2-55|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 591,
+     "y": 400,
+     "w": 576,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $549.99 $599.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1257,
+     "y": 878,
+     "w": 206,
+     "h": 40,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan for $79.99"
+    }
+   ],
+   "read": "2 offers on load · Savings, Protection plan",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 532,
+    "y": 296,
+    "w": 968,
+    "h": 726
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-brav2-55-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 3 65\"",
+   "asin": "amazon-brav3-65",
+   "sku": "brav3-65",
+   "title": "Sony 65 Inch BRAVIA 3 LED 4K HDR Smart Google TV (K-65S30) | Dolby Vision/Atmos, Exclusive Features for PlayStation®5,…",
+   "url": "https://www.amazon.com/Sony-BRAVIA-Smart-Google-K-65S30/dp/B0CVPMF4HQ/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav3-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-brav3-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 591,
+     "y": 432,
+     "w": 576,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $749.99 $799.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1257,
+     "y": 846,
+     "w": 206,
+     "h": 40,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan for $105.99"
+    },
+    {
+     "x": 1278,
+     "y": 889,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect monthly plan",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    },
+    {
+     "x": 625,
+     "y": 1951,
+     "w": 578,
+     "h": 57,
+     "kind": "promo",
+     "label": "4K movie credits included",
+     "text": "Sony Pictures CORE (5 credits/12 months streaming)"
+    }
+   ],
+   "read": "4 offers on load · Savings, Protection plan, Complete Protect monthly plan, 4K movie credits included",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 532,
+    "y": 336,
+    "w": 968,
+    "h": 726
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-brav3-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "amazon-b8ii-65",
+   "sku": "b8ii-65",
+   "title": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Process…",
+   "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-b8ii-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 624,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 1257,
+     "y": 648,
+     "w": 206,
+     "h": 40,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan for $289.99"
+    },
+    {
+     "x": 1278,
+     "y": 647,
+     "w": 142,
+     "h": 17,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan"
+    },
+    {
+     "x": 1251,
+     "y": 1103,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (20) from $2,494.95 $2,494 . 95 & FREE Shipping"
+    },
+    {
+     "x": 1258,
+     "y": 1125,
+     "w": 109,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "& FREE Shipping"
+    },
+    {
+     "x": 1272,
+     "y": 1125,
+     "w": 95,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping"
+    },
+    {
+     "x": 579,
+     "y": 397,
+     "w": 599,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $3,248.00 $3,298.00 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 545,
+     "y": 157,
+     "w": 660,
+     "h": 124,
+     "kind": "promo",
+     "label": "4K movie credits included",
+     "text": "4K movie credits included"
+    },
+    {
+     "x": 563,
+     "y": 1300,
+     "w": 641,
+     "h": 37,
+     "kind": "promo",
+     "label": "Movies included with Sony Pictures Core",
+     "text": "MOVIES INCLUDED: Get movies included and access to the largest IMAX Enhanced collection with the SONY PICTURES CORE app."
+    },
+    {
+     "x": 1278,
+     "y": 691,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect monthly plan",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    }
+   ],
+   "read": "10 offers on load · Protection plan, Free shipping, Savings, 4K movie credits included",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 56,
+    "y": 109,
+    "w": 1444,
+    "h": 1083
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-b8ii-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "amazon-b9-65",
+   "sku": "b9-65",
+   "title": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-b9-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 653,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 1257,
+     "y": 677,
+     "w": 206,
+     "h": 40,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan for $249.99"
+    },
+    {
+     "x": 1278,
+     "y": 677,
+     "w": 140,
+     "h": 16,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan"
+    },
+    {
+     "x": 586,
+     "y": 437,
+     "w": 586,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $2,748.00 $2,798.00 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1278,
+     "y": 721,
+     "w": 173,
+     "h": 76,
+     "kind": "promo",
+     "label": "Complete Protect monthly plan",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    }
+   ],
+   "read": "5 offers on load · Protection plan, Savings, Complete Protect monthly plan",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 527,
+    "y": 252,
+    "w": 973,
+    "h": 730
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-b9-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5rgb-65",
+   "sku": "c5rgb-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-c5rgb-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 676,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 1257,
+     "y": 700,
+     "w": 206,
+     "h": 40,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan for $183.99"
+    },
+    {
+     "x": 1278,
+     "y": 699,
+     "w": 142,
+     "h": 17,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan"
+    },
+    {
+     "x": 1251,
+     "y": 973,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (9) from $1,499.99 $1,499 . 99 & FREE Shipping"
+    },
+    {
+     "x": 1251,
+     "y": 995,
+     "w": 109,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "& FREE Shipping"
+    },
+    {
+     "x": 1265,
+     "y": 995,
+     "w": 95,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping"
+    },
+    {
+     "x": 579,
+     "y": 470,
+     "w": 599,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $1,449.99 $1,499.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1278,
+     "y": 743,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect Monthly",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    }
+   ],
+   "read": "8 offers on load · Protection plan, Free shipping, Savings, Complete Protect Monthly",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 514,
+    "y": 372,
+    "w": 986,
+    "h": 740
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-c5rgb-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5-65",
+   "sku": "c5-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-c5-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-c5-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 579,
+     "y": 440,
+     "w": 599,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $1,449.99 $1,499.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1278,
+     "y": 699,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect monthly plan",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    },
+    {
+     "x": 1251,
+     "y": 1131,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (7) from $1,424.99 & FREE Shipping."
+    },
+    {
+     "x": 625,
+     "y": 1897,
+     "w": 213,
+     "h": 17,
+     "kind": "promo",
+     "label": "Limited stock warning",
+     "text": "Only 11 left in stock - order soon"
+    }
+   ],
+   "read": "4 offers on load · Savings, Complete Protect monthly plan, Free shipping, Limited stock warning",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 396,
+    "y": 392,
+    "w": 1104,
+    "h": 828
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-c5-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "amazon-g5-65",
+   "sku": "g5-65",
+   "title": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Or…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-g5-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 674,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 1257,
+     "y": 698,
+     "w": 206,
+     "h": 40,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan for $249.99"
+    },
+    {
+     "x": 1278,
+     "y": 697,
+     "w": 142,
+     "h": 17,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "4-Year Protection Plan"
+    },
+    {
+     "x": 1251,
+     "y": 1153,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (2) from $1,699.00 $1,699 . 00 & FREE Shipping"
+    },
+    {
+     "x": 1251,
+     "y": 1175,
+     "w": 109,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "& FREE Shipping"
+    },
+    {
+     "x": 1265,
+     "y": 1175,
+     "w": 95,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping"
+    },
+    {
+     "x": 545,
+     "y": 403,
+     "w": 667,
+     "h": 40,
+     "kind": "promo",
+     "label": "Gift card",
+     "text": "Apply for Amazon Store Card and unlock a $10 Amazon Gift Card upon approval. Pay $2,299.99 $2,289.99 for this order. Learn more"
+    },
+    {
+     "x": 1278,
+     "y": 741,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect Monthly",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    },
+    {
+     "x": 747,
+     "y": 592,
+     "w": 65,
+     "h": 35,
+     "kind": "promo",
+     "label": "30-Day Easy Returns",
+     "text": "30-day easy returns"
+    }
+   ],
+   "read": "9 offers on load · Protection plan, Free shipping, Gift card, Complete Protect Monthly",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 317,
+    "y": 355,
+    "w": 1183,
+    "h": 887
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-g5-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "Q65 55\"",
+   "asin": "amazon-q65-55",
+   "sku": "q65-55",
+   "title": "TCL 55-Inch Q65 QLED 4K UHD Smart TV with Google TV (55Q651G, 2024 Model) S45H S Class 2.0 Channel Sound Bar with Dolby…",
+   "url": "https://www.amazon.com/TCL-55-Inch-Google-55Q651G-Channel/dp/B0DDV28YG6/ref=sr_1_10",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-q65-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-q65-55|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 591,
+     "y": 373,
+     "w": 576,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $367.99 $417.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 283,
+     "y": 2341,
+     "w": 160,
+     "h": 35,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping on orders over $35 shipped by Amazon"
+    },
+    {
+     "x": 151,
+     "y": 2726,
+     "w": 103,
+     "h": 12,
+     "kind": "promo",
+     "label": "Deal badge",
+     "text": "Limited time deal"
+    }
+   ],
+   "read": "3 offers on load · Savings, Free shipping, Deal badge",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 543,
+    "y": 131,
+    "w": 672,
+    "h": 504
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-q65-55-2026-08-13.jpg",
+    "w": 672,
+    "h": 504
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "amazon-qm8k-65",
+   "sku": "qm8k-65",
+   "title": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound…",
+   "url": "https://www.amazon.com/TCL-65-Inch-QD-Mini-Google-Channel/dp/B0FJLGCJ6G/ref=sr_1_6",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qm8k-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-qm8k-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 545,
+     "y": 302,
+     "w": 154,
+     "h": 17,
+     "kind": "promo",
+     "label": "Bundle",
+     "text": "Bundle List Price: $1,629.98 Bundle List Price: $1,629.98 $1,629.98"
+    },
+    {
+     "x": 545,
+     "y": 304,
+     "w": 151,
+     "h": 16,
+     "kind": "promo",
+     "label": "Bundle",
+     "text": "Bundle List Price: $1,629.98"
+    },
+    {
+     "x": 545,
+     "y": 304,
+     "w": 154,
+     "h": 15,
+     "kind": "promo",
+     "label": "Bundle",
+     "text": "Bundle List Price: $1,629.98 $1,629.98"
+    },
+    {
+     "x": 579,
+     "y": 339,
+     "w": 599,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $1,147.98 $1,197.98 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 545,
+     "y": 282,
+     "w": 218,
+     "h": 20,
+     "kind": "promo",
+     "label": "27% off bundle",
+     "text": "$1,197.98 with 27 percent savings"
+    },
+    {
+     "x": 664,
+     "y": 375,
+     "w": 86,
+     "h": 80,
+     "kind": "promo",
+     "label": "1% off larger bundle",
+     "text": "$4,097.98 with 1 percent savings"
+    }
+   ],
+   "read": "6 offers on load · Bundle, Savings, 27% off bundle, 1% off larger bundle",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 497,
+    "y": 95,
+    "w": 729,
+    "h": 547
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-qm8k-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "amazon-qn80h-65",
+   "sku": "qn80h-65",
+   "title": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Ar…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-qn80h-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 566,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 579,
+     "y": 414,
+     "w": 599,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $1,447.99 $1,497.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 89,
+     "y": 1820,
+     "w": 79,
+     "h": 15,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping"
+    },
+    {
+     "x": 865,
+     "y": 1655,
+     "w": 165,
+     "h": 80,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Samsung QN65S90FAFXZA 65\" 4K TV with a 2 Year Amber Protection Plan (2025)"
+    },
+    {
+     "x": 865,
+     "y": 1820,
+     "w": 142,
+     "h": 15,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping by Amazon"
+    },
+    {
+     "x": 1059,
+     "y": 1838,
+     "w": 160,
+     "h": 35,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping on orders over $35 shipped by Amazon"
+    },
+    {
+     "x": 545,
+     "y": 357,
+     "w": 210,
+     "h": 20,
+     "kind": "promo",
+     "label": "6% off with savings",
+     "text": "$1,497.99 with 6 percent savings"
+    },
+    {
+     "x": 545,
+     "y": 379,
+     "w": 110,
+     "h": 16,
+     "kind": "promo",
+     "label": "List Price",
+     "text": "List Price: $1,597.99"
+    },
+    {
+     "x": 1278,
+     "y": 589,
+     "w": 176,
+     "h": 37,
+     "kind": "promo",
+     "label": "2-Year Samsung Care+",
+     "text": "2-Year Samsung Care+ Device Protection| TV Tier 3 | $54.99"
+    },
+    {
+     "x": 1278,
+     "y": 653,
+     "w": 176,
+     "h": 37,
+     "kind": "promo",
+     "label": "5-Year Samsung Care+",
+     "text": "5-Year Samsung Care+ Device Protection| TV Tier 3 | $199.99"
+    }
+   ],
+   "read": "13 offers on load · Protection plan, Savings, Free shipping, 6% off with savings",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 486,
+    "y": 143,
+    "w": 1014,
+    "h": 761
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-qn80h-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "amazon-s90h-65",
+   "sku": "s90h-65",
+   "title": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Rea…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-s90h-65|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 670,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 1251,
+     "y": 1233,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (14) from $1,617.95 $1,617 . 95 & FREE Shipping"
+    },
+    {
+     "x": 1258,
+     "y": 1255,
+     "w": 109,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "& FREE Shipping"
+    },
+    {
+     "x": 1272,
+     "y": 1255,
+     "w": 95,
+     "h": 17,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "FREE Shipping"
+    },
+    {
+     "x": 579,
+     "y": 479,
+     "w": 599,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $1,747.99 $1,797.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 545,
+     "y": 422,
+     "w": 218,
+     "h": 20,
+     "kind": "promo",
+     "label": "33% off list price",
+     "text": "$1,797.99 with 33 percent savings"
+    },
+    {
+     "x": 545,
+     "y": 444,
+     "w": 110,
+     "h": 16,
+     "kind": "promo",
+     "label": "Original list price",
+     "text": "List Price: $2,697.99"
+    },
+    {
+     "x": 1278,
+     "y": 693,
+     "w": 176,
+     "h": 37,
+     "kind": "promo",
+     "label": "2-Year Samsung Care+",
+     "text": "2-Year Samsung Care+ Device Protection| TV Tier 4 | $64.99"
+    },
+    {
+     "x": 1278,
+     "y": 757,
+     "w": 176,
+     "h": 37,
+     "kind": "promo",
+     "label": "5-Year Samsung Care+",
+     "text": "5-Year Samsung Care+ Device Protection| TV Tier 4 | $249.99"
+    },
+    {
+     "x": 1278,
+     "y": 821,
+     "w": 177,
+     "h": 77,
+     "kind": "promo",
+     "label": "Complete Protect monthly plan",
+     "text": "Complete Protect: One plan covers all eligible past and future purchases (Best Value) | $16.99/month"
+    }
+   ],
+   "read": "15 offers on load · Protection plan, Free shipping, Savings, 33% off list price",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 236,
+    "y": 374,
+    "w": 1264,
+    "h": 948
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-s90h-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "U8000F 43\"",
+   "asin": "amazon-u8000f",
+   "sku": "u8000f",
+   "title": "Samsung 43-Inch Class Crystal UHD U8000F 4K Smart TV (2025 Model) Endless Free Content, Processor, MetalStream Design,…",
+   "url": "https://www.amazon.com/Samsung-43-Inch-Processor-MetalStream-Security/dp/B0DXMXR1PV/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-u8000f.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "promotions|amazon-u8000f|2026-08-13",
+   "lane": "promotions",
+   "boxes": [
+    {
+     "x": 591,
+     "y": 362,
+     "w": 576,
+     "h": 20,
+     "kind": "promo",
+     "label": "Savings",
+     "text": "Get $50 off instantly: Pay $179.99 $229.99 upon approval for Amazon Visa. No annual fee."
+    },
+    {
+     "x": 1257,
+     "y": 912,
+     "w": 206,
+     "h": 20,
+     "kind": "promo",
+     "label": "Protection plan",
+     "text": "Add a protection plan:"
+    },
+    {
+     "x": 1251,
+     "y": 1495,
+     "w": 218,
+     "h": 41,
+     "kind": "promo",
+     "label": "Free shipping",
+     "text": "New & Used (4) from $218.46 & FREE Shipping."
+    }
+   ],
+   "read": "3 offers on load · Savings, Protection plan, Free shipping",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 532,
+    "y": 284,
+    "w": 968,
+    "h": 726
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/promotions-amazon-u8000f-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 43\"",
+   "asin": "amazon-brav2-43",
+   "sku": "brav2-43",
+   "title": "Sony 43 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-43S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-43S20M2/dp/B0DYKBNW89/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-43.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-brav2-43|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 535,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "In Stock"
+    }
+   ],
+   "read": "In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 306,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-brav2-43-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 55\"",
+   "asin": "amazon-brav2-55",
+   "sku": "brav2-55",
+   "title": "Sony 55 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-55S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-55S20M2/dp/B0DYKCTM3Y/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-brav2-55|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 517,
+     "w": 197,
+     "h": 37,
+     "kind": "stock",
+     "label": "Only 20 left in stock (more on the way)"
+    }
+   ],
+   "read": "Only 20 left in stock (more on the way)",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 296,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-brav2-55-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 3 65\"",
+   "asin": "amazon-brav3-65",
+   "sku": "brav3-65",
+   "title": "Sony 65 Inch BRAVIA 3 LED 4K HDR Smart Google TV (K-65S30) | Dolby Vision/Atmos, Exclusive Features for PlayStation®5,…",
+   "url": "https://www.amazon.com/Sony-BRAVIA-Smart-Google-K-65S30/dp/B0CVPMF4HQ/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav3-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-brav3-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 517,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "In Stock"
+    }
+   ],
+   "read": "In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 288,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-brav3-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "amazon-b8ii-65",
+   "sku": "b8ii-65",
+   "title": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Process…",
+   "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-b8ii-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 323,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "In Stock"
+    }
+   ],
+   "read": "In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 94,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-b8ii-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "amazon-b9-65",
+   "sku": "b9-65",
+   "title": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-b9-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 353,
+     "w": 173,
+     "h": 36,
+     "kind": "stock",
+     "label": "Only 2 left in stock - order soon"
+    }
+   ],
+   "read": "Only 2 left in stock - order soon",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 131,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-b9-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5rgb-65",
+   "sku": "c5rgb-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-c5rgb-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 375,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "In Stock"
+    }
+   ],
+   "read": "In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 146,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-c5rgb-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "amazon-g5-65",
+   "sku": "g5-65",
+   "title": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Or…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-g5-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 353,
+     "w": 197,
+     "h": 37,
+     "kind": "stock",
+     "label": "Only 11 left in stock (more on the way)"
+    }
+   ],
+   "read": "Only 11 left in stock (more on the way)",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 132,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-g5-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "amazon-qm8k-65",
+   "sku": "qm8k-65",
+   "title": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound…",
+   "url": "https://www.amazon.com/TCL-65-Inch-QD-Mini-Google-Channel/dp/B0FJLGCJ6G/ref=sr_1_6",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qm8k-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-qm8k-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 303,
+     "w": 66,
+     "h": 22,
+     "kind": "stock",
+     "label": "In Stock"
+    }
+   ],
+   "read": "In Stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 74,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-qm8k-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "amazon-qn80h-65",
+   "sku": "qn80h-65",
+   "title": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Ar…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-qn80h-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 293,
+     "w": 174,
+     "h": 37,
+     "kind": "stock",
+     "label": "Only 1 left in stock - order soon"
+    }
+   ],
+   "read": "Only 1 left in stock - order soon",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 72,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-qn80h-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "amazon-s90h-65",
+   "sku": "s90h-65",
+   "title": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Rea…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-s90h-65|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 353,
+     "w": 174,
+     "h": 37,
+     "kind": "stock",
+     "label": "Only 3 left in stock - order soon"
+    }
+   ],
+   "read": "Only 3 left in stock - order soon",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 132,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-s90h-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "U8000F 43\"",
+   "asin": "amazon-u8000f",
+   "sku": "u8000f",
+   "title": "Samsung 43-Inch Class Crystal UHD U8000F 4K Smart TV (2025 Model) Endless Free Content, Processor, MetalStream Design,…",
+   "url": "https://www.amazon.com/Samsung-43-Inch-Processor-MetalStream-Security/dp/B0DXMXR1PV/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-u8000f.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "stock|amazon-u8000f|2026-08-13",
+   "lane": "stock",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 455,
+     "w": 204,
+     "h": 22,
+     "kind": "stock",
+     "label": "Temporarily out of stock"
+    }
+   ],
+   "read": "Temporarily out of stock",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 226,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/stock-amazon-u8000f-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "delivery|b8ii-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "b8ii-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b8ii-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b8ii-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|b9-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "b9-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b9-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b9-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|b8ii-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "b8ii-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b8ii-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery Tomorrow · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b8ii-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|b9-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "b9-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b9-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery Tomorrow · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b9-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|b8ii-65|60601|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "b8ii-65",
+   "city": "Chicago, IL",
+   "zip": "60601",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b8ii-65-60601.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Chicago, IL 60601"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "FREE delivery Tomorrow · Chicago, IL 60601",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 60601.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b8ii-65-60601-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|b8ii-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "b8ii-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b8ii-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b8ii-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "id": "delivery|b9-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "b9-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-b9-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "FREE delivery Wednesday, August 19 · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-b9-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 43\"",
+   "asin": "amazon-brav2-43",
+   "sku": "brav2-43",
+   "title": "Sony 43 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-43S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-43S20M2/dp/B0DYKBNW89/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-43.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-brav2-43|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 430,
+     "w": 196,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Tuesday, August 18"
+    },
+    {
+     "x": 1278,
+     "y": 481,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Ashburn 20146"
+    }
+   ],
+   "read": "FREE delivery Tuesday, August 18 · zip 20146",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 234,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-brav2-43-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 2 II 55\"",
+   "asin": "amazon-brav2-55",
+   "sku": "brav2-55",
+   "title": "Sony 55 Inch BRAVIA 2 II LED 4K HDR Smart Google TV (K-55S20M2) | Exclusive Features for PlayStation®5, Motionflow XR,…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation%C2%AE5-K-55S20M2/dp/B0DYKCTM3Y/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav2-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-brav2-55|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 340,
+     "w": 196,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Tuesday, August 18"
+    },
+    {
+     "x": 1278,
+     "y": 463,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Ashburn 20149"
+    }
+   ],
+   "read": "FREE delivery Tuesday, August 18 · zip 20149",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 180,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-brav2-55-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 3 65\"",
+   "asin": "amazon-brav3-65",
+   "sku": "brav3-65",
+   "title": "Sony 65 Inch BRAVIA 3 LED 4K HDR Smart Google TV (K-65S30) | Dolby Vision/Atmos, Exclusive Features for PlayStation®5,…",
+   "url": "https://www.amazon.com/Sony-BRAVIA-Smart-Google-K-65S30/dp/B0CVPMF4HQ/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-brav3-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-brav3-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 340,
+     "w": 196,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Tuesday, August 18"
+    },
+    {
+     "x": 1278,
+     "y": 463,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Ashburn 20149"
+    }
+   ],
+   "read": "FREE delivery Tuesday, August 18 · zip 20149",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 180,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-brav3-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 8 II 65\"",
+   "asin": "amazon-b8ii-65",
+   "sku": "b8ii-65",
+   "title": "Sony 65 Inch BRAVIA 8 II QD OLED 4K HDR Smart Google TV (K-65XR80M2) | Sony’s brightest OLED with max color, XR Process…",
+   "url": "https://www.amazon.com/Sony-Processor-Technology-Television-K-65XR80M2/dp/B0DYK7Y2YB/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b8ii-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-b8ii-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 198,
+     "w": 201,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Saturday, August 15"
+    },
+    {
+     "x": 1278,
+     "y": 269,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery Saturday, August 15 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 12,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-b8ii-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "BRAVIA 9 65\"",
+   "asin": "amazon-b9-65",
+   "sku": "b9-65",
+   "title": "Sony 65 Inch BRAVIA 9 Mini LED QLED 4K HDR Smart Google TV (K-65XR90) | Dolby Vision/Atmos, PS5 Features, XR Backlight…",
+   "url": "https://www.amazon.com/Sony-Exclusive-Features-PlayStation-K-65XR90/dp/B0CVQB2D6C/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-b9-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-b9-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 228,
+     "w": 156,
+     "h": 36,
+     "kind": "delivery",
+     "label": "Delivery promise · Saturday, August 15"
+    },
+    {
+     "x": 1278,
+     "y": 298,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery Saturday, August 15 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 41,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-b9-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5rgb-65",
+   "sku": "c5rgb-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-c5rgb-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-c5rgb-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 250,
+     "w": 203,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · August 17 - 20"
+    },
+    {
+     "x": 1278,
+     "y": 321,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery August 17 - 20 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 64,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-c5rgb-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "amazon-c5-65",
+   "sku": "c5-65",
+   "title": "LG 65-Inch Class OLED evo AI 4K C5 Series Smart TV w/Dolby Atmos, Dolby Vision, HDR10, AI Super Upscaling 4K, Filmmaker…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65C5PUA/dp/B0DYQM4BDB/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-c5-65.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-c5-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 198,
+     "w": 168,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Wednesday, August 19"
+    },
+    {
+     "x": 1278,
+     "y": 269,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Ashburn 20146"
+    }
+   ],
+   "read": "FREE delivery Wednesday, August 19 · zip 20146",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 12,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-c5-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "delivery|c5rgb-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "c5rgb-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-c5rgb-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "FREE delivery Tuesday, August 18 · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-c5rgb-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|c5rgb-65|90012|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "c5rgb-65",
+   "city": "Los Angeles, CA",
+   "zip": "90012",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-c5rgb-65-90012.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Los Angeles, CA 90012"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "FREE delivery Monday, August 17 · Los Angeles, CA 90012",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 90012.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-c5rgb-65-90012-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|c5rgb-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "c5rgb-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-c5rgb-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "FREE delivery August 16 - 17. Order within 5 hrs 10 mins. Details · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-c5rgb-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|c5rgb-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "C5 OLED 65\"",
+   "asin": "c5rgb-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-c5rgb-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 100,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 104
+   },
+   "read": "Delivery as soon as Sunday, August 16 · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 104,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-c5rgb-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 104
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "amazon-g5-65",
+   "sku": "g5-65",
+   "title": "LG 65-Inch Class OLED evo AI Super Upscaling 4K G5 Series Smart TV w/Dolby Atmos, Vision, HDR10, Filmmaker Mode, Wow Or…",
+   "url": "https://www.amazon.com/LG-Upscaling-Filmmaker-Orchestra-OLED65G5WUA/dp/B0DYQR8R98/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-g5-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-g5-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1350,
+     "y": 925,
+     "w": 96,
+     "h": 17,
+     "kind": "delivery",
+     "label": "Delivery promise · August 18 - 20"
+    },
+    {
+     "x": 1278,
+     "y": 299,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery August 18 - 20 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 515,
+    "y": 251,
+    "w": 985,
+    "h": 739
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-g5-65-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "id": "delivery|g5-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "g5-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-g5-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-g5-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "id": "delivery|g5-65|90012|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "g5-65",
+   "city": "Los Angeles, CA",
+   "zip": "90012",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-g5-65-90012.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 100,
+     "kind": "delivery",
+     "label": "Delivery block · Los Angeles, CA 90012"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 104
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Los Angeles, CA 90012",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 90012.",
+   "w": 230,
+   "h": 104,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-g5-65-90012-2026-08-13.jpg",
+    "w": 230,
+    "h": 104
+   }
+  },
+  {
+   "id": "delivery|g5-65|77002|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "g5-65",
+   "city": "Houston, TX",
+   "zip": "77002",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-g5-65-77002.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Houston, TX 77002"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery Tomorrow · Houston, TX 77002",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 77002.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-g5-65-77002-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|g5-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "g5-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-g5-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery Tomorrow · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-g5-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|g5-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "lg",
+   "brandLabel": "LG",
+   "product": "G5 OLED 65\"",
+   "asin": "g5-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-g5-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-g5-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "Q65 55\"",
+   "asin": "amazon-q65-55",
+   "sku": "q65-55",
+   "title": "TCL 55-Inch Q65 QLED 4K UHD Smart TV with Google TV (55Q651G, 2024 Model) S45H S Class 2.0 Channel Sound Bar with Dolby…",
+   "url": "https://www.amazon.com/TCL-55-Inch-Google-55Q651G-Channel/dp/B0DDV28YG6/ref=sr_1_10",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-q65-55.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-q65-55|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1313,
+     "y": 228,
+     "w": 96,
+     "h": 17,
+     "kind": "delivery",
+     "label": "Delivery promise · August 26 - 28"
+    },
+    {
+     "x": 1278,
+     "y": 259,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Ashburn 20146"
+    }
+   ],
+   "read": "Delivery August 26 - 28 · zip 20146",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 22,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-q65-55-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "amazon-qm8k-65",
+   "sku": "qm8k-65",
+   "title": "TCL 65-Inch Class QM8K Series QD-Mini LED 4K UHD Google Smart TV (65QM8K, 2025 Model) + S45H S Class 2.0 Channel Sound…",
+   "url": "https://www.amazon.com/TCL-65-Inch-QD-Mini-Google-Channel/dp/B0FJLGCJ6G/ref=sr_1_6",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qm8k-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-qm8k-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1313,
+     "y": 198,
+     "w": 127,
+     "h": 17,
+     "kind": "delivery",
+     "label": "Delivery promise · Tuesday, August 18"
+    },
+    {
+     "x": 1278,
+     "y": 249,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery Tuesday, August 18 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 2,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-qm8k-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "delivery|qm8k-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "qm8k-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qm8k-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 40,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 44
+   },
+   "read": "Delivery Tuesday, August 18 · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 44,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qm8k-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 44
+   }
+  },
+  {
+   "id": "delivery|qm8k-65|90012|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "qm8k-65",
+   "city": "Los Angeles, CA",
+   "zip": "90012",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qm8k-65-90012.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Los Angeles, CA 90012"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Los Angeles, CA 90012",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 90012.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qm8k-65-90012-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|qm8k-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "qm8k-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qm8k-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "Delivery Tomorrow · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qm8k-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "id": "delivery|qm8k-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "tcl",
+   "brandLabel": "TCL",
+   "product": "QM8K 65\"",
+   "asin": "qm8k-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qm8k-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 40,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 44
+   },
+   "read": "Delivery Tuesday, August 18 · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 44,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qm8k-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 44
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "amazon-qn80h-65",
+   "sku": "qn80h-65",
+   "title": "Samsung 65-Inch Class QN80H Series, Neo QLED Mini LED, 4K, Smart TV, 2026 | Samsung Vision AI, Quantum Mini LED Full Ar…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-QN80H-Smart/dp/B0GP9XS93W/ref=sr_1_2",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-qn80h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-qn80h-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 168,
+     "w": 201,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Saturday, August 15"
+    },
+    {
+     "x": 1278,
+     "y": 239,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery Saturday, August 15 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 0,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-qn80h-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "delivery|qn80h-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "qn80h-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qn80h-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "FREE delivery Tuesday, August 18 Or Prime members get FREE delivery Tomorrow · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qn80h-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "id": "delivery|qn80h-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "qn80h-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qn80h-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery Tomorrow · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qn80h-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|qn80h-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "QN80H 65\"",
+   "asin": "qn80h-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-qn80h-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "FREE delivery Tomorrow · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-qn80h-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "amazon-s90h-65",
+   "sku": "s90h-65",
+   "title": "Samsung 65-Inch Class S90H Series, OLED, 4K, Smart TV, 2026 Model | Samsung Vision AI, Glare Free with Real Black & Rea…",
+   "url": "https://www.amazon.com/Samsung-65-Inch-Class-Smart-Model/dp/B0GPY4Y2VF/ref=sr_1_3",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:42:17.059Z",
+   "img": "/evidence/sonyrgb-multi/pdp-amazon-s90h-65.jpg",
+   "source": "data/pdp-promo/sonyrgb-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-s90h-65|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 228,
+     "w": 201,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Saturday, August 15"
+    },
+    {
+     "x": 1278,
+     "y": 299,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Bella Vista 72714"
+    }
+   ],
+   "read": "FREE delivery Saturday, August 15 · zip 72714",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 860,
+    "y": 42,
+    "w": 640,
+    "h": 480
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-s90h-65-2026-08-13.jpg",
+    "w": 640,
+    "h": 480
+   }
+  },
+  {
+   "id": "delivery|s90h-65|10001|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "s90h-65",
+   "city": "New York, NY",
+   "zip": "10001",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-s90h-65-10001.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 60,
+     "kind": "delivery",
+     "label": "Delivery block · New York, NY 10001"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 64
+   },
+   "read": "FREE delivery Wednesday, August 19 · New York, NY 10001",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 10001.",
+   "w": 230,
+   "h": 64,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-s90h-65-10001-2026-08-13.jpg",
+    "w": 230,
+    "h": 64
+   }
+  },
+  {
+   "id": "delivery|s90h-65|90012|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "s90h-65",
+   "city": "Los Angeles, CA",
+   "zip": "90012",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-s90h-65-90012.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 100,
+     "kind": "delivery",
+     "label": "Delivery block · Los Angeles, CA 90012"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 104
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Los Angeles, CA 90012",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 90012.",
+   "w": 230,
+   "h": 104,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-s90h-65-90012-2026-08-13.jpg",
+    "w": 230,
+    "h": 104
+   }
+  },
+  {
+   "id": "delivery|s90h-65|77002|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "s90h-65",
+   "city": "Houston, TX",
+   "zip": "77002",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-s90h-65-77002.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Houston, TX 77002"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery Tomorrow · Houston, TX 77002",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 77002.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-s90h-65-77002-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|s90h-65|80202|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "s90h-65",
+   "city": "Denver, CO",
+   "zip": "80202",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-s90h-65-80202.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Denver, CO 80202"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "FREE delivery Saturday, August 15 · Denver, CO 80202",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 80202.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-s90h-65-80202-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "id": "delivery|s90h-65|33130|2026-08-13",
+   "lane": "delivery",
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "S90H OLED 65\"",
+   "asin": "s90h-65",
+   "city": "Miami, FL",
+   "zip": "33130",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T14:51:14.387Z",
+   "img": "/evidence/delivery/sonyrgb-amazon-s90h-65-33130.jpg",
+   "source": "data/delivery-cities/sonyrgb.json",
+   "baked": false,
+   "boxes": [
+    {
+     "x": 2,
+     "y": 2,
+     "w": 226,
+     "h": 80,
+     "kind": "delivery",
+     "label": "Delivery block · Miami, FL 33130"
+    }
+   ],
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 230,
+    "h": 84
+   },
+   "read": "Delivery as soon as Saturday, August 15 · Miami, FL 33130",
+   "extra": "The crop is the delivery block the page printed once the zip was set (the block can carry a second, fastest-option line as well as the line read); zip printed by the page: 33130.",
+   "w": 230,
+   "h": 84,
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-s90h-65-33130-2026-08-13.jpg",
+    "w": 230,
+    "h": 84
+   }
+  },
+  {
+   "retailer": "amazon",
+   "brand": "samsung",
+   "brandLabel": "Samsung",
+   "product": "U8000F 43\"",
+   "asin": "amazon-u8000f",
+   "sku": "u8000f",
+   "title": "Samsung 43-Inch Class Crystal UHD U8000F 4K Smart TV (2025 Model) Endless Free Content, Processor, MetalStream Design,…",
+   "url": "https://www.amazon.com/Samsung-43-Inch-Processor-MetalStream-Security/dp/B0DXMXR1PV/ref=sr_1_1",
+   "date": "2026-08-13",
+   "capturedAt": "2026-08-13T08:16:52.983Z",
+   "img": "/evidence/sony-multi/pdp-amazon-u8000f.jpg",
+   "source": "data/pdp-promo/sony-multiretailer.json",
+   "baked": false,
+   "id": "delivery|amazon-u8000f|2026-08-13",
+   "lane": "delivery",
+   "boxes": [
+    {
+     "x": 1257,
+     "y": 1247,
+     "w": 200,
+     "h": 37,
+     "kind": "delivery",
+     "label": "Delivery promise · Tuesday, August 18"
+    },
+    {
+     "x": 1278,
+     "y": 401,
+     "w": 185,
+     "h": 36,
+     "kind": "location",
+     "label": "Destination · Delivering to Ashburn 20146"
+    }
+   ],
+   "read": "FREE delivery Tuesday, August 18 · zip 20146",
+   "w": 1500,
+   "h": 3600,
+   "focus": {
+    "x": 195,
+    "y": 353,
+    "w": 1305,
+    "h": 979
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/delivery-amazon-u8000f-2026-08-13.jpg",
+    "w": 720,
+    "h": 540
+   }
+  },
+  {
+   "id": "shelf|amazon|oled tv|2026-07-16",
+   "lane": "shelf",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "\"oled tv\"",
+   "term": "oled tv",
+   "date": "2026-07-16",
+   "capturedAt": "2026-07-16",
+   "img": "/evidence/sony/sov-annotated-oled-tv.png",
+   "source": "data/insights-dummy-sony/retail-sov.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 0,
+     "y": 2297,
+     "w": 1066,
+     "h": 242,
+     "kind": "outline",
+     "label": "Sony listing #1"
+    }
+   ],
+   "bakedNote": "The Sony listings on page 1 were outlined in red and numbered in the page by the capture itself, so what is marked is what was counted; the numbered boxes here are those outlines read back off the image.",
+   "read": "1 Sony listing on page 1 for \"oled tv\" · of 16 listings",
+   "url": "https://www.amazon.com/s?k=oled%20tv",
+   "extra": "Page-1 count by brand: Sony 1 · Samsung 10 · LG 5 · TCL 0",
+   "w": 1066,
+   "h": 5293,
+   "focus": {
+    "x": 0,
+    "y": 1982,
+    "w": 1066,
+    "h": 872
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/shelf-amazon-oled-tv-2026-07-16.jpg",
+    "w": 720,
+    "h": 589
+   }
+  },
+  {
+   "id": "shelf|amazon|65 inch tv|2026-07-16",
+   "lane": "shelf",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "\"65 inch tv\"",
+   "term": "65 inch tv",
+   "date": "2026-07-16",
+   "capturedAt": "2026-07-16",
+   "img": "/evidence/sony/sov-annotated-65-inch-tv.png",
+   "source": "data/insights-dummy-sony/retail-sov.json",
+   "baked": true,
+   "boxes": [
+    {
+     "x": 0,
+     "y": 1344,
+     "w": 1066,
+     "h": 242,
+     "kind": "outline",
+     "label": "Sony listing #1"
+    },
+    {
+     "x": 0,
+     "y": 2284,
+     "w": 1066,
+     "h": 228,
+     "kind": "outline",
+     "label": "Sony listing #2"
+    }
+   ],
+   "bakedNote": "The Sony listings on page 1 were outlined in red and numbered in the page by the capture itself, so what is marked is what was counted; the numbered boxes here are those outlines read back off the image.",
+   "read": "2 Sony listings on page 1 for \"65 inch tv\" · of 13 listings",
+   "url": "https://www.amazon.com/s?k=65%20inch%20tv",
+   "extra": "Page-1 count by brand: Sony 2 · Samsung 6 · LG 2 · TCL 3",
+   "w": 1066,
+   "h": 5217,
+   "focus": {
+    "x": 0,
+    "y": 1029,
+    "w": 1066,
+    "h": 872
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/shelf-amazon-65-inch-tv-2026-07-16.jpg",
+    "w": 720,
+    "h": 589
+   }
+  },
+  {
+   "id": "shelf|amazon|4k tv|2026-07-16",
+   "lane": "shelf",
+   "retailer": "amazon",
+   "brand": "sony",
+   "brandLabel": "Sony",
+   "product": "\"4k tv\"",
+   "term": "4k tv",
+   "date": "2026-07-16",
+   "capturedAt": "2026-07-16",
+   "img": "/evidence/sony/sov-annotated-4k-tv.png",
+   "source": "data/insights-dummy-sony/retail-sov.json",
+   "baked": true,
+   "boxes": [],
+   "bakedNote": "The Sony listings on page 1 were outlined in red and numbered in the page by the capture itself, so what is marked is what was counted; the numbered boxes here are those outlines read back off the image.",
+   "read": "No Sony listing on page 1 for \"4k tv\" · of 13 listings",
+   "url": "https://www.amazon.com/s?k=4k%20tv",
+   "extra": "Page-1 count by brand: Sony 0 · Samsung 9 · LG 0 · TCL 0",
+   "w": 1066,
+   "h": 5821,
+   "focus": {
+    "x": 0,
+    "y": 0,
+    "w": 1066,
+    "h": 800
+   },
+   "thumb": {
+    "src": "/evidence/snap-thumbs/sony/shelf-amazon-4k-tv-2026-07-16.jpg",
+    "w": 720,
+    "h": 540
+   }
+  }
+ ]
+}

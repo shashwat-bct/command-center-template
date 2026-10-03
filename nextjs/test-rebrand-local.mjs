@@ -16,6 +16,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { chromium } from "@playwright/test";
 import { rebrandPayload } from "./lib/rebrand.ts";
+import { rebrandAiVisibility, rebrandAeoWorkbench, rebrandSnapshots } from "./lib/rebrand-extras.ts";
 
 const TARGET = process.env.TARGET || "http://localhost:4322";
 const SLUG = "local-yeti";
@@ -44,6 +45,29 @@ mkdirSync(resolve("vendor/bravo-platform/public"), { recursive: true });
 writeFileSync(outPath, JSON.stringify(yeti));
 console.log(`[rebrand] wrote ${outPath} (${JSON.stringify(yeti).length} bytes)`);
 
+// 3b. Build the Sony-full-variant extras (AI Visibility, AEO Workbench, Snapshots)
+//     and write each to its vendor shortcut path, so /api/payloads/<slug>?kind=…
+//     serves them in local dev.
+const extrasInput = {
+  subject: { name: "Yeti", slug: SLUG },
+  competitors: ["RTIC", "Igloo", "Coleman", "Pelican"],
+  subjectProducts: ["Tundra 45", "Tundra 65", "Tundra 105", "Roadie 24", "Hopper Flip 18", "Rambler 20oz", "Tank 85"],
+  competitorProducts: [
+    ["Ultra-Light 52", "Ultra-Light 32", "Soft Pak 30"],
+    ["BMX 72", "MaxCold 70", "Playmate Elite"],
+    ["Xtreme 70", "Steel-Belted 54", "Chiller Cooler Bag"],
+    ["Elite Air 55", "ProGear 65", "Elite 70"],
+  ],
+  category: "cooler",
+};
+const aiJson = JSON.stringify(rebrandAiVisibility(extrasInput));
+const wbJson = JSON.stringify(rebrandAeoWorkbench(extrasInput));
+const snapJson = JSON.stringify(rebrandSnapshots(extrasInput));
+writeFileSync(resolve("vendor/bravo-platform/public", `${SLUG}-ai-visibility-data.json`), aiJson);
+writeFileSync(resolve("vendor/bravo-platform/public", `${SLUG}-aeo-workbench-data.json`), wbJson);
+writeFileSync(resolve("vendor/bravo-platform/public", `${SLUG}-snapshots.json`), snapJson);
+console.log(`[rebrand] wrote extras: ai=${aiJson.length}B, wb=${wbJson.length}B, snapshots=${snapJson.length}B`);
+
 // 4. Audit the structure before browsing
 const audit = {
   "dims.brands": yeti.dims.brands.map((b) => `${b.id}=${b.label}`),
@@ -67,6 +91,10 @@ const PAGES = [
   "scorecard", "traffic", "ai", "voice", "shelf", "landing",
   "carriage", "stock", "delivery", "pricing", "promotions",
   "calendar", "tco", "strategy", "method",
+  // Sony-full-variant extras — only present when ai-visibility.js loaded
+  "ai-overview", "ai-engines", "ai-stages", "ai-evidence", "programme",
+  // AEO Workbench + Snapshots (opened via header buttons / drawers)
+  "snapshots",
 ];
 
 const errors = [];

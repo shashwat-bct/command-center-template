@@ -17,6 +17,9 @@ export function payloadKey(slug: string, build_id: string) {
 export function logKey(slug: string, build_id: string) {
   return `${slug}/${build_id}.log`;
 }
+export function kindedPayloadKey(slug: string, build_id: string, kind: "ai" | "wb" | "snapshots") {
+  return `${slug}/${build_id}-${kind}.json`;
+}
 
 export async function uploadPayload(slug: string, build_id: string, json: string): Promise<string> {
   const key = payloadKey(slug, build_id);
@@ -42,4 +45,18 @@ export async function readPayloadBytes(slug: string, build_id: string): Promise<
   if (!exists) return null;
   const [data] = await file.download();
   return data;
+}
+
+export async function readKindedPayloadBytes(slug: string, build_id: string, kind: "ai" | "wb" | "snapshots"): Promise<Buffer | null> {
+  const file = bucket().file(kindedPayloadKey(slug, build_id, kind));
+  const [exists] = await file.exists();
+  if (!exists) return null;
+  const [data] = await file.download();
+  return data;
+}
+
+export async function uploadKindedPayload(slug: string, build_id: string, kind: "ai" | "wb" | "snapshots", json: string): Promise<string> {
+  const key = kindedPayloadKey(slug, build_id, kind);
+  await bucket().file(key).save(json, { contentType: "application/json", resumable: false });
+  return `gs://${process.env.PAYLOAD_BUCKET || "bct-cco-payloads-bravo-platform-bc"}/${key}`;
 }

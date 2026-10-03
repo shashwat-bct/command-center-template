@@ -15,12 +15,13 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
-import { uploadLog, uploadPayload } from "./gcs";
+import { uploadLog, uploadPayload, uploadKindedPayload } from "./gcs";
 import { fetchKeepaBrand, fetchKeepaSearch } from "./keepa";
 import { fetchAiShareOfMind, fetchProductNames, fetchCompetitorProductNames, fetchReviewAspects, type AiSoMResult } from "./ai-visibility";
 import { fetchApifyAmazon, type ApifyAmazonAggregate } from "./apify";
 import { overrideSubject } from "./launch-override";
 import { rebrandPayload } from "./rebrand";
+import { rebrandAiVisibility, rebrandAeoWorkbench, rebrandSnapshots } from "./rebrand-extras";
 
 // Brands whose config + captures are vendored into the image. These run their
 // own simulation builder with their own numbers.
@@ -445,6 +446,8 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     await setStep("relabel", { status: "done", duration_ms: Date.now() - relStart });
   }
 
+  let extrasPayloads: { ai: string; wb: string; snapshots: string } | null = null;
+
   // --- rebrand step (replace Sonos competitor set + model catalogue + aspects) --
   if (relabel) {
     await setStep("rebrand", { status: "running", started_at: new Date().toISOString() });
@@ -488,6 +491,26 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       logLine(
         `rebranded payload: subject "${name}" (${slug}), competitors [${aiCompetitors.join(", ") || "(none)"}], ${subjectProducts.length} subject products, ${competitorProducts.reduce((n, a) => n + a.length, 0)} competitor products, ${reviewAspects.length} aspects`,
       );
+
+      // Build the Sony-full-variant extras — AI Visibility, AEO Workbench,
+      // Snapshots — from Sony's templates with the same brand/product remap.
+      try {
+        const extrasInput = {
+          subject: { name, slug },
+          competitors: aiCompetitors,
+          subjectProducts,
+          competitorProducts,
+          category: aiCategory ?? "",
+        };
+        const aiPayload = JSON.stringify(rebrandAiVisibility(extrasInput));
+        const wbPayload = JSON.stringify(rebrandAeoWorkbench(extrasInput));
+        const snapPayload = JSON.stringify(rebrandSnapshots(extrasInput));
+        extrasPayloads = { ai: aiPayload, wb: wbPayload, snapshots: snapPayload };
+        logLine(`rebranded extras: AI Visibility (${aiPayload.length}B), AEO Workbench (${wbPayload.length}B), Snapshots (${snapPayload.length}B)`);
+      } catch (ex) {
+        logLine(`extras rebrand failed: ${(ex as Error).message} — base payload still uploads`);
+      }
+
       await setStep("rebrand", { status: "done", duration_ms: Date.now() - rStart });
     } catch (e) {
       const err = (e as Error).message;
@@ -501,6 +524,19 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   const uploadStart = Date.now();
   const payload_url = await uploadPayload(slug, build_id, payloadJson);
+  // Upload the three Sony-full-variant extras in parallel if present.
+  if (extrasPayloads) {
+    try {
+      await Promise.all([
+        uploadKindedPayload(slug, build_id, "ai", extrasPayloads.ai),
+        uploadKindedPayload(slug, build_id, "wb", extrasPayloads.wb),
+        uploadKindedPayload(slug, build_id, "snapshots", extrasPayloads.snapshots),
+      ]);
+      logLine(`uploaded extras: ai, wb, snapshots → gs://.../.${build_id}-{ai|wb|snapshots}.json`);
+    } catch (ex) {
+      logLine(`extras upload failed: ${(ex as Error).message} — base payload still uploaded`);
+    }
+  }
   const logs_url = await uploadLog(slug, build_id, logChunks.join("\n"));
   const uploadDur = Date.now() - uploadStart;
   await setStep("upload", { status: "done", duration_ms: uploadDur });
@@ -549,11 +585,14 @@ async function failBuild(
 export function readVendoredPayload(slug: string): string | null {
   const p = resolve(process.cwd(), "vendor", "bravo-platform", "public", `${slug}-command-center-data.json`);
   if (!existsSync(p)) return null;
-  try {
-    return readFileSync(p, "utf8");
-  } catch {
-    return null;
-  }
+  try { return readFileSync(p, "utf8"); } catch { return null; }
+}
+
+export function readVendoredExtras(slug: string, kind: "ai" | "wb" | "snapshots"): string | null {
+  const suffix = kind === "ai" ? "ai-visibility-data" : kind === "wb" ? "aeo-workbench-data" : "snapshots";
+  const p = resolve(process.cwd(), "vendor", "bravo-platform", "public", `${slug}-${suffix}.json`);
+  if (!existsSync(p)) return null;
+  try { return readFileSync(p, "utf8"); } catch { return null; }
 }
 
 // Writes the raw-bytes HEAD payload shortcut file during container boot, so a
