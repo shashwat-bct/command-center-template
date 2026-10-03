@@ -71,7 +71,7 @@ function daysUntil(text: string | null | undefined): number | null {
 const avg = (arr: number[]): number | null =>
   arr.length ? Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 100) / 100 : null;
 
-export async function fetchApifyAmazon(asins: string[], apifyToken: string): Promise<ApifyAmazonAggregate> {
+export async function fetchApifyAmazon(asins: string[], apifyToken: string, proxyCountry = "US"): Promise<ApifyAmazonAggregate> {
   if (!asins.length) {
     return {
       asinsFetched: 0, asinsWithData: 0,
@@ -87,7 +87,7 @@ export async function fetchApifyAmazon(asins: string[], apifyToken: string): Pro
     maxItemsPerStartUrl: 1,
     scrapeProductDetails: true,
     useCaptchaSolver: false,
-    proxyCountry: "AUTO_SELECT_PROXY_COUNTRY",
+    proxyCountry,
   };
 
   const results: AmazonProduct[] = [];

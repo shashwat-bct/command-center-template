@@ -51,8 +51,8 @@ const cents = (v: number | null): number | null => (v == null ? null : Math.roun
 // hand-paste ASINs from Amazon URLs. Rank is Keepa's own popularity signal
 // (BSR-weighted). We take the top N and feed them to fetchKeepaBrand +
 // fetchApifyAmazon.
-export async function fetchKeepaSearch(term: string, apiKey: string, limit = 5): Promise<string[]> {
-  const url = `https://api.keepa.com/search?key=${apiKey}&domain=1&type=product&term=${encodeURIComponent(term)}&page=0`;
+export async function fetchKeepaSearch(term: string, apiKey: string, limit = 5, domain = 1): Promise<string[]> {
+  const url = `https://api.keepa.com/search?key=${apiKey}&domain=${domain}&type=product&term=${encodeURIComponent(term)}&page=0`;
   try {
     const r = await fetch(url);
     if (!r.ok) return [];
@@ -64,8 +64,8 @@ export async function fetchKeepaSearch(term: string, apiKey: string, limit = 5):
   }
 }
 
-export async function fetchKeepaAsin(asin: string, apiKey: string): Promise<KeepaAsinResult> {
-  const url = `${KEEPA_URL}?key=${apiKey}&domain=1&asin=${encodeURIComponent(asin)}&history=1&rating=1&stats=30`;
+export async function fetchKeepaAsin(asin: string, apiKey: string, domain = 1): Promise<KeepaAsinResult> {
+  const url = `${KEEPA_URL}?key=${apiKey}&domain=${domain}&asin=${encodeURIComponent(asin)}&history=1&rating=1&stats=30`;
   try {
     const r = await fetch(url);
     if (!r.ok) return { asin, priceNow: null, listPrice: null, discountPct: null, rating: null, reviews: null, inStock: false, error: `HTTP ${r.status}` };
@@ -91,10 +91,10 @@ export async function fetchKeepaAsin(asin: string, apiKey: string): Promise<Keep
   }
 }
 
-export async function fetchKeepaBrand(asins: string[], apiKey: string): Promise<KeepaBrandAggregate> {
+export async function fetchKeepaBrand(asins: string[], apiKey: string, domain = 1): Promise<KeepaBrandAggregate> {
   const results: KeepaAsinResult[] = [];
   for (const asin of asins) {
-    const r = await fetchKeepaAsin(asin, apiKey);
+    const r = await fetchKeepaAsin(asin, apiKey, domain);
     results.push(r);
     // Keepa paces per-key; 500ms gap keeps us comfortably under their rate.
     await new Promise((resolve) => setTimeout(resolve, 500));

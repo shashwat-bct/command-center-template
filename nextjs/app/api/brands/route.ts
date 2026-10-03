@@ -60,6 +60,8 @@ export async function POST(req: NextRequest) {
       retailers: (body.retailers as string[]) ?? undefined,
       models: (body.models as unknown[]) ?? undefined,
       cities: (body.cities as string[]) ?? undefined,
+      brandLink: (body.brandLink as string | null | undefined) ?? null,
+      region: (body.region as string | null | undefined) ?? "US",
       asins: Array.isArray(body.asins) ? (body.asins as string[]) : undefined,
       products: Array.isArray(body.products) ? (body.products as string[]) : undefined,
       aiCategory: (body.aiCategory as string | null | undefined) ?? null,

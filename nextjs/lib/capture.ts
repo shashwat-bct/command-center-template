@@ -33,14 +33,14 @@ const REFERENCE_BRAND = "sonos";
 export type CreateBuildInput = {
   slug: string;
   name: string;
+  // Where this brand lives on the web — e.g. "https://dyson.com". Used to
+  // scope SimilarWeb (when wired) and as context for Claude's shopper
+  // questions. Optional.
+  brandLink?: string | null;
+  // Market the dashboard reports on. Drives Keepa domain, Apify proxy country,
+  // and the competitor set Claude sees. Default US.
+  region?: string | null;
   category?: string | null;
-  retailers?: string[];
-  models?: unknown[];
-  cities?: string[];
-  // Real-data path: when a new brand has no vendored config, the admin can
-  // supply ASINs — the backend hits Keepa for each one, aggregates pricing +
-  // reviews, and overrides the subject-brand slot in a Sonos-based launch-data.
-  asins?: string[];
   // Alternative to ASINs — specific product names. The backend resolves each
   // to its top-ranked ASIN via Keepa search ({brand} {product}), then feeds
   // the union through the rest of the pipeline. Easier than hunting ASINs.
@@ -51,6 +51,22 @@ export type CreateBuildInput = {
   aiCategory?: string | null;
   aiCompetitors?: string[];
   options?: BuildOptions;
+  // Internal — advanced override, still supported by the API for callers
+  // that know specific ASINs. Not exposed in the admin UI.
+  asins?: string[];
+  retailers?: string[];
+  models?: unknown[];
+  cities?: string[];
+};
+
+// Map a region code to Keepa's domain id. See Keepa docs:
+// https://keepa.com/#!discuss/t/retrieve-product-object/116
+export const KEEPA_DOMAINS: Record<string, number> = {
+  US: 1, UK: 2, DE: 3, FR: 4, JP: 5, CA: 6, IT: 8, ES: 9, IN: 10, MX: 11,
+};
+
+export const APIFY_COUNTRY: Record<string, string> = {
+  US: "US", UK: "GB", DE: "DE", FR: "FR", JP: "JP", CA: "CA", IT: "IT", ES: "ES", IN: "IN", MX: "MX",
 };
 
 export type CreateBuildResult = {
@@ -119,6 +135,8 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
     products: input.products ?? [],
     aiCategory: input.aiCategory ?? null,
     aiCompetitors: input.aiCompetitors ?? [],
+    brandLink: input.brandLink ?? null,
+    region: (input.region ?? "US").toUpperCase(),
   }).catch((e: unknown) => {
     const err = e as { errors?: unknown; response?: unknown; message?: string };
     console.error(
@@ -141,10 +159,14 @@ type RunInputs = {
   products: string[];
   aiCategory: string | null;
   aiCompetitors: string[];
+  brandLink: string | null;
+  region: string;
 };
 
 async function runBuild(build_id: string, slug: string, name: string, options: BuildOptions, inputs: RunInputs) {
-  const { asins, products, aiCategory, aiCompetitors } = inputs;
+  const { asins, products, aiCategory, aiCompetitors, brandLink, region } = inputs;
+  const keepaDomain = KEEPA_DOMAINS[region] ?? 1;
+  const apifyCountry = APIFY_COUNTRY[region] ?? "US";
   // Does this brand have its own config vendored? If not, the builder runs
   // under the reference brand, and we relabel the output.
   const hasOwnConfig = BRANDS_WITH_CONFIG.has(slug);
@@ -175,6 +197,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   if (hasOwnConfig) {
     logLine(`brand "${slug}" has a vendored config — running its own builder.`);
   } else {
+    logLine(`region ${region} (Keepa domain ${keepaDomain}, Apify proxy ${apifyCountry})${brandLink ? ` · ${brandLink}` : ""}`);
     const parts: string[] = [];
     const asinDesc = willDiscoverByProducts
       ? `ASINs resolved from ${products.length} product name(s)`
@@ -237,7 +260,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
         logLine(`resolving ${products.length} product name(s) via Keepa search (1 ASIN per product)`);
         for (const p of products) {
           const term = `${name} ${p}`;
-          const r = await fetchKeepaSearch(term, apiKey, 1);
+          const r = await fetchKeepaSearch(term, apiKey, 1, keepaDomain);
           const asin = r[0];
           if (asin && !seen.has(asin)) {
             seen.add(asin);
@@ -250,11 +273,11 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       } else if (willDiscoverByCategory && aiCategory) {
         const term = `${name} ${aiCategory}`;
         logLine(`searching Keepa for top ASINs matching "${term}"`);
-        const r = await fetchKeepaSearch(term, apiKey, 5);
+        const r = await fetchKeepaSearch(term, apiKey, 5, keepaDomain);
         for (const a of r) if (!seen.has(a)) { seen.add(a); discovered.push(a); }
         if (discovered.length === 0) {
           logLine(`no results for "${term}", trying just "${name}"`);
-          const alt = await fetchKeepaSearch(name, apiKey, 5);
+          const alt = await fetchKeepaSearch(name, apiKey, 5, keepaDomain);
           for (const a of alt) if (!seen.has(a)) { seen.add(a); discovered.push(a); }
         }
       }
@@ -279,7 +302,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       const apiKey = process.env.INS_KEEPA_KEY;
       if (!apiKey) throw new Error("INS_KEEPA_KEY not configured on the backend");
       logLine(`calling Keepa for ${effectiveAsins.length} ASIN(s): ${effectiveAsins.join(", ")}`);
-      keepaResult = await fetchKeepaBrand(effectiveAsins, apiKey);
+      keepaResult = await fetchKeepaBrand(effectiveAsins, apiKey, keepaDomain);
       logLine(`Keepa: ${keepaResult.asinsWithData}/${keepaResult.asinsFetched} ASINs returned data (avg list $${keepaResult.avgListPrice}, avg street $${keepaResult.avgStreetPrice}, rating ${keepaResult.avgRating}, reviews ${keepaResult.totalReviews})`);
       await setStep("keepa", { status: "done", duration_ms: Date.now() - kStart });
     } catch (e) {
@@ -298,7 +321,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     try {
       const apifyToken = process.env.APIFY_TOKEN!;
       logLine(`calling Apify junglee~Amazon-crawler for ${effectiveAsins.length} ASIN(s): ${effectiveAsins.join(", ")}`);
-      apifyResult = await fetchApifyAmazon(effectiveAsins, apifyToken);
+      apifyResult = await fetchApifyAmazon(effectiveAsins, apifyToken, apifyCountry);
       logLine(`Apify Amazon: ${apifyResult.asinsWithData}/${apifyResult.asinsFetched} ASINs returned data (avg price $${apifyResult.avgPrice}, offers ${apifyResult.totalOffersAvg}, delivery ${apifyResult.avgDeliveryDays}d)`);
       await setStep("apify-amazon", { status: "done", duration_ms: Date.now() - aStart });
     } catch (e) {
