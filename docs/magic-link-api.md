@@ -1,6 +1,6 @@
 # Magic Link API
 
-Create a shareable, expiring link to a brand's Commercial Command Center dashboard. One call takes the brand's details, builds the dashboard from live data if it doesn't exist yet, and returns a link straight away. Each partner can get their own variant of the link.
+Create a permanent, shareable link to a brand's Commercial Command Center dashboard. One call takes the brand's details, builds the dashboard from live data if it doesn't exist yet, and returns a link straight away. Each partner can get their own variant of the link.
 
 Base URL (production): `https://command-center-next-bfuw7h4slq-uc.a.run.app`
 
@@ -17,8 +17,7 @@ curl -X POST "$BASE/api/magic-links" \
     "brand_category": "air fryer",
     "brand_product": ["Foodi DualZone", "Crispi"],
     "brand_link": "https://www.ninjakitchen.com",
-    "partner_id": "acme",
-    "expires_in_hours": 72
+    "partner_id": "acme"
   }'
 ```
 
@@ -78,7 +77,7 @@ x-admin-token: <ADMIN_SHARED_SECRET>
 | `competitors` | string[] | no | Up to 4 competitor brands. If omitted, Claude names the 4 most direct competitors (`competitors_source: "claude"`). |
 | `region` | string | no | Default `"US"`. Other Amazon marketplaces are accepted but only US has been verified. |
 | `rebuild` | boolean | no | Default `false`. `true` always starts a new build with these inputs (~100 Keepa tokens). |
-| `expires_in_hours` | number | no | Default `72`, maximum `720` (30 days). |
+| `expires_in_hours` | number | no | Omit for a permanent link (the default). If set: > 0, maximum `720` (30 days). |
 | `label` | string | no | Up to 120 chars, for your own reference. |
 | `slug` | string | no | Defaults to the brand name, lowercased with hyphens (`"Ninja"` → `ninja`). |
 
@@ -104,7 +103,7 @@ When an existing build is reused, `built_with` shows the inputs that build actua
   "partner_id": "acme",
   "label": null,
   "issued_at": "2026-10-05T06:34:37.000Z",
-  "expires_at": "2026-10-06T06:34:37.000Z",
+  "expires_at": null,
   "build": { "id": "b_1riO44eiB8", "status": "queued", "poll_url": "/api/builds/b_1riO44eiB8" },
   "brand": {
     "name": "Ninja",
@@ -123,6 +122,7 @@ When an existing build is reused, `built_with` shows the inputs that build actua
 | Field | Meaning |
 |---|---|
 | `url` | The link to send. The token is after `#`. |
+| `expires_at` | `null` for a permanent link, otherwise when the link stops working. |
 | `token` | The same token on its own, for API use (see below). |
 | `build.status` | `ready`, `queued` or `running`. |
 | `build.poll_url` | Build progress (admin). |
@@ -150,7 +150,7 @@ Errors are `{ "error": "<message>" }`.
 
 `https://<host>/share#<token>`
 
-- Anyone with the link can open it until it expires. No login.
+- Anyone with the link can open it, with no login. Links are permanent unless `expires_in_hours` was set.
 - The token is in the URL fragment, which browsers never send to the server, so it doesn't appear in server or proxy logs. The page removes it from the address bar after reading it and keeps it for the tab, so reloading works.
 - Pages are served `Cache-Control: private, no-store`, `X-Robots-Tag: noindex, nofollow` and `Referrer-Policy: no-referrer`.
 
@@ -160,7 +160,7 @@ What the recipient sees:
 |---|---|
 | Ready | The dashboard |
 | Still building | "This dashboard is being built from live data — it opens by itself when ready" |
-| Expired | "This share link has expired." |
+| Expired (only links made with `expires_in_hours`) | "This share link has expired." |
 | Tampered or for another brand | "This share link isn't valid." |
 | Opened without the `#…` part | "This share link is incomplete" |
 | Build failed | "The build for this dashboard failed. Ask whoever shared it for a new link." |
@@ -183,7 +183,7 @@ Authorization: Bearer <token>
 | `401` | Invalid token, or the token is for a different brand |
 | `404` | Build not found |
 | `409` | Pinned build is a retired simulated build |
-| `410` | Token expired |
+| `410` | Token expired (only tokens made with `expires_in_hours`) |
 | `424` | The build failed |
 
 Admins can call the same endpoint with the admin token to get the brand's latest measured build.
@@ -211,7 +211,7 @@ A self-contained signed value: `base64url(claims) + "." + base64url(HMAC-SHA256(
   "label": null,
   "partnerId": "acme",
   "issuedAt": 1791182077,
-  "expiresAt": 1791268477,
+  "expiresAt": null,
   "nonce": "xtpg6TiY-3BT"
 }
 ```

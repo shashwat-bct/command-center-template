@@ -3,7 +3,6 @@ import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 const TOKEN_VERSION = 1;
 const MIN_SECRET_LENGTH = 32;
 
-export const DEFAULT_TTL_HOURS = 72;
 export const MAX_TTL_HOURS = 24 * 30;
 
 export type MagicLinkClaims = {
@@ -13,7 +12,7 @@ export type MagicLinkClaims = {
   label: string | null;
   partnerId: string | null;
   issuedAt: number;
-  expiresAt: number;
+  expiresAt: number | null;
   nonce: string;
 };
 
@@ -34,8 +33,8 @@ function secret(): string {
 const sign = (body: string): Buffer => createHmac("sha256", secret()).update(body).digest();
 
 /**
- * Mints a signed, self-contained share token. Expiry and the brand/build scope
- * live inside the token, so verification needs no storage; rotating
+ * Mints a signed, self-contained share token. The brand/build scope and optional
+ * expiry live inside the token, so verification needs no storage; rotating
  * MAGIC_LINK_SECRET revokes every outstanding link at once.
  */
 export function createMagicToken(input: {
@@ -43,7 +42,7 @@ export function createMagicToken(input: {
   buildId: string | null;
   label: string | null;
   partnerId?: string | null;
-  ttlHours: number;
+  ttlHours: number | null;
   now?: number;
 }): { token: string; claims: MagicLinkClaims } {
   const issuedAt = Math.floor((input.now ?? Date.now()) / 1000);
@@ -54,7 +53,7 @@ export function createMagicToken(input: {
     label: input.label,
     partnerId: input.partnerId ?? null,
     issuedAt,
-    expiresAt: issuedAt + Math.round(input.ttlHours * 3600),
+    expiresAt: input.ttlHours == null ? null : issuedAt + Math.round(input.ttlHours * 3600),
     nonce: randomBytes(9).toString("base64url"),
   };
   const body = Buffer.from(JSON.stringify(claims)).toString("base64url");
@@ -79,7 +78,7 @@ export function verifyMagicToken(token: string, now: number = Date.now()): Verif
     return { ok: false, reason: "malformed" };
   }
   if (claims.v !== TOKEN_VERSION) return { ok: false, reason: "unsupported_version" };
-  if (typeof claims.slug !== "string" || typeof claims.expiresAt !== "number") return { ok: false, reason: "malformed" };
-  if (Math.floor(now / 1000) >= claims.expiresAt) return { ok: false, reason: "expired" };
+  if (typeof claims.slug !== "string" || (claims.expiresAt !== null && typeof claims.expiresAt !== "number")) return { ok: false, reason: "malformed" };
+  if (claims.expiresAt !== null && Math.floor(now / 1000) >= claims.expiresAt) return { ok: false, reason: "expired" };
   return { ok: true, claims };
 }

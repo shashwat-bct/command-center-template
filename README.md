@@ -57,7 +57,6 @@ Full reference: [`docs/magic-link-api.md`](docs/magic-link-api.md).
   "partner_id": "acme",
   "competitors": ["Cosori", "Instant Pot"],
   "rebuild": false,
-  "expires_in_hours": 72,
   "label": "Ninja deck"
 }
 ```

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin, withAdminSession } from "@/lib/admin-auth";
-import { DEFAULT_TTL_HOURS, MAX_TTL_HOURS, MagicLinkConfigError, createMagicToken } from "@/lib/magic-link";
+import { MAX_TTL_HOURS, MagicLinkConfigError, createMagicToken } from "@/lib/magic-link";
 import { isMeasuredOnly, latestReadyBuildId, loadBuildPayload } from "@/lib/payload-source";
 import { parseBrandLinkRequest, resolveBuildForLink } from "@/lib/brand-link-request";
 import { savedInputsFor } from "@/lib/build-inputs";
@@ -10,6 +10,13 @@ export const dynamic = "force-dynamic";
 const SLUG_RE = /^[a-z0-9-]+$/;
 const BUILD_RE = /^b_[A-Za-z0-9_-]+$/;
 const PARTNER_RE = /^[A-Za-z0-9._:-]{1,64}$/;
+
+function publicOrigin(req: NextRequest): string {
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  if (!host) return req.nextUrl.origin;
+  const proto = req.headers.get("x-forwarded-proto")?.split(",")[0].trim() ?? req.nextUrl.protocol.replace(":", "");
+  return `${proto}://${host.split(",")[0].trim()}`;
+}
 
 type Pinned = { slug: string; buildId: string; status: "ready" | "queued" | "running"; extra: Record<string, unknown> };
 
@@ -61,7 +68,7 @@ async function pinByBrand(body: Record<string, unknown>): Promise<Pinned | NextR
  *
  * Either { brand_name, brand_category, brand_product?, brand_link?, competitors?, region?, rebuild? }
  * (reuses the brand's latest measured build, or starts one and links to it), or { slug, build_id? }
- * for an existing brand. Both accept partner_id (a per-partner link variant), expires_in_hours and label.
+ * for an existing brand. Both accept partner_id (a per-partner link variant), label and an optional expires_in_hours; links never expire without it.
  */
 export async function POST(req: NextRequest) {
   const guard = requireAdmin(req);
@@ -74,8 +81,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid JSON body" }, { status: 400 });
   }
 
-  const ttlHours = body.expires_in_hours == null ? DEFAULT_TTL_HOURS : Number(body.expires_in_hours);
-  if (!Number.isFinite(ttlHours) || ttlHours <= 0 || ttlHours > MAX_TTL_HOURS) {
+  const ttlHours = body.expires_in_hours == null ? null : Number(body.expires_in_hours);
+  if (ttlHours !== null && (!Number.isFinite(ttlHours) || ttlHours <= 0 || ttlHours > MAX_TTL_HOURS)) {
     return NextResponse.json({ error: `expires_in_hours must be > 0 and <= ${MAX_TTL_HOURS}` }, { status: 400 });
   }
   const label = typeof body.label === "string" && body.label.trim() ? body.label.trim().slice(0, 120) : null;
@@ -88,13 +95,13 @@ export async function POST(req: NextRequest) {
     const { token, claims } = createMagicToken({ slug: pinned.slug, buildId: pinned.buildId, label, partnerId, ttlHours });
     return withAdminSession(req, NextResponse.json(
       {
-        url: `${new URL("/share", req.nextUrl.origin).toString()}#${token}`,
+        url: `${new URL("/share", publicOrigin(req)).toString()}#${token}`,
         token,
         slug: pinned.slug,
         partner_id: partnerId,
         label,
         issued_at: new Date(claims.issuedAt * 1000).toISOString(),
-        expires_at: new Date(claims.expiresAt * 1000).toISOString(),
+        expires_at: claims.expiresAt === null ? null : new Date(claims.expiresAt * 1000).toISOString(),
         build: { id: pinned.buildId, status: pinned.status, poll_url: `/api/builds/${pinned.buildId}` },
         ...pinned.extra,
       },
