@@ -11,6 +11,7 @@ export type MagicLinkClaims = {
   slug: string;
   buildId: string | null;
   label: string | null;
+  partnerId: string | null;
   issuedAt: number;
   expiresAt: number;
   nonce: string;
@@ -41,6 +42,7 @@ export function createMagicToken(input: {
   slug: string;
   buildId: string | null;
   label: string | null;
+  partnerId?: string | null;
   ttlHours: number;
   now?: number;
 }): { token: string; claims: MagicLinkClaims } {
@@ -50,6 +52,7 @@ export function createMagicToken(input: {
     slug: input.slug,
     buildId: input.buildId,
     label: input.label,
+    partnerId: input.partnerId ?? null,
     issuedAt,
     expiresAt: issuedAt + Math.round(input.ttlHours * 3600),
     nonce: randomBytes(9).toString("base64url"),

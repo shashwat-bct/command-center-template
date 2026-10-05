@@ -67,6 +67,25 @@ function firstMention(text: string, brand: string): number {
   return brand ? text.search(brandPattern(brand)) : -1;
 }
 
+/**
+ * Asks Claude for the main competing brands in a category, for requests that
+ * name no competitors. Returns brand names only, never the subject itself.
+ */
+export async function fetchCompetitorBrands(subjectName: string, category: string, count = 4): Promise<string[]> {
+  const text = await callLLM({
+    system: "You are a market analyst. Reply with brand names only, one per line, no numbering or commentary.",
+    user: `Name the ${count} brands that compete most directly with ${subjectName} in ${category} in the US, as shoppers would see them on Amazon. One brand name per line.`,
+    maxTokens: 120,
+    temperature: 0,
+  });
+  const subject = subjectName.trim().toLowerCase();
+  return text
+    .split("\n")
+    .map((s) => s.replace(/^[-\d.*)\s]+/, "").trim())
+    .filter((s) => s.length > 0 && s.length < 40 && s.toLowerCase() !== subject)
+    .slice(0, count);
+}
+
 export async function fetchAiShareOfMind(input: AiSoMInput): Promise<AiSoMResult> {
   const n = Math.min(input.questionCount ?? QUESTION_TEMPLATES.length, QUESTION_TEMPLATES.length);
   const runs = Math.max(1, input.runs ?? 2);

@@ -26,6 +26,16 @@ const readCookie = (req: Request, name: string): string | null => {
 
 export const adminAuthEnabled = (): boolean => !!SECRET;
 
+/**
+ * The bearer credential from `Authorization: Bearer <token>`, if any.
+ */
+export function bearerToken(req: Request): string | null {
+  const m = /^Bearer\s+(\S+)$/i.exec(req.headers.get("authorization") ?? "");
+  return m ? m[1] : null;
+}
+
+const headerToken = (req: Request): string | null => req.headers.get("x-admin-token") ?? bearerToken(req);
+
 export function tokenIsValid(token: string | null | undefined): boolean {
   return !!SECRET && !!token && safeEqual(token, SECRET);
 }
@@ -36,7 +46,7 @@ export function tokenIsValid(token: string | null | undefined): boolean {
  */
 export function isAdmin(req: Request): boolean {
   if (!SECRET) return true;
-  if (tokenIsValid(req.headers.get("x-admin-token"))) return true;
+  if (tokenIsValid(headerToken(req))) return true;
   const cookie = readCookie(req, ADMIN_COOKIE);
   return !!cookie && safeEqual(cookie, sessionValue(SECRET));
 }
@@ -51,7 +61,7 @@ export function requireAdmin(req: NextRequest): NextResponse | null {
  * token, so dashboard links opened from the admin flow are authorised.
  */
 export function withAdminSession<T extends Response>(req: Request, res: T): T {
-  if (!SECRET || !tokenIsValid(req.headers.get("x-admin-token"))) return res;
+  if (!SECRET || !tokenIsValid(headerToken(req))) return res;
   res.headers.append("set-cookie", adminCookieHeader(sessionValue(SECRET), COOKIE_MAX_AGE_S));
   return res;
 }

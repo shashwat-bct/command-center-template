@@ -155,22 +155,9 @@ function provBadge(metricId, brand) {
   if (!k || !PROV_LABEL[k]) return "";
   return `<i class="pv pv-${k}" title="${esc(PROV_LABEL[k][1])}">${PROV_LABEL[k][0]}</i>`;
 }
-const LEGACY_PARTIAL = /^Partial real data/, LEGACY_PREVIEW = /^Reference preview/;
-function buildProvenanceBanner() {
-  const p = D.meta.provenance, dis = D.meta.disclosure || {};
-  if ($("#provBanner")) return;
+function labelSimChip() {
+  const p = D.meta.provenance;
   if (p && p.mode === "measured-only" && $("#simBtn")) { $("#simBtn").innerHTML = "<i></i>Measured data only"; $("#simBtn").title = "How each number was measured"; }
-  let html = null;
-  if (p) html = `<b>${esc(dis.short || "")}</b><span>${esc(dis.headline || "")} ${esc(dis.body || "")}</span><a href="#method">How each number was sourced</a>`;
-  else if (LEGACY_PARTIAL.test(dis.short || "")) html = `<b>Mostly reference data</b><span>This dashboard was built before each number was labelled by source. At most ${esc(SUBJ)}'s Amazon star rating was measured, and builds from that time did not check that the listings belonged to ${esc(SUBJ)}. Everything else is another brand's simulated data shown under these names. Rebuild it for per-number labels.</span>`;
-  else if (LEGACY_PREVIEW.test(dis.short || "")) html = `<b>Nothing measured</b><span>Every figure on this dashboard is another brand's simulated data shown under ${esc(SUBJ)}'s name, to illustrate the layout.</span>`;
-  if (!html) return;
-  const el = document.createElement("div");
-  el.id = "provBanner";
-  el.className = "prov-banner";
-  el.setAttribute("role", "note");
-  el.innerHTML = html;
-  $("#main").prepend(el);
 }
 function kpi(o) {
   return `<div class="kpi">
@@ -274,15 +261,24 @@ const bootData = window.__CCO_PAYLOAD
   ? new Promise((done) => (document.readyState === "loading"
       ? document.addEventListener("DOMContentLoaded", () => done(window.__CCO_PAYLOAD))
       : done(window.__CCO_PAYLOAD)))
-  : fetch(PAYLOAD).then((r) => {
+  : (function load() {
+      if (document.body.dataset.shareMissing) return Promise.reject(Object.assign(new Error("This share link is incomplete — open the full link you were sent."), { friendly: true }));
+      return fetch(PAYLOAD, window.__CC_AUTH ? { headers: { authorization: window.__CC_AUTH } } : undefined).then((r) => {
+      if (r.status === 202) {
+        const m = $("#ccLoaderMsg");
+        if (m) m.textContent = "This dashboard is being built from live data — it opens by itself when ready (usually 3–4 minutes).";
+        clearTimeout(loaderSlow);
+        return new Promise((done) => setTimeout(done, 10000)).then(load);
+      }
       if (r.ok) return r.json();
-      const why = r.status === 401 ? "You need to sign in to see this dashboard."
+      const why = r.status === 401 ? (window.__CC_AUTH ? "This share link isn't valid. Check that you opened the whole link." : "You need to sign in to see this dashboard.")
         : r.status === 404 ? "There is no finished build for this brand yet."
         : r.status === 410 ? "This share link has expired."
         : r.status === 409 ? "This brand's last build used simulated data, which is no longer shown. Rebuild it from Add a brand to get measured figures."
+        : r.status === 424 ? "The build for this dashboard failed. Ask whoever shared it for a new link."
         : `The server returned ${r.status}.`;
       throw Object.assign(new Error(why), { friendly: true });
-    });
+    }); })();
 const loaderSlow = setTimeout(() => { const m = $("#ccLoaderMsg"); if (m) m.textContent = "Still loading — the first visit after a build can take a few seconds…"; }, 6000);
 function hideLoader() {
   clearTimeout(loaderSlow);
@@ -304,7 +300,7 @@ bootData.then((json) => {
   D = json; F = CC.fmt;
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);
-  buildNav(); buildControls(); buildBrand(); buildProvenanceBanner();
+  buildNav(); buildControls(); buildBrand(); labelSimChip();
   $("#scWin").textContent = `${F.date(D.meta.window.start)} – ${F.date(D.meta.window.end)} · ${D.meta.market || "US"}`;
   window.addEventListener("hashchange", route);
   route();

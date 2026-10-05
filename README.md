@@ -32,15 +32,39 @@ Run `npm run test:relabel` after touching `lib/` — it runs the real builder wi
 | `/admin?from=<slug>` | The form pre-filled with what that brand was last built with |
 | `/admin/building/<build_id>` | Build progress |
 | `/<slug>` | Dashboard (admin session required when `ADMIN_SHARED_SECRET` is set) |
-| `/share/<token>` | Dashboard via a magic link |
-| `/api/magic-links` | Create a share link (`POST {slug, build_id?, expires_in_hours?, label?}`) |
+| `/share#<token>` | Dashboard via a magic link (the token stays in the fragment, so it never reaches server logs) |
+| `/api/magic-links` | Create a share link — see below |
 | `/api/admin/session` | Sign in (`POST {token}`) / out (`DELETE`) |
 | `/api/brands` | List / create brands (BigQuery `cco_mgmt.brands`) |
 | `/api/brands/<slug>` | The inputs the brand was last built with |
 | `/api/brands/<slug>/rebuild` | Rebuild with those inputs (`POST`) |
 | `/api/builds/<build_id>` | Build status (BigQuery `cco_mgmt.builds`) |
-| `/api/payloads/<slug>` | Latest ready payload from GCS, else the vendored one |
+| `/api/payloads/<slug>` | Dashboard data: latest measured build for admins, or the pinned build for `Authorization: Bearer <magic token>` (202 while it builds) |
 | `/api/health` | Health check |
+
+## Magic links
+
+Full reference: [`docs/magic-link-api.md`](docs/magic-link-api.md).
+
+`POST /api/magic-links` (admin: `Authorization: Bearer <admin token>` or `x-admin-token`)
+
+```json
+{
+  "brand_name": "Ninja",
+  "brand_category": "air fryer",
+  "brand_product": ["Foodi DualZone", "Crispi"],
+  "brand_link": "https://www.ninjakitchen.com",
+  "partner_id": "acme",
+  "competitors": ["Cosori", "Instant Pot"],
+  "rebuild": false,
+  "expires_in_hours": 72,
+  "label": "Ninja deck"
+}
+```
+
+`brand_name` and `brand_category` are required. If the brand has a measured build it is reused (`201`, with `built_with` showing that build's inputs; `rebuild: true` forces a new one). Otherwise a build starts and the link is returned at once (`202`); the recipient sees "being built" until it is ready. Without `competitors`, Claude names four. Each `partner_id` gets its own signed link. `{ "slug": "anker" }` still works for an existing brand.
+
+Response: `url` (`https://<host>/share#<token>`), `token`, `slug`, `partner_id`, `issued_at`, `expires_at`, `build { id, status, poll_url }`, `brand`, `competitors`, `competitors_source`, `built_with`.
 
 ## Build pipeline (`lib/capture.ts`)
 

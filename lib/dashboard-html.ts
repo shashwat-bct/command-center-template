@@ -12,7 +12,27 @@ const asset = (name: string): string => {
 export type DashboardHtmlInput = {
   title: string;
   payloadUrl: string;
+  share?: boolean;
 };
+
+const SHARE_BOOTSTRAP = `<script>
+(function () {
+  var key = "cc_share_token", hash = location.hash.slice(1), token = null;
+  if (hash.indexOf(".") > 0) {
+    try { sessionStorage.setItem(key, hash); } catch (e) {}
+    token = hash;
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+  if (!token) { try { token = sessionStorage.getItem(key); } catch (e) {} }
+  try {
+    var claims = JSON.parse(atob(token.split(".")[0].replace(/-/g, "+").replace(/_/g, "/")));
+    document.body.dataset.payload = "/api/payloads/" + encodeURIComponent(claims.slug);
+    window.__CC_AUTH = "Bearer " + token;
+  } catch (e) {
+    document.body.dataset.shareMissing = "1";
+  }
+})();
+</script>`;
 
 const TITLE_OVERRIDES: Record<string, string> = {
   sonos: "Sonos · Commercial Command Center",
@@ -23,7 +43,7 @@ const TITLE_OVERRIDES: Record<string, string> = {
 export const dashboardTitle = (slug: string): string =>
   TITLE_OVERRIDES[slug] ?? `${slug.charAt(0).toUpperCase() + slug.slice(1)} · Commercial Command Center`;
 
-export function renderDashboardHtml({ title, payloadUrl }: DashboardHtmlInput): string {
+export function renderDashboardHtml({ title, payloadUrl, share = false }: DashboardHtmlInput): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -36,6 +56,7 @@ export function renderDashboardHtml({ title, payloadUrl }: DashboardHtmlInput): 
 <link rel="stylesheet" href="${asset("cco-dashboard.css")}">
 </head>
 <body data-payload="${escapeAttr(payloadUrl)}">
+${share ? SHARE_BOOTSTRAP : ""}
 <div id="ccLoader" class="cc-loader" role="status" aria-live="polite">
   <div class="cc-loader-card">
     <div class="cc-spinner" aria-hidden="true"></div>

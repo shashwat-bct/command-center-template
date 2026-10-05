@@ -1,20 +1,47 @@
 import { type NextRequest } from "next/server";
-import { requireAdmin } from "@/lib/admin-auth";
+import { bearerToken, isAdmin, tokenIsValid } from "@/lib/admin-auth";
+import { expireIfStale, getLatestBuild } from "@/lib/bq";
 import { isMeasuredOnly, loadBuildPayload, loadLatestPayload, payloadResponse, retiredResponse } from "@/lib/payload-source";
+import { SHARE_HEADERS, checkShareToken } from "@/lib/share-response";
 
-// GET /api/payloads/<slug>              → the latest ready payload for a brand
-// GET /api/payloads/<slug>?build=<id>   → a specific build's payload
+// GET /api/payloads/<slug>              → the latest ready payload (admin session or token)
+// GET /api/payloads/<slug>?build=<id>   → a specific build's payload (admin)
+// Authorization: Bearer <magic token>   → the build that token is pinned to
 //
 // Only measured-only builds are served; older simulated builds answer 409.
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
-  const guard = requireAdmin(req);
-  if (guard) return guard;
-  const { slug } = await params;
-  const build = req.nextUrl.searchParams.get("build");
+const SHARE_STATUS = { expired: 410, invalid: 401, config: 500 } as const;
 
+async function sharedPayload(slug: string, token: string): Promise<Response> {
+  const check = checkShareToken(token);
+  if (!check.ok) return Response.json({ error: check.kind }, { status: SHARE_STATUS[check.kind], headers: SHARE_HEADERS });
+  const { claims } = check;
+  if (claims.slug !== slug || !claims.buildId) return Response.json({ error: "invalid" }, { status: 401, headers: SHARE_HEADERS });
+
+  const source = await loadBuildPayload(slug, claims.buildId);
+  if (!source) {
+    const build = await getLatestBuild(claims.buildId).then((b) => (b ? expireIfStale(b) : null)).catch(() => null);
+    if (build && (build.status === "queued" || build.status === "running")) {
+      return Response.json({ status: "building", started_at: build.started_at }, { status: 202, headers: { ...SHARE_HEADERS, "retry-after": "10" } });
+    }
+    if (build?.status === "failed") return Response.json({ error: "build failed", detail: build.error }, { status: 424, headers: SHARE_HEADERS });
+    return Response.json({ error: "payload not found" }, { status: 404, headers: SHARE_HEADERS });
+  }
+  if (!isMeasuredOnly(source)) return retiredResponse({ ...SHARE_HEADERS });
+  const res = payloadResponse(source, SHARE_HEADERS["cache-control"]);
+  for (const [k, v] of Object.entries(SHARE_HEADERS)) res.headers.set(k, v);
+  return res;
+}
+
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const bearer = bearerToken(req);
+  if (bearer && !tokenIsValid(bearer)) return sharedPayload(slug, bearer);
+  if (!isAdmin(req)) return Response.json({ error: "missing or invalid credentials" }, { status: 401 });
+
+  const build = req.nextUrl.searchParams.get("build");
   if (build) {
     const source = await loadBuildPayload(slug, build);
     if (!source) return new Response("not found", { status: 404 });
