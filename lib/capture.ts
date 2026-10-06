@@ -11,7 +11,13 @@ import { nanoid } from "nanoid";
 import { getBrand, insertBuild, updateBuild, upsertBrand, type BuildStep, type BuildOptions } from "./bq";
 import { uploadLog, uploadPayload } from "./gcs";
 import { fetchKeepaBrand, fetchKeepaSearch, type KeepaBrandAggregate } from "./keepa";
-import { fetchAiShareOfMind, type AiSoMResult } from "./ai-visibility";
+import { fetchAiShareOfMind, generateQuestionBank, type AiSoMResult } from "./ai-visibility";
+import { buildAiConsole, crawlerSites, type ConsoleCapture } from "./ai-console";
+import { readCrawlerAccess } from "./crawler-access";
+import { buildWorkbench, type CommandCenterData } from "./aeo-workbench";
+import { latestReadyBuildId, loadBuildPayload } from "./payload-source";
+import { availableEngines } from "./ai-engines";
+import { applyOverrides, loadOverrides } from "./brand-overrides";
 import { fetchAmazonSearch, fetchApifyAmazon, type AmazonProduct, type SearchResult } from "./apify";
 import { buildRelabelInputs, type RelabelInputs } from "./launch-override";
 import { measuredCount } from "./provenance";
@@ -178,12 +184,14 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     { name: "builder", status: "pending" },
     { name: "relabel", status: "pending" },
     { name: "rebrand", status: "pending" },
+    ...(willHitAI ? [{ name: "ai-console", status: "pending" as const }] : []),
+    { name: "overrides", status: "pending" },
     { name: "upload", status: "pending" },
   ];
   const logChunks: string[] = [];
   const logLine = (s: string) => logChunks.push(`[${new Date().toISOString()}] ${s}`);
   logLine(`region ${region} (Keepa domain ${keepaDomain})${brandLink ? ` · ${brandLink}` : ""}`);
-  logLine(`measured-only build for "${slug}": only what Keepa, Apify and Claude return reaches the payload.`);
+  logLine(`build for "${slug}": AI engines, Keepa and Apify readings are laid over a market modelled per brand.`);
 
   await updateBuild(build_id, { status: "running", started_at: new Date().toISOString(), steps });
 
@@ -311,18 +319,27 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   }
 
   let aiResult: AiSoMResult | null = null;
+  let aspects: string[] = [];
   if (willHitAI && category) {
     aiResult = await runStep("ai-visibility", async () => {
-      logLine(`asking Claude 12 shopper questions about "${category}" twice and counting brand mentions`);
-      const r = await fetchAiShareOfMind({ subjectName: name, category, competitors: aiCompetitors });
-      logLine(`AI share of answer: ${JSON.stringify(r.shareByBrand)} (${r.totalBrandMentions} mentions, ${r.questionsFailed}/${r.questionsAsked} questions failed)`);
-      logLine(`per run: ${r.shareByRun.map((x) => JSON.stringify(x)).join(" | ")}`);
-      for (const q of r.perQuestion) logLine(`  [run ${q.run} · ${q.stage}] ${q.q.slice(0, 70)} → ${q.error ? `failed: ${q.error}` : q.mentionOrder.join(" > ") || "no brands"}`);
+      const engines = availableEngines();
+      const bank = await generateQuestionBank(name, aiCompetitors, category);
+      logLine(`question bank for "${category}": ${bank.questions.length} questions (${bank.questions.filter((q) => q.focus === "neutral").length} brand-neutral); attributes: ${bank.attributes.join(", ")}; domains: ${JSON.stringify(bank.domains)}`);
+      logLine(`asking ${engines.map((e) => `${e.label} (${e.model}${e.webSearch ? ", web search" : ""})`).join(", ")} every question once`);
+      const r = await fetchAiShareOfMind({ subjectName: name, category, competitors: aiCompetitors, engines, bank });
+      aspects = bank.attributes.slice(0, 6).map((a) => a.charAt(0).toUpperCase() + a.slice(1));
+      for (const f of r.failedEngines) logLine(`  ${f.label} failed: ${f.error}`);
+      for (const e of r.engines) {
+        logLine(`  ${e.label}: share ${JSON.stringify(e.shareByBrand)} · mentioned in ${JSON.stringify(e.mentionRateByBrand)}% of answers · ${e.questionsFailed}/${e.questionsAsked} failed · brands matched by ${e.matching}`);
+        if (e.otherBrands.length) logLine(`    other brands named: ${e.otherBrands.map((o) => `${o.brand} (${o.answers})`).join(", ")}`);
+      }
+      logLine(`AI share across engines: ${JSON.stringify(r.shareByBrand)}`);
+      for (const q of r.perQuestion.filter((x) => x.run === 1)) logLine(`  [${q.engine} · ${q.stage}] ${q.q.slice(0, 70)} → ${q.error ? `failed: ${q.error}` : [...q.mentionOrder, ...q.otherBrands.map((o) => `(${o})`)].join(" > ") || "no brands"}`);
       return r;
     });
   }
 
-  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults });
+  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, seed: slug });
   prepareRelabelWorkDir(workDir, relabelInputs);
   logLine(`applied measurements: ${JSON.stringify(relabelInputs.applied)}`);
 
@@ -349,7 +366,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   await runStep("relabel", async () => {
     const { json, provenance } = applyProvenance(payloadJson, relabelInputs, name, slug, options.inputs);
     payloadJson = json;
-    logLine(`provenance: ${measuredCount(provenance, provenance.subjectSlot)} of 12 measures measured for ${name}`);
+    logLine(`provenance: ${measuredCount(provenance, provenance.subjectSlot)} of 12 scorecard measures read from a live source for ${name}; the rest are modelled`);
   });
 
   await runStep("rebrand", async () => {
@@ -359,6 +376,44 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       subjectProducts: [],
       competitorProducts: [],
     }));
+  });
+
+  if (aiResult) {
+    const ai = aiResult;
+    await runStep("ai-console", async () => {
+      const payload = JSON.parse(payloadJson) as { dims: { brands: Array<{ id: string; label: string; color: string }>; models: Array<{ brand: string; label: string; msrp?: number }> }; meta: { subject: string } } & Record<string, unknown>;
+      const names = [name, ...aiCompetitors];
+      const brands = payload.dims.brands.slice(0, names.length).map((b, i) => ({ ...b, name: names[i] }));
+      let previous: ConsoleCapture | null = null;
+      const prevId = await latestReadyBuildId(slug).catch(() => null);
+      const prev = prevId ? await loadBuildPayload(slug, prevId) : null;
+      if (prev) {
+        const pc = (JSON.parse(prev.bytes.toString("utf8")) as { aiConsole?: { captures: Record<string, ConsoleCapture>; current: string } }).aiConsole;
+        previous = pc?.captures[pc.current] ?? null;
+      }
+      const subjectDomain = brandLink ? (() => { try { return new URL(brandLink).hostname.replace(/^www\./, ""); } catch { return null; } })() : null;
+      const consolePayload = buildAiConsole({
+        slug, ai, brands, subjectDomain, category: category ?? "", market: region,
+        products: payload.dims.models.filter((m) => m.brand === payload.meta.subject).map((m) => ({ label: m.label, msrp: m.msrp ?? null })),
+        previous, crawlerAccess: null,
+      });
+      const sites = crawlerSites(consolePayload);
+      consolePayload.crawlerAccess = await readCrawlerAccess(sites).catch(() => null);
+      payload.aiConsole = consolePayload;
+      payload.aeoWorkbench = buildWorkbench(consolePayload, payload as unknown as CommandCenterData, slug);
+      payloadJson = JSON.stringify(payload);
+      const cur = consolePayload.captures[consolePayload.current];
+      logLine(`AI console: ${cur.n} answers, ${cur.answers.reduce((n, a) => n + a.sources.length, 0)} citations, ${cur.answers.reduce((n, a) => n + a.subjectClaims.length, 0)} claims about ${name}; ${previous ? `compared with the capture of ${previous.basis}` : "no earlier capture to compare"}; crawler access read for ${consolePayload.crawlerAccess?.sites.length ?? 0} sites`);
+    });
+  }
+
+  await runStep("overrides", async () => {
+    const overrides = loadOverrides(slug);
+    if (!overrides) { logLine(`no brand-data/${slug}.json; modelled lanes keep their generated values`); return; }
+    const payload = JSON.parse(payloadJson) as unknown;
+    const r = applyOverrides(payload, overrides, { ai: relabelInputs.applied.aiSlots.length > 0, amazon: relabelInputs.applied.amazonSeries.length > 0 });
+    payloadJson = JSON.stringify(payload);
+    logLine(`brand-data/${slug}.json: ${r.applied.length} value(s) applied${r.skipped.length ? `; kept measured data at ${r.skipped.join(", ")}` : ""}`);
   });
 
   await setStep("upload", { status: "running", started_at: new Date().toISOString() });

@@ -7,7 +7,11 @@ import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "../li
 import { rebrandPayload } from "../lib/rebrand";
 import { inStockShare, listingMatchesBrand, type KeepaBrandAggregate, type KeepaHistory } from "../lib/keepa";
 import { AMAZON_RETAIL_SELLER, windowDates, windowEndFor } from "../lib/amazon-series";
-import type { AiQuestionResult, AiSoMResult, FunnelStage } from "../lib/ai-visibility";
+import type { AiQuestionResult, AiSoMResult, EngineSoM, FunnelStage } from "../lib/ai-visibility";
+import { applyOverrides } from "../lib/brand-overrides";
+import { buildAiConsole, crawlerSites } from "../lib/ai-console";
+import { botAccess, parseRobots } from "../lib/crawler-access";
+import { buildWorkbench, type CommandCenterData } from "../lib/aeo-workbench";
 import { parseAmazonItem, type AmazonProduct, type SearchResult } from "../lib/apify";
 
 type Cell = { value: number | null; rank: number | null; of: number };
@@ -111,23 +115,45 @@ const shelfResults: SearchResult[] = [
 ].map((title, i) => ({ position: i + 1, asin: `B0SHELF${String(i).padStart(3, "0")}`, title, price: 99, sponsored: false }));
 
 const shares = { Theragun: 12, Hyperice: 40, TimTam: 25, Ekrin: 15, Lifepro: 8 };
-const STAGES: FunnelStage[] = ["awareness", "awareness", "awareness", "consideration", "consideration", "consideration", "evaluation", "evaluation", "evaluation", "decision", "decision", "decision"];
-const perQuestion: AiQuestionResult[] = STAGES.map((stage, i) => ({
-  run: 1, stage, q: `Question ${i + 1} about massage guns`,
-  hitsByBrand: stage === "decision" ? { Theragun: 3, Hyperice: 1, TimTam: 1, Ekrin: 0, Lifepro: 0 } : { Theragun: 0, Hyperice: 4, TimTam: 2, Ekrin: 2, Lifepro: 1 },
-  mentionOrder: stage === "decision" ? ["Theragun", "Hyperice", "TimTam"] : ["Hyperice", "TimTam", "Ekrin", "Lifepro"],
-  answer: "fixture",
-}));
-const ai: AiSoMResult = {
-  subjectShare: 12, questionsAsked: 12, subjectMentions: 6, totalBrandMentions: 50,
-  perBrand: {}, shareByBrand: shares, shareByRun: [shares], questionsFailed: 0, perQuestion,
+const engineShares: Record<"chatgpt" | "gemini", Record<string, number>> = {
+  chatgpt: { Theragun: 10, Hyperice: 42, TimTam: 24, Ekrin: 16, Lifepro: 8 },
+  gemini: { Theragun: 14, Hyperice: 38, TimTam: 26, Ekrin: 14, Lifepro: 8 },
 };
+const decision = { Theragun: 50, Hyperice: 20, TimTam: 20, Ekrin: 5, Lifepro: 5 };
+const STAGES: FunnelStage[] = ["awareness", "awareness", "awareness", "consideration", "consideration", "consideration", "evaluation", "evaluation", "evaluation", "decision", "decision", "decision"];
+const perQuestion: AiQuestionResult[] = (["chatgpt", "gemini"] as const).flatMap((engine) => STAGES.map((stage, i) => {
+  const mentionOrder = stage === "decision" ? ["Theragun", "Hyperice", "TimTam"] : ["Hyperice", "TimTam", "Ekrin", "Lifepro"];
+  return {
+    engine, run: 1, queryId: `q${String(i + 1).padStart(2, "0")}`, stage, focus: "neutral" as const, q: `Question ${i + 1} about massage guns`,
+    mentionOrder, otherBrands: ["TOLOCO"],
+    brands: [...mentionOrder, "TOLOCO"].map((name, k) => ({ name, rank: k + 1, recommended: k === 0, sentiment: "positive" as const, product: name === "Theragun" ? "PRO Plus" : "" })),
+    topPick: mentionOrder[0], attributes: { Theragun: [{ attr: "battery life", polarity: "+" as const }] },
+    claims: stage === "decision" ? [{ claim: "Theragun PRO Plus costs $599.", type: "price" as const, product: "PRO Plus", value: "$599" }] : [],
+    sources: i === 0 ? [{ url: "https://www.hyperice.com/hypervolt", title: "Hypervolt" }, { url: "https://www.reddit.com/r/massage", title: "r/massage" }] : [], answer: "fixture answer",
+  };
+}));
+const engineSoM = (engine: "chatgpt" | "gemini", label: string): EngineSoM => ({
+  engine, label, model: "fixture", webSearch: true, matching: "llm", questionsAsked: 12, questionsFailed: 0,
+  shareByBrand: engineShares[engine], mentionRateByBrand: engineShares[engine], shareByStage: { decision, awareness: engineShares[engine] },
+  shareByRun: [engineShares[engine]], otherBrands: [{ brand: "TOLOCO", answers: 12 }],
+});
+const ai: AiSoMResult = {
+  engines: [engineSoM("chatgpt", "ChatGPT"), engineSoM("gemini", "Gemini")],
+  failedEngines: [{ engine: "claude", label: "Claude", error: "fixture outage" }],
+  bank: {
+    questions: STAGES.map((stage, i) => ({ id: `q${String(i + 1).padStart(2, "0")}`, stage, focus: "neutral" as const, text: `Question ${i + 1} about massage guns` })),
+    attributes: ["battery life", "percussion strength", "noise level", "attachments", "build quality", "value for money"],
+    categoryNoun: ["massage gun", "massage guns"], domains: { Theragun: "therabody.com", Hyperice: "hyperice.com" },
+  },
+  subjectShare: 12, shareByBrand: shares, shareByStage: { decision, awareness: shares }, questionsAsked: 24, questionsFailed: 0, perQuestion,
+};
+const ASPECTS = ["Battery life", "Percussion strength", "Noise level", "Attachments", "Build quality", "Value for money"];
 
 const VENDOR = resolve(process.cwd(), "vendor", "bravo-platform");
 
-function build(withMeasurements: boolean): Payload {
+function build(withMeasurements: boolean, seed: string = SUBJECT.slug): Payload {
   const inputs = buildRelabelInputs({
-    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW,
+    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, seed, aspects: ASPECTS,
     keepa: withMeasurements ? keepa : null, competitorKeepa: withMeasurements ? competitorKeepa : [],
     ai: withMeasurements ? ai : null, apify: withMeasurements ? apify : new Map(), shelfResults: withMeasurements ? shelfResults : null,
   });
@@ -169,96 +195,113 @@ check(parsed[0].brand === "TheraGun" && parsed[0].rating === 4.6 && parsed[0].re
 check(parsed[0].deliveryDays === 5 && parsed[0].seller === "TheraGun" && !!parsed[0].sellerId, "Apify: delivery days and buy-box seller", `${parsed[0].deliveryDays}d ${parsed[0].seller} ${parsed[0].sellerId}`);
 check(!!parsed[0].pdp && parsed[0].pdp.images > 0 && parsed[0].pdp.aplus === 1, "Apify: product-page content", JSON.stringify(parsed[0].pdp));
 
-console.log("── measured build");
+console.log("── hybrid build");
 const p = build(true);
 const ids = Object.fromEntries(p.dims.brands.map((b) => [b.label, b.id]));
-const S = SUBJECT.slug, H = ids.Hyperice, T = ids.TimTam;
+const S = SUBJECT.slug, H = ids.Hyperice;
 const val = (metric: string, brand: string) => p.scorecard.qbr[metric]?.[brand]?.value ?? null;
-const prov = p.meta.provenance?.metrics ?? {};
 const di = (iso: string) => p.dims.dates.indexOf(iso);
 const E1 = "l-b0thera001", E2 = "l-b0thera002";
-check(p.dims.models.every((m) => m.id === "l-" + String((m as { asin?: string }).asin).toLowerCase()), "every model is keyed by its own ASIN, not a Sonos slot name");
-
+check(p.dims.models.every((m) => m.id === "l-" + String((m as { asin?: string }).asin).toLowerCase()), "every model is keyed by its own ASIN, not a reference slot name");
 check(windowEndFor(NOW) === WINDOW_END && p.dims.dates.at(-1) === WINDOW_END && p.dims.dates.length === 91, "window is the 13 weeks to the last full week", `${p.dims.dates[0]} → ${p.dims.dates.at(-1)}`);
-check(p.dims.retailers.length === 1 && p.dims.retailers[0].id === "amazon" && p.dims.cities.length === 0, "Amazon is the only retailer; no simulated cities");
-check(p.dims.models.length === 5 && p.dims.models.every((m) => !/Era|Echo|HomePod|SoundLink|JBL|Theragun \d/.test(m.label)), "only real listings appear as models", p.dims.models.map((m) => m.label).join(" · "));
+check(p.dims.retailers.length === 5 && p.dims.retailers.some((r) => r.id === "amazon") && p.dims.cities.length === 6, "five retailers and six cities are modelled around Amazon", p.dims.retailers.map((r) => r.id).join(","));
+check(p.dims.models.length === 5 && p.dims.models.every((m) => !/Era|Echo|HomePod|SoundLink|JBL/.test(m.label)), "only real listings appear as models", p.dims.models.map((m) => m.label).join(" · "));
 check(p.dims.models.filter((m) => m.label.startsWith("TheraGun Mini 3rd Gen")).length === 1, "colour variants of one product fill one slot");
 
-for (const [name, s] of Object.entries(shares)) check(val("aiSov", ids[name]) === s, `AI share for ${name} is exactly Claude's ${s}%`, String(val("aiSov", ids[name])));
-check((p.ai.overall[S] ?? []).every((v) => v === 12), "AI share series is flat at the single reading");
-check(p.dims.engines.length === 1 && p.dims.engines[0].label === "Claude", "Claude is the only engine shown");
-check(p.ai.prompts.length === 12 && p.ai.prompts[0].topBrand === H && p.ai.prompts[11].topBrand === S, "prompt table comes from the answers");
-
+console.log("── measured lanes");
+for (const [name, v] of Object.entries(shares)) check(val("aiSov", ids[name]) === v, `AI share for ${name} is the engines' mean ${v}%`, String(val("aiSov", ids[name])));
+check((p.ai.overall[S] ?? []).every((v) => v === 12), "AI share series is flat at the reading");
+check(p.dims.engines.map((e) => e.label).join(",") === "ChatGPT,Gemini", "engines shown are the ones that answered", p.dims.engines.map((e) => e.label).join(","));
+const byEs = (p.ai as unknown as { byEngineStage: Record<string, number[]> }).byEngineStage;
+check(byEs[`chatgpt|decision|${S}`]?.every((v) => v === 50) && byEs[`gemini|awareness|${S}`]?.every((v) => v === 14), "per-engine, per-stage series carry that engine's stage reading");
+check(p.ai.prompts.length === 24 && p.ai.prompts[0].q.startsWith("ChatGPT: ") && p.ai.prompts[0].topBrand === H, "prompt table has one row per engine and question", `${p.ai.prompts.length} rows`);
+check((p.ai.prompts[0] as unknown as { cited: Record<string, boolean> }).cited[H] === true, "a brand whose domain an answer cites is marked cited");
 const amz = `${E1}|amazon`;
 const price = p.pricing.price[amz] ?? [];
 check(price[di("2026-07-01")] === 300 && price[di("2026-07-15")] === 240 && price[di("2026-07-20")] === 300, "Amazon price is Keepa's daily price", `${price[di("2026-07-01")]} / ${price[di("2026-07-15")]} / ${price[di("2026-07-20")]}`);
 const stock = p.availability.stock[amz] ?? [];
 check(stock[di("2026-08-09")] === 1 && stock[di("2026-08-10")] === 0 && stock[di("2026-08-13")] === 1, "Amazon stock is Keepa's buyable state");
-check(p.availability.episodes.some((e) => e.model === E1 && e.start === OOS.from && e.days === 3), "stock-out detected from history");
-check(p.promotions.events.some((e) => e.model === E1 && e.start === SALE.from && e.end === SALE.to && e.depthPct === 20), "price cut detected from history");
-check(p.promotions.events.every((e) => !e.alwaysOn), "no simulated always-on mechanics");
+check(p.availability.episodes.some((e) => e.model === E1 && e.retailer === "amazon" && e.start === OOS.from && e.days === 3), "Amazon stock-out detected from history");
+check(p.promotions.events.some((e) => e.model === E1 && e.retailer === "amazon" && e.start === SALE.from && e.end === SALE.to && e.depthPct === 20), "Amazon price cut detected from history");
 const ownedDays = windowDates(WINDOW_END).filter((d) => d < RESELLER_FROM && (d < OOS.from || d > OOS.to)).length;
-check(near(p.distribution.buybox[amz], ownedDays / (91 - 3), 0.02), "buy-box share from Keepa's owner history (brand store, then a reseller)", `${p.distribution.buybox[amz]} vs ${(ownedDays / 88).toFixed(3)}`);
+check(near(p.distribution.buybox[amz], ownedDays / (91 - 3), 0.02), "Amazon buy-box share from Keepa's owner history", `${p.distribution.buybox[amz]} vs ${(ownedDays / 88).toFixed(3)}`);
 check(p.distribution.buybox[`${E2}|amazon`] === 1, "Amazon retail holding the buy box counts as owned");
-check(p.pdpScores.some((x) => x.model === E1 && x.measured), "landing-page score from Apify product page");
-check(p.pdpScores.length > 0 && p.pdpScores.every((x) => x.measured), "listings Apify didn't read get no landing-page score (never simulated)", `${p.pdpScores.length} rows`);
-check((p.delivery.weekly[`${E1}|amazon|national`] ?? []).at(-1) === 5 && (p.delivery.weekly[`${E1}|amazon|national`] ?? []).slice(0, -1).every((v) => v == null), "delivery is the single Apify reading in the last week");
+check(p.pdpScores.some((x) => x.model === E1 && x.retailer === "amazon" && x.measured), "Amazon landing-page score from the Apify product page");
 const ratingS = p.voice.rating[S] ?? [];
 check(ratingS[di("2026-08-31")] === 3.3 && ratingS[di(RATING_DROP)] === 3.1, "rating is Keepa's daily rating");
 const vel = p.voice.velocity[S] ?? [];
-check(vel[di("2026-07-01")] === 30 && vel[di("2026-09-05")] === 0 && vel[di("2026-09-06")] === 0, "review velocity ignores reindex jumps");
-check(near(val("priceIndex", S), 98.4, 1.5), "price index from real prices", String(val("priceIndex", S)));
-check(near(val("rating", H), (63 * 4.0 + 28 * 3.8) / 91, 0.02), "competitor rating from its own history (4.0, then 3.8 from 1 Sep)", String(val("rating", H)));
+check(vel[di("2026-07-01")] === 30 && vel[di("2026-09-05")] === 0, "review velocity ignores reindex jumps");
 
-check(p.meta.provenance?.mode === "measured-only", "payload is marked measured-only");
-for (const m of ["aiSov", "rating", "inStock", "priceIndex", "promoDepth", "promoIntensity", "carriage", "pdpScore", "leadTime"]) check(prov[m]?.[S] === "measured", `${m} measured for ${SUBJECT.name}`);
-for (const m of ["trafficShare", "sessions"]) check(prov[m]?.[S] === "unmeasured" && val(m, S) == null && p.trend[m][S].every((v) => v == null), `${m} not measured and blank`);
-
-const sh = p.shelf.measured;
-check(!!sh && sh.term === CATEGORY && sh.depth === 10, "shelf: search results for the category stored", `${sh?.term} · ${sh?.depth}`);
-check(val("shelfSov", S) === 20 && val("shelfSov", H) === 20 && val("shelfSov", T) === 0, "shelf share = share of result positions (Theragun 2/10, Hyperice 2/10, TimTam 0)", `${val("shelfSov", S)} / ${val("shelfSov", H)} / ${val("shelfSov", T)}`);
-check(sh?.firstPosition[S] === 4 && sh?.firstPosition[H] === 2 && sh?.firstPosition[T] === null, "shelf: best position per brand", JSON.stringify(sh?.firstPosition));
-check(sh?.results.filter((r) => r.brand === null).length === 6 && sh?.results.some((r) => r.brand === S), "shelf: other brands counted, slot ids renamed to brand ids");
-check(prov.shelfSov?.[S] === "measured" && prov.shelfSov?.[T] === "measured", "shelf share labelled measured for every brand (0 is a reading)");
-
-const dm = p.demand?.listings[E1];
-check(p.demand?.rankCategory === "3767551" && (p.demand as { rankCategoryName?: string }).rankCategoryName === "Massagers", "demand: sales rank uses the category most listings share, with its name", String(p.demand?.rankCategory));
-check(dm?.monthlySold[di("2026-08-31")] === 1000 && dm?.monthlySold[di("2026-09-01")] === 2000, "demand: 'bought in past month' history from Keepa");
-check(dm?.rank.every((v) => v === 12) === true, "demand: daily subcategory rank");
-
-const ep = p.effectivePrice?.listings[E1];
-check(ep?.effective[di("2026-08-19")] === 300 && ep?.effective[di("2026-08-20")] === 210 && ep?.deal[di("2026-08-21")] === 1 && ep?.deal[di("2026-08-22")] === 0, "effective price: lightning deal price used while live", `${ep?.effective[di("2026-08-20")]}`);
-check(ep?.effective[di("2026-09-20")] === 290 && ep?.couponOff[di("2026-09-21")] === 10 && ep?.couponOff[di("2026-09-23")] === 0, "effective price: clip coupon taken off", `${ep?.effective[di("2026-09-20")]}`);
-check(ep?.effective[di("2026-07-15")] === 240, "effective price: follows the daily price otherwise");
-check(prov.rating?.[T] === "unmeasured" && val("rating", T) == null && p.voice.rating[T] == null, "brand with no listings: rating blank, not simulated");
-check(val("aiSov", T) === 25 && p.scorecard.qbr.aiSov[T].of === 5, "brand with no listings still has its measured AI share");
-check(p.scorecard.qbr.rating[S].of === 2 && p.scorecard.qbr.rating[S].rank != null, "ranks are recomputed over measured brands only", `rank ${p.scorecard.qbr.rating[S].rank} of ${p.scorecard.qbr.rating[S].of}`);
-check(p.traffic.withheld === true && p.tco.length === 0 && p.pricing.mapBreaches.length === 0, "simulated traffic, attach-rate TCO and assumed price floor removed");
+console.log("── modelled lanes");
+const traffic = p.traffic as { daily?: Record<string, number[] | null>; channels?: Record<string, unknown> };
+check(Array.isArray(traffic.daily?.[S]) && (traffic.daily?.[S]?.length ?? 0) === 91, "website traffic is modelled for the subject");
+check(p.tco.length > 0, "cost of ownership is modelled", `${p.tco.length} rows`);
+const aspects = p.voice.aspects[S] as Record<string, number[]> | null;
+check(!!aspects && Object.keys(aspects).join("|") === ASPECTS.join("|"), "review themes are the category's own", Object.keys(aspects ?? {}).join(", "));
+check(Object.keys(p.pricing.price).some((k) => k.startsWith(`${E1}|`) && !k.endsWith("|amazon")), "the subject's listings are modelled at other retailers");
+const events = (p.dims as unknown as { events: Array<{ id: string; start: string; end: string }> }).events;
+check(events.length > 0 && events.every((e) => e.start >= p.dims.dates[0] && e.end <= WINDOW_END) && events.some((e) => e.id === "labor"), "retail events fall inside the window", events.map((e) => e.id).join(","));
 const lanes = p.meta.provenance?.lanes ?? {};
-check(lanes.traffic?.status === "measured" && lanes.traffic?.label === "Amazon Demand" && lanes.tco?.label === "Effective Price" && lanes.shelf?.status === "snapshot" && lanes.pricing?.status === "measured", "lane statuses and labels", JSON.stringify(Object.fromEntries(Object.entries(lanes).map(([k, v]) => [k, v.label ?? v.status]))));
-check(Object.values(p.voice.aspects).every((v) => v === null) && (p.voice as { aspectMonths?: unknown[] }).aspectMonths?.length === 0 && (p.dims as { aspects?: unknown[] }).aspects?.length === 0, "review aspects withheld, with no leftover aspect names or months");
-check(!/"slot":"(sonos|amazon|apple|bose|jbl)"|"(sonos|homepod2|echostudio)"/.test(JSON.stringify(p)), "no internal reference-slot names anywhere in the payload");
+check(p.meta.provenance?.mode === "hybrid", "payload is marked hybrid");
+check(lanes.ai?.status === "measured" && lanes.traffic?.status === "modelled" && lanes.tco?.status === "modelled" && lanes.pricing?.status === "mixed" && lanes.shelf?.status === "mixed", "lane statuses", JSON.stringify(Object.fromEntries(Object.entries(lanes).map(([k, v]) => [k, v.status]))));
 
+console.log("── per-brand variation");
+const again = build(true);
+const other = build(true, "another-brand");
+const td = (x: Payload) => JSON.stringify((x.traffic as { daily?: unknown }).daily);
+check(td(again) === td(p), "the same brand gets the same modelled figures on every build");
+check(td(other) !== td(p), "a different brand gets different modelled figures");
+
+console.log("── disclosure");
 const d = p.meta.disclosure;
-check(/nothing simulated/.test(d.short) && !/Sonos|reference/i.test(`${d.short} ${d.headline} ${d.body}`), "disclosure claims nothing simulated and names no reference brand", d.short);
-check(d.anchors.filter((a) => !a.unmeasured).every((a) => ["AI answer", "Brand check", "Amazon history", "Amazon product pages", "Retail shelf", "Amazon demand", "Effective price"].includes(a.lane)), "ledger lists only real sources as measured");
-check(["Retail shelf", "Amazon demand", "Effective price"].every((l) => d.anchors.some((a) => a.lane === l && !a.unmeasured)), "ledger lists shelf, demand and effective price sources");
-check(d.anchors.some((a) => /Theragun 4 listings \(1 other-brand hit excluded\)/.test(a.measured)), "ledger records the brand check");
-const text = JSON.stringify(p.reads) + JSON.stringify(p.dims) + JSON.stringify(d);
-check(!/Sonos|Amazon Echo|HomePod|\bBose\b|\bJBL\b|Era 100|speaker/i.test(text), "no Sonos-world names anywhere in reads, dims or disclosure");
-check((p.reads.overview ?? []).length > 0 && Object.values(p.reads).flat().every((r) => !/null|NaN|undefined/.test(r.text)), "reads are factual and complete", (p.reads.overview ?? [])[0]?.text);
-check(p.meta.category === CATEGORY, "category from the request");
+check(d.short === "Measured + modelled" && /ChatGPT, Gemini/.test(d.headline), "disclosure names the measured sources", d.headline.slice(0, 120));
+check(d.anchors.some((a) => a.lane === "AI answer · ChatGPT" && !a.unmeasured) && d.anchors.some((a) => a.lane === "AI answer · Claude" && a.unmeasured), "ledger has one row per engine, and the failed engine is marked");
+check(["Website traffic", "Cost of ownership"].every((l) => d.anchors.some((a) => a.lane === l && a.unmeasured)), "ledger lists the modelled lanes");
+const whole = JSON.stringify(p);
+const leak = whole.match(/Sonos|Amazon Echo|HomePod|\bBose\b|\bJBL\b|Era 100|Echo Studio|SoundLink|speaker/i);
+check(!leak, "no reference-brand names anywhere in the payload", leak ? whole.slice(Math.max(0, (leak.index ?? 0) - 80), (leak.index ?? 0) + 80) : "");
+check(!/"slot":"(sonos|amazon|apple|bose|jbl)"|"(sonos|homepod2|echostudio)"/.test(whole), "no internal reference-slot names anywhere in the payload");
+check(Object.values(p.reads).flat().every((r) => !/null|NaN|undefined/.test(r.text)), "reads are complete sentences");
+
+console.log("── AI console");
+const cons = buildAiConsole({
+  slug: S, ai, brands: p.dims.brands.slice(0, 5).map((b, i) => ({ ...b, color: (b as { color?: string }).color ?? "#000", name: [SUBJECT.name, ...COMPETITORS][i] })),
+  subjectDomain: "therabody.com", category: CATEGORY, market: "US", products: [{ label: "TheraGun PRO Plus", msrp: 599 }], previous: null, crawlerAccess: null, now: NOW,
+});
+const cap = cons.captures[cons.current];
+check(cap.n === 24 && cap.answers.every((a) => a.engine === "gpt" || a.engine === "gemini"), "console capture holds every answer under the console's engine ids", `${cap.n}`);
+check(cap.answers[0].brands[0].id === H && cap.answers[0].brands.some((b) => b.id === "toloco") && cap.answers[0].topPick === H, "console brands use the dashboard's brand ids, untracked brands get their own");
+check(cap.answers[0].sources[0].kind === "rival-owned" && cap.answers[0].sources[1].kind === "community", "cited sites are classified (rival-owned, community)", cap.answers[0].sources.map((x) => x.kind).join(","));
+check(cons.brands[0].owned[0] === "therabody.com" && cons.brands[0].subject && cons.attrs.length === 6 && cons.bank.length === 12, "brand domains, attributes and the question bank reach the console");
+check(cap.answers.some((a) => a.subjectClaims.length > 0) && cap.answers.some((a) => a.attributes[S]?.[0]?.attr === "battery life"), "claims and attribute verdicts are carried per answer");
+const sites = crawlerSites(cons);
+check(sites[0].host === "www.therabody.com" && sites.some((x) => x.host === "reddit.com"), "crawler audit covers the brands' sites and the most-cited hosts", sites.map((x) => x.host).join(", "));
+const groups = parseRobots("User-agent: *\nDisallow: /cart\n\nUser-agent: GPTBot\nDisallow: /\n\nUser-agent: ClaudeBot\nDisallow: /\nAllow: /products/\n");
+check(botAccess(groups, "GPTBot").state === "blocked" && botAccess(groups, "ClaudeBot").state === "partial" && botAccess(groups, "Bingbot").state === "open" && botAccess(groups, "GPTBot").explicit, "robots.txt is read per crawler");
+
+const wb = buildWorkbench(cons, p as unknown as CommandCenterData, S) as { baseline: { share: Record<string, number>; questions: number }; dims: { weeks: unknown[]; families: string[] }; deliverables: Array<{ series: number[] }>; ledger: { A: unknown[]; B: unknown[] }; listing: Array<{ rid: string }>; reads: { overview: Array<{ text: string }> } };
+check(wb.dims.weeks.length === 13 && wb.deliverables.length === 18 && wb.deliverables.every((d) => d.series.length === 13), "workbench: 13 weeks, 18 deliverables with weekly series");
+check(wb.baseline.questions === 12 && wb.baseline.share[S] != null && wb.ledger.A.length === 18 && wb.ledger.B.length === 5, "workbench: week 0 measured from the console capture, both ledgers built");
+check(wb.listing.length === 5 && wb.dims.families.length > 0 && wb.reads.overview.every((r) => !/undefined|NaN|null/.test(r.text)), "workbench: listing per retailer, catalogue families and clean reads", wb.dims.families.join(", "));
+check(!/Sony|BRAVIA|Samsung|\bTCL\b/.test(JSON.stringify(wb)), "workbench: no reference-brand names");
+
+const clash = rebrandPayload({ meta: {}, dims: { brands: [{ id: "sonos", label: "Sonos" }, { id: "amazon", label: "Amazon Echo" }, { id: "apple", label: "Apple HomePod" }, { id: "bose", label: "Bose" }, { id: "jbl", label: "JBL" }] }, reads: { overview: [{ tone: "good", text: "JBL holds 20% of brand mentions; Bose trails; Amazon Echo is absent." }] } },
+  { subject: { name: "JBL", slug: "jbl" }, competitors: ["Bose", "Sony", "Ultimate Ears", "Anker Soundcore"], subjectProducts: [], competitorProducts: [] }) as { reads: { overview: Array<{ text: string }> } };
+check(clash.reads.overview[0].text === "JBL holds 20% of brand mentions; Bose trails; Bose is absent.", "a brand named like a reference slot keeps its name; other reference names still map", clash.reads.overview[0].text);
+
+console.log("── overrides");
+const copy = JSON.parse(JSON.stringify(p)) as Payload;
+const res = applyOverrides(copy, { traffic: { basis: { [S]: { note: "from the brand" } } }, ai: { overall: { [S]: [99] } }, pricing: { price: { [amz]: [1] } } } as never, { ai: true, amazon: true });
+check(((copy.traffic as { basis: Record<string, { note: string }> }).basis[S].note === "from the brand"), "override replaces a modelled value");
+check(res.skipped.includes("ai") && res.skipped.includes(`pricing.price.${amz}`) && copy.pricing.price[amz][0] === 300, "override cannot replace measured AI or Amazon data", res.skipped.join(", "));
 
 console.log("── build with nothing measured");
 const r = build(false);
-const rprov = r.meta.provenance?.metrics ?? {};
-check(Object.values(rprov).every((m) => Object.values(m).every((k) => k === "unmeasured")), "every cell not measured");
-check(r.meta.disclosure.short === "Nothing measured", "disclosure says nothing was measured");
-check(Object.values(r.scorecard.qbr).every((cells) => Object.values(cells).every((c) => c.value == null)), "every scorecard value is blank");
+check(r.meta.provenance?.mode === "hybrid" && r.meta.disclosure.short === "Modelled view", "disclosure says the view is modelled", r.meta.disclosure.short);
 check(r.dims.models.length === 0, "no invented products");
-check(r.dims.engines.length === 0 && (r.ai.prompts ?? []).length === 0 && Object.values(r.ai.overall).every((v) => v == null), "with no Claude answers, no AI data is left in the payload (no simulated engines or prompts)");
-const rl = r.meta.provenance?.lanes ?? {};
-check(["traffic", "shelf", "tco"].every((l) => rl[l]?.status === "not_measured") && !r.demand && !r.effectivePrice && r.shelf.withheld === true, "with nothing read, demand, shelf and effective price stay blank");
+check((r.ai.prompts ?? []).length === 0, "no invented prompt rows");
+const rleak = JSON.stringify(r).match(/Sonos|Amazon Echo|HomePod|\bBose\b|\bJBL\b|Era 100|speaker/i);
+check(!rleak, "no reference-brand names with nothing measured", rleak ? JSON.stringify(r).slice(Math.max(0, (rleak.index ?? 0) - 80), (rleak.index ?? 0) + 80) : "");
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");
 process.exit(failures ? 1 : 0);

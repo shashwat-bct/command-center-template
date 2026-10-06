@@ -42,7 +42,7 @@ function fromPayload(bytes: Buffer, slug: string): SavedInputs | null {
     const saved = normaliseInputs(p.meta.request, slug);
     if (saved) return { inputs: saved, source: "saved" };
   }
-  if (p.meta?.provenance?.mode !== "measured-only") return null;
+  if (p.meta?.provenance?.mode !== "measured-only" && p.meta?.provenance?.mode !== "hybrid") return null;
   const rebuilt = normaliseInputs({
     name: p.meta?.subjectLabel,
     aiCategory: p.meta?.category,

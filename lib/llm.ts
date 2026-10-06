@@ -47,10 +47,11 @@ async function getIdToken(forceRefresh = false): Promise<string> {
 }
 
 export type LLMArgs = {
-  system: string;
+  system?: string;
   user: string;
   maxTokens?: number;
   temperature?: number;
+  model?: string;
 };
 
 const RETRYABLE = new Set([408, 425, 429, 500, 502, 503, 504]);
@@ -69,7 +70,8 @@ export async function callLLM(args: LLMArgs): Promise<string> {
       // The proxy accepts Anthropic-style messages+system (not the OpenAI
       // chat-style single array). We send a single-turn user message.
       body: JSON.stringify({
-        system: args.system,
+        ...(args.system ? { system: args.system } : {}),
+        ...(args.model ? { model: args.model } : {}),
         messages: [{ role: "user", content: args.user }],
         max_tokens: args.maxTokens ?? 800,
         temperature: args.temperature ?? 0.2,
@@ -82,8 +84,8 @@ export async function callLLM(args: LLMArgs): Promise<string> {
       if (typeof j.text === "string") return j.text;
       if (typeof j.message === "string") return j.message;
       if (Array.isArray(j.content)) {
-        const first = j.content[0] as { text?: string } | undefined;
-        if (first?.text) return first.text;
+        const text = (j.content as Array<{ type?: string; text?: string }>).filter((b) => typeof b.text === "string").map((b) => b.text).join("");
+        if (text) return text;
       }
       return JSON.stringify(j);
     }

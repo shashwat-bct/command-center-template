@@ -1,7 +1,7 @@
 import { expireIfStale, getLatestBuildForBrand } from "./bq";
 import { fetchCompetitorBrands } from "./ai-visibility";
 import { createBuild } from "./capture";
-import { isMeasuredOnly, latestReadyBuildId, loadBuildPayload } from "./payload-source";
+import { isHybrid, latestReadyBuildId, loadBuildPayload } from "./payload-source";
 
 export type BrandLinkRequest = {
   slug: string;
@@ -63,7 +63,7 @@ export function parseBrandLinkRequest(body: Record<string, unknown>): { ok: true
 }
 
 /**
- * Finds the build a brand link should point at: the latest measured build if
+ * Finds the build a brand link should point at: the latest hybrid build if
  * there is one (unless a rebuild is asked for), a build already in progress,
  * or a new build started with the request's inputs.
  */
@@ -71,7 +71,7 @@ export async function resolveBuildForLink(req: BrandLinkRequest): Promise<Resolv
   if (!req.rebuild) {
     const readyId = await latestReadyBuildId(req.slug);
     const ready = readyId ? await loadBuildPayload(req.slug, readyId) : null;
-    if (readyId && ready && isMeasuredOnly(ready)) return { buildId: readyId, status: "ready", reused: true, competitors: null, competitorsSource: "existing build" };
+    if (readyId && ready && isHybrid(ready)) return { buildId: readyId, status: "ready", reused: true, competitors: null, competitorsSource: "existing build" };
     const latest = await getLatestBuildForBrand(req.slug);
     const current = latest ? await expireIfStale(latest) : null;
     if (current && (current.status === "queued" || current.status === "running")) {

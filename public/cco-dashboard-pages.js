@@ -75,7 +75,7 @@ P.scorecard = (host) => {
   }
   el("scTable").innerHTML = `<table class="sc"><thead><tr><th class="lft">Measure</th>${BIDS().map((b) =>
     `<th class="${b === S ? "subj" : ""}"><span class="dot" style="background:${B(b).color}"></span>${B(b).label}</th>`).join("")}<th>13-week trend</th></tr></thead><tbody>${rows.join("")}</tbody></table>`
-    + (!d.meta.provenance ? "" : d.meta.provenance.mode === "measured-only"
+    + (!d.meta.provenance || d.meta.provenance.mode === "hybrid" ? "" : d.meta.provenance.mode === "measured-only"
       ? `<p class="mini prov-legend"><i class="pv pv-measured">measured</i> read from a source on this build · — not measured (no source on this build), left blank</p>`
       : `<p class="mini prov-legend"><i class="pv pv-measured">measured</i> measured for this brand · <i class="pv pv-derived">derived</i> simulated, bounded by a measurement for this brand · <i class="pv pv-reference">ref</i> ${esc(d.meta.provenance.reference)}'s data shown under this name</p>`);
 
@@ -1150,7 +1150,7 @@ P.method = (host) => {
     html: `<div class="dt-wrap"><table class="dt anchor-tbl">
       <thead><tr><th class="lft">Lane</th><th class="lft">What was measured</th><th class="lft">Source</th><th class="lft">What it pins</th></tr></thead>
       <tbody>${dis.anchors.map((x) => `<tr class="${x.unmeasured ? "" : ""}" ${x.unmeasured ? 'style="background:#fff7ed"' : ""}>
-        <td class="lft">${esc(x.lane)}${x.unmeasured ? ` <span class="tag risk" style="margin-left:4px">no anchor</span>` : ""}</td>
+        <td class="lft">${esc(x.lane)}${x.unmeasured ? ` <span class="tag risk" style="margin-left:4px">${(d.meta.provenance || {}).mode === "hybrid" ? "modelled" : "no anchor"}</span>` : ""}</td>
         <td class="lft" style="white-space:normal;max-width:340px">${esc(x.measured)}</td>
         <td class="lft mini" style="white-space:normal;max-width:230px;font-family:var(--fm);font-size:10.5px">${esc(x.source)}</td>
         <td class="lft" style="white-space:normal;max-width:400px;color:var(--soft)">${esc(x.pins)}</td></tr>`).join("")}</tbody></table></div>` })}
@@ -1196,7 +1196,7 @@ P.method = (host) => {
       ["Computed reads", Object.values(d.reads).reduce((x, r) => x + r.length, 0), `Across ${Object.keys(d.reads).length} drivers`],
     ].map(([k, v, note]) => `<div class="cc-hb-row" style="grid-template-columns:minmax(120px,1fr) auto;gap:12px">
       <span class="lb">${k}<em>${esc(note)}</em></span><b class="tnum vv">${F.n(v)}</b></div>`).join("")}</div>` })}
-    ${card({ title: "The reports this is built on", help: "The delivered captures this dashboard extrapolates from. Every anchored figure on it traces back to one of these.", sub: "The measured snapshots behind the anchor ledger. Both are live client deliverables.", html: `<div class="cc-hb">${
+    ${!d.meta.sourceReports.length ? "" : card({ title: "The reports this is built on", help: "The delivered captures this dashboard extrapolates from. Every anchored figure on it traces back to one of these.", sub: "The measured snapshots behind the anchor ledger. Both are live client deliverables.", html: `<div class="cc-hb">${
       d.meta.sourceReports.map((r) => `<a class="cc-hb-row" href="${r.url}" target="_blank" rel="noopener" style="grid-template-columns:1fr auto;gap:12px;text-decoration:none">
         <span class="lb">${esc(r.label)}<em>${esc(r.url.replace("https://", ""))}</em></span><b class="vv" style="color:var(--accent)">Open →</b></a>`).join("")}</div>
       <p class="mini" style="margin:12px 0 0">Snapshot dates — multi-retailer capture ${F.dateY(d.meta.snapshotDates.multiRetailer.slice(0, 10))}; launch report ${F.dateY(d.meta.snapshotDates.launchReport.slice(0, 10))}${(d.meta.snapshotDates.priceHistoryMonths || []).length ? `; price history ${d.meta.snapshotDates.priceHistoryMonths[0]} to ${d.meta.snapshotDates.priceHistoryMonths.at(-1)}` : ""}.</p>` })}

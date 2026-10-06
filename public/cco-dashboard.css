@@ -426,6 +426,13 @@ table.sc td.is-nm .v{color:var(--mute);font-weight:500}
 .nm-card{border-style:dashed}
 .lane-note{display:flex;align-items:baseline;gap:8px;margin:0 0 12px;font-size:12px;color:var(--soft);line-height:1.5}
 .lane-note .pv{margin-left:0}
+.pv-real{background:#dcfce7;color:#166534}
+.pv-mixed{background:#fef3c7;color:#92400e}
+.pv-synthetic{background:#ffe4e6;color:#9f1239}
+.src-note{padding:8px 11px;border:1px solid var(--line2,#e5e7eb);border-radius:8px;background:#fff}
+.src-note b{color:var(--ink,#111);font-weight:600}
+.srcchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--soft);margin-left:10px;vertical-align:4px}
+.srcchip[hidden]{display:none}
 
 .cc-loader{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:var(--app);transition:opacity .25s ease}
 .cc-loader.done{opacity:0;pointer-events:none}

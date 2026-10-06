@@ -30,14 +30,15 @@ Send the returned `url` to the partner. It opens the dashboard; if the dashboard
 ```
 caller ──POST /api/magic-links──▶ server
                                    │
-                                   ├─ brand already has a measured dashboard? ──▶ link to it            (201)
+                                   ├─ brand already has a current dashboard?  ──▶ link to it            (201)
                                    ├─ a build for it already running?         ──▶ link to that build    (202)
                                    └─ otherwise: start a build                ──▶ link to the new build (202)
                                                  │
                                                  ▼  (3–4 min, in the background)
                        Keepa  — the brand's and competitors' Amazon listings, 13 weeks of daily data
                        Apify  — product pages, delivery promise, Amazon search results
-                       Claude — 12 shopper questions × 2 runs → AI share of answer
+                       ChatGPT, Gemini, Claude — 12 shopper questions × 2 runs each → AI share of answer
+                       the rest of the market modelled around those readings, seeded per brand
 
 partner opens https://<host>/share#<token>
    └─ page reads the token from the # (never sent to the server), removes it from the address bar,
@@ -48,7 +49,7 @@ partner opens https://<host>/share#<token>
 ```
 
 - The link is **pinned** to one build: rebuilding the brand later does not change what an existing link shows. Create a new link to share the newer build.
-- Every number on the dashboard is measured (Keepa, Apify, Claude). Anything without a source is left blank and marked "not measured". Amazon US is the only retailer covered.
+- AI share of answer (ChatGPT, Gemini, Claude) and Amazon data (Keepa, Apify) are measured on each build. Other retailers, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts and cost of ownership are modelled around them. The Method page lists which is which.
 
 ---
 
@@ -85,7 +86,7 @@ x-admin-token: <ADMIN_SHARED_SECRET>
 
 ### What decides reuse vs. build
 
-1. `rebuild` is `false` and the brand's latest build is measured → **reuse it** (`201`).
+1. `rebuild` is `false` and the brand's latest build is a current hybrid build → **reuse it** (`201`).
 2. A build for the brand is already queued or running → **link to that build** (`202`).
 3. Otherwise → **start a build** with the request's inputs (`202`).
 
@@ -139,7 +140,7 @@ The short form returns the same envelope without `brand`, `competitors` and `bui
 | `400` | Missing `brand_name`/`brand_category`; bad `partner_id`, `brand_link`, `slug`, `build_id` or `expires_in_hours`; invalid JSON |
 | `401` | No or wrong admin credentials |
 | `404` | Short form: brand or pinned build not found |
-| `409` | Short form: the brand's latest build predates measured-only (simulated data). Rebuild it first. |
+| `409` | Short form: the brand's latest build predates per-lane provenance. Rebuild it first. |
 | `500` | `MAGIC_LINK_SECRET` is not configured on the server |
 
 Errors are `{ "error": "<message>" }`.
@@ -182,11 +183,11 @@ Authorization: Bearer <token>
 | `202` | Still building; `Retry-After: 10` |
 | `401` | Invalid token, or the token is for a different brand |
 | `404` | Build not found |
-| `409` | Pinned build is a retired simulated build |
+| `409` | Pinned build predates per-lane provenance |
 | `410` | Token expired (only tokens made with `expires_in_hours`) |
 | `424` | The build failed |
 
-Admins can call the same endpoint with the admin token to get the brand's latest measured build.
+Admins can call the same endpoint with the admin token to get the brand's latest build.
 
 ## Build progress
 
@@ -228,7 +229,7 @@ A self-contained signed value: `base64url(claims) + "." + base64url(HMAC-SHA256(
 | | |
 |---|---|
 | Reusing an existing dashboard | Free, ~1–2 s |
-| New build | ~100 Keepa tokens, ~$0.07 Apify, ~25 Claude calls; ready in ~3–4 min |
+| New build | ~100 Keepa tokens, ~$0.07 Apify, 24 ChatGPT + 24 Gemini + ~33 Claude calls; ready in ~5–7 min |
 | Response time when a build is started | ~5–10 s (most of it is Claude choosing competitors; faster when `competitors` is sent) |
 
 Keepa refills about 21 tokens a minute. Use `rebuild: true` deliberately.
@@ -244,7 +245,7 @@ Keepa refills about 21 tokens a minute. Use `rebuild: true` deliberately.
 ## Limitations
 
 - Competitor products are whatever ranks top in Keepa's search for `"<competitor> <category>"`; only the subject brand's products can be named.
-- Amazon US only; website traffic and other retailers are not measured.
+- Measured data is Amazon US only; other retailers and website traffic are modelled.
 - Links are pinned to a build; a rebuilt dashboard needs a new link.
 
 See `ISSUES.md` for the full list of known data gaps.

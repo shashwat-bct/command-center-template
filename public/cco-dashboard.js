@@ -136,7 +136,10 @@ function rankChip(metricId, brand) {
   if (!o.rank) return "";
   return `<span class="rankchip">${o.tied ? "=" : ""}#${o.rank} of ${o.of}</span>`;
 }
+const SHOW_SRC = document.body.dataset.sources === "on";
 const PROV_LABEL = {
+  real: ["real", "Read from a live source on this build"],
+  synthetic: ["synthetic", "Modelled — no live source read this on this build"],
   measured: ["measured", "Measured for this brand"],
   derived: ["derived", "Simulated, but bounded by a measurement taken for this brand"],
   reference: ["ref", "Reference data from another brand's capture, shown under this name"],
@@ -144,6 +147,7 @@ const PROV_LABEL = {
 };
 function provOf(metricId, brand) {
   const p = D && D.meta && D.meta.provenance;
+  if (p && p.mode === "hybrid") return SHOW_SRC && p.metrics && p.metrics[metricId] ? (p.metrics[metricId][brand] === "measured" ? "real" : "synthetic") : null;
   return p && p.metrics && p.metrics[metricId] ? p.metrics[metricId][brand] || (p.mode === "measured-only" ? "unmeasured" : "reference") : null;
 }
 function laneOf(page) {
@@ -158,6 +162,7 @@ function provBadge(metricId, brand) {
 function labelSimChip() {
   const p = D.meta.provenance;
   if (p && p.mode === "measured-only" && $("#simBtn")) { $("#simBtn").innerHTML = "<i></i>Measured data only"; $("#simBtn").title = "How each number was measured"; }
+  if (p && p.mode === "hybrid" && $("#simBtn")) { $("#simBtn").innerHTML = "<i></i>Measured + modelled"; $("#simBtn").title = "Which figures are measured and which are modelled"; }
 }
 function kpi(o) {
   return `<div class="kpi">
@@ -279,6 +284,7 @@ const bootData = window.__CCO_PAYLOAD
         : `The server returned ${r.status}.`;
       throw Object.assign(new Error(why), { friendly: true });
     }); })();
+window.__ccBoot = bootData;
 const loaderSlow = setTimeout(() => { const m = $("#ccLoaderMsg"); if (m) m.textContent = "Still loading — the first visit after a build can take a few seconds…"; }, 6000);
 function hideLoader() {
   clearTimeout(loaderSlow);
@@ -368,12 +374,28 @@ function syncControls() {
   $$("#cadence button").forEach((b) => b.classList.toggle("on", b.dataset.c === cadence));
   $("#retSel").value = retailer;
 }
+const SRC_WORD = { measured: "real", mixed: "mixed", modelled: "synthetic" };
+function srcNote(lane) {
+  const k = SRC_WORD[lane.status] || "synthetic";
+  return `<p class="lane-note src-note"><i class="pv pv-${k}">${k}</i><span>${esc(lane.note)}${!lane.sources ? "" : lane.sources.length ? ` <b>Real sources:</b> ${lane.sources.map(esc).join(" · ")}.` : " <b>No live source</b> — every figure here is synthetic."}</span></p>`;
+}
+function srcStatus(def) {
+  const id = def.id;
+  if (/^ai-/.test(id)) return { k: "real", t: `AI engine answers (${(D.aiConsole?.engines || []).map((e) => e.label).join(", ")})` };
+  if (id === "aeo-programme") return { k: "real", t: "built from the AI engine answers" };
+  if (/^aeo-/.test(id)) return { k: "mixed", t: "week 0 real · weeks 1–12 synthetic" };
+  if (id === "method") return null;
+  const lane = laneOf(id);
+  return lane ? { k: SRC_WORD[lane.status] || "synthetic", t: lane.sources ? lane.sources.join(" · ") || "no live source" : lane.status === "modelled" ? "no live source" : "Amazon data real · rest modelled" } : null;
+}
 function route() {
   const id = (location.hash || "#scorecard").slice(1);
   page = allPages().some((p) => p.id === id) ? id : "scorecard";
   const def = pageDef(page);
   const title = (laneOf(page) || {}).label || def.title;
   $("#crumb").textContent = def.crumb; $("#ptitle").textContent = title;
+  const chip = $("#srcChip"); const st = SHOW_SRC && D.meta.provenance && D.meta.provenance.mode === "hybrid" ? srcStatus(def) : null;
+  if (chip) { chip.hidden = !st; if (st) chip.innerHTML = `<i class="pv pv-${st.k}">${st.k}</i>${esc(st.t)}`; }
   $$("#nav a").forEach((a) => a.classList.toggle("on", a.dataset.p === page));
   const onLink = $("#nav a.on"); if (onLink && onLink.scrollIntoView) onLink.scrollIntoView({ block: "nearest" });   // a deep link lands with its rail item in view
   document.title = `${title} · ${SUBJ} Commercial Command Center`;
@@ -402,7 +424,7 @@ function repaint(force) {
         + `<p class="mini" style="margin:0">This page is left blank rather than filled with modelled figures. <a href="#method">What was measured</a></p></div>`;
       return;
     }
-    try { (RENDER[page] || (() => {}))(host); if (lane) host.insertAdjacentHTML("afterbegin", `<p class="lane-note"><i class="pv pv-${lane.status === "snapshot" ? "derived" : "measured"}">${lane.status === "snapshot" ? "single reading" : "measured"}</i>${esc(lane.note)}</p>`); }
+    try { (RENDER[page] || (() => {}))(host); if (SHOW_SRC && lane && D.meta.provenance.mode === "hybrid") host.insertAdjacentHTML("afterbegin", srcNote(lane)); if (lane && lane.status !== "modelled" && lane.status !== "mixed" && D.meta.provenance.mode !== "hybrid") host.insertAdjacentHTML("afterbegin", `<p class="lane-note"><i class="pv pv-${lane.status === "snapshot" ? "derived" : "measured"}">${lane.status === "snapshot" ? "single reading" : "measured"}</i>${esc(lane.note)}</p>`); }
     catch (e) {
       host.innerHTML = `<div class="card"><div class="card-h"><div class="ct"><h3>This page could not be drawn</h3>`
         + `<p>The rest of the dashboard is unaffected — pick another page from the rail. If this tab has been open a while, a hard reload will fetch the current build.</p></div></div>`

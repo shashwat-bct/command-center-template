@@ -1,0 +1,12 @@
+{
+  "promotions": {
+    "strategy": {
+      "shark": { "intensity": 14.5, "meanDepth": 11.2 }
+    }
+  },
+  "traffic": {
+    "basis": {
+      "shark": { "state": "modelled", "domain": "sharkclean.com", "note": "Monthly visits sized from the brand's own estimate." }
+    }
+  }
+}

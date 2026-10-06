@@ -3,17 +3,23 @@ import { latestPayloadBuildId, readPayloadBytes } from "@/lib/gcs";
 
 export type PayloadSource = { kind: "build"; buildId: string; bytes: Buffer };
 
-const MEASURED_ONLY_MARK = Buffer.from('"mode":"measured-only"');
+const SERVABLE_MARKS = [Buffer.from('"mode":"hybrid"'), Buffer.from('"mode":"measured-only"')];
 
 /**
- * True when a payload was built by the measured-only pipeline. Older builds
- * carry simulated figures and are no longer served.
+ * True when a payload carries per-lane provenance (a hybrid or measured-only
+ * build). Older builds from the reference pipeline are no longer served.
  */
-export const isMeasuredOnly = (source: PayloadSource): boolean => source.bytes.includes(MEASURED_ONLY_MARK);
+export const isServable = (source: PayloadSource): boolean => SERVABLE_MARKS.some((m) => source.bytes.includes(m));
+
+/**
+ * True when a payload was built by the current pipeline (measured lanes laid
+ * over a modelled market). Only these are reused for new links.
+ */
+export const isHybrid = (source: PayloadSource): boolean => source.bytes.includes(SERVABLE_MARKS[0]);
 
 export const RETIRED_STATUS = 409;
 export const retiredResponse = (headers: Record<string, string> = {}): Response =>
-  Response.json({ error: "retired", detail: "This build used simulated data and is no longer served. Rebuild the brand from /admin." }, { status: RETIRED_STATUS, headers });
+  Response.json({ error: "retired", detail: "This build predates per-lane provenance and is no longer served. Rebuild the brand from /admin." }, { status: RETIRED_STATUS, headers });
 
 const PAYLOAD_CACHE_SIZE = 16;
 const LATEST_TTL_MS = 30_000;

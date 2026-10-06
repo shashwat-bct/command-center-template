@@ -30,6 +30,7 @@ COPY --from=builder --chown=app:app /app/public ./public
 # The vendored bravo-platform CCO builder + Sonos source files. The capture
 # orchestration spawns scripts from here. See lib/capture.ts.
 COPY --from=builder --chown=app:app /app/vendor ./vendor
+COPY --from=builder --chown=app:app /app/brand-data ./brand-data
 
 USER app
 EXPOSE 8080

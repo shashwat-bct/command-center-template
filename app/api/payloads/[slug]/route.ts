@@ -1,14 +1,13 @@
 import { type NextRequest } from "next/server";
 import { bearerToken, isAdmin, tokenIsValid } from "@/lib/admin-auth";
 import { expireIfStale, getLatestBuild } from "@/lib/bq";
-import { isMeasuredOnly, loadBuildPayload, loadLatestPayload, payloadResponse, retiredResponse } from "@/lib/payload-source";
+import { isServable, loadBuildPayload, loadLatestPayload, payloadResponse, retiredResponse } from "@/lib/payload-source";
 import { SHARE_HEADERS, checkShareToken } from "@/lib/share-response";
 
 // GET /api/payloads/<slug>              → the latest ready payload (admin session or token)
 // GET /api/payloads/<slug>?build=<id>   → a specific build's payload (admin)
 // Authorization: Bearer <magic token>   → the build that token is pinned to
 //
-// Only measured-only builds are served; older simulated builds answer 409.
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +28,7 @@ async function sharedPayload(slug: string, token: string): Promise<Response> {
     if (build?.status === "failed") return Response.json({ error: "build failed", detail: build.error }, { status: 424, headers: SHARE_HEADERS });
     return Response.json({ error: "payload not found" }, { status: 404, headers: SHARE_HEADERS });
   }
-  if (!isMeasuredOnly(source)) return retiredResponse({ ...SHARE_HEADERS });
+  if (!isServable(source)) return retiredResponse({ ...SHARE_HEADERS });
   const res = payloadResponse(source, SHARE_HEADERS["cache-control"]);
   for (const [k, v] of Object.entries(SHARE_HEADERS)) res.headers.set(k, v);
   return res;
@@ -45,10 +44,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
   if (build) {
     const source = await loadBuildPayload(slug, build);
     if (!source) return new Response("not found", { status: 404 });
-    return isMeasuredOnly(source) ? payloadResponse(source, "private, max-age=300") : retiredResponse();
+    return isServable(source) ? payloadResponse(source, "private, max-age=300") : retiredResponse();
   }
 
   const source = await loadLatestPayload(slug);
   if (!source) return new Response("not found", { status: 404 });
-  return isMeasuredOnly(source) ? payloadResponse(source, "private, max-age=60") : retiredResponse();
+  return isServable(source) ? payloadResponse(source, "private, max-age=60") : retiredResponse();
 }

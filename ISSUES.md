@@ -9,22 +9,22 @@ Regression test: `npm run test:relabel` (77 checks) runs the real builder with i
 
 ## Where it stands
 
-Every brand, including `sonos`, `sony` and `shark`, is built **measured-only**: every figure is read from Keepa, Apify or Claude on that build, and anything without a source is blank and marked "not measured". Nothing is simulated. Amazon is the only retailer covered.
+Builds are **hybrid** (since 2026-10-06): lanes with a live source are measured on each build, and the rest of the market is modelled around them by the vendored builder, seeded per brand. The dashboard carries no per-card markings; the header chip and the Method page say which lanes are measured, mixed or modelled. Measured-only builds from before this are still served; only hybrid builds are reused for new links.
 
-Only measured-only builds are served. A brand whose latest build predates this (simulated or relabelled Sonos data) answers 409 and the dashboard says to rebuild it; the bundled simulated payloads in `vendor/` are no longer served as a fallback (the vendored builder and its config are still used as the skeleton the measured series are written into).
-
-| Lane | Source | Status on the dashboard |
+| Lane | Measured | Modelled |
 |---|---|---|
-| AI visibility | Claude, 12 questions × 2 runs, subject + 4 competitors | measured (single reading, drawn flat) |
-| Pricing, Promotions, Promo calendar, Promo strategy | Keepa daily Amazon price + list price; price cuts detected from it | measured |
-| Availability | Keepa daily buyable state | measured |
-| Carriage & buy box | Keepa listing dates, offer counts, buy-box seller history | measured |
-| Voice of customer | Keepa daily rating and review count | measured (aspects not measured, hidden) |
-| Landing pages | Apify product page (images, video, A+, bullets, specs, reviews, title fit) | measured (single reading) |
-| Delivery | Apify delivery promise on the build date | measured (single reading, last week only) |
-| Amazon demand (replaces Website traffic) | Keepa "bought in past month" history and daily sales rank in the category the listings share | measured; website visits still not measured |
-| Retail shelf | Apify: first 48 organic Amazon results for the category, attributed by title | measured (single reading); sponsored placements not identified |
-| Effective price (replaces Cost of ownership) | Keepa daily price, lightning-deal price, clip-coupon history | measured; protection plans and attach rates not measured |
+| AI visibility | ChatGPT (web search), Gemini (Google Search grounding), Claude: 12 questions × 2 runs each; brands extracted per answer | daily movement (single reading, drawn flat) |
+| Pricing, Promotions, Promo calendar, Promo strategy | Keepa daily Amazon price + list price; Amazon price cuts | other retailers; non-price mechanics; MAP floor |
+| Availability | Keepa daily Amazon buyable state | other retailers; cities |
+| Carriage & buy box | Keepa listing dates, offers, buy-box seller | other retailers |
+| Voice of customer | Keepa daily rating and review count | review themes (named per category by Claude, scored by simulation) |
+| Landing pages | Apify Amazon product page | other retailers |
+| Delivery | Apify Amazon delivery promise on the build date | other retailers, cities, earlier weeks |
+| Retail shelf | Apify first 48 organic Amazon results (anchors Amazon shelf share) | other retailers, extra terms, sponsored share, daily movement |
+| Website traffic | — | everything |
+| Cost of ownership | — | everything |
+
+Amazon demand and effective price are still read from Keepa but no longer have their own pages (the Atlas Website Traffic and Cost of Ownership pages are shown instead).
 
 Live verification: `theragun-verify` / `b_FsYpKPp6h-` (2026-10-03) — 13 listings across 4 brands, 17 product pages, 48 search results, 24/24 Claude answers, 10 of 12 measures for the subject (website traffic share and sessions remain unmeasured), all 15 pages render. Real findings: Theragun holds 4 of the first 48 organic "massage gun" results (best #16) and ≥7,000 purchases/month (66% of tracked); no coupons or lightning deals ran on any tracked listing in the window.
 

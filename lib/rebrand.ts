@@ -187,16 +187,6 @@ function rewriteDimsModels(
   return out;
 }
 
-function withholdAspects(voice: Record<string, unknown> | undefined): void {
-  if (!voice) return;
-  for (const key of ["aspects", "aspectMeasured"] as const) {
-    const byBrand = voice[key];
-    if (byBrand && typeof byBrand === "object" && !Array.isArray(byBrand)) {
-      voice[key] = Object.fromEntries(Object.keys(byBrand).map((b) => [b, null]));
-    }
-  }
-}
-
 export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
   if (!payload || typeof payload !== "object") return payload;
   const p = { ...(payload as Record<string, unknown>) };
@@ -267,6 +257,19 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
     aiObj.byEngineStage = next;
   }
 
+  const renameLastSegment = (src: Record<string, unknown>): Record<string, unknown> =>
+    Object.fromEntries(Object.entries(src).map(([k, v]) => {
+      const parts = k.split("|");
+      const last = parts[parts.length - 1];
+      if (parts.length > 1 && idMap[last]) parts[parts.length - 1] = idMap[last];
+      return [parts.join("|"), v];
+    }));
+  const shelfSeries = p.shelf as Record<string, unknown> | undefined;
+  for (const key of ["sov", "rank", "sponsored"]) {
+    const v = shelfSeries?.[key];
+    if (v && typeof v === "object" && !Array.isArray(v)) shelfSeries[key] = renameLastSegment(v as Record<string, unknown>);
+  }
+
   // ai.prompts[].topBrand is a brand VALUE, not a key
   if (Array.isArray(aiObj?.prompts)) {
     aiObj.prompts = remapBrandValues(aiObj.prompts, {
@@ -288,7 +291,9 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
   // model-name substitution. Done last so earlier structural changes aren't
   // disturbed.
   const textRewrites: Array<[RegExp, string]> = [];
+  const userLabels = new Set(newBrands.map((b) => b.label.toLowerCase()));
   for (const [sonosLabel, userLabel] of Object.entries(labelMap)) {
+    if (userLabels.has(sonosLabel.toLowerCase())) continue;
     textRewrites.push([new RegExp(`\\b${sonosLabel.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`, "g"), userLabel]);
   }
   // Sonos model names → user product names. Zip the ones we have.
@@ -313,11 +318,10 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
   // matched before "Era 100" and "Amazon Echo" before "Amazon".
   textRewrites.sort((a, b) => b[0].source.length - a[0].source.length);
 
-  const rewriteText = (s: string): string => {
-    let out = s;
-    for (const [re, replacement] of textRewrites) out = out.replace(re, replacement);
-    return out;
-  };
+  const anchored = textRewrites.map(([re, replacement]) => [new RegExp(`^(?:${re.source})$`), replacement] as const);
+  const combined = textRewrites.length ? new RegExp(textRewrites.map(([re]) => `(?:${re.source})`).join("|"), "g") : null;
+  const rewriteText = (s: string): string =>
+    combined ? s.replace(combined, (m) => anchored.find(([re]) => re.test(m))?.[1] ?? m) : s;
   const walkStrings = (node: unknown): unknown => {
     if (Array.isArray(node)) return node.map(walkStrings);
     if (node && typeof node === "object") {
@@ -353,8 +357,6 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
     );
   }
   p.dims = dims;
-
-  withholdAspects(p.voice as Record<string, unknown> | undefined);
 
   const meta = { ...(p.meta as Record<string, unknown>) };
   meta.subject = subjectBrand.id;

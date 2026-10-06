@@ -39,7 +39,7 @@ Run `npm run test:relabel` after touching `lib/` — it runs the real builder wi
 | `/api/brands/<slug>` | The inputs the brand was last built with |
 | `/api/brands/<slug>/rebuild` | Rebuild with those inputs (`POST`) |
 | `/api/builds/<build_id>` | Build status (BigQuery `cco_mgmt.builds`) |
-| `/api/payloads/<slug>` | Dashboard data: latest measured build for admins, or the pinned build for `Authorization: Bearer <magic token>` (202 while it builds) |
+| `/api/payloads/<slug>` | Dashboard data: latest build for admins, or the pinned build for `Authorization: Bearer <magic token>` (202 while it builds) |
 | `/api/health` | Health check |
 
 ## Magic links
@@ -61,25 +61,26 @@ Full reference: [`docs/magic-link-api.md`](docs/magic-link-api.md).
 }
 ```
 
-`brand_name` and `brand_category` are required. If the brand has a measured build it is reused (`201`, with `built_with` showing that build's inputs; `rebuild: true` forces a new one). Otherwise a build starts and the link is returned at once (`202`); the recipient sees "being built" until it is ready. Without `competitors`, Claude names four. Each `partner_id` gets its own signed link. `{ "slug": "anker" }` still works for an existing brand.
+`brand_name` and `brand_category` are required. If the brand has a current (hybrid) build it is reused (`201`, with `built_with` showing that build's inputs; `rebuild: true` forces a new one). Otherwise a build starts and the link is returned at once (`202`); the recipient sees "being built" until it is ready. Without `competitors`, Claude names four. Each `partner_id` gets its own signed link. `{ "slug": "anker" }` still works for an existing brand.
 
 Response: `url` (`https://<host>/share#<token>`), `token`, `slug`, `partner_id`, `issued_at`, `expires_at`, `build { id, status, poll_url }`, `brand`, `competitors`, `competitors_source`, `built_with`.
 
 ## Build pipeline (`lib/capture.ts`)
 
-Brands without a vendored config are **measured-only**: every figure comes from a source on that build, and anything without one is blank. Amazon is the only retailer covered. See `ISSUES.md` for what is and isn't measured.
+Every build is **hybrid**: lanes with a live source are measured on that build, and the rest of the market (other retailers, cities, website traffic, review themes, promotion mechanics, cost of ownership) is modelled around those measurements by the vendored builder, seeded per brand so each brand gets its own figures and the same figures on every rebuild. The dashboard shows no per-card markings; the header chip ("Measured + modelled") and the Method page list which lanes are which. See `ISSUES.md`.
 
 1. Find Amazon listings with Keepa search (category or product names); keep only listings whose brand/title names the brand. Same for each competitor.
 2. Keepa: 13 weeks of daily price, list price, buyable state, offer count, buy-box seller, rating and reviews per listing (`lib/keepa.ts`, `lib/amazon-series.ts`).
 3. Apify: product-page content and delivery promise per listing, and the first 48 organic Amazon results for the category (`lib/apify.ts`, `lib/amazon-shelf.ts`). Keepa also supplies monthly purchases, sales rank, lightning deals and coupons for the Amazon demand and effective-price pages.
-4. Claude: 12 shopper questions × 2 runs → AI share of answer, per stage and per prompt (`lib/ai-visibility.ts`).
-5. Run the vendored builder with a per-build config overlay (`lib/launch-override.ts` → `config-relabel.mjs`) that supplies the window, the real listings and their series.
-6. Keep only what was measured: blank and re-rank unmeasured cells, empty unmeasured lanes, replace generated text with factual statements (`lib/measured-only.ts`, `lib/provenance.ts`, `lib/relabel-pipeline.ts`); rename slots (`lib/rebrand.ts`).
-7. Upload to GCS, record in BigQuery. The request (name, category, competitors, products, region, link) is saved on the build row and in the payload's `meta.request`, so a brand can be rebuilt without re-entering it; builds from before that are read back from their payload and build log.
+4. AI visibility (`lib/ai-visibility.ts`, `lib/ai-engines.ts`): the same 12 shopper questions × 2 runs go to ChatGPT (OpenAI Responses API with web search, `OPENAI_API_KEY`), Gemini (Vertex AI with Google Search grounding, application default credentials) and Claude (Atlas LLM proxy). A Claude extraction pass lists every brand each answer names, mapping product lines and parent companies to the tracked brands (name matching is the fallback). A brand counts once per answer, and untracked brands count in the total, so share = this brand's answers ÷ all brand mentions. Reported per engine, per stage and averaged across engines. Claude also names the category's review themes.
+5. Run the vendored builder with a per-build config overlay (`lib/launch-override.ts`, `lib/simulated-world.ts` → `config-relabel.mjs`): the real listings and series, the US retail calendar for the window, category search terms and review themes, and every behavioural parameter varied by a generator seeded with the slug. The reference brand's captures are replaced with empty ones so nothing it measured anchors another brand.
+6. Lay the measurements over the modelled market and stamp per-lane provenance (`lib/payload-merge.ts`, `lib/provenance.ts`, `lib/relabel-pipeline.ts`); rename slots (`lib/rebrand.ts`).
+7. Apply `brand-data/<slug>.json` if present (`lib/brand-overrides.ts`): a deep merge into the payload, keyed by the final brand and listing ids. It can replace any modelled value but not measured AI share or Amazon series. See `brand-data/_example.json`.
+8. Upload to GCS, record in BigQuery. The request (name, category, competitors, products, region, link) is saved on the build row and in the payload's `meta.request`, so a brand can be rebuilt without re-entering it; builds from before that are read back from their payload and build log.
 
-Every brand, including Sonos, Sony and Shark, is built this way; the vendored bravo-platform builder and Sonos config are only the skeleton the measured series are written into. Only measured-only builds are served (older ones answer 409 until rebuilt).
+Hybrid and measured-only builds are served; builds from before per-lane provenance answer 409 until rebuilt. Only hybrid builds are reused for new links.
 
-Cost per build: ~100 Keepa tokens, ~$0.07 Apify, 24 LLM proxy calls.
+Cost per build: ~100 Keepa tokens, ~$0.07 Apify, 24 ChatGPT calls with web search, 24 Gemini calls, ~33 LLM proxy calls (Claude answers, brand extraction, review themes). Production needs `OPENAI_API_KEY` as a Cloud Run secret and `roles/aiplatform.user` on the service account; an engine without credentials is left out of the build and listed as failed on the Method page.
 
 ## Deploy
 

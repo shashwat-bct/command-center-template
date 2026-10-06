@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin, withAdminSession } from "@/lib/admin-auth";
 import { MAX_TTL_HOURS, MagicLinkConfigError, createMagicToken } from "@/lib/magic-link";
-import { isMeasuredOnly, latestReadyBuildId, loadBuildPayload } from "@/lib/payload-source";
+import { isServable, latestReadyBuildId, loadBuildPayload } from "@/lib/payload-source";
 import { parseBrandLinkRequest, resolveBuildForLink } from "@/lib/brand-link-request";
 import { savedInputsFor } from "@/lib/build-inputs";
 
@@ -27,13 +27,13 @@ async function pinBySlug(body: Record<string, unknown>): Promise<Pinned | NextRe
     if (typeof body.build_id !== "string" || !BUILD_RE.test(body.build_id)) return NextResponse.json({ error: "build_id is malformed" }, { status: 400 });
     const pinned = await loadBuildPayload(slug, body.build_id);
     if (!pinned) return NextResponse.json({ error: `no payload for ${slug} build ${body.build_id}` }, { status: 404 });
-    if (!isMeasuredOnly(pinned)) return NextResponse.json({ error: `build ${body.build_id} used simulated data; rebuild ${slug} first` }, { status: 409 });
+    if (!isServable(pinned)) return NextResponse.json({ error: `build ${body.build_id} predates per-lane provenance; rebuild ${slug} first` }, { status: 409 });
     return { slug, buildId: body.build_id, status: "ready", extra: {} };
   }
   const buildId = await latestReadyBuildId(slug);
   if (!buildId) return NextResponse.json({ error: `brand "${slug}" has no ready build` }, { status: 404 });
   const latest = await loadBuildPayload(slug, buildId);
-  if (!latest || !isMeasuredOnly(latest)) return NextResponse.json({ error: `the latest build of ${slug} used simulated data; rebuild it first` }, { status: 409 });
+  if (!latest || !isServable(latest)) return NextResponse.json({ error: `the latest build of ${slug} predates per-lane provenance; rebuild it first` }, { status: 409 });
   return { slug, buildId, status: "ready", extra: {} };
 }
 
