@@ -12,6 +12,7 @@ import { applyOverrides } from "../lib/brand-overrides";
 import { buildAiConsole, crawlerSites } from "../lib/ai-console";
 import { botAccess, parseRobots } from "../lib/crawler-access";
 import { buildWorkbench, type CommandCenterData } from "../lib/aeo-workbench";
+import { applyAiHistory, readingsFrom } from "../lib/ai-history";
 import { parseAmazonItem, type AmazonProduct, type SearchResult } from "../lib/apify";
 
 type Cell = { value: number | null; rank: number | null; of: number };
@@ -288,6 +289,15 @@ check(!/Sony|BRAVIA|Samsung|\bTCL\b/.test(JSON.stringify(wb)), "workbench: no re
 const clash = rebrandPayload({ meta: {}, dims: { brands: [{ id: "sonos", label: "Sonos" }, { id: "amazon", label: "Amazon Echo" }, { id: "apple", label: "Apple HomePod" }, { id: "bose", label: "Bose" }, { id: "jbl", label: "JBL" }] }, reads: { overview: [{ tone: "good", text: "JBL holds 20% of brand mentions; Bose trails; Amazon Echo is absent." }] } },
   { subject: { name: "JBL", slug: "jbl" }, competitors: ["Bose", "Sony", "Ultimate Ears", "Anker Soundcore"], subjectProducts: [], competitorProducts: [] }) as { reads: { overview: Array<{ text: string }> } };
 check(clash.reads.overview[0].text === "JBL holds 20% of brand mentions; Bose trails; Bose is absent.", "a brand named like a reference slot keeps its name; other reference names still map", clash.reads.overview[0].text);
+
+console.log("── AI history");
+const hist = JSON.parse(JSON.stringify(p)) as Payload;
+const readings = applyAiHistory(hist, [{ date: "2026-09-10", overall: { [S]: 8, [H]: 44 }, byEngineStage: {} }], "2026-10-03");
+const ov = hist.ai.overall[S] ?? [];
+check(readings.length === 2 && ov[di("2026-09-09")] === null && ov[di("2026-09-10")] === 8 && ov[di("2026-09-26")] === 8 && ov[di(WINDOW_END)] === 12, "AI share is blank before the first reading and steps at each reading", `${ov[di("2026-09-09")]} / ${ov[di("2026-09-10")]} / ${ov[di(WINDOW_END)]}`);
+const cell = (hist.scorecard.qbr.aiSov[S] as unknown as { value: number; prev: number; delta: number });
+check(cell.value === 12 && cell.prev === 8 && cell.delta === 4, "scorecard AI change is against the previous real reading", JSON.stringify(cell));
+check(readingsFrom(hist).length === 2 && readingsFrom(p).length === 0, "history is carried to the next build; a build without a console carries none");
 
 console.log("── overrides");
 const copy = JSON.parse(JSON.stringify(p)) as Payload;

@@ -15,6 +15,7 @@ import { fetchAiShareOfMind, generateQuestionBank, type AiSoMResult } from "./ai
 import { buildAiConsole, crawlerSites, type ConsoleCapture } from "./ai-console";
 import { readCrawlerAccess } from "./crawler-access";
 import { buildWorkbench, type CommandCenterData } from "./aeo-workbench";
+import { applyAiHistory, readingsFrom } from "./ai-history";
 import { latestReadyBuildId, loadBuildPayload } from "./payload-source";
 import { availableEngines } from "./ai-engines";
 import { applyOverrides, loadOverrides } from "./brand-overrides";
@@ -387,10 +388,13 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       let previous: ConsoleCapture | null = null;
       const prevId = await latestReadyBuildId(slug).catch(() => null);
       const prev = prevId ? await loadBuildPayload(slug, prevId) : null;
-      if (prev) {
-        const pc = (JSON.parse(prev.bytes.toString("utf8")) as { aiConsole?: { captures: Record<string, ConsoleCapture>; current: string } }).aiConsole;
+      const prevJson: unknown = prev ? JSON.parse(prev.bytes.toString("utf8")) : null;
+      if (prevJson) {
+        const pc = (prevJson as { aiConsole?: { captures: Record<string, ConsoleCapture>; current: string } }).aiConsole;
         previous = pc?.captures[pc.current] ?? null;
       }
+      const readings = applyAiHistory(payload, readingsFrom(prevJson), new Date().toISOString().slice(0, 10));
+      logLine(`AI share history: ${readings.length} reading(s) — ${readings.map((r) => r.date).join(", ")}`);
       const subjectDomain = brandLink ? (() => { try { return new URL(brandLink).hostname.replace(/^www\./, ""); } catch { return null; } })() : null;
       const consolePayload = buildAiConsole({
         slug, ai, brands, subjectDomain, category: category ?? "", market: region,
