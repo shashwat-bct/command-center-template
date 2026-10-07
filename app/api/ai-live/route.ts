@@ -4,14 +4,15 @@ import { bearerToken, isAdmin, tokenIsValid } from "@/lib/admin-auth";
 import { availableEngines, type AiEngine } from "@/lib/ai-engines";
 import { patternMentions, readAnswers } from "@/lib/ai-visibility";
 import { checkShareToken } from "@/lib/share-response";
+import { isShareId, slugForShareId } from "@/lib/share-id";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 type Brand = { id: string; label: string; aliases?: string[] };
 type Body = { mode?: string; question?: string; engines?: string[]; subject?: string; brands?: Brand[]; persona?: string | null; answers?: Array<{ id: string; text: string }>; category?: string };
 
-const CONSOLE_ID: Record<string, string> = { chatgpt: "gpt", gemini: "gemini", claude: "claude" };
+const CONSOLE_ID: Record<string, string> = { chatgpt: "gpt", perplexity: "perplexity", gemini: "gemini", copilot: "copilot", claude: "claude" };
 const LIMIT_PER_HOUR = 30;
 const runs = new Map<string, number[]>();
 
@@ -24,11 +25,12 @@ function allowed(key: string): boolean {
   return true;
 }
 
-function caller(req: NextRequest): string | null {
+async function caller(req: NextRequest): Promise<string | null> {
   if (isAdmin(req)) return "admin";
   const bearer = bearerToken(req);
   if (!bearer) return null;
   if (tokenIsValid(bearer)) return "admin";
+  if (isShareId(bearer)) return (await slugForShareId(bearer)) ? `share:${bearer}` : null;
   const check = checkShareToken(bearer);
   return check.ok ? `share:${check.claims.slug}:${check.claims.nonce}` : null;
 }
@@ -50,7 +52,7 @@ async function ask(engine: AiEngine, question: string, brands: Brand[]) {
     const order = patternMentions(a.text, brands.map((b) => b.label));
     const idOf = new Map(brands.map((b) => [b.label, b.id]));
     return {
-      id, label: engine.label, model: engine.model, via: `${engine.model}${engine.webSearch ? " with web search" : ""}`,
+      id, label: engine.label, model: engine.model, path: engine.path, via: engine.path === "ui" ? `${engine.model} consumer app via Bright Data` : `${engine.model}${engine.webSearch ? " with web search" : ""}`,
       text: a.text,
       sources: a.sources.map((s) => ({ url: s.url, title: s.title, host: hostOf(s.url, s.title) })),
       brands: order.map((name, i) => ({ id: idOf.get(name) as string, rank: i + 1, recommended: false, sentiment: "neutral", product: "" })),
@@ -58,7 +60,7 @@ async function ask(engine: AiEngine, question: string, brands: Brand[]) {
       sha256: createHash("sha256").update(a.text).digest("hex"),
     };
   } catch (e) {
-    return { id, label: engine.label, model: engine.model, via: engine.model, text: "", sources: [], brands: [], topPick: "", subjectClaims: [], tMs: Date.now() - t0, error: (e as Error).message.slice(0, 200) };
+    return { id, label: engine.label, model: engine.model, path: engine.path, via: engine.model, text: "", sources: [], brands: [], topPick: "", subjectClaims: [], tMs: Date.now() - t0, error: (e as Error).message.slice(0, 200) };
   }
 }
 
@@ -69,7 +71,7 @@ async function ask(engine: AiEngine, question: string, brands: Brand[]) {
  * claims. Open to admins and to holders of a valid share link, rate-limited.
  */
 export async function POST(req: NextRequest) {
-  const who = caller(req);
+  const who = await caller(req);
   if (!who) return Response.json({ error: "unauthorized" }, { status: 401 });
   const body = (await req.json().catch(() => ({}))) as Body;
   const question = (body.question ?? "").trim().slice(0, 500);
@@ -102,5 +104,5 @@ export async function POST(req: NextRequest) {
   const prompt = body.persona ? `${body.persona}\n\n${question}` : question;
   const t0 = Date.now();
   const out = await Promise.all(engines.map((e) => ask(e, prompt, brands)));
-  return Response.json({ question, at: new Date().toISOString(), engines: out, path: "model APIs, live", runId: randomBytes(4).toString("hex"), elapsedMs: Date.now() - t0 });
+  return Response.json({ question, at: new Date().toISOString(), engines: out, path: engines.some((e) => e.path === "ui") ? "consumer apps via Bright Data, live" : "model APIs, live", runId: randomBytes(4).toString("hex"), elapsedMs: Date.now() - t0 });
 }

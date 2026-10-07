@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin, withAdminSession } from "@/lib/admin-auth";
 import { expireIfStale, getLatestBuild } from "@/lib/bq";
+import { shareIdFor } from "@/lib/share-id";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ buil
   try {
     const build = await getLatestBuild(build_id);
     if (!build) return NextResponse.json({ error: "not found", build_id }, { status: 404 });
-    return withAdminSession(req, NextResponse.json(await expireIfStale(build)));
+    return withAdminSession(req, NextResponse.json({ ...(await expireIfStale(build)), share_id: shareIdFor(build.brand_slug) }));
   } catch (e) {
     const err = e as Error;
     return NextResponse.json({ error: "bq query failed", detail: err.message }, { status: 500 });

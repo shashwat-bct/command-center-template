@@ -1,9 +1,20 @@
 import { createHash } from "node:crypto";
 import { brandAliases, type AiSoMResult, type FunnelStage } from "./ai-visibility";
-import type { EngineId } from "./ai-engines";
+import type { EngineId, EnginePath } from "./ai-engines";
 import type { CrawlerAccess } from "./crawler-access";
 
-const ENGINE_IDS: Record<EngineId, string> = { chatgpt: "gpt", gemini: "gemini", claude: "claude" };
+const ENGINE_IDS: Record<EngineId, string> = { chatgpt: "gpt", perplexity: "perplexity", gemini: "gemini", copilot: "copilot", claude: "claude" };
+
+type PathedEngine = { model: string; webSearch: boolean; path: EnginePath };
+
+const engineVia = (e: PathedEngine): string =>
+  e.path === "ui" ? `${e.model} consumer app via Bright Data` : `${e.model} API${e.webSearch ? " with web search" : ""}`;
+
+const pathSummary = (engines: Array<PathedEngine & { label: string }>): string => {
+  const ui = engines.filter((e) => e.path === "ui").map((e) => e.label);
+  const api = engines.filter((e) => e.path === "api").map((e) => e.label);
+  return [ui.length ? `${ui.join(", ")} through their consumer apps (Bright Data)` : "", api.length ? `${api.join(", ")} through the model API` : ""].filter(Boolean).join("; ");
+};
 
 const STAGES: Array<{ id: FunnelStage; label: string; desc: string; aida: string }> = [
   { id: "awareness", label: "Awareness", desc: "Broad category discovery — the shopper doesn't know what to buy yet.", aida: "Attention" },
@@ -28,13 +39,13 @@ export type ConsoleAnswer = {
   attributes: Record<string, Array<{ attr: string; polarity: "+" | "-" }>>;
   subjectClaims: Array<{ claim: string; type: string; product: string; value: string }>;
   sources: ConsoleSource[];
-  path: "api";
+  path: EnginePath;
   sha256: string;
 };
 export type ConsoleCapture = {
   key: string;
   basis: string;
-  path: "api";
+  path: EnginePath;
   capturedAt: string;
   engineSource: string;
   extractor: string;
@@ -43,7 +54,7 @@ export type ConsoleCapture = {
   n: number;
   answers: ConsoleAnswer[];
   search: null;
-  enginePaths: Record<string, { path: "api"; n: number; via: string }>;
+  enginePaths: Record<string, { path: EnginePath; n: number; via: string }>;
 };
 
 export type AiConsolePayload = {
@@ -129,6 +140,8 @@ export function buildAiConsole(input: {
 
   const basis = now.toISOString().slice(0, 10);
   const key = input.previous && input.previous.key === basis ? `${basis}-b` : basis;
+  const pathOf = new Map(input.ai.engines.map((e) => [e.engine, e.path]));
+  const capturePath: EnginePath = input.ai.engines.every((e) => e.path === "ui") ? "ui" : "api";
   const answers: ConsoleAnswer[] = input.ai.perQuestion.filter((q) => q.answer != null).map((q) => {
     const sources = q.sources.map((s): ConsoleSource => {
       const fromUrl = hostOf(s.url);
@@ -145,16 +158,16 @@ export function buildAiConsole(input: {
       attributes: Object.fromEntries(Object.entries(q.attributes).map(([name, list]) => [brandId(name), list])),
       subjectClaims: q.claims,
       sources,
-      path: "api",
+      path: pathOf.get(q.engine) ?? "api",
       sha256: createHash("sha256").update(q.answer as string).digest("hex"),
     };
   });
   const engines = input.ai.engines.map((e) => ({ id: ENGINE_IDS[e.engine], label: e.label, model: e.model }));
   const capture: ConsoleCapture = {
-    key, basis, path: "api", capturedAt: now.toISOString(),
-    engineSource: "model APIs (ChatGPT and Gemini with web search, Claude without)",
+    key, basis, path: capturePath, capturedAt: now.toISOString(),
+    engineSource: pathSummary(input.ai.engines),
     extractor: "command-center enrichment v1", file: null, engines, n: answers.length, answers, search: null,
-    enginePaths: Object.fromEntries(input.ai.engines.map((e) => [ENGINE_IDS[e.engine], { path: "api" as const, n: answers.filter((a) => a.engine === ENGINE_IDS[e.engine]).length, via: `${e.model}${e.webSearch ? " with web search" : ""}` }])),
+    enginePaths: Object.fromEntries(input.ai.engines.map((e) => [ENGINE_IDS[e.engine], { path: e.path, n: answers.filter((a) => a.engine === ENGINE_IDS[e.engine]).length, via: engineVia(e) }])),
   };
   const captures: Record<string, ConsoleCapture> = { [key]: capture };
   if (input.previous) captures[input.previous.key] = input.previous;
@@ -178,7 +191,7 @@ export function buildAiConsole(input: {
     generatedAt: now.toISOString(),
     brands,
     stages: STAGES,
-    engines: input.ai.engines.map((e) => ({ id: ENGINE_IDS[e.engine], label: e.label, measured: true, live: false, via: `${e.model} API${e.webSearch ? " with web search" : ""}` })),
+    engines: input.ai.engines.map((e) => ({ id: ENGINE_IDS[e.engine], label: e.label, measured: true, live: false, via: engineVia(e) })),
     attrs: input.ai.bank.attributes,
     bank: input.ai.bank.questions,
     catalog: { products: input.products.map((p, i) => ({ id: `p${i + 1}`, label: p.label, family: "", msrp: p.msrp })), msrpNote: "list price on Amazon (US$), from Keepa" },
@@ -192,8 +205,8 @@ export function buildAiConsole(input: {
     googleAI: null,
     crawlerAccess: input.crawlerAccess,
     evidenceSummary: null,
-    askLinks: { gpt: "https://chatgpt.com/?q=", perplexity: "https://www.perplexity.ai/search?q=", claude: "https://claude.ai/new?q=", gemini: "https://gemini.google.com/app", googleAiMode: "https://www.google.com/search?udm=50&q=" },
-    liveConfig: { endpoint: "/api/ai-live", directUrl: null, engines: input.ai.engines.map((e) => ENGINE_IDS[e.engine]), path: "model APIs (ChatGPT and Gemini with web search, Claude without), in seconds; the measured capture is the same engines through the same APIs" },
+    askLinks: { gpt: "https://chatgpt.com/?q=", perplexity: "https://www.perplexity.ai/search?q=", claude: "https://claude.ai/new?q=", gemini: "https://gemini.google.com/app", copilot: "https://copilot.microsoft.com/?q=", googleAiMode: "https://www.google.com/search?udm=50&q=" },
+    liveConfig: { endpoint: "/api/ai-live", directUrl: null, engines: input.ai.engines.map((e) => ENGINE_IDS[e.engine]), path: `${pathSummary(input.ai.engines)}; the measured capture used the same engines the same way` },
   };
 }
 

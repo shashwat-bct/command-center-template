@@ -16,6 +16,7 @@ type Build = {
   payload_url: string | null;
   logs_url: string | null;
   error: string | null;
+  share_id?: string;
 };
 
 const ADMIN_TOKEN_KEY = "cct_admin_token";
@@ -52,9 +53,9 @@ export default function BuildingPage({ params }: PageProps<"/admin/building/[bui
         const b = (await res.json()) as Build;
         if (cancelled) return;
         setBuild(b);
-        if (b.status === "ready" && slugFromUrl) {
+        if (b.status === "ready" && (b.share_id || slugFromUrl)) {
           setExiting(true);
-          setTimeout(() => router.push(`/${slugFromUrl}`), 1400);
+          setTimeout(() => router.push(`/${b.share_id ?? slugFromUrl}`), 1400);
           return;
         }
         if (b.status === "failed" || b.status === "cancelled") return;
@@ -79,12 +80,12 @@ export default function BuildingPage({ params }: PageProps<"/admin/building/[bui
 
   if (error) {
     return (
-      <main className="mx-auto max-w-2xl px-8 py-12">
-        <Link href="/admin" className="mb-6 inline-block text-sm text-neutral-500 hover:text-neutral-900">
-          ← admin
+      <main className="mx-auto max-w-2xl px-6 py-12">
+        <Link href="/admin" className="g-btn-text -ml-3 mb-4">
+          ← Admin
         </Link>
-        <h1 className="font-serif text-3xl font-medium tracking-tight">Something went wrong</h1>
-        <p className="mt-3 text-sm text-red-800">{error}</p>
+        <h1 className="font-display text-3xl text-on-surface">Something went wrong</h1>
+        <p className="mt-3 text-sm text-[#c5221f]">{error}</p>
       </main>
     );
   }
@@ -93,9 +94,7 @@ export default function BuildingPage({ params }: PageProps<"/admin/building/[bui
 
   return (
     <div className={`building-scene ${exiting ? "building-scene--exiting" : ""}`}>
-      <div className="building-grid" aria-hidden />
-      <div className="building-vignette" aria-hidden />
-
+      
       <main className="building-content">
         <div className="building-eyebrow">
           <span className="building-dot" />
@@ -125,40 +124,9 @@ export default function BuildingPage({ params }: PageProps<"/admin/building/[bui
                 : STEP_LABELS[activeStepName] ?? activeStepName}
         </div>
 
-        {/* One SVG with a smooth gradient animation — one GPU layer total,
-            instead of 48 CSS-animated divs that overwhelm the compositor and
-            crashed the tab on first-pass. */}
-        <svg
-          className="building-wave"
-          viewBox="0 0 480 56"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <defs>
-            <linearGradient id="wave-grad" x1="0" x2="1">
-              <stop offset="0%" stopColor="rgba(140,180,255,0)" />
-              <stop offset="50%" stopColor="rgba(140,180,255,0.95)" />
-              <stop offset="100%" stopColor="rgba(140,180,255,0)" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M 0 28 Q 60 4, 120 28 T 240 28 T 360 28 T 480 28"
-            fill="none"
-            stroke="url(#wave-grad)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            style={{ animation: "wavePath 2.4s ease-in-out infinite" }}
-          />
-          <path
-            d="M 0 28 Q 60 52, 120 28 T 240 28 T 360 28 T 480 28"
-            fill="none"
-            stroke="url(#wave-grad)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            opacity="0.4"
-            style={{ animation: "wavePath2 2.4s ease-in-out infinite reverse" }}
-          />
-        </svg>
+        <div className={`building-progress ${failed || build?.status === "ready" ? "building-progress--still" : ""}`} role="progressbar" aria-label="Build progress">
+          <span />
+        </div>
 
         <ol className="building-steps">
           {steps.map((s, i) => (
@@ -166,7 +134,7 @@ export default function BuildingPage({ params }: PageProps<"/admin/building/[bui
               key={s.name}
               className={`building-step building-step--${stepState(s, i, steps, build?.status)}`}
             >
-              <span className="building-step-num">{String(i + 1).padStart(2, "0")}</span>
+              <span className="building-step-num">{stepState(s, i, steps, build?.status) === "done" ? "✓" : i + 1}</span>
               <span className="building-step-name">{STEP_LABELS[s.name] ?? s.name}</span>
               <span className="building-step-time">
                 {s.duration_ms != null
@@ -219,189 +187,78 @@ function useBrandName(slug: string): string {
 }
 
 const sceneStyles = `
-  html, body { background: #0b0d12; color: #e8e6df; }
+  html, body { background: #f8fafd; color: #1f1f1f; }
   .building-scene {
     position: fixed; inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, #1a1f2b 0%, #0b0d12 60%, #06070a 100%);
-    overflow: hidden;
-    transition: filter 0.9s cubic-bezier(.6,.0,.2,1), transform 0.9s cubic-bezier(.6,.0,.2,1), opacity 0.9s;
+    background: #f8fafd;
+    overflow: auto;
+    transition: opacity 0.6s cubic-bezier(.2,0,0,1), transform 0.6s cubic-bezier(.2,0,0,1);
   }
-  .building-scene--exiting {
-    opacity: 0; transform: scale(1.06); filter: blur(14px);
-  }
-  .building-grid {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 80%);
-    animation: gridDrift 20s linear infinite;
-    will-change: transform;
-  }
-  .building-vignette {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(circle at 20% 0%, rgba(120,160,255,0.08), transparent 40%),
-      radial-gradient(circle at 80% 100%, rgba(255,200,120,0.06), transparent 40%);
-    pointer-events: none;
-  }
+  .building-scene--exiting { opacity: 0; transform: scale(1.02); }
   .building-content {
-    position: relative; z-index: 1;
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 48px 24px;
-    text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 48px 24px; text-align: center;
+    font-family: "Google Sans Text", "Google Sans", Roboto, system-ui, sans-serif;
   }
   .building-eyebrow {
     display: inline-flex; align-items: center; gap: 10px;
-    font-family: 'Spline Sans Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(232,230,223,0.6);
-    padding: 7px 16px;
-    border: 1px solid rgba(232,230,223,0.14);
-    border-radius: 999px;
-    background: rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px);
+    height: 32px; padding: 0 14px; border-radius: 8px;
+    background: #fff; border: 1px solid #e3e3e3;
+    font-size: 13px; font-weight: 500; color: #444746;
   }
-  .building-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #f5b94e;
-    box-shadow: 0 0 10px #f5b94e, 0 0 20px rgba(245,185,78,0.5);
-    animation: pulseDot 1.6s ease-in-out infinite;
-  }
-  .building-count { opacity: 0.5; }
-
+  .building-dot { width: 8px; height: 8px; border-radius: 50%; background: #1a73e8; animation: pulseDot 1.6s ease-in-out infinite; }
+  .building-count { color: #5f6368; font-weight: 400; }
   .building-brand {
-    font-family: 'Newsreader', Georgia, serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(72px, 14vw, 180px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin: 28px 0 12px;
+    font-family: "Google Sans Display", "Google Sans", Roboto, system-ui, sans-serif;
+    font-weight: 400; font-size: clamp(56px, 10vw, 112px); line-height: 1.05;
+    margin: 28px 0 10px; color: #1f1f1f;
     display: flex; flex-wrap: wrap; justify-content: center;
-    background: linear-gradient(180deg, #ffffff 0%, #b8bac0 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
-  .building-char {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(14px) rotate(-1.5deg);
-    animation: charIn 0.75s cubic-bezier(.2,.65,.3,1) forwards;
+  .building-char { display: inline-block; opacity: 0; transform: translateY(10px); animation: charIn 0.6s cubic-bezier(.2,0,0,1) forwards; }
+  .building-sub { font-size: 16px; color: #444746; margin-bottom: 32px; min-height: 24px; }
+  .building-progress {
+    position: relative; width: min(560px, 90vw); height: 4px; border-radius: 2px;
+    background: #d3e3fd; overflow: hidden; margin-bottom: 32px;
   }
-
-  .building-sub {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 20px;
-    color: rgba(232,230,223,0.75);
-    margin-bottom: 48px;
-    min-height: 28px;
-    transition: opacity 0.4s;
+  .building-progress span {
+    position: absolute; top: 0; bottom: 0; width: 40%; border-radius: 2px; background: #0b57d0;
+    animation: indeterminate 1.6s cubic-bezier(.4,0,.2,1) infinite;
   }
-
-  .building-wave {
-    width: min(640px, 80vw);
-    height: 56px;
-    margin-bottom: 48px;
-    overflow: visible;
-  }
-  @keyframes wavePath {
-    0%, 100% { d: path("M 0 28 Q 60 8, 120 28 T 240 28 T 360 28 T 480 28"); }
-    50%      { d: path("M 0 28 Q 60 48, 120 28 T 240 28 T 360 28 T 480 28"); }
-  }
-  @keyframes wavePath2 {
-    0%, 100% { d: path("M 0 28 Q 60 44, 120 28 T 240 28 T 360 28 T 480 28"); }
-    50%      { d: path("M 0 28 Q 60 12, 120 28 T 240 28 T 360 28 T 480 28"); }
-  }
-
+  .building-progress--still span { animation: none; left: 0; width: 100%; }
   .building-steps {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 10px;
+    list-style: none; padding: 8px; margin: 0;
+    display: flex; flex-direction: column; gap: 2px;
     width: min(560px, 90vw);
+    background: #fff; border: 1px solid #e3e3e3; border-radius: 16px;
   }
   .building-step {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 18px;
-    border: 1px solid rgba(232,230,223,0.08);
-    border-radius: 14px;
-    background: rgba(255,255,255,0.015);
-    font-family: 'Urbanist', system-ui, sans-serif;
-    font-size: 14px;
-    color: rgba(232,230,223,0.5);
-    text-align: left;
-    transition: all 0.5s cubic-bezier(.4,0,.2,1);
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px;
+    padding: 12px 14px; border-radius: 12px;
+    font-size: 14px; color: #5f6368; text-align: left;
+    transition: background-color 0.3s, color 0.3s;
   }
   .building-step-num {
-    font-family: 'Spline Sans Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    opacity: 0.5;
+    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 13px; font-weight: 500; background: #f1f3f4; color: #5f6368;
   }
   .building-step-name { font-weight: 500; }
-  .building-step-time {
-    font-family: 'Spline Sans Mono', monospace;
-    font-size: 11px;
-    opacity: 0.5;
-  }
-  .building-step--pending { }
-  .building-step--next {
-    border-color: rgba(232,230,223,0.2);
-    color: rgba(232,230,223,0.75);
-  }
-  .building-step--running {
-    border-color: rgba(140,180,255,0.6);
-    background: linear-gradient(90deg, rgba(140,180,255,0.08), rgba(140,180,255,0.02));
-    color: #fff;
-    box-shadow: 0 0 24px rgba(140,180,255,0.15);
-  }
-  .building-step--running .building-step-num,
-  .building-step--running .building-step-time {
-    opacity: 1;
-    color: rgba(140,180,255,0.9);
-  }
-  .building-step--done {
-    border-color: rgba(144,220,160,0.3);
-    color: rgba(232,230,223,0.85);
-  }
-  .building-step--done .building-step-num,
-  .building-step--done .building-step-time {
-    color: rgba(144,220,160,0.9);
-    opacity: 1;
-  }
-
+  .building-step-time { font-size: 13px; color: #5f6368; font-variant-numeric: tabular-nums; }
+  .building-step--next { color: #1f1f1f; }
+  .building-step--running { background: #e8f0fe; color: #041e49; }
+  .building-step--running .building-step-num { background: #0b57d0; color: #fff; }
+  .building-step--running .building-step-time { color: #0b57d0; }
+  .building-step--done { color: #1f1f1f; }
+  .building-step--done .building-step-num { background: #e6f4ea; color: #137333; }
+  .building-step--done .building-step-time { color: #137333; }
   .building-foot {
-    margin-top: 36px;
-    font-family: 'Spline Sans Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    color: rgba(232,230,223,0.3);
+    margin-top: 28px; font-size: 12px; color: #5f6368;
     display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
   }
   .building-foot code {
-    background: rgba(255,255,255,0.05);
-    padding: 1px 6px;
-    border-radius: 4px;
+    font-family: "Roboto Mono", ui-monospace, monospace; font-size: 12px;
+    background: #f1f3f4; padding: 1px 6px; border-radius: 4px;
   }
-
-  @keyframes charIn {
-    from { opacity: 0; transform: translateY(14px) rotate(-1.5deg); }
-    to   { opacity: 1; transform: translateY(0) rotate(0); }
-  }
-  @keyframes pulseDot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50%      { transform: scale(1.4); opacity: 0.5; }
-  }
-  @keyframes gridDrift {
-    0%   { transform: translate(0,0); }
-    100% { transform: translate(44px, 44px); }
-  }
+  @keyframes charIn { to { opacity: 1; transform: none; } }
+  @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @keyframes indeterminate { 0% { left: -40%; } 100% { left: 100%; } }
 `;

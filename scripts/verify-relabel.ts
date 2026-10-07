@@ -134,7 +134,7 @@ const perQuestion: AiQuestionResult[] = (["chatgpt", "gemini"] as const).flatMap
   };
 }));
 const engineSoM = (engine: "chatgpt" | "gemini", label: string): EngineSoM => ({
-  engine, label, model: "fixture", webSearch: true, matching: "llm", questionsAsked: 12, questionsFailed: 0,
+  engine, label, model: "fixture", webSearch: true, path: "ui", matching: "llm", questionsAsked: 12, questionsFailed: 0,
   shareByBrand: engineShares[engine], mentionRateByBrand: engineShares[engine], shareByStage: { decision, awareness: engineShares[engine] },
   shareByRun: [engineShares[engine]], otherBrands: [{ brand: "TOLOCO", answers: 12 }],
 });

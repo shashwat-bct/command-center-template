@@ -97,7 +97,7 @@ P.scorecard = (host) => {
     d.dims.brands.map((b) => `<div><div style="font-size:11px;font-weight:700;text-align:center;color:${b.color};margin-bottom:2px">${b.label}</div><div id="rd-${b.id}"></div></div>`).join("")}</div>
     <p class="mini" style="margin:8px 0 0">Grey outline is the category average on each axis, taken over the brands measured on it. Axes are scaled across the set, so the outer edge is the best in the category, not an absolute. A brand with no reading on an axis is drawn dashed, with a hollow marker outside the grid on the axis it is missing — never at the centre or half-way out, which are positions it has not been measured to hold.</p>`;
   for (const b of d.dims.brands) CC.radar(el("rd-" + b.id), { size: d.dims.brands.length <= 4 ? 178 : 152, legend: false, axes,
-    series: [{ id: "avg", label: "Category average", color: "#b4b9c9", values: avg, raw: axes.map((a) => { const v = nn(BIDS().map((x) => sc(a.id, x).value)); return v.length ? mean(v) : null; }) },
+    series: [{ id: "avg", label: "Category average", color: "#bdc1c6", values: avg, raw: axes.map((a) => { const v = nn(BIDS().map((x) => sc(a.id, x).value)); return v.length ? mean(v) : null; }) },
              { id: b.id, label: b.label, color: b.color, subject: true, values: axes.map((a) => norm(a.id, b.id)), raw: axes.map((a) => sc(a.id, b.id).value) }] });
 
   // ── bump: weekly rank on AI share
@@ -132,7 +132,7 @@ P.scorecard = (host) => {
   const movers = d.dims.metrics.filter((m) => !m.static).map((m) => {
     const o = sc(m.id, S); if (o.deltaPct == null) return null;
     const helps = m.good === "neutral" ? null : (o.delta > 0) === (m.good === "up");
-    return { label: m.label, value: o.deltaPct, color: helps === null ? "#5b6172" : helps ? "#15803d" : "#9f1239",
+    return { label: m.label, value: o.deltaPct, color: helps === null ? "#5f6368" : helps ? "#1e8e3e" : "#d93025",
       note: `${fmtFor(m.id)(o.prev)} → ${fmtFor(m.id)(o.value)}`,
       tip: `<div class="h">${m.label}</div><div class="r"><span>${esc(period().prevLabel)}</span><b class="tnum">${fmtFor(m.id)(o.prev)}</b></div><div class="r"><span>${esc(period().curLabel)}</span><b class="tnum">${fmtFor(m.id)(o.value)}</b></div><div class="vb">${m.good === "neutral" ? "No better direction — read it against strategy." : helps ? "Moving the helpful way." : "Moving the unhelpful way."}</div>` };
   }).filter(Boolean).sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
@@ -197,7 +197,7 @@ P.traffic = (host) => {
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("trafficShare", S, `Across the ${measured.length} brand${measured.length === 1 ? "" : "s"} with a published profile`)}
     ${metricKpi("sessions", S, "Modelled daily shape on the measured monthly level")}
-    ${kpi({ label: "Assistant referrals", dot: "#7c3aed", value: F.k(sum(slice(d.traffic.channels[S].aiRef))),
+    ${kpi({ label: "Assistant referrals", dot: "#1a73e8", value: F.k(sum(slice(d.traffic.channels[S].aiRef))),
       delta: `<span class="delta up">↑ ${(((mean(d.traffic.channels[S].aiRef.slice(-14)) / mean(d.traffic.channels[S].aiRef.slice(0, 14))) - 1) * 100).toFixed(0)}%</span>`,
       note: "Sessions arriving from an AI assistant — the fastest-growing source in the mix" })}
     ${kpi({ label: "Add-to-cart rate", dot: B(S).color, value: F.pct(mean(slice(d.traffic.engage[S].addToCart))),
@@ -280,7 +280,7 @@ P.ai = (host) => {
       note: `${d.ai.prompts.filter((p) => p.present[S]).length} of the ${d.ai.prompts.length} tracked prompts` })}
     ${kpi({ label: `Prompts led by ${SUBJ}`, dot: B(S).color, value: String(d.ai.prompts.filter((p) => p.topBrand === S).length),
       note: `Named first in the answer, ahead of every other brand in the set` })}
-    ${kpi({ label: "Engine spread", dot: "#7c3aed", value: (() => { const v = d.dims.engines.map((e) => mean(d.dims.stages.map((st) => meanES(e.id, st.id, S)))); return F.pct(Math.max(...v) - Math.min(...v)); })(),
+    ${kpi({ label: "Engine spread", dot: "#1a73e8", value: (() => { const v = d.dims.engines.map((e) => mean(d.dims.stages.map((st) => meanES(e.id, st.id, S)))); return F.pct(Math.max(...v) - Math.min(...v)); })(),
       note: "Points between the strongest and weakest engine on the same prompt set" })}
   </div>
   ${card({ title: "Share of the AI answer, daily", help: "Of the answers an AI assistant gives to this category's shopping questions, the share that mentions each brand. It is not a ranking of the brand — it is whether the brand is in the room at all when the assistant answers.", sub: (d.meta.provenance || {}).mode === "hybrid" ? `One real reading per build: the line steps on each date the engines were read and is blank before the first. Brands outside the tracked ${d.dims.brands.length} count in the total, so the shares do not sum to 100.` : `Answer share sums to 100 across the ${d.dims.brands.length} brands, so a gain for one is a loss for another. Steps rather than drift — assistants re-index, they do not glide.`, slot: "aiLine", tag: "13 weeks" })}
@@ -307,7 +307,7 @@ P.ai = (host) => {
   CC.funnel(el("aiFunnel"), { stages: d.dims.stages.map((st) => ({ label: st.label, note: `“${st.q}”`,
     bars: d.dims.brands.map((b) => ({ label: b.label, color: b.color, subject: b.subject,
       value: mean(d.dims.engines.map((e) => meanES(e.id, st.id, b.id))) })) })) });
-  CC.hbars(el("aiEngine"), { rows: d.dims.engines.map((e) => ({ label: e.label, color: "#7c3aed",
+  CC.hbars(el("aiEngine"), { rows: d.dims.engines.map((e) => ({ label: e.label, color: "#1a73e8",
       value: mean(d.dims.stages.map((st) => meanES(e.id, st.id, S))),
       tip: `<div class="h">${e.label}</div>` + BIDS().map((b) => `<div class="r"><i style="background:${B(b).color}"></i><span>${B(b).label}</span><b class="tnum">${F.pct(mean(d.dims.stages.map((st) => meanES(e.id, st.id, b))))}</b></div>`).join("") }))
       .sort((a, b) => b.value - a.value), fmtV: (v) => F.pct(v) });
@@ -352,9 +352,9 @@ P.voice = (host) => {
     ${kpi({ label: "Reviews in window", dot: B(S).color, value: velOf(S) == null ? "—" : F.k(velOf(S)),
       note: (() => { const lead = BIDS().map((b) => ({ b, v: velOf(b) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0];
         return !lead ? "Not measured" : lead.b === S ? "The most new reviews in the set" : `Against ${F.k(lead.v)} for ${B(lead.b).label}`; })() })}
-    ${!anyAspect ? "" : `${kpi({ label: "Strongest aspect", dot: "#15803d", value: (() => { const a = topAspect(S, 1); return a ? String(a.v) : "—"; })(),
+    ${!anyAspect ? "" : `${kpi({ label: "Strongest aspect", dot: "#1e8e3e", value: (() => { const a = topAspect(S, 1); return a ? String(a.v) : "—"; })(),
       note: (() => { const a = topAspect(S, 1); return a ? `${a.k} · ${AM[last]}` : "No aspect scored"; })() })}
-    ${kpi({ label: "Weakest aspect", dot: "#9f1239", value: (() => { const a = topAspect(S, -1); return a ? String(a.v) : "—"; })(),
+    ${kpi({ label: "Weakest aspect", dot: "#d93025", value: (() => { const a = topAspect(S, -1); return a ? String(a.v) : "—"; })(),
       note: (() => { const a = topAspect(S, -1); return a ? `${a.k} · ${AM[last]}` : "No aspect scored"; })() })}`}
   </div>
   ${!anyAspect ? `<div class="grid g2">
@@ -377,7 +377,7 @@ P.voice = (host) => {
     tip: (r, c, v) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>${AM[last]}</span><b class="tnum">${Math.round(v)}</b></div>` });
   CC.line(el("vcLine"), { height: 220, x: ds, series: brandSeries((b) => d.voice.rating[b]), zero: false, fmtV: (v) => F.star(v), fmtY: (v) => v.toFixed(1) });
   if (anyAspect) CC.line(el("vcTrend"), { height: 250, x: AM, xTicks: 6, fmtX: (m) => m, fmtTip: (m) => m, fmtV: (v) => Math.round(v),
-    series: d.dims.aspects.map((a, i) => ({ id: a, label: a, color: ["#5b21b6", "#0891b2", "#2563eb", "#be123c", "#d97706", "#15803d", "#7c3aed", "#0f766e"][i],
+    series: d.dims.aspects.map((a, i) => ({ id: a, label: a, color: ["#1a73e8", "#ea4335", "#fbbc04", "#34a853", "#9334e6", "#12b5cb", "#e8710a", "#80868b"][i],
       data: asp(S, a) })).filter((x) => x.data) });
   CC.line(el("vcVel"), { height: 250, x: ds, area: true, series: brandSeries((b) => d.voice.velocity[b]), fmtV: F.n, fmtY: F.k });
 };
@@ -402,9 +402,9 @@ P.shelf = (host) => {
     ${metricKpi("shelfSov", S)}
     ${kpi({ label: "Best shelf", dot: B(S).color, value: (() => { const r = shelfByRetailer().sort((a, b) => b.v - a.v)[0]; return r ? F.pct(r.v) : "—"; })(),
       note: (() => { const r = shelfByRetailer().sort((a, b) => b.v - a.v)[0]; return r ? RT(r.rt).label : ""; })() })}
-    ${kpi({ label: "Thinnest shelf", dot: "#9f1239", value: (() => { const r = shelfByRetailer().sort((a, b) => a.v - b.v)[0]; return r ? F.pct(r.v) : "—"; })(),
+    ${kpi({ label: "Thinnest shelf", dot: "#d93025", value: (() => { const r = shelfByRetailer().sort((a, b) => a.v - b.v)[0]; return r ? F.pct(r.v) : "—"; })(),
       note: (() => { const r = shelfByRetailer().sort((a, b) => a.v - b.v)[0]; return r ? RT(r.rt).label : ""; })() })}
-    ${kpi({ label: "Presence that is paid", dot: "#d97706", value: F.pct(mean(readable.flatMap((rt) => d.dims.terms.map((t) => mean(slice(d.shelf.sponsored[`${rt}|${t.id}|${S}`] || [])))).filter((v) => v != null))),
+    ${kpi({ label: "Presence that is paid", dot: "#f9ab00", value: F.pct(mean(readable.flatMap((rt) => d.dims.terms.map((t) => mean(slice(d.shelf.sponsored[`${rt}|${t.id}|${S}`] || [])))).filter((v) => v != null))),
       note: `Share of ${SUBJ} grid presence carried by a sponsored placement` })}
   </div>
   ${card({ title: "Shelf share, daily", help: "Of the listings a retailer returns for a category search, the share belonging to each brand. This is share of the shelf a shopper actually sees, not share of the catalogue.", sub: `Mean across ${rts.length === 1 ? RT(rts[0]).label : `all ${d.dims.retailers.length} retailers`} and every tracked term. The bands are the retail calendar — watch what happens to ${SUBJ} share inside them.`, slot: "shLine", tag: "13 weeks" })}
@@ -442,7 +442,7 @@ P.shelf = (host) => {
       data: d.dims.retailers.filter((r) => readable.includes(r.id)).map((r) => mean(d.dims.terms.map((t) => sovMean(r.id, t.id, b.id)).filter((v) => v != null))) })) });
   // The inner ring is deliberately neutral: if both rings wore the same five
   // hues a reader could not tell a retailer segment from a brand one.
-  const SLATE = ["#454b5e", "#596076", "#6d748b", "#838aa0", "#99a0b4"];
+  const SLATE = ["#3c4043", "#5f6368", "#80868b", "#9aa0a6", "#bdc1c6"];
   CC.sunburst(el("shSun"), { size: 300, fmtV: (v) => F.pct(v), legend: false,
     centre: { value: F.pct(mean(readable.flatMap((rt) => d.dims.terms.map((t) => sovMean(rt, t.id, S))).filter((v) => v != null))), label: `${SUBJ} share` },
     groups: d.dims.retailers.filter((r) => readable.includes(r.id)).map((r, i) => ({ id: r.id, label: r.label, color: SLATE[i % SLATE.length],
@@ -466,11 +466,11 @@ P.landing = (host) => {
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("pdpScore", S)}
     ${kpi({ label: "Listings scored", dot: B(S).color, value: String(rows.filter((r) => r.brand === S).length), note: `Across ${rts.length} retailer${rts.length === 1 ? "" : "s"}` })}
-    ${kpi({ label: `Weakest ${SUBJ} page`, dot: "#9f1239", value: (() => { const w = rows.filter((r) => r.brand === S).sort((a, b) => a.score - b.score)[0]; return w ? String(w.score) : "—"; })(),
+    ${kpi({ label: `Weakest ${SUBJ} page`, dot: "#d93025", value: (() => { const w = rows.filter((r) => r.brand === S).sort((a, b) => a.score - b.score)[0]; return w ? String(w.score) : "—"; })(),
       note: (() => { const w = rows.filter((r) => r.brand === S).sort((a, b) => a.score - b.score)[0]; return w ? `${MD(w.model).label} at ${RT(w.retailer).label}` : ""; })() })}
     ${(() => { const sr = rows.filter((r) => r.brand === S);
       const gaps = d.dims.pdpFields.map((f) => ({ f, n: sr.filter((r) => !r.fields[f.id]).length })).sort((a, b) => b.n - a.n)[0];
-      return kpi({ label: "Most common gap", dot: gaps && gaps.n ? "#a16207" : "#15803d",
+      return kpi({ label: "Most common gap", dot: gaps && gaps.n ? "#e37400" : "#1e8e3e",
         value: gaps && gaps.n ? String(gaps.n) : "0",
         note: gaps && gaps.n ? `${esc(gaps.f.label.toLowerCase())} missing on ${gaps.n} of ${sr.length} ${SUBJ} listings — the widest single gap in the estate`
                              : `Every ${SUBJ} listing carries all ${d.dims.pdpFields.length} content signals` }); })()}
@@ -495,7 +495,7 @@ P.landing = (host) => {
     d.dims.brands.map((b) => `<div><div style="font-size:11px;font-weight:700;text-align:center;color:${b.color};margin-bottom:2px">${b.label}</div><div id="lr-${b.id}"></div></div>`).join("")}</div>
     <p class="mini" style="margin:8px 0 0">Grey outline is the ${d.dims.brands.length}-brand average. Each axis is the share of that brand's listings carrying the signal, so a full shape is a brand that ships complete pages everywhere.</p>`;
   for (const b of d.dims.brands) CC.radar(el("lr-" + b.id), { size: d.dims.brands.length <= 4 ? 178 : 152, legend: false, axes: lpAxes,
-    series: [{ id: "avg", label: "Category average", color: "#b4b9c9", values: lpAvg },
+    series: [{ id: "avg", label: "Category average", color: "#bdc1c6", values: lpAvg },
              { id: b.id, label: b.label, color: b.color, subject: true, values: lpVals(b.id) }] });
   CC.hbars(el("lpBars"), { rows: d.dims.brands.map((b) => ({ label: b.label, value: brandMean(b.id) || 0, color: b.color, subject: b.id === S }))
     .sort((a, b) => b.value - a.value), fmtV: (v) => Math.round(v) + " /100" });
@@ -532,9 +532,9 @@ P.carriage = (host) => {
     ${metricKpi("carriage", S)}
     ${kpi({ label: "Cells occupied", dot: B(S).color, value: `${pairsFor(S, rts).length}<small> / ${d.dims.models.filter((m) => m.brand === S).length * rts.length}</small>`,
       note: "Model × retailer combinations with a live listing at any point" })}
-    ${kpi({ label: "Buy-box ownership", dot: "#0891b2", value: F.pct(mean(pairsFor(S, rts).map((k) => d.distribution.buybox[k] * 100))),
+    ${kpi({ label: "Buy-box ownership", dot: "#12b5cb", value: F.pct(mean(pairsFor(S, rts).map((k) => d.distribution.buybox[k] * 100))),
       note: "Share of the marketplace listing owned by the brand rather than a reseller" })}
-    ${kpi({ label: "Listing changes", dot: changes.length ? "#a16207" : "#15803d", value: String(changes.length),
+    ${kpi({ label: "Listing changes", dot: changes.length ? "#e37400" : "#1e8e3e", value: String(changes.length),
       note: `Across all ${d.dims.brands.length} brands — ${changes.filter((c) => c.note.kind === "delisted").length} dropped, ${changes.filter((c) => c.note.kind === "listed").length} appeared, ${changes.filter((c) => c.note.kind === "lapsed").length} lapsed and returned. ${changes.filter((c) => c.brand === S).length} of them ${SUBJ}.` })}
   </div>
   ${card({ title: "The distribution grid", help: "Which models are carried by which retailers, cell by cell. A cell the capture could read is held fixed; only cells that could not be read are extrapolated.", sub: "Coloured by days OFF shelf, because at this coverage the question is where the holes are, not where the shelf is full. A tick is a listing live every day of the window; a hatched cell was never carried at all.", slot: "dsHeat", tag: `${winLen} days` })}
@@ -584,11 +584,11 @@ P.stock = (host) => {
     demand shows up in a competitor's numbers.`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("inStock", S)}
-    ${kpi({ label: "Out-of-stock episodes", dot: eps.filter((e) => e.brand === S).length ? "#9f1239" : "#15803d", value: String(eps.filter((e) => e.brand === S).length),
+    ${kpi({ label: "Out-of-stock episodes", dot: eps.filter((e) => e.brand === S).length ? "#d93025" : "#1e8e3e", value: String(eps.filter((e) => e.brand === S).length),
       note: `${sum(eps.filter((e) => e.brand === S).map((e) => e.days))} listing-days lost in the window` })}
-    ${kpi({ label: "Longest gap", dot: "#a16207", value: (() => { const w = eps.filter((e) => e.brand === S).sort((x, y) => y.days - x.days)[0]; return w ? `${w.days}<small>d</small>` : "—"; })(),
+    ${kpi({ label: "Longest gap", dot: "#e37400", value: (() => { const w = eps.filter((e) => e.brand === S).sort((x, y) => y.days - x.days)[0]; return w ? `${w.days}<small>d</small>` : "—"; })(),
       note: (() => { const w = eps.filter((e) => e.brand === S).sort((x, y) => y.days - x.days)[0]; return w ? `${MD(w.model).label} at ${RT(w.retailer).label}, from ${F.dateY(w.start)}` : "No gaps in the window"; })() })}
-    ${kpi({ label: "Following a deep discount", dot: "#a16207", value: String(eps.filter((e) => e.brand === S && e.afterPromo).length),
+    ${kpi({ label: "Following a deep discount", dot: "#e37400", value: String(eps.filter((e) => e.brand === S && e.afterPromo).length),
       note: "Episodes opening within five days of a discount deeper than 14%" })}
   </div>
   ${card({ title: "In-stock rate, daily", help: "Of the listings a brand had live on a given day, the share that could actually be bought. It is the quietest number here: distribution, price and promotion all do nothing while the item cannot be added to a basket.", sub: "Share of each brand's live listings that could be bought that day.", slot: "avLine", tag: "13 weeks" })}
@@ -644,17 +644,17 @@ P.delivery = (host) => {
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("leadTime", S)}
     ${metros ? `
-    ${kpi({ label: "Fastest metro", dot: "#15803d", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => x.v - y.v)[0]; return F.d(r.v); })(),
+    ${kpi({ label: "Fastest metro", dot: "#1e8e3e", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => x.v - y.v)[0]; return F.d(r.v); })(),
       note: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => x.v - y.v)[0]; return r.c.label; })() })}
-    ${kpi({ label: "Slowest metro", dot: "#9f1239", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return F.d(r.v); })(),
+    ${kpi({ label: "Slowest metro", dot: "#d93025", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return F.d(r.v); })(),
       note: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return r.c.label; })() })}
-    ${kpi({ label: "National spread", dot: "#a16207", value: (() => { const v = d.dims.cities.map((c) => brandCity(S, c.id)); return F.d(Math.max(...v) - Math.min(...v)); })(),
+    ${kpi({ label: "National spread", dot: "#e37400", value: (() => { const v = d.dims.cities.map((c) => brandCity(S, c.id)); return F.d(Math.max(...v) - Math.min(...v)); })(),
       note: "Between the fastest and slowest metro on the same catalogue" })}` : `
-    ${kpi({ label: "Slowest in the set", dot: "#9f1239", value: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0]; return o ? F.d(o.v) : "—"; })(),
+    ${kpi({ label: "Slowest in the set", dot: "#d93025", value: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0]; return o ? F.d(o.v) : "—"; })(),
       note: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0]; return o ? o.b.label : "No promise captured"; })() })}
-    ${kpi({ label: "Fastest in the set", dot: "#15803d", value: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => x.v - y.v)[0]; return o ? F.d(o.v) : "—"; })(),
+    ${kpi({ label: "Fastest in the set", dot: "#1e8e3e", value: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => x.v - y.v)[0]; return o ? F.d(o.v) : "—"; })(),
       note: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => x.v - y.v)[0]; return o ? o.b.label : "No promise captured"; })() })}
-    ${kpi({ label: "Metro spread", dot: "#8b91a4", value: "—", note: "Withheld — no delivery location was probed for this study" })}`}
+    ${kpi({ label: "Metro spread", dot: "#80868b", value: "—", note: "Withheld — no delivery location was probed for this study" })}`}
   </div>
   <div class="grid g2">
     ${card({ title: metros ? "Promise by retailer and city" : "Promise by metro", help: "Days from order to the earliest free delivery the product page promises. It is the promise as displayed to a shopper, not the delivery as performed.",
@@ -689,12 +689,12 @@ P.delivery = (host) => {
     const samples = pairsFor(S, rts).filter((k) => k.startsWith(m.id + "|")).flatMap((k) => { const rt = k.split("|")[1]; return CITY.map((c) => ({ rt, c, v: promise(m.id, rt, c.id) })); }).filter((x) => x.v != null).sort((x, y) => x.v - y.v);
     if (!samples.length) return null;
     const where = (x) => `${RT(x.rt).label}${x.c && x.c.label ? " · " + x.c.label.split(",")[0] : ""}`;
-    const row = (x) => `<div class="r"><i style="background:${RT(x.rt).color || "#8b91a4"}"></i><span>${where(x)}</span><b class="tnum">${F.d(x.v)}</b></div>`;
+    const row = (x) => `<div class="r"><i style="background:${RT(x.rt).color || "#80868b"}"></i><span>${where(x)}</span><b class="tnum">${F.d(x.v)}</b></div>`;
     const nRt = new Set(samples.map((x) => x.rt)).size, nCity = new Set(samples.map((x) => x.c && x.c.id)).size;
     const fast = samples.slice(0, 3), slow = samples.slice(-3).reverse(), med = samples[Math.floor(samples.length / 2)].v;
     const tip = `<div class="h">${m.label} · ${samples.length} promise${samples.length === 1 ? "" : "s"} across ${nRt} retailer${nRt === 1 ? "" : "s"}${metros ? ` × ${nCity} metro${nCity === 1 ? "" : "s"}` : ""}</div>` +
-      `<div class="r"><span style="color:#8de3b0;font-weight:700">Fastest</span></div>${fast.map(row).join("")}` +
-      (samples.length > 3 ? `<div class="r" style="margin-top:6px"><span style="color:#ffb3b3;font-weight:700">Slowest</span></div>${slow.map(row).join("")}` : "") +
+      `<div class="r"><span style="color:#81c995;font-weight:700">Fastest</span></div>${fast.map(row).join("")}` +
+      (samples.length > 3 ? `<div class="r" style="margin-top:6px"><span style="color:#f28b82;font-weight:700">Slowest</span></div>${slow.map(row).join("")}` : "") +
       `<div class="r" style="margin-top:6px"><span>Median promise</span><b class="tnum">${F.d(med)}</b></div><div class="r"><span>Span</span><b class="tnum">${F.d(samples.at(-1).v - samples[0].v)}</b></div>`;
     return { label: m.label, lo: samples[0].v, hi: samples.at(-1).v, color: B(S).color, subject: true, tip };
   }).filter(Boolean).sort((a, b) => (b.hi - b.lo) - (a.hi - a.lo));
@@ -726,10 +726,10 @@ P.pricing = (host) => {
     ${metricKpi("priceIndex", S)}
     ${kpi({ label: `Mean ${SUBJ} street price`, dot: B(S).color, value: F.usd0(mean(pairsFor(S, rts).map(priceMean))),
       note: `Across ${pairsFor(S, rts).length} live listings` })}
-    ${kpi({ label: "Widest cross-retailer spread", dot: "#a16207",
+    ${kpi({ label: "Widest cross-retailer spread", dot: "#e37400",
       value: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? F.usd0(w.meanSpread) : "—"; })(),
       note: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? `${MD(w.model).label} — ${F.usd0(w.maxSpread)} at its widest` : "Single-retailer models only"; })() })}
-    ${d.pricing.mapFloorPct == null ? kpi({ label: "Price-floor breaches", dot: "#94a3b8", value: "—", note: "No minimum-advertised-price policy is known for this brand" }) : kpi({ label: "Price-floor breaches", dot: subjBreach.length ? "#9f1239" : "#15803d", value: String(subjBreach.length),
+    ${d.pricing.mapFloorPct == null ? kpi({ label: "Price-floor breaches", dot: "#9aa0a6", value: "—", note: "No minimum-advertised-price policy is known for this brand" }) : kpi({ label: "Price-floor breaches", dot: subjBreach.length ? "#d93025" : "#1e8e3e", value: String(subjBreach.length),
       note: subjBreach.length ? `${sum(subjBreach.map((x) => x.days))} listing-days below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` : `No ${SUBJ} listing traded below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` })}
   </div>
   ${card({ title: "Price index by brand", help: "Street price as a percentage of the manufacturer's list price. The vertical distance between two lines is the difference in how much margin each brand is prepared to hand over to move a unit.", sub: "Street price as a percentage of MSRP, daily. The vertical distance between two lines is the difference in how much margin each brand is prepared to hand over to move a unit.", tag: "13 weeks", slot: "prIndex" })}
@@ -764,7 +764,7 @@ P.pricing = (host) => {
     const ks = pairsFor(focus.brand, rts).filter((k) => k.startsWith(focus.id + "|"));
     CC.line(el("prModel"), { height: 236, x: ds, bands: winBands(), zero: false, fmtV: F.usd, fmtY: F.usd0,
       series: ks.map((k) => { const rt = k.split("|")[1]; return { id: rt, label: RT(rt).label, color: RT(rt).color, data: slice(d.pricing.price[k]) }; })
-        .concat([{ id: "msrp", label: "MSRP " + F.usd0(focus.msrp), color: "#8b91a4", dash: "5 4", data: ds.map(() => focus.msrp) }]) });
+        .concat([{ id: "msrp", label: "MSRP " + F.usd0(focus.msrp), color: "#80868b", dash: "5 4", data: ds.map(() => focus.msrp) }]) });
   }
   // Colour is the price index, not the price: a $1,009 listing is not "hotter"
   // than a $99 one, but a listing at 74% of MSRP is a different animal from one
@@ -812,7 +812,7 @@ P.promotions = (host) => {
     ${metricKpi("promoIntensity", S)}${metricKpi("promoDepth", S)}
     ${kpi({ label: `${SUBJ} price events`, dot: B(S).color, value: String(evs.filter((p) => p.brand === S).length),
       note: `Mean ${(mean(evs.filter((p) => p.brand === S).map((p) => p.days)) || 0).toFixed(1)} days each` })}
-    ${kpi({ label: "Deepest in market", dot: "#9f1239", value: (() => { const w = evs.slice().sort((x, y) => y.depthPct - x.depthPct)[0]; return w ? F.pct(w.depthPct) : "—"; })(),
+    ${kpi({ label: "Deepest in market", dot: "#d93025", value: (() => { const w = evs.slice().sort((x, y) => y.depthPct - x.depthPct)[0]; return w ? F.pct(w.depthPct) : "—"; })(),
       note: (() => { const w = evs.slice().sort((x, y) => y.depthPct - x.depthPct)[0]; return w ? `${B(w.brand).label} · ${MD(w.model).label} at ${RT(w.retailer).label}` : ""; })() })}
   </div>
   <div class="grid g2">
@@ -875,7 +875,7 @@ let calMode = "brand";
 P.calendar = (host) => {
   const d = D(), ds = winDates(), rts = retailerScope(), [a, z] = win();
   const famOf = (t) => (d.dims.promoTypes.find((x) => x.id === t) || {}).family;
-  const famColor = (t) => (d.dims.promoFamilies.find((x) => x.id === famOf(t)) || { color: "#8b91a4" }).color;
+  const famColor = (t) => (d.dims.promoFamilies.find((x) => x.id === famOf(t)) || { color: "#80868b" }).color;
   const typeLabel = (t) => (d.dims.promoTypes.find((x) => x.id === t) || {}).label || t;
   const evs = d.promotions.events.filter((p) => rts.includes(p.retailer) && !p.alwaysOn && p.end >= ds[0] && p.start <= ds.at(-1))
     .map((p) => ({ ...p, start: p.start < ds[0] ? ds[0] : p.start, end: p.end > ds.at(-1) ? ds.at(-1) : p.end }));
@@ -886,14 +886,14 @@ P.calendar = (host) => {
     bar, the deeper the discount. Read down a column to see <b>who was in market on the same day</b> — the question a
     depth average cannot answer and the one that decides whether a promotion was competitive or merely expensive.`)}
   <div class="grid g4" style="margin-bottom:14px">
-    ${kpi({ label: "Promotions in window", dot: "#5b21b6", value: String(evs.length), note: `${evs.filter((p) => p.brand === S).length} of them ${SUBJ}` })}
+    ${kpi({ label: "Promotions in window", dot: "#1a73e8", value: String(evs.length), note: `${evs.filter((p) => p.brand === S).length} of them ${SUBJ}` })}
     ${(() => { const n = d.dims.brands.length, thr = Math.max(2, n - 1);
-      return kpi({ label: `Days with ${thr}+ of ${n} brands promoting`, dot: "#9f1239", value: String(concurrency.filter((c) => c >= thr).length),
+      return kpi({ label: `Days with ${thr}+ of ${n} brands promoting`, dot: "#d93025", value: String(concurrency.filter((c) => c >= thr).length),
         note: `Of ${ds.length} days — the windows where a discount buys nothing but keeps you level` }); })()}
-    ${kpi({ label: "Quiet days", dot: "#15803d", value: String(concurrency.filter((c) => c <= 1).length),
+    ${kpi({ label: "Quiet days", dot: "#1e8e3e", value: String(concurrency.filter((c) => c <= 1).length),
       note: (() => { const q = longestRun(concurrency, (c) => c <= 1);
         return q.len ? `One brand or fewer in market — longest run ${q.len} day${q.len === 1 ? "" : "s"} from ${F.dateY(ds[q.at])}` : "Never fewer than two brands promoting at once"; })() })}
-    ${kpi({ label: "Events on the retail calendar", dot: "#a16207", value: F.pct(evs.length ? (evs.filter((p) => p.onEvent).length / evs.length) * 100 : 0, 0),
+    ${kpi({ label: "Events on the retail calendar", dot: "#e37400", value: F.pct(evs.length ? (evs.filter((p) => p.onEvent).length / evs.length) * 100 : 0, 0),
       note: "Share of price events opening inside a Memorial Day / Prime Day / July 4th / back-to-school window" })}
   </div>
   ${card({ title: "Promotion calendar", help: "Every price event in the window on one grid, day by day. It is the picture a commercial calendar is planned from: where activity clusters, where it collides with the retail calendar, and where nothing is running at all.", sub: "Opacity is discount depth. Grey bands are the retail-calendar events. Hover any bar for the mechanic, the depth and the funder.",
@@ -933,7 +933,7 @@ P.calendar = (host) => {
   }
   CC.line(el("calConc"), { height: 210, x: ds, bands: winBands(), area: true, max: d.dims.brands.length,
     fmtY: (v) => String(v), fmtV: (v) => `${v} of ${d.dims.brands.length} brands`,
-    series: [{ id: "c", label: "Brands on promotion", color: "#9f1239", data: concurrency }], legend: false });
+    series: [{ id: "c", label: "Brands on promotion", color: "#d93025", data: concurrency }], legend: false });
   const wkAll = d.dims.weeks.slice(Math.floor(a / 7), Math.floor(z / 7) + 1);
   CC.heatmap(el("calHeat"), { rows: d.dims.brands, cols: wkAll, corner: "Brand ╲ Week", ramp: "red",
     rowLabel: (r) => r.label, rowDot: (r) => r.color, colLabel: (c) => F.date(c.start),
@@ -967,11 +967,11 @@ P.tco = (host) => {
   <div class="grid g4" style="margin-bottom:14px">
     ${kpi({ label: `Mean ${SUBJ} shelf price`, dot: B(S).color, value: F.usd0(mean(rows.filter((r) => r.brand === S).map((r) => r.shelf))),
       note: `Across ${rows.filter((r) => r.brand === S).length} live listings` })}
-    ${kpi({ label: "Attach-weighted outlay", dot: "#0891b2", value: F.usd0(mean(rows.filter((r) => r.brand === S).map((r) => r.effective))),
+    ${kpi({ label: "Attach-weighted outlay", dot: "#12b5cb", value: F.usd0(mean(rows.filter((r) => r.brand === S).map((r) => r.effective))),
       note: "What the buyer pays once every live mechanic is weighted by take-up" })}
-    ${kpi({ label: "Gap to shelf", dot: "#a16207", value: F.pct(Math.abs(mean(rows.filter((r) => r.brand === S).map(gapPct)))),
+    ${kpi({ label: "Gap to shelf", dot: "#e37400", value: F.pct(Math.abs(mean(rows.filter((r) => r.brand === S).map(gapPct)))),
       note: mean(rows.filter((r) => r.brand === S).map(gapPct)) < 0 ? `${SUBJ} buyers pay MORE than the shelf — attached plans outweigh the give` : "Shelf price overstates what is paid" })}
-    ${kpi({ label: "Brand-funded per unit", dot: "#9f1239", value: F.usd(mean(rows.filter((r) => r.brand === S).map((r) => r.brandFunded))),
+    ${kpi({ label: "Brand-funded per unit", dot: "#d93025", value: F.usd(mean(rows.filter((r) => r.brand === S).map((r) => r.brandFunded))),
       note: "The share of the give the brand carries rather than the retailer" })}
   </div>
   ${card({ title: "The bridge from list price to what is paid", help: "A waterfall from the manufacturer's list price to the shopper's actual outlay: the discount off the shelf, then accessories, protection, delivery and finance, each weighted by how often it is taken. It answers what the product costs to own, not what it costs to buy.", sub: "One listing, walked from MSRP through the shelf discount and then every mechanic live on the page, each weighted by its attach rate. Green lowers the shopper's outlay, red raises it. The axis starts below the lowest step so the small moves are visible.", tag: "TCO bridge", tagCls: "acc",
@@ -1009,13 +1009,13 @@ P.tco = (host) => {
   drawWf();
   function drawWf() {
     $$("#tcoPick button").forEach((b) => b.classList.toggle("on", b.dataset.k === `${tcoFocus.model}|${tcoFocus.retailer}`));
-    const steps = [{ label: "MSRP", value: tcoFocus.msrp, total: true, color: "#16181d",
+    const steps = [{ label: "MSRP", value: tcoFocus.msrp, total: true, color: "#1f1f1f",
       tip: `<div class="h">Manufacturer list price</div><div class="r"><span>MSRP</span><b class="tnum">${F.usd0(tcoFocus.msrp)}</b></div>` }];
     if (Math.abs(tcoFocus.shelfCut) > 0.5) steps.push({ label: tcoFocus.shelfCut > 0 ? "Shelf discount" : "Shelf premium", value: -tcoFocus.shelfCut,
       tip: `<div class="h">${tcoFocus.shelfCut > 0 ? "Shelf discount" : "Shelf sits above list"}</div><div class="r"><span>MSRP</span><b class="tnum">${F.usd0(tcoFocus.msrp)}</b></div><div class="r"><span>Shelf price</span><b class="tnum">${F.usd(tcoFocus.shelf)}</b></div><div class="vb">Every buyer gets this one, so unlike the mechanics below it is not attach-weighted.</div>` });
     for (const c of tcoFocus.comps) steps.push({ label: c.label, value: c.dir === "up" ? c.weighted : -c.weighted,
       tip: `<div class="h">${c.label}</div><div class="r"><span>Face value</span><b class="tnum">${F.usd(c.face)}</b></div><div class="r"><span>Attach rate</span><b class="tnum">${F.pct(c.attach * 100, 0)}</b></div><div class="r"><span>Weighted</span><b class="tnum">${F.usd(c.weighted)}</b></div>${c.soft ? `<div class="vb">Non-price mechanic, valued at half its economic worth.</div>` : ""}` });
-    steps.push({ label: "What is paid", value: tcoFocus.effective, total: true, color: "#5b21b6",
+    steps.push({ label: "What is paid", value: tcoFocus.effective, total: true, color: "#1a73e8",
       tip: `<div class="h">Attach-weighted outlay</div><div class="r"><span>vs shelf</span><b class="tnum">${F.usd(tcoFocus.effective - tcoFocus.shelf)}</b></div><div class="r"><span>vs MSRP</span><b class="tnum">${F.pct(tcoFocus.vsMsrp)}</b></div>` });
     CC.waterfall(el("tcoWf"), { height: 300, steps });
     el("tcoLegend").innerHTML = `<p class="mini" style="margin:10px 0 0">
@@ -1027,8 +1027,8 @@ P.tco = (host) => {
     tip: `<div class="h">${x.b.label}</div><div class="r"><span>Mean shelf</span><b class="tnum">${F.usd(x.shelf)}</b></div><div class="r"><span>Mean outlay</span><b class="tnum">${F.usd(x.eff)}</b></div><div class="r"><span>Listings</span><b class="tnum">${x.n}</b></div>` }))
     .sort((a, b) => b.value - a.value), fmtV: (v) => F.pct(v), max: Math.max(...byBrand.map((x) => Math.abs(x.gap))) });
   CC.bars(el("tcoFund"), { height: 240, stacked: true, cats: byBrand.map((x) => x.b.label), rotate: true, fmtV: F.usd, fmtY: F.usd0,
-    series: [{ id: "brand", label: "Brand-funded", color: "#9f1239", data: byBrand.map((x) => x.funded) },
-             { id: "ret", label: "Retailer-funded", color: "#0891b2", data: byBrand.map((x) => { const rs = rows.filter((r) => r.brand === x.b.id); return mean(rs.map((r) => r.retailerFunded)) || 0; }) }] });
+    series: [{ id: "brand", label: "Brand-funded", color: "#d93025", data: byBrand.map((x) => x.funded) },
+             { id: "ret", label: "Retailer-funded", color: "#12b5cb", data: byBrand.map((x) => { const rs = rows.filter((r) => r.brand === x.b.id); return mean(rs.map((r) => r.retailerFunded)) || 0; }) }] });
   const tbl = $$(".page.on .tcoTableCard table.dt")[0];
   if (tbl) { const list = rows.slice().sort((a, b) => Math.abs(gapPct(b)) - Math.abs(gapPct(a)));
     $$("tbody tr", tbl).forEach((tr, i) => { tr.style.cursor = "pointer"; tr.onclick = () => { tcoFocus = list[i]; drawWf(); window.scrollTo({ top: 0, behavior: "smooth" }); }; }); }
@@ -1106,7 +1106,7 @@ Price index — street price as a percentage of MSRP, averaged across the brand'
   el("stRadar").innerHTML = `<div style="display:grid;grid-template-columns:repeat(${d.dims.brands.length <= 4 ? 2 : 3},minmax(0,1fr));gap:18px 22px">${
     d.dims.brands.map((b) => `<div><div style="font-size:11px;font-weight:700;text-align:center;color:${b.color};margin-bottom:2px">${b.label}</div><div id="sr-${b.id}"></div></div>`).join("")}</div>`;
   for (const b of d.dims.brands) CC.radar(el("sr-" + b.id), { size: d.dims.brands.length <= 4 ? 178 : 152, legend: false, axes,
-    series: [{ id: "avg", label: "Category average", color: "#b4b9c9", values: stAvg, raw: axes.map((ax) => mean(BIDS().map((x) => st[x][ax.id]))) },
+    series: [{ id: "avg", label: "Category average", color: "#bdc1c6", values: stAvg, raw: axes.map((ax) => mean(BIDS().map((x) => st[x][ax.id]))) },
              { id: b.id, label: b.label, color: b.color, subject: true, values: axes.map((ax) => normAx(ax.id, b.id)), raw: axes.map((ax) => st[b.id][ax.id]) }] });
   CC.scatter(el("stScatter"), { height: 280, xLabel: "Share of listing-days on promotion", yLabel: "Mean discount depth",
     fmtX: (v) => F.pct(v, 0), fmtY: (v) => F.pct(v, 0),
@@ -1139,17 +1139,17 @@ P.method = (host) => {
   const measuredOnly = (d.meta.provenance || {}).mode === "measured-only";
   host.innerHTML = `
   ${intro(`<b>${esc(dis.headline)}</b> ${esc(dis.body)}`,
-    `<div class="card" style="min-width:260px;border-color:#f2dfae;background:linear-gradient(168deg,#fffdf6,#fdf7e8)">
+    `<div class="card" style="min-width:260px;border-color:#fdd663;background:linear-gradient(168deg,#fffdf6,#fef7e0)">
       <div class="card-h"><div class="ct"><h3>Read this first</h3><p>The disclosure applies to every screen in the rail, not only this one.</p></div></div>
       <div class="cc-hb">
-        <div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#15803d;width:10px;height:10px"></span><span class="lb">${measuredOnly ? "Every figure is read from a named source" : "Levels are pinned to a capture"}</span></div>
-        <div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#a16207;width:10px;height:10px"></span><span class="lb">${measuredOnly ? "Daily lines are daily readings; single readings are drawn flat" : "Shapes over time are modelled"}</span></div>
-        ${noAnchor.length ? `<div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#9f1239;width:10px;height:10px"></span><span class="lb">${noAnchor.length === 1 ? "One lane has" : `${noAnchor.length} lanes have`} no measurement at all — ${noAnchor.map((x) => esc(x.lane)).join(", ")}</span></div>` : `<div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#9f1239;width:10px;height:10px"></span><span class="lb">Where nothing was measured, the figure is withheld — never filled</span></div>`}
+        <div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#1e8e3e;width:10px;height:10px"></span><span class="lb">${measuredOnly ? "Every figure is read from a named source" : "Levels are pinned to a capture"}</span></div>
+        <div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#e37400;width:10px;height:10px"></span><span class="lb">${measuredOnly ? "Daily lines are daily readings; single readings are drawn flat" : "Shapes over time are modelled"}</span></div>
+        ${noAnchor.length ? `<div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#d93025;width:10px;height:10px"></span><span class="lb">${noAnchor.length === 1 ? "One lane has" : `${noAnchor.length} lanes have`} no measurement at all — ${noAnchor.map((x) => esc(x.lane)).join(", ")}</span></div>` : `<div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#d93025;width:10px;height:10px"></span><span class="lb">Where nothing was measured, the figure is withheld — never filled</span></div>`}
       </div></div>`)}
   ${card({ title: "The anchor ledger", help: measuredOnly ? "Source by source: what was read, where from, and which figures it produces. A lane with no source is listed as not measured and left blank." : "Lane by lane: what was actually measured, the capture it came from, and which part of the simulation it pins. A lane with no anchor is marked as such rather than left looking like the rest.", sub: measuredOnly ? "Source by source: what was read, where from, and which figures it produces. Lanes with no source are listed as not measured." : "Lane by lane: what was actually measured, where it came from, and which part of the simulation it pins. A lane with no anchor is marked as such.", tag: `${dis.anchors.length} lanes`, tagCls: "acc",
     html: `<div class="dt-wrap"><table class="dt anchor-tbl">
       <thead><tr><th class="lft">Lane</th><th class="lft">What was measured</th><th class="lft">Source</th><th class="lft">What it pins</th></tr></thead>
-      <tbody>${dis.anchors.map((x) => `<tr class="${x.unmeasured ? "" : ""}" ${x.unmeasured ? 'style="background:#fff7ed"' : ""}>
+      <tbody>${dis.anchors.map((x) => `<tr class="${x.unmeasured ? "" : ""}" ${x.unmeasured ? 'style="background:#fef7e0"' : ""}>
         <td class="lft">${esc(x.lane)}${x.unmeasured ? ` <span class="tag risk" style="margin-left:4px">${(d.meta.provenance || {}).mode === "hybrid" ? "modelled" : "no anchor"}</span>` : ""}</td>
         <td class="lft" style="white-space:normal;max-width:340px">${esc(x.measured)}</td>
         <td class="lft mini" style="white-space:normal;max-width:230px;font-family:var(--fm);font-size:10.5px">${esc(x.source)}</td>

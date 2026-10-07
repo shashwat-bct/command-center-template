@@ -22,7 +22,7 @@ export type VerifyResult =
 
 export class MagicLinkConfigError extends Error {}
 
-function secret(): string {
+export function magicLinkSecret(): string {
   const s = process.env.MAGIC_LINK_SECRET;
   if (!s || s.length < MIN_SECRET_LENGTH) {
     throw new MagicLinkConfigError(`MAGIC_LINK_SECRET must be set to at least ${MIN_SECRET_LENGTH} characters`);
@@ -30,7 +30,7 @@ function secret(): string {
   return s;
 }
 
-const sign = (body: string): Buffer => createHmac("sha256", secret()).update(body).digest();
+const sign = (body: string): Buffer => createHmac("sha256", magicLinkSecret()).update(body).digest();
 
 /**
  * Mints a signed, self-contained share token. The brand/build scope and optional

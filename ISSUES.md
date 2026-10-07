@@ -108,4 +108,4 @@ Cost per build: ~100 Keepa tokens (buy-box history is 4 tokens per listing), ~$0
 | B4 | All builder edits must leave vendored brands unchanged. | Verified: Sonos, Sony and Shark outputs are byte-identical before and after every edit. | fixed |
 | A1 | Dashboards were public, so magic-link expiry restricted nothing. | Admin session or share link required (open when `ADMIN_SHARED_SECRET` is unset). | fixed |
 | A2 | `MAGIC_LINK_SECRET` not in Secret Manager / Cloud Run. | At deploy: `openssl rand -hex 32 \| gcloud secrets create MAGIC_LINK_SECRET --data-file=- --project bravo-platform-bc`, grant the runtime SA `secretAccessor`, then `--update-secrets MAGIC_LINK_SECRET=MAGIC_LINK_SECRET:latest` on `command-center-next`. | open — run at deploy (creates a Cloud Run revision) |
-| A3 | `BRIGHTDATA_SERP_KEY` unused on Cloud Run. | Kept for L2. | won't fix |
+| A3 | `BRIGHTDATA_SERP_KEY` unused on Cloud Run. | Now the key for the ChatGPT, Perplexity, Gemini and Copilot consumer-app scrapers (`lib/brightdata.ts`); `BRIGHTDATA_API_KEY` takes precedence. | fixed |

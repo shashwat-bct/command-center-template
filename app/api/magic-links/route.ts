@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin, withAdminSession } from "@/lib/admin-auth";
-import { MAX_TTL_HOURS, MagicLinkConfigError, createMagicToken } from "@/lib/magic-link";
+import { MagicLinkConfigError } from "@/lib/magic-link";
+import { shareIdFor } from "@/lib/share-id";
 import { isServable, latestReadyBuildId, loadBuildPayload } from "@/lib/payload-source";
 import { parseBrandLinkRequest, resolveBuildForLink } from "@/lib/brand-link-request";
 import { savedInputsFor } from "@/lib/build-inputs";
@@ -8,8 +9,6 @@ import { savedInputsFor } from "@/lib/build-inputs";
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9-]+$/;
-const BUILD_RE = /^b_[A-Za-z0-9_-]+$/;
-const PARTNER_RE = /^[A-Za-z0-9._:-]{1,64}$/;
 
 function publicOrigin(req: NextRequest): string {
   const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
@@ -23,13 +22,6 @@ type Pinned = { slug: string; buildId: string; status: "ready" | "queued" | "run
 async function pinBySlug(body: Record<string, unknown>): Promise<Pinned | NextResponse> {
   const slug = typeof body.slug === "string" ? body.slug.trim() : "";
   if (!SLUG_RE.test(slug)) return NextResponse.json({ error: "send brand_name + brand_category, or the slug of an existing brand" }, { status: 400 });
-  if (body.build_id != null) {
-    if (typeof body.build_id !== "string" || !BUILD_RE.test(body.build_id)) return NextResponse.json({ error: "build_id is malformed" }, { status: 400 });
-    const pinned = await loadBuildPayload(slug, body.build_id);
-    if (!pinned) return NextResponse.json({ error: `no payload for ${slug} build ${body.build_id}` }, { status: 404 });
-    if (!isServable(pinned)) return NextResponse.json({ error: `build ${body.build_id} predates per-lane provenance; rebuild ${slug} first` }, { status: 409 });
-    return { slug, buildId: body.build_id, status: "ready", extra: {} };
-  }
   const buildId = await latestReadyBuildId(slug);
   if (!buildId) return NextResponse.json({ error: `brand "${slug}" has no ready build` }, { status: 404 });
   const latest = await loadBuildPayload(slug, buildId);
@@ -64,11 +56,11 @@ async function pinByBrand(body: Record<string, unknown>): Promise<Pinned | NextR
 }
 
 /**
- * POST /api/magic-links — returns a share link for a brand dashboard.
+ * POST /api/magic-links — returns the fixed share link of a brand dashboard, `/<id>`.
  *
  * Either { brand_name, brand_category, brand_product?, brand_link?, competitors?, region?, rebuild? }
- * (reuses the brand's latest measured build, or starts one and links to it), or { slug, build_id? }
- * for an existing brand. Both accept partner_id (a per-partner link variant), label and an optional expires_in_hours; links never expire without it.
+ * (reuses the brand's latest measured build, or starts one), or { slug } for an existing brand.
+ * The link always shows the brand's latest ready build.
  */
 export async function POST(req: NextRequest) {
   const guard = requireAdmin(req);
@@ -81,27 +73,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid JSON body" }, { status: 400 });
   }
 
-  const ttlHours = body.expires_in_hours == null ? null : Number(body.expires_in_hours);
-  if (ttlHours !== null && (!Number.isFinite(ttlHours) || ttlHours <= 0 || ttlHours > MAX_TTL_HOURS)) {
-    return NextResponse.json({ error: `expires_in_hours must be > 0 and <= ${MAX_TTL_HOURS}` }, { status: 400 });
-  }
-  const label = typeof body.label === "string" && body.label.trim() ? body.label.trim().slice(0, 120) : null;
-  const partnerId = typeof body.partner_id === "string" && body.partner_id.trim() ? body.partner_id.trim() : null;
-  if (partnerId && !PARTNER_RE.test(partnerId)) return NextResponse.json({ error: "partner_id must be 1–64 characters: letters, digits, . _ : -" }, { status: 400 });
-
   try {
     const pinned = body.brand_name != null ? await pinByBrand(body) : await pinBySlug(body);
     if (pinned instanceof NextResponse) return pinned;
-    const { token, claims } = createMagicToken({ slug: pinned.slug, buildId: pinned.buildId, label, partnerId, ttlHours });
+    const id = shareIdFor(pinned.slug);
     return withAdminSession(req, NextResponse.json(
       {
-        url: `${new URL("/share", publicOrigin(req)).toString()}#${token}`,
-        token,
+        url: new URL(`/${id}`, publicOrigin(req)).toString(),
+        id,
         slug: pinned.slug,
-        partner_id: partnerId,
-        label,
-        issued_at: new Date(claims.issuedAt * 1000).toISOString(),
-        expires_at: claims.expiresAt === null ? null : new Date(claims.expiresAt * 1000).toISOString(),
         build: { id: pinned.buildId, status: pinned.status, poll_url: `/api/builds/${pinned.buildId}` },
         ...pinned.extra,
       },

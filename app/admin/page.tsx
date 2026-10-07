@@ -18,36 +18,36 @@ export default async function AdminPage(props: PageProps<"/admin">) {
   const editing = slug && saved ? saved.inputs : null;
 
   return (
-    <main className="mx-auto max-w-3xl px-8 py-12">
-      <Link href="/" className="mb-6 inline-block text-sm text-neutral-500 hover:text-neutral-900">
-        ← all brands
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <Link href="/" className="g-btn-text -ml-3 mb-4">
+        ← All brands
       </Link>
-      <h1 className="font-serif text-4xl font-medium tracking-tight">{editing ? `Edit and rebuild ${editing.name}` : "Add a brand"}</h1>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-neutral-500">
+      <h1 className="font-display text-4xl text-on-surface">{editing ? `Edit and rebuild ${editing.name}` : "Add a brand"}</h1>
+      <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-on-surface-variant">
         {editing
           ? `Pre-filled with what /${editing.slug} was last built with${saved?.source === "reconstructed" ? " (read back from its last build)" : ""}. Change anything and rebuild; the dashboard keeps its URL.`
-          : "Type a brand, category and competitors. The backend finds each brand's own Amazon listings and reads 13 weeks of daily price, stock, buy box, rating and reviews (Keepa), today's product pages and delivery promise (Apify), and AI share of answer (Claude). Nothing is simulated: measures without a source are left blank."}
+          : "Type a brand, category and competitors. The backend finds each brand's own Amazon listings and reads 13 weeks of daily price, stock, buy box, rating and reviews (Keepa), today's product pages and delivery promise (Apify), and AI share of answer from ChatGPT and Gemini (Bright Data) and Claude. Nothing is simulated: measures without a source are left blank."}
       </p>
       {slug && !saved && (
-        <p className="mt-3 rounded-lg bg-amber-50 p-3 text-xs text-amber-900">
+        <p className="mt-4 rounded-xl bg-[#fef7e0] p-3 text-[13px] text-[#5c3200]">
           {admin ? `No saved inputs were found for /${slug}; fill the form to rebuild it.` : "Sign in (submit the form once) to load saved inputs."}
         </p>
       )}
       {editing && (
-        <Link href="/admin" className="mt-3 inline-block text-xs font-semibold text-neutral-500 hover:text-neutral-900">+ Add a new brand instead</Link>
+        <Link href="/admin" className="g-btn-text -ml-3 mt-2">+ Add a new brand instead</Link>
       )}
 
       <AdminForm key={slug ?? "new"} initial={editing} />
 
       <section className="mt-14">
-        <h2 className="mb-1 font-serif text-2xl font-medium">Your brands</h2>
-        <p className="mb-4 text-sm text-neutral-500">Rebuild reuses the inputs each brand was last built with. Edit opens them in the form above.</p>
+        <h2 className="mb-1 font-display text-xl text-on-surface">Your brands</h2>
+        <p className="mb-4 text-sm text-muted">Rebuild reuses the inputs each brand was last built with. Edit opens them in the form above.</p>
         {admin ? (
-          <Suspense fallback={<p className="text-sm text-neutral-500">Loading brands…</p>}>
+          <Suspense fallback={<p className="text-sm text-muted">Loading brands…</p>}>
             <RebuildList />
           </Suspense>
         ) : (
-          <p className="text-sm text-neutral-500">Sign in to see and rebuild your brands.</p>
+          <p className="text-sm text-muted">Sign in to see and rebuild your brands.</p>
         )}
       </section>
     </main>

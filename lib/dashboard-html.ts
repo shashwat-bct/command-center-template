@@ -13,6 +13,7 @@ export type DashboardHtmlInput = {
   title: string;
   payloadUrl: string;
   share?: boolean;
+  shareId?: string;
 };
 
 const SHARE_BOOTSTRAP = `<script>
@@ -43,7 +44,7 @@ const TITLE_OVERRIDES: Record<string, string> = {
 export const dashboardTitle = (slug: string): string =>
   TITLE_OVERRIDES[slug] ?? `${slug.charAt(0).toUpperCase() + slug.slice(1)} · Commercial Command Center`;
 
-export function renderDashboardHtml({ title, payloadUrl, share = false }: DashboardHtmlInput): string {
+export function renderDashboardHtml({ title, payloadUrl, share = false, shareId }: DashboardHtmlInput): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -52,12 +53,12 @@ export function renderDashboardHtml({ title, payloadUrl, share = false }: Dashbo
 <title>${escapeHtml(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${asset("cco-dashboard.css")}">
 <link rel="stylesheet" href="${asset("ai-visibility.css")}">
 </head>
 <body data-payload="${escapeAttr(payloadUrl)}"${process.env.SHOW_DATA_SOURCES === "true" ? ' data-sources="on"' : ""}>
-${share ? SHARE_BOOTSTRAP : ""}
+${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer ${escapeAttr(shareId)}";</script>` : ""}
 <div id="ccLoader" class="cc-loader" role="status" aria-live="polite">
   <div class="cc-loader-card">
     <div class="cc-spinner" aria-hidden="true"></div>
@@ -169,7 +170,8 @@ const escapeAttr = (s: string) => String(s).replace(/[&<>"']/g, (c) => ESC[c] ??
 
 export function renderSignInHtml(title: string): string {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHtml(title)}</title>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f6f5f2;font-family:system-ui,sans-serif;color:#1a1a1a}form{width:min(380px,calc(100vw - 32px));padding:28px;background:#fff;border:1px solid #e5e3dd;border-radius:16px;box-sizing:border-box}h1{font-size:20px;margin:0 0 6px}p{margin:0 0 16px;color:#6a6a6a;line-height:1.5;font-size:14px}input{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #d6d3cc;border-radius:10px;font-size:14px}button{margin-top:12px;width:100%;padding:10px;border:0;border-radius:10px;background:#1a1a1a;color:#fff;font-weight:600;font-size:14px;cursor:pointer}#err{color:#b91c1c;margin:10px 0 0;min-height:1em}</style>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f8fafd;font-family:'Google Sans Text','Google Sans',Roboto,system-ui,sans-serif;color:#1f1f1f;-webkit-font-smoothing:antialiased}form{width:min(400px,calc(100vw - 32px));padding:36px 32px 28px;background:#fff;border:1px solid #e3e3e3;border-radius:28px;box-sizing:border-box}h1{font-family:'Google Sans Display','Google Sans',Roboto,sans-serif;font-weight:400;font-size:24px;margin:0 0 8px}p{margin:0 0 20px;color:#444746;line-height:1.5;font-size:14px}input{width:100%;box-sizing:border-box;height:52px;padding:0 16px;border:1px solid #747775;border-radius:8px;font:inherit;font-size:15px;color:#1f1f1f}input:focus{outline:none;border-color:#0b57d0;box-shadow:inset 0 0 0 1px #0b57d0}button{margin-top:20px;float:right;height:40px;padding:0 24px;border:0;border-radius:999px;background:#0b57d0;color:#fff;font:500 14px 'Google Sans Text','Google Sans',Roboto,sans-serif;cursor:pointer}button:hover{background:#0842a0}#err{clear:both;color:#c5221f;margin:12px 0 0;min-height:1em;font-size:13px}</style>
 </head><body><form id="f"><h1>Private dashboard</h1><p>Sign in with the admin token, or open a share link you were sent.</p>
 <input id="t" type="password" autocomplete="current-password" placeholder="Admin token" required><button type="submit">Sign in</button><p id="err" role="alert"></p></form>
 <script>document.getElementById("f").onsubmit=async function(e){e.preventDefault();var r=await fetch("/api/admin/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({token:document.getElementById("t").value})});if(r.ok)location.reload();else document.getElementById("err").textContent="That token was not accepted.";};</script>

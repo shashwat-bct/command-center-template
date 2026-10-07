@@ -25,21 +25,21 @@ export default function RebuildButton({ slug }: { slug: string }) {
   if (state === "confirm") {
     return (
       <span className="flex items-center gap-2">
-        <button type="button" onClick={start} className="rounded-lg bg-neutral-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-neutral-700">
+        <button type="button" onClick={start} className="g-btn h-9 px-4 text-[13px]">
           Confirm · ~100 Keepa tokens
         </button>
-        <button type="button" onClick={() => setState("idle")} className="text-xs text-neutral-500 hover:text-neutral-900">Cancel</button>
+        <button type="button" onClick={() => setState("idle")} className="g-btn-text">Cancel</button>
       </span>
     );
   }
   return (
     <span className="flex items-center gap-2">
-      {error && <span className="max-w-56 truncate text-xs text-rose-700" title={error}>{error}</span>}
+      {error && <span className="max-w-56 truncate text-xs text-[#c5221f]" title={error}>{error}</span>}
       <button
         type="button"
         disabled={state === "starting"}
         onClick={() => setState("confirm")}
-        className="rounded-lg border border-neutral-300 px-3 py-1.5 text-xs font-semibold text-neutral-900 hover:border-neutral-900 disabled:text-neutral-400"
+        className="g-btn-outline"
       >
         {state === "starting" ? "Starting…" : "Rebuild"}
       </button>

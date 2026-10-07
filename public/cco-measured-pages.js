@@ -37,7 +37,7 @@ P.traffic = (host) => {
     ${kpi({ label: "Bought in past month", dot: B(S).color, value: F.k(soldOf(S)), note: `At least, across ${modelsOf(S).length} ${SUBJ} listings` })}
     ${kpi({ label: "Share of tracked purchases", dot: B(S).color, value: total ? F.pct((soldOf(S) / total) * 100) : "—", note: `Of ${F.k(total)} across every tracked listing` })}
     ${kpi({ label: "Best sales rank", dot: B(S).color, value: bestRank(S) == null ? "—" : "#" + F.n(bestRank(S)), note: "Latest reading, best of the brand's listings" })}
-    ${kpi({ label: "Listings tracked", dot: "#64748b", value: String(d.dims.models.length), note: `Across ${d.dims.brands.filter((b) => modelsOf(b.id).length).length} brands` })}
+    ${kpi({ label: "Listings tracked", dot: "#80868b", value: String(d.dims.models.length), note: `Across ${d.dims.brands.filter((b) => modelsOf(b.id).length).length} brands` })}
   </div>
   <div class="grid g2">
     ${card({ title: "Bought in past month", help: "Amazon's \"bought in past month\" figure for each brand's tracked listings, summed, as Keepa recorded it. Amazon shows it in buckets (50+, 100+, 1K+), so each value is a floor.", sub: "Summed across each brand's tracked listings. A floor, not an exact count.", slot: "dmSold" })}
@@ -68,7 +68,7 @@ P.shelf = (host) => {
     ${metricKpi("shelfSov", S)}
     ${kpi({ label: "Best position", dot: B(S).color, value: first == null ? "—" : "#" + first, note: first == null ? `No ${SUBJ} listing in the first ${sh.depth}` : `Of the first ${sh.depth} results` })}
     ${kpi({ label: `${SUBJ} results`, dot: B(S).color, value: String(sh.results.filter((r) => r.brand === S).length), note: `Of ${sh.depth} read` })}
-    ${kpi({ label: "Held by other brands", dot: "#64748b", value: F.pct((other / Math.max(1, sh.depth)) * 100), note: "Brands outside the tracked set" })}
+    ${kpi({ label: "Held by other brands", dot: "#80868b", value: F.pct((other / Math.max(1, sh.depth)) * 100), note: "Brands outside the tracked set" })}
   </div>
   <div class="grid g2">
     ${card({ title: "Share of the first results", help: "Each brand's share of the organic result positions read.", sub: `Share of the first ${sh.depth} organic results for "${esc(sh.term)}".`, slot: "shBars" })}
@@ -81,7 +81,7 @@ P.shelf = (host) => {
   </div>
   <h2 class="sec">What the shelf says</h2>${readsBlock("shelf")}`;
   CC.hbars(el("shBars"), { rows: d.dims.brands.map((b) => ({ label: b.label, value: sh.share[b.id] || 0, color: b.color }))
-    .concat([{ label: "Other brands", value: (other / Math.max(1, sh.depth)) * 100, color: "#94a3b8" }]), fmtV: (v) => F.pct(v) });
+    .concat([{ label: "Other brands", value: (other / Math.max(1, sh.depth)) * 100, color: "#9aa0a6" }]), fmtV: (v) => F.pct(v) });
 };
 
 P.tco = (host) => {

@@ -15,7 +15,7 @@
   const NS = "http://www.w3.org/2000/svg";
   const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a || {}) if (a[k] != null) e.setAttribute(k, a[k]); return e; };
   const px = (v) => Math.round(v * 100) / 100;
-  const INK = "#16181d", SOFT = "#5b6172", MUTE = "#8b91a4", GRID = "#e8e9ef", SURF = "#ffffff";
+  const INK = "#1f1f1f", SOFT = "#444746", MUTE = "#5f6368", GRID = "#e8eaed", SURF = "#ffffff";
 
   // ── number formatting ─────────────────────────────────────────────────────
   const fmt = {
@@ -70,13 +70,13 @@
     for (const t of ticks) {
       const yy = y(t);
       g.appendChild(el("line", { x1: m.l, x2: m.l + iw, y1: px(yy), y2: px(yy), stroke: GRID, "stroke-width": 1 }));
-      g.appendChild(text(m.l - 8, yy + 3.5, fmtY ? fmtY(t) : fmt.n(t), { anchor: "end", size: 10.5, fill: MUTE }));
+      g.appendChild(text(m.l - 8, yy + 3.5, fmtY ? fmtY(t) : fmt.n(t), { anchor: "end", size: 11, fill: MUTE }));
     }
   }
   function text(x, y, s, o) {
     o = o || {};
     const t = el("text", { x: px(x), y: px(y), "text-anchor": o.anchor || "start", "font-size": o.size || 11,
-      fill: o.fill || SOFT, "font-weight": o.weight || 500, class: "cc-t" + (o.mono ? " tnum" : ""), transform: o.rotate });
+      fill: o.fill || SOFT, "font-weight": o.weight || 400, class: "cc-t" + (o.mono ? " tnum" : ""), transform: o.rotate });
     t.textContent = s; return t;
   }
   const legendRow = (host, items, opts) => {
@@ -110,7 +110,7 @@
     for (const b of spec.bands || []) {
       const a = xs.indexOf(b.start), z = xs.indexOf(b.end);
       if (a < 0) continue;
-      g.appendChild(el("rect", { x: px(x(a)), y: m.t, width: px(Math.max(2, x(z < 0 ? n - 1 : z) - x(a))), height: ih, fill: b.color || "#0f172a", opacity: b.opacity || 0.05 }));
+      g.appendChild(el("rect", { x: px(x(a)), y: m.t, width: px(Math.max(2, x(z < 0 ? n - 1 : z) - x(a))), height: ih, fill: b.color || INK, opacity: b.opacity || 0.05 }));
       if (b.label && spec.bandLabels !== false) g.appendChild(text(x(a) + 4, m.t + 11, b.label, { size: 9.5, fill: MUTE, weight: 600 }));
     }
     for (const s of ser) {
@@ -247,7 +247,7 @@
       const d = document.createElement("div");
       d.className = "cc-hb-row" + (r.subject ? " subject" : "") + (spec.onPick ? " pick" : "");
       d.innerHTML = `<span class="lb">${r.sub ? `<em>${r.sub}</em>` : ""}${r.label}</span>
-        <span class="tr"><i style="width:${Math.max(1.2, (Math.abs(r.value) / max) * 100)}%;background:${r.color || "#5b21b6"}"></i></span>
+        <span class="tr"><i style="width:${Math.max(1.2, (Math.abs(r.value) / max) * 100)}%;background:${r.color || "#1a73e8"}"></i></span>
         <b class="tnum vv">${(spec.fmtV || fmt.n)(r.value)}</b>${r.note ? `<span class="nt">${r.note}</span>` : ""}`;
       if (r.tip) { d.addEventListener("mousemove", (ev) => showTip(r.tip, ev)); d.addEventListener("mouseleave", hideTip); }
       if (spec.onPick) d.onclick = () => spec.onPick(r);
@@ -259,9 +259,46 @@
   /* ========================================================================
      HEATMAP — a matrix where the eye finds the cold corner
      ====================================================================== */
-  const RAMP = ["#f6f4ff", "#ece7fd", "#dcd2fb", "#c4b1f6", "#a888ee", "#8b5fe0", "#7040cc", "#5b21b6"];
-  const RAMP_R = ["#fff5f5", "#ffe4e6", "#fecdd3", "#fda4af", "#f77088", "#e14a63", "#c22a47", "#9f1239"];
-  const RAMP_DIV = ["#9f1239", "#c22a47", "#e88ea0", "#f5dde2", "#eceef2", "#cfe6e2", "#8fcabf", "#3f9b8b", "#0f766e"];
+  const GOOGLE = {
+    "#5b21b6": "#1a73e8", "#2563eb": "#ea4335", "#be123c": "#fbbc04", "#d97706": "#34a853", "#0891b2": "#9334e6",
+    "#7c3aed": "#9334e6", "#0d9488": "#12b5cb", "#db2777": "#e52592", "#4d7c0f": "#188038", "#64748b": "#80868b", "#881337": "#a50e0e",
+    "#1d5aa0": "#1a73e8", "#d9482b": "#ea4335", "#d99a1e": "#fbbc04", "#6b7280": "#80868b",
+    "#ede9fe": "#d2e3fc", "#dbeafe": "#fad2cf", "#ffe4e6": "#feefc3", "#fef3c7": "#ceead6", "#cffafe": "#e9d2fd",
+  };
+  const SERIES = [["#1a73e8", "#d2e3fc"], ["#ea4335", "#fad2cf"], ["#fbbc04", "#feefc3"], ["#34a853", "#ceead6"], ["#9334e6", "#e9d2fd"], ["#12b5cb", "#cbf0f8"], ["#e8710a", "#fedfc8"], ["#80868b", "#e8eaed"]];
+  function recolor(node, map) {
+    if (Array.isArray(node)) { for (const x of node) recolor(x, map); return; }
+    if (!node || typeof node !== "object") return;
+    for (const k in node) {
+      const v = node[k];
+      if (typeof v === "string" && (k === "color" || k === "soft")) { const g = map[v.toLowerCase()]; if (g) node[k] = g; }
+      else if (v && typeof v === "object") recolor(v, map);
+    }
+  }
+  function googlePalette(payload) {
+    const map = { ...GOOGLE };
+    const brands = (payload && (payload.dims && payload.dims.brands || payload.brands)) || [];
+    brands.forEach((b, i) => {
+      const [c, soft] = SERIES[Math.min(i, SERIES.length - 1)];
+      if (typeof b.color === "string") map[b.color.toLowerCase()] = c;
+      if (typeof b.soft === "string") map[b.soft.toLowerCase()] = soft;
+    });
+    const dims = (payload && payload.dims) || {};
+    for (const k in dims) {
+      if (k === "brands" || !Array.isArray(dims[k])) continue;
+      dims[k].forEach((x, i) => {
+        if (!x || typeof x.color !== "string") return;
+        const [c, soft] = x.residual ? SERIES[SERIES.length - 1] : SERIES[i % (SERIES.length - 1)];
+        x.color = c;
+        if (typeof x.soft === "string") x.soft = soft;
+      });
+    }
+    recolor(payload, map);
+    return payload;
+  }
+  const RAMP = ["#e8f0fe", "#d2e3fc", "#aecbfa", "#8ab4f8", "#669df6", "#4285f4", "#1a73e8", "#174ea6"];
+  const RAMP_R = ["#fce8e6", "#fad2cf", "#f6aea9", "#f28b82", "#ee675c", "#ea4335", "#d93025", "#a50e0e"];
+  const RAMP_DIV = ["#a50e0e", "#d93025", "#f28b82", "#fad2cf", "#f1f3f4", "#ceead6", "#81c995", "#1e8e3e", "#0d652d"];
   function rampColor(t, ramp) { const R = ramp || RAMP; return R[Math.max(0, Math.min(R.length - 1, Math.round(t * (R.length - 1))))]; }
   function heatmap(host, spec) {
     host.innerHTML = "";
@@ -344,7 +381,7 @@
       if (spec.onPick) rect.onclick = () => spec.onPick(c.it);
       g.appendChild(rect);
       if (c.w > 58 && c.h > 30) {
-        g.appendChild(text(c.x + 9, c.y + 20, c.it.label.length * 6.4 > c.w - 16 ? c.it.short || c.it.label.slice(0, Math.floor((c.w - 16) / 6.4)) : c.it.label, { size: 11.5, fill: "#fff", weight: 700 }));
+        g.appendChild(text(c.x + 9, c.y + 20, c.it.label.length * 6.4 > c.w - 16 ? c.it.short || c.it.label.slice(0, Math.floor((c.w - 16) / 6.4)) : c.it.label, { size: 12, fill: "#fff", weight: 500 }));
         if (c.h > 46) g.appendChild(text(c.x + 9, c.y + 36, (spec.fmtV || fmt.n)(c.it.value), { size: 11, fill: "#fff", weight: 500, mono: true, opacity: .8 }));
       }
     }
@@ -409,7 +446,7 @@
       const a = dates.indexOf(b.start), z = dates.indexOf(b.end);
       if (a < 0) continue;
       const l = (a / n) * 100, w = (((z < 0 ? n - 1 : z) - a + 1) / n) * 100;
-      hd += `<span class="band" style="left:${l}%;width:${w}%;background:${b.color || "#0f172a"}"><em>${b.label}</em></span>`;
+      hd += `<span class="band" style="left:${l}%;width:${w}%;background:${b.color || "#1f1f1f"}"><em>${b.label}</em></span>`;
     }
     let lastM = "";
     dates.forEach((d, i) => { const mo = d.slice(0, 7); if (mo !== lastM) { lastM = mo;
@@ -485,7 +522,7 @@
       const x0 = m.l + i * bw + (bw - inner) / 2;
       const yTop = o.s.total ? y(o.s.value) : y(Math.max(o.from, o.to));
       const h = o.s.total ? Math.max(2, y(dom.lo) - y(o.s.value)) : Math.max(2, Math.abs(y(o.from) - y(o.to)));
-      const col = o.s.total ? (o.s.color || "#16181d") : o.s.value < 0 ? "#0f766e" : "#be123c";
+      const col = o.s.total ? (o.s.color || INK) : o.s.value < 0 ? "#1e8e3e" : "#d93025";
       const rect = el("rect", { x: px(x0), y: px(yTop), width: px(inner), height: px(h), fill: col, rx: 4, opacity: o.s.total ? 1 : .92, style: "cursor:pointer" });
       rect.addEventListener("mousemove", (ev) => showTip(o.s.tip || `<div class="h">${o.s.label}</div><div class="r"><b class="tnum">${fmt.signed(o.s.value, fmt.usd)}</b></div>`, ev));
       rect.addEventListener("mouseleave", hideTip);
@@ -553,10 +590,10 @@
     }
     if (spec.quadrant) {
       const mx = X(spec.quadrant.x), my = Y(spec.quadrant.y);
-      g.appendChild(el("line", { x1: px(mx), x2: px(mx), y1: m.t, y2: m.t + ih, stroke: "#c9cddb", "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
-      g.appendChild(el("line", { x1: m.l, x2: m.l + iw, y1: px(my), y2: px(my), stroke: "#c9cddb", "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
+      g.appendChild(el("line", { x1: px(mx), x2: px(mx), y1: m.t, y2: m.t + ih, stroke: "#dadce0", "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
+      g.appendChild(el("line", { x1: m.l, x2: m.l + iw, y1: px(my), y2: px(my), stroke: "#dadce0", "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
       (spec.quadrant.labels || []).forEach((q) => { const t = text(q.x === "l" ? m.l + 9 : m.l + iw - 9, q.y === "t" ? m.t + 13 : m.t + ih - 9, q.text,
-        { anchor: q.x === "l" ? "start" : "end", size: 9.5, fill: "#aeb4c4", weight: 700 }); t.setAttribute("letter-spacing", ".07em"); g.appendChild(t); });
+        { anchor: q.x === "l" ? "start" : "end", size: 11, fill: MUTE, weight: 500 }); g.appendChild(t); });
     }
     const rMax = Math.max(...pts.map((p) => p.r || 1));
     for (const p of pts) {
@@ -698,7 +735,7 @@
     const X = (i) => pad + (i / (data.length - 1)) * (W - pad * 2);
     const Y = (v) => H - pad - ((v - lo) / span) * (H - pad * 2);
     const d = data.map((v, i) => `${i ? "L" : "M"}${px(X(i))} ${px(Y(v))}`).join(" ");
-    const c = spec.color || "#5b21b6";
+    const c = spec.color || "#1a73e8";
     return `<svg class="cc-spark" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">
       <path d="${d} L${px(X(data.length - 1))} ${H} L${px(X(0))} ${H} Z" fill="${c}" opacity=".08"/>
       <path d="${d}" fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -755,5 +792,5 @@
     };
   }
   root.CC = { ...wrapped, spark,
-              fmt, showTip, hideTip, legendRow, rampColor, RAMP, RAMP_R, RAMP_DIV, nice };
+              fmt, showTip, hideTip, legendRow, rampColor, RAMP, RAMP_R, RAMP_DIV, nice, googlePalette };
 })(window);

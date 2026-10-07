@@ -106,7 +106,7 @@ export default function AdminForm({ initial }: Props) {
                 placeholder="e.g. Dyson"
                 value={name}
                 onChange={(e) => onNameChange(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-[15px] focus:border-neutral-900 focus:outline-none"
+                className="g-input"
               />
             </Field>
             <Field label="Slug" hint="URL-safe id. Auto-filled.">
@@ -115,7 +115,7 @@ export default function AdminForm({ initial }: Props) {
                 placeholder="dyson"
                 value={slug}
                 onChange={(e) => onSlugChange(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-[15px] focus:border-neutral-900 focus:outline-none"
+                className="g-input"
               />
             </Field>
           </div>
@@ -127,14 +127,14 @@ export default function AdminForm({ initial }: Props) {
                 placeholder="https://dyson.com"
                 value={brandLink}
                 onChange={(e) => setBrandLink(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-[15px] focus:border-neutral-900 focus:outline-none"
+                className="g-input"
               />
             </Field>
             <Field label="Region" hint="Which Amazon marketplace Keepa should read.">
               <select
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-[15px] focus:border-neutral-900 focus:outline-none"
+                className="g-input"
               >
                 {REGIONS.map((r) => (
                   <option key={r.code} value={r.code}>{r.label}</option>
@@ -147,7 +147,7 @@ export default function AdminForm({ initial }: Props) {
             label={
               <>
                 Brand mark{" "}
-                <span className="text-xs normal-case tracking-normal font-normal text-neutral-400">· optional</span>
+                <span className="font-normal text-muted">· optional</span>
               </>
             }
           >
@@ -155,7 +155,7 @@ export default function AdminForm({ initial }: Props) {
               <button
                 type="button"
                 onClick={() => brandMarkInput.current?.click()}
-                className="rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-neutral-700"
+                className="g-btn-outline h-10"
               >
                 Choose image
               </button>
@@ -165,7 +165,7 @@ export default function AdminForm({ initial }: Props) {
                 className="hidden"
                 onChange={(e) => onMarkChange(e.target.files?.[0] || null)}
               />
-              <span className="text-sm text-neutral-500">
+              <span className="text-sm text-muted">
                 {brandMarkName ?? "no file — the text name will show instead"}
               </span>
             </div>
@@ -177,7 +177,7 @@ export default function AdminForm({ initial }: Props) {
             <Field
               label={
                 <>
-                  Category <span className="rounded bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] text-amber-800">required</span>
+                  Category <span className="ml-1 font-normal text-[#c5221f]">*</span>
                 </>
               }
               hint="What this brand sells. Drives Keepa product discovery + Claude's shopper questions."
@@ -187,16 +187,16 @@ export default function AdminForm({ initial }: Props) {
                 placeholder="cordless vacuum"
                 value={aiCategory}
                 onChange={(e) => setAiCategory(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+                className="g-input"
               />
             </Field>
-            <Field label="Competitor brands" hint="Comma-separated. Counted in Claude's AI share-of-mind.">
+            <Field label="Competitor brands" hint="Comma-separated. Counted in AI share of answer.">
               <input
                 type="text" autoComplete="off" name="ai-competitors-opaque" data-lpignore="true" data-1p-ignore="true"
                 placeholder="Shark, Miele, Bissell"
                 value={aiCompetitorsRaw}
                 onChange={(e) => setAiCompetitorsRaw(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+                className="g-input"
               />
             </Field>
           </div>
@@ -205,7 +205,7 @@ export default function AdminForm({ initial }: Props) {
             label={
               <>
                 Specific product names{" "}
-                <span className="text-xs normal-case tracking-normal font-normal text-neutral-400">· optional</span>
+                <span className="font-normal text-muted">· optional</span>
               </>
             }
             hint="One per line. Backend searches Keepa for '{brand} {product}' and takes the top result. Leave blank to auto-discover top-sellers from the Category above."
@@ -215,22 +215,22 @@ export default function AdminForm({ initial }: Props) {
               placeholder={`V15 Detect\nV12 Detect Slim\nV8 Absolute`}
               value={productsRaw}
               onChange={(e) => setProductsRaw(e.target.value)}
-              className="w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+              className="g-input"
             />
           </Field>
 
-          <div className="rounded-lg bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-900">
-            <b>How this becomes real data:</b>{" "}
-            Keepa searches Amazon ({REGIONS.find((r) => r.code === region)?.label.split(" · ")[1] ?? "amazon.com"}) for &quot;{(name || "Brand").trim()} {(aiCategory || "category").trim()}&quot;, keeps the top listings whose brand matches, and reads their daily Amazon history. The same is done for each competitor. Claude is asked 12 shopper questions in that category, twice; mentions of the brand and each competitor give AI share of answer.
+          <div className="rounded-xl bg-surface-container p-4 text-[13px] leading-relaxed text-on-surface-variant">
+            <b className="font-medium text-on-surface">How this becomes real data:</b>{" "}
+            Keepa searches Amazon ({REGIONS.find((r) => r.code === region)?.label.split(" · ")[1] ?? "amazon.com"}) for &quot;{(name || "Brand").trim()} {(aiCategory || "category").trim()}&quot;, keeps the top listings whose brand matches, and reads their daily Amazon history. The same is done for each competitor. ChatGPT and Gemini (through their consumer apps, via Bright Data) and Claude are asked 12 shopper questions in that category, twice; mentions of the brand and each competitor give AI share of answer.
           </div>
         </Section>
 
         <div className="mt-6 flex items-center justify-end gap-3">
-          {error && <span className="text-sm text-red-700">{error}</span>}
+          {error && <span className="text-sm text-[#c5221f]">{error}</span>}
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-xl bg-neutral-900 px-6 py-3 text-[15px] font-semibold text-white transition hover:bg-neutral-700 disabled:bg-neutral-300"
+            className="g-btn"
           >
             {submitting ? "Starting build…" : initial ? "Rebuild dashboard" : "Create dashboard"}
           </button>
@@ -287,8 +287,8 @@ async function runBackendBuild(
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="mb-5 rounded-2xl border border-neutral-200 bg-white p-7">
-      <h2 className="font-serif text-xl font-medium">{title}</h2>
+    <section className="g-card mb-4 p-6">
+      <h2 className="font-display text-lg text-on-surface">{title}</h2>
       <div className="mt-5 space-y-4">{children}</div>
     </section>
   );
@@ -297,11 +297,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Field({ label, hint, children }: { label: React.ReactNode; hint?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-neutral-700">
+      <label className="mb-1.5 block text-[13px] font-medium text-on-surface-variant">
         {label}
       </label>
       {children}
-      {hint && <p className="mt-1.5 text-xs text-neutral-500">{hint}</p>}
+      {hint && <p className="mt-1.5 text-xs text-muted">{hint}</p>}
     </div>
   );
 }

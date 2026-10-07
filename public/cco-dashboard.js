@@ -104,7 +104,7 @@ const pairsFor = (brand, rts) => carriedPairs().filter((k) => {
 });
 const sc = (metric, brand) => (D.scorecard[cadence][metric] || {})[brand] || {};
 const metricDef = (id) => D.dims.metrics.find((m) => m.id === id) || {};
-const bands = () => D.dims.events.map((e) => ({ start: e.start, end: e.end, label: e.label, color: e.kind === "platform" ? "#5b21b6" : e.kind === "brand" ? "#0891b2" : "#0f172a" }));
+const bands = () => D.dims.events.map((e) => ({ start: e.start, end: e.end, label: e.label, color: e.kind === "platform" ? "#1a73e8" : e.kind === "brand" ? "#9334e6" : "#5f6368" }));
 const winBands = () => { const ds = winDates(); return bands().filter((b) => b.end >= ds[0] && b.start <= ds.at(-1))
   .map((b) => ({ ...b, start: b.start < ds[0] ? ds[0] : b.start, end: b.end > ds.at(-1) ? ds.at(-1) : b.end })); };
 
@@ -277,7 +277,7 @@ const bootData = window.__CCO_PAYLOAD
       }
       if (r.ok) return r.json();
       const why = r.status === 401 ? (window.__CC_AUTH ? "This share link isn't valid. Check that you opened the whole link." : "You need to sign in to see this dashboard.")
-        : r.status === 404 ? "There is no finished build for this brand yet."
+        : r.status === 404 ? "This dashboard link does not exist, or the brand has no finished build yet."
         : r.status === 410 ? "This share link has expired."
         : r.status === 409 ? "This brand's last build used simulated data, which is no longer shown. Rebuild it from Add a brand to get measured figures."
         : r.status === 424 ? "The build for this dashboard failed. Ask whoever shared it for a new link."
@@ -303,7 +303,7 @@ function failLoader(e) {
   $("#ccLoaderActions").hidden = false;
 }
 bootData.then((json) => {
-  D = json; F = CC.fmt;
+  D = CC.googlePalette(json); F = CC.fmt;
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);
   buildNav(); buildControls(); buildBrand(); labelSimChip();
@@ -329,8 +329,6 @@ function buildBrand() {
   const name = D.meta.subjectLabel, logo = $("#bmLogo"), nm = $("#bmName"), tile = $("#bmTile");
   nm.textContent = name;
   tile.textContent = name.trim().charAt(0).toUpperCase();
-  const c = (B(S) || {}).color;
-  if (c) tile.style.background = `linear-gradient(140deg, ${c}, color-mix(in srgb, ${c} 58%, #0b0e1a))`;
   if (!D.meta.brandMark) { logo.remove(); return; }
   logo.alt = name;
   logo.onload = () => { logo.hidden = false; nm.hidden = true; };

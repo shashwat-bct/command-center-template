@@ -1,5 +1,5 @@
 import { callLLM } from "./llm";
-import { availableEngines, type AiEngine, type AnswerSource, type EngineId } from "./ai-engines";
+import { availableEngines, type AiEngine, type AnswerSource, type EngineAnswer, type EngineId, type EnginePath } from "./ai-engines";
 
 export type FunnelStage = "awareness" | "consideration" | "evaluation" | "decision";
 export type QuestionFocus = "neutral" | "subject" | "vs";
@@ -68,6 +68,7 @@ export type EngineSoM = {
   label: string;
   model: string;
   webSearch: boolean;
+  path: EnginePath;
   matching: "llm" | "mixed" | "pattern";
   questionsAsked: number;
   questionsFailed: number;
@@ -249,15 +250,13 @@ const CLAIM_TYPES: SubjectClaim["type"][] = ["price", "spec", "award", "comparis
 type Raw = { run: number; queryId: string; stage: FunnelStage; focus: QuestionFocus; q: string; answer: string | null; sources: AnswerSource[]; error?: string };
 
 async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" | "sources" | "error">>, tracked: string[], subject: string, category: string, attributes: string[], concurrency: number): Promise<{ som: EngineSoM; rows: AiQuestionResult[] }> {
-  const raw = await mapLimit(questions, concurrency, async (x): Promise<Raw> => {
-    try {
-      const a = await engine.ask(x.q);
-      if (!a.text.trim()) throw new Error("empty answer");
-      return { ...x, answer: a.text, sources: a.sources };
-    } catch (e) {
-      return { ...x, answer: null, sources: [], error: (e as Error).message.slice(0, 200) };
-    }
-  });
+  const toRaw = (x: Omit<Raw, "answer" | "sources" | "error">, a: EngineAnswer | Error): Raw =>
+    a instanceof Error || !a.text.trim()
+      ? { ...x, answer: null, sources: [], error: (a instanceof Error ? a.message : "empty answer").slice(0, 200) }
+      : { ...x, answer: a.text, sources: a.sources };
+  const raw = engine.askMany
+    ? await engine.askMany(questions.map((x) => x.q)).then((list) => questions.map((x, i) => toRaw(x, list[i])))
+    : await mapLimit(questions, concurrency, (x) => engine.ask(x.q).catch((e: Error) => e).then((a) => toRaw(x, a)));
   const answered = raw.map((r, i) => [r, i] as const).filter(([r]) => r.answer != null);
   if (!answered.length) throw new Error(raw[0]?.error ?? "every question failed");
 
@@ -331,6 +330,7 @@ async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" |
       label: engine.label,
       model: engine.model,
       webSearch: engine.webSearch,
+      path: engine.path,
       matching,
       questionsAsked: rows.length,
       questionsFailed: rows.length - ok.length,
