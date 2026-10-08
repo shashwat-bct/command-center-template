@@ -41,6 +41,17 @@ const TITLE_OVERRIDES: Record<string, string> = {
   shark: "Shark · Commercial Command Center",
 };
 
+const SKELETON_NAV = [72, 58, 64, 50, 68, 54, 60, 46, 66, 52]
+  .map((w, i) => `<div class="sk" style="width:${w}%;height:12px;margin-top:${i % 4 === 0 ? 26 : 16}px"></div>`)
+  .join("");
+const SKELETON_KPI = `<div class="ccl-card"><div class="sk" style="width:46%;height:11px"></div><div class="sk" style="width:38%;height:30px;margin-top:14px"></div><div class="sk" style="width:64%;height:10px;margin-top:14px"></div></div>`;
+const SKELETON_BARS = [46, 72, 58, 88, 64, 40, 78, 54, 92, 68, 50, 82]
+  .map((h) => `<i style="height:${h}%"></i>`)
+  .join("");
+const SKELETON_ROWS = [88, 72, 64, 52, 40]
+  .map((w) => `<div class="ccl-row"><div class="sk" style="width:22%;height:11px"></div><div class="sk ccl-fill" style="width:${w}%"></div></div>`)
+  .join("");
+
 export const dashboardTitle = (slug: string): string =>
   TITLE_OVERRIDES[slug] ?? `${slug.charAt(0).toUpperCase() + slug.slice(1)} · Commercial Command Center`;
 
@@ -60,15 +71,37 @@ export function renderDashboardHtml({ title, payloadUrl, share = false, shareId 
 <body data-payload="${escapeAttr(payloadUrl)}"${process.env.SHOW_DATA_SOURCES === "true" ? ' data-sources="on"' : ""}>
 ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer ${escapeAttr(shareId)}";</script>` : ""}
 <div id="ccLoader" class="cc-loader" role="status" aria-live="polite">
-  <div class="cc-loader-card">
-    <div class="cc-spinner" aria-hidden="true"></div>
-    <b id="ccLoaderTitle">Loading ${escapeHtml(title.split(" · ")[0])}</b>
-    <span id="ccLoaderMsg">Fetching the latest build…</span>
-    <div class="cc-loader-actions" id="ccLoaderActions" hidden>
-      <button type="button" class="cc-loader-btn" onclick="location.reload()">Try again</button>
-      <a class="cc-loader-link" href="/">All brands</a>
+  <div class="ccl-progress" aria-hidden="true"><i></i></div>
+  <aside class="ccl-rail" aria-hidden="true">
+    <div class="sk" style="width:58%;height:22px"></div>
+    <div class="sk" style="width:30%;height:11px;margin-top:8px"></div>
+    <div class="sk" style="width:100%;height:30px;border-radius:10px;margin-top:22px"></div>
+    ${SKELETON_NAV}
+  </aside>
+  <section class="ccl-main">
+    <div class="ccl-head">
+      <div>
+        <div class="sk" style="width:120px;height:11px"></div>
+        <div class="sk" style="width:260px;height:26px;margin-top:10px"></div>
+      </div>
+      <div class="ccl-status">
+        <div class="cc-spinner" aria-hidden="true"></div>
+        <div class="ccl-text">
+          <b id="ccLoaderTitle">${title.includes(" · ") ? `Loading ${escapeHtml(title.split(" · ")[0])}` : "Loading your dashboard"}</b>
+          <span id="ccLoaderMsg">Fetching the latest build…</span>
+        </div>
+        <div class="cc-loader-actions" id="ccLoaderActions" hidden>
+          <button type="button" class="cc-loader-btn" onclick="location.reload()">Try again</button>
+          <a class="cc-loader-link" href="/">All brands</a>
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="ccl-kpis" aria-hidden="true">${SKELETON_KPI.repeat(4)}</div>
+    <div class="ccl-grid" aria-hidden="true">
+      <div class="ccl-card"><div class="sk" style="width:38%;height:15px"></div><div class="sk" style="width:62%;height:11px;margin-top:10px"></div><div class="ccl-bars">${SKELETON_BARS}</div></div>
+      <div class="ccl-card"><div class="sk" style="width:46%;height:15px"></div><div class="sk" style="width:70%;height:11px;margin-top:10px"></div><div class="ccl-rows">${SKELETON_ROWS}</div></div>
+    </div>
+  </section>
 </div>
 <a class="sronly" href="#pages">Skip to content</a>
 <nav id="rail" aria-label="Drivers">
@@ -154,7 +187,10 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="msheet"><button class="close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
 </div>
 
+<script src="${asset("vendor/motion.js")}"></script>
+<script src="${asset("cco-motion.js")}"></script>
 <script src="${asset("cco-charts.js")}"></script>
+<script src="${asset("cco-reads.js")}"></script>
 <script src="${asset("cco-dashboard.js")}"></script>
 <script src="${asset("cco-dashboard-pages.js")}"></script>
 <script src="${asset("cco-measured-pages.js")}"></script>

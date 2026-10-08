@@ -566,14 +566,14 @@ P.landing = (host) => {
     on every listing so a gap is a gap and not a formatting difference.`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("pdpScore", S)}
-    ${kpi({ label: "Listings scored", dot: B(S).color, value: String(rows.filter((r) => r.brand === S).length), note: `Across ${rts.length} retailer${rts.length === 1 ? "" : "s"}` })}
+    ${kpi({ label: "Listings scored", dot: B(S).color, value: String(rows.filter((r) => r.brand === S).length), note: (() => { const on = [...new Set(rows.filter((r) => r.brand === S).map((r) => r.retailer))]; return !on.length ? "None for the retailer selected" : on.length === 1 ? `All on ${RT(on[0]).label} — the only retailer whose pages were read` : `Across ${on.length} retailers`; })() })}
     ${kpi({ label: `Weakest ${SUBJ} page`, dot: "#d93025", value: (() => { const w = rows.filter((r) => r.brand === S).sort((a, b) => a.score - b.score)[0]; return w ? String(w.score) : "—"; })(),
       note: (() => { const w = rows.filter((r) => r.brand === S).sort((a, b) => a.score - b.score)[0]; return w ? `${MD(w.model).label} at ${RT(w.retailer).label}` : ""; })() })}
     ${(() => { const sr = rows.filter((r) => r.brand === S);
       const gaps = d.dims.pdpFields.map((f) => ({ f, n: sr.filter((r) => !r.fields[f.id]).length })).sort((a, b) => b.n - a.n)[0];
-      return kpi({ label: "Most common gap", dot: gaps && gaps.n ? "#e37400" : "#1e8e3e",
-        value: gaps && gaps.n ? String(gaps.n) : "0",
-        note: gaps && gaps.n ? `${esc(gaps.f.label.toLowerCase())} missing on ${gaps.n} of ${sr.length} ${SUBJ} listings — the widest single gap in the estate`
+      return kpi({ label: gaps && gaps.n ? `Biggest gap: ${esc(({ images: "image gallery", video: "product video", aplus: "A+ content", bullets: "feature bullets", specs: "full spec table", reviews: "reviews shown", titleKw: "keywords in title" })[gaps.f.id] || gaps.f.label.toLowerCase())}` : "Biggest gap", dot: gaps && gaps.n ? "#e37400" : "#1e8e3e",
+        value: gaps && gaps.n ? `${gaps.n}<small> / ${sr.length}</small>` : "0",
+        note: gaps && gaps.n ? `${SUBJ} listings missing it — the widest single gap in the estate`
                              : `Every ${SUBJ} listing carries all ${d.dims.pdpFields.length} content signals` }); })()}
   </div>
   <div style="margin-bottom:14px">
@@ -583,6 +583,8 @@ P.landing = (host) => {
     ${card({ title: `Where ${SUBJ} trails`, help: "For each signal, the share of the subject's listings that carry it against the best competitor. Sorted by the size of the gap, so the first row is the first fix.", sub: `Each signal, ${SUBJ}'s coverage against the best competitor, biggest gap first.`, slot: "lpGaps" })}
     ${card({ title: "Mean page score", help: "The brand's average page score across its live listings. A point-in-time read of the estate rather than a trend: the pages were scored once.", sub: "Every brand, across the retailers in scope.", slot: "lpBars" })}
   </div>`;
+  const readAt = [...new Set(d.pdpScores.map((r) => r.retailer))].map((id) => RT(id).label);
+  const noPages = () => `<div class="withheld-card"><b>No product pages read here</b><p>${rows.length ? `No ${SUBJ} listing was scored for this retailer.` : `Product pages were read on ${readAt.join(", ") || "no retailer"} for this build, not on ${rts.map((id) => RT(id).label).join(", ")}.`} Pick ${readAt.length === 1 ? readAt[0] : "All retailers"} in the retailer filter to see them.</p></div>`;
   const SIGNAL = { images: "Image gallery", video: "Product video", aplus: "A+ content", bullets: "Feature bullets", specs: "Full spec table", reviews: "Reviews shown", titleKw: "Keywords in title" };
   const sigLabel = (f) => SIGNAL[f.id] || f.label;
   const sorted = rows.slice().sort((a, b) => (b.brand === S) - (a.brand === S) || b.score - a.score);
@@ -590,8 +592,8 @@ P.landing = (host) => {
   el("lpMatrix").innerHTML = rows.length ? table([
     { label: "Listing", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${esc(MD(r.model).label)}${rts.length > 1 ? `<div class="mini">${RT(r.retailer).label}</div>` : ""}` },
     ...d.dims.pdpFields.map((f) => ({ label: sigLabel(f), get: (r) => cell(r, f) })),
-    { label: "Score", get: (r) => `<span style="display:inline-flex;align-items:center;gap:8px"><span style="display:inline-block;width:70px;height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><i style="display:block;height:100%;width:${r.score}%;background:${B(r.brand).color}"></i></span><b class="tnum">${r.score}</b></span>` },
-  ], sorted.map((r) => ({ ...r, _subject: r.brand === S }))) : withheld("No listing was scored on this build.");
+    { label: "Score", get: (r) => `<span style="display:inline-flex;align-items:center;gap:8px"><span style="display:inline-block;width:40px;height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><i style="display:block;height:100%;width:${r.score}%;background:${B(r.brand).color}"></i></span><b class="tnum">${r.score}</b></span>` },
+  ], sorted.map((r) => ({ ...r, _subject: r.brand === S }))) : noPages();
   $$("#lpMatrix tbody tr").forEach((tr, i) => { tr.style.cursor = "pointer"; tr.onclick = () => showPdp(sorted[i]); });
   const share = (bid, f) => { const lr = rows.filter((r) => r.brand === bid); return lr.length ? lr.filter((r) => r.fields[f.id]).length / lr.length : null; };
   const rivals = BIDS().filter((b) => b !== S && rows.some((r) => r.brand === b));
@@ -604,11 +606,11 @@ P.landing = (host) => {
   el("lpGaps").innerHTML = gaps.length && rows.some((r) => r.brand === S) ? `<div style="display:flex;flex-direction:column">${gaps.map((g) => {
     const status = g.gap > 0 ? `<span class="tag risk">${SUBJ} trails</span>` : g.mine === 1 ? '<span class="tag good">covered</span>' : g.mine === 0 && (!g.best || g.best.v === 0) ? '<span class="tag">nobody ships it</span>' : '<span class="tag good">level or ahead</span>';
     return `<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)"><div><b style="font-weight:500">${esc(sigLabel(g.f))}</b><div class="mini">${SUBJ}: ${g.have} of ${g.n} listing${g.n === 1 ? "" : "s"}${g.best ? ` · ${B(g.best.b).label}: ${g.bhave} of ${g.bn}` : ""}</div></div>${status}
-      <div style="grid-column:1/-1;display:flex;gap:4px;height:6px"><i style="flex:${Math.max(0.0001, g.mine || 0)};background:${B(S).color};border-radius:3px"></i><i style="flex:${Math.max(0.0001, 1 - (g.mine || 0))};background:var(--line2);border-radius:3px"></i></div></div>`; }).join("")}</div>` : withheld(`No ${SUBJ} listing was scored on this build.`);
+      <div style="grid-column:1/-1;display:flex;gap:4px;height:6px"><i style="flex:${Math.max(0.0001, g.mine || 0)};background:${B(S).color};border-radius:3px"></i><i style="flex:${Math.max(0.0001, 1 - (g.mine || 0))};background:var(--line2);border-radius:3px"></i></div></div>`; }).join("")}</div>` : noPages();
   const means = d.dims.brands.map((b) => ({ b, v: brandMean(b.id) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v);
   CC.hbars(el("lpBars"), { rows: means.map(({ b, v }) => ({ label: b.label, value: v, color: b.color, subject: b.id === S })), fmtV: (v) => Math.round(v) + " /100" });
   const mineMean = brandMean(S);
-  if (means.length && mineMean != null) el("lpBars").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:12px 0 0">${means[0].b.id === S ? `${SUBJ} leads on page content by ${Math.round(mineMean - (means[1] ? means[1].v : mineMean))} points.` : `${SUBJ} is ${Math.round(means[0].v - mineMean)} points behind ${means[0].b.label}; closing the gaps listed beside is how that moves.`}</p>`);
+  if (means.length && mineMean != null) el("lpBars").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:12px 0 0">${means[0].b.id === S ? (() => { const lead = Math.round(mineMean - (means[1] ? means[1].v : mineMean)); return lead > 0 ? `${SUBJ} leads on page content by ${lead} point${lead === 1 ? "" : "s"}.` : `${SUBJ} is level with ${means[1].b.label} on page content — neither page estate has an edge.`; })() : `${SUBJ} is ${Math.round(means[0].v - mineMean)} points behind ${means[0].b.label}; closing the gaps listed beside is how that moves.`}</p>`);
   function showPdp(x) {
     openDrawer(`${MD(x.model).label} · ${RT(x.retailer).label}`, `Page content score ${x.score}/100`,
       table([{ label: "Signal", lft: true, get: (f) => sigLabel(f) },
@@ -639,7 +641,7 @@ P.carriage = (host) => {
     ${kpi({ label: "Listing changes", dot: changes.length ? "#e37400" : "#1e8e3e", value: String(changes.length),
       note: `Across all ${d.dims.brands.length} brands — ${changes.filter((c) => c.note.kind === "delisted").length} dropped, ${changes.filter((c) => c.note.kind === "listed").length} appeared, ${changes.filter((c) => c.note.kind === "lapsed").length} lapsed and returned. ${changes.filter((c) => c.brand === S).length} of them ${SUBJ}.` })}
   </div>
-  ${card({ title: "The distribution grid", help: "Which models are carried by which retailers, cell by cell. A cell the capture could read is held fixed; only cells that could not be read are extrapolated.", sub: "Coloured by days OFF shelf, because at this coverage the question is where the holes are, not where the shelf is full. A tick is a listing live every day of the window; a hatched cell was never carried at all.", slot: "dsHeat", tag: `${winLen} days` })}
+  ${card({ title: "The distribution grid", help: "Which models are carried by which retailers, cell by cell. A cell the capture could read is held fixed; only cells that could not be read are extrapolated.", sub: "Each cell is one model at one retailer over the window. Green tick: on the shelf every day. Red: days it was missing, darker for longer. Grey dash: that retailer doesn't carry it. Hover any cell for the detail.", slot: "dsHeat", tag: `${winLen} days` })}
   <div class="grid g2" style="margin-top:14px">
     ${card({ title: "Distribution points by brand", help: "Carriage weighted for the days each listing was actually live, not merely present at the end of the window. A listing that appeared a fortnight ago is worth less than one carried all quarter, and this says so.", sub: "Weighted for the days each listing was actually live, not just present at the end.", slot: "dsBars" })}
     ${card({ title: "Buy box and seller count", help: "On a marketplace, who wins the sale when several sellers offer the same item. A brand can be carried, in stock, and still not be the seller the shopper buys from.", sub: "Every marketplace listing. More sellers, less control — the point where a third party sets the price your shopper sees.", slot: "dsScatter" })}
@@ -658,9 +660,12 @@ P.carriage = (host) => {
     value: (r, c) => d.distribution.carriage[`${r.id}|${c.id}`] ? winLen - daysCarried(r.id, c.id) : null,
     fmtCell: (r, c) => { const k = `${r.id}|${c.id}`; if (!d.distribution.carriage[k]) return null;
       const off = winLen - daysCarried(r.id, c.id); return off === 0 ? "✓" : `−${off}d`; },
-    fmtV: (v) => String(Math.round(v)), min: 0, max: winLen, scaleNote: `Days OFF shelf out of ${winLen} — a tick is a listing that was live every day`,
+    fmtV: (v) => String(Math.round(v)), min: 0, max: winLen,
+    cellStyle: (r, c, v) => (v === 0 ? { bg: "#e6f4ea", color: "#137333" } : null),
+    legendHtml: `<span class="dg-lg"><i style="background:#e6f4ea;color:#137333">✓</i>on the shelf all ${winLen} days</span><span class="dg-lg"><i style="background:#f6aea9"></i><i style="background:#ea4335"></i><i style="background:#a50e0e"></i>missing for some days — darker is longer, the number is days missing</span><span class="dg-lg"><i style="background:#f1f3f4;color:#80868b">—</i>not carried by that retailer</span>`,
+    naTip: (r, c) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>Not carried by ${c.label} in this window</span></div>`,
     tip: (r, c, v) => { const k = `${r.id}|${c.id}`;
-      return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>Days carried</span><b class="tnum">${v} of ${winLen}</b></div><div class="r"><span>Sellers</span><b class="tnum">${d.distribution.sellers[k] ?? "—"}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct((d.distribution.buybox[k] ?? 0) * 100)}</b></div>`; } });
+      return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>On the shelf</span><b class="tnum">${winLen - v} of ${winLen} days</b></div>${v ? `<div class="r"><span>Missing</span><b class="tnum" style="color:#c5221f">${v} day${v === 1 ? "" : "s"}${v === winLen ? " (whole window)" : ""}</b></div>` : ""}<div class="r"><span>Sellers</span><b class="tnum">${d.distribution.sellers[k] ?? "—"}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct((d.distribution.buybox[k] ?? 0) * 100)}</b></div>`; } });
   CC.hbars(el("dsBars"), { rows: d.dims.brands.map((b) => ({ label: b.label, value: sc("carriage", b.id).value || 0, color: b.color, subject: b.id === S,
     note: `${pairsFor(b.id, rts).length} live cells` })).sort((a, b) => b.value - a.value), fmtV: (v) => F.pct(v) });
   const mk = d.distribution.listings.filter((l) => rts.includes(l.retailer) && l.sellers > 1);
@@ -703,7 +708,7 @@ P.stock = (host) => {
       { label: "Retailer", lft: true, get: (r) => RT(r.retailer).label },
       { label: "From", get: (r) => F.date(r.start) },
       { label: "Days", get: (r) => `<b class="tnum">${r.days}</b>` },
-      { label: "After promo", get: (r) => r.afterPromo ? `<span style="color:var(--warn);font-weight:700">yes</span>` : "—" },
+      { label: "After a deal", get: (r) => r.afterPromo ? `<span style="color:var(--warn);font-weight:700">yes</span>` : "—" },
     ], eps.slice().sort((x, y) => y.days - x.days).map((e) => ({ ...e, _subject: e.brand === S })), { maxH: "300px" }) : `<p class="mini">No out-of-stock episode recorded in this window.</p>` })}
   </div>
   <h2 class="sec">What availability says</h2>${readsBlock("availability")}`;
@@ -714,8 +719,10 @@ P.stock = (host) => {
   CC.line(el("avLine"), { height: 240, x: ds, bands: winBands(), min: Math.max(0, Math.floor((stockLo - 4) / 5) * 5), max: 100,
     fmtV: (v) => F.pct(v), fmtY: (v) => v + "%", series: stockSeries });
   const subjPairs = pairsFor(S, rts);
-  if (d.dims.cities.length) CC.heatmap(el("avHeat"), { rows: d.dims.models.filter((m) => m.brand === S), cols: d.dims.cities, corner: "Model ╲ City", ramp: "red", invert: true, min: 80, max: 100,
-    rowLabel: (r) => r.label, colLabel: (c) => c.label.split(",")[0], fmtV: (v) => F.pct(v, 0), scaleNote: "In-stock rate",
+  if (d.dims.cities.length) CC.heatmap(el("avHeat"), { rows: d.dims.models.filter((m) => m.brand === S), cols: d.dims.cities, corner: "Model ╲ City", ramp: "red", invert: true, min: 80, max: 98,
+    rowLabel: (r) => r.label, colLabel: (c) => c.label.split(",")[0], fmtV: (v) => F.pct(v, 0),
+    cellStyle: (r, c, v) => (v >= 98 ? { bg: "#e6f4ea", color: "#137333" } : null),
+    legendHtml: `<span class="dg-lg"><i style="background:#e6f4ea"></i>98% or better in stock</span><span class="dg-lg"><i style="background:#fad2cf"></i><i style="background:#ee675c"></i><i style="background:#a50e0e"></i>below 98% — darker is more often out of stock</span>`,
     value: (r, c) => { const ks = subjPairs.filter((k) => k.startsWith(r.id + "|"));
       const v = ks.map((k) => d.availability.byCity[`${k}|${c.id}`]).filter((x) => x != null);
       return v.length ? mean(v) * 100 : null; },
@@ -744,11 +751,11 @@ P.delivery = (host) => {
     listing goes out of stock, and the shopper sees both.${metros ? "" : ` This study read the promise as the listing
     showed it nationally and probed no delivery locations, so the metro breakdown is withheld throughout this page.`}`)}
   <div class="grid g4" style="margin-bottom:14px">
-    ${metricKpi("leadTime", S)}
+    ${metricKpi("leadTime", S, metros ? "Amazon's promise as read on the build date; the metro cards average every retailer in scope" : undefined)}
     ${metros ? `
-    ${kpi({ label: "Fastest metro", dot: "#1e8e3e", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => x.v - y.v)[0]; return F.d(r.v); })(),
+    ${kpi({ label: "Fastest metro · all retailers", dot: "#1e8e3e", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => x.v - y.v)[0]; return F.d(r.v); })(),
       note: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => x.v - y.v)[0]; return r.c.label; })() })}
-    ${kpi({ label: "Slowest metro", dot: "#d93025", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return F.d(r.v); })(),
+    ${kpi({ label: "Slowest metro · all retailers", dot: "#d93025", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return F.d(r.v); })(),
       note: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return r.c.label; })() })}
     ${kpi({ label: "National spread", dot: "#e37400", value: (() => { const v = d.dims.cities.map((c) => brandCity(S, c.id)); return F.d(Math.max(...v) - Math.min(...v)); })(),
       note: "Between the fastest and slowest metro on the same catalogue" })}` : `
@@ -835,7 +842,7 @@ P.pricing = (host) => {
       note: subjBreach.length ? `${sum(subjBreach.map((x) => x.days))} listing-days below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` : `No ${SUBJ} listing traded below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` })}
   </div>
   ${card({ title: "Price index by brand", help: "Street price as a percentage of the manufacturer's list price. The vertical distance between two lines is the difference in how much margin each brand is prepared to hand over to move a unit.", sub: "Street price as a percentage of MSRP, daily. The vertical distance between two lines is the difference in how much margin each brand is prepared to hand over to move a unit.", tag: "13 weeks", slot: "prIndex" })}
-  <div class="grid g32" style="margin-top:14px">
+  <div class="grid" style="margin-top:14px;grid-template-columns:minmax(0,1fr)">
     ${card({ title: "One model, every retailer", help: "The same product priced across every retailer that carries it, by day. Distance between the lines is channel conflict, and it is visible to any shopper with two tabs open.", sub: "Daily street price for the selected model, with MSRP as the dashed reference. Steps, not drift — a price holds until someone changes it.",
       html: `<div class="seg mini wrap" id="prPick" style="margin-bottom:12px"></div><div id="prModel"></div>` })}
     ${card({ title: "Price ladder", help: "The brand's own range laid out by price point, so the gaps and the overlaps between its models are visible. A gap in a ladder is an invitation for a competitor to stand in it.", sub: "Mean street price by model and retailer. The same model is not the same price, and the shopper can see all of them at once.", slot: "prHeat" })}
@@ -1192,7 +1199,7 @@ Price index — street price as a percentage of MSRP, averaged across the brand'
     across how many channels, and how tightly it hugs the retail calendar. Two brands can spend the same and be
     running <b>completely different strategies</b> — the table reads them side by side, and the shapes below show which one you are up against.`)}
   <div style="margin-bottom:14px">${sideBySide}</div>
-  <div class="grid g5" style="margin-bottom:14px">
+  <div class="grid g${Math.min(5, Math.max(2, d.dims.brands.length))}" style="margin-bottom:14px">
     ${d.dims.brands.map((b) => kpi({ label: b.label, dot: b.color,
       value: F.pct(st[b.id].intensity), unit: "",
       note: `${F.pct(st[b.id].meanDepth)} mean depth · ${st[b.id].events} events · ${st[b.id].mechanicsUsed} mechanics` })).join("")}

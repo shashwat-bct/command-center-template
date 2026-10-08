@@ -4,6 +4,7 @@ import { expireIfStale, getLatestBuild, getLatestBuildForBrand } from "@/lib/bq"
 import { isServable, loadBuildPayload, loadLatestPayload, payloadResponse, retiredResponse } from "@/lib/payload-source";
 import { SHARE_HEADERS, checkShareToken } from "@/lib/share-response";
 import { withReviewAspects } from "@/lib/aspect-backfill";
+import { withCurrentWorkbench } from "@/lib/workbench-repair";
 import type { PayloadSource } from "@/lib/payload-source";
 import { isShareId, slugForShareId } from "@/lib/share-id";
 
@@ -16,7 +17,7 @@ import { isShareId, slugForShareId } from "@/lib/share-id";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: await withReviewAspects(slug, source.buildId, source.bytes) });
+const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: withCurrentWorkbench(slug, source.buildId, await withReviewAspects(slug, source.buildId, source.bytes)) });
 
 const SHARE_STATUS = { expired: 410, invalid: 401, config: 500 } as const;
 

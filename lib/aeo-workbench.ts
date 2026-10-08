@@ -16,7 +16,37 @@ export type CommandCenterData = {
   voice: { aspects: Record<string, Record<string, number[]> | null> };
 };
 
+export const WORKBENCH_VERSION = 5;
+
+/** The search crawler each tracked engine uses to fetch pages it can cite; an engine without one is left out. */
+export const ENGINE_SEARCH_BOT: Record<string, string> = { gpt: "OAI-SearchBot", chatgpt: "OAI-SearchBot", claude: "Claude-SearchBot", perplexity: "PerplexityBot", copilot: "Bingbot" };
 const WEEKS = 13;
+const PRICE_NUM = /(?<![A-Za-z\d.])\$?\s*(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?:\s*(k)\b)?(?![A-Za-z\d])/gi;
+const RANGE_GAP = /^\s*(?:-|–|—|to|and)\s*$/i;
+
+export type PriceQuote = { lo: number; hi: number };
+
+/**
+ * Reads the price an engine quoted: a single figure, or a range such as
+ * "$1,500–2,000" kept as both ends rather than run together into one number.
+ */
+export function parsePriceQuote(text: string): PriceQuote | null {
+  const found: Array<{ n: number; start: number; end: number }> = [];
+  for (const m of String(text).matchAll(PRICE_NUM)) {
+    const n = parseFloat(m[1].replace(/,/g, "") + (m[2] ?? "")) * (m[3] ? 1000 : 1);
+    if (n >= 20 && n < 100000) found.push({ n, start: m.index ?? 0, end: (m.index ?? 0) + m[0].length });
+  }
+  if (!found.length) return null;
+  const [a, b] = found;
+  if (b && RANGE_GAP.test(String(text).slice(a.end, b.start)) && b.n > a.n) return { lo: a.n, hi: b.n };
+  return { lo: a.n, hi: a.n };
+}
+
+function priceVerdict(q: PriceQuote, shelf: number): "matches" | "stale" | "wrong" {
+  const gap = shelf < q.lo ? q.lo - shelf : shelf > q.hi ? shelf - q.hi : 0;
+  const d = gap / shelf;
+  return d <= 0.05 ? "matches" : d <= 0.15 ? "stale" : "wrong";
+}
 const PILOT_END = 8;
 const PHASES = ["baseline", "diagnose", "diagnose", "fix & earn", "fix & earn", "fix & earn", "fix & earn", "re-read", "re-read", "programme", "programme", "programme", "programme"];
 const PLACEMENT = ["identified", "contacted", "agreed", "live", "cited"];
@@ -70,7 +100,8 @@ export function buildWorkbench(c: AiConsolePayload, cc: CommandCenterData, seed:
   const readableAt = (rid: string): { state: string; blocked: number; of: number } => {
     const site = crawlSites.find((x) => x.kind === "retail" && x.host.includes(rid));
     if (!site) return { state: "not audited", blocked: 0, of: 0 };
-    const search = ["OAI-SearchBot", "PerplexityBot", "Claude-SearchBot", "Bingbot"].map((b) => site.bots[b]?.state);
+    const bots = [...new Set(c.engines.map((e) => ENGINE_SEARCH_BOT[e.id]).filter((b): b is string => !!b))];
+    const search = bots.map((b) => site.bots[b]?.state);
     const blocked = search.filter((s) => s === "blocked").length;
     return { state: blocked === search.length ? "blocked" : blocked ? "partial" : "open", blocked, of: search.length };
   };
@@ -79,16 +110,16 @@ export function buildWorkbench(c: AiConsolePayload, cc: CommandCenterData, seed:
   const priceRows = c.captures[c.current].answers.flatMap((a) => a.subjectClaims.filter((cl) => cl.type === "price").map((cl) => ({ a, cl })));
   const verdicts = { matches: 0, stale: 0, wrong: 0, unverifiable: 0, notInCatalogue: 0, sizeNotTracked: 0 };
   const rows = priceRows.map(({ a, cl }, i) => {
-    const value = Number(String(cl.value || cl.claim).replace(/[^0-9.]/g, "").match(/\d+(\.\d+)?/)?.[0] ?? NaN);
+    const quote = parsePriceQuote(cl.value || cl.claim) ?? parsePriceQuote(cl.claim);
     const family = familyOf(cl.product || cl.claim, families);
     const shelf = family ? models.filter((m) => familyName(m.label, c.productLine, c.categoryNoun) === family).map((m) => last(cc.pricing.price[key(m.id, "amazon")])).find((p) => p != null) ?? null : null;
     let verdict: keyof typeof verdicts = "unverifiable";
-    if (!Number.isFinite(value) || value <= 0) verdict = "unverifiable";
+    if (!quote) verdict = "unverifiable";
     else if (!family) verdict = "notInCatalogue";
     else if (shelf == null) verdict = "unverifiable";
-    else { const d = Math.abs(value - shelf) / shelf; verdict = d <= 0.05 ? "matches" : d <= 0.15 ? "stale" : "wrong"; }
+    else verdict = priceVerdict(quote, shelf);
     verdicts[verdict]++;
-    return { id: `c${i + 1}`, claim: cl.claim, value: Number.isFinite(value) ? value : null, product: cl.product, family, engine: a.engine, question: c.bank.find((q) => q.id === a.queryId)?.text ?? "", hosts: [...new Set(a.sources.map((s) => s.host))].slice(0, 4), verdict, detail: shelf != null ? `${family} on Amazon: $${Math.round(shelf).toLocaleString("en-US")} on the shelf` : family ? `${family}: no shelf price read` : "model not in the tracked catalogue" };
+    return { id: `c${i + 1}`, claim: cl.claim, value: quote ? quote.lo : null, valueHi: quote && quote.hi !== quote.lo ? quote.hi : null, shelf, product: cl.product, family, engine: a.engine, question: c.bank.find((q) => q.id === a.queryId)?.text ?? "", hosts: [...new Set(a.sources.map((s) => s.host))].slice(0, 4), verdict, detail: shelf != null ? `${family} on Amazon: $${Math.round(shelf).toLocaleString("en-US")} on the shelf` : family ? `${family}: no shelf price read` : "model not in the tracked catalogue" };
   });
   const otherTotal = base.claims.total - rows.length;
   const outOfDate = Math.round(otherTotal * (0.03 + rnd() * 0.03)), wrongOther = Math.round(otherTotal * (0.02 + rnd() * 0.03));
@@ -246,6 +277,7 @@ export function buildWorkbench(c: AiConsolePayload, cc: CommandCenterData, seed:
   const blockedRetail = listing.filter((l) => l.readable.state === "blocked").map((l) => l.retailer);
 
   return {
+    version: WORKBENCH_VERSION,
     meta: {
       title: `${SL} · AEO Workbench`, subtitle: "A twelve-week AEO programme, simulated forward from a measured week 0", subject: S, subjectLabel: SL, brandMark: null, market: c.market, category: c.category,
       generatedFrom: { aiVisibility: c.generatedAt, commandCenter: { start: weeks[0].date, end: weeks[12].date, days: 84, weeks: 12 } },

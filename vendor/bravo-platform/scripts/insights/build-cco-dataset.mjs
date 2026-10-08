@@ -1240,7 +1240,10 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
     // always has someone else in it.
     (() => { const o = other(q("shelfSov"), S);
       return { tone: "watch", text: `Shelf share of ${r1(q("shelfSov")[S])}% puts ${SUBJ} ${standing(q("shelfSov"), S).phrase}${o ? `; ${o.label} is the nearest of the rest on ${r1(o.value)}%` : ""}.` }; })(),
-    { tone: "good",  text: `Presence concentrates where the intent is specific — "${TERMS.find((t) => t.id === bt[0]).label}" returns ${SUBJ} in ${r1(bt[1])}% of the grid, against ${r1(Math.min(...Object.values(byTerm)))}% on the weakest term.` },
+    (() => { const lo = Math.min(...Object.values(byTerm)), gap = bt[1] - lo, label = TERMS.find((t) => t.id === bt[0]).label;
+      return gap >= 2
+        ? { tone: "good", text: `Presence concentrates where the intent is specific — "${label}" returns ${SUBJ} in ${r1(bt[1])}% of the grid, against ${r1(lo)}% on the weakest term.` }
+        : { tone: "watch", text: `Presence is even across the search terms — ${r1(lo)}% to ${r1(bt[1])}% of the grid — so no single term is carrying ${SUBJ}, and none is a hole.` }; })(),
     { tone: "risk",  text: `${r1(spon)}% of ${SUBJ} shelf presence is paid — ${standing(sponAll, S, "down", ["least paid-reliant", "most paid-reliant"]).phrase}. ${L[standing(sponAll, S, "down").laggard]} buys its way onto the grid at ${r1(standing(sponAll, S, "down").laggardVal)}%, which is why ${SUBJ} share moves against it in event weeks.` },
     { tone: "watch", text: `${RETAILERS.find((r) => r.id === worst[0]).label} reads thinnest for ${SUBJ} at ${r1(worst[1])}% of the grid, against ${r1(best[1])}% at ${RETAILERS.find((r) => r.id === best[0]).label} — a ${r1(best[1] - worst[1])}-point gap between the brand's best and worst shelf.` },
   ];
@@ -1253,7 +1256,7 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
   const bbAll = Object.fromEntries(BIDS.map((b) => [b, mean(pairs.filter((k) => MID[k.split("|")[0]].brand === b).map((k) => buybox[k])) * 100]));
   reads.distribution = [
     { tone: "watch", text: `${SUBJ} occupies ${carried} of ${cells} possible model-by-retailer cells — ${r1(q("carriage")[S])}% weighted for the days each listing was actually live, ${standing(q("carriage"), S).phrase}.` },
-    { tone: "risk",  text: `${notes.length} listing${notes.length === 1 ? "" : "s"} changed state inside the quarter: ${notes.filter((n) => n.note.kind === "delisted").length} dropped, ${notes.filter((n) => n.note.kind === "listed").length} appeared, ${notes.filter((n) => n.note.kind === "lapsed").length} lapsed and returned.` },
+    { tone: notes.some((n) => n.note.kind === "delisted") ? "risk" : notes.length ? "watch" : "good",  text: `${notes.length} listing${notes.length === 1 ? "" : "s"} changed state inside the quarter: ${notes.filter((n) => n.note.kind === "delisted").length} dropped, ${notes.filter((n) => n.note.kind === "listed").length} appeared, ${notes.filter((n) => n.note.kind === "lapsed").length} lapsed and returned.` },
     { tone: "watch", text: `Buy-box ownership averages ${r1(bb)}% on the marketplaces, ${standing(bbAll, S).phrase} — every point lost is a sale credited to a reseller at a price the brand did not set.` },
   ];
 }
@@ -1277,12 +1280,15 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
         // Two figures a tenth apart print as the same number, and "third-fastest
         // of the 4, against 5.8 days for Dyson" then reads as a contradiction.
         // Where they round to the same displayed value, say they are level.
-        : { tone: "watch", text: `The ${SUBJ} delivery promise averages ${r1(q("leadTime")[S])} days — ${st2.phrase}${o ? (r1(o.value) === r1(q("leadTime")[S]) ? `, level with ${o.label} at the same ${r1(o.value)} days` : `, against ${r1(o.value)} days for ${o.label}, the fastest of the rest`) : ""}.` }; })(),
+        : { tone: st2.rank === 1 ? "good" : "watch", text: `The ${SUBJ} delivery promise averages ${r1(q("leadTime")[S])} days — ${st2.phrase}${o ? (r1(o.value) === r1(q("leadTime")[S]) ? `, level with ${o.label} at the same ${r1(o.value)} days` : `, against ${r1(o.value)} days for ${o.label}, the fastest of the rest`) : ""}.` }; })(),
     // The metro read only exists where a delivery probe was run. An instance
     // with no city dimension says why the sentence is missing rather than
     // asserting a spread across cities nobody measured.
     ...(CIDS.length && worstCity && bestCity && CITIES.find((c) => c.id === worstCity[0]) && CITIES.find((c) => c.id === bestCity[0])
-      ? [{ tone: "risk", text: `The promise is not national: ${CITIES.find((c) => c.id === worstCity[0]).label} waits ${r1(worstCity[1])} days against ${r1(bestCity[1])} in ${CITIES.find((c) => c.id === bestCity[0]).label} — a ${r1(worstCity[1] - bestCity[1])}-day spread on the same catalogue.` }]
+      ? [(() => { const spread = worstCity[1] - bestCity[1], wl = CITIES.find((c) => c.id === worstCity[0]).label, bl = CITIES.find((c) => c.id === bestCity[0]).label;
+          return spread < 0.5
+            ? { tone: "good", text: `The promise holds nationally: every metro sits within ${r1(spread)} days of ${bl}, the fastest at ${r1(bestCity[1])} days.` }
+            : { tone: spread >= 1 ? "risk" : "watch", text: `The promise is not national: ${wl} waits ${r1(worstCity[1])} days against ${r1(bestCity[1])} in ${bl} — a ${r1(spread)}-day spread on the same catalogue.` }; })()]
       : [{ tone: "watch", text: `Whether the promise holds across the country is not answered here: this study probed no delivery locations, so the lead time above is the national figure the listing showed and the metro spread behind it is withheld rather than modelled.` }]),
   ];
 }
@@ -1293,7 +1299,7 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
   const br = mapBreaches.filter((m) => m.brand === S);
   reads.pricing = [
     { tone: "good",  text: `${SUBJ} realises ${r1(pi[S])}% of MSRP across the quarter, ${st.phrase} — the category runs ${r1(mean(BIDS.map((b) => pi[b])))}% and ${L[Object.entries(pi).sort((a, b) => a[1] - b[1])[0][0]]} clears at ${r1(Math.min(...Object.values(pi)))}%.` },
-    { tone: "watch", text: worst ? `${MID[worst.model].label} carries the widest cross-retailer spread at $${r2(worst.meanSpread)} on average and $${r2(worst.maxSpread)} at its widest — a shopper comparing two tabs sees two different brands.` : `Cross-retailer price spread stayed inside a dollar on every ${SUBJ} model.` },
+    { tone: "watch", text: worst ? `${MID[worst.model].label} carries the widest cross-retailer spread at $${worst.meanSpread.toFixed(2)} on average and $${worst.maxSpread.toFixed(2)} at its widest — a shopper comparing two tabs sees two different brands.` : `Cross-retailer price spread stayed inside a dollar on every ${SUBJ} model.` },
     { tone: br.length ? "risk" : "good", text: br.length
         ? `${br.length} listing${br.length === 1 ? "" : "s"} traded below the ${Math.round(mapFloorPct[S] * 100)}% floor for ${br.reduce((a, x) => a + x.days, 0)} days in total, worst at ${Math.max(...br.map((x) => x.worstPct))}% under.`
         : `No ${SUBJ} listing traded below the ${Math.round(mapFloorPct[S] * 100)}% price floor at any point in the quarter.` },

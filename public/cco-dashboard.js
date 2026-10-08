@@ -135,7 +135,7 @@ function deltaChip(metricId, brand, opts) {
 function rankChip(metricId, brand) {
   const o = sc(metricId, brand);
   if (!o.rank) return "";
-  return `<span class="rankchip">${o.tied ? "=" : ""}#${o.rank} of ${o.of}</span>`;
+  return `<span class="rankchip">${o.tied ? "tied " : ""}#${o.rank} of ${o.of}</span>`;
 }
 const SHOW_SRC = document.body.dataset.sources === "on";
 const PROV_LABEL = {
@@ -292,7 +292,7 @@ function hideLoader() {
   const l = $("#ccLoader");
   if (!l) return;
   l.classList.add("done");
-  setTimeout(() => l.remove(), 260);
+  setTimeout(() => l.remove(), 380);
 }
 function failLoader(e) {
   clearTimeout(loaderSlow);
@@ -408,7 +408,7 @@ function dropPlaceholderBrands(p) {
   return p;
 }
 bootData.then((json) => {
-  D = CC.googlePalette(fillModelledDelivery(shortModelLabels(hideModelledLanes(dropPlaceholderBrands(json))))); F = CC.fmt;
+  D = CC.googlePalette(window.CCREADS.reviseReads(fillModelledDelivery(shortModelLabels(hideModelledLanes(dropPlaceholderBrands(json)))))); F = CC.fmt;
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);
   buildNav(); buildControls(); buildBrand(); labelSimChip();
@@ -509,6 +509,7 @@ function route() {
   const topCC = $("#topCC"); if (topCC) topCC.hidden = !!def.ext;
   EXTS.forEach((x) => { if (x.onRoute) { try { x.onRoute(def.ext === x.id ? def : null); } catch (e) { console.error("[cco] extension route failed", e); } } });
   repaint(); window.scrollTo({ top: 0, behavior: "instant" });
+  if (window.CCMOTION) { CCMOTION.title($("#ptitle")); CCMOTION.page(document.getElementById("pg-" + page)); }
 }
 function repaint(force) {
   const def = pageDef(page);
@@ -545,7 +546,7 @@ function repaint(force) {
 }
 // A cadence or retailer change invalidates every page, not just the visible one.
 const _repaint = repaint;
-repaint = function (force) { if (force) painted.clear(); _repaint(force); };
+repaint = function (force) { if (force) painted.clear(); _repaint(force); if (force && window.CCMOTION) CCMOTION.page(document.getElementById("pg-" + page)); };
 
 const RENDER = {};
 window.__CCPAGES = RENDER; window.__CC = { get D() { return D; }, get S() { return S; }, get SUBJ() { return SUBJ; }, get cadence() { return cadence; }, get retailer() { return retailer; },

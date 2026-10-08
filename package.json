@@ -6,13 +6,15 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "test:relabel": "tsx scripts/verify-relabel.ts"
+    "test:relabel": "tsx scripts/verify-relabel.ts",
+    "vendor:motion": "cp node_modules/motion/dist/motion.js public/vendor/motion.js"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^9.1.0",
     "@google-cloud/storage": "^8.2.0",
     "firebase": "^12.19.0",
     "google-auth-library": "^11.1.0",
+    "motion": "^12.43.0",
     "nanoid": "^6.0.1",
     "next": "16.3.8",
     "react": "19.2.8",

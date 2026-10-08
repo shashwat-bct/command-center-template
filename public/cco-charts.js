@@ -118,12 +118,12 @@
     const g = el("g"); svg.appendChild(g);
     grid(g, m, iw, ih, dom.ticks, y, spec.fmtY);
 
-    // event bands behind the data
+    const bandText = [];
     for (const b of spec.bands || []) {
       const a = xs.indexOf(b.start), z = xs.indexOf(b.end);
       if (a < 0) continue;
       g.appendChild(el("rect", { x: px(x(a)), y: m.t, width: px(Math.max(2, x(z < 0 ? n - 1 : z) - x(a))), height: ih, fill: b.color || INK, opacity: b.opacity || 0.05 }));
-      if (b.label && spec.bandLabels !== false) g.appendChild(text(x(a) + 4, m.t + 11, b.label, { size: 9.5, fill: MUTE, weight: 600 }));
+      if (b.label && spec.bandLabels !== false) bandText.push([x(a) + 4, b.label]);
     }
     for (const s of ser) {
       const pts = s.data.map((v, i) => v == null ? null : [x(i), y(v)]);
@@ -141,7 +141,11 @@
         g.appendChild(el("circle", { cx: px(x(n - 1)), cy: px(lastY), r: 3.4, fill: s.color, stroke: SURF, "stroke-width": 2 }));
       }
     }
-    // x ticks
+    for (const [bx, label] of bandText) {
+      const w = textWidth(label, 600, 9.5) + 6;
+      g.appendChild(el("rect", { x: px(bx - 3), y: m.t + 2, width: px(w), height: 13, rx: 3, fill: SURF, opacity: 0.85 }));
+      g.appendChild(text(bx, m.t + 11, label, { size: 9.5, fill: MUTE, weight: 600 }));
+    }
     const step = Math.max(1, Math.round(n / (spec.xTicks || 7)));
     for (let i = 0; i < n; i += step) g.appendChild(text(x(i), m.t + ih + 16, spec.fmtX ? spec.fmtX(xs[i], i) : fmt.date(xs[i]), { anchor: "middle", size: 10, fill: MUTE }));
 
@@ -335,12 +339,13 @@
       for (const c of cols) {
         const v = spec.value(r, c);
         const td = document.createElement("td");
-        if (v == null) { td.className = "na"; td.innerHTML = `<span>—</span>`; }
+        if (v == null) { td.className = "na"; td.innerHTML = `<span>—</span>`; if (spec.naTip) { td.addEventListener("mousemove", (ev) => showTip(spec.naTip(r, c), ev)); td.addEventListener("mouseleave", hideTip); } }
         else {
           let t = hi === lo ? .5 : (v - lo) / (hi - lo); if (inv) t = 1 - t;
           const bg = rampColor(t, spec.ramp === "red" ? RAMP_R : spec.ramp === "div" ? RAMP_DIV : RAMP);
-          td.style.background = bg;
-          td.style.color = t > 0.62 ? "#fff" : INK;
+          const own = spec.cellStyle ? spec.cellStyle(r, c, v) : null;
+          td.style.background = own && own.bg ? own.bg : bg;
+          td.style.color = own && own.color ? own.color : t > 0.62 ? "#fff" : INK;
           const shown = spec.fmtCell ? spec.fmtCell(r, c, v) : (spec.fmtV || fmt.n)(v);
           td.innerHTML = `<span class="tnum">${shown == null ? "—" : shown}</span>`;
           td.addEventListener("mousemove", (ev) => showTip(spec.tip ? spec.tip(r, c, v) : `<div class="h">${(spec.rowLabel ? spec.rowLabel(r) : r.label || r)} · ${(spec.colLabel ? spec.colLabel(c) : c.label || c)}</div><div class="r"><b class="tnum">${(spec.fmtV || fmt.n)(v)}</b></div>`, ev));
@@ -352,7 +357,9 @@
       tbl.appendChild(tr);
     }
     wrap.appendChild(tbl);
-    if (spec.scale !== false) {
+    if (spec.legendHtml) {
+      const lg = document.createElement("div"); lg.className = "cc-scale"; lg.innerHTML = spec.legendHtml; wrap.appendChild(lg);
+    } else if (spec.scale !== false) {
       if (lo == null || hi == null) return wrap;
       const sc = document.createElement("div"); sc.className = "cc-scale";
       const R = spec.ramp === "red" ? RAMP_R : spec.ramp === "div" ? RAMP_DIV : RAMP;
