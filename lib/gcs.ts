@@ -53,7 +53,7 @@ export async function readPayloadBytes(slug: string, build_id: string): Promise<
 export async function latestPayloadBuildId(slug: string): Promise<string | null> {
   const [files] = await bucket().getFiles({ prefix: `${slug}/`, delimiter: "/" });
   const payloads = files
-    .map((f) => ({ id: /^[^/]+\/(b_[^/]+)\.json$/.exec(f.name)?.[1], created: String(f.metadata.timeCreated ?? "") }))
+    .map((f) => ({ id: /^[^/]+\/(b_[A-Za-z0-9_-]+)\.json$/.exec(f.name)?.[1], created: String(f.metadata.timeCreated ?? "") }))
     .filter((f): f is { id: string; created: string } => !!f.id);
   payloads.sort((a, b) => b.created.localeCompare(a.created));
   return payloads[0]?.id ?? null;

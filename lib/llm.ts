@@ -56,7 +56,21 @@ export type LLMArgs = {
 
 const RETRYABLE = new Set([408, 425, 429, 500, 502, 503, 504]);
 
+export type ChatMessage = { role: "user" | "assistant"; content: string };
+
+/**
+ * One Claude call through the Atlas proxy with a full message history.
+ */
+export async function callLLMChat(args: { system?: string; messages: ChatMessage[]; maxTokens?: number; temperature?: number; model?: string }): Promise<string> {
+  const last = args.messages[args.messages.length - 1];
+  return callLLMRaw({ system: args.system, model: args.model, maxTokens: args.maxTokens, temperature: args.temperature, user: last ? last.content : "", messages: args.messages });
+}
+
 export async function callLLM(args: LLMArgs): Promise<string> {
+  return callLLMRaw(args);
+}
+
+async function callLLMRaw(args: LLMArgs & { messages?: ChatMessage[] }): Promise<string> {
   let token = await getIdToken();
   let refreshed = false;
   let lastErr = "";
@@ -72,7 +86,7 @@ export async function callLLM(args: LLMArgs): Promise<string> {
       body: JSON.stringify({
         ...(args.system ? { system: args.system } : {}),
         ...(args.model ? { model: args.model } : {}),
-        messages: [{ role: "user", content: args.user }],
+        messages: args.messages ?? [{ role: "user", content: args.user }],
         max_tokens: args.maxTokens ?? 800,
         temperature: args.temperature ?? 0.2,
       }),

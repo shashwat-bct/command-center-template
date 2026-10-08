@@ -42,7 +42,7 @@ export function applyProvenance(payloadJson: string, inputs: RelabelInputs, subj
   if (request) data.meta.request = request;
   delete data.meta.brandMark;
   if (slug && existsSync(join(process.cwd(), "public", "brand-marks", `${slug}.png`))) data.meta.brandMark = `/brand-marks/${slug}.png`;
-  const merged = mergeMeasured(data, provenance, { aiShares: inputs.aiShares, aiStageShares: inputs.aiStageShares, aiEngineStageShares: inputs.aiEngineStageShares }) as BuiltPayload & { meta: { provenance: Provenance & { lanes: Record<string, LaneStatus> } } };
+  const merged = mergeMeasured(data, provenance, { reviewAspects: inputs.reviewAspects, aiShares: inputs.aiShares, aiStageShares: inputs.aiStageShares, aiEngineStageShares: inputs.aiEngineStageShares }) as BuiltPayload & { meta: { provenance: Provenance & { lanes: Record<string, LaneStatus> } } };
   const lanes = merged.meta.provenance.lanes;
   merged.meta.disclosure = {
     ...disclosureFor(provenance, subjectName),

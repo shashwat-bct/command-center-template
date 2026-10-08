@@ -1,3 +1,4 @@
+import type { ReviewAspect, ReviewQuote } from "./apify";
 import type { Provenance } from "./provenance";
 
 type Cell = { value: number | null; prev: number | null; delta: number | null; deltaPct: number | null; rank: number | null; tied: boolean; of: number };
@@ -7,10 +8,13 @@ type Read = { tone: "good" | "watch" | "risk"; text: string };
 export type LaneStatus = { status: "measured" | "mixed" | "modelled"; note: string; label?: string; sources?: string[] };
 
 export type MeasuredExtras = {
+  reviewAspects?: Record<string, ReviewAspect[]>;
   aiShares: Record<string, number>;
   aiStageShares: Record<string, Record<string, number>>;
   aiEngineStageShares: Record<string, Record<string, Record<string, number>>>;
 };
+
+export type MergePayload = Payload;
 
 type Payload = {
   meta: { subject: string; subjectLabel?: string; provenance?: Provenance & { lanes?: Record<string, LaneStatus> } };
@@ -19,7 +23,69 @@ type Payload = {
   trend: Record<string, Record<string, Array<number | null> | null>>;
   ai: { overall: Record<string, Array<number | null> | null>; byEngineStage: Record<string, Array<number | null>>; prompts?: unknown[] };
   reads: Record<string, Read[]>;
+  voice?: Record<string, unknown>;
 };
+
+type ListingTally = { asin: string; positive: number; negative: number; summary: string | null; quotes: ReviewQuote[] };
+type AspectTally = { name: string; positive: number; negative: number; quotes: ReviewQuote[]; listings: ListingTally[] };
+
+const VOICE_MEASURED_NOTE = "Amazon rating and review counts are read daily from Keepa; aspect scores are the share of positive mentions in Amazon's review summaries.";
+const MIN_ASPECT_MENTIONS = 4;
+const MAX_ASPECTS = 6;
+
+export function applyReviewAspects(p: Payload, byBrand: Record<string, ReviewAspect[]>): boolean {
+  const tallies: Record<string, Record<string, AspectTally>> = {};
+  for (const [brand, list] of Object.entries(byBrand)) {
+    const t: Record<string, AspectTally> = {};
+    for (const a of list) {
+      const key = a.name.trim().toLowerCase();
+      const cur = (t[key] ||= { name: a.name.trim(), positive: 0, negative: 0, quotes: [], listings: [] });
+      cur.positive += a.positive;
+      cur.negative += a.negative;
+      for (const q of a.quotes ?? []) if (cur.quotes.length < 3 && !cur.quotes.some((x) => x.text === q.text)) cur.quotes.push(q);
+      if (a.asin) cur.listings.push({ asin: a.asin, positive: a.positive, negative: a.negative, summary: a.summary ?? null, quotes: (a.quotes ?? []).slice(0, 4) });
+    }
+    tallies[brand] = t;
+  }
+  const keys = [...new Set(Object.values(tallies).flatMap((t) => Object.keys(t)))];
+  const rank = keys.map((k) => {
+    const scored = Object.values(tallies).filter((t) => t[k] && t[k].positive + t[k].negative >= MIN_ASPECT_MENTIONS).length;
+    const mentions = Object.values(tallies).reduce((n, t) => n + (t[k] ? t[k].positive + t[k].negative : 0), 0);
+    return { k, scored, mentions };
+  }).filter((r) => r.scored > 0).sort((a, b) => b.scored - a.scored || b.mentions - a.mentions).slice(0, MAX_ASPECTS);
+  if (!rank.length) return false;
+  const dims = p.dims as Payload["dims"] & { aspects?: string[]; aspectMonths?: string[] };
+  const months = dims.aspectMonths && dims.aspectMonths.length ? dims.aspectMonths : [p.dims.dates[p.dims.dates.length - 1].slice(0, 7)];
+  const label = (k: string) => Object.values(tallies).find((t) => t[k])![k].name;
+  dims.aspects = rank.map((r) => label(r.k));
+  dims.aspectMonths = months;
+  const last = months.length - 1;
+  const aspects: Record<string, Record<string, Array<number | null>>> = {};
+  const measured: Record<string, Record<string, boolean[]>> = {};
+  const counts: Record<string, Record<string, { positive: number; negative: number; quotes: ReviewQuote[]; listings: ListingTally[] }>> = {};
+  for (const b of p.dims.brands) {
+    const t = tallies[b.id];
+    if (!t) continue;
+    const row: Record<string, Array<number | null>> = {};
+    const flags: Record<string, boolean[]> = {};
+    const cnt: Record<string, { positive: number; negative: number; quotes: ReviewQuote[]; listings: ListingTally[] }> = {};
+    for (const r of rank) {
+      const a = t[r.k];
+      const n = a ? a.positive + a.negative : 0;
+      const series: Array<number | null> = months.map(() => null);
+      if (a && n >= MIN_ASPECT_MENTIONS) series[last] = Math.round((a.positive / n) * 100);
+      row[label(r.k)] = series;
+      flags[label(r.k)] = months.map((_, i) => i === last && series[last] != null);
+      if (a) cnt[label(r.k)] = { positive: a.positive, negative: a.negative, quotes: a.quotes, listings: a.listings };
+    }
+    if (Object.values(row).some((s) => s[last] != null)) { aspects[b.id] = row; measured[b.id] = flags; counts[b.id] = cnt; }
+  }
+  if (!Object.keys(aspects).length) return false;
+  p.voice = { ...(p.voice ?? {}), aspects, aspectMeasured: measured, aspectCounts: counts, aspectSource: "amazon-review-summary" };
+  const lanes = p.meta.provenance && p.meta.provenance.lanes;
+  if (lanes && lanes.voice) lanes.voice = { ...lanes.voice, status: "measured", note: VOICE_MEASURED_NOTE };
+  return true;
+}
 
 const round1 = (v: number): number => Math.round(v * 10) / 10;
 
@@ -121,6 +187,9 @@ export function mergeMeasured(payload: unknown, prov: Provenance, extras: Measur
     p.ai.prompts = [];
   }
 
-  p.meta.provenance = { ...prov, lanes: laneStatuses(prov) };
+  const realAspects = extras.reviewAspects ? applyReviewAspects(p, extras.reviewAspects) : false;
+  const lanes = laneStatuses(prov);
+  if (realAspects && lanes.voice) lanes.voice = { ...lanes.voice, status: "measured", note: VOICE_MEASURED_NOTE };
+  p.meta.provenance = { ...prov, lanes };
   return p;
 }

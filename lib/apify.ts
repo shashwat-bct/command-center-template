@@ -10,6 +10,10 @@ export type PdpFields = {
   reviews: 0 | 1;
 };
 
+export type ReviewQuote = { text: string; highlight: string | null; url: string | null };
+
+export type ReviewAspect = { name: string; positive: number; negative: number; total: number; summary: string | null; quotes: ReviewQuote[]; asin?: string };
+
 export type AmazonProduct = {
   asin: string;
   brand: string | null;
@@ -23,6 +27,8 @@ export type AmazonProduct = {
   seller: string | null;
   sellerId: string | null;
   pdp: PdpFields | null;
+  reviewAspects?: ReviewAspect[];
+  reviewSummary?: string | null;
   error?: string;
 };
 
@@ -77,8 +83,28 @@ const avg = (arr: number[]): number | null =>
  * Maps one `junglee~Amazon-crawler` dataset item. Shapes verified against a
  * real run (fixture: scripts/fixtures/apify-amazon-items.json).
  */
+function reviewAspectsOf(summary: unknown): ReviewAspect[] {
+  const keywords = summary && typeof summary === "object" ? (summary as Row).keywords : null;
+  if (!Array.isArray(keywords)) return [];
+  return keywords.flatMap((k): ReviewAspect[] => {
+    const kw = k as Row;
+    const counts = (kw.customersMentionedCount ?? {}) as Row;
+    const name = text(kw.name);
+    const positive = typeof counts.positive === "number" ? counts.positive : 0;
+    const negative = typeof counts.negative === "number" ? counts.negative : 0;
+    if (!name || positive + negative === 0) return [];
+    const quotes = (Array.isArray(kw.partialReviews) ? kw.partialReviews : []).flatMap((r): ReviewQuote[] => {
+      const full = text((r as Row).text);
+      const highlight = text((r as Row).highlightedPart);
+      return full || highlight ? [{ text: full ?? highlight ?? "", highlight, url: text((r as Row).url) }] : [];
+    }).slice(0, 4);
+    return [{ name, positive, negative, total: typeof counts.total === "number" ? counts.total : positive + negative, summary: text(kw.text), quotes }];
+  });
+}
+
 export function parseAmazonItem(asin: string, row: Row, now: Date = new Date()): AmazonProduct {
   const seller = row.seller;
+  const summary = row.aiReviewsSummary && typeof row.aiReviewsSummary === "object" ? (row.aiReviewsSummary as Row) : null;
   return {
     asin,
     brand: text(row.brand),
@@ -99,6 +125,8 @@ export function parseAmazonItem(asin: string, row: Row, now: Date = new Date()):
       specs: count(row.productOverview) > 0 ? 1 : 0,
       reviews: row.hasReviews === true ? 1 : 0,
     },
+    reviewAspects: reviewAspectsOf(summary),
+    reviewSummary: summary ? text(summary.text) : null,
   };
 }
 

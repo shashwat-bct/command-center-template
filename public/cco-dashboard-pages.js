@@ -397,45 +397,93 @@ P.voice = (host) => {
     rows.sort((x, y) => dir > 0 ? y.v - x.v : x.v - y.v);
     return rows[0];
   }
+  const realAspects = d.voice.aspectSource === "amazon-review-summary";
+  const aspCount = (b, a) => ((d.voice.aspectCounts || {})[b] || {})[a] || null;
+  const quoteHtml = (q, opts = {}) => {
+    const full = typeof q === "string" ? q : q.text || "";
+    const hl = typeof q === "string" ? null : q.highlight;
+    let body = esc(full);
+    if (hl) { const at = body.toLowerCase().indexOf(esc(hl).toLowerCase()); if (at >= 0) body = `${body.slice(0, at)}<b style="font-weight:600;color:var(--ink)">${body.slice(at, at + esc(hl).length)}</b>${body.slice(at + esc(hl).length)}`; }
+    const link = typeof q !== "string" && q.url ? ` <a href="${esc(q.url)}" target="_blank" rel="noopener" style="color:var(--accent);font-style:normal;white-space:nowrap">view review ↗</a>` : "";
+    return `<div style="font-size:${opts.small ? "12.5px" : "13.5px"};line-height:1.55;color:var(--soft)">\u201c${body}\u201d${link}</div>`;
+  };
   const withheld = d.dims.brands.filter((b) => !d.voice.aspects[b.id]);
-  const anyAspect = withheld.length < d.dims.brands.length;
+  const anyAspect = realAspects && withheld.length < d.dims.brands.length;
   const velOf = (b) => (d.voice.velocity[b] ? sum(slice(d.voice.velocity[b])) : null);
   host.innerHTML = `
-  ${intro(`Rating, review velocity and the aspect scores behind them. Aspect scores run over the months the
-    captured reviews actually span rather than the thirteen weeks of the panel, and a brand without scorable
-    reviews is withheld rather than filled in.`)}
-  <div class="grid g4" style="margin-bottom:14px">
+  ${intro(`Rating and review velocity from Keepa's daily Amazon history${anyAspect ? `, and what reviewers say about each aspect from Amazon's own review summaries` : ""}. A brand or aspect without enough reviews to score is withheld rather than filled in.`)}
+  <div class="grid ${anyAspect ? "g4" : "g2"}" style="margin-bottom:14px">
     ${metricKpi("rating", S)}
     ${kpi({ label: "Reviews in window", dot: B(S).color, value: velOf(S) == null ? "—" : F.k(velOf(S)),
       note: (() => { const lead = BIDS().map((b) => ({ b, v: velOf(b) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0];
         return !lead ? "Not measured" : lead.b === S ? "The most new reviews in the set" : `Against ${F.k(lead.v)} for ${B(lead.b).label}`; })() })}
     ${!anyAspect ? "" : `${kpi({ label: "Strongest aspect", dot: "#1e8e3e", value: (() => { const a = topAspect(S, 1); return a ? String(a.v) : "—"; })(),
-      note: (() => { const a = topAspect(S, 1); return a ? `${a.k} · ${AM[last]}` : "No aspect scored"; })() })}
+      note: (() => { const a = topAspect(S, 1); return a ? `${a.k} · % of mentions positive` : "No aspect scored"; })() })}
     ${kpi({ label: "Weakest aspect", dot: "#d93025", value: (() => { const a = topAspect(S, -1); return a ? String(a.v) : "—"; })(),
-      note: (() => { const a = topAspect(S, -1); return a ? `${a.k} · ${AM[last]}` : "No aspect scored"; })() })}`}
+      note: (() => { const a = topAspect(S, -1); return a ? `${a.k} · % of mentions positive` : "No aspect scored"; })() })}`}
   </div>
   ${!anyAspect ? `<div class="grid g2">
     ${card({ title: "Rating through the quarter", help: "Keepa's daily Amazon star rating, averaged across each brand's tracked listings.", sub: "Daily Amazon star rating across each brand's tracked listings.", slot: "vcLine" })}
     ${card({ title: "Review velocity", help: "New Amazon reviews per day, from the daily change in Keepa's review count. One-day jumps where Amazon regroups variant listings are not counted.", sub: "New Amazon reviews per day.", slot: "vcVel" })}
   </div>` : `<div class="grid g2">
-    ${card({ title: "Aspect scores by brand", help: "What reviewers praise and complain about, scored per aspect from the captured review text. A row is withheld where a brand's reviews carried too few mentions of that aspect to score — an unscored aspect is silence, not a bad score.", sub: `Latest captured month (${AM[last]}). Where a brand's reviews carried too few aspect mentions to score, the row is withheld rather than filled${withheld.length ? ` — which is why ${withheld.map((b) => b.label).join(" and ")} ${withheld.length === 1 ? "is" : "are"} hatched right across` : ""}.`, slot: "vcHeat" })}
-    ${card({ title: "Rating through the quarter", help: "The star rating, weighted by rating count rather than by review. The level is captured; the drift across the window is modelled from review velocity.", sub: "Daily weighted star rating across each brand's tracked listings.", slot: "vcLine" })}
+    ${card({ title: "Aspect scores by brand", help: "Amazon summarises each listing's reviews into aspects and counts how many customers mention each one positively or negatively. The score is the share of those mentions that are positive, added up across the brand's tracked listings. Fewer than four mentions is withheld.", sub: "Share of review mentions that are positive, per aspect, from Amazon's \u201cCustomers say\u201d summaries. Hover a cell for the counts.", slot: "vcHeat" })}
+    ${card({ title: "Rating through the quarter", help: "Keepa's daily Amazon star rating, averaged across each brand's tracked listings. Days without a reading carry the last one.", sub: "Daily Amazon star rating across each brand's tracked listings.", slot: "vcLine" })}
   </div>
   <div class="grid g2" style="margin-top:14px">
-    ${card({ title: `${SUBJ} aspects, ${AM[0]} to ${AM[last]}`, help: "The subject's aspect scores month by month, so a complaint that is growing reads as growth rather than as a level. Months that had a real reading are passed through untouched.", sub: "Monthly score per aspect over the twelve months the captured reviews span. Months with a real reading are passed through; the rest are modelled around them.", slot: "vcTrend" })}
+    ${card({ title: `What reviewers say about ${SUBJ}`, help: "Positive and negative mentions per aspect across the subject's tracked Amazon listings, with snippets Amazon highlights from the reviews themselves.", sub: "Positive against negative mentions per aspect, with what reviewers actually wrote.", slot: "vcTrend" })}
     ${card({ title: "Review velocity", help: "New reviews arriving per day. It is a demand proxy rather than a sentiment one: rating says how people feel, velocity says how many are arriving to feel it.", sub: "Reviews arriving per day. Volume is what makes a rating hard to move — in either direction.", slot: "vcVel" })}
   </div>`}
+  ${anyAspect ? "" : `<div style="margin-top:14px">${card({ title: "Aspect scores by brand", help: "Scored from the per-aspect positive and negative mention counts in Amazon's review summaries for each brand's tracked listings.", sub: "What reviewers praise and complain about, per aspect.", html: `<div class="withheld-card"><b>Arrives with the next build</b><p>This dashboard was built before aspect scores were read from Amazon's review summaries. Rebuild ${esc(SUBJ)} to see real scores, with the review snippets behind them.</p></div>` })}</div>`}
   <h2 class="sec">What the reviews say</h2>${readsBlock("voice")}`;
 
   if (anyAspect) CC.heatmap(el("vcHeat"), { rows: d.dims.brands, cols: d.dims.aspects.map((a) => ({ id: a, label: a })), corner: "Brand ╲ Aspect",
     rowLabel: (r) => r.label, rowDot: (r) => r.color, colLabel: (c) => c.label,
     value: (r, c) => (asp(r.id, c.id) || [])[last] ?? null, fmtV: (v) => Math.round(v),
-    scaleNote: `Aspect score, ${AM[last]} — hatched means not scorable from the captured reviews`,
-    tip: (r, c, v) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>${AM[last]}</span><b class="tnum">${Math.round(v)}</b></div>` });
+    scaleNote: "% of review mentions that are positive — hatched means too few mentions to score · click a cell for the products and reviews behind it",
+    onPick: (r, c) => showAspect(r.id, c.id),
+    tip: (r, c, v) => { const n = aspCount(r.id, c.id); return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>Positive</span><b class="tnum">${Math.round(v)}%</b></div>${n ? `<div class="r sub"><span>Mentions</span><b class="tnum">${n.positive} positive · ${n.negative} negative</b></div>` : ""}`; } });
   CC.line(el("vcLine"), { height: 220, x: ds, series: brandSeries((b) => d.voice.rating[b]), zero: false, fmtV: (v) => F.star(v), fmtY: (v) => v.toFixed(1) });
-  if (anyAspect) CC.line(el("vcTrend"), { height: 250, x: AM, xTicks: 6, fmtX: (m) => m, fmtTip: (m) => m, fmtV: (v) => Math.round(v),
-    series: d.dims.aspects.map((a, i) => ({ id: a, label: a, color: ["#1a73e8", "#ea4335", "#fbbc04", "#34a853", "#9334e6", "#12b5cb", "#e8710a", "#80868b"][i],
-      data: asp(S, a) })).filter((x) => x.data) });
+  if (anyAspect) {
+    const rows = d.dims.aspects.map((a) => ({ a, n: aspCount(S, a) })).filter((x) => x.n).sort((x, y) => (y.n.positive + y.n.negative) - (x.n.positive + x.n.negative));
+    el("vcTrend").innerHTML = rows.length ? rows.map(({ a, n }) => { const tot = n.positive + n.negative; return `<div class="vc-asp" data-a="${esc(a)}" style="padding:10px 0;border-bottom:1px solid var(--line2);cursor:pointer">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc(a)}</b><span class="mini">${n.positive} positive · ${n.negative} negative</span></div>
+      <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin:6px 0;gap:2px"><i style="flex:${n.positive || 0.0001};background:#1e8e3e"></i><i style="flex:${n.negative || 0.0001};background:#d93025"></i></div>
+      <div style="display:grid;gap:4px">${(n.quotes || []).slice(0, 2).map((q) => quoteHtml(q, { small: true })).join("")}</div></div>`; }).join("") : `<div class="withheld-card"><p>Amazon's review summaries carry no aspects for ${SUBJ}.</p></div>`;
+  }
+  $$("#vcTrend .vc-asp").forEach((row) => { row.onclick = () => showAspect(S, row.dataset.a); });
+  function showAspect(bid, a) {
+    const n = aspCount(bid, a);
+    const score = (asp(bid, a) || [])[last];
+    const all = d.dims.brands.map((b) => ({ b, v: (asp(b.id, a) || [])[last] })).filter((x) => x.v != null).sort((x, y) => y.v - x.v);
+    const avg = all.length ? Math.round(mean(all.map((x) => x.v))) : null;
+    const best = all[0];
+    const modelOf = (asin) => d.dims.models.find((m) => m.asin === asin);
+    const tile = (k, v, note) => `<div style="flex:1;min-width:110px;padding:12px 14px;border:1px solid var(--line);border-radius:12px"><div class="mini">${k}</div><div style="font-family:var(--fd);font-size:22px;margin-top:2px">${v}</div>${note ? `<div class="mini">${note}</div>` : ""}</div>`;
+    const tiles = `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+      ${tile("Score", score != null ? String(score) : "—", "% of mentions positive")}
+      ${tile("Mentions", n ? `${n.positive + n.negative}` : "—", n ? `${n.positive} positive · ${n.negative} negative` : "")}
+      ${tile("Category average", avg != null ? String(avg) : "—", score != null && avg != null ? `${score >= avg ? "+" : ""}${score - avg} points` : "")}
+      ${tile("Best on this aspect", best ? esc(best.b.label) : "—", best ? `scores ${best.v}` : "")}</div>`;
+    const compare = all.length ? `<h4 style="font-size:13px;font-weight:500;margin:0 0 8px">Every brand on ${esc(a.toLowerCase())}</h4><div class="cc-hb">${all.map(({ b, v }) => `<div class="cc-hb-row${b.id === bid ? " subject" : ""}"><span class="lb">${esc(b.label)}</span><span class="tr"><i style="width:${v}%;background:${b.color}"></i></span><b class="tnum vv">${v}</b></div>`).join("")}</div>` : "";
+    const listings = (n && n.listings) || [];
+    const prodHtml = listings.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">Which products drive it</h4>${table([
+      { label: "Product", lft: true, get: (l) => esc((modelOf(l.asin) || {}).label || l.asin) },
+      { label: "Positive", get: (l) => `<span class="tnum" style="color:var(--good)">${l.positive}</span>` },
+      { label: "Negative", get: (l) => `<span class="tnum" style="color:var(--risk)">${l.negative}</span>` },
+      { label: "Score", get: (l) => { const t = l.positive + l.negative; return t ? `<b class="tnum">${Math.round((l.positive / t) * 100)}</b>` : "—"; } },
+      { label: "Reviews", get: (l) => `<a href="https://www.amazon.com/product-reviews/${encodeURIComponent(l.asin)}" target="_blank" rel="noopener" style="color:var(--accent)">read ↗</a>` },
+    ], listings.slice().sort((x, y) => (y.positive + y.negative) - (x.positive + x.negative)))}` : "";
+    const byProduct = listings.slice().sort((x, y) => (y.positive + y.negative) - (x.positive + x.negative)).map((l) => {
+      const t = l.positive + l.negative;
+      return `<div style="padding:14px 0;border-top:1px solid var(--line2)">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc((modelOf(l.asin) || {}).label || l.asin)}</b><span class="mini">${t ? `${Math.round((l.positive / t) * 100)} · ` : ""}${l.positive} positive · ${l.negative} negative</span></div>
+        ${l.summary ? `<div style="font-size:13px;color:var(--ink);margin:6px 0 8px;line-height:1.5">${esc(l.summary)} <span class="mini">— Amazon's summary</span></div>` : ""}
+        <div style="display:grid;gap:8px">${(l.quotes || []).map((q) => quoteHtml(q)).join("")}</div></div>`;
+    }).join("");
+    const quoteHtmlBlock = listings.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 4px">What reviewers wrote, by product</h4>${byProduct}<p class="mini" style="margin:10px 0 0">Amazon's own aspect summary and the review sentences it tagged for this aspect, with its highlighted phrase in bold. Each links to the full review.</p>`
+      : (n && n.quotes && n.quotes.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">What reviewers wrote</h4><div style="display:grid;gap:8px">${n.quotes.map((q) => quoteHtml(q)).join("")}</div>` : "");
+    openDrawer(`${esc(B(bid).label)} · ${esc(a)}`, score != null ? `${score}% of ${n ? n.positive + n.negative : 0} review mentions are positive` : "Too few mentions to score", tiles + compare + prodHtml + quoteHtmlBlock);
+  }
   CC.line(el("vcVel"), { height: 250, x: ds, area: true, series: brandSeries((b) => d.voice.velocity[b]), fmtV: F.n, fmtY: F.k });
 };
 

@@ -249,9 +249,10 @@ async function send() {
 // nothing. Point it back at the site it was exported from so Ask still works.
     const api = location.protocol === "http:" || location.protocol === "https:"
       ? "/api/llm" : (root.__CCO_API_BASE || "https://atlas.brandcontext.ai") + "/api/llm";
+    const auth = api === "/api/llm" ? (root.__CC_AUTH || null) : "Bearer " + (await token());
     const res = await fetch(api, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Bearer " + (await token()) },
+      headers: { "Content-Type": "application/json", ...(auth ? { Authorization: auth } : {}) },
       body: JSON.stringify({ system: sys, messages: msgs, max_tokens: 700, temperature: 0.2 }),
     }).then((r) => r.json());
     const text = (res.content || []).filter((b) => b.type === "text").map((b) => b.text).join("\n").trim();

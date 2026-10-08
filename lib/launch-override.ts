@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import type { KeepaBrandAggregate } from "./keepa";
 import { brandAliases, type AiSoMResult, type EngineSoM } from "./ai-visibility";
 import { buildAmazonSeries, windowEndFor, type AmazonSeries } from "./amazon-series";
-import type { AmazonProduct, SearchResult } from "./apify";
+import type { AmazonProduct, ReviewAspect, SearchResult } from "./apify";
 import { shelfSnapshot, type ShelfSnapshot } from "./amazon-shelf";
 import { WORLD_VARIATION_SOURCE, retailEventsFor, seededRandom, simulatedAspects } from "./simulated-world";
 
@@ -83,6 +83,7 @@ export type RelabelInputs = {
   aiShares: Record<string, number>;
   aiStageShares: Record<string, Record<string, number>>;
   aiEngineStageShares: Record<string, Record<string, Record<string, number>>>;
+  reviewAspects: Record<string, ReviewAspect[]>;
   applied: AppliedMeasurements;
   record: MeasurementRecord;
 };
@@ -318,5 +319,6 @@ export default {
 };
 `;
 
-  return { launchData, configSource, prompts, series, shelf, aiShares, aiStageShares, aiEngineStageShares, applied, record };
+  const reviewAspects = Object.fromEntries(Object.entries(series.listings).map(([slot, listings]) => [slot, listings.flatMap((l) => (input.apify?.get(l.asin)?.reviewAspects ?? []).map((a) => ({ ...a, asin: l.asin })))]).filter(([, list]) => list.length));
+  return { launchData, configSource, prompts, series, shelf, aiShares, aiStageShares, aiEngineStageShares, reviewAspects, applied, record };
 }

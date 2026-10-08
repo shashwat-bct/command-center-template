@@ -3,6 +3,8 @@ import { bearerToken, isAdmin, tokenIsValid } from "@/lib/admin-auth";
 import { expireIfStale, getLatestBuild, getLatestBuildForBrand } from "@/lib/bq";
 import { isServable, loadBuildPayload, loadLatestPayload, payloadResponse, retiredResponse } from "@/lib/payload-source";
 import { SHARE_HEADERS, checkShareToken } from "@/lib/share-response";
+import { withReviewAspects } from "@/lib/aspect-backfill";
+import type { PayloadSource } from "@/lib/payload-source";
 import { isShareId, slugForShareId } from "@/lib/share-id";
 
 // GET /api/payloads/<share id>          → the latest ready payload of that brand (no credentials)
@@ -12,6 +14,9 @@ import { isShareId, slugForShareId } from "@/lib/share-id";
 //
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 300;
+
+const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: await withReviewAspects(slug, source.buildId, source.bytes) });
 
 const SHARE_STATUS = { expired: 410, invalid: 401, config: 500 } as const;
 
@@ -31,7 +36,7 @@ async function sharedPayload(slug: string, token: string): Promise<Response> {
     return Response.json({ error: "payload not found" }, { status: 404, headers: SHARE_HEADERS });
   }
   if (!isServable(source)) return retiredResponse({ ...SHARE_HEADERS });
-  const res = payloadResponse(source, SHARE_HEADERS["cache-control"]);
+  const res = payloadResponse(await enrich(slug, source), SHARE_HEADERS["cache-control"]);
   for (const [k, v] of Object.entries(SHARE_HEADERS)) res.headers.set(k, v);
   return res;
 }
@@ -42,7 +47,7 @@ async function payloadById(id: string): Promise<Response> {
   const source = await loadLatestPayload(slug);
   if (source) {
     if (!isServable(source)) return retiredResponse({ ...SHARE_HEADERS });
-    const res = payloadResponse(source, SHARE_HEADERS["cache-control"]);
+    const res = payloadResponse(await enrich(slug, source), SHARE_HEADERS["cache-control"]);
     for (const [k, v] of Object.entries(SHARE_HEADERS)) res.headers.set(k, v);
     return res;
   }
@@ -65,10 +70,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
   if (build) {
     const source = await loadBuildPayload(slug, build);
     if (!source) return new Response("not found", { status: 404 });
-    return isServable(source) ? payloadResponse(source, "private, max-age=300") : retiredResponse();
+    return isServable(source) ? payloadResponse(await enrich(slug, source), "private, max-age=300") : retiredResponse();
   }
 
   const source = await loadLatestPayload(slug);
   if (!source) return new Response("not found", { status: 404 });
-  return isServable(source) ? payloadResponse(source, "private, max-age=60") : retiredResponse();
+  return isServable(source) ? payloadResponse(await enrich(slug, source), "private, max-age=60") : retiredResponse();
 }
