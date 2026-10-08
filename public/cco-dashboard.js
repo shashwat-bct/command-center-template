@@ -349,6 +349,24 @@ function fillModelledDelivery(p) {
   }
   return p;
 }
+const PAGE_LANES = { traffic: "traffic", tco: "tco" };
+const LANE_METRICS = { traffic: ["trafficShare", "sessions"] };
+function hideModelledLanes(p) {
+  const lanes = (p.meta && p.meta.provenance && p.meta.provenance.lanes) || {};
+  const gone = Object.keys(PAGE_LANES).filter((pg) => lanes[PAGE_LANES[pg]] && lanes[PAGE_LANES[pg]].status === "modelled");
+  if (!gone.length) return p;
+  p.meta.hiddenPages = gone;
+  const metrics = new Set(gone.flatMap((pg) => LANE_METRICS[pg] || []));
+  if (metrics.size) {
+    p.dims.metrics = (p.dims.metrics || []).filter((m) => !metrics.has(m.id));
+    for (const cadence of Object.values(p.scorecard || {})) for (const m of metrics) delete cadence[m];
+    for (const m of metrics) { if (p.trend) delete p.trend[m]; if (p.meta.provenance.metrics) delete p.meta.provenance.metrics[m]; }
+  }
+  for (const pg of gone) if (p.reads) delete p.reads[pg];
+  if (gone.includes("traffic") && p.reads && Array.isArray(p.reads.overview)) p.reads.overview = p.reads.overview.filter((r) => !/traffic|sessions/i.test(typeof r === "string" ? r : (r && r.text) || ""));
+  return p;
+}
+const isHiddenPage = (id) => !!(D && D.meta && (D.meta.hiddenPages || []).includes(id));
 const PLACEHOLDER_BRAND = /^Competitor \d+$/;
 function rerankCells(cells, good) {
   const present = Object.values(cells).filter((c) => c && c.value != null);
@@ -386,7 +404,7 @@ function dropPlaceholderBrands(p) {
   return p;
 }
 bootData.then((json) => {
-  D = CC.googlePalette(fillModelledDelivery(shortModelLabels(dropPlaceholderBrands(json)))); F = CC.fmt;
+  D = CC.googlePalette(fillModelledDelivery(shortModelLabels(hideModelledLanes(dropPlaceholderBrands(json))))); F = CC.fmt;
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);
   buildNav(); buildControls(); buildBrand(); labelSimChip();
@@ -432,7 +450,8 @@ function buildNav() {
     groups.splice(i, 0, g);
   }
   groups.push(...tail, ...NAV.slice(-1));
-  $("#nav").innerHTML = groups.map((g) => `<div class="nav-grp${g.ext ? " ext" : ""}"><h5>${g.label}</h5>${g.pages.map((p) =>
+  const visible = groups.map((g) => ({ ...g, pages: g.pages.filter((p) => !isHiddenPage(p.id)) })).filter((g) => g.pages.length);
+  $("#nav").innerHTML = visible.map((g) => `<div class="nav-grp${g.ext ? " ext" : ""}"><h5>${g.label}</h5>${g.pages.map((p) =>
     `<a href="#${p.id}" data-p="${p.id}" title="${p.label}"${laneOf(p.id) && laneOf(p.id).status === "not_measured" ? ' class="nm"' : ""}>${icon(p.icon, p.svg)}<span>${(laneOf(p.id) || {}).label || p.label}</span>${p.pill ? `<span class="pill">${p.pill}</span>` : ""}</a>`).join("")}</div>`).join("");
   $("#railToggle").onclick = () => {
     document.body.classList.toggle("rail-collapsed");
@@ -471,6 +490,7 @@ function srcStatus(def) {
 }
 function route() {
   const id = (location.hash || "#scorecard").slice(1);
+  if (isHiddenPage(id)) { location.replace("#scorecard"); return; }
   page = allPages().some((p) => p.id === id) ? id : "scorecard";
   const def = pageDef(page);
   const title = (laneOf(page) || {}).label || def.title;

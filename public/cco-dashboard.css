@@ -376,3 +376,4 @@ table.sc td.is-nm .v{color:var(--mute);font-weight:400}
 .cc-loader-link{font:500 14px var(--fg);color:var(--accent);text-decoration:none}
 @keyframes ccSpin{to{transform:rotate(360deg)}}
 .simchip[hidden]{display:none}
+.page h2.sec:last-child,.page h2.sec:has(+ h2.sec){display:none}

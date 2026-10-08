@@ -591,7 +591,7 @@
     const { svg, W, H, m, iw, ih } = frame(host, Object.assign({ margin: { t: 18, r: 22, b: 44, l: 56 } }, spec));
     const pts = spec.points;
     const xd = nice(Math.max(...pts.map((p) => p.x)) * 1.12, spec.xZero === false ? Math.min(...pts.map((p) => p.x)) * 0.94 : 0);
-    const yd = nice(Math.max(...pts.map((p) => p.y)) * 1.14, spec.yZero === false ? Math.min(...pts.map((p) => p.y)) * 0.92 : 0);
+    const yd = nice(spec.yMax != null ? Math.min(spec.yMax, Math.max(...pts.map((p) => p.y)) * 1.14) : Math.max(...pts.map((p) => p.y)) * 1.14, spec.yZero === false ? Math.min(...pts.map((p) => p.y)) * 0.92 : 0);
     const X = (v) => m.l + ((v - xd.lo) / (xd.hi - xd.lo)) * iw;
     const Y = (v) => m.t + ih - ((v - yd.lo) / (yd.hi - yd.lo)) * ih;
     const g = el("g"); svg.appendChild(g);

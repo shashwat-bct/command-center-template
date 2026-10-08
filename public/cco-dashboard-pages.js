@@ -32,11 +32,14 @@ const GROUPS = [
    ══════════════════════════════════════════════════════════════════════════ */
 P.scorecard = (host) => {
   const p = period(), d = D();
-  const hi = ["trafficShare", "aiSov", "shelfSov", "carriage", "priceIndex", "promoIntensity"];
+  const has = (id) => d.dims.metrics.some((m) => m.id === id);
+  const nMeasures = d.dims.metrics.length;
+  const numWord = (n) => ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"][n] || String(n);
+  const hi = ["trafficShare", "aiSov", "shelfSov", "carriage", "inStock", "priceIndex", "promoIntensity", "rating"].filter(has).slice(0, 6);
   host.innerHTML = `
   ${intro(`Thirteen weeks of the ${SUBJ} commercial position, read at three cadences on one page.
     The <b>${esc(p.long.toLowerCase())}</b> view below covers <b>${F.dateY(d.dims.dates[p.cur[0]])} – ${F.dateY(d.dims.dates[p.cur[1]])}</b>,
-    compared <b>${esc(p.cmp)}</b>. Every driver in the rail resolves to one of the twelve measures in the scorecard, so a
+    compared <b>${esc(p.cmp)}</b>. Every driver in the rail resolves to one of the ${numWord(nMeasures)} measures in the scorecard, so a
     number that moves here has a page behind it that says why.`,
     `<div class="card tint" style="min-width:250px"><div class="card-h"><div class="ct"><h3>Cadence</h3><p>${esc(p.long)}</p></div></div>
       <div style="font-family:var(--fm);font-size:12px;line-height:1.9;color:var(--soft)">
@@ -45,7 +48,7 @@ P.scorecard = (host) => {
         <div><b style="color:var(--ink)">Retailers</b> · ${d.dims.retailers.length === 1 ? `${RT(d.dims.retailers[0].id).label} only` : U.retailer === "all" ? `all ${d.dims.retailers.length}` : RT(U.retailer).label}</div>
       </div></div>`)}
   <div class="grid g3" style="margin-bottom:14px">${hi.map((m) => metricKpi(m, S)).join("")}</div>
-  ${card({ title: `The twelve measures, ${d.dims.brands.length} brands, one page`, help: "The full scorecard: every driver in the rail resolves to one of these twelve measures, read at the cadence selected above. Rank is computed on each measure's own direction, so on delivery promise and discount depth a lower number ranks better. The sparkline is always the thirteen weekly readings, whatever cadence is showing.", sub: `${SUBJ} column highlighted. Rank is computed on each measure's own direction — on delivery promise and promotional depth a lower number ranks better. Sparkline is the 13 weekly readings, regardless of the cadence selected.`, tag: "360° scorecard", tagCls: "acc", html: `<div class="sc-wrap" id="scTable"></div>` })}
+  ${card({ title: `The ${numWord(nMeasures)} measures, ${d.dims.brands.length} brands, one page`, help: "The full scorecard: every driver in the rail resolves to one of these measures, read at the cadence selected above. Rank is computed on each measure's own direction, so on delivery promise and discount depth a lower number ranks better. The sparkline is always the thirteen weekly readings, whatever cadence is showing.", sub: `${SUBJ} column highlighted. Rank is computed on each measure's own direction — on delivery promise and promotional depth a lower number ranks better. Sparkline is the 13 weekly readings, regardless of the cadence selected.`, tag: "360° scorecard", tagCls: "acc", html: `<div class="sc-wrap" id="scTable"></div>` })}
   <div class="grid g2" style="margin-top:14px">
     ${card({ title: "Where each brand stands", help: "A radar of eight measures, each rescaled across the brands in the set, so the outer edge is the best in this category rather than an absolute. It answers shape rather than size: a brand strong everywhere looks round, a brand with one weapon looks like a star.", sub: "One shape per brand, each over the same grey category average. Read the spikes: a brand that is strong everywhere looks round, a brand with one weapon looks like a star.", slot: "scRadar" })}
     ${card({ title: "Rank movement through the quarter", help: "Weekly position rather than weekly level. A share chart answers how much; this answers who is winning, which is a different question. Measures are offered most-volatile first, so a flat chart means the order held all quarter — itself a finding.", sub: "Weekly rank, not level — it answers who is winning, which a share chart does not.",
@@ -60,7 +63,7 @@ P.scorecard = (host) => {
 
   // ── the scorecard table
   const rows = [];
-  for (const g of GROUPS) {
+  for (const g of GROUPS.map((x) => ({ ...x, metrics: x.metrics.filter(has) })).filter((x) => x.metrics.length)) {
     rows.push(`<tr class="grp"><td class="lft" colspan="7">${g.label}</td></tr>`);
     for (const mid of g.metrics) {
       const md = metricDef(mid), f = fmtFor(mid);
@@ -84,7 +87,7 @@ P.scorecard = (host) => {
     { id: "trafficShare", label: "Traffic" }, { id: "aiSov", label: "AI" }, { id: "shelfSov", label: "Shelf" },
     { id: "carriage", label: "Distr." }, { id: "inStock", label: "Stock" }, { id: "priceIndex", label: "Price" },
     { id: "rating", label: "Rating" }, { id: "pdpScore", label: "Page" },
-  ];
+  ].filter((a) => has(a.id));
   // A withheld measure returns null, not a middle value: half-way along the
   // axis is a position the brand has not been measured to hold.
   const norm = (mid, b) => { const vals = BIDS().map((x) => sc(mid, x).value).filter((v) => v != null);
@@ -290,10 +293,12 @@ P.ai = (host) => {
   <h2 class="sec">What the answer share says</h2>${readsBlock("ai")}`;
 
   const aiReadings = (d.ai.history || []).length;
-  if (aiReadings === 1) {
+  const aiDays = new Set(d.dims.brands.flatMap((b) => slice(d.ai.overall[b.id] || []).map((v, i) => (v == null ? null : i)).filter((i) => i != null)));
+  const aiFlat = aiDays.size < 2 || (() => { const firstIdx = Math.min(...aiDays); return firstIdx >= slice(d.dims.dates).length - 2; })();
+  if (aiReadings >= 1 && aiFlat) {
     const latest = (s) => { for (let i = (s || []).length - 1; i >= 0; i--) if (s[i] != null) return s[i]; return null; };
     const rows = d.dims.brands.map((b) => ({ label: b.label, color: b.color, subject: b.subject, value: latest(d.ai.overall[b.id]) })).filter((r) => r.value != null).sort((a, z) => z.value - a.value);
-    el("aiLine").insertAdjacentHTML("beforebegin", `<p class="mini" style="margin:0 0 12px">One reading so far, taken ${F.dateY(d.ai.history[0].date)}. The daily line starts once a second build reads the engines again.</p>`);
+    el("aiLine").insertAdjacentHTML("beforebegin", `<p class="mini" style="margin:0 0 12px">${aiReadings === 1 ? `One reading so far, taken ${F.dateY(d.ai.history[0].date)}.` : `Latest of ${aiReadings} readings, taken ${F.dateY(d.ai.history[aiReadings - 1].date)}.`} The daily line fills in as builds read the engines on more days inside the window.</p>`);
     CC.hbars(el("aiLine"), { rows, max: Math.max(...rows.map((r) => r.value), 1), fmtV: (v) => F.pct(v) });
   } else {
     CC.line(el("aiLine"), { height: 250, x: ds, series: brandSeries((b) => d.ai.overall[b]), bands: winBands(), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%" });
@@ -611,7 +616,7 @@ P.carriage = (host) => {
   CC.hbars(el("dsBars"), { rows: d.dims.brands.map((b) => ({ label: b.label, value: sc("carriage", b.id).value || 0, color: b.color, subject: b.id === S,
     note: `${pairsFor(b.id, rts).length} live cells` })).sort((a, b) => b.value - a.value), fmtV: (v) => F.pct(v) });
   const mk = d.distribution.listings.filter((l) => rts.includes(l.retailer) && l.sellers > 1);
-  CC.scatter(el("dsScatter"), { height: 240, xLabel: "Sellers on the listing", yLabel: "Buy-box ownership", yZero: false,
+  CC.scatter(el("dsScatter"), { height: 240, xLabel: "Sellers on the listing", yLabel: "Buy-box ownership", yZero: false, yMax: 100,
     fmtX: (v) => String(Math.round(v)), fmtY: (v) => F.pct(v, 0), sized: false,
     points: mk.map((l) => ({ label: MD(l.model).label, color: B(l.brand).color, x: l.sellers, y: l.buybox * 100, r: 1,
       tip: `<div class="h">${MD(l.model).label} · ${RT(l.retailer).label}</div><div class="r"><i style="background:${B(l.brand).color}"></i><span>${B(l.brand).label}</span></div><div class="r"><span>Sellers</span><b class="tnum">${l.sellers}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct(l.buybox * 100)}</b></div>` })) });
@@ -661,7 +666,7 @@ P.stock = (host) => {
   CC.line(el("avLine"), { height: 240, x: ds, bands: winBands(), min: Math.max(0, Math.floor((stockLo - 4) / 5) * 5), max: 100,
     fmtV: (v) => F.pct(v), fmtY: (v) => v + "%", series: stockSeries });
   const subjPairs = pairsFor(S, rts);
-  if (d.dims.cities.length) CC.heatmap(el("avHeat"), { rows: d.dims.models.filter((m) => m.brand === S), cols: d.dims.cities, corner: "Model ╲ City", ramp: "red", invert: true,
+  if (d.dims.cities.length) CC.heatmap(el("avHeat"), { rows: d.dims.models.filter((m) => m.brand === S), cols: d.dims.cities, corner: "Model ╲ City", ramp: "red", invert: true, min: 80, max: 100,
     rowLabel: (r) => r.label, colLabel: (c) => c.label.split(",")[0], fmtV: (v) => F.pct(v, 0), scaleNote: "In-stock rate",
     value: (r, c) => { const ks = subjPairs.filter((k) => k.startsWith(r.id + "|"));
       const v = ks.map((k) => d.availability.byCity[`${k}|${c.id}`]).filter((x) => x != null);
@@ -869,7 +874,7 @@ P.promotions = (host) => {
     ${card({ title: "How deep it goes when it does", help: "The mean discount across only the listings actually on promotion, so it is not diluted by the ones that are not. The line breaks on days with nothing running: a gap is silence, not a zero-percent discount.", sub: "Mean depth across the listings actually on promotion. The line breaks on days when the brand had nothing running — a gap is silence, not a zero-percent discount.", slot: "pmDepth" })}
   </div>
   <div class="grid g3" style="margin-top:14px">
-    ${card({ title: "Mechanic mix", help: "Listing-days by promotional mechanic — the inner ring is the family, the outer the mechanics inside it. A price give and a finance offer cost very different things and reach very different shoppers.", sub: "Listing-days by mechanic across the whole window, including the always-on ones. Inner ring is the family, outer ring the mechanics inside it — hover for the split.", slot: "pmSun" })}
+    ${card({ title: `How ${SUBJ} promotes`, help: "Listing-days by promotional mechanic — the inner ring is the family, the outer the mechanics inside it. A price give and a finance offer cost very different things and reach very different shoppers.", sub: `Every mechanic ${SUBJ} ran, by promo-days, coloured by family.`, slot: "pmSun" })}
     ${card({ title: "Depth against duration", help: "Every price event as a single point: how deep it went against how long it ran. Top-right is a deep, long give; bottom-left is a tactical clip.", sub: "Every price event. Top-right is a deep, long give; bottom-left is a tactical clip.", slot: "pmScatter" })}
     ${card({ title: "Where the promotions run", help: "Price-event days by retailer, with the event count and the mean depth behind each. It says which retailer the promotional budget is actually being spent at.", sub: "Price-event days by retailer.", slot: "pmRet" })}
   </div>
@@ -890,13 +895,15 @@ P.promotions = (host) => {
     series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: onDay(b.id) })) });
   CC.line(el("pmDepth"), { height: 240, x: ds, bands: winBands(), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%",
     series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: depthDay(b.id) })) });
-  const allS = d.promotions.events.filter((p) => p.brand === S && rts.includes(p.retailer));
-  const byFam = {};
-  for (const p of allS) { const f = famOf(p.type); if (!f) continue; (byFam[f] = byFam[f] || {})[p.type] = ((byFam[f] || {})[p.type] || 0) + p.days; }
-  CC.sunburst(el("pmSun"), { size: 280, fmtV: (v) => F.n(v) + " days",
-    centre: { value: F.k(Object.values(byFam).reduce((x, o) => x + Object.values(o).reduce((p2, q) => p2 + q, 0), 0)), label: `${SUBJ} promo-days` },
-    groups: d.dims.promoFamilies.filter((f) => byFam[f.id]).map((f) => ({ id: f.id, label: f.label, color: f.color,
-      children: Object.entries(byFam[f.id]).map(([t, v], i) => ({ label: (d.dims.promoTypes.find((x) => x.id === t) || {}).label || t, value: v, color: f.color, opacity: 0.75 - i * 0.16 })) })) });
+  const typeDays = {};
+  for (const p of d.promotions.events.filter((x) => x.brand === S && rts.includes(x.retailer))) typeDays[p.type] = (typeDays[p.type] || 0) + p.days;
+  const mechColor = (t) => { const f = famOf(t); return (d.dims.promoFamilies.find((x) => x.id === f) || {}).color || "#80868b"; };
+  const typeRows = Object.entries(typeDays).sort((x, y) => y[1] - x[1]);
+  const typeTotal = typeRows.reduce((x, [, v]) => x + v, 0);
+  if (typeRows.length) {
+    CC.hbars(el("pmSun"), { rows: typeRows.map(([t, v]) => ({ label: (d.dims.promoTypes.find((x) => x.id === t) || {}).label || t, value: v, color: mechColor(t), sub: (d.dims.promoFamilies.find((x) => x.id === famOf(t)) || {}).label || "" })), fmtV: (v) => `${F.n(v)} days` });
+    el("pmSun").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:10px 0 0">${F.n(typeTotal)} ${SUBJ} promo-days in the window, always-on offers included. The cross-brand mix is on Promotion Strategy.</p>`);
+  } else el("pmSun").innerHTML = `<div class="withheld-card"><p>No ${SUBJ} promotion ran in the window.</p></div>`;
   CC.scatter(el("pmScatter"), { height: 240, xLabel: "Days the event ran", yLabel: "Discount depth", sized: false,
     fmtX: (v) => String(Math.round(v)), fmtY: (v) => F.pct(v, 0),
     points: evs.map((p) => ({ label: MD(p.model).label, color: B(p.brand).color, x: p.days, y: p.depthPct, r: 1,
@@ -1142,8 +1149,7 @@ Price index — street price as a percentage of MSRP, averaged across the brand'
       value: F.pct(st[b.id].intensity), unit: "",
       note: `${F.pct(st[b.id].meanDepth)} mean depth · ${st[b.id].events} events · ${st[b.id].mechanicsUsed} mechanics` })).join("")}
   </div>
-  <div class="grid g2">
-    ${card({ title: "Promotional shape", help: "A radar of how a brand promotes — frequency, depth, breadth, mechanic variety, retailer spread — each axis rescaled across the set. Two brands can spend the same amount and have opposite shapes.", sub: "One shape per brand over the same grey category average. Each axis is scaled across the set, so the outer edge is the most of that dimension in the category, not an absolute.", slot: "stRadar" })}
+  <div>
     ${card({ title: "Frequency against depth", help: "How often a brand discounts against how much it gives when it does. The two together are the strategy: frequent-and-shallow teaches a shopper to wait for nothing in particular, rare-and-deep teaches them to wait for the event.", sub: "The strategy map. Bottom-left holds price and promotes rarely; top-right is always-on and deep. There is no wrong quadrant, only a wrong one for your margin structure.", slot: "stScatter" })}
   </div>
   <div class="grid g2" style="margin-top:14px">
@@ -1152,11 +1158,6 @@ Price index — street price as a percentage of MSRP, averaged across the brand'
   </div>`;
 
   const stAvg = axes.map((ax) => mean(BIDS().map((x) => normAx(ax.id, x))));
-  el("stRadar").innerHTML = `<div style="display:grid;grid-template-columns:repeat(${d.dims.brands.length <= 4 ? 2 : 3},minmax(0,1fr));gap:18px 22px">${
-    d.dims.brands.map((b) => `<div><div style="font-size:11px;font-weight:700;text-align:center;color:${b.color};margin-bottom:2px">${b.label}</div><div id="sr-${b.id}"></div></div>`).join("")}</div>`;
-  for (const b of d.dims.brands) CC.radar(el("sr-" + b.id), { size: d.dims.brands.length <= 4 ? 178 : 152, legend: false, axes,
-    series: [{ id: "avg", label: "Category average", color: "#bdc1c6", values: stAvg, raw: axes.map((ax) => mean(BIDS().map((x) => st[x][ax.id]))) },
-             { id: b.id, label: b.label, color: b.color, subject: true, values: axes.map((ax) => normAx(ax.id, b.id)), raw: axes.map((ax) => st[b.id][ax.id]) }] });
   CC.scatter(el("stScatter"), { height: 280, xLabel: "Share of listing-days on promotion", yLabel: "Mean discount depth",
     fmtX: (v) => F.pct(v, 0), fmtY: (v) => F.pct(v, 0),
     quadrant: { x: mean(BIDS().map((b) => st[b].intensity)), y: mean(BIDS().map((b) => st[b].meanDepth)),
