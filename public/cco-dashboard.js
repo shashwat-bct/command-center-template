@@ -303,8 +303,11 @@ function failLoader(e) {
   $("#ccLoaderMsg").textContent = e && e.friendly ? e.message : "The data didn't load. A reload usually fixes it.";
   $("#ccLoaderActions").hidden = false;
 }
-const MODEL_TAIL = /(\s+(origin|cordless|stick|vacuum|vacuums|cleaner))+$/i;
+const MODEL_FILLER = ["origin", "cordless", "stick", "vacuum", "vacuums", "cleaner", "machine", "machines", "maker", "coffee", "and", "with", "automatic", "fully"];
 function shortModelLabels(p) {
+  const catWords = String((p.meta && p.meta.category) || "").toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2);
+  const filler = [...new Set([...MODEL_FILLER, ...catWords])].map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const MODEL_TAIL = new RegExp(`(\\s+(${filler.join("|")}))+$`, "i");
   const brandOf = new Map(((p.dims && p.dims.brands) || []).map((b) => [b.id, b.label]));
   const models = (p.dims && p.dims.models) || [];
   for (const m of models) {
@@ -312,6 +315,7 @@ function shortModelLabels(p) {
     const rx = brand ? new RegExp(`^${brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s+`, "i") : null;
     let short = String(m.label || "").replace(/[™®©]/g, "").replace(/\s*\S*…$/, "").replace(/\s+/g, " ").trim();
     if (rx) short = short.replace(rx, "");
+    short = short.split(/\s*(?:,|\s[-–|]\s|\()\s*/)[0].trim();
     const trimmed = short.replace(MODEL_TAIL, "").trim();
     m.fullLabel = m.fullLabel || m.label;
     const specific = /\d/.test(trimmed) || trimmed.split(" ").length >= 2;

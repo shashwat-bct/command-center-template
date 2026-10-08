@@ -329,18 +329,28 @@ const ownedOf = (b) => (b.owned && b.owned.length ? b.owned : [`${b.id}.com`]);
 const isOwnedHost = (b, h) => { const host = (h || "").toLowerCase().replace(/^www\./, ""); return b.owned && b.owned.length ? b.owned.some(d => host === d || host.endsWith("." + d)) : new RegExp(`(^|\\.)${b.id}\\.[a-z.]+$`, "i").test(host); };
 // one spelling per model, so a model counts once however the reader wrote it. Per brand, the
 // token that identifies the model on the shelf; a string that carries none stays as written.
-const MODEL_FILLER = /\b(cordless|vacuums?|cleaner|stick|origin|the|with)\b/gi;
+const MODEL_FILLER_WORDS = ["cordless", "vacuum", "vacuums", "cleaner", "stick", "origin", "the", "with", "machine", "machines", "maker", "coffee", "and", "automatic", "fully"];
+let modelFillerRx = null;
+const modelFiller = () => modelFillerRx || (modelFillerRx = new RegExp(`\\b(${[...new Set([...MODEL_FILLER_WORDS, ...String((D && D.category) || "").toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2)])].join("|")})\\b`, "gi"));
 function modelParts(raw, brand) {
   const brandRx = brand ? new RegExp(`\\b${String(brand).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi") : null;
   return String(raw || "").split(/\s*(?:\/|,|;|\bor\b)\s*/i).map((part) => {
-    let clean = part.replace(/[™®©]/g, "");
+    let clean = part.replace(/[™®©]/g, "").replace(/\s*\S*…$/, "");
     if (brandRx) clean = clean.replace(brandRx, "");
-    clean = clean.replace(MODEL_FILLER, "").replace(/\s+/g, " ").trim();
+    clean = clean.split(/\s+[-–|]\s+|\s*\(/)[0].replace(modelFiller(), "").replace(/\s+/g, " ").trim();
     if (!clean) return null;
     const code = /\b([a-z]{1,4}\d{1,4}[a-z]*|\d{1,4}[a-z]{2,})\b/i.exec(clean);
     const line = /^([A-Z][a-z]+[A-Z][A-Za-z]*)\b/.exec(clean);
     return { key: (code ? code[1] : line ? line[1] : clean).toLowerCase(), label: clean };
   }).filter(Boolean);
+}
+function catalogKey(cp, sb, named) {
+  const part = modelParts(cp.label, sb && sb.label)[0];
+  if (!part) return null;
+  if (named.some((x) => x.key === part.key)) return part.key;
+  const hay = ` ${part.label.toLowerCase().replace(/[^a-z0-9]+/g, " ")} `;
+  const hits = named.filter((x) => x.label.length >= 4 && hay.includes(` ${x.label.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()} `)).sort((a, b) => b.label.length - a.label.length || b.n - a.n);
+  return hits.length ? hits[0].key : part.key;
 }
 function canonModel(brand, p) {
   const t = String(p || "").toLowerCase(); let m;
@@ -432,8 +442,9 @@ function renderLenses() {
   const prods = {}; for (const a of AC) for (const b of bs) { const m = mention(a, b); if (!m || !m.product) continue; const raw = m.product.replace(/\s+/g, " ").trim(); const tv = canonModel(b.id, raw); const parts = tv ? [{ key: tv.toLowerCase(), label: tv }] : modelParts(raw, b.label); for (const part of new Map(parts.map((x) => [x.key, x])).values()) { const k = `${b.id}|${part.key}`; prods[k] ||= { n: 0, q: new Set(), e: new Set(), raw: {}, label: {} }; prods[k].n++; prods[k].q.add(a.queryId); prods[k].e.add(a.engine); prods[k].raw[raw] = (prods[k].raw[raw] || 0) + 1; prods[k].label[part.label] = (prods[k].label[part.label] || 0) + 1; } }
   const pLabel = (k) => byDesc(prods[k].label)[0][0];
   const catalog = (D.catalog && D.catalog.products) || [];
-  const catByKey = new Map(catalog.flatMap((cp) => { const part = modelParts(cp.label, sb && sb.label)[0]; return part ? [[`${s}|${part.key}`, cp]] : []; }));
-  const catLine = catalog.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px"><span class="note" style="font-size:13px">Your catalogue:</span>${catalog.map((cp) => { const part = modelParts(cp.label, sb && sb.label)[0]; const hit = part && prods[`${s}|${part.key}`]; return `<span class="tag ${hit ? "good" : "risk"}" title="${esc(cp.label)}">${esc(part ? part.label : cp.label)} · ${hit ? `named in ${hit.n} answer${hit.n === 1 ? "" : "s"}` : "never named"}</span>`; }).join("")}</div>` : "";
+  const catKeyOf = (cp) => catalogKey(cp, sb, Object.keys(prods).filter((k) => k.startsWith(s + "|")).map((k) => ({ key: k.split("|")[1], label: pLabel(k), n: prods[k].n })));
+  const catByKey = new Map(catalog.flatMap((cp) => { const k = catKeyOf(cp); return k ? [[`${s}|${k}`, cp]] : []; }));
+  const catLine = catalog.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px"><span class="note" style="font-size:13px">Your catalogue:</span>${catalog.map((cp) => { const part = modelParts(cp.label, sb && sb.label)[0]; const k = catKeyOf(cp); const hit = k && prods[`${s}|${k}`]; return `<span class="tag ${hit ? "good" : "risk"}" title="${esc(cp.label)}">${esc(part ? part.label : cp.label)} · ${hit ? `named in ${hit.n} answer${hit.n === 1 ? "" : "s"}` : "never named"}</span>`; }).join("")}</div>` : "";
   const prodAll = Object.entries(prods).sort((a, b) => b[1].n - a[1].n || b[1].q.size - a[1].q.size); const prodRows = prodAll.slice(0, 14);
   cards.push(lensCard("products", "Lens 07 · Product level", "Which models the engines actually name", `Brand share is not model share. The models the engines put in front of a shopper on the ${cq.length} brand-neutral questions (${AC.length} answers); a model counts once per answer, however it is spelled.`, `${catLine}<div class="tblwrap"><table class="t"><thead><tr><th>Model</th><th>Brand</th><th class="num">Answers</th><th class="num">Questions</th><th class="num">Engines</th>${catalog.length ? '<th>In your catalogue</th>' : ""}</tr></thead><tbody>${prodRows.map(([k, v]) => { const b = k.split("|")[0]; const p = pLabel(k); const cat = catByKey.get(k); const spellings = byDesc(v.raw); return `<tr class="tap ${b === s ? "subj" : ""}" title="as written: ${esc(spellings.map(([r, n]) => `${r} (${n})`).join(", "))}" onclick="openModelProof(${JSON.stringify([...v.q]).replace(/"/g, "&quot;")}, '${esc(p)}')"><td>${esc(p)}</td><td><i class="sw" style="background:${brandColor(b)}"></i>${esc(brandLabel(b))}</td><td class="num"><b>${v.n}</b></td><td class="num">${v.q.size}<small class="note">/${cq.length}</small></td><td class="num">${v.e.size}<small class="note">/${S.engines.size}</small></td>${catalog.length ? `<td>${cat ? `<span class="tag good">in catalogue</span>${cat.msrp ? ` <span class="note">$${Number(cat.msrp).toFixed(2)}</span>` : ""}` : ""}</td>` : ""}</tr>`; }).join("")}</tbody></table></div><div class="note" style="margin-top:8px">Hover a row for the spellings folded into it; tap it for every answer that names the model.</div>`, (() => { const top = prodAll[0]; const sonyP = prodAll.filter(([k]) => k.startsWith(s + "|")); const modelCounts = Object.fromEntries(prodAll.map(([k, v]) => [k, v.n])); return `${top ? `<b>${esc(pLabel(top[0]))}</b> (${esc(brandLabel(top[0].split("|")[0]))}) is the most-named model: ${top[1].n} answers across ${top[1].q.size} questions.` : ""} ${sonyP.length ? `${SL}'s most-named is <b>${esc(pLabel(sonyP[0][0]))}</b> at ${sonyP[0][1].n} — ${standingPhrase(modelCounts, sonyP[0][0], "models named")}.` : `No ${SL} model is named on these questions.`} A model that isn't named cannot be bought on the engine's recommendation.`; })()));
   // 8 attributes — the hero of its own page: every cell opens to the answers and the sentences
@@ -1034,9 +1045,11 @@ window.openQuestion = (id) => { const q = qById()[id]; if (!q) return; proof({ t
 // (2026-09-22). The line prefix ("Galaxy", "BRAVIA") is optional only for a lettered core
 // ("S26+", "Z Fold 8"): a bare "8 II" would match any "8 II" in the text.
 function catalogCoverage(A, sb, products) {
+  const partsOf = (a) => { const m = mention(a, sb); return m && m.product ? modelParts(m.product, sb.label) : []; };
+  const named = {}; for (const a of A) for (const x of partsOf(a)) named[x.key] ||= { key: x.key, label: x.label, n: 0 }, named[x.key].n++;
   return products.map((p) => {
-    const part = modelParts(p.label, sb && sb.label)[0];
-    const hits = part ? A.filter((a) => { const m = mention(a, sb); return !!(m && m.product && modelParts(m.product, sb.label).some((x) => x.key === part.key)); }) : [];
+    const key = catalogKey(p, sb, Object.values(named));
+    const hits = key ? A.filter((a) => partsOf(a).some((x) => x.key === key)) : [];
     return { p, n: hits.length, qids: uniq(hits.map((a) => a.queryId)), eng: uniq(hits.map((a) => a.engine)) };
   }).sort((a, b) => b.n - a.n);
 }
