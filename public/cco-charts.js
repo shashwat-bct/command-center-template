@@ -73,6 +73,18 @@
       g.appendChild(text(m.l - 8, yy + 3.5, fmtY ? fmtY(t) : fmt.n(t), { anchor: "end", size: 11, fill: MUTE }));
     }
   }
+  let measureCtx = null;
+  function textWidth(s, weight, size) {
+    measureCtx = measureCtx || document.createElement("canvas").getContext("2d");
+    measureCtx.font = `${weight} ${size}px "Google Sans Text", "Google Sans", Roboto, sans-serif`;
+    return measureCtx.measureText(String(s || "")).width;
+  }
+  function fitText(s, maxW, weight, size) {
+    let t = String(s || "");
+    if (textWidth(t, weight, size) <= maxW) return t;
+    while (t.length > 1 && textWidth(t + "…", weight, size) > maxW) t = t.slice(0, -1);
+    return t.trimEnd() + "…";
+  }
   function text(x, y, s, o) {
     o = o || {};
     const t = el("text", { x: px(x), y: px(y), "text-anchor": o.anchor || "start", "font-size": o.size || 11,
@@ -619,7 +631,9 @@
      RANGE / DUMBBELL — a low and a high on one row (price spread, promise)
      ====================================================================== */
   function ranges(host, spec) {
-    const { svg, W, H, m, iw, ih } = frame(host, Object.assign({ margin: { t: 12, r: 74, b: 30, l: 150 }, height: 40 + spec.rows.length * 26 }, spec));
+    const hostW = host.clientWidth || 720;
+    const labelW = Math.min(Math.max(60, ...spec.rows.map((r) => textWidth(r.label, r.subject ? 700 : 500, 11))) + 18, Math.round(hostW * 0.32));
+    const { svg, W, H, m, iw, ih } = frame(host, Object.assign({ margin: { t: 12, r: 74, b: 30, l: labelW }, height: 40 + spec.rows.length * 26 }, spec));
     // indexed:true rebases every row to 100 at its low, so a $12 spread on a
     // $99 listing and a $40 spread on a $999 one are finally comparable.
     if (spec.indexed) spec.rows = spec.rows.map((r) => ({ ...r, _lo: r.lo, _hi: r.hi, lo: 100, hi: 100 * (r.hi / r.lo) }));
@@ -634,7 +648,8 @@
     }
     spec.rows.forEach((r, i) => {
       const y = m.t + i * rowH + rowH / 2;
-      g.appendChild(text(m.l - 10, y + 4, r.label, { anchor: "end", size: 11, fill: INK, weight: r.subject ? 700 : 500 }));
+      const lab = text(m.l - 10, y + 4, fitText(r.label, m.l - 18, r.subject ? 700 : 500, 11), { anchor: "end", size: 11, fill: INK, weight: r.subject ? 700 : 500 });
+      const full = el("title"); full.textContent = r.label; lab.appendChild(full); g.appendChild(lab);
       g.appendChild(el("line", { x1: px(X(r.lo)), x2: px(X(r.hi)), y1: px(y), y2: px(y), stroke: r.color, "stroke-width": 5, "stroke-linecap": "round", opacity: .26 }));
       // the bar itself is a hover target too (Aashish, 2026-09-22: the tip carries the
       // sample promises behind the span, so the variance can be investigated in place)

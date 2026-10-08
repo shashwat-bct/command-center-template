@@ -4,7 +4,7 @@
 (function () {
 "use strict";
 const P = window.__CCPAGES, U = window.__CC, F = CC.fmt;
-const { B, RT, MD, BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock,
+const { B, RT, MD, BIDS, AI_BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock,
         card, intro, table, slot, tc, win, winDates, winBands, slice, mean, sum, pairsFor, carriedPairs,
         retailerScope, openDrawer, esc, $, $$, period, provOf, provBadge } = U;
 const D = () => U.D;
@@ -283,48 +283,100 @@ P.ai = (host) => {
     ${kpi({ label: "Engine spread", dot: "#1a73e8", value: (() => { const v = d.dims.engines.map((e) => mean(d.dims.stages.map((st) => meanES(e.id, st.id, S)))); return F.pct(Math.max(...v) - Math.min(...v)); })(),
       note: "Points between the strongest and weakest engine on the same prompt set" })}
   </div>
-  ${card({ title: "Share of the AI answer, daily", help: "Of the answers an AI assistant gives to this category's shopping questions, the share that mentions each brand. It is not a ranking of the brand — it is whether the brand is in the room at all when the assistant answers.", sub: (d.meta.provenance || {}).mode === "hybrid" ? `One real reading per build: the line steps on each date the engines were read and is blank before the first. Brands outside the tracked ${d.dims.brands.length} count in the total, so the shares do not sum to 100.` : `Answer share sums to 100 across the ${d.dims.brands.length} brands, so a gain for one is a loss for another. Steps rather than drift — assistants re-index, they do not glide.`, slot: "aiLine", tag: "13 weeks" })}
-  <div class="grid g2" style="margin-top:14px">
-    ${card({ title: "Engine by funnel stage", help: "The same share broken out by assistant and by where the shopper is in the question — discovery, comparison, decision. A brand can own the discovery answer and vanish by the decision one, and only this split shows it.", sub: `${SUBJ} share of the answer in each cell. The cold cells are the briefs to write, not the engines to worry about.`,
-      html: `${slot("aiHeat")}
-        <h4 style="font-size:12px;margin:20px 0 3px">Share of answer by engine</h4>
-        <p class="mini" style="margin:0 0 10px">Mean across all four funnel stages, for the selected window.</p>
-        ${slot("aiEngine")}` })}
-    ${card({ title: "The funnel, brand by brand", help: "Presence at each stage of the shopper's question, brand against brand. Position at decision is the one that converts; position at discovery is the one that gets you considered at all.", sub: "Who owns the answer at each stage of the question. Position at decision is the one that converts.", slot: "aiFunnel" })}
-  </div>
+  ${card({ title: "Share of the AI answer, daily", help: "Of the answers an AI assistant gives to this category's shopping questions, the share that mentions each brand. It is not a ranking of the brand — it is whether the brand is in the room at all when the assistant answers.", sub: (d.meta.provenance || {}).mode === "hybrid" ? `One real reading per build: the line steps on each date the engines were read and is blank before the first. Brands outside the tracked ${AI_BIDS().length} count in the total, so the shares do not sum to 100.` : `Answer share sums to 100 across the ${d.dims.brands.length} brands, so a gain for one is a loss for another. Steps rather than drift — assistants re-index, they do not glide.`, slot: "aiLine", tag: "13 weeks" })}
   <div style="margin-top:14px">
     ${card({ title: "The prompt set", help: "The actual questions put to the assistants, with the funnel stage each belongs to. A share of answer means nothing without the questions it was measured over, so they are listed rather than summarised.", sub: `Every tracked question, whether ${SUBJ} appeared, and where in the answer. Click a row for the full brand ordering. A prompt is one draw, not an average — a brand with a high answer share is still absent from some of them.`, slot: "aiPrompts" })}
   </div>
   <h2 class="sec">What the answer share says</h2>${readsBlock("ai")}`;
 
-  CC.line(el("aiLine"), { height: 250, x: ds, series: brandSeries((b) => d.ai.overall[b]), bands: winBands(), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%" });
-  CC.heatmap(el("aiHeat"), { rows: d.dims.engines, cols: d.dims.stages, corner: "Engine ╲ Stage",
-    rowLabel: (r) => r.label, colLabel: (c) => c.label, value: (r, c) => meanES(r.id, c.id, S), fmtV: (v) => F.pct(v, 0),
-    scaleNote: `${SUBJ} share of the answer`,
-    tip: (r, c, v) => `<div class="h">${r.label} · ${c.label}</div>` + BIDS().map((b) =>
-      `<div class="r"><i style="background:${B(b).color}"></i><span>${B(b).label}</span><b class="tnum">${F.pct(meanES(r.id, c.id, b))}</b></div>`).join("") +
-      `<div class="vb">e.g. “${esc(c.q)}”</div>` });
-  CC.funnel(el("aiFunnel"), { stages: d.dims.stages.map((st) => ({ label: st.label, note: `“${st.q}”`,
-    bars: d.dims.brands.map((b) => ({ label: b.label, color: b.color, subject: b.subject,
-      value: mean(d.dims.engines.map((e) => meanES(e.id, st.id, b.id))) })) })) });
-  CC.hbars(el("aiEngine"), { rows: d.dims.engines.map((e) => ({ label: e.label, color: "#1a73e8",
-      value: mean(d.dims.stages.map((st) => meanES(e.id, st.id, S))),
-      tip: `<div class="h">${e.label}</div>` + BIDS().map((b) => `<div class="r"><i style="background:${B(b).color}"></i><span>${B(b).label}</span><b class="tnum">${F.pct(mean(d.dims.stages.map((st) => meanES(e.id, st.id, b))))}</b></div>`).join("") }))
-      .sort((a, b) => b.value - a.value), fmtV: (v) => F.pct(v) });
-  el("aiPrompts").innerHTML = table([
-    { label: "Prompt", lft: true, get: (r) => `<span class="mini" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700">${r.stage.slice(0, 4)}</span> ${esc(r.q)}` },
-    { label: SUBJ, get: (r) => r.present[S] ? `<b class="tnum" style="color:var(--good)">#${r.rank[S]}</b>` : `<span class="mini">absent</span>` },
-    { label: "Cited", get: (r) => r.cited[S] ? "✓" : "—" },
-    { label: "Answer led by", get: (r) => r.topBrand ? `<span class="dot" style="background:${B(r.topBrand).color}"></span>${B(r.topBrand).label}` : "—" },
-  ], d.ai.prompts, { maxH: "460px" });
-  $$("#aiPrompts tbody tr").forEach((tr, i) => { tr.style.cursor = "pointer"; tr.onclick = () => {
-    const p2 = d.ai.prompts[i];
-    openDrawer(esc(p2.q), `${p2.stage} · brand ordering in the answer`,
-      table([{ label: "Brand", lft: true, get: (r) => `<span class="dot" style="background:${B(r.b).color}"></span>${B(r.b).label}` },
-             { label: "Position", get: (r) => r.rank ? `#${r.rank}` : "not named" },
-             { label: "Cited", get: (r) => r.cited ? "✓" : "—" }],
-        BIDS().map((b) => ({ b, rank: p2.rank[b], cited: p2.cited[b], _subject: b === S })).sort((a, z) => (a.rank || 99) - (z.rank || 99))));
-  }; });
+  const aiReadings = (d.ai.history || []).length;
+  if (aiReadings === 1) {
+    const latest = (s) => { for (let i = (s || []).length - 1; i >= 0; i--) if (s[i] != null) return s[i]; return null; };
+    const rows = d.dims.brands.map((b) => ({ label: b.label, color: b.color, subject: b.subject, value: latest(d.ai.overall[b.id]) })).filter((r) => r.value != null).sort((a, z) => z.value - a.value);
+    el("aiLine").insertAdjacentHTML("beforebegin", `<p class="mini" style="margin:0 0 12px">One reading so far, taken ${F.dateY(d.ai.history[0].date)}. The daily line starts once a second build reads the engines again.</p>`);
+    CC.hbars(el("aiLine"), { rows, max: Math.max(...rows.map((r) => r.value), 1), fmtV: (v) => F.pct(v) });
+  } else {
+    CC.line(el("aiLine"), { height: 250, x: ds, series: brandSeries((b) => d.ai.overall[b]), bands: winBands(), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%" });
+  }
+  const consoleAnswers = (() => {
+    const c = d.aiConsole, cap = c && c.captures && c.captures[c.current];
+    if (!cap || !Array.isArray(cap.answers)) return new Map();
+    const label = new Map((cap.engines || c.engines || []).map((e) => [e.id, e.label]));
+    const text = new Map((c.bank || []).map((q) => [q.id, q.text]));
+    return new Map(cap.answers.filter((a) => a.run === 1).map((a) => [`${label.get(a.engine) || a.engine}: ${text.get(a.queryId) || ""}`, a]));
+  })();
+  const consoleBrandName = new Map(((d.aiConsole && d.aiConsole.brands) || []).map((b) => [b.id, b.label]));
+  const prettyBrand = (id) => consoleBrandName.get(id) || (d.dims.brands.find((b) => b.id === id) || {}).label || String(id).split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const ranked = (a) => [...(a.brands || [])].sort((x, z) => (x.rank || 99) - (z.rank || 99));
+  for (const p of d.ai.prompts || []) {
+    const a = consoleAnswers.get(p.q);
+    if (!Array.isArray(p.named) && a) p.named = ranked(a).map((b) => prettyBrand(b.id));
+  }
+  const hasNamed = (d.ai.prompts || []).some((p) => Array.isArray(p.named));
+  const trackedByName = new Map(d.dims.brands.map((b) => [b.label.toLowerCase(), b]));
+  const brandName = (name) => { const b = trackedByName.get(String(name).toLowerCase()); return b ? `<span class="dot" style="background:${b.color}"></span>${esc(b.label)}` : `<span style="color:var(--mute)">${esc(name)}</span>`; };
+  const namedList = (names) => !names || !names.length ? `<span class="mini">no brand named</span>`
+    : `<span style="white-space:normal;display:inline-block;max-width:380px;line-height:1.7">${names.slice(0, 6).map((n, i) => `${i ? '<span style="color:var(--line)"> · </span>' : ""}${brandName(n)}`).join("")}${names.length > 6 ? ` <span class="mini">+${names.length - 6}</span>` : ""}</span>`;
+  const SENT = { positive: "good", negative: "risk", mixed: "warn", neutral: "" };
+  const brandCell = (id) => { const t = d.dims.brands.find((b) => b.id === id); return t ? `<span class="dot" style="background:${t.color}"></span><b style="font-weight:500">${esc(t.label)}</b>` : `<span style="color:var(--soft)">${esc(prettyBrand(id))}</span>`; };
+  const stat2 = (k, v) => `<div style="flex:1;min-width:120px;padding:12px 14px;border:1px solid var(--line);border-radius:12px"><div class="mini">${k}</div><div style="font-family:var(--fd);font-size:18px;margin-top:4px">${v}</div></div>`;
+  const isTracked = (id) => AI_BIDS().includes(id);
+  const sheetCols = [
+    { label: "#", get: (r) => r.rank ? `<span class="tnum">${r.rank}</span>` : "—" },
+    { label: "Brand", lft: true, get: (r) => brandCell(r.id) },
+    { label: "Product mentioned", lft: true, get: (r) => r.product ? esc(r.product) : '<span class="mini">—</span>' },
+    { label: "Tone", get: (r) => r.sentiment ? `<span class="tag ${SENT[r.sentiment] || ""}">${esc(r.sentiment)}</span>` : "—" },
+    { label: "Recommended", get: (r) => r.rank ? (r.recommended ? "✓" : "—") : '<span class="mini">not named</span>' },
+  ];
+  const setRows = (list) => [...list.filter((b) => isTracked(b.id)), ...AI_BIDS().filter((id) => !list.some((b) => b.id === id)).map((id) => ({ id, rank: null }))].map((b) => ({ ...b, _subject: b.id === S }));
+  const others = (list) => list.filter((b) => !isTracked(b.id));
+  const answerSheet = (p2, ans) => {
+    const list = ranked(ans);
+    const subj = list.find((b) => b.id === S);
+    const sources = ans.sources || [];
+    return `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+        ${stat2(SUBJ, subj ? `#${subj.rank}${subj.recommended ? ' <span class="tag good">recommended</span>' : ""}` : '<span class="mini" style="font-size:15px">not named</span>')}
+        ${stat2("Top pick", ans.topPick ? brandCell(ans.topPick) : "—")}
+        ${stat2("Brands named", String(list.length))}
+        ${stat2("Sources cited", String(sources.length))}
+      </div>
+      <h4 style="font-size:13px;font-weight:500;margin:0 0 8px">Your competitor set</h4>
+      ${table(sheetCols, setRows(list))}
+      ${others(list).length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">Other brands named <span class="mini">· ${others(list).length} outside your set</span></h4>${table(sheetCols, others(list))}` : ""}
+      ${sources.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">Sources the engine cited</h4>
+        <div style="display:flex;flex-direction:column;gap:6px">${sources.slice(0, 10).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener" style="text-decoration:none;color:var(--accent);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.title || x.host || x.url)} <span class="mini">· ${esc(x.host || "")}</span></a>`).join("")}</div>` : ""}
+      <h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">The answer, as captured</h4>
+      <div style="white-space:pre-wrap;font-size:13px;line-height:1.6;color:var(--soft);background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;max-height:420px;overflow:auto">${esc(ans.text || "")}</div>`;
+  };
+  const trackedNames = (names) => (names || []).filter((n) => { const b = trackedByName.get(String(n).toLowerCase()); return b && AI_BIDS().includes(b.id); });
+  const renderPrompts = () => {
+    const all = !!window.__ccOtherBrands;
+    const shown = (r) => all ? r.named : trackedNames(r.named);
+    const switcher = hasNamed ? `<div style="display:flex;align-items:center;gap:10px;margin:0 0 12px"><span class="mini">Brands named</span><div class="seg mini"><button type="button" data-ob="0" class="${all ? "" : "on"}">Your competitor set</button><button type="button" data-ob="1" class="${all ? "on" : ""}">All brands</button></div></div>` : "";
+    el("aiPrompts").innerHTML = switcher + table([
+      { label: "Prompt", lft: true, get: (r) => `<span class="tag" style="margin-right:8px">${esc((d.dims.stages.find((st) => st.id === r.stage) || { label: r.stage }).label)}</span>${esc(r.q)}` },
+      { label: SUBJ, get: (r) => r.present[S] ? `<b class="tnum" style="color:var(--good)">#${r.rank[S]}</b>` : `<span class="mini">absent</span>` },
+      { label: "Cited", get: (r) => r.cited[S] ? "✓" : "—" },
+      ...(hasNamed ? [{ label: "Brands named", lft: true, get: (r) => { const n = shown(r); const extra = all ? 0 : (r.named || []).length - n.length; return n.length ? namedList(n) + (extra > 0 ? ` <span class="mini">+${extra} other</span>` : "") : `<span class="mini">${extra > 0 ? `none from your set · ${extra} other` : "no brand named"}</span>`; } }] : []),
+      { label: "Answer led by", get: (r) => { const n = hasNamed ? shown(r) : []; return hasNamed ? (n.length ? brandName(n[0]) : "—") : r.topBrand ? `<span class="dot" style="background:${B(r.topBrand).color}"></span>${B(r.topBrand).label}` : "—"; } },
+    ], d.ai.prompts, { maxH: "460px" });
+    $$("#aiPrompts [data-ob]").forEach((btn) => { btn.onclick = () => { window.__ccOtherBrands = btn.dataset.ob === "1"; renderPrompts(); }; });
+    $$("#aiPrompts tbody tr").forEach((tr, i) => { tr.style.cursor = "pointer"; tr.onclick = () => {
+      const p2 = d.ai.prompts[i];
+      const ans = consoleAnswers.get(p2.q);
+      const stageLabel = (d.dims.stages.find((st) => st.id === p2.stage) || { label: p2.stage }).label;
+      if (!ans) {
+        openDrawer(esc(p2.q), `${stageLabel} · brand ordering in the answer`,
+          table([{ label: "Brand", lft: true, get: (r) => `<span class="dot" style="background:${B(r.b).color}"></span>${B(r.b).label}` },
+                 { label: "Position", get: (r) => r.rank ? `#${r.rank}` : "not named" },
+                 { label: "Cited", get: (r) => r.cited ? "✓" : "—" }],
+            AI_BIDS().map((b) => ({ b, rank: p2.rank[b], cited: p2.cited[b], _subject: b === S })).sort((a, z) => (a.rank || 99) - (z.rank || 99))));
+        return;
+      }
+      openDrawer(esc(p2.q), `${stageLabel} · the full answer, brand by brand`, answerSheet(p2, ans));
+    }; });
+  };
+  renderPrompts();
 };
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -414,7 +466,7 @@ P.shelf = (host) => {
   </div>
   <div class="grid g2" style="margin-top:14px">
     ${card({ title: "Grid share by retailer", help: "Mean share of the result grid per retailer across the term set. A retailer whose logged-out grid is not a comparable result set is withheld and hatched rather than reported as a zero.", sub: "Every brand, every retailer, meaned across terms.", slot: "shBars" })}
-    ${card({ title: "Category structure", help: "How the whole grid divides — the brands that make up a retailer's category page, with the subject in place among them. It sizes the field that shelf share is a share of.", sub: "Inner ring is the retailer in grey; outer ring is the brands on its grid in their own colours. Area is share of all tracked grid positions.", slot: "shSun" })}
+    ${card({ title: "Who fills the grid", help: "How the whole grid divides — the brands that make up a retailer's category page, with the subject in place among them. It sizes the field that shelf share is a share of.", sub: "Each retailer's result grid as 100%: your tracked brands, and everything else the search returns in grey.", slot: "shSun" })}
   </div>
   <h2 class="sec">What the shelf says</h2>${readsBlock("shelf")}`;
 
@@ -440,15 +492,11 @@ P.shelf = (host) => {
   CC.bars(el("shBars"), { height: 250, cats: d.dims.retailers.filter((r) => readable.includes(r.id)).map((r) => r.label), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%",
     series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color,
       data: d.dims.retailers.filter((r) => readable.includes(r.id)).map((r) => mean(d.dims.terms.map((t) => sovMean(r.id, t.id, b.id)).filter((v) => v != null))) })) });
-  // The inner ring is deliberately neutral: if both rings wore the same five
-  // hues a reader could not tell a retailer segment from a brand one.
-  const SLATE = ["#3c4043", "#5f6368", "#80868b", "#9aa0a6", "#bdc1c6"];
-  CC.sunburst(el("shSun"), { size: 300, fmtV: (v) => F.pct(v), legend: false,
-    centre: { value: F.pct(mean(readable.flatMap((rt) => d.dims.terms.map((t) => sovMean(rt, t.id, S))).filter((v) => v != null))), label: `${SUBJ} share` },
-    groups: d.dims.retailers.filter((r) => readable.includes(r.id)).map((r, i) => ({ id: r.id, label: r.label, color: SLATE[i % SLATE.length],
-      children: d.dims.brands.map((b) => ({ label: b.label, color: b.color, opacity: 0.9, value: Math.max(0.01, mean(d.dims.terms.map((t) => sovMean(r.id, t.id, b.id)).filter((v) => v != null))) })) })) });
-  CC.legendRow(el("shSun"), d.dims.brands.map((b) => ({ id: b.id, color: b.color, label: b.label })));
-  el("shSun").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:7px 0 0">Inner ring is the retailer (grey, in the order of the rail above); outer ring is the brand.</p>`);
+  const fillRts = d.dims.retailers.filter((r) => readable.includes(r.id));
+  const brandShare = (rt, bid) => mean(d.dims.terms.map((t) => sovMean(rt, t.id, bid)).filter((v) => v != null)) || 0;
+  CC.bars(el("shSun"), { height: 250, stacked: true, cats: fillRts.map((r) => r.label), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%",
+    series: [...d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, data: fillRts.map((r) => brandShare(r.id, b.id)) })),
+      { id: "other", label: "Other brands", color: "#dadce0", data: fillRts.map((r) => Math.max(0, 100 - d.dims.brands.reduce((acc, b) => acc + brandShare(r.id, b.id), 0))) }] });
   function shelfByRetailer() { return readable.map((rt) => ({ rt, v: mean(d.dims.terms.map((t) => sovMean(rt, t.id, S)).filter((v) => v != null)) })).filter((x) => x.v != null); }
 };
 
@@ -475,41 +523,42 @@ P.landing = (host) => {
         note: gaps && gaps.n ? `${esc(gaps.f.label.toLowerCase())} missing on ${gaps.n} of ${sr.length} ${SUBJ} listings — the widest single gap in the estate`
                              : `Every ${SUBJ} listing carries all ${d.dims.pdpFields.length} content signals` }); })()}
   </div>
-  <div class="grid g2">
-    ${card({ title: "Page score by model and retailer", help: "A product page scored out of 100 on the signals a shopper and a search engine both use: imagery, copy depth, specification completeness, review presence, video and enhanced content. It is a page-quality measure, not a sales one.", sub: `${SUBJ} listings only. A cold cell is a page a shopper reaches and leaves.`, slot: "lpHeat" })}
-    ${card({ title: "Signal completeness by brand", help: "The share of a brand's listings carrying each signal. The shape shows what a brand systematically ships and what it systematically leaves off — a gap here is a template decision, not an accident on one page.", sub: "One shape per brand over the same grey category average. Share of that brand's listings carrying each signal — the shape shows what it systematically does and does not ship.", slot: "lpRadar" })}
+  <div style="margin-bottom:14px">
+    ${card({ title: "Content checklist, every listing", help: "Each product page checked for the seven things a shopper and a search engine both look for. A cross is a signal the page does not carry; a partial count is a gallery or bullet list shorter than the category's best page.", sub: `Every brand's live listings${rts.length > 1 ? "" : ` on ${RT(rts[0]).label}`}, side by side. Read across a row for one page; read down a column to see who ships the signal and who leaves it off. Click a row for the detail.`, slot: "lpMatrix" })}
   </div>
-  <div class="grid g2" style="margin-top:14px">
+  <div class="grid g2">
+    ${card({ title: `Where ${SUBJ} trails`, help: "For each signal, the share of the subject's listings that carry it against the best competitor. Sorted by the size of the gap, so the first row is the first fix.", sub: `Each signal, ${SUBJ}'s coverage against the best competitor, biggest gap first.`, slot: "lpGaps" })}
     ${card({ title: "Mean page score", help: "The brand's average page score across its live listings. A point-in-time read of the estate rather than a trend: the pages were scored once.", sub: "Every brand, across the retailers in scope.", slot: "lpBars" })}
-    ${card({ title: "Every listing, ranked", help: "The listing-level detail behind the score — every product page at every retailer, with the signals it carries and the ones it misses.", sub: "Click a row for the signal-by-signal breakdown of that page.", slot: "lpTable" })}
   </div>`;
-  const smodels = d.dims.models.filter((m) => m.brand === S);
-  CC.heatmap(el("lpHeat"), { rows: smodels, cols: d.dims.retailers.filter((r) => rts.includes(r.id)), corner: "Model ╲ Retailer",
-    rowLabel: (r) => r.label, colLabel: (c) => c.label, fmtV: (v) => Math.round(v), scaleNote: "Page content score /100",
-    value: (r, c) => { const x = rows.find((p) => p.model === r.id && p.retailer === c.id); return x ? x.score : null; },
-    onPick: (r, c) => { const x = rows.find((p) => p.model === r.id && p.retailer === c.id); if (x) showPdp(x); } });
-  const lpAxes = d.dims.pdpFields.map((f) => ({ label: f.label.split(" ")[0] }));
-  const lpVals = (bid) => d.dims.pdpFields.map((f) => mean(rows.filter((r) => r.brand === bid).map((r) => r.fields[f.id] / f.max)) || 0);
-  const lpAvg = lpAxes.map((_, i) => mean(BIDS().map((x) => lpVals(x)[i])));
-  el("lpRadar").innerHTML = `<div style="display:grid;grid-template-columns:repeat(${d.dims.brands.length <= 4 ? 2 : 3},minmax(0,1fr));gap:18px 22px">${
-    d.dims.brands.map((b) => `<div><div style="font-size:11px;font-weight:700;text-align:center;color:${b.color};margin-bottom:2px">${b.label}</div><div id="lr-${b.id}"></div></div>`).join("")}</div>
-    <p class="mini" style="margin:8px 0 0">Grey outline is the ${d.dims.brands.length}-brand average. Each axis is the share of that brand's listings carrying the signal, so a full shape is a brand that ships complete pages everywhere.</p>`;
-  for (const b of d.dims.brands) CC.radar(el("lr-" + b.id), { size: d.dims.brands.length <= 4 ? 178 : 152, legend: false, axes: lpAxes,
-    series: [{ id: "avg", label: "Category average", color: "#bdc1c6", values: lpAvg },
-             { id: b.id, label: b.label, color: b.color, subject: true, values: lpVals(b.id) }] });
-  CC.hbars(el("lpBars"), { rows: d.dims.brands.map((b) => ({ label: b.label, value: brandMean(b.id) || 0, color: b.color, subject: b.id === S }))
-    .sort((a, b) => b.value - a.value), fmtV: (v) => Math.round(v) + " /100" });
-  el("lpTable").innerHTML = table([
-    { label: "Listing", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${MD(r.model).label}` },
-    { label: "Retailer", lft: true, get: (r) => RT(r.retailer).label },
-    { label: "Score", get: (r) => `<b class="tnum">${r.score}</b>` },
-    { label: "Missing", get: (r) => { const miss = d.dims.pdpFields.filter((f) => !r.fields[f.id]).length; return miss ? `<span class="mini">${miss} signal${miss === 1 ? "" : "s"}</span>` : "—"; } },
-  ], rows.slice().sort((a, b) => b.score - a.score).map((r) => ({ ...r, _subject: r.brand === S })), { maxH: "400px" });
-  $$("#lpTable tbody tr").forEach((tr, i) => { const list = rows.slice().sort((a, b) => b.score - a.score);
-    tr.style.cursor = "pointer"; tr.onclick = () => showPdp(list[i]); });
+  const SIGNAL = { images: "Image gallery", video: "Product video", aplus: "A+ content", bullets: "Feature bullets", specs: "Full spec table", reviews: "Reviews shown", titleKw: "Keywords in title" };
+  const sigLabel = (f) => SIGNAL[f.id] || f.label;
+  const sorted = rows.slice().sort((a, b) => (b.brand === S) - (a.brand === S) || b.score - a.score);
+  const cell = (r, f) => { const v = r.fields[f.id] || 0; if (!v) return '<span style="color:var(--risk);font-weight:500">✕</span>'; if (f.max === 1) return '<span style="color:var(--good);font-weight:600">✓</span>'; return `<span class="tnum" style="color:${v >= f.max ? "var(--good)" : "var(--warn)"};font-weight:500">${v}/${f.max}</span>`; };
+  el("lpMatrix").innerHTML = rows.length ? table([
+    { label: "Listing", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${esc(MD(r.model).label)}${rts.length > 1 ? `<div class="mini">${RT(r.retailer).label}</div>` : ""}` },
+    ...d.dims.pdpFields.map((f) => ({ label: sigLabel(f), get: (r) => cell(r, f) })),
+    { label: "Score", get: (r) => `<span style="display:inline-flex;align-items:center;gap:8px"><span style="display:inline-block;width:70px;height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><i style="display:block;height:100%;width:${r.score}%;background:${B(r.brand).color}"></i></span><b class="tnum">${r.score}</b></span>` },
+  ], sorted.map((r) => ({ ...r, _subject: r.brand === S }))) : withheld("No listing was scored on this build.");
+  $$("#lpMatrix tbody tr").forEach((tr, i) => { tr.style.cursor = "pointer"; tr.onclick = () => showPdp(sorted[i]); });
+  const share = (bid, f) => { const lr = rows.filter((r) => r.brand === bid); return lr.length ? lr.filter((r) => r.fields[f.id]).length / lr.length : null; };
+  const rivals = BIDS().filter((b) => b !== S && rows.some((r) => r.brand === b));
+  const gaps = d.dims.pdpFields.map((f) => {
+    const mine = share(S, f); const best = rivals.map((b) => ({ b, v: share(b, f) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0];
+    const n = rows.filter((r) => r.brand === S).length, have = rows.filter((r) => r.brand === S && r.fields[f.id]).length;
+    const bn = best ? rows.filter((r) => r.brand === best.b).length : 0, bhave = best ? rows.filter((r) => r.brand === best.b && r.fields[f.id]).length : 0;
+    return { f, mine, best, gap: best && mine != null ? best.v - mine : 0, n, have, bn, bhave };
+  }).sort((x, y) => y.gap - x.gap || (x.mine ?? 1) - (y.mine ?? 1));
+  el("lpGaps").innerHTML = gaps.length && rows.some((r) => r.brand === S) ? `<div style="display:flex;flex-direction:column">${gaps.map((g) => {
+    const status = g.gap > 0 ? `<span class="tag risk">${SUBJ} trails</span>` : g.mine === 1 ? '<span class="tag good">covered</span>' : g.mine === 0 && (!g.best || g.best.v === 0) ? '<span class="tag">nobody ships it</span>' : '<span class="tag good">level or ahead</span>';
+    return `<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)"><div><b style="font-weight:500">${esc(sigLabel(g.f))}</b><div class="mini">${SUBJ}: ${g.have} of ${g.n} listing${g.n === 1 ? "" : "s"}${g.best ? ` · ${B(g.best.b).label}: ${g.bhave} of ${g.bn}` : ""}</div></div>${status}
+      <div style="grid-column:1/-1;display:flex;gap:4px;height:6px"><i style="flex:${Math.max(0.0001, g.mine || 0)};background:${B(S).color};border-radius:3px"></i><i style="flex:${Math.max(0.0001, 1 - (g.mine || 0))};background:var(--line2);border-radius:3px"></i></div></div>`; }).join("")}</div>` : withheld(`No ${SUBJ} listing was scored on this build.`);
+  const means = d.dims.brands.map((b) => ({ b, v: brandMean(b.id) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v);
+  CC.hbars(el("lpBars"), { rows: means.map(({ b, v }) => ({ label: b.label, value: v, color: b.color, subject: b.id === S })), fmtV: (v) => Math.round(v) + " /100" });
+  const mineMean = brandMean(S);
+  if (means.length && mineMean != null) el("lpBars").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:12px 0 0">${means[0].b.id === S ? `${SUBJ} leads on page content by ${Math.round(mineMean - (means[1] ? means[1].v : mineMean))} points.` : `${SUBJ} is ${Math.round(means[0].v - mineMean)} points behind ${means[0].b.label}; closing the gaps listed beside is how that moves.`}</p>`);
   function showPdp(x) {
     openDrawer(`${MD(x.model).label} · ${RT(x.retailer).label}`, `Page content score ${x.score}/100`,
-      table([{ label: "Signal", lft: true, get: (f) => f.label },
+      table([{ label: "Signal", lft: true, get: (f) => sigLabel(f) },
              { label: "Present", get: (f) => x.fields[f.id] ? `<b style="color:var(--good)">${f.max === 1 ? "✓" : x.fields[f.id] + " of " + f.max}</b>` : `<span style="color:var(--risk)">missing</span>` }],
         d.dims.pdpFields));
   }

@@ -12,6 +12,7 @@ export const maxDuration = 300;
 type Brand = { id: string; label: string; aliases?: string[] };
 type Body = { mode?: string; question?: string; engines?: string[]; subject?: string; brands?: Brand[]; persona?: string | null; answers?: Array<{ id: string; text: string }>; category?: string };
 
+const ENGINE_LABEL: Record<string, string> = { gpt: "ChatGPT", perplexity: "Perplexity", gemini: "Gemini", copilot: "Copilot", claude: "Claude" };
 const CONSOLE_ID: Record<string, string> = { chatgpt: "gpt", perplexity: "perplexity", gemini: "gemini", copilot: "copilot", claude: "claude" };
 const LIMIT_PER_HOUR = 30;
 const runs = new Map<string, number[]>();
@@ -100,9 +101,14 @@ export async function POST(req: NextRequest) {
 
   if (!allowed(who)) return Response.json({ error: "rate limited", message: `live runs are limited to ${LIMIT_PER_HOUR} an hour per link` }, { status: 429 });
   const wanted = new Set(body.engines ?? []);
-  const engines = availableEngines().filter((e) => !wanted.size || wanted.has(CONSOLE_ID[e.id]));
+  const available = availableEngines();
+  const engines = available.filter((e) => !wanted.size || wanted.has(CONSOLE_ID[e.id]));
+  const missing = [...wanted].filter((id) => !available.some((e) => CONSOLE_ID[e.id] === id));
   const prompt = body.persona ? `${body.persona}\n\n${question}` : question;
   const t0 = Date.now();
-  const out = await Promise.all(engines.map((e) => ask(e, prompt, brands)));
+  const out = [
+    ...(await Promise.all(engines.map((e) => ask(e, prompt, brands)))),
+    ...missing.map((id) => ({ id, label: ENGINE_LABEL[id] ?? id, model: "", via: "", text: "", sources: [], brands: [], topPick: "", subjectClaims: [], tMs: 0, error: `${ENGINE_LABEL[id] ?? id} is not available on this server${id === "gpt" || id === "gemini" ? " (no Bright Data key configured)" : ""}` })),
+  ];
   return Response.json({ question, at: new Date().toISOString(), engines: out, path: engines.some((e) => e.path === "ui") ? "consumer apps via Bright Data, live" : "model APIs, live", runId: randomBytes(4).toString("hex"), elapsedMs: Date.now() - t0 });
 }

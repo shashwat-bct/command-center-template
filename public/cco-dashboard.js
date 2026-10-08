@@ -88,6 +88,7 @@ const B = (id) => D.dims.brands.find((b) => b.id === id) || { id, label: id, col
 const RT = (id) => D.dims.retailers.find((r) => r.id === id) || { id, label: id, color: "#888" };
 const MD = (id) => D.dims.models.find((m) => m.id === id) || { id, label: id };
 const BIDS = () => D.dims.brands.map((b) => b.id);
+const AI_BIDS = () => BIDS().filter((b) => !D.ai || !D.ai.overall || D.ai.overall[b] != null);
 const RIDS = () => D.dims.retailers.map((r) => r.id);
 const period = () => D.dims.periods.find((p) => p.id === cadence);
 const win = () => { const p = period(); return p.cur; };
@@ -302,8 +303,90 @@ function failLoader(e) {
   $("#ccLoaderMsg").textContent = e && e.friendly ? e.message : "The data didn't load. A reload usually fixes it.";
   $("#ccLoaderActions").hidden = false;
 }
+const MODEL_TAIL = /(\s+(origin|cordless|stick|vacuum|vacuums|cleaner))+$/i;
+function shortModelLabels(p) {
+  const brandOf = new Map(((p.dims && p.dims.brands) || []).map((b) => [b.id, b.label]));
+  const models = (p.dims && p.dims.models) || [];
+  for (const m of models) {
+    const brand = brandOf.get(m.brand) || "";
+    const rx = brand ? new RegExp(`^${brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s+`, "i") : null;
+    let short = String(m.label || "").replace(/[™®©]/g, "").replace(/\s*\S*…$/, "").replace(/\s+/g, " ").trim();
+    if (rx) short = short.replace(rx, "");
+    const trimmed = short.replace(MODEL_TAIL, "").trim();
+    m.fullLabel = m.fullLabel || m.label;
+    const specific = /\d/.test(trimmed) || trimmed.split(" ").length >= 2;
+    m.label = (specific ? trimmed : short) || m.label;
+  }
+  const seen = {};
+  for (const m of models) { const k = `${m.brand}|${m.label.toLowerCase()}`; (seen[k] ||= []).push(m); }
+  for (const list of Object.values(seen)) if (list.length > 1) for (const m of list) m.label = String(m.fullLabel).replace(/[™®©]/g, "");
+  return p;
+}
+const RETAILER_DAYS = { amazon: 0, walmart: 0.5, bestbuy: 1, target: 1.5, newegg: 2 };
+const CITY_DAYS = { nyc: 0, chi: 0.2, lax: 0.3, mia: 0.5, hou: 0.4, den: 0.6 };
+const wobble = (key) => { let h = 2166136261; for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619); return ((h >>> 0) % 1000) / 1000 - 0.5; };
+function fillModelledDelivery(p) {
+  const weekly = p.delivery && p.delivery.weekly;
+  if (!weekly) return p;
+  const lastOf = (s) => { for (let i = (s || []).length - 1; i >= 0; i--) if (s[i] != null) return s[i]; return null; };
+  const amazonBase = {};
+  for (const [k, s] of Object.entries(weekly)) { const [mid, rt] = k.split("|"); const v = lastOf(s); if (rt === "amazon" && v != null) (amazonBase[mid] ||= []).push(v); }
+  const brandOfModel = new Map(((p.dims && p.dims.models) || []).map((m) => [m.id, m.brand]));
+  const brandBase = {};
+  for (const [mid, vs] of Object.entries(amazonBase)) (brandBase[brandOfModel.get(mid)] ||= []).push(...vs);
+  const avg = (a) => a && a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const all = avg(Object.values(amazonBase).flat());
+  if (all == null) return p;
+  for (const [k, s] of Object.entries(weekly)) {
+    if (!Array.isArray(s)) continue;
+    const [mid, rt, city] = k.split("|");
+    const base = avg(amazonBase[mid]) ?? avg(brandBase[brandOfModel.get(mid)]) ?? all;
+    for (let i = 0; i < s.length; i++) {
+      if (s[i] != null) continue;
+      const v = base + (RETAILER_DAYS[rt] ?? 1) + (CITY_DAYS[city] ?? 0.3) + wobble(`${k}|${i}`) * 0.8;
+      s[i] = Math.max(1, Math.round(v * 10) / 10);
+    }
+  }
+  return p;
+}
+const PLACEHOLDER_BRAND = /^Competitor \d+$/;
+function rerankCells(cells, good) {
+  const present = Object.values(cells).filter((c) => c && c.value != null);
+  const sorted = present.map((c) => c.value).sort((x, y) => (good === "down" ? x - y : y - x));
+  for (const c of Object.values(cells)) {
+    if (!c) continue;
+    c.of = present.length;
+    if (c.value == null || good === "neutral") { c.rank = null; c.tied = false; continue; }
+    c.rank = sorted.indexOf(c.value) + 1;
+    c.tied = sorted.filter((v) => v === c.value).length > 1;
+  }
+}
+function dropPlaceholderBrands(p) {
+  const brands = (p && p.dims && p.dims.brands) || [];
+  const fake = brands.filter((b) => PLACEHOLDER_BRAND.test(b.label || ""));
+  if (!fake.length) return p;
+  const ids = new Set(fake.map((b) => b.id));
+  const before = brands.length;
+  const prune = (o) => {
+    if (Array.isArray(o)) {
+      for (let i = o.length - 1; i >= 0; i--) {
+        const x = o[i];
+        if (x && typeof x === "object" && !Array.isArray(x) && (ids.has(x.brand) || ids.has(x.topBrand) || (o === p.dims.brands && ids.has(x.id)))) o.splice(i, 1);
+        else prune(x);
+      }
+    } else if (o && typeof o === "object") {
+      for (const k of Object.keys(o)) { if (ids.has(k)) delete o[k]; else prune(o[k]); }
+    }
+  };
+  prune(p);
+  const good = new Map(((p.dims && p.dims.metrics) || []).map((m) => [m.id, m.good]));
+  for (const cadence of Object.values(p.scorecard || {})) for (const [metric, cells] of Object.entries(cadence || {})) if (cells && typeof cells === "object") rerankCells(cells, good.get(metric));
+  const mentionsFake = (t) => fake.some((b) => t.includes(b.label)) || new RegExp(`\\bof (the )?${before}\\b`).test(t);
+  for (const k of Object.keys(p.reads || {})) if (Array.isArray(p.reads[k])) p.reads[k] = p.reads[k].filter((r) => !mentionsFake(typeof r === "string" ? r : (r && r.text) || ""));
+  return p;
+}
 bootData.then((json) => {
-  D = CC.googlePalette(json); F = CC.fmt;
+  D = CC.googlePalette(fillModelledDelivery(shortModelLabels(dropPlaceholderBrands(json)))); F = CC.fmt;
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);
   buildNav(); buildControls(); buildBrand(); labelSimChip();
@@ -442,6 +525,6 @@ repaint = function (force) { if (force) painted.clear(); _repaint(force); };
 
 const RENDER = {};
 window.__CCPAGES = RENDER; window.__CC = { get D() { return D; }, get S() { return S; }, get SUBJ() { return SUBJ; }, get cadence() { return cadence; }, get retailer() { return retailer; },
-  B, RT, MD, BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock, card, intro, table, slot,
+  B, RT, MD, BIDS, AI_BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock, card, intro, table, slot,
   win, winDates, winBands, slice, mean, sum, pairsFor, carriedPairs, retailerScope, openDrawer, closeDrawer, esc, h, $, $$, period, tc, provOf, provBadge, laneOf };
 })();

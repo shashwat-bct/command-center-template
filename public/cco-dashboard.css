@@ -107,7 +107,9 @@ select.sel:focus{outline:2px solid var(--accent);outline-offset:-1px}
 .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .g5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .g23{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
-.g2,.g23,.g32{align-items:start}
+.grid>*{min-width:0}
+.grid>.stack-v{display:flex;flex-direction:column}
+.grid>.stack-v>.card:last-child{flex:1}
 .g32{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
 @media(max-width:1440px){.g5{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1240px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}

@@ -102,22 +102,19 @@ export function mergeMeasured(payload: unknown, prov: Provenance, extras: Measur
   const shares = extras.aiShares;
 
   if (Object.keys(shares).length) {
-    for (const [slot, share] of Object.entries(shares)) {
-      if (p.ai.overall[slot] === undefined) continue;
-      p.ai.overall[slot] = Array(days).fill(share);
-    }
+    for (const slot of Object.keys(p.ai.overall)) p.ai.overall[slot] = shares[slot] == null ? null : Array(days).fill(shares[slot]);
     for (const key of Object.keys(p.ai.byEngineStage)) {
       const [engine, stage, b] = key.split("|");
-      if (shares[b] == null) continue;
+      if (shares[b] == null) { p.ai.byEngineStage[key] = Array(days).fill(null); continue; }
       p.ai.byEngineStage[key] = Array(days).fill(extras.aiEngineStageShares[engine]?.[stage]?.[b] ?? extras.aiStageShares[stage]?.[b] ?? shares[b]);
     }
     for (const cadence of Object.keys(p.scorecard)) {
       const cells = p.scorecard[cadence].aiSov;
       if (!cells) continue;
-      for (const [b, v] of Object.entries(shares)) if (cells[b]) cells[b] = { ...cells[b], value: v, prev: v, delta: 0, deltaPct: 0 };
+      for (const b of Object.keys(cells)) cells[b] = shares[b] == null ? { ...cells[b], value: null, prev: null, delta: null, deltaPct: null } : { ...cells[b], value: shares[b], prev: shares[b], delta: 0, deltaPct: 0 };
       rerank(cells, "up");
     }
-    if (p.trend.aiSov) for (const [b, v] of Object.entries(shares)) if (p.trend.aiSov[b]) p.trend.aiSov[b] = Array(p.trend.aiSov[b]!.length).fill(v);
+    if (p.trend.aiSov) for (const b of Object.keys(p.trend.aiSov)) if (p.trend.aiSov[b]) p.trend.aiSov[b] = shares[b] == null ? null : Array(p.trend.aiSov[b]!.length).fill(shares[b]);
     p.reads.ai = aiReads(p, shares);
     p.reads.overview = [...p.reads.ai, ...(p.reads.overview ?? []).filter((r) => !/AI answer/i.test(r.text))];
   } else {

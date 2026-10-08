@@ -163,7 +163,9 @@
 .aiv .ask{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;margin:6px 0 10px}
 .aiv .ask a{font-weight:500;font-size:11.5px;color:var(--accent);border:1px solid #c4c7c5;border-radius:99px;padding:3px 10px;background:#fff;text-decoration:none}
 .aiv .ask a:hover{background:var(--accentSoft)}
-.aiv .ask.sm a{font-size:11px;padding:2px 9px}
+.aiv .ask.sm{display:inline-flex;margin:0 0 0 6px;gap:2px}
+.aiv .ask.sm .evk{display:none}
+.aiv .ask.sm a{font-size:12px;padding:2px 6px;border:0;background:transparent;border-radius:6px}
 .aiv .evd{margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:9px;font-family:var(--fm);font-size:10.5px;color:var(--soft);line-height:1.6;background:var(--card2)}
 .aiv .evd .more{margin-left:8px}
 .aiv .evimg{margin-top:8px}
@@ -256,10 +258,15 @@
 .aiv .method code{font-family:var(--fm);font-size:12px}
 
 /* ── proof drawer (wide modal) ── */
-.aiv .modal{position:fixed;inset:0;background:rgba(12,14,24,.5);backdrop-filter:blur(3px);z-index:110;display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto}
+.aiv .modal{position:fixed;inset:0;background:rgba(31,31,31,.32);z-index:110;display:none;justify-content:flex-end;align-items:stretch;padding:8px}
 .aiv .modal.open{display:flex}
-.aiv .msheet{background:var(--card);border-radius:16px;max-width:1000px;width:100%;padding:24px 26px 28px;box-shadow:var(--shHi);position:relative}
-.aiv .msheet .close{position:absolute;top:12px;right:12px;border:1px solid var(--line);background:var(--card2);border-radius:99px;width:32px;height:32px;cursor:pointer;font-size:15px}
+.aiv .msheet{background:var(--card);border-radius:16px;width:min(980px,100%);height:100%;overflow-y:auto;overscroll-behavior:contain;padding:0;box-shadow:var(--shHi);position:relative;animation:sheetIn .22s var(--ease)}
+.aiv .msheet .close{position:sticky;top:16px;float:right;margin:16px 16px 0 0;z-index:4;border:0;background:transparent;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;color:var(--soft)}
+.aiv .msheet .close:hover{background:var(--hover);color:var(--ink)}
+.aiv #modalBody{padding:0 28px 32px}
+.aiv .mhead{position:sticky;top:0;z-index:3;background:var(--card);padding:22px 56px 14px 0;margin-bottom:16px;border-bottom:1px solid var(--line2)}
+.aiv .mhead .calc{margin:10px 0 0}
+@keyframes sheetIn{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
 .aiv .msheet h2{font-size:20px;font-weight:500;margin-bottom:4px;}
 .aiv .msheet .lede{color:var(--soft);font-size:13px;margin:0 0 14px}
 .aiv .qblock{border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:12px;background:var(--card2)}
@@ -528,7 +535,7 @@
 .aiv .kpi .kn{font-size:12px}
 .aiv .read p{font-size:14.5px}
 /* the proof modal and the attribute drill-down */
-.aiv .msheet{max-width:1080px;padding:26px 30px 30px}
+
 .aiv .msheet h2{font-size:22px}
 .aiv .msheet .lede{font-size:14px;line-height:1.55}
 .aiv .qblock{padding:15px 17px;margin-bottom:14px}
@@ -541,7 +548,7 @@
 .aiv .polchip{font-size:11.5px;padding:3px 10px}
 .aiv .bchip{font-size:12.5px}
 .aiv .ask a{font-size:12.5px;padding:4px 12px}
-.aiv .ask.sm a{font-size:12px;padding:3px 11px}
+
 .aiv .evd{font-size:11px}
 .aiv .calc{font-size:12px}
 .aiv .heat .hh{overflow-wrap:normal;word-break:normal;hyphens:none;white-space:nowrap;font-size:9.5px;letter-spacing:.04em}
@@ -571,3 +578,13 @@
 /* the "So what" line under every chart is off (Aashish, 2026-09-22: too much text; the reads live on
    the overview). One rule, so it is one line to bring back. */
 .aiv .sowhat{display:none}
+.aiv .mback{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px 0 8px;margin:0 0 10px -8px;border:0;border-radius:999px;background:transparent;color:var(--accent);font:500 13px var(--fg);cursor:pointer}
+.aiv .mback:hover{background:rgba(11,87,208,.08)}
+.aiv .lvl{display:block;font-size:12px;font-weight:500;color:var(--mute);margin:0 0 6px}
+.aiv .livebox textarea{width:100%;box-sizing:border-box;min-height:56px;font-size:15px;line-height:1.5;padding:12px 14px;border:1px solid #747775;border-radius:8px}
+.aiv .livebox textarea:focus{outline:none;border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.aiv .liveq .chip{height:auto;min-height:32px;padding:6px 12px;white-space:normal;text-align:left;line-height:1.35}
+.aiv #liveEngines .chip small{margin-left:6px;font-size:11px;color:var(--mute)}
+.aiv .runrow{margin-top:18px}
+.aiv .liveerr{margin-top:14px;padding:12px 14px;border-radius:12px;background:#fce8e6;color:#8c1d18;font-size:13px;line-height:1.5}
+.aiv .liveerr ul{margin:6px 0 0;padding-left:18px}

@@ -71,6 +71,7 @@ export type PromptRow = {
   rank: Record<string, number | null>;
   cited: Record<string, boolean>;
   topBrand: string | null;
+  named: string[];
 };
 
 export type RelabelInputs = {
@@ -198,6 +199,7 @@ export function buildRelabelInputs(input: {
         rank: Object.fromEntries(slots.map((s) => [s, order.includes(s) ? order.indexOf(s) + 1 : null])),
         cited: Object.fromEntries(brandSlots.map((b) => [b.slot, citedBy(q.sources, b.name)])),
         topBrand: order[0] ?? null,
+        named: q.brands.map((b) => b.name),
       };
     });
 

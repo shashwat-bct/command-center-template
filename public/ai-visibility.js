@@ -125,35 +125,45 @@ function md(text, hlBrands = []) {
 // ── evidence helpers ─────────────────────────────────────────────────────────
 const fmtTime = (iso) => { try { return new Date(iso).toLocaleString(undefined, { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", timeZoneName: "short" }); } catch { return iso; } };
 const PATH_LABEL = { ui: "consumer app session", api: "engine API with web search", "claude-api": "Claude API with web search" };
-function askRow(text, small) { const L = D.askLinks || {}; const items = [["gpt", "ChatGPT"], ["perplexity", "Perplexity"], ["claude", "Claude"], ["copilot", "Copilot"], ["googleAiMode", "Google AI Mode"]].filter(([k]) => L[k]).map(([k, l]) => `<a href="${esc(L[k] + encodeURIComponent(text))}" target="_blank" rel="noopener">${l} ↗</a>`); if (L.gemini) items.push(`<a href="${esc(L.gemini)}" target="_blank" rel="noopener" title="Gemini has no prefill link — paste the question">Gemini ↗</a>`); return `<div class="ask ${small ? "sm" : ""}"><span class="evk">Ask it yourself</span>${items.join("")}</div>`; }
+function askRow(text, small) { const L = D.askLinks || {}; const measured = new Set(D.engines.map(e => e.id)); const items = [["gpt", "ChatGPT"], ["perplexity", "Perplexity"], ["claude", "Claude"], ["copilot", "Copilot"], ["googleAiMode", "Google AI Mode"]].filter(([k]) => L[k] && (!small || measured.has(k))).map(([k, l]) => `<a href="${esc(L[k] + encodeURIComponent(text))}" target="_blank" rel="noopener">${l} ↗</a>`); if (L.gemini && (!small || measured.has("gemini"))) items.push(`<a href="${esc(L.gemini)}" target="_blank" rel="noopener" title="Gemini has no prefill link — paste the question">Gemini ↗</a>`); return `<div class="ask ${small ? "sm" : ""}"><span class="evk">Ask it yourself</span>${items.join("")}</div>`; }
 function evidenceStrip(a) {
   const ev = a.evidence || {}; const bits = [PATH_LABEL[a.path] || a.path || "measured"];
   if (ev.capturedAt) bits.push(`captured ${fmtTime(ev.capturedAt)}`); if (ev.country) bits.push(ev.country);
   if (ev.appModel) bits.push(`app answered with ${esc(ev.appModel)}`); if (ev.model) bits.push(esc(ev.model));
   if (ev.webSearchTriggered != null) bits.push(`web search ${ev.webSearchTriggered ? "on" : "off"}`); if (ev.shoppingVisible) bits.push("shopping module shown");
   if (a.sha256) bits.push(`<span title="SHA-256 of the captured answer text">sha256 ${a.sha256.slice(0, 12)}…</span>`);
-  const raw = { queryId: a.queryId, engine: a.engine, path: a.path, capturedAt: ev.capturedAt || null, session: ev.sessionUrl || null, snapshot: ev.snapshotId || null, model: ev.model || ev.appModel || null, sha256: a.sha256 || null, sources: (a.sources || []).map(x => x.url) };
-  return `<div class="evd"><span class="evk">Evidence</span>${bits.join(" · ")} ${ev.image ? `<button class="more" onclick="toggleEv(this)">show the real session</button><div class="evimg" hidden><img loading="lazy" src="${esc(ev.image)}" alt="Captured ${esc(a.engine)} session for this question"><div class="note">Rendered from the page source captured in the session (scripts and network off); the fingerprint above is of the answer text.</div></div>` : ""}<button class="more" onclick="toggleEv(this)">raw record</button><pre class="evraw" hidden>${esc(JSON.stringify(raw, null, 1))}</pre></div>`;
+  return `<div class="evd"><span class="evk">Evidence</span>${bits.join(" · ")} ${ev.image ? `<button class="more" onclick="toggleEv(this)">show the real session</button><div class="evimg" hidden><img loading="lazy" src="${esc(ev.image)}" alt="Captured ${esc(a.engine)} session for this question"><div class="note">Rendered from the page source captured in the session (scripts and network off); the fingerprint above is of the answer text.</div></div>` : ""}</div>`;
 }
-window.toggleEv = (btn) => { const d = btn.nextElementSibling; if (!d) return; d.hidden = !d.hidden; if (btn.textContent.includes("session")) btn.textContent = d.hidden ? "show the real session" : "hide the session"; else btn.textContent = d.hidden ? "raw record" : "hide raw record"; };
+window.toggleEv = (btn) => { const d = btn.nextElementSibling; if (!d) return; d.hidden = !d.hidden; if (btn.textContent.includes("session")) btn.textContent = d.hidden ? "show the real session" : "hide the session"; };
 
 // ── modal / proof drawer ─────────────────────────────────────────────────────
-window.closeModal = () => { $("modal").classList.remove("open"); document.body.style.overflow = ""; };
-function openModal(html) { $("modalBody").innerHTML = html; $("modal").classList.add("open"); document.body.style.overflow = "hidden"; $("modal").scrollTop = 0; }
+const modalStack = [];
+window.closeModal = () => { modalStack.length = 0; $("modal").classList.remove("open"); document.body.style.overflow = ""; };
+const backLink = () => { const prev = modalStack[modalStack.length - 1]; return prev ? `<button type="button" class="mback" onclick="modalBack()">← Back to ${esc(prev.title)}</button>` : ""; };
+const withBack = (html) => { const link = backLink(); if (!link) return html; return html.includes('<div class="mhead">') ? html.replace('<div class="mhead">', `<div class="mhead">${link}`) : link + html; };
+function openModal(html) {
+  const sheet = $("modal").querySelector(".msheet");
+  if ($("modal").classList.contains("open")) {
+    const h = $("modalBody").querySelector("h2");
+    modalStack.push({ html: $("modalBody").innerHTML, scroll: sheet.scrollTop, title: h ? h.textContent.replace(/^← Back to .*$/, "").trim().slice(0, 60) : "previous" });
+  }
+  $("modalBody").innerHTML = withBack(html); $("modal").classList.add("open"); document.body.style.overflow = "hidden"; sheet.scrollTop = 0;
+}
+window.modalBack = () => { const prev = modalStack.pop(); if (!prev) return; const sheet = $("modal").querySelector(".msheet"); $("modalBody").innerHTML = prev.html; sheet.scrollTop = prev.scroll; };
 window.toggleFull = (btn) => { const t = btn.previousElementSibling; t.classList.toggle("full"); btn.textContent = t.classList.contains("full") ? "collapse" : "show the full answer"; };
 function proof({ title, lede, calc, qids, engines = [...S.engines], cap = CUR, hl = brandsOn(), maxQ = 40 }) {
   const q = qById(); const eng = Object.fromEntries(D.engines.map(e => [e.id, e.label]));
   const blocks = qids.slice(0, maxQ).map(id => {
     const ans = cap.answers.filter(a => a.queryId === id && engines.includes(a.engine) && a.run === 1);
-    return `<div class="qblock"><div class="qt">“${esc(q[id]?.text || id)}”</div><div class="qm">${esc(q[id]?.stage || "")} · ${esc(q[id]?.focus || "")} question · ${ans.length} engine answer${ans.length === 1 ? "" : "s"}</div>${askRow(q[id]?.text || "", true)}
+    return `<div class="qblock"><div class="qt">“${esc(q[id]?.text || id)}”</div><div class="qm">${esc(q[id]?.stage || "")} · ${esc(q[id]?.focus || "")} question · ${ans.length} engine answer${ans.length === 1 ? "" : "s"} · ask it yourself${askRow(q[id]?.text || "", true)}</div>
       ${ans.map(a => { const ms = brandsOn().map(b => ({ b, m: mention(a, b) })).filter(x => x.m).sort((x, y) => (x.m.rank || 9) - (y.m.rank || 9));
         // one accordion per engine (Aashish, 2026-09-21): closed, it shows the engine, the brands in
         // the order the answer named them, and one fading line of the answer; open, the whole answer
         const peek = esc(String(a.text || "").replace(/[#*_`>\[\]]+/g, " ").replace(/\(https?:[^)]*\)/g, "").replace(/\s+/g, " ").trim().slice(0, 240));
-        return `<details class="eng"><summary><div class="eh"><span class="en">${esc(eng[a.engine] || a.engine)}</span><span class="bchips">${ms.map(({ b, m }) => `<span class="bchip ${b.id === subjectId() ? "sub" : ""} ${m.sentiment || ""}"><i class="sw" style="width:8px;height:8px;border-radius:2px;background:${b.color}"></i>${esc(b.label)}<span class="r">#${m.rank || "?"}${m.recommended ? " · pick" : ""}${m.product ? " · " + esc(m.product) : ""}${m.textMatch ? " · text match" : ""}</span></span>`).join("") || '<span class="note">no tracked brand named</span>'}</span></div><div class="peek"><span class="pk">${peek || "(empty answer)"}</span><span class="seemore">See more ▾</span></div></summary>
+        return `<details class="eng"><summary><div class="eh"><span class="en">${esc(eng[a.engine] || a.engine)}</span><span class="bchips">${ms.map(({ b, m }) => `<span class="bchip ${b.id === subjectId() ? "sub" : ""} ${m.sentiment || ""}"><i class="sw" style="width:8px;height:8px;border-radius:2px;background:${b.color}"></i>${esc(b.label)}<span class="r">#${m.rank || "?"}${a.topPick === b.id ? " · top pick" : m.recommended ? " · recommended" : ""}${m.product ? " · " + esc(m.product) : ""}${m.textMatch ? " · text match" : ""}</span></span>`).join("") || '<span class="note">no tracked brand named</span>'}</span></div><div class="peek"><span class="pk">${peek || "(empty answer)"}</span><span class="seemore">See more ▾</span></div></summary>
         <div class="txt full">${md(a.text, hl)}</div>
         ${a.sources?.length ? `<div class="cites" style="margin-top:8px">${a.sources.slice(0, 8).map(s => `<span><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.host || s.title)}</a><span class="kd">${esc(s.kind || "")}</span></span>`).join("")}</div>` : ""}${evidenceStrip(a)}</details>`; }).join("")}</div>`; }).join("");
-  openModal(`<h2>${esc(title)}</h2><p class="lede">${lede || ""}</p>${calc ? `<div class="calc">${calc}</div>` : ""}${blocks}${qids.length > maxQ ? `<p class="note">${qids.length - maxQ} more questions not shown.</p>` : ""}`);
+  openModal(`<div class="mhead"><h2>${esc(title)}</h2><p class="lede" style="margin:4px 0 0">${lede || ""}</p>${calc ? `<div class="calc">${calc}</div>` : ""}</div>${blocks}${qids.length > maxQ ? `<p class="note">${qids.length - maxQ} more questions not shown.</p>` : ""}`);
 }
 window.__proof = proof;
 
@@ -279,6 +289,13 @@ function renderCanvas() {
   const eng = Object.fromEntries(D.engines.map(e => [e.id, e.label]));
   const AC = compareAnswers();
   $("engineViz").innerHTML = ([...S.engines].map(e => { const sa = AC.filter(a => a.engine === e); const sh = shareOf(sa); const ep = CUR.enginePaths?.[e]; return `<div class="srow big" style="cursor:pointer" onclick="openEngineProof('${e}')"><div class="rl">${esc(eng[e])}<small>${uniq(sa.map(a => a.queryId)).length} answers · ${ep ? (ep.path === "ui" ? "consumer app" : "API path") : "measured"}</small><small>${SL} ${pct(sh[s])} · ${rankPhrase(sh, s)}</small></div><div>${stackBar(sh)}</div></div>`; }).join("") || '<div class="pending">No engine selected.</div>');
+  if (window.CC && $("funnelHeat")) {
+    const s = subjectId(); const A = activeAnswers();
+    const cell = (e, st) => { const sa = stageAnswers(st, A).filter((a) => a.engine === e); return sa.length ? shareOf(sa)[s] : null; };
+    CC.heatmap($("funnelHeat"), { rows: [...S.engines].map((e) => ({ id: e, label: engLabel(e) })), cols: D.stages.map((st) => ({ id: st.id, label: st.label })), corner: "Engine ╲ Stage",
+      rowLabel: (r) => r.label, colLabel: (c) => c.label, value: (r, c) => cell(r.id, c.id), fmtV: (v) => v == null ? "—" : pct(v),
+      scaleNote: `${SL} share of the answer`, onPick: (r, c) => openStageProof(c.id) });
+  }
   const pr = presenceOf(AC); const tpC = topPickShare(AC);
   $("presenceViz").innerHTML = `<div class="tblwrap"><table class="t"><thead><tr><th>Brand</th><th class="num">Named in</th><th class="num">Presence</th><th class="num">Avg. position</th><th class="num">Top pick</th></tr></thead><tbody>${bs.map(b => { const tp = tpC; return `<tr class="tap ${b.id === s ? "subj" : ""}" onclick="openPresenceProof('${b.id}')"><td><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${b.color};margin-right:7px"></i>${esc(b.label)}${b.custom ? ' <span class="note">text match</span>' : ""}</td><td class="num">${pr[b.id].n} / ${pr[b.id].of}</td><td class="num">${pct(pr[b.id].rate)}</td><td class="num">${b.custom ? "—" : n1(avgRank(AC, b))}</td><td class="num">${b.custom ? "—" : pct(tp.out[b.id])}</td></tr>`; }).join("")}</tbody></table></div>${compareFoot()}`;
 }
@@ -312,6 +329,19 @@ const ownedOf = (b) => (b.owned && b.owned.length ? b.owned : [`${b.id}.com`]);
 const isOwnedHost = (b, h) => { const host = (h || "").toLowerCase().replace(/^www\./, ""); return b.owned && b.owned.length ? b.owned.some(d => host === d || host.endsWith("." + d)) : new RegExp(`(^|\\.)${b.id}\\.[a-z.]+$`, "i").test(host); };
 // one spelling per model, so a model counts once however the reader wrote it. Per brand, the
 // token that identifies the model on the shelf; a string that carries none stays as written.
+const MODEL_FILLER = /\b(cordless|vacuums?|cleaner|stick|origin|the|with)\b/gi;
+function modelParts(raw, brand) {
+  const brandRx = brand ? new RegExp(`\\b${String(brand).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi") : null;
+  return String(raw || "").split(/\s*(?:\/|,|;|\bor\b)\s*/i).map((part) => {
+    let clean = part.replace(/[™®©]/g, "");
+    if (brandRx) clean = clean.replace(brandRx, "");
+    clean = clean.replace(MODEL_FILLER, "").replace(/\s+/g, " ").trim();
+    if (!clean) return null;
+    const code = /\b([a-z]{1,4}\d{1,4}[a-z]*|\d{1,4}[a-z]{2,})\b/i.exec(clean);
+    const line = /^([A-Z][a-z]+[A-Z][A-Za-z]*)\b/.exec(clean);
+    return { key: (code ? code[1] : line ? line[1] : clean).toLowerCase(), label: clean };
+  }).filter(Boolean);
+}
 function canonModel(brand, p) {
   const t = String(p || "").toLowerCase(); let m;
   if (brand === "sony") { if ((m = /bravia\s*(\d)\s*(ii|iii)?\b/.exec(t))) return `${PL} ${m[1]}${m[2] ? " " + m[2].toUpperCase() : ""}`; if ((m = /\b([axz]\d{2}[a-z]?)\b/.exec(t))) return m[1].toUpperCase(); return null; }
@@ -337,7 +367,7 @@ function renderLenses() {
   const A = activeAnswers(); const s = subjectId(); const bs = brandsOn(); const sb = bs.find(b => b.id === s); const q = qById(); const cards = [];
   const engL = Object.fromEntries(D.engines.map(e => [e.id, e.label]));
   // a verdict cell: the brand an answer commits to, or "no verdict"
-  const pickCell = (x) => { if (!x) return '<td class="num"><span class="note">—</span></td>'; if (!x.topPick) return '<td class="num" title="no single top pick"><span class="pk none">no verdict</span></td>'; const b = bs.find(z => z.id === x.topPick); return `<td class="num"><span class="pk" style="--sw:${b ? b.color : "#80868b"}">${esc(b ? b.label : x.topPick)}</span></td>`; };
+  const pickCell = (x) => { if (!x) return '<td class="num"><span class="note">—</span></td>'; if (!x.topPick) { const rec = (x.brands || []).filter(z => z.recommended).length; return rec >= 2 ? `<td class="num" title="The answer endorses ${rec} brands and leaves the choice to the shopper"><span class="pk none">recommends ${rec === 2 ? "both" : rec}</span></td>` : '<td class="num" title="The answer does not commit to a brand"><span class="pk none">no verdict</span></td>'; } const b = bs.find(z => z.id === x.topPick); return `<td class="num"><span class="pk" style="--sw:${b ? b.color : "#80868b"}">${esc(b ? b.label : x.topPick)}</span></td>`; };
   const vEng = [...S.engines];
   // 1 recommendation rate — with every question and each engine's pick behind an accordion
   const AC = compareAnswers(); const tp = topPickShare(AC); const cq = compareQueries();
@@ -399,9 +429,13 @@ function renderLenses() {
   // "C6" fold into one), on the brand-neutral base, a model counting once per answer. Sorted by
   // raw string this once read BRAVIA 8 II 21 beside "C6 OLED" 21 with LG's other spellings lower
   // down; folded, the LG C5 and C6 lead (Aashish, 2026-09-22).
-  const prods = {}; for (const a of AC) for (const b of bs) { const m = mention(a, b); if (m && m.product) { const raw = m.product.replace(/\s+/g, " ").trim(); const c = canonModel(b.id, raw) || raw; const k = `${b.id}|${c}`; prods[k] ||= { n: 0, q: new Set(), e: new Set(), raw: {} }; prods[k].n++; prods[k].q.add(a.queryId); prods[k].e.add(a.engine); prods[k].raw[raw] = (prods[k].raw[raw] || 0) + 1; } }
+  const prods = {}; for (const a of AC) for (const b of bs) { const m = mention(a, b); if (!m || !m.product) continue; const raw = m.product.replace(/\s+/g, " ").trim(); const tv = canonModel(b.id, raw); const parts = tv ? [{ key: tv.toLowerCase(), label: tv }] : modelParts(raw, b.label); for (const part of new Map(parts.map((x) => [x.key, x])).values()) { const k = `${b.id}|${part.key}`; prods[k] ||= { n: 0, q: new Set(), e: new Set(), raw: {}, label: {} }; prods[k].n++; prods[k].q.add(a.queryId); prods[k].e.add(a.engine); prods[k].raw[raw] = (prods[k].raw[raw] || 0) + 1; prods[k].label[part.label] = (prods[k].label[part.label] || 0) + 1; } }
+  const pLabel = (k) => byDesc(prods[k].label)[0][0];
+  const catalog = (D.catalog && D.catalog.products) || [];
+  const catByKey = new Map(catalog.flatMap((cp) => { const part = modelParts(cp.label, sb && sb.label)[0]; return part ? [[`${s}|${part.key}`, cp]] : []; }));
+  const catLine = catalog.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px"><span class="note" style="font-size:13px">Your catalogue:</span>${catalog.map((cp) => { const part = modelParts(cp.label, sb && sb.label)[0]; const hit = part && prods[`${s}|${part.key}`]; return `<span class="tag ${hit ? "good" : "risk"}" title="${esc(cp.label)}">${esc(part ? part.label : cp.label)} · ${hit ? `named in ${hit.n} answer${hit.n === 1 ? "" : "s"}` : "never named"}</span>`; }).join("")}</div>` : "";
   const prodAll = Object.entries(prods).sort((a, b) => b[1].n - a[1].n || b[1].q.size - a[1].q.size); const prodRows = prodAll.slice(0, 14);
-  cards.push(lensCard("products", "Lens 07 · Product level", "Which models the engines actually name", `Brand share is not model share. The models the engines put in front of a shopper on the ${cq.length} brand-neutral questions (${AC.length} answers); a model counts once per answer, however it is spelled.`, `<div class="tblwrap"><table class="t"><thead><tr><th>Model</th><th>Brand</th><th class="num">Answers</th><th class="num">Questions</th><th class="num">Engines</th></tr></thead><tbody>${prodRows.map(([k, v]) => { const [b, p] = k.split("|"); const spellings = byDesc(v.raw); return `<tr class="tap ${b === s ? "subj" : ""}" title="as written: ${esc(spellings.map(([r, n]) => `${r} (${n})`).join(", "))}" onclick="openModelProof(${JSON.stringify([...v.q]).replace(/"/g, "&quot;")}, '${esc(p)}')"><td>${esc(p)}</td><td><i class="sw" style="background:${brandColor(b)}"></i>${esc(brandLabel(b))}</td><td class="num"><b>${v.n}</b></td><td class="num">${v.q.size}<small class="note">/${cq.length}</small></td><td class="num">${v.e.size}<small class="note">/${S.engines.size}</small></td></tr>`; }).join("")}</tbody></table></div><div class="note" style="margin-top:8px">Hover a row for the spellings folded into it; tap it for every answer that names the model.</div>`, (() => { const top = prodAll[0]; const sonyP = prodAll.filter(([k]) => k.startsWith(s + "|")); const modelCounts = Object.fromEntries(prodAll.map(([k, v]) => [k, v.n])); return `${top ? `<b>${esc(top[0].split("|")[1])}</b> (${esc(brandLabel(top[0].split("|")[0]))}) is the most-named model: ${top[1].n} answers across ${top[1].q.size} questions.` : ""} ${sonyP.length ? `${SL}'s most-named is <b>${esc(sonyP[0][0].split("|")[1])}</b> at ${sonyP[0][1].n} — ${standingPhrase(modelCounts, sonyP[0][0], "models named")}.` : `No ${SL} model is named on these questions.`} A model that isn't named cannot be bought on the engine's recommendation — the catalogue beside lists what should be.`; })()));
+  cards.push(lensCard("products", "Lens 07 · Product level", "Which models the engines actually name", `Brand share is not model share. The models the engines put in front of a shopper on the ${cq.length} brand-neutral questions (${AC.length} answers); a model counts once per answer, however it is spelled.`, `${catLine}<div class="tblwrap"><table class="t"><thead><tr><th>Model</th><th>Brand</th><th class="num">Answers</th><th class="num">Questions</th><th class="num">Engines</th>${catalog.length ? '<th>In your catalogue</th>' : ""}</tr></thead><tbody>${prodRows.map(([k, v]) => { const b = k.split("|")[0]; const p = pLabel(k); const cat = catByKey.get(k); const spellings = byDesc(v.raw); return `<tr class="tap ${b === s ? "subj" : ""}" title="as written: ${esc(spellings.map(([r, n]) => `${r} (${n})`).join(", "))}" onclick="openModelProof(${JSON.stringify([...v.q]).replace(/"/g, "&quot;")}, '${esc(p)}')"><td>${esc(p)}</td><td><i class="sw" style="background:${brandColor(b)}"></i>${esc(brandLabel(b))}</td><td class="num"><b>${v.n}</b></td><td class="num">${v.q.size}<small class="note">/${cq.length}</small></td><td class="num">${v.e.size}<small class="note">/${S.engines.size}</small></td>${catalog.length ? `<td>${cat ? `<span class="tag good">in catalogue</span>${cat.msrp ? ` <span class="note">$${Number(cat.msrp).toFixed(2)}</span>` : ""}` : ""}</td>` : ""}</tr>`; }).join("")}</tbody></table></div><div class="note" style="margin-top:8px">Hover a row for the spellings folded into it; tap it for every answer that names the model.</div>`, (() => { const top = prodAll[0]; const sonyP = prodAll.filter(([k]) => k.startsWith(s + "|")); const modelCounts = Object.fromEntries(prodAll.map(([k, v]) => [k, v.n])); return `${top ? `<b>${esc(pLabel(top[0]))}</b> (${esc(brandLabel(top[0].split("|")[0]))}) is the most-named model: ${top[1].n} answers across ${top[1].q.size} questions.` : ""} ${sonyP.length ? `${SL}'s most-named is <b>${esc(pLabel(sonyP[0][0]))}</b> at ${sonyP[0][1].n} — ${standingPhrase(modelCounts, sonyP[0][0], "models named")}.` : `No ${SL} model is named on these questions.`} A model that isn't named cannot be bought on the engine's recommendation.`; })()));
   // 8 attributes — the hero of its own page: every cell opens to the answers and the sentences
   const attrs = D.attrs;
   const attrNet = (bid, at, eng) => { let pos = 0, neg = 0; for (const a of A) { if (eng && a.engine !== eng) continue; for (const x of (a.attributes?.[bid] || [])) if (x.attr === at) { if (x.polarity === "-") neg++; else pos++; } } return { pos, neg, net: pos - neg }; };
@@ -531,7 +565,7 @@ window.openClaimRow = (i, qidOverride) => {
     const rxs = mine.map(x => valueRegex(x.value)).filter(Boolean);
     const ms = hl.map(b => ({ b, m: mention(a, b) })).filter(x => x.m).sort((x, y) => (x.m.rank || 9) - (y.m.rank || 9));
     const peek = esc(String(a.text || "").replace(/[#*_`>\[\]]+/g, " ").replace(/\(https?:[^)]*\)/g, "").replace(/\s+/g, " ").trim().slice(0, 240));
-    return `<details class="eng" ${mine.length ? "open" : ""}><summary><div class="eh"><span class="en">${esc(engL[a.engine] || a.engine)}${tags ? `<span class="ctags">${tags}</span>` : ""}</span><span class="bchips">${ms.map(({ b, m }) => `<span class="bchip ${b.id === subjectId() ? "sub" : ""} ${m.sentiment || ""}"><i class="sw" style="width:8px;height:8px;border-radius:2px;background:${b.color}"></i>${esc(b.label)}<span class="r">#${m.rank || "?"}${m.recommended ? " · pick" : ""}${m.product ? " · " + esc(m.product) : ""}${m.textMatch ? " · text match" : ""}</span></span>`).join("") || '<span class="note">no tracked brand named</span>'}</span></div><div class="peek"><span class="pk">${peek || "(empty answer)"}</span><span class="seemore">See more ▾</span></div></summary>
+    return `<details class="eng" ${mine.length ? "open" : ""}><summary><div class="eh"><span class="en">${esc(engL[a.engine] || a.engine)}${tags ? `<span class="ctags">${tags}</span>` : ""}</span><span class="bchips">${ms.map(({ b, m }) => `<span class="bchip ${b.id === subjectId() ? "sub" : ""} ${m.sentiment || ""}"><i class="sw" style="width:8px;height:8px;border-radius:2px;background:${b.color}"></i>${esc(b.label)}<span class="r">#${m.rank || "?"}${a.topPick === b.id ? " · top pick" : m.recommended ? " · recommended" : ""}${m.product ? " · " + esc(m.product) : ""}${m.textMatch ? " · text match" : ""}</span></span>`).join("") || '<span class="note">no tracked brand named</span>'}</span></div><div class="peek"><span class="pk">${peek || "(empty answer)"}</span><span class="seemore">See more ▾</span></div></summary>
       <div class="txt full">${hlValues(md(a.text, hl), rxs)}</div>
       ${a.sources?.length ? `<div class="cites" style="margin-top:8px">${a.sources.slice(0, 8).map(x => `<span><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.host || x.title)}</a><span class="kd">${esc(x.kind || "")}</span></span>`).join("")}</div>` : ""}${evidenceStrip(a)}</details>`;
   }).join("");
@@ -661,7 +695,7 @@ function renderMethod() {
       ${D.crawlerAccess ? `<li><b>Crawler access</b> — robots.txt and llms.txt of ${D.crawlerAccess.sites.length} sites read ${D.crawlerAccess.capturedAt.slice(0, 10)}, parsed for ${D.crawlerAccess.bots.length} crawler user-agents.</li>` : ""}</ul>
     <h3>Engines: measured vs live</h3><ul>${CUR.enginePaths ? `<li><b>Engine paths in the current read</b> — ${Object.entries(CUR.enginePaths).map(([e, x]) => `${D.engines.find(y => y.id === e)?.label || e}: ${x.path === "ui" ? "consumer-UI sessions" : "API path"} (${x.n} questions)${x.why ? " — " + esc(x.why) : ""}`).join("; ")}.</li>` : ""}<li>The measured lenses use Bright Data's real consumer-UI sessions on chatgpt.com, perplexity.ai and gemini.google.com, as a US shopper, with the citations the interface showed. One session per question per pass; a batch takes minutes per engine.</li><li>Live runs use the same engines' model APIs with web search on (GPT-5.4, Gemini 2.5 Flash, Perplexity Sonar, Claude Sonnet) through one fan-out, in seconds. Claude has no consumer-UI scraper, so its measured lane is Claude's API with its own web search — the retrieval the Claude app uses — and it is labelled as such. Third-party tests find the API and the consumer app can differ in the sources they pull; a live answer is a real answer from that model today, and the page labels which path produced it.</li></ul>
     <h3>Reading the answers</h3><ul><li>One reader model per question extracts, for every engine answer: the tracked brands named, the order of first mention, whether a brand is framed as the top pick, the sentiment, the specific model, the attributes attached to each brand, and every checkable claim about ${SL}. The same reader runs on every capture date, so drift is the engines changing, not the reader.</li><li>A brand added in the console is read by text match on the captured answers (presence and order only) until the next capture reads it properly. It is labelled as such wherever it appears.</li><li>Share of AI answer = Σ over answers of (1 ÷ position) × favourability (positive 1, neutral or mixed 0.6, negative 0.2), normalised across the selected brands. Presence = questions where at least one engine names the brand. Top pick = the single brand an answer most recommends, when it commits to one.</li></ul>
-    <h3>Evidence</h3><ul><li>Consumer-app answers keep the page source the session returned; it is rendered offline (scripts and network disabled) into the image behind “show the real session”, with the capture time, country, whether the app ran a web search, whether the shopping module was on screen, and the model the app reported. API-path answers keep the model id and the request time.</li><li>Every answer carries a SHA-256 fingerprint of its text and a raw record; the raw capture files are downloadable from the Evidence card so the figures can be recomputed outside this page.</li><li>“Ask it yourself” opens the engines with the same question. The answer may differ from the capture: Lens 10 measures how often it does.</li></ul>
+    <h3>Evidence</h3><ul><li>Consumer-app answers keep the page source the session returned; it is rendered offline (scripts and network disabled) into the image behind “show the real session”, with the capture time, country, whether the app ran a web search, whether the shopping module was on screen, and the model the app reported. API-path answers keep the model id and the request time.</li><li>Every answer carries a SHA-256 fingerprint of its text.</li><li>“Ask it yourself” opens the engines with the same question. The answer may differ from the capture: Lens 10 measures how often it does.</li></ul>
     <h3>Rules this page obeys</h3><ul><li>Every figure is computed from the payload in the browser; change the scope and it recomputes. No superlative is typed — “first”, “joint third” are read from the same object as the number.</li><li>A lens whose data source is not connected shows no number. Nothing is illustrative.</li><li>Every tile opens to its receipt: the questions, each engine's full answer, the citations and the arithmetic.</li><li>External figures in the programme are attributed inline to their study; they are the literature's numbers, not ours.</li></ul>
     <h3>Limits</h3><ul><li>US market, English, one pass per question on the full bank (three on the volatility set). Personalisation and memory are off in the captured sessions; a signed-in shopper may see a different answer.</li><li>Engine answers vary run to run; the volatility lens quantifies how much for this bank. Treat single-run differences under that spread as noise.</li><li>The question bank is ours, weighted by judgement. Weighting it by real prompt demand is the first roadmap item.</li></ul>
     <p class="note" style="margin-top:14px">Payload generated ${esc(D.generatedAt.slice(0, 16).replace("T", " "))} UTC · BrandContext Atlas.</p>`;
@@ -686,9 +720,10 @@ function renderLive() {
   const picks = warmRows.length ? [] : [...D.bank.filter(q => q.stage === "decision").slice(0, 2), ...D.bank.filter(q => q.stage === "evaluation" && q.focus === "vs").slice(0, 1), ...D.bank.filter(q => q.stage === "consideration").slice(0, 2)];
   $("liveSuggest").innerHTML = (warmRows.length ? `<span class="note" style="width:100%">Demo shortlist · answers captured ${isToday(WARM.warmedAt) ? "today" : fmtTime(WARM.warmedAt).split(",")[0]} at ${fmtClock(WARM.warmedAt)} through the same live path — tap one to show it instantly, then re-run it live.</span>` : "")
     + warmRows.map((r, i) => `<span class="chip warm" onclick="showWarm(${i})" title="captured ${esc(fmtTime(r.at))}">${esc(r.question.slice(0, 64))}${r.question.length > 64 ? "…" : ""}<small>${esc(fmtClock(r.at))}</small></span>`).join("")
-    + picks.map(q => `<span class="chip" onclick="document.getElementById('liveQ').value=${JSON.stringify(q.text).replace(/"/g, "&quot;")}">${esc(q.text.slice(0, 64))}${q.text.length > 64 ? "…" : ""}</span>`).join("")
+    + picks.map(q => `<span class="chip" onclick="document.getElementById('liveQ').value=${JSON.stringify(q.text).replace(/"/g, "&quot;")}">${esc(q.text)}</span>`).join("")
     + S.customQ.map(q => `<span class="chip" onclick="document.getElementById('liveQ').value=${JSON.stringify(q.text).replace(/"/g, "&quot;")}">${esc(q.text.slice(0, 64))}</span>`).join("");
-  $("liveEngines").innerHTML = D.liveConfig.engines.map(e => `<span class="chip ${S.liveEngines.has(e) ? "on" : ""}" style="--sw:var(--accent)" onclick="toggleLiveEngine('${e}')"><i class="sw"></i>${esc(engL[e] || e)}</span>`).join("") + `<span class="note" style="align-self:center">${S.liveEngines.size} engine${S.liveEngines.size === 1 ? "" : "s"} · ${S.liveEngines.has("gpt") && S.liveEngines.size >= 3 ? "about 12–15 s" : S.liveEngines.size <= 2 ? "about 8–13 s" : "about 10–15 s"}</span>`;
+  const slow = (e) => e === "gpt" || e === "gemini" || e === "perplexity" || e === "copilot";
+  $("liveEngines").innerHTML = D.liveConfig.engines.map(e => `<span class="chip ${S.liveEngines.has(e) ? "on" : ""}" style="--sw:var(--accent)" onclick="toggleLiveEngine('${e}')"><i class="sw"></i>${esc(engL[e] || e)}<small>${slow(e) ? "consumer app · 1–3 min" : "API · ~10 s"}</small></span>`).join("") + `<span class="note" style="align-self:center">${S.liveEngines.size} engine${S.liveEngines.size === 1 ? "" : "s"} · ${[...S.liveEngines].some(slow) ? "about 1–3 minutes" : "about 10 seconds"}</span>`;
 }
 window.toggleLiveEngine = (e) => { S.liveEngines.has(e) ? S.liveEngines.delete(e) : S.liveEngines.add(e); if (!S.liveEngines.size) S.liveEngines.add(e); renderLive(); };
 window.showWarm = (i) => {
@@ -700,11 +735,11 @@ window.showWarm = (i) => {
 function liveCard(e, s) {
   return `<div class="ans" id="live-${esc(e.id)}"><div class="eh"><span class="en">${esc(e.label)}<small>${esc(e.via || e.model || "")}${e.tMs ? ` · ${(e.tMs / 1000).toFixed(1)} s` : ""}</small></span>${e.topPick ? `<span class="bchip ${e.topPick === s ? "sub" : ""}">top pick · ${esc(brandLabel(e.topPick))}</span>` : ""}</div>
     ${e.error ? `<div class="note" style="color:var(--crit)">${esc(e.error)}</div>` : ""}
-    <div class="bchips">${(e.brands || []).slice().sort((a, b) => (a.rank || 9) - (b.rank || 9)).map(b => `<span class="bchip ${b.id === s ? "sub" : ""} ${b.sentiment || ""}"><i class="sw" style="width:8px;height:8px;border-radius:2px;background:${brandColor(b.id)}"></i>${esc(brandLabel(b.id))}<span class="r">#${b.rank || "?"}${b.recommended ? " · pick" : ""}${b.product ? " · " + esc(b.product) : ""}${b.sentiment ? ` · <span class="s">${esc(b.sentiment)}</span>` : ""}${b.textMatch ? " · text match" : ""}</span></span>`).join("") || (e.text ? '<span class="note">no tracked brand named</span>' : "")}</div>
+    <div class="bchips">${(e.brands || []).slice().sort((a, b) => (a.rank || 9) - (b.rank || 9)).map(b => `<span class="bchip ${b.id === s ? "sub" : ""} ${b.sentiment || ""}"><i class="sw" style="width:8px;height:8px;border-radius:2px;background:${brandColor(b.id)}"></i>${esc(brandLabel(b.id))}<span class="r">#${b.rank || "?"}${e.topPick === b.id ? " · top pick" : b.recommended ? " · recommended" : ""}${b.product ? " · " + esc(b.product) : ""}${b.sentiment ? ` · <span class="s">${esc(b.sentiment)}</span>` : ""}${b.textMatch ? " · text match" : ""}</span></span>`).join("") || (e.text ? '<span class="note">no tracked brand named</span>' : "")}</div>
     <div class="txt">${md(e.text, S.brands.filter(b => b.on))}</div>
     ${e.subjectClaims?.length ? `<div class="note"><b>Claims about ${SL}:</b> ${e.subjectClaims.map(c => esc(c.claim)).join(" · ")}</div>` : ""}
     ${e.sources?.length ? `<div class="cites">${e.sources.slice(0, 8).map(x => `<span><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.host || x.title)}</a></span>`).join("")}</div>` : (e.text ? '<div class="note">no citations returned</div>' : "")}
-    <div class="evd"><span class="evk">Evidence</span>${esc(e.via || "")}${e.model ? ` · ${esc(e.model)}` : ""}${e.costUsd != null ? ` · $${Number(e.costUsd).toFixed(4)}` : ""}${e.sha256 ? ` · sha256 ${esc(e.sha256.slice(0, 12))}…` : ""} <button class="more" onclick="toggleEv(this)">raw record</button><pre class="evraw" hidden>${esc(JSON.stringify({ engine: e.id, model: e.model, via: e.via, sources: (e.sources || []).map(x => x.url), text: e.text }, null, 1))}</pre></div></div>`;
+    <div class="evd"><span class="evk">Evidence</span>${esc(e.via || "")}${e.model ? ` · ${esc(e.model)}` : ""}${e.costUsd != null ? ` · $${Number(e.costUsd).toFixed(4)}` : ""}${e.sha256 ? ` · sha256 ${esc(e.sha256.slice(0, 12))}…` : ""}</div></div>`;
 }
 function renderLiveSummary(out) {
   const s = subjectId(); const eng = out.engines.filter(e => e.text); const named = eng.filter(e => e.brands?.some(b => b.id === s)); const ranks = eng.map(e => e.brands?.find(b => b.id === s)?.rank).filter(x => x);
@@ -713,6 +748,13 @@ function renderLiveSummary(out) {
 }
 function renderLiveResult(out) {
   const s = subjectId(); LIVE_ANSWERS = out.engines; LIVE_Q = out.question || $("liveQ").value;
+  if (!out.engines.some(e => e.text)) {
+    $("liveSum").hidden = true;
+    $("liveOut").innerHTML = "";
+    $("liveError").hidden = false;
+    $("liveError").innerHTML = `<b>No engine answered.</b>${out.engines.length ? `<ul>${out.engines.map(e => `<li>${esc(e.label)}: ${esc(e.error || "returned an empty answer")}</li>`).join("")}</ul>` : " None of the engines you picked is available on this server."}`;
+    return;
+  }
   $("liveOut").innerHTML = askRow(LIVE_Q, true) + out.engines.map(e => liveCard(e, s)).join("");
   renderLiveSummary(out);
 }
@@ -750,6 +792,7 @@ async function runLive() {
       LIVE_ANSWERS = out.engines; renderLiveResult(out);
     }
     clearInterval(tick);
+    if (!LIVE_ANSWERS.some(e => e.text)) { $("liveProgress").textContent = ""; renderLiveResult({ question, engines: LIVE_ANSWERS }); btn.disabled = false; return; }
     const tEngines = ((Date.now() - t0) / 1000).toFixed(1);
     $("liveProgress").innerHTML = `answers in <b>${tEngines} s</b> · ${esc(out.path || "")}${out.runId ? ` · run ${esc(out.runId)}` : ""} · <span class="dot" style="background:var(--accent)"></span>reader refining positions and claims…`;
     renderLiveSummary({ engines: LIVE_ANSWERS });
@@ -773,19 +816,15 @@ const LIVE_PLACEHOLDER = { tv: "e.g. Which 65-inch TV should I buy for a bright 
 const TPL = {
   overview: () => `${intro('<span id="ovLead">—</span>', '<div class="ovcap" id="ovAside"></div>')}
     <div class="grid g4 lead-kpis" id="ovKpis"></div>
-    <div class="grid g23">${card({ title: "Share of AI Answer Through the Funnel", sub: "Weighted share of the engines' answers at each stage of the buying journey. Tap a stage for its questions and every answer behind them.", tag: "Measured", tagCls: "good", slot: "ovFunnel" })}${card({ title: "By Engine", sub: "Share of answer on each engine for the selected brands, read on the brand-neutral questions. Tap an engine for every answer it gave.", tag: "Measured", tagCls: "good", slot: "ovEngines" })}</div>
+    <div class="grid g2" style="margin-top:20px">${card({ title: "Head-to-Head", sub: "Every brand-neutral answer that names either brand: who the engine puts first.", slot: "ovH2H" })}${card({ title: "Brands Winning Outside Your Set", sub: "Brands the engines recommend that are not in your competitor set — the blind spots in this read.", slot: "ovOutside" })}</div>
+    <div style="margin-top:20px">${card({ title: "Questions to Win Next", sub: "The brand-neutral questions where the engines most often leave you out or rank you low, and who they put first instead. Tap a question for every answer.", slot: "ovWin" })}</div>
     <h2 class="sec">The Read Today</h2><div class="reads" id="ovReads"></div>
-    <h2 class="sec">What This Console Does</h2>
-    <div class="grid g3 trio">
-      <section class="card tint"><span class="kicker">Measure</span><h3>Every shopper question, every engine, every stage of the funnel.</h3><ul><li>A bank of ${D.bank.length} shopper questions from broad discovery to “which one do I buy”, mapped to Attention → Interest → Desire → Action.</li><li>Real consumer sessions on each engine where a session can be captured, the engine's own API with web search where it cannot — the answer a shopper sees, with the engine's own citations.</li><li>Thirteen lenses computed from the captured answers: presence, position, recommendation, citations, products, attributes, claims, volatility, drift, app-versus-API, crawler access.</li></ul><a class="more" href="#${pageDef("funnel").hash}">Open the funnel →</a></section>
-      <section class="card tint"><span class="kicker">Configure</span><h3>Change the questions, the competitors or the engines and every page recomputes.</h3><ul><li>Switch stages or single questions off; add a question of your own and run it live.</li><li>Add or remove competitors — ${catCopy().rivalsExample} — and the funnel, the pivot and every lens re-read from the raw answers.</li><li>Pick the engines that matter, the market, the persona and the sampling depth.</li></ul><button class="more" onclick="openScope()">Change the scope →</button></section>
-      <section class="card tint"><span class="kicker good">Optimise</span><h3>A 90-day programme from diagnosis to earned sources to owned comparison content.</h3><ul><li>Which sources each engine trusts for ${CAT} questions, and where ${SL} is absent from them.</li><li>What the engines assert about ${SL} that ${SL} should verify or correct.</li><li>Access, feeds and entity hygiene — the levers with evidence, and the ones the market oversells.</li></ul><a class="more" href="#${document.body.dataset.payloadWb ? pageDef("programme").hash : pageDef("method").hash}">${document.body.dataset.payloadWb ? "See the programme →" : "How this was built →"}</a></section>
-    </div>
     <div class="foot" id="ovFoot"></div>`,
   // the funnel carries the rivals' shares on the brand-neutral stages, so the stage × brand
   // pivot is gone; the engine stack sits below it; the question bank opens from the top bar
   funnel: () => `${intro('<span id="funnelRead">—</span>')}
-    <div class="grid g23">${card({ title: "The Funnel", sub: `${SL}'s share of the AI answer at each stage, with the rivals beside it where the questions name no brand. Tap a tier for the proof.`, tag: "Measured", tagCls: "good", slot: "funnelViz" })}<div class="stack-v">${card({ title: "Presence & Position", sub: "How often each brand is named, where it first appears, and how often it is the single top pick — on the brand-neutral questions (the count is under the table).", tag: "Measured", tagCls: "good", slot: "presenceViz" })}${card({ title: "Share of Answer by Engine", sub: "The same questions, split by engine — the engines differ because their sources do. Tap an engine for every answer it gave.", tag: "Measured", tagCls: "good", slot: "engineViz" })}</div></div>`,
+    <div class="grid g23">${card({ title: "The Funnel", sub: `${SL}'s share of the AI answer at each stage, with the rivals beside it where the questions name no brand. Tap a tier for the proof.`, tag: "Measured", tagCls: "good", slot: "funnelViz" })}<div class="stack-v">${card({ title: "Presence & Position", sub: "How often each brand is named, where it first appears, and how often it is the single top pick — on the brand-neutral questions (the count is under the table).", tag: "Measured", tagCls: "good", slot: "presenceViz" })}${card({ title: "Share of Answer by Engine", sub: "The same questions, split by engine — the engines differ because their sources do. Tap an engine for every answer it gave.", tag: "Measured", tagCls: "good", slot: "engineViz" })}</div></div>
+    <div style="margin-top:20px">${card({ title: "Engine × Stage", sub: `${SL}'s share of the answer on each engine at each stage of the question. The cold cells are the briefs to write. Tap a cell for every answer behind it.`, tag: "Measured", tagCls: "good", slot: "funnelHeat" })}</div>`,
   sources: () => `${intro('<span id="srcLead">—</span>')}
     <div class="grid g2"><div id="lens-cites"></div><div id="lens-gap"></div></div>
     <div class="grid g2"><div id="lens-byengine"></div><div id="lens-owned"></div></div>
@@ -797,28 +836,34 @@ const TPL = {
     <div id="lens-attreng"></div>`,
   products: () => `${intro('<span id="prodLead">—</span>')}
     <div class="grid g2"><div id="lens-pick"></div><div id="lens-h2h"></div></div>
-    <div class="grid g2"><div id="lens-products"></div>${card({ title: "Catalogue Coverage", sub: `The ${PL} line-up from the instance brief against the models the engines actually name, on every question in scope. A model no engine names cannot be bought on an engine's recommendation.`, tag: "Measured", tagCls: "good", slot: "catalog" })}</div>`,
-  claims: () => `${intro('<span id="claimsLead">—</span>')}<div id="lens-claims"></div>`,
+    <div id="lens-products"></div>`,
+  claims: () => `${intro('<span id="claimsLead">—</span>')}
+    ${card({ title: "Prices the Engines Quote", sub: `Every price an engine states for a ${SL} model, one dot per quote, coloured by engine. A model with one price is consistent; a spread is a shopper seeing different prices depending on which engine they ask. Tap a model for each price and the sentence it came from.`, tag: "Measured", tagCls: "good", slot: "claimPrices" })}
+    <div style="margin-top:20px">${card({ title: "Everything Else They Claim, by Model", sub: "Specs, comparisons and awards the engines attach to each model. Tap a model to read them, grouped by type.", tag: "Measured", tagCls: "good", slot: "claimModels" })}</div>
+    <details class="h2hq" style="margin-top:20px"><summary>All claims, with filters</summary><div id="lens-claims" style="margin-top:12px"></div></details>`,
   change: () => `${intro('<span id="chgLead">—</span>')}<div id="lens-drift"></div><div id="lens-vol"></div>`,
-  live: () => `${intro('Type any shopper question, pick the engines, and read the real answers as they come back — <b>with the brands, positions, sentiment and citations extracted on the spot</b>. Answers land in about 10–15 seconds; the demo shortlist shows instantly.')}
+  live: () => `${intro(`Ask the engines any shopper question and read their real answers, with the brands, positions, top pick and citations read out of each one. <b>ChatGPT and Gemini are read from their consumer apps (about 1–3 minutes); Claude answers through its API in about 10 seconds.</b>`)}
     <section class="card"><div class="livebox"><div>
-      <textarea id="liveQ" placeholder="${LIVE_PLACEHOLDER[D.category] || `e.g. Which ${CAT} should I buy under $1,000?`}"></textarea>
+      <label class="lvl" for="liveQ">Ask a question</label>
+      <textarea id="liveQ" rows="2" placeholder="${LIVE_PLACEHOLDER[D.category] || `e.g. Which ${CAT} should I buy under $1,000?`}"></textarea>
+      <div class="lvl" style="margin-top:14px">Or try one of your tracked questions</div>
       <div class="liveq" id="liveSuggest"></div>
-      <div class="chips" id="liveEngines" style="margin-top:12px"></div>
+      <div class="lvl" style="margin-top:14px">Engines</div>
+      <div class="chips" id="liveEngines"></div>
       <div class="runrow"><button class="btn" id="runLive">▶ Run live</button><span class="progress" id="liveProgress"></span></div>
-      <div id="liveError" class="note" style="color:var(--risk);margin-top:8px" hidden></div>
+      <div id="liveError" class="liveerr" hidden></div>
       <div class="livesum" id="liveSum" hidden></div>
       <div class="liveout" id="liveOut"></div>
     </div><div class="liveside">
-      <div class="card"><span class="kicker mute">What happens when you press run</span><ol><li>The question goes to each engine's live API with web search on — the same models behind the consumer apps — and each answer appears the moment it lands, usually 7–15 seconds.</li><li>Each answer comes back with the engine's citations; the tracked brands are marked instantly by text match.</li><li>A reader model then refines the read — order, top pick, framing, model named, claims about ${SL} — a few seconds later, without holding up the answers.</li><li>The run is stored with its record, so a demo is reproducible afterwards.</li></ol></div>
-      <div class="card"><span class="kicker mute">Live vs measured</span><p class="note" style="font-size:12px;color:var(--soft)">The measured pages come from real consumer-UI sessions captured in batches (minutes per engine). Live runs use the engines' APIs so an answer arrives while you're talking. The two can differ — that difference is itself a finding, and the Evidence page measures it.</p></div>
+      <div class="card"><span class="kicker mute">What happens when you press run</span><ol><li>The question goes to each engine you picked: ChatGPT and Gemini through their real consumer apps (via Bright Data), Claude through its API.</li><li>Each answer appears as soon as it lands, with the engine's citations; your brands are marked straight away.</li><li>A reader model then reads each answer for order, top pick and claims about ${SL}, a few seconds later.</li><li>The question is added to your question bank for this session.</li></ol></div>
+      <div class="card"><span class="kicker mute">Live vs measured</span><p class="note" style="font-size:12px;color:var(--soft)">The measured pages come from the full question bank captured at build time. A live run is one fresh answer, so it can differ from the measured read; that difference is itself a finding.</p></div>
       <div class="card" id="liveRecent" hidden><span class="kicker mute">Recent live runs</span><div id="liveRecentList"></div></div>
     </div></div></section>`,
   evidence: () => `${intro('Nothing on this console is a paraphrase. <b>Each measured answer carries the engine\'s own record</b> — the real session where a consumer app was read, the model id and a fingerprint of the answer text where an API was — and every shopper question can be re-asked on the engines from any phone in the room.')}
     <div class="grid g4" id="evKpis"></div>
     <div class="grid g2">${card({ title: "Check It Yourself", sub: "Open a question on the engines with one tap. Answers vary run to run — Change Over Time measures how much — the point is that the captured ones are real.", slot: "evHow" })}${card({ title: "Evidence Bundle", sub: "The raw capture files behind every figure, downloadable so the numbers can be recomputed outside this page.", slot: "evBundle" })}</div>
-    ${card({ title: "Browse the Receipts", sub: "Every question in scope with the path each engine's answer came through. Tap a row for the full answers, the reader's extraction, the session image and the raw record.", tag: "Measured", tagCls: "good", slot: "evBrowse" })}
-    ${card({ title: "How Evidence Is Kept", html: `<div class="method"><ul><li>Consumer-app answers keep the page source the session returned; it is rendered offline (scripts and network disabled) into the image behind “show the real session”, with the capture time, country, whether the app ran a web search, whether the shopping module was on screen, and the model the app reported.</li><li>API-path answers keep the model id and the request time.</li><li>Every answer carries a SHA-256 fingerprint of its text and a raw record; the raw capture files above let the figures be recomputed outside this page.</li><li>“Ask it yourself” opens the engines with the same question. The answer may differ from the capture: the volatility lens measures how often it does.</li></ul></div>` })}
+    ${card({ title: "Browse the Receipts", sub: "Every question in scope with the path each engine's answer came through. Tap a row for the full answers, the reader's extraction and the session image.", tag: "Measured", tagCls: "good", slot: "evBrowse" })}
+    ${card({ title: "How Evidence Is Kept", html: `<div class="method"><ul><li>Consumer-app answers keep the page source the session returned; it is rendered offline (scripts and network disabled) into the image behind “show the real session”, with the capture time, country, whether the app ran a web search, whether the shopping module was on screen, and the model the app reported.</li><li>API-path answers keep the model id and the request time.</li><li>Every answer carries a SHA-256 fingerprint of its text; the raw capture files above let the figures be recomputed outside this page.</li><li>“Ask it yourself” opens the engines with the same question. The answer may differ from the capture: the volatility lens measures how often it does.</li></ul></div>` })}
     <div id="lens-uiapi"></div>`,
   programme: () => `${intro(`Ninety days, four phases, each action tied to a lens and to the evidence for why it works. <b>The ${SL}-specific triggers are computed from the capture</b>, so they change with the scope.`)}
     <div class="phases" id="phases"></div><div class="actions" id="actions"></div>
@@ -872,6 +917,46 @@ function volatilityRead() {
 const deltaChip = (prev, cur, title) => { if (prev == null || cur == null) return ""; const d = (cur - prev) * 100; const cls = d >= 0.5 ? "up" : d <= -0.5 ? "dn" : "flat"; return `<span class="delta ${cls}" title="${esc(title || "")}">${cls === "up" ? "▲" : cls === "dn" ? "▼" : "•"} ${Math.abs(d).toFixed(0)} pts</span>`; };
 
 // ── overview ─────────────────────────────────────────────────────────────────
+const prettyId = (id) => String(id).split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+const leaderOf = (a) => { const top = [...(a.brands || [])].sort((x, y) => (x.rank || 99) - (y.rank || 99))[0]; return top ? top.id : null; };
+const brandLabelOf = (id) => (S.brands.find((b) => b.id === id) || {}).label || prettyId(id);
+function renderOverviewExtras(AC, sh) {
+  const s = subjectId(); const subj = S.brands.find((b) => b.id === s);
+  const rivals = brandsOn().filter((b) => b.id !== s && sh[b.id] != null).sort((x, y) => (sh[y.id] || 0) - (sh[x.id] || 0));
+  const rival = rivals[0];
+  if (rival) {
+    const t = { ahead: 0, behind: 0, onlyYou: 0, onlyThem: 0 };
+    for (const a of AC) {
+      const ms = mention(a, subj), mr = mention(a, rival);
+      if (ms && mr) (ms.rank || 99) < (mr.rank || 99) ? t.ahead++ : t.behind++;
+      else if (ms) t.onlyYou++;
+      else if (mr) t.onlyThem++;
+    }
+    const n = t.ahead + t.behind + t.onlyYou + t.onlyThem;
+    const segs = [["ahead", `${SL} first`, subj.color, 1], ["onlyYou", `only ${SL} named`, subj.color, 0.45], ["onlyThem", `only ${rival.label} named`, rival.color, 0.45], ["behind", `${rival.label} first`, rival.color, 1]];
+    const wins = t.ahead + t.onlyYou;
+    $("ovH2H").innerHTML = n ? `<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px"><span style="font-family:var(--fd);font-size:32px">${pct(wins / n)}</span><span class="note" style="font-size:13px">of ${n} answers go ${esc(SL)}'s way against <b>${esc(rival.label)}</b>, the closest rival</span></div>
+      <div style="display:flex;height:14px;border-radius:999px;overflow:hidden;gap:2px">${segs.filter(([k]) => t[k]).map(([k, , c, o]) => `<i style="flex:${t[k]};background:${c};opacity:${o}"></i>`).join("")}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin-top:16px">${segs.map(([k, l, c, o]) => `<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft)"><i style="width:10px;height:10px;border-radius:50%;background:${c};opacity:${o};flex:0 0 auto"></i>${esc(l)}<b class="tnum" style="margin-left:auto;color:var(--ink);font-weight:500">${t[k]}</b></div>`).join("")}</div>` : '<div class="pending">Neither brand is named in the brand-neutral answers.</div>';
+  } else $("ovH2H").innerHTML = '<div class="pending">No rival in the competitor set.</div>';
+
+  const tracked = new Set(S.brands.map((b) => b.id));
+  const out = {};
+  for (const a of AC) for (const b of a.brands || []) if (!tracked.has(b.id)) { const o = (out[b.id] ||= { n: 0, first: 0, eng: new Set() }); o.n++; o.eng.add(a.engine); if (leaderOf(a) === b.id) o.first++; }
+  const outRows = Object.entries(out).sort((x, y) => y[1].n - x[1].n).slice(0, 6);
+  const maxN = Math.max(1, ...outRows.map(([, v]) => v.n));
+  $("ovOutside").innerHTML = outRows.length ? `<div class="cc-hb">${outRows.map(([id, v]) => `<div class="cc-hb-row"><span class="lb">${esc(prettyId(id))}<em>${[...v.eng].map(engLabel).join(" · ")}${v.first ? ` · first in ${v.first}` : ""}</em></span><span class="tr"><i style="width:${(v.n / maxN) * 100}%;background:#80868b"></i></span><b class="tnum vv">${v.n}/${AC.length}</b></div>`).join("")}</div>` : '<div class="pending">Every brand the engines named is in your set.</div>';
+
+  const q = qById(); const byQ = {};
+  for (const a of AC) (byQ[a.queryId] ||= []).push(a);
+  const rows = Object.entries(byQ).map(([id, as]) => {
+    const ranks = as.map((a) => (mention(a, subj) || {}).rank).filter((r) => r != null);
+    const leads = {}; for (const a of as) { const l = leaderOf(a); if (l) leads[l] = (leads[l] || 0) + 1; }
+    const lead = byDesc(leads)[0];
+    return { id, n: as.length, named: ranks.length, best: ranks.length ? Math.min(...ranks) : null, lead: lead ? lead[0] : null, gap: (as.length - ranks.length) * 10 + (ranks.length ? ranks.reduce((x, y) => x + y, 0) / ranks.length : 0) };
+  }).filter((r) => r.named < r.n || (r.best || 1) > 1).sort((x, y) => y.gap - x.gap).slice(0, 5);
+  $("ovWin").innerHTML = rows.length ? `<div class="tblwrap"><table class="t"><thead><tr><th>Question</th><th>Stage</th><th class="num">${esc(SL)} named</th><th class="num">Best position</th><th>Engines put first</th></tr></thead><tbody>${rows.map((r) => `<tr style="cursor:pointer" onclick="openQuestion('${r.id}')"><td>${esc(q[r.id]?.text || r.id)}</td><td><span class="tag">${esc(stageLabel(q[r.id]?.stage))}</span></td><td class="num tnum">${r.named}/${r.n}</td><td class="num tnum">${r.best ? "#" + r.best : "—"}</td><td>${r.lead ? `${S.brands.some((b) => b.id === r.lead) ? `<i class="sw" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:${(S.brands.find((b) => b.id === r.lead) || {}).color}"></i>` : ""}${esc(brandLabelOf(r.lead))}` : "—"}</td></tr>`).join("")}</tbody></table></div>` : `<div class="pending">${esc(SL)} is named first on every brand-neutral question.</div>`;
+}
 function renderOverview() {
   const A = activeAnswers(); const s = subjectId(); const sb = S.brands.find(b => b.id === s); const bs = brandsOn();
   const AC = compareAnswers();   // brand comparisons: the brand-neutral questions only
@@ -888,10 +973,8 @@ function renderOverview() {
   const dir = first.share != null && last.share != null ? (last.share > first.share ? "rises" : last.share < first.share ? "falls" : "holds") : null;
   const engSh = Object.fromEntries([...S.engines].map(e => [e, shareOf(AC.filter(a => a.engine === e))[s]])); const engRows = byDesc(Object.fromEntries(Object.entries(engSh).filter(([, v]) => v != null))); const engBest = engRows[0], engWorst = engRows[engRows.length - 1];
   $("ovLead").innerHTML = AC.length ? `<b>${esc(D.subjectLabel)} holds ${pct(sh[s])} of the weighted AI answer</b> across the ${nQ} brand-neutral shopper questions (${esc(compareLabel())}) on ${S.engines.size} engine${S.engines.size === 1 ? "" : "s"} — ${standingPhrase(sh, s, "brands tracked")} — and is named in ${pr[s].n} of ${pr[s].of} of them.${dir ? ` Its share <b>${dir} through the funnel</b>: ${st.map(x => `${esc(x.label)} ${pct(x.share)}`).join(" → ")}.` : ""}${engBest ? ` Strongest on ${esc(engLabel(engBest[0]))} (${pct(engBest[1])})${engRows.length > 1 ? `, weakest on ${esc(engLabel(engWorst[0]))} (${pct(engWorst[1])})` : ""}.` : ""}` : "No brand-neutral stage in scope — switch Awareness or Consideration back on from the Scope panel to compare brands; the funnel below still reads per stage.";
+  renderOverviewExtras(AC, sh);
   $("ovAside").innerHTML = `<div class="k">Capture</div><div class="v">${esc(fmtDate(CUR.capturedAt || CUR.basis))}</div><div class="n">${esc(D.market)} · ${esc(pathsSentence())}${D.evidenceSummary?.sessions ? ` · ${D.evidenceSummary.sessions} real sessions on file` : ""}</div>`;
-  const widths = [100, 86, 72, 58];
-  $("ovFunnel").innerHTML = `<div class="funnelviz">${st.map((x, i) => `<div class="ftier" style="width:${widths[i] || 50}%;background:linear-gradient(120deg,var(--accent),color-mix(in srgb,var(--accent) ${55 + i * 10}%,#8ab4f8))" onclick="openStageProof('${x.id}')"><span class="fn">${esc(x.label)}<small>${esc(x.aida)}</small></span><span style="text-align:right"><span class="fp tnum">${pct(x.share)}</span><div class="fq">named in ${x.pres?.n ?? 0}/${x.pres?.of ?? 0} · ${stageRank(x)}</div></span></div>`).join("")}<div class="fcap">${esc(D.subjectLabel)}'s share of the weighted AI answer · ${bs.length} brands · ${S.engines.size} engines</div></div>`;
-  $("ovEngines").innerHTML = ([...S.engines].map(e => { const sa = AC.filter(a => a.engine === e); return `<div class="srow" onclick="openEngineProof('${e}')"><div class="rl">${esc(engLabel(e))}<small>${uniq(sa.map(a => a.queryId)).length} answers · ${rankPhrase(shareOf(sa), s)}</small></div><div>${stackBar(shareOf(sa))}</div></div>`; }).join("") || withheld("No engine selected.")) + compareFoot();
   // the read today — every sentence is computed, and its tone with it
   const reads = []; const shSt = standing(sh, s);
   if (shSt) { const rows = byDesc(Object.fromEntries(Object.entries(sh).filter(([, v]) => v != null))); reads.push({ tone: shSt.rank === 1 ? "good" : shSt.rank === 2 ? "watch" : "risk", text: `${esc(D.subjectLabel)} is <b>${standingPhrase(sh, s, "brands")}</b> on share of the AI answer at ${pct(sh[s])}; ${shSt.leader === s ? (rows[1] ? `${esc(brandLabel(rows[1][0]))} is next at ${pct(rows[1][1])}` : "no other brand is in scope") : `${esc(brandLabel(shSt.leader))} leads at ${pct(sh[shSt.leader])}`}.` }); }
@@ -951,18 +1034,15 @@ window.openQuestion = (id) => { const q = qById()[id]; if (!q) return; proof({ t
 // (2026-09-22). The line prefix ("Galaxy", "BRAVIA") is optional only for a lettered core
 // ("S26+", "Z Fold 8"): a bare "8 II" would match any "8 II" in the text.
 function catalogCoverage(A, sb, products) {
-  const rx = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); const plEsc = rx(PL.toLowerCase());
-  const labels = products.map(p => p.label.toLowerCase());
-  const patFor = (lab) => {
-    const coreRaw = lab.replace(new RegExp(`^${plEsc}\\s+`), ""); const core = rx(coreRaw).replace(/\s+/g, "\\s*"); const optional = coreRaw !== lab && /^[a-z]/.test(coreRaw);
-    const longer = labels.filter(o => o !== lab && o.startsWith(lab + " ")).map(o => rx(o.slice(lab.length).trim()).replace(/\s+/g, "\\s*"));
-    const stop = [...longer, "ii", "iii", "iv", "ultra", "plus", "\\+", "fe", "edge", "pro", "max", "mini"].filter(x => !lab.endsWith(" " + x.replace(/\\/g, "")));
-    return new RegExp(`\\b${optional ? `(?:${plEsc}\\s*)?` : `${plEsc}\\s*`}${core}(?!\\w)(?!\\s*(?:${stop.join("|")})(?!\\w))`, "i");
-  };
-  return products.map(p => { const re = patFor(p.label.toLowerCase()); const hits = A.filter(a => { if (re.test(a.text || "")) return true; const m = mention(a, sb); return !!(m && m.product && re.test(m.product)); }); return { p, n: hits.length, qids: uniq(hits.map(a => a.queryId)), eng: uniq(hits.map(a => a.engine)) }; }).sort((a, b) => b.n - a.n);
+  return products.map((p) => {
+    const part = modelParts(p.label, sb && sb.label)[0];
+    const hits = part ? A.filter((a) => { const m = mention(a, sb); return !!(m && m.product && modelParts(m.product, sb.label).some((x) => x.key === part.key)); }) : [];
+    return { p, n: hits.length, qids: uniq(hits.map((a) => a.queryId)), eng: uniq(hits.map((a) => a.engine)) };
+  }).sort((a, b) => b.n - a.n);
 }
 function renderCatalog() {
   const A = activeAnswers(); const s = subjectId(); const sb = S.brands.find(b => b.id === s); const products = D.catalog?.products || [];
+  if (!$("catalog")) return;
   if (!products.length) { $("catalog").innerHTML = withheld("No catalogue in the instance brief."); return; }
   const rows = catalogCoverage(A, sb, products);
   // the reader's extracted products still drive the "models the brief does not list" read
@@ -979,6 +1059,78 @@ function renderCatalog() {
 window.openModelProof = (qids, label) => proof({ title: `${label} · every answer that names it`, lede: `${qids.length} questions where at least one engine names the ${label}.`, qids });
 
 // ── page leads for sources, products, change ─────────────────────────────────
+const ENGINE_COLOR = { gpt: "#1a73e8", gemini: "#9334e6", claude: "#e8710a", perplexity: "#12b5cb", copilot: "#34a853" };
+const engColor = (e) => ENGINE_COLOR[e] || "#80868b";
+const priceNums = (v) => (String(v || "").match(/\$?\s?\d[\d,]*(?:\.\d+)?/g) || []).map((x) => parseFloat(x.replace(/[$,\s]/g, ""))).filter((n) => n >= 20 && n < 100000);
+const money = (n) => "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toFixed(2));
+function subjectClaims(A) {
+  const sb = S.brands.find((b) => b.id === subjectId());
+  const out = [];
+  for (const a of A) for (const c of a.subjectClaims || []) {
+    const part = c.product ? modelParts(c.product, sb && sb.label)[0] : null;
+    out.push({ ...c, engine: a.engine, queryId: a.queryId, key: part ? part.key : "", model: part ? part.label : "" });
+  }
+  return out;
+}
+function claimModels(claims) {
+  const by = {};
+  for (const c of claims) { if (!c.key) continue; const m = (by[c.key] ||= { key: c.key, names: {}, claims: [] }); m.names[c.model] = (m.names[c.model] || 0) + 1; m.claims.push(c); }
+  return Object.values(by).map((m) => ({ ...m, label: byDesc(m.names)[0][0] }));
+}
+function renderClaimsOverview(A) {
+  const claims = subjectClaims(A); window.__subjClaims = claims;
+  const sb = S.brands.find((b) => b.id === subjectId());
+  const catalog = new Map(((D.catalog && D.catalog.products) || []).flatMap((cp) => { const part = modelParts(cp.label, sb && sb.label)[0]; return part && cp.msrp ? [[part.key, cp.msrp]] : []; }));
+  const models = claimModels(claims);
+  const priced = models.map((m) => {
+    const pts = m.claims.filter((c) => c.type === "price").flatMap((c) => priceNums(c.value).map((n) => ({ n, engine: c.engine })));
+    const distinct = uniq(pts.map((p) => p.n));
+    return { ...m, pts, distinct, msrp: catalog.get(m.key) || null };
+  }).filter((m) => m.pts.length).sort((x, y) => y.distinct.length - x.distinct.length || y.pts.length - x.pts.length);
+  if ($("claimPrices")) {
+    if (!priced.length) $("claimPrices").innerHTML = '<div class="pending">No engine quoted a price for a model.</div>';
+    else {
+      const all = priced.flatMap((m) => [...m.pts.map((p) => p.n), ...(m.msrp ? [m.msrp] : [])]);
+      const lo = Math.min(...all), hi = Math.max(...all), span = Math.max(1, hi - lo);
+      const x = (n) => 2 + ((n - lo) / span) * 96;
+      const engs = uniq(priced.flatMap((m) => m.pts.map((p) => p.engine)));
+      $("claimPrices").innerHTML = `<div style="display:flex;gap:16px;flex-wrap:wrap;margin:0 0 12px">${engs.map((e) => `<span class="note" style="display:inline-flex;align-items:center;gap:6px;font-size:12px"><i style="width:10px;height:10px;border-radius:50%;background:${engColor(e)}"></i>${esc(engLabel(e))}</span>`).join("")}<span class="note" style="display:inline-flex;align-items:center;gap:6px;font-size:12px"><i style="width:2px;height:14px;background:var(--ink)"></i>your catalogue MSRP</span></div>
+        <div class="tblwrap"><table class="t"><thead><tr><th>Model</th><th style="width:46%">Prices quoted <span class="note">${money(lo)} – ${money(hi)}</span></th><th class="num">Range</th><th class="num">Quotes</th><th>Verdict</th></tr></thead><tbody>${priced.map((m) => {
+          const counts = {}; for (const p of m.pts) { const k = `${p.n}|${p.engine}`; counts[k] = (counts[k] || 0) + 1; }
+          const dots = Object.entries(counts).map(([k, c]) => { const [n, e] = k.split("|"); return `<i title="${esc(engLabel(e))}: ${money(+n)}${c > 1 ? ` ×${c}` : ""}" style="position:absolute;left:${x(+n)}%;top:50%;width:${8 + Math.min(6, c * 2)}px;height:${8 + Math.min(6, c * 2)}px;border-radius:50%;background:${engColor(e)};opacity:.85;transform:translate(-50%,-50%);border:1.5px solid #fff"></i>`; }).join("");
+          const msrp = m.msrp ? `<i title="Your MSRP ${money(m.msrp)}" style="position:absolute;left:${x(m.msrp)}%;top:2px;bottom:2px;width:2px;background:var(--ink)"></i>` : "";
+          const mn = Math.min(...m.distinct), mx = Math.max(...m.distinct);
+          const verdict = m.distinct.length === 1 ? '<span class="tag good">consistent</span>' : `<span class="tag ${m.distinct.length >= 4 ? "risk" : "warn"}">${m.distinct.length} different prices</span>`;
+          return `<tr class="tap" style="cursor:pointer" onclick="openModelClaims('${esc(m.key)}','price')"><td><b style="font-weight:500">${esc(m.label)}</b>${m.msrp ? `<div class="note">MSRP ${money(m.msrp)}</div>` : ""}</td><td><div style="position:relative;height:26px;background:linear-gradient(var(--line2),var(--line2)) center/100% 2px no-repeat">${msrp}${dots}</div></td><td class="num tnum">${mn === mx ? money(mn) : `${money(mn)} – ${money(mx)}`}</td><td class="num tnum">${m.pts.length}</td><td>${verdict}</td></tr>`;
+        }).join("")}</tbody></table></div>`;
+    }
+  }
+  if ($("claimModels")) {
+    const TYPES = ["spec", "comparison", "award", "availability", "other"];
+    const rows = models.map((m) => ({ ...m, t: Object.fromEntries(TYPES.map((t) => [t, m.claims.filter((c) => c.type === t).length])) })).filter((m) => TYPES.some((t) => m.t[t])).sort((x, y) => y.claims.length - x.claims.length).slice(0, 12);
+    $("claimModels").innerHTML = rows.length ? `<div class="tblwrap"><table class="t"><thead><tr><th>Model</th>${TYPES.map((t) => `<th class="num">${t.charAt(0).toUpperCase() + t.slice(1)}</th>`).join("")}<th>Example</th></tr></thead><tbody>${rows.map((m) => { const ex = m.claims.find((c) => c.type === "spec") || m.claims.find((c) => c.type !== "price"); return `<tr style="cursor:pointer" onclick="openModelClaims('${esc(m.key)}','')"><td><b style="font-weight:500">${esc(m.label)}</b></td>${TYPES.map((t) => `<td class="num tnum">${m.t[t] || '<span class="note">—</span>'}</td>`).join("")}<td class="note" style="white-space:normal;max-width:420px">${ex ? esc(ex.claim) : ""}</td></tr>`; }).join("")}</tbody></table></div>` : '<div class="pending">No other claims about specific models.</div>';
+  }
+  const top = priced.find((m) => m.distinct.length > 1);
+  return { claims, top };
+}
+window.openModelClaims = (key, type) => {
+  const claims = (window.__subjClaims || []).filter((c) => c.key === key && (!type || c.type === type));
+  if (!claims.length) return;
+  const label = byDesc(claims.reduce((o, c) => { o[c.model] = (o[c.model] || 0) + 1; return o; }, {}))[0][0];
+  const q = qById();
+  const quote = (c) => `<div style="padding:10px 0;border-top:1px solid var(--line2)"><div style="font-size:13.5px;color:var(--ink);line-height:1.5">${esc(c.claim)}</div><div class="note" style="margin-top:4px"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${engColor(c.engine)};margin-right:6px"></i>${esc(engLabel(c.engine))} · “${esc(q[c.queryId]?.text || c.queryId)}” · <a href="#" onclick="event.preventDefault();openQuestion('${esc(c.queryId)}')">full answer</a></div></div>`;
+  let body;
+  if (type === "price") {
+    const groups = {}; for (const c of claims) { const ns = priceNums(c.value); const k = ns.length ? ns.map(money).join(" – ") : c.value; (groups[k] ||= []).push(c); }
+    const sorted = Object.entries(groups).sort((x, y) => y[1].length - x[1].length);
+    body = sorted.map(([v, cs]) => { const engs = uniq(cs.map((c) => c.engine)); return `<div class="qblock"><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span style="font-family:var(--fd);font-size:22px">${esc(v)}</span><span class="note">${cs.length} quote${cs.length === 1 ? "" : "s"} · ${engs.map((e) => esc(engLabel(e))).join(", ")}</span>${engs.length >= 2 ? '<span class="tag good">engines agree</span>' : ""}</div>${cs.map(quote).join("")}</div>`; }).join("");
+  } else {
+    const groups = {}; for (const c of claims) (groups[c.type] ||= []).push(c);
+    body = Object.entries(groups).sort((x, y) => y[1].length - x[1].length).map(([t, cs]) => `<div class="qblock"><div style="font-family:var(--fd);font-size:17px;text-transform:capitalize">${esc(t)} <span class="note" style="font-size:13px">· ${cs.length}</span></div>${cs.map(quote).join("")}</div>`).join("");
+  }
+  const lede = type === "price" ? `${claims.length} price quotes from ${uniq(claims.map((c) => c.engine)).length} engine${uniq(claims.map((c) => c.engine)).length === 1 ? "" : "s"}, grouped by the price stated. A price only one engine gives is the first to verify.` : `${claims.length} claims, grouped by type, each with the sentence it came from.`;
+  openModal(`<div class="mhead"><h2>${esc(SL)} ${esc(label)} · ${type === "price" ? "prices quoted" : "every claim"}</h2><p class="lede" style="margin:4px 0 0">${lede}</p></div>${body}`);
+};
 function renderPageLeads() {
   const A = activeAnswers(); const s = subjectId(); const sb = S.brands.find(b => b.id === s); const bs = brandsOn();
   // sources
@@ -996,8 +1148,11 @@ function renderPageLeads() {
     const tagged = A.filter(a => (a.attributes?.[s] || []).length).length;
     $("attrLead").innerHTML = A.length ? `Across the ${A.length} answers in scope, ${tagged} attach at least one attribute to ${SL}. The engines credit ${SL} most with <b>${esc(sonyNet[0][0])}</b> (net ${sonyNet[0][1] > 0 ? "+" : ""}${sonyNet[0][1]}) and <b>${esc(sonyNet[1][0])}</b> (${sonyNet[1][1] > 0 ? "+" : ""}${sonyNet[1][1]}); ${negs.length ? `its net-negative attribute${negs.length === 1 ? " is" : "s are"} ${negs.map(x => `<b>${esc(x[0])}</b> (${x[1]})`).join(", ")}` : "no attribute nets negative"}. ${leadBy.length ? `Rivals lead on ${leadBy.slice(0, 3).map(x => `${esc(x.at)} (${esc(brandLabel(x.leader))}, +${x.gap})`).join(", ")}.` : ""} Tap any cell for the answers behind it, with the sentences that carry the judgement.` : "No answers in scope."; }
   // claims
-  if ($("claimsLead")) { const claims = A.flatMap(a => a.subjectClaims || []); const conflicts = claimConflicts(A); const checkable = claims.filter(c => c.value).length; const types = byDesc(claims.reduce((m, c) => (m[c.type] = (m[c.type] || 0) + 1, m), {}));
-    $("claimsLead").innerHTML = claims.length ? `The engines make <b>${claims.length} statements about ${SL}</b> across the answers in scope — ${types.slice(0, 3).map(([t, n]) => `${n} on ${esc(t)}`).join(", ")} — and ${checkable} carry a value ${SL} can check. <b>${conflicts.length} model-and-fact pairs conflict</b> between engines, so on those at least one engine is wrong today. Filter on the left, read on the right; every row opens to the answer it came from.` : "No claims in scope."; }
+  if ($("claimsLead")) {
+    const { claims, top } = renderClaimsOverview(A);
+    const types = byDesc(claims.reduce((o, c) => { o[c.type] = (o[c.type] || 0) + 1; return o; }, {}));
+    $("claimsLead").innerHTML = claims.length ? `The engines make <b>${claims.length} statements about ${SL}</b> — ${types.slice(0, 3).map(([t, n]) => `${n} on ${esc(t)}`).join(", ")}. ${top ? `The one to fix first is price: the engines quote <b>${top.distinct.length} different prices for the ${esc(top.label)}</b>, from ${money(Math.min(...top.distinct))} to ${money(Math.max(...top.distinct))}${top.msrp ? ` against your ${money(top.msrp)} MSRP` : ""}.` : "Every model is quoted at one consistent price."} Each figure below links to the sentence it came from.` : `The engines make no checkable statements about ${SL} in the answers in scope.`;
+  }
   // change
   const drift = PREV && DTO ? driftSummary() : null; const vol = volatilityRead();
   const parts = [];
