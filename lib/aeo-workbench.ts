@@ -16,13 +16,14 @@ export type CommandCenterData = {
   voice: { aspects: Record<string, Record<string, number[]> | null> };
 };
 
-export const WORKBENCH_VERSION = 5;
+export const WORKBENCH_VERSION = 6;
 
 /** The search crawler each tracked engine uses to fetch pages it can cite; an engine without one is left out. */
 export const ENGINE_SEARCH_BOT: Record<string, string> = { gpt: "OAI-SearchBot", chatgpt: "OAI-SearchBot", claude: "Claude-SearchBot", perplexity: "PerplexityBot", copilot: "Bingbot" };
 const WEEKS = 13;
 const PRICE_NUM = /(?<![A-Za-z\d.])\$?\s*(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?:\s*(k)\b)?(?![A-Za-z\d])/gi;
 const RANGE_GAP = /^\s*(?:-|–|—|to|and)\s*$/i;
+const FOREIGN_CURRENCY = /(?:₹|£|€|¥|₩|\bRs\.?|\bINR|\bGBP|\bEUR|\bCAD|\bAUD|\bC\$|\bA\$)\s*$/i;
 
 export type PriceQuote = { lo: number; hi: number };
 
@@ -33,6 +34,7 @@ export type PriceQuote = { lo: number; hi: number };
 export function parsePriceQuote(text: string): PriceQuote | null {
   const found: Array<{ n: number; start: number; end: number }> = [];
   for (const m of String(text).matchAll(PRICE_NUM)) {
+    if (FOREIGN_CURRENCY.test(String(text).slice(Math.max(0, (m.index ?? 0) - 6), m.index ?? 0))) return null;
     const n = parseFloat(m[1].replace(/,/g, "") + (m[2] ?? "")) * (m[3] ? 1000 : 1);
     if (n >= 20 && n < 100000) found.push({ n, start: m.index ?? 0, end: (m.index ?? 0) + m[0].length });
   }
