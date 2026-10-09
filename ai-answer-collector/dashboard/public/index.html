@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Answer Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/base.css">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<a class="sronly" href="#pages">Skip to content</a>
+<nav id="rail" aria-label="Pages">
+  <div class="rail-top">
+    <div class="bm">
+      <b class="bm-name">AI Answers</b>
+      <span class="bm-sub">Atlas · retail audit</span>
+    </div>
+    <div class="bm-tile" aria-hidden="true">AI</div>
+  </div>
+  <div class="period"><span id="railColl">—</span></div>
+  <div class="nav" id="nav"></div>
+  <div class="rail-foot">
+    <button class="rf-btn" id="railToggle" aria-label="Collapse navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="17" height="17"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="rf-txt">Collapse</span>
+    </button>
+  </div>
+</nav>
+
+<div id="main">
+  <header id="top">
+    <div class="top-l">
+      <div class="crumb" id="crumb">Collection</div>
+      <h1 id="ptitle">Overview</h1>
+    </div>
+    <div class="top-r">
+      <div class="selw"><select class="sel" id="collSel" aria-label="Collection"></select></div>
+      <label class="livechip" title="Reload the numbers every 30 seconds while a collection is running"><input type="checkbox" id="live"> <i></i>Live</label>
+      <button class="btn ghost sm" id="refresh">Refresh</button>
+    </div>
+  </header>
+  <div id="pages"><div class="empty" id="boot">Loading…</div></div>
+</div>
+
+<div class="modal" id="modal"><div class="msheet"><button class="close" id="modalX" aria-label="Close">✕</button><div id="modalBody"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+/* Additions for this tool on top of cco-dashboard.css and ai-visibility.css. */
+.sronly{position:absolute;left:-9999px}
+#lensSet{display:flex;gap:8px}
+#lensSet .seg button.on{background:var(--accentSoft);color:var(--accentInk)}
+.rail-foot a.rf-btn{text-decoration:none}
+body.landing{background:var(--app)}
+.land{max-width:1100px;margin:0 auto;padding:40px 24px 80px}
+.land h1{font-size:28px;font-weight:400}
+.land .lead{color:var(--mute);margin:6px 0 8px}
+.land .chips{display:flex;flex-wrap:wrap;gap:8px}
+.land .chip{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:8px;border:1px solid #c4c7c5;text-decoration:none;font-size:13px;font-weight:500;color:var(--soft);background:var(--card)}
+.land .chip:hover{background:var(--accentSoft);color:var(--accentInk);border-color:transparent}

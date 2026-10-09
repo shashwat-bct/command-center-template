@@ -1,0 +1,32 @@
+{
+  "name": "ai-answer-collector",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Asks ChatGPT, Gemini (Bright Data consumer apps) and Claude the AI-visibility question bank for Sony and Samsung across retail-audit categories, as two personas, three times each, US market; stores every answer with its session image, reads it, and serves the command-center AI Engine Visibility dashboards.",
+  "scripts": {
+    "banks": "tsx src/banks.ts",
+    "plan": "tsx src/plan-cli.ts",
+    "collect": "tsx src/collect.ts",
+    "enrich": "tsx src/enrich.ts",
+    "payload": "tsx src/payload.ts",
+    "dashboard": "tsx src/dashboard-server.ts",
+    "render": "tsx src/render-cli.ts",
+    "export": "tsx src/export.ts",
+    "patch:dashboard": "node dashboard/patch-ai-visibility.mjs",
+    "typecheck": "tsc --noEmit",
+    "setup:browser": "playwright install chromium"
+  },
+  "dependencies": {
+    "@google-cloud/secret-manager": "^6.1.0",
+    "@google-cloud/storage": "^8.1.0",
+    "firebase": "^12.3.0",
+    "marked": "^16.3.0",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

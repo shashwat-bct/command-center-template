@@ -1,0 +1,466 @@
+{
+  "key": "google-smartphones",
+  "brand": {
+    "id": "google",
+    "label": "Google",
+    "domain": "store.google.com"
+  },
+  "category": {
+    "slug": "smartphones",
+    "name": "Smartphones",
+    "noun": [
+      "smartphone",
+      "smartphones"
+    ]
+  },
+  "productLine": "Pixel",
+  "competitors": [
+    {
+      "id": "apple",
+      "label": "Apple"
+    },
+    {
+      "id": "samsung",
+      "label": "Samsung"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q01",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What are the best smartphones to buy in 2026?"
+    },
+    {
+      "id": "q02",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What is the best flagship smartphone in 2026?"
+    },
+    {
+      "id": "q03",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What's the best 6.7 inch smartphone right now?"
+    },
+    {
+      "id": "q04",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best premium smartphone to buy in 2026"
+    },
+    {
+      "id": "q05",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Which smartphone brands are the best in 2026?"
+    },
+    {
+      "id": "q06",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best smartphone for the money"
+    },
+    {
+      "id": "q07",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best smartphone for camera quality"
+    },
+    {
+      "id": "q08",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best large screen smartphone"
+    },
+    {
+      "id": "q09",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best smartphone for most people in 2026"
+    },
+    {
+      "id": "q10",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best smartphone with the longest battery life in 2026"
+    },
+    {
+      "id": "q11",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best mid-range smartphone in 2026"
+    },
+    {
+      "id": "q12",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best smartphone with the best display in 2026"
+    },
+    {
+      "id": "q13",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone for gaming with smooth performance and low lag"
+    },
+    {
+      "id": "q14",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone for mobile gaming and streaming"
+    },
+    {
+      "id": "q15",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone for watching movies with great screen quality"
+    },
+    {
+      "id": "q16",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone for shooting sports and fast-moving subjects"
+    },
+    {
+      "id": "q17",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone screen for outdoor use in bright sunlight"
+    },
+    {
+      "id": "q18",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone with the best software and app ecosystem"
+    },
+    {
+      "id": "q19",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone with an OLED display for HDR video"
+    },
+    {
+      "id": "q20",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Android vs iPhone — which should I buy in 2026?"
+    },
+    {
+      "id": "q21",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone for content creation and video editing"
+    },
+    {
+      "id": "q22",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone for streaming Netflix and Disney+"
+    },
+    {
+      "id": "q23",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone with Dolby Vision and great audio"
+    },
+    {
+      "id": "q24",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone with a 120Hz display in 2026"
+    },
+    {
+      "id": "q25",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone with the best speakers without headphones"
+    },
+    {
+      "id": "q26",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "OLED vs LCD display — which is better for outdoor smartphone use?"
+    },
+    {
+      "id": "q27",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Google Pixel vs Samsung Galaxy — which is better in 2026?"
+    },
+    {
+      "id": "q28",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Is a Google Pixel worth the money?"
+    },
+    {
+      "id": "q29",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Google Pixel vs Apple iPhone — which should I buy?"
+    },
+    {
+      "id": "q30",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Which smartphone brand is the most reliable?"
+    },
+    {
+      "id": "q31",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Are Google Pixel phones good?"
+    },
+    {
+      "id": "q32",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone brand for longevity and reliability"
+    },
+    {
+      "id": "q33",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Google Pixel vs Samsung Galaxy — is Pixel worth the premium?"
+    },
+    {
+      "id": "q34",
+      "stage": "evaluation",
+      "focus": "neutral",
+      "text": "Top Android brands vs iPhone — full premium smartphone comparison"
+    },
+    {
+      "id": "q35",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Do Google Pixel phones last longer than other brands?"
+    },
+    {
+      "id": "q36",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Which smartphone brand has the best warranty and customer support?"
+    },
+    {
+      "id": "q37",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Is Google Pixel or Samsung Galaxy better for camera quality?"
+    },
+    {
+      "id": "q38",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Are premium smartphones worth it over budget brands?"
+    },
+    {
+      "id": "q39",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Is Google still the best for computational photography?"
+    },
+    {
+      "id": "q40",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Google Pixel vs Apple iPhone — is the Pixel premium justified?"
+    },
+    {
+      "id": "q41",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "What are the downsides of Google Pixel phones?"
+    },
+    {
+      "id": "q42",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Google Pixel vs Samsung Galaxy for mobile gaming — which wins?"
+    },
+    {
+      "id": "q43",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Best Google Pixel phone under $800"
+    },
+    {
+      "id": "q44",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best flagship smartphone under $800"
+    },
+    {
+      "id": "q45",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Google Pixel 9 Pro XL vs Samsung Galaxy S25 Ultra — which should I buy?"
+    },
+    {
+      "id": "q46",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best value flagship smartphone in 2026"
+    },
+    {
+      "id": "q47",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Is the Google Pixel 9 Pro worth buying over the Apple iPhone 16 Pro?"
+    },
+    {
+      "id": "q48",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best smartphone under $500 in 2026"
+    },
+    {
+      "id": "q49",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Best Google Pixel phone for the price"
+    },
+    {
+      "id": "q50",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Which smartphone is the best deal right now?"
+    },
+    {
+      "id": "q51",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best premium large screen smartphone to buy in 2026"
+    },
+    {
+      "id": "q52",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Google Pixel 9 Pro XL vs Apple iPhone 16 Pro Max — which is the better buy?"
+    },
+    {
+      "id": "q53",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best smartphone to buy on a $700 budget"
+    },
+    {
+      "id": "q54",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Is the Google Pixel 9 Pro worth it over the Samsung Galaxy S25?"
+    },
+    {
+      "id": "q55",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Google Pixel 9 Pro XL vs Google Pixel 9 Pro — which model should I get?"
+    },
+    {
+      "id": "q56",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Google Pixel 9 Pro vs Samsung Galaxy S25+ — which is better value?"
+    },
+    {
+      "id": "q57",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Should I buy the Google Pixel 9 Pro XL now or wait for the next model?"
+    },
+    {
+      "id": "q58",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Google Pixel 9 Pro XL vs Samsung Galaxy S25 — is it worth paying nearly twice as much?"
+    },
+    {
+      "id": "q59",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "What are the best smartphone deals right now?",
+      "promo": true
+    },
+    {
+      "id": "q60",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Are there any discounts or promotions on Google Pixel phones right now?",
+      "promo": true
+    },
+    {
+      "id": "q61",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "Which smartphone brand has the best Black Friday deals in 2026?",
+      "promo": true
+    },
+    {
+      "id": "q62",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "Which retailer has the best price on a flagship smartphone this week?",
+      "promo": true
+    }
+  ],
+  "attributes": [
+    "camera quality",
+    "battery life",
+    "display quality",
+    "performance",
+    "software and updates",
+    "build quality",
+    "storage and memory",
+    "5g connectivity",
+    "charging speed",
+    "durability and water resistance",
+    "price and value",
+    "ecosystem and app support",
+    "size and ergonomics",
+    "security and privacy"
+  ],
+  "domains": {
+    "Apple": "apple.com",
+    "Samsung": "samsung.com",
+    "Google": "store.google.com"
+  },
+  "catalog": [
+    {
+      "id": "pixel_9",
+      "label": "Pixel 9",
+      "family": "Flagship standard",
+      "msrp": null
+    },
+    {
+      "id": "pixel_9_pro",
+      "label": "Pixel 9 Pro",
+      "family": "Flagship pro",
+      "msrp": null
+    },
+    {
+      "id": "pixel_9_pro_xl",
+      "label": "Pixel 9 Pro XL",
+      "family": "Flagship pro large",
+      "msrp": null
+    },
+    {
+      "id": "pixel_9_pro_fold",
+      "label": "Pixel 9 Pro Fold",
+      "family": "Flagship foldable",
+      "msrp": null
+    },
+    {
+      "id": "pixel_8a",
+      "label": "Pixel 8a",
+      "family": "Mid-range value",
+      "msrp": null
+    },
+    {
+      "id": "pixel_9a",
+      "label": "Pixel 9a",
+      "family": "Mid-range value (2025)",
+      "msrp": null
+    }
+  ],
+  "source": "adapted",
+  "writtenAt": "2026-10-09T11:53:34.939Z"
+}

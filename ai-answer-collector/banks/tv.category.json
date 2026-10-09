@@ -1,0 +1,273 @@
+{
+  "category": {
+    "slug": "tv",
+    "name": "TV",
+    "noun": [
+      "TV",
+      "TVs"
+    ]
+  },
+  "neutral": [
+    {
+      "id": "q01",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What are the best TVs to buy in 2026?"
+    },
+    {
+      "id": "q02",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What is the best OLED TV in 2026?"
+    },
+    {
+      "id": "q03",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What's the best 65 inch TV right now?"
+    },
+    {
+      "id": "q04",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best premium TV to buy in 2026"
+    },
+    {
+      "id": "q05",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Which TV brands are the best in 2026?"
+    },
+    {
+      "id": "q06",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best 4K TV for the money"
+    },
+    {
+      "id": "q07",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best TV for picture quality"
+    },
+    {
+      "id": "q08",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best big screen 75 inch TV"
+    },
+    {
+      "id": "q09",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best TV for most people in 2026"
+    },
+    {
+      "id": "q10",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best Mini LED TV in 2026"
+    },
+    {
+      "id": "q11",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best 55 inch TV in 2026"
+    },
+    {
+      "id": "q12",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best QLED TV in 2026"
+    },
+    {
+      "id": "q13",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for gaming with low input lag"
+    },
+    {
+      "id": "q14",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for PS5 and Xbox Series X"
+    },
+    {
+      "id": "q15",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for watching movies in a dark room"
+    },
+    {
+      "id": "q16",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for sports and fast motion"
+    },
+    {
+      "id": "q17",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for a bright sunlit room with anti-glare"
+    },
+    {
+      "id": "q18",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV with the best smart platform and apps"
+    },
+    {
+      "id": "q19",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best OLED TV for HDR movies"
+    },
+    {
+      "id": "q20",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "QLED vs OLED — which should I buy in 2026?"
+    },
+    {
+      "id": "q21",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for a home theater setup"
+    },
+    {
+      "id": "q22",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV for streaming Netflix and Disney+"
+    },
+    {
+      "id": "q23",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV with Dolby Vision and Dolby Atmos"
+    },
+    {
+      "id": "q24",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best 120Hz TV for gaming in 2026"
+    },
+    {
+      "id": "q25",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV with the best sound without a soundbar"
+    },
+    {
+      "id": "q26",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Mini LED vs OLED — which is better for a bright room?"
+    },
+    {
+      "id": "q30",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Which TV brand is the most reliable?"
+    },
+    {
+      "id": "q32",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV brand for longevity and reliability"
+    },
+    {
+      "id": "q34",
+      "stage": "evaluation",
+      "focus": "neutral",
+      "text": "Samsung vs LG vs Sony premium TV — full comparison"
+    },
+    {
+      "id": "q36",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Which TV brand has the best warranty and support?"
+    },
+    {
+      "id": "q38",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Are premium TVs worth it over budget brands like TCL and Hisense?"
+    },
+    {
+      "id": "q44",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best 65 inch OLED TV under $1500"
+    },
+    {
+      "id": "q46",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best value OLED TV in 2026"
+    },
+    {
+      "id": "q48",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best TV under $1000 in 2026"
+    },
+    {
+      "id": "q50",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Which 65 inch TV is the best deal right now?"
+    },
+    {
+      "id": "q51",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best 77 inch OLED TV to buy in 2026"
+    },
+    {
+      "id": "q53",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best TV to buy on a $1500 budget"
+    },
+    {
+      "id": "q59",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "What are the best TV deals right now?",
+      "promo": true
+    },
+    {
+      "id": "q61",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "Which TV brand has the best Black Friday deals in 2026?",
+      "promo": true
+    },
+    {
+      "id": "q62",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "Which retailer has the best price on a 65 inch TV this week?",
+      "promo": true
+    }
+  ],
+  "attributes": [
+    "picture quality",
+    "brightness",
+    "black levels / contrast",
+    "colour accuracy",
+    "motion / sports",
+    "gaming features",
+    "sound",
+    "smart platform",
+    "design",
+    "price / value",
+    "reliability",
+    "warranty / support",
+    "availability / stock",
+    "processing / upscaling"
+  ],
+  "source": "reference",
+  "writtenAt": "2026-10-09T11:51:48.656Z"
+}
