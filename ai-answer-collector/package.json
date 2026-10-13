@@ -13,6 +13,7 @@
     "dashboard": "tsx src/dashboard-server.ts",
     "render": "tsx src/render-cli.ts",
     "export": "tsx src/export.ts",
+    "progress": "tsx src/progress.ts",
     "patch:dashboard": "node dashboard/patch-ai-visibility.mjs",
     "typecheck": "tsc --noEmit",
     "setup:browser": "playwright install chromium"

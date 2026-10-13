@@ -31,6 +31,8 @@ export const CATEGORIES: Category[] = [
   c("soundbars", "Soundbars", "soundbar", "soundbars", "Audio"),
   c("headphones", "Headphones", "pair of headphones", "headphones", "Audio"),
   c("bluetooth-speakers", "Bluetooth Speakers", "Bluetooth speaker", "Bluetooth speakers", "Audio"),
+  // not one of the 30: home and portable Wi-Fi speakers, for the Sonos study
+  c("wireless-speakers", "Wireless Speakers", "wireless speaker", "wireless speakers", "Audio"),
   c("projectors", "Projectors", "projector", "projectors", "Home entertainment"),
   c("gaming-consoles", "Gaming Consoles", "gaming console", "gaming consoles", "Home entertainment"),
   c("cameras", "Cameras", "camera", "cameras", "Imaging"),

@@ -76,6 +76,7 @@ async function callLLMRaw(args: LLMArgs & { messages?: ChatMessage[] }): Promise
   let refreshed = false;
   let lastErr = "";
   for (let attempt = 0; attempt < 4; attempt++) {
+    // A dropped connection is retried like a 5xx.
     const res = await fetch(`${BASE}/api/llm`, {
       method: "POST",
       headers: {
@@ -91,7 +92,12 @@ async function callLLMRaw(args: LLMArgs & { messages?: ChatMessage[] }): Promise
         max_tokens: args.maxTokens ?? 800,
         temperature: args.temperature ?? 0.2,
       }),
-    });
+    }).catch((e: Error) => e);
+    if (res instanceof Error) {
+      lastErr = res.message;
+      await new Promise((resolve) => setTimeout(resolve, 2000 * (attempt + 1)));
+      continue;
+    }
     if (res.ok) {
       const j = (await res.json()) as { text?: string; message?: string; content?: unknown };
       // The proxy returns various shapes depending on Claude's response format.

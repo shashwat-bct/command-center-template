@@ -1,0 +1,452 @@
+{
+  "key": "apple-wireless-speakers",
+  "brand": {
+    "id": "apple",
+    "label": "Apple",
+    "domain": "apple.com"
+  },
+  "category": {
+    "slug": "wireless-speakers",
+    "name": "Wireless Speakers",
+    "noun": [
+      "wireless speaker",
+      "wireless speakers"
+    ]
+  },
+  "productLine": "HomePod",
+  "competitors": [
+    {
+      "id": "sonos",
+      "label": "Sonos"
+    },
+    {
+      "id": "bose",
+      "label": "Bose"
+    },
+    {
+      "id": "amazon",
+      "label": "Amazon"
+    },
+    {
+      "id": "jbl",
+      "label": "JBL"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q01",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What are the best wireless speakers to buy in 2026?"
+    },
+    {
+      "id": "q02",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What is the best portable wireless speaker in 2026?"
+    },
+    {
+      "id": "q03",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "What's the best wireless speaker for home use right now?"
+    },
+    {
+      "id": "q04",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best premium wireless speaker to buy in 2026"
+    },
+    {
+      "id": "q05",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Which wireless speaker brands are the best in 2026?"
+    },
+    {
+      "id": "q06",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best wireless speaker for the money"
+    },
+    {
+      "id": "q07",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best wireless speaker for sound quality"
+    },
+    {
+      "id": "q08",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best large wireless speaker for filling a big room"
+    },
+    {
+      "id": "q09",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best wireless speaker for most people in 2026"
+    },
+    {
+      "id": "q10",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best wireless speaker with 360 degree sound in 2026"
+    },
+    {
+      "id": "q11",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best mid-size wireless speaker in 2026"
+    },
+    {
+      "id": "q12",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best wireless bookshelf speaker in 2026"
+    },
+    {
+      "id": "q13",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker with a built-in voice assistant"
+    },
+    {
+      "id": "q14",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker to pair with a turntable"
+    },
+    {
+      "id": "q15",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker for a bedroom or small room"
+    },
+    {
+      "id": "q16",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker for bass-heavy music and dynamic tracks"
+    },
+    {
+      "id": "q17",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker for the backyard or pool"
+    },
+    {
+      "id": "q18",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker with the best app and smart features"
+    },
+    {
+      "id": "q19",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker for hi-res audio and lossless streaming"
+    },
+    {
+      "id": "q20",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Portable wireless speaker vs home wireless speaker \u2014 which should I buy in 2026?"
+    },
+    {
+      "id": "q21",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker for a home theater setup"
+    },
+    {
+      "id": "q22",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker for streaming Spotify and Apple Music"
+    },
+    {
+      "id": "q23",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker with Dolby Atmos support"
+    },
+    {
+      "id": "q24",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker with multiroom audio support in 2026"
+    },
+    {
+      "id": "q25",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker with the clearest and loudest sound"
+    },
+    {
+      "id": "q26",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Portable wireless speaker vs smart home speaker \u2014 which is better for outdoor use?"
+    },
+    {
+      "id": "q27",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Apple HomePod vs Sonos \u2014 which is better in 2026?"
+    },
+    {
+      "id": "q28",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Is an Apple HomePod worth the money?"
+    },
+    {
+      "id": "q29",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Apple HomePod vs Bose \u2014 which should I buy?"
+    },
+    {
+      "id": "q30",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Which wireless speaker brand is the most reliable?"
+    },
+    {
+      "id": "q31",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Are Apple HomePod speakers good?"
+    },
+    {
+      "id": "q32",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker brand for longevity and reliability"
+    },
+    {
+      "id": "q33",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Apple HomePod vs Sonos \u2014 is Apple worth the premium?"
+    },
+    {
+      "id": "q34",
+      "stage": "evaluation",
+      "focus": "neutral",
+      "text": "Full comparison of the top three premium wireless speaker brands in 2026"
+    },
+    {
+      "id": "q35",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Do Apple HomePod speakers last longer than other brands?"
+    },
+    {
+      "id": "q36",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Which wireless speaker brand has the best warranty and customer support?"
+    },
+    {
+      "id": "q37",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Is Apple or Sonos better for sound quality?"
+    },
+    {
+      "id": "q38",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Are premium wireless speakers worth it over budget options under $100?"
+    },
+    {
+      "id": "q39",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "Is Apple still the best for audio processing in wireless speakers?"
+    },
+    {
+      "id": "q40",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Apple HomePod vs JBL \u2014 is the premium justified?"
+    },
+    {
+      "id": "q41",
+      "stage": "evaluation",
+      "focus": "subject",
+      "text": "What are the downsides of Apple HomePod speakers?"
+    },
+    {
+      "id": "q42",
+      "stage": "evaluation",
+      "focus": "vs",
+      "text": "Apple HomePod vs Amazon Echo \u2014 which wins for smart home audio?"
+    },
+    {
+      "id": "q43",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Best Apple HomePod under $400"
+    },
+    {
+      "id": "q44",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker under $300"
+    },
+    {
+      "id": "q45",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Apple HomePod (2nd gen) vs Sonos Era 300 \u2014 which to buy?"
+    },
+    {
+      "id": "q46",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best value wireless speaker in 2026"
+    },
+    {
+      "id": "q47",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Is the Apple HomePod mini worth buying over the Sonos Era 100?"
+    },
+    {
+      "id": "q48",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best wireless speaker under $200 in 2026"
+    },
+    {
+      "id": "q49",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Best Apple HomePod for the price"
+    },
+    {
+      "id": "q50",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Which wireless speaker is the best deal right now?"
+    },
+    {
+      "id": "q51",
+      "stage": "awareness",
+      "focus": "neutral",
+      "text": "Best high-end wireless home speaker to buy in 2026"
+    },
+    {
+      "id": "q52",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Apple HomePod (2nd gen) vs Sonos Era 300 \u2014 which is the better buy?"
+    },
+    {
+      "id": "q53",
+      "stage": "consideration",
+      "focus": "neutral",
+      "text": "Best wireless speaker to buy on a $300 budget"
+    },
+    {
+      "id": "q54",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Is the Apple HomePod (2nd gen) worth it over the Amazon Echo Studio?"
+    },
+    {
+      "id": "q55",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Apple HomePod (2nd gen) vs Apple HomePod mini \u2014 which model?"
+    },
+    {
+      "id": "q56",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Apple HomePod mini vs Amazon Echo Dot Max \u2014 which is better value?"
+    },
+    {
+      "id": "q57",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Should I buy the Apple HomePod (2nd gen) or wait?"
+    },
+    {
+      "id": "q58",
+      "stage": "decision",
+      "focus": "vs",
+      "text": "Apple HomePod (2nd gen) vs Amazon Echo Dot Max \u2014 is it worth 3x the price?"
+    },
+    {
+      "id": "q59",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "What are the best wireless speaker deals right now?",
+      "promo": true
+    },
+    {
+      "id": "q60",
+      "stage": "decision",
+      "focus": "subject",
+      "text": "Are there any discounts or promotions on Apple HomePod speakers right now?",
+      "promo": true
+    },
+    {
+      "id": "q61",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "Which wireless speaker brand has the best Black Friday deals in 2026?",
+      "promo": true
+    },
+    {
+      "id": "q62",
+      "stage": "decision",
+      "focus": "neutral",
+      "text": "Which retailer has the best price on a wireless speaker this week?",
+      "promo": true
+    }
+  ],
+  "attributes": [
+    "sound quality",
+    "bass performance",
+    "volume and loudness",
+    "battery life",
+    "bluetooth range",
+    "multiroom support",
+    "app and smart features",
+    "voice assistant integration",
+    "water and dust resistance",
+    "portability and size",
+    "connectivity options",
+    "build quality and durability",
+    "value for money",
+    "brand reliability and warranty"
+  ],
+  "domains": {
+    "Sonos": "sonos.com",
+    "Bose": "bose.com",
+    "Apple": "apple.com",
+    "Amazon": "amazon.com",
+    "JBL": "jbl.com"
+  },
+  "catalog": [
+    {
+      "id": "homepod_2nd_generation",
+      "label": "HomePod (2nd generation)",
+      "family": "HomePod",
+      "msrp": null
+    },
+    {
+      "id": "homepod_mini",
+      "label": "HomePod mini",
+      "family": "HomePod",
+      "msrp": null
+    }
+  ],
+  "source": "adapted",
+  "writtenAt": "2026-10-13T09:43:03.414Z"
+}

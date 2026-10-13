@@ -293,7 +293,7 @@
       "id": "q45",
       "stage": "decision",
       "focus": "vs",
-      "text": "Google Pixel 9 Pro XL vs Samsung Galaxy S25 Ultra — which should I buy?"
+      "text": "Google Pixel 11 Pro XL vs Samsung Galaxy S26 Ultra — which should I buy?"
     },
     {
       "id": "q46",
@@ -305,7 +305,7 @@
       "id": "q47",
       "stage": "decision",
       "focus": "subject",
-      "text": "Is the Google Pixel 9 Pro worth buying over the Apple iPhone 16 Pro?"
+      "text": "Is the Google Pixel 11 Pro worth buying over the Apple iPhone 18 Pro?"
     },
     {
       "id": "q48",
@@ -335,7 +335,7 @@
       "id": "q52",
       "stage": "decision",
       "focus": "vs",
-      "text": "Google Pixel 9 Pro XL vs Apple iPhone 16 Pro Max — which is the better buy?"
+      "text": "Google Pixel 11 Pro XL vs Apple iPhone 18 Pro Max — which is the better buy?"
     },
     {
       "id": "q53",
@@ -347,31 +347,31 @@
       "id": "q54",
       "stage": "decision",
       "focus": "subject",
-      "text": "Is the Google Pixel 9 Pro worth it over the Samsung Galaxy S25?"
+      "text": "Is the Google Pixel 11 Pro worth it over the Samsung Galaxy S26?"
     },
     {
       "id": "q55",
       "stage": "decision",
       "focus": "vs",
-      "text": "Google Pixel 9 Pro XL vs Google Pixel 9 Pro — which model should I get?"
+      "text": "Google Pixel 11 Pro XL vs Google Pixel 11 Pro — which model should I get?"
     },
     {
       "id": "q56",
       "stage": "decision",
       "focus": "vs",
-      "text": "Google Pixel 9 Pro vs Samsung Galaxy S25+ — which is better value?"
+      "text": "Google Pixel 11 Pro vs Samsung Galaxy S26+ — which is better value?"
     },
     {
       "id": "q57",
       "stage": "decision",
       "focus": "subject",
-      "text": "Should I buy the Google Pixel 9 Pro XL now or wait for the next model?"
+      "text": "Should I buy the Google Pixel 11 Pro XL now or wait for the next model?"
     },
     {
       "id": "q58",
       "stage": "decision",
       "focus": "vs",
-      "text": "Google Pixel 9 Pro XL vs Samsung Galaxy S25 — is it worth paying nearly twice as much?"
+      "text": "Google Pixel 11 Pro XL vs Samsung Galaxy S26 — is it worth paying the extra?"
     },
     {
       "id": "q59",
@@ -425,42 +425,36 @@
   },
   "catalog": [
     {
-      "id": "pixel_9",
-      "label": "Pixel 9",
+      "id": "pixel_11",
+      "label": "Pixel 11",
       "family": "Flagship standard",
       "msrp": null
     },
     {
-      "id": "pixel_9_pro",
-      "label": "Pixel 9 Pro",
+      "id": "pixel_11_pro",
+      "label": "Pixel 11 Pro",
       "family": "Flagship pro",
       "msrp": null
     },
     {
-      "id": "pixel_9_pro_xl",
-      "label": "Pixel 9 Pro XL",
+      "id": "pixel_11_pro_xl",
+      "label": "Pixel 11 Pro XL",
       "family": "Flagship pro large",
       "msrp": null
     },
     {
-      "id": "pixel_9_pro_fold",
-      "label": "Pixel 9 Pro Fold",
+      "id": "pixel_11_pro_fold",
+      "label": "Pixel 11 Pro Fold",
       "family": "Flagship foldable",
       "msrp": null
     },
     {
-      "id": "pixel_8a",
-      "label": "Pixel 8a",
+      "id": "pixel_10a",
+      "label": "Pixel 10a",
       "family": "Mid-range value",
-      "msrp": null
-    },
-    {
-      "id": "pixel_9a",
-      "label": "Pixel 9a",
-      "family": "Mid-range value (2025)",
       "msrp": null
     }
   ],
   "source": "adapted",
-  "writtenAt": "2026-10-09T11:53:34.939Z"
+  "writtenAt": "2026-10-12T12:49:49.058Z"
 }

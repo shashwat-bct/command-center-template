@@ -1,6 +1,6 @@
 # AI answer collector
 
-Measures how AI engines answer US shoppers about **Sony** and **Samsung** across the retail-audit categories, and serves the results as the command-center **AI Engine Visibility** dashboard (Executive Summary, Funnel & Engines, Sources & Access, Brand Attributes, Picks & Products, Change Over Time).
+Measures how AI engines answer US shoppers about **Sony**, **Samsung** and **Sonos** across the retail-audit categories, and serves the results as the command-center **AI Engine Visibility** dashboard (Executive Summary, Funnel & Engines, Sources & Access, Brand Attributes, Picks & Products, Change Over Time).
 
 Everything follows `command-center-template` (`feat/measured-only-dashboards`): ChatGPT and Gemini are read from their consumer apps through Bright Data's AI scrapers, Claude through the Atlas LLM proxy; a Claude reader pass extracts brands, positions, top picks, attributes and claims; the payload and the dashboard are the template's own (`lib/ai-console.ts`, `public/ai-visibility.js`).
 
@@ -8,7 +8,7 @@ Everything follows `command-center-template` (`feat/measured-only-dashboards`): 
 
 | | |
 |---|---|
-| Categories | Toggled in `src/config/brands.ts` (`enabled`). Now: **TV** (Sony, Samsung, LG, TCL, Hisense) and **Phones** (Apple, Samsung, Google) |
+| Categories | Toggled in `src/config/brands.ts` (`enabled`). Now: **TV** (Sony, Samsung, LG, TCL, Hisense), **Phones** (Apple, Samsung, Google) and **Wireless Speakers** (Sonos, Bose, Apple, Amazon, JBL) |
 | Question bank | The template's Sony TV bank, **58 questions as they are**, plus 4 promotion questions (q59–q62) — `src/config/questions.ts` |
 | Stages | Attention (awareness), Consideration, Evaluation & Trust, Decision |
 | Personas | Value Seeker and Feature Enthusiast, **both on every run** — `src/config/personas.ts` |
@@ -19,7 +19,7 @@ Every brand in a category is measured as the subject in turn, with the others as
 
 **Generic questions are shared, brand-specific ones repeat.** The 62 questions split into 40 brand-neutral ("What are the best TVs to buy in 2026?") and 22 brand-specific ("Is a Sony Bravia worth the money?", "Sony vs LG OLED — which should I buy?"). `npm run banks` writes:
 
-- `banks/<category>.category.json` — the category's 40 neutral questions, attributes and noun. TV keeps the reference wording; Phones has them adapted once.
+- `banks/<category>.category.json` — the category's 40 neutral questions, attributes and noun. TV keeps the reference wording; Phones and Wireless Speakers have them adapted once.
 - `banks/<brand>-<category>.json` — one brand's full bank: the shared neutral questions word for word plus its own 22 brand-specific ones. Sony TV keeps the reference wording; every other brand's are rewritten from it (Sony → LG, Bravia 9 II → G5, and so on), same id, stage and focus.
 
 So a neutral question is asked once per engine, persona and run and read once for the whole category; only the brand-specific questions are asked per brand. Review the bank files before collecting: model names are Claude's and may need correcting.
@@ -83,3 +83,5 @@ Styles (`cco-dashboard.css`, `ai-visibility.css`) and charts (`cco-charts.js`) a
 ## Scale
 
 TV (5 brands) and Phones (3 brands): 8 banks × 62 questions × 2 personas × 3 runs = 2,976 answers per engine if every brand were asked separately; with the neutral questions shared it is **1,536 distinct prompts per engine** (48% fewer), so about 1,536 Bright Data records each for ChatGPT and Gemini and 1,536 Claude calls, plus about 260 reader calls. Pilot first and measure throughput and failure rate.
+
+Wireless Speakers (5 brands) adds 900 distinct prompts per engine for all five, or 372 for `--pairs sonos-wireless-speakers` alone (its 40 neutral + 22 Sonos questions × 2 personas × 3 runs).

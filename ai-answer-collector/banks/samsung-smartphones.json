@@ -221,7 +221,7 @@
       "id": "q33",
       "stage": "evaluation",
       "focus": "vs",
-      "text": "Samsung Galaxy S25 Ultra vs Apple iPhone — is Samsung worth the premium?"
+      "text": "Samsung Galaxy S26 Ultra vs Apple iPhone — is Samsung worth the premium?"
     },
     {
       "id": "q34",
@@ -293,7 +293,7 @@
       "id": "q45",
       "stage": "decision",
       "focus": "vs",
-      "text": "Samsung Galaxy S25 Ultra vs Apple iPhone 16 Pro Max — which should I buy?"
+      "text": "Samsung Galaxy S26 Ultra vs Apple iPhone 18 Pro Max — which should I buy?"
     },
     {
       "id": "q46",
@@ -305,7 +305,7 @@
       "id": "q47",
       "stage": "decision",
       "focus": "subject",
-      "text": "Is the Samsung Galaxy S25+ worth buying over the Google Pixel 9 Pro?"
+      "text": "Is the Samsung Galaxy S26+ worth buying over the Google Pixel 11 Pro?"
     },
     {
       "id": "q48",
@@ -335,7 +335,7 @@
       "id": "q52",
       "stage": "decision",
       "focus": "vs",
-      "text": "Samsung Galaxy S25 Ultra vs Google Pixel 9 Pro XL — which is the better buy?"
+      "text": "Samsung Galaxy S26 Ultra vs Google Pixel 11 Pro XL — which is the better buy?"
     },
     {
       "id": "q53",
@@ -347,31 +347,31 @@
       "id": "q54",
       "stage": "decision",
       "focus": "subject",
-      "text": "Is the Samsung Galaxy S25+ worth it over the Google Pixel 9?"
+      "text": "Is the Samsung Galaxy S26+ worth it over the Google Pixel 11?"
     },
     {
       "id": "q55",
       "stage": "decision",
       "focus": "vs",
-      "text": "Samsung Galaxy S25 Ultra vs Samsung Galaxy S25+ — which model should I get?"
+      "text": "Samsung Galaxy S26 Ultra vs Samsung Galaxy S26+ — which model should I get?"
     },
     {
       "id": "q56",
       "stage": "decision",
       "focus": "vs",
-      "text": "Samsung Galaxy S25+ vs Apple iPhone 16 — which is better value?"
+      "text": "Samsung Galaxy S26+ vs Apple iPhone 17 — which is better value?"
     },
     {
       "id": "q57",
       "stage": "decision",
       "focus": "subject",
-      "text": "Should I buy the Samsung Galaxy S25 Ultra or wait for the next model?"
+      "text": "Should I buy the Samsung Galaxy S26 Ultra or wait for the next model?"
     },
     {
       "id": "q58",
       "stage": "decision",
       "focus": "vs",
-      "text": "Samsung Galaxy S25 Ultra vs Google Pixel 9a — is it worth twice the price?"
+      "text": "Samsung Galaxy S26 Ultra vs Google Pixel 10a — is it worth twice the price?"
     },
     {
       "id": "q59",
@@ -425,42 +425,36 @@
   },
   "catalog": [
     {
-      "id": "galaxy_s25_s25_s25_ultra",
-      "label": "Galaxy S25 / S25+ / S25 Ultra",
+      "id": "galaxy_s26_s26_s26_ultra",
+      "label": "Galaxy S26 / S26+ / S26 Ultra",
       "family": "Flagship",
       "msrp": null
     },
     {
-      "id": "galaxy_s25_edge",
-      "label": "Galaxy S25 Edge",
-      "family": "Flagship slim",
+      "id": "galaxy_s26_fe",
+      "label": "Galaxy S26 FE",
+      "family": "Flagship value",
       "msrp": null
     },
     {
-      "id": "galaxy_z_fold_7",
-      "label": "Galaxy Z Fold 7",
+      "id": "galaxy_z_fold8_z_fold8_ultra",
+      "label": "Galaxy Z Fold8 / Z Fold8 Ultra",
       "family": "Foldable",
       "msrp": null
     },
     {
-      "id": "galaxy_z_flip_7",
-      "label": "Galaxy Z Flip 7",
+      "id": "galaxy_z_flip8",
+      "label": "Galaxy Z Flip8",
       "family": "Flip foldable",
       "msrp": null
     },
     {
-      "id": "galaxy_a56_a36_a16",
-      "label": "Galaxy A56 / A36 / A16",
+      "id": "galaxy_a_series",
+      "label": "Galaxy A series",
       "family": "Mid-range",
-      "msrp": null
-    },
-    {
-      "id": "galaxy_xcover_7",
-      "label": "Galaxy XCover 7",
-      "family": "Rugged",
       "msrp": null
     }
   ],
   "source": "adapted",
-  "writtenAt": "2026-10-09T11:53:23.321Z"
+  "writtenAt": "2026-10-12T12:49:49.058Z"
 }
