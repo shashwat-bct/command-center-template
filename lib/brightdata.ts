@@ -12,6 +12,7 @@ const DATASETS: Record<BrightDataEngineId, Dataset> = {
 };
 
 const API = "https://api.brightdata.com/datasets/v3";
+const BATCH_SIZE: Record<BrightDataEngineId, number> = { chatgpt: 1, perplexity: 3, gemini: 3, copilot: 3 };
 const MAX_SOURCES = 8;
 const REQUEST_TIMEOUT_MS = 30_000;
 const MAX_PROGRESS_ERRORS = 5;
@@ -167,13 +168,23 @@ async function runBatch(engine: BrightDataEngineId, key: string, prompts: string
 export async function brightDataAsk(engine: BrightDataEngineId, key: string, prompts: string[], opts: BrightDataOptions = {}): Promise<Array<EngineAnswer | Error>> {
   if (!prompts.length) return [];
   const deadline = Date.now() + (opts.timeoutMs ?? 13 * 60_000);
-  const size = Math.max(1, opts.batchSize ?? 3);
+  const size = Math.max(1, opts.batchSize ?? BATCH_SIZE[engine]);
   const trimmed = prompts.map((p) => p.trim());
   const batches: string[][] = [];
   for (let i = 0; i < trimmed.length; i += size) batches.push(trimmed.slice(i, i + size));
   console.log(`[brightdata] ${engine} ${trimmed.length} prompts in ${batches.length} snapshots`);
-  const settled = await Promise.allSettled(batches.map((b) => runBatch(engine, key, b, opts.country ?? "US", opts.pollMs ?? 10_000, deadline)));
-  const out = settled.flatMap((r, i) => (r.status === "fulfilled" ? r.value : batches[i].map(() => (r.reason instanceof Error ? r.reason : new Error(String(r.reason))))));
+  const run = (b: string[]): Promise<Array<EngineAnswer | Error>> =>
+    runBatch(engine, key, b, opts.country ?? "US", opts.pollMs ?? 10_000, deadline).catch((e: unknown) => b.map(() => (e instanceof Error ? e : new Error(String(e)))));
+  const withRetry = async (b: string[]): Promise<Array<EngineAnswer | Error>> => {
+    const t0 = Date.now();
+    const first = await run(b);
+    const again = b.filter((_, i) => first[i] instanceof Error && !/after the timeout/.test((first[i] as Error).message));
+    if (!again.length || Date.now() + (Date.now() - t0) > deadline) return first;
+    console.log(`[brightdata] ${engine} retrying ${again.length} failed prompt(s): ${again.map((p) => p.slice(0, 50)).join(" | ")}`);
+    const second = await Promise.all(again.map((p) => run([p]).then((r) => r[0])));
+    return first.map((x, i) => (x instanceof Error && again.includes(b[i]) ? second[again.indexOf(b[i])] : x));
+  };
+  const out = (await Promise.all(batches.map(withRetry))).flat();
   const ok = out.filter((x) => !(x instanceof Error)).length;
   console.log(`[brightdata] ${engine} total ${ok}/${trimmed.length} answered`);
   if (!ok) throw out.find((x) => x instanceof Error) ?? new Error("no answers");

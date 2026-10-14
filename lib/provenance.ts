@@ -79,7 +79,8 @@ export function disclosureFor(p: Provenance, subjectName: string): { short: stri
   if (listingBrands) parts.push(`daily Amazon price, stock, buy box, rating and reviews for ${plural(listings, "listing")} across ${plural(listingBrands, "brand")} (Keepa, ${windowLabel(p.record.windowEnd)})`);
   if (measuredSlots(p, "pdpScore")) parts.push("Amazon product-page content and delivery promise on the build date (Apify)");
   if (measuredSlots(p, "shelfSov")) parts.push("Amazon organic search results for the category on the build date (Apify)");
-  const body = "Other retailers, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts, cost of ownership, and the day-to-day movement behind single readings are modelled around these measurements.";
+  const market = p.record.market;
+  const body = `Other retailers${market ? ` (${market.retailers.filter((r) => r.id !== "amazon").map((r) => r.label).join(", ")})` : ""}, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts, ${market && !market.durable ? "effective price after promotions" : "cost of ownership"}, and the day-to-day movement behind single readings are modelled around these measurements.`;
   if (!parts.length) {
     return { short: "Modelled view", headline: `No live source answered for ${subjectName} on this build.`, body: "Every figure is modelled. Rebuild once the category and competitors are set to read AI answers and Amazon listings." };
   }
@@ -88,7 +89,7 @@ export function disclosureFor(p: Provenance, subjectName: string): { short: stri
 
 function keepaAnchors(rows: KeepaRecord[]): Anchor[] {
   if (!rows.length) return [];
-  const basis = rows.map((k) => `${k.brand} ${plural(k.asinsUsed.length, "listing")}${k.asinsRejected.length ? ` (${k.asinsRejected.length} other-brand hit${k.asinsRejected.length === 1 ? "" : "s"} excluded)` : ""}`).join(", ");
+  const basis = rows.map((k) => `${k.brand} ${plural(k.asinsUsed.length, "listing")}${k.asinsRejected.length ? ` (${plural(k.asinsRejected.length, "other-brand or off-category listing")} excluded)` : ""}`).join(", ");
   return [{ lane: "Brand check", measured: `Amazon listings found by Keepa search and kept only when the listing's brand or title names the brand — ${basis}`, source: "Keepa search + product API", pins: "Which listings every Amazon figure on this dashboard is computed from." }];
 }
 
@@ -124,6 +125,13 @@ export function anchorsFor(p: Provenance, lanes: Record<string, { status: string
     const sh = p.record.shelf;
     out.push({ lane: "Retail shelf", measured: `First ${sh.depth} organic Amazon search results for "${sh.term}" on ${sh.capturedAt}, each attributed to a brand by its title`,
       source: "Apify Amazon crawler · search page", pins: "The level each brand's Amazon shelf share is anchored to." });
+  }
+  const market = p.record.market;
+  if (market) {
+    out.push({ lane: "Market profile",
+      measured: `NOT MEASURED. Retailers for ${market.category} in ${market.region} (${market.retailers.map((r) => `${r.label} ${Math.round(r.weight * 100)}%`).join(", ")}), which of them stock each brand, the promotion mechanics each runs and each brand site's monthly visits, ${market.source === "fallback" ? "set to a plain three-retailer market because Claude could not be reached" : `written by Claude from market knowledge${market.source === "llm" ? ` and checked by a second Claude pass${market.changes.length ? ` that made ${plural(market.changes.length, "correction")}` : ""}` : ""}`}.`,
+      source: market.source === "fallback" ? "default market" : "Claude · market knowledge, not a live read",
+      pins: "Which retailers, carriage, mechanics and traffic levels the modelled lanes are built on.", unmeasured: true });
   }
   for (const [lane, s] of Object.entries(lanes)) {
     if (s.status === "modelled") out.push({ lane: LANE_NAMES[lane] ?? lane, measured: `MODELLED. ${s.note}`, source: "simulation seeded per brand", pins: "Levels sized from the category and the measured lanes; shape and movement modelled.", unmeasured: true });

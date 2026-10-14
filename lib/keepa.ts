@@ -12,6 +12,7 @@
 //   csv[17] = Review count
 // We take the latest value from each. Prices from Amazon fall back to New
 // marketplace when Amazon itself isn't selling.
+import type { ListingCheck } from "./listing-relevance";
 
 const KEEPA_URL = "https://api.keepa.com/product";
 
@@ -71,6 +72,7 @@ export type KeepaBrandAggregate = {
   inStockRate: number | null;
   perAsin: KeepaAsinResult[];
   rejected: KeepaAsinResult[];
+  offCategory: KeepaAsinResult[];
 };
 
 const latest = (arr: number[] | undefined | null): number | null => {
@@ -226,7 +228,7 @@ export async function fetchKeepaAsin(asin: string, apiKey: string, domain = 1): 
   }
 }
 
-export async function fetchKeepaBrand(asins: string[], apiKey: string, domain = 1, brandName?: string): Promise<KeepaBrandAggregate> {
+export async function fetchKeepaBrand(asins: string[], apiKey: string, domain = 1, brandName?: string, inCategory?: ListingCheck): Promise<KeepaBrandAggregate> {
   const results: KeepaAsinResult[] = [];
   for (const asin of asins) {
     const r = await fetchKeepaAsin(asin, apiKey, domain);
@@ -236,7 +238,10 @@ export async function fetchKeepaBrand(asins: string[], apiKey: string, domain = 
   }
 
   const hasData = results.filter((r) => r.priceNow != null || r.rating != null);
-  const withData = brandName ? hasData.filter((r) => listingMatchesBrand(r, brandName)) : hasData;
+  const ownBrand = brandName ? hasData.filter((r) => listingMatchesBrand(r, brandName)) : hasData;
+  const keep = inCategory && ownBrand.length ? await inCategory(ownBrand.map((r) => ({ asin: r.asin, title: r.title }))) : null;
+  const withData = keep ? ownBrand.filter((r) => keep.has(r.asin)) : ownBrand;
+  const offCategory = ownBrand.filter((r) => !withData.includes(r));
   const rejected = hasData.filter((r) => !withData.includes(r));
   const avg = (arr: number[]): number | null =>
     arr.length ? Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 100) / 100 : null;
@@ -260,6 +265,7 @@ export async function fetchKeepaBrand(asins: string[], apiKey: string, domain = 
     inStockRate: stockShares.length ? Math.round((stockShares.reduce((a, b) => a + b, 0) / stockShares.length) * 1000) / 1000 : null,
     perAsin: results,
     rejected,
+    offCategory,
   };
 }
 

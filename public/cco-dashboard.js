@@ -327,6 +327,11 @@ function shortModelLabels(p) {
   return p;
 }
 const RETAILER_DAYS = { amazon: 0, walmart: 0.5, bestbuy: 1, target: 1.5, newegg: 2 };
+const retailerDays = (p, rt) => {
+  const rs = (p.dims && p.dims.retailers) || [];
+  const r = rs.find((x) => x.id === rt), a = rs.find((x) => x.id === "amazon");
+  return r && a && r.leadDays != null && a.leadDays != null ? Math.max(0, r.leadDays - a.leadDays) : RETAILER_DAYS[rt] ?? 1;
+};
 const CITY_DAYS = { nyc: 0, chi: 0.2, lax: 0.3, mia: 0.5, hou: 0.4, den: 0.6 };
 const wobble = (key) => { let h = 2166136261; for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619); return ((h >>> 0) % 1000) / 1000 - 0.5; };
 function fillModelledDelivery(p) {
@@ -347,7 +352,7 @@ function fillModelledDelivery(p) {
     const base = avg(amazonBase[mid]) ?? avg(brandBase[brandOfModel.get(mid)]) ?? all;
     for (let i = 0; i < s.length; i++) {
       if (s[i] != null) continue;
-      const v = base + (RETAILER_DAYS[rt] ?? 1) + (CITY_DAYS[city] ?? 0.3) + wobble(`${k}|${i}`) * 0.8;
+      const v = base + retailerDays(p, rt) + (CITY_DAYS[city] ?? 0.3) + wobble(`${k}|${i}`) * 0.8;
       s[i] = Math.max(1, Math.round(v * 10) / 10);
     }
   }
@@ -409,6 +414,7 @@ function dropPlaceholderBrands(p) {
 }
 bootData.then((json) => {
   D = CC.googlePalette(window.CCREADS.reviseReads(fillModelledDelivery(shortModelLabels(hideModelledLanes(dropPlaceholderBrands(json)))))); F = CC.fmt;
+  if (D.dims.durable === false) Object.assign(PAGES.find((x) => x.id === "tco") || {}, { label: "Effective Price", title: "Effective Price After Promotions" });
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);
   buildNav(); buildControls(); buildBrand(); labelSimChip();

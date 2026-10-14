@@ -6,6 +6,8 @@ import { buildAmazonSeries, windowEndFor, type AmazonSeries } from "./amazon-ser
 import type { AmazonProduct, ReviewAspect, SearchResult } from "./apify";
 import { shelfSnapshot, type ShelfSnapshot } from "./amazon-shelf";
 import { WORLD_VARIATION_SOURCE, retailEventsFor, seededRandom, simulatedAspects } from "./simulated-world";
+import { fallbackProfile, type MarketProfile } from "./market-profile";
+import { builderPromoTypes, type MechanicId } from "./market-mechanics";
 
 export const SUBJECT_SLOT = "sonos";
 export const COMPETITOR_SLOTS = ["amazon", "apple", "bose", "jbl"] as const;
@@ -48,8 +50,20 @@ export type KeepaRecord = {
   reviews: number | null;
 };
 
+export type MarketRecord = {
+  source: MarketProfile["source"];
+  category: string;
+  region: string;
+  durable: boolean;
+  retailers: Array<{ id: string; label: string; domain: string; weight: number }>;
+  mechanics: MechanicId[];
+  traffic: Record<string, { domain: string | null; monthlyVisits: number }>;
+  changes: string[];
+};
+
 export type MeasurementRecord = {
   windowEnd: string;
+  market?: MarketRecord | null;
   shelf: ShelfSnapshot | null;
   amazonListings: Record<string, Array<{ asin: string; label: string }>>;
   keepa: KeepaRecord[];
@@ -109,6 +123,7 @@ export function buildRelabelInputs(input: {
   apify?: Map<string, AmazonProduct>;
   shelfResults?: SearchResult[] | null;
   aspects?: string[];
+  market?: MarketProfile | null;
   seed?: string;
   now?: Date;
 }): RelabelInputs {
@@ -187,7 +202,7 @@ export function buildRelabelInputs(input: {
     const slots = brandSlots.map((b) => b.slot);
     const labelOf = new Map(input.ai.engines.map((e) => [e.engine, e.label]));
     const citedBy = (sources: Array<{ url: string; title: string }>, name: string): boolean => {
-      const keys = brandAliases(name).map((a) => a.toLowerCase().replace(/[^a-z0-9]/g, "")).filter((k) => k.length >= 3);
+      const keys = brandAliases(name, input.category ?? "").map((a) => a.toLowerCase().replace(/[^a-z0-9]/g, "")).filter((k) => k.length >= 3);
       return sources.some((src) => keys.some((k) => `${src.url} ${src.title}`.toLowerCase().replace(/[^a-z0-9.]/g, "").includes(k)));
     };
     prompts = input.ai.perQuestion.filter((q) => q.answer != null && q.run === 1).map((q, i) => {
@@ -255,7 +270,21 @@ export function buildRelabelInputs(input: {
   });
 
   const category = input.category ?? "products";
+  const market = input.market ?? fallbackProfile(category, "US", brandSlots.map((b) => b.name));
+  const world = marketWorld(market, brandSlots, allSlots);
+  record.market = {
+    source: market.source,
+    category: market.category,
+    region: market.region,
+    durable: market.durable,
+    retailers: market.retailers.map((r) => ({ id: r.id, label: r.label, domain: r.domain, weight: r.weight })),
+    mechanics: [...new Set(Object.values(market.mechanics).flatMap((m) => Object.keys(m) as MechanicId[]))],
+    traffic: market.traffic,
+    changes: market.changes,
+  };
+  const events = retailEventsFor(windowEnd).map((e) => ({ ...e, lift: market.eventLift[e.id] ?? e.lift }));
   const overlay = {
+    world,
     seed,
     labels,
     category: input.category,
@@ -263,7 +292,7 @@ export function buildRelabelInputs(input: {
     title: `${input.subjectName} · Commercial Command Center`,
     engines: input.ai ? input.ai.engines.map((e) => ({ id: e.engine, label: e.label })) : null,
     windowEnd,
-    events: retailEventsFor(windowEnd),
+    events,
     terms: [
       { id: "category", label: category, vol: 1 },
       { id: "best", label: `best ${category}`, vol: 0.62 },
@@ -275,8 +304,9 @@ export function buildRelabelInputs(input: {
     rating: series.rating,
     reviews: series.reviews,
   };
-  const configSource = `import base from "./config-sonos.mjs";
+  const configSource = `import reference from "./config-sonos.mjs";
 const overlay = ${JSON.stringify(overlay)};
+const base = { ...reference, ...overlay.world };
 ${WORLD_VARIATION_SOURCE}
 const MEASURED_AMAZON = {}, MEASURED_PDP = {}, MEASURED_DELIVERY = {};
 const MODELS = [];
@@ -321,4 +351,53 @@ export default {
 
   const reviewAspects = Object.fromEntries(Object.entries(series.listings).map(([slot, listings]) => [slot, listings.flatMap((l) => (input.apify?.get(l.asin)?.reviewAspects ?? []).map((a) => ({ ...a, asin: l.asin })))]).filter(([, list]) => list.length));
   return { launchData, configSource, prompts, series, shelf, aiShares, aiStageShares, aiEngineStageShares, reviewAspects, applied, record };
+}
+
+const RETAILER_COLORS: Record<string, [string, string]> = {
+  amazon: ["#d97706", "#fef3c7"], bestbuy: ["#2563eb", "#dbeafe"], target: ["#be123c", "#ffe4e6"], walmart: ["#0891b2", "#cffafe"],
+};
+const PALETTE: Array<[string, string]> = [["#5b21b6", "#ede9fe"], ["#4d7c0f", "#ecfccb"], ["#db2777", "#fce7f3"], ["#2563eb", "#dbeafe"], ["#0891b2", "#cffafe"], ["#be123c", "#ffe4e6"]];
+
+/**
+ * The builder's market settings for a profile: retailers and their colours,
+ * which brand each retailer carries, the mechanics each runs, price and
+ * delivery offsets, and site-traffic levels per brand slot.
+ */
+function marketWorld(market: MarketProfile, brandSlots: Array<{ slot: string; name: string }>, allSlots: string[]): Record<string, unknown> {
+  const taken = new Set(market.retailers.flatMap((r) => (RETAILER_COLORS[r.id] ? [RETAILER_COLORS[r.id][0]] : [])));
+  const free = PALETTE.filter(([c]) => !taken.has(c));
+  let next = 0;
+  const retailers = market.retailers.map((r) => {
+    const [color, soft] = RETAILER_COLORS[r.id] ?? free[next++ % free.length];
+    return { id: r.id, label: r.label, color, soft, weight: r.weight, kind: r.kind, domain: r.domain, leadDays: r.leadDays };
+  });
+  const per = <T>(f: (r: MarketProfile["retailers"][number]) => T): Record<string, T> => Object.fromEntries(market.retailers.map((r) => [r.id, f(r)]));
+  const nameOf = new Map(brandSlots.map((b) => [b.slot, b.name]));
+  const carriage = Object.fromEntries(allSlots.map((slot) => {
+    const row = market.carriage[nameOf.get(slot) ?? ""];
+    return [slot, per((r) => (r.id === "amazon" ? 1 : row?.[r.id] ?? 0.5))];
+  }));
+  const used = new Set<MechanicId>(Object.values(market.mechanics).flatMap((m) => Object.keys(m) as MechanicId[]));
+  const traffic = Object.fromEntries(allSlots.flatMap((slot) => {
+    const t = market.traffic[nameOf.get(slot) ?? ""];
+    return t ? [[slot, Math.max(60, Math.round(t.monthlyVisits / 30))]] : [];
+  }));
+  const domains = Object.fromEntries(allSlots.flatMap((slot) => {
+    const d = market.traffic[nameOf.get(slot) ?? ""]?.domain;
+    return d ? [[slot, d]] : [];
+  }));
+  return {
+    RETAILERS: retailers,
+    BASE_CARRIAGE: carriage,
+    RETAILER_MECHANICS: per((r) => market.mechanics[r.id] ?? { discount: 2 }),
+    RETAILER_PRICE_BIAS: per((r) => Math.round((r.priceIndex - 1) * 1000) / 1000),
+    RETAILER_LEADTIME: per((r) => r.leadDays),
+    RETAILER_PDP_LIFT: per((r) => r.listingQuality),
+    THIRD_PARTY_RETAILERS: market.retailers.filter((r) => r.thirdParty).map((r) => r.id),
+    PROMO_TYPES: builderPromoTypes(used, market.typicalPrice),
+    TRAFFIC_BASE: { ...Object.fromEntries(allSlots.map((s) => [s, 1500])), ...traffic },
+    TRAFFIC_DOMAINS: domains,
+    TRAFFIC_NOTE: "No capture for this domain — monthly visits sized from an estimate of the brand's site, daily shape modelled.",
+    DURABLE: market.durable,
+  };
 }

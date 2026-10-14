@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { RelabelInputs } from "./launch-override";
 import { anchorsFor, computeProvenance, disclosureFor, type Provenance } from "./provenance";
 import { mergeMeasured, type LaneStatus } from "./payload-merge";
+import type { MarketProfile } from "./market-profile";
 
 export const RELABEL_CONFIG_ID = "relabel";
 
@@ -33,13 +34,14 @@ type BuiltPayload = {
  * Stamps provenance, disclosure copy and the anchor ledger onto the builder's
  * output and lays this build's measurements over the modelled market.
  */
-export function applyProvenance(payloadJson: string, inputs: RelabelInputs, subjectName: string, slug?: string, request?: unknown): { json: string; provenance: Provenance } {
+export function applyProvenance(payloadJson: string, inputs: RelabelInputs, subjectName: string, slug?: string, request?: unknown, market?: MarketProfile | null): { json: string; provenance: Provenance } {
   const data = JSON.parse(payloadJson) as BuiltPayload;
   const provenance = computeProvenance(inputs.applied, inputs.record);
   if (inputs.prompts && data.ai) data.ai.prompts = inputs.prompts;
   data.meta.title = `${subjectName} · Commercial Command Center`;
   data.meta.subtitle = "Measured where a live source exists, modelled around it everywhere else";
   if (request) data.meta.request = request;
+  if (market) data.meta.marketProfile = market;
   delete data.meta.brandMark;
   if (slug && existsSync(join(process.cwd(), "public", "brand-marks", `${slug}.png`))) data.meta.brandMark = `/brand-marks/${slug}.png`;
   const merged = mergeMeasured(data, provenance, { reviewAspects: inputs.reviewAspects, aiShares: inputs.aiShares, aiStageShares: inputs.aiStageShares, aiEngineStageShares: inputs.aiEngineStageShares }) as BuiltPayload & { meta: { provenance: Provenance & { lanes: Record<string, LaneStatus> } } };

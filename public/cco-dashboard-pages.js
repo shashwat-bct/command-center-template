@@ -1071,7 +1071,12 @@ P.tco = (host) => {
     return { b, shelf: mean(rs.map((r) => r.shelf)) || 0, eff: mean(rs.map((r) => r.effective)) || 0, gap: mean(rs.map(gapPct)) || 0,
       funded: mean(rs.map((r) => r.brandFunded)) || 0, n: rs.length }; });
   host.innerHTML = `
-  ${intro(`A shelf price is not what changes hands. Every mechanic live on a page moves the number — a card offer and
+  ${intro(d.dims.durable === false
+    ? `A shelf price is not what changes hands. Every mechanic live on a page moves the number — a clip coupon, a
+    subscribe-and-save discount or a loyalty reward pulls it down — and each is taken by only some share of buyers. This page
+    weights each mechanic by its <b>attach rate</b> to get to what a buyer actually pays, and splits the give between
+    the retailer and the brand. It is the difference between a price comparison and a margin conversation.`
+    : `A shelf price is not what changes hands. Every mechanic live on a page moves the number — a card offer and
     a trade-in pull it down, a protection plan pushes it up — and each is taken by only some share of buyers. This page
     weights each mechanic by its <b>attach rate</b> to get to what a buyer actually pays, and splits the give between
     the retailer and the brand. It is the difference between a price comparison and a margin conversation.`)}
@@ -1085,11 +1090,11 @@ P.tco = (host) => {
     ${kpi({ label: "Brand-funded per unit", dot: "#d93025", value: F.usd(mean(rows.filter((r) => r.brand === S).map((r) => r.brandFunded))),
       note: "The share of the give the brand carries rather than the retailer" })}
   </div>
-  ${card({ title: "The bridge from list price to what is paid", help: "A waterfall from the manufacturer's list price to the shopper's actual outlay: the discount off the shelf, then accessories, protection, delivery and finance, each weighted by how often it is taken. It answers what the product costs to own, not what it costs to buy.", sub: "One listing, walked from MSRP through the shelf discount and then every mechanic live on the page, each weighted by its attach rate. Green lowers the shopper's outlay, red raises it. The axis starts below the lowest step so the small moves are visible.", tag: "TCO bridge", tagCls: "acc",
+  ${card({ title: "The bridge from list price to what is paid", help: d.dims.durable === false ? "A waterfall from the list price to the shopper's actual outlay: the discount off the shelf, then every coupon, subscription, loyalty and delivery offer live on the page, each weighted by how often it is taken." : "A waterfall from the manufacturer's list price to the shopper's actual outlay: the discount off the shelf, then accessories, protection, delivery and finance, each weighted by how often it is taken. It answers what the product costs to own, not what it costs to buy.", sub: "One listing, walked from MSRP through the shelf discount and then every mechanic live on the page, each weighted by its attach rate. Green lowers the shopper's outlay, red raises it. The axis starts below the lowest step so the small moves are visible.", tag: d.dims.durable === false ? "Price bridge" : "TCO bridge", tagCls: "acc",
     html: `<div class="seg mini wrap" id="tcoPick" style="margin-bottom:12px"></div><div id="tcoWf"></div><div id="tcoLegend"></div>` })}
   <div class="grid g2" style="margin-top:14px">
     ${card({ title: "Shelf against outlay, by brand", help: "The sticker beside the transaction. A brand with a wide gap looks dearer on a comparison page than it turns out to be at the till — and the reverse case is the more dangerous one.", sub: "How far the sticker sits from the transaction. A brand with a wide gap looks dearer on a comparison page than it is at the till — and the reverse.", slot: "tcoBars" })}
-    ${card({ title: "Who funds the give", help: "How the promotional cost splits between what the brand funds and what the retailer funds. Two brands running the same discount depth can have entirely different margin outcomes.", sub: "The full give per unit — the shelf discount plus every attach-weighted mechanic — split between what the brand funds and what the retailer absorbs. A card offer is cheap for the brand; a straight markdown is not.", slot: "tcoFund" })}
+    ${card({ title: "Who funds the give", help: "How the promotional cost splits between what the brand funds and what the retailer funds. Two brands running the same discount depth can have entirely different margin outcomes.", sub: `The full give per unit — the shelf discount plus every attach-weighted mechanic — split between what the brand funds and what the retailer absorbs. ${d.dims.durable === false ? "A loyalty reward is cheap for the brand; a straight markdown is not." : "A card offer is cheap for the brand; a straight markdown is not."}`, slot: "tcoFund" })}
   </div>
   ${card({ cls: "tcoTableCard", title: "Every listing, shelf to outlay", help: "The listing-level detail behind the bridge: every product at its shelf price and its modelled total outlay, sorted by the size of the gap between the two.", sub: "Click a row to bridge it. Sorted by the size of the gap.", html: table([
     { label: "Model", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${MD(r.model).label}` },
@@ -1110,7 +1115,7 @@ P.tco = (host) => {
     { label: "Brand-funded", get: (t) => F.pct(t.costToBrand * 100, 0) },
     { label: "What it is", lft: true, get: (t) => `<span class="mini">${t.note}</span>` },
   ], d.dims.promoTypes) })}
-  <h2 class="sec">What the cost of ownership says</h2>${readsBlock("tco")}`;
+  <h2 class="sec">${d.dims.durable === false ? "What the effective price says" : "What the cost of ownership says"}</h2>${readsBlock("tco")}`;
 
   const opts = rows.filter((r) => r.brand === S).sort((a, b) => b.mechanics - a.mechanics).slice(0, 6)
     .concat(rows.filter((r) => r.brand !== S).sort((a, b) => b.mechanics - a.mechanics).slice(0, 4));

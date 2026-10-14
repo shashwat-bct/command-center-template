@@ -6,7 +6,7 @@ export type QuestionFocus = "neutral" | "subject" | "vs";
 export type BankQuestion = { id: string; stage: FunnelStage; focus: QuestionFocus; text: string };
 export type Sentiment = "positive" | "neutral" | "mixed" | "negative";
 export type EnrichedBrand = { name: string; rank: number; recommended: boolean; sentiment: Sentiment; product: string };
-export type AttributeMention = { attr: string; polarity: "+" | "-" };
+export type AttributeMention = { attr: string; polarity: "+" | "-"; quote?: string };
 export type SubjectClaim = { claim: string; type: "price" | "spec" | "award" | "comparison" | "availability" | "other"; product: string; value: string };
 
 export type QuestionBank = {
@@ -95,28 +95,34 @@ const round1 = (v: number): number => Math.round(v * 10) / 10;
 const escapeRe = (s: string): string => s.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
 const jsonIn = <T>(text: string): T => JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) as T;
 
+const GENERIC_WORDS = ["product", "brand", "company", "home", "care", "kitchen", "beauty", "food", "pet", "lab", "wipe", "tissue", "paper", "audio", "electronic", "tech", "store", "shop", "goods", "supply", "co", "inc"];
+const stem = (w: string): string => w.toLowerCase().replace(/[^a-z0-9]/g, "").replace(/(es|s)$/, "");
+
 /**
  * Names a brand might appear under in free text: the name itself, the name
  * without spaces, and the distinctive product-line word of a two-word name
- * (HomePod for "Apple HomePod").
+ * (HomePod for "Apple HomePod") — never a word of the category or a generic
+ * noun, so "Dude Wipes" is not found in every sentence about wipes.
  */
-export function brandAliases(brand: string): string[] {
+export function brandAliases(brand: string, category = ""): string[] {
   const words = brand.trim().split(/\s+/);
   const aliases = new Set([brand.trim(), words.join("")]);
-  if (words.length > 1 && words[words.length - 1].length >= 4) aliases.add(words[words.length - 1]);
+  const generic = new Set([...GENERIC_WORDS, ...category.split(/\s+/)].map(stem).filter(Boolean));
+  const last = words[words.length - 1];
+  if (words.length > 1 && last.length >= 4 && !generic.has(stem(last))) aliases.add(last);
   return [...aliases].filter(Boolean);
 }
 
-const aliasPattern = (brand: string): RegExp =>
-  new RegExp(`\\b(?:${brandAliases(brand).map(escapeRe).join("|")})`, "i");
+const aliasPattern = (brand: string, category = ""): RegExp =>
+  new RegExp(`\\b(?:${brandAliases(brand, category).map(escapeRe).join("|")})`, "i");
 
 /**
  * Tracked brands found in a text by name, in order of first appearance. A
  * name is matched at the start of a word, so "Shark" also finds "SharkNinja".
  */
-export function patternMentions(text: string, brands: string[]): string[] {
+export function patternMentions(text: string, brands: string[], category = ""): string[] {
   return brands
-    .map((b) => [b, text.search(aliasPattern(b))] as const)
+    .map((b) => [b, text.search(aliasPattern(b, category))] as const)
     .filter(([, i]) => i >= 0)
     .sort((a, z) => a[1] - z[1])
     .map(([b]) => b);
@@ -195,12 +201,17 @@ async function enrichAnswers(items: Array<{ q: string; answer: string }>, tracke
     user: `Each answer below responds to a US shopper's question about ${category}. For every answer record:
 - "brands": EVERY ${category} brand it names, tracked or not, in order of prominence (rank 1 = most prominent). For each: "name", "rank", "recommended" (true if the answer recommends it), "sentiment" ("positive" | "neutral" | "mixed" | "negative"), and "product" (the model it names for that brand, or "").
 - "topPick": the single brand the answer recommends above the others, or null when it gives no verdict.
-- "attributes": for each brand, which of these attributes the answer praises (+) or criticises (-): ${attributes.join(", ")}. Use those labels exactly.
+- "attributes": for each brand, the attributes on which the answer passes a judgement about THAT brand, from: ${attributes.join(", ")}. Use those labels exactly. Each entry is {"attr", "polarity": "+" (praised) or "-" (criticised), "quote": the sentence from the answer that carries the judgement, copied word for word}. Rules:
+  - Only when the answer itself judges that brand on that attribute. If the attribute is not discussed for the brand, leave it out.
+  - A caution about the whole category ("no wipe is truly flushable", "all of these are pricey") is not a verdict on any one brand; leave it out unless the answer singles the brand out.
+  - Praise for one brand is not criticism of another. Record a comparison against a brand only when the sentence names both and says this brand is worse (or better) on the attribute.
+  - Facts with no judgement (a price, where it is sold) are not praise or criticism.
+  - The quote must contain the brand (or its product line) or sit in a passage explicitly about it, and must be copied exactly from the answer.
 - "claims": factual claims the answer makes about ${subject} — "claim" (one sentence), "type" ("price" | "spec" | "award" | "comparison" | "availability" | "other"), "product", "value" (the number or fact, or "").
 
 Tracked brands: ${tracked.map((b) => `"${b}"`).join(", ")}. When a mention refers to a tracked brand — its name, a product line, a parent company, or a misspelling — use the tracked name exactly. Write other brands under their usual name. Do not list retailers or review sites.
 
-Reply with: {"answers":[{"i":0,"brands":[{"name":"","rank":1,"recommended":true,"sentiment":"positive","product":""}],"topPick":null,"attributes":{"Brand":[{"attr":"","polarity":"+"}]},"claims":[]}]}
+Reply with: {"answers":[{"i":0,"brands":[{"name":"","rank":1,"recommended":true,"sentiment":"positive","product":""}],"topPick":null,"attributes":{"Brand":[{"attr":"","polarity":"+","quote":""}]},"claims":[]}]}
 
 ${listing}`,
     maxTokens: 6000,
@@ -245,6 +256,36 @@ function shares(rows: AiQuestionResult[], tracked: string[]): Record<string, num
 }
 
 const SENTIMENTS: Sentiment[] = ["positive", "neutral", "mixed", "negative"];
+
+function cleanAttributes(raw: Record<string, AttributeMention[]> | undefined, answer: string, attributes: string[], canonical: (n: string) => string | undefined): Record<string, AttributeMention[]> {
+  const out: Record<string, AttributeMention[]> = {};
+  for (const [b, list] of Object.entries(raw ?? {})) {
+    const name = canonical(b) ?? b.trim();
+    const clean = (Array.isArray(list) ? list : [])
+      .filter((x) => attributes.includes(String(x.attr).toLowerCase()) && (x.polarity === "+" || x.polarity === "-") && quoteInAnswer(x.quote, answer))
+      .map((x) => ({ attr: String(x.attr).toLowerCase(), polarity: x.polarity, quote: String(x.quote).trim() }));
+    if (clean.length) out[name] = clean;
+  }
+  return out;
+}
+
+const plainWords = (s: string): string => s.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").toLowerCase().replace(/[^a-z0-9$%]+/g, " ").trim();
+
+/**
+ * True when a verdict's quoted evidence is really in the answer, so a
+ * praised or criticised mark always rests on a sentence the engine wrote.
+ */
+export function quoteInAnswer(quote: unknown, answer: string): boolean {
+  if (typeof quote !== "string") return false;
+  const q = plainWords(quote);
+  if (q.split(" ").length < 4) return false;
+  const a = plainWords(answer);
+  if (a.includes(q)) return true;
+  const words = q.split(" ");
+  const span = Math.min(words.length, 8);
+  for (let i = 0; i + span <= words.length; i += Math.max(1, Math.floor(span / 2))) if (!a.includes(words.slice(i, i + span).join(" "))) return false;
+  return true;
+}
 const CLAIM_TYPES: SubjectClaim["type"][] = ["price", "spec", "award", "comparison", "availability", "other"];
 
 type Raw = { run: number; queryId: string; stage: FunnelStage; focus: QuestionFocus; q: string; answer: string | null; sources: AnswerSource[]; error?: string };
@@ -278,14 +319,14 @@ async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" |
   const matching: EngineSoM["matching"] = found.size >= answered.length * 0.9 ? "llm" : found.size ? "mixed" : "pattern";
 
   const trackedLower = new Map(tracked.map((b) => [b.toLowerCase(), b]));
-  const canonical = (n: string): string | undefined => trackedLower.get(n.trim().toLowerCase()) ?? tracked.find((b) => aliasPattern(b).test(n));
+  const canonical = (n: string): string | undefined => trackedLower.get(n.trim().toLowerCase()) ?? tracked.find((b) => aliasPattern(b, category).test(n));
   const rows: AiQuestionResult[] = raw.map((r, i) => {
     const base = { engine: engine.id, run: r.run, queryId: r.queryId, stage: r.stage, focus: r.focus, q: r.q, sources: r.sources };
     if (r.answer == null) return { ...base, mentionOrder: [], otherBrands: [], brands: [], topPick: null, attributes: {}, claims: [], answer: null, error: r.error };
     const e = found.get(i);
     const listed: EnrichedBrand[] = e
       ? e.brands.filter((b) => b && typeof b.name === "string" && b.name.trim())
-      : patternMentions(r.answer, tracked).map((name, k) => ({ name, rank: k + 1, recommended: false, sentiment: "neutral", product: "" }));
+      : patternMentions(r.answer, tracked, category).map((name, k) => ({ name, rank: k + 1, recommended: false, sentiment: "neutral", product: "" }));
     const seen = new Set<string>();
     const brands: EnrichedBrand[] = [];
     for (const b of [...listed].sort((x, y) => (x.rank ?? 99) - (y.rank ?? 99))) {
@@ -294,17 +335,12 @@ async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" |
       seen.add(name.toLowerCase());
       brands.push({ name, rank: brands.length + 1, recommended: !!b.recommended, sentiment: SENTIMENTS.includes(b.sentiment) ? b.sentiment : "neutral", product: typeof b.product === "string" ? b.product : "" });
     }
-    for (const name of patternMentions(r.answer, tracked)) {
+    for (const name of patternMentions(r.answer, tracked, category)) {
       if (!seen.has(name.toLowerCase())) { seen.add(name.toLowerCase()); brands.push({ name, rank: brands.length + 1, recommended: false, sentiment: "neutral", product: "" }); }
     }
     const isTracked = (n: string) => tracked.includes(n);
     const topPick = e?.topPick ? canonical(e.topPick) ?? e.topPick.trim() : null;
-    const attributesOut: Record<string, AttributeMention[]> = {};
-    for (const [b, list] of Object.entries(e?.attributes ?? {})) {
-      const name = canonical(b) ?? b.trim();
-      const clean = (Array.isArray(list) ? list : []).filter((x) => attributes.includes(String(x.attr).toLowerCase()) && (x.polarity === "+" || x.polarity === "-")).map((x) => ({ attr: String(x.attr).toLowerCase(), polarity: x.polarity }));
-      if (clean.length) attributesOut[name] = clean;
-    }
+    const attributesOut = cleanAttributes(e?.attributes, r.answer, attributes, canonical);
     const claims = (e?.claims ?? []).filter((c) => c && typeof c.claim === "string" && c.claim.trim()).map((c) => ({
       claim: c.claim.trim(), type: CLAIM_TYPES.includes(c.type) ? c.type : "other", product: typeof c.product === "string" ? c.product : "", value: typeof c.value === "string" ? c.value : String(c.value ?? ""),
     }));

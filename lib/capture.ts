@@ -24,6 +24,8 @@ import { buildRelabelInputs, type RelabelInputs } from "./launch-override";
 import { measuredCount } from "./provenance";
 import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "./relabel-pipeline";
 import { rebrandPayload } from "./rebrand";
+import { categoryCheck } from "./listing-relevance";
+import { generateMarketProfile, marketProfileKey, type MarketProfile } from "./market-profile";
 
 const REFERENCE_BRAND = "sonos";
 
@@ -182,6 +184,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     ...(willHitApify ? [{ name: "apify-amazon", status: "pending" as const }] : []),
     ...(willReadShelf ? [{ name: "amazon-shelf", status: "pending" as const }] : []),
     ...(willHitAI ? [{ name: "ai-visibility", status: "pending" as const }] : []),
+    ...(category ? [{ name: "market-profile", status: "pending" as const }] : []),
     { name: "builder", status: "pending" },
     { name: "relabel", status: "pending" },
     { name: "rebrand", status: "pending" },
@@ -228,6 +231,11 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   cpSync(VENDOR, workDir, { recursive: true });
   await setStep("config", { status: "done", duration_ms: 0 });
 
+  const inCategory = category ? categoryCheck(category, logLine) : undefined;
+  const logOffCategory = (who: string, r: KeepaBrandAggregate) => {
+    for (const x of r.offCategory) logLine(`  ${who}: not ${category} — excluded ${x.asin} · ${(x.title ?? "").slice(0, 80)}`);
+  };
+
   let effectiveAsins = asins;
   if (willAutoDiscover) {
     effectiveAsins = (await runStep("asin-discovery", async () => {
@@ -256,12 +264,19 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     keepaResult = await runStep("keepa", async () => {
       const apiKey = process.env.INS_KEEPA_KEY;
       if (!apiKey) throw new Error("INS_KEEPA_KEY not configured");
-      const r = await fetchKeepaBrand(effectiveAsins, apiKey, keepaDomain, name);
-      for (const x of r.rejected) logLine(`  excluded ${x.asin}: brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 80)}`);
+      const r = await fetchKeepaBrand(effectiveAsins, apiKey, keepaDomain, name, inCategory);
+      for (const x of r.rejected.filter((y) => !r.offCategory.includes(y))) logLine(`  excluded ${x.asin}: brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 80)}`);
+      logOffCategory(name, r);
       logLine(`Keepa: ${r.asinsWithData}/${r.asinsFetched} listings are ${name}'s (rating ${r.avgRating}, discount ${r.avgDiscountRate}, 30-day in-stock ${r.inStockRate}, reviews ${r.totalReviews})`);
       if (r.asinsWithData === 0) throw new Error(`none of the ${r.asinsFetched} listings belong to ${name}`);
       return r;
     });
+  }
+
+  if (willHitKeepa && !keepaResult) {
+    await failBuild(build_id, steps, logChunks, slug, `no Amazon listings found for "${name}" — the brand name must match how it is listed on Amazon (Keepa brand or title), and the listings must be ${category ?? "in the category"}`);
+    rmSync(workDir, { recursive: true, force: true });
+    return;
   }
 
   let competitorKeepa: Array<KeepaBrandAggregate | null> = [];
@@ -277,14 +292,16 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
           out.push(null);
           continue;
         }
-        let r = await fetchKeepaBrand(found, apiKey, keepaDomain, comp);
-        for (const x of r.rejected) logLine(`  ${comp}: excluded ${x.asin} brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 60)}`);
+        let r = await fetchKeepaBrand(found, apiKey, keepaDomain, comp, inCategory);
+        for (const x of r.rejected.filter((y) => !r.offCategory.includes(y))) logLine(`  ${comp}: excluded ${x.asin} brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 60)}`);
+        logOffCategory(comp, r);
         if (r.asinsWithData === 0) {
           const byName = (await fetchKeepaSearch(comp, apiKey, 5, keepaDomain)).filter((a) => !found.includes(a));
           logLine(`  ${comp}: no own listings for "${comp} ${category}", searching "${comp}" → ${byName.length} result(s)`);
           if (byName.length) {
-            r = await fetchKeepaBrand(byName, apiKey, keepaDomain, comp);
-            for (const x of r.rejected) logLine(`  ${comp}: excluded ${x.asin} brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 60)}`);
+            r = await fetchKeepaBrand(byName, apiKey, keepaDomain, comp, inCategory);
+            for (const x of r.rejected.filter((y) => !r.offCategory.includes(y))) logLine(`  ${comp}: excluded ${x.asin} brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 60)}`);
+            logOffCategory(comp, r);
           }
         }
         logLine(`  ${comp}: ${r.asinsWithData}/${r.asinsFetched} listings (rating ${r.avgRating}, discount ${r.avgDiscountRate}, 30-day in-stock ${r.inStockRate})`);
@@ -340,7 +357,28 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     });
   }
 
-  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, seed: slug });
+  let market: MarketProfile | null = null;
+  if (category) {
+    market = await runStep("market-profile", async () => {
+      const brands = [name, ...aiCompetitors.slice(0, 4)];
+      const key = marketProfileKey(category, region, brands);
+      const saved = await previousMarketProfile(slug).catch(() => null);
+      if (saved?.key === key && saved.source !== "fallback") {
+        logLine(`market profile: reusing the profile from the last build (${saved.source}) — same category, region and brands`);
+        return saved;
+      }
+      const p = await generateMarketProfile({ category, region, brands, subjectSite: brandLink, log: logLine });
+      logLine(`market profile (${p.source}): ${p.durable ? "durable" : "consumable"}, typical price ${p.typicalPrice}; retailers ${p.retailers.map((r) => `${r.label} ${Math.round(r.weight * 100)}%`).join(", ")}`);
+      for (const b of brands) logLine(`  ${b}: carried ${p.retailers.map((r) => `${r.label} ${p.carriage[b]?.[r.id] ?? "?"}`).join(", ")} · site ${p.traffic[b]?.domain ?? "none"} ~${p.traffic[b]?.monthlyVisits ?? "?"} visits/month`);
+      logLine(`  mechanics: ${p.retailers.map((r) => `${r.label} [${Object.keys(p.mechanics[r.id] ?? {}).join(", ")}]`).join("; ")}`);
+      for (const c of p.changes) logLine(`  audit: ${c}`);
+      return p;
+    });
+  }
+
+  if (!market) logLine(`market profile: none for this build; using the plain Amazon, Walmart and Target market`);
+
+  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, seed: slug });
   prepareRelabelWorkDir(workDir, relabelInputs);
   logLine(`applied measurements: ${JSON.stringify(relabelInputs.applied)}`);
 
@@ -365,7 +403,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   let payloadJson = readFileSync(outPath, "utf8");
   await runStep("relabel", async () => {
-    const { json, provenance } = applyProvenance(payloadJson, relabelInputs, name, slug, options.inputs);
+    const { json, provenance } = applyProvenance(payloadJson, relabelInputs, name, slug, options.inputs, market);
     payloadJson = json;
     logLine(`provenance: ${measuredCount(provenance, provenance.subjectSlot)} of 12 scorecard measures read from a live source for ${name}; the rest are modelled`);
   });
@@ -401,7 +439,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
         products: payload.dims.models.filter((m) => m.brand === payload.meta.subject).map((m) => ({ label: m.label, msrp: m.msrp ?? null })),
         previous, crawlerAccess: null,
       });
-      const sites = crawlerSites(consolePayload);
+      const sites = crawlerSites(consolePayload, 8, market ? market.retailers.map((r) => r.domain) : undefined);
       consolePayload.crawlerAccess = await readCrawlerAccess(sites).catch(() => null);
       payload.aiConsole = consolePayload;
       payload.aeoWorkbench = buildWorkbench(consolePayload, payload as unknown as CommandCenterData, slug);
@@ -451,4 +489,12 @@ async function failBuild(
     error,
     logs_url,
   });
+}
+
+async function previousMarketProfile(slug: string): Promise<MarketProfile | null> {
+  const id = await latestReadyBuildId(slug);
+  const prev = id ? await loadBuildPayload(slug, id) : null;
+  if (!prev) return null;
+  const meta = (JSON.parse(prev.bytes.toString("utf8")) as { meta?: { marketProfile?: MarketProfile } }).meta;
+  return meta?.marketProfile?.version === 1 ? meta.marketProfile : null;
 }

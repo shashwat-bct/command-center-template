@@ -120,6 +120,10 @@ const measuredFor = (key) => { const [mid, rt] = key.split("|"); return rt === "
 
 
 const PT = Object.fromEntries(PROMO_TYPES.map((p) => [p.id, p]));
+const THIRD_PARTY = new Set(CFG.THIRD_PARTY_RETAILERS || ["newegg"]);
+const RETAILER_PDP_LIFT = CFG.RETAILER_PDP_LIFT || { amazon: 1, bestbuy: 0.94, target: 0.88, walmart: 0.82, newegg: 0.7 };
+const ALWAYS_ON = PROMO_TYPES.filter((t) => (t.mode ? t.mode === "always" : ["protection", "delivery", "financing", "bnpl", "trial", "card", "cashback"].includes(t.id))).map((t) => t.id);
+const EPISODIC = PROMO_TYPES.filter((t) => (t.mode ? t.mode === "episodic" : ["discount", "clearance", "bundle", "tradein"].includes(t.id))).map((t) => t.id);
 
 const inEvent = (di, ev) => dates[di] >= ev.start && dates[di] <= ev.end;
 const eventLift = (di, only) => {
@@ -197,11 +201,11 @@ for (const m of MODELS) {
       }
     }
     carriage[key] = arr;
-    const nSell = rt === "amazon" ? 3 + Math.floor(rnd() * 18) : rt === "newegg" ? 2 + Math.floor(rnd() * 9) : 1;
+    const nSell = rt === "amazon" ? 3 + Math.floor(rnd() * 18) : THIRD_PARTY.has(rt) ? 2 + Math.floor(rnd() * 9) : 1;
     sellers[key] = nSell;
     // Buy-box: on marketplaces the brand does not always own its own listing.
     buybox[key] = rt === "amazon" ? r3(clamp(0.94 - (nSell - 3) * 0.021 + noise(rnd) * 0.05, 0.42, 1))
-                : rt === "newegg" ? r3(clamp(0.72 + noise(rnd) * 0.14, 0.3, 1)) : 1;
+                : THIRD_PARTY.has(rt) ? r3(clamp(0.72 + noise(rnd) * 0.14, 0.3, 1)) : 1;
     listings.push({ model: m.id, brand: m.brand, retailer: rt, sellers: nSell, buybox: buybox[key], note });
   }
 }
@@ -247,9 +251,19 @@ for (const key of pairs) {
   }
 
   // Always-on mechanics (protection, delivery, finance) run the whole window.
-  for (const t of ["protection", "delivery", "financing", "bnpl", "trial", "card", "cashback"]) {
+  for (const t of ALWAYS_ON) {
     if (!mech[t]) continue;
     if (rnd() > (t === "protection" || t === "delivery" ? 0.86 : 0.55)) continue;
+    const range = PT[t].depth;
+    if (range) {
+      const depthPct = r1(range[0] + rnd() * (range[1] - range[0]));
+      promoEvents.push({
+        id: `p${++pid}`, brand: m.brand, model: mid, retailer: rt, type: t,
+        start: dates[0], end: dates[NDAYS - 1], days: NDAYS, alwaysOn: true,
+        depthUsd: r2((m.street0 * depthPct) / 100), depthPct, addonUsd: 0, monthly: null,
+      });
+      continue;
+    }
     const faceVal =
       t === "protection" ? r2(clamp(m.street0 * (0.085 + rnd() * 0.055), 9.99, 79.99))
       : t === "delivery" ? 0
@@ -271,7 +285,7 @@ for (const key of pairs) {
   const nEvents = Math.round((0.7 + appetite * 5.4) * (0.6 + rnd() * 0.9));
   const used = new Array(NDAYS).fill(0);
   for (let e = 0; e < nEvents; e++) {
-    const type = pick(rnd, mechIds.filter((t) => ["discount", "clearance", "bundle", "tradein"].includes(t))) || "discount";
+    const type = pick(rnd, mechIds.filter((t) => EPISODIC.includes(t))) || "discount";
     // Events cluster on the retail calendar rather than falling uniformly.
     let s;
     const anchorRoll = rnd();
@@ -298,14 +312,17 @@ for (const key of pairs) {
     // read across listings that includes clearance stock, and amplifying it
     // produced a $126 HomePod — a world the measurement does not support.
     const ceiling = clamp(MEASURED_DISCOUNT[m.brand] * 100 * 1.35 + 3, 5, 34);
-    let depthPct = type === "clearance" ? clamp(ceiling * (1.05 + rnd() * 0.34), 12, 42)
+    const range = PT[type]?.depth;
+    let depthPct = range ? range[0] + rnd() * (range[1] - range[0])
+                 : type === "clearance" ? clamp(ceiling * (1.05 + rnd() * 0.34), 12, 42)
                  : type === "tradein"  ? r1(17 + rnd() * 7)
                  : type === "bundle"   ? clamp(6 + rnd() * 14, 5, 24)
                  // draw inside the ceiling rather than clamping at it — clamping
                  // piled eleven separate events onto exactly 34.0%
                  : 3 + rnd() * Math.max(1, ceiling - 3);
     // Prime Day and Black-Friday-shaped moments go deeper.
-    if (inEvent(s, EVENTS.find((x) => x.id === "primeday"))) depthPct *= 1.3;
+    const primeday = EVENTS.find((x) => x.id === "primeday");
+    if (primeday && inEvent(s, primeday)) depthPct *= 1.3;
     depthPct = r1(clamp(depthPct, 2, 45));
     promoEvents.push({
       id: `p${++pid}`, brand: m.brand, model: mid, retailer: rt, type,
@@ -407,7 +424,7 @@ for (const key of pairs) {
   // at 93% — flattering the subject by thirty-one points on the one lane where
   // being wrong is most expensive. Episodes are now placed until the series
   // actually reaches the measured rate.
-  const target = clamp(MEASURED_INSTOCK[m.brand] * (rt === "amazon" ? 1.0 : rt === "newegg" ? 0.94 : 0.98), 0.4, 1);
+  const target = clamp(MEASURED_INSTOCK[m.brand] * (rt === "amazon" ? 1.0 : THIRD_PARTY.has(rt) ? 0.94 : 0.98), 0.4, 1);
   const arr = new Array(NDAYS).fill(1);
   const wantOut = Math.round((1 - target) * NDAYS);
   let out = 0, guard = 0;
@@ -604,7 +621,7 @@ for (const key of pairs) {
   }
   if (m.measured) continue;
   const brandLift = PDP_BRAND_LIFT[m.brand] ?? 0.85;
-  const retLift = { amazon: 1, bestbuy: 0.94, target: 0.88, walmart: 0.82, newegg: 0.7 }[rt];
+  const retLift = RETAILER_PDP_LIFT[rt] ?? 0.85;
   const f = {};
   for (const fld of PDP_FIELDS) {
     const q = clamp(brandLift * retLift + noise(rnd) * 0.30, 0.10, 1);
@@ -715,7 +732,7 @@ for (const b of BIDS) {
         bounce: sw.bounceRate, pages: sw.pagesPerVisit, duration: sw.visitDuration,
         leadChannel: sw.leadChannel || null, leadChannelPct: sw.leadChannelPct || null,
         note: "Monthly US visits from the published traffic profile; the day-to-day shape is modelled." }
-    : { state: "modelled", note: "No capture for this domain — level sized, shape modelled." };
+    : { state: "modelled", ...((CFG.TRAFFIC_DOMAINS || {})[b] ? { domain: CFG.TRAFFIC_DOMAINS[b] } : {}), note: CFG.TRAFFIC_NOTE || "No capture for this domain — level sized, shape modelled." };
   const s = [];
   for (let i = 0; i < NDAYS; i++) {
     const wk = [0.92, 1.03, 1.05, 1.04, 1.02, 0.99, 0.95][dow[i]];   // Sun..Sat
@@ -905,7 +922,7 @@ for (const key of pairs) {
       comps.push({ type: p.type, label: t.label, dir: "down", face: r2(face), attach: t.attach, weighted: r2(v) });
     } else if (t.kind === "value" || t.kind === "finance") {
       // Non-price mechanics still carry a cost; value it at its economic worth.
-      const face = Math.min(cap, p.type === "delivery" ? 9.99 : p.type === "trial" ? 32 : p.type === "bnpl" ? r2(shelf * 0.045) : r2(shelf * 0.038));
+      const face = Math.min(cap, t.faceUsd ?? (p.type === "delivery" ? 9.99 : p.type === "trial" ? 32 : p.type === "bnpl" ? r2(shelf * 0.045) : r2(shelf * 0.038)));
       const v = face * t.attach;
       give += v * 0.5; brandFunded += v * t.costToBrand;
       comps.push({ type: p.type, label: t.label, dir: "down", face: r2(face), attach: t.attach, weighted: r2(v * 0.5), soft: true });
@@ -1269,6 +1286,7 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
     { tone: stIn.rank === 1 ? "good" : q("inStock")[S] >= 97 ? "watch" : "risk",
       text: `In-stock rate of ${r1(q("inStock")[S])}% is ${stIn.phrase}; ${eps.length} out-of-stock episode${eps.length === 1 ? "" : "s"} cost ${eps.reduce((a, e) => a + e.days, 0)} listing-days over the quarter.` },
     (() => { const post = eps.filter((e) => e.afterPromo).length, longest = eps.slice().sort((a, b) => b.days - a.days)[0];
+      if (!longest) return { tone: "good", text: "No listing went out of stock over the quarter." };
       return post
         ? { tone: "watch", text: `${post} of those ${eps.length} episodes opened within five days of a discount deeper than 14% — the promotion cleared the shelf faster than replenishment refilled it.` }
         : { tone: "good", text: `None of the ${eps.length} episode${eps.length === 1 ? "" : "s"} followed a deep discount, so these are replenishment gaps rather than promotions outrunning supply. The longest ran ${longest.days} days on ${MID[longest.model].label} at ${RETAILERS.find((r) => r.id === longest.retailer).label}, from ${longest.start}.` }; })(),
@@ -1397,7 +1415,7 @@ const payload = {
     dates, weeks, months, dow,
     brands: BRANDS, retailers: RETAILERS, models: MODELS, cities: CITIES,
     engines: ENGINES, stages: STAGES, terms: TERMS, channels: CHANNELS,
-    promoTypes: PROMO_TYPES, promoFamilies: PROMO_FAMILIES, aspectMonths: ASPECT_MONTHS, shelfWithheld, events: EVENTS, aspects: ASPECTS, pdpFields: PDP_FIELDS,
+    promoTypes: PROMO_TYPES, promoFamilies: PROMO_FAMILIES, durable: CFG.DURABLE ?? true, aspectMonths: ASPECT_MONTHS, shelfWithheld, events: EVENTS, aspects: ASPECTS, pdpFields: PDP_FIELDS,
     metrics: METRICS.map(({ fn, fmt, ...m }) => m), periods: PERIODS,
   },
   traffic: { daily: trafficDaily, channels: trafficChannels, device: trafficDevice, engage: trafficEngage, geo: trafficGeo, pdp: pdpTraffic, basis: trafficBasis,

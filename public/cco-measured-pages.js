@@ -97,7 +97,7 @@ P.tco = (host) => {
   const dealDays = (b) => days(b, (id) => ep.listings[id].deal.map((v) => v === 1));
   host.innerHTML = `
   ${intro(`What a shopper pays at checkout on Amazon, before tax: the day's price, the lightning-deal price when a deal was live,
-    less any one-time clip coupon. Protection plans, card offers and how many buyers take them are not measured and not included.`)}
+    less any one-time clip coupon. Other retailer mechanics and how many buyers take them are not measured and not included.`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${kpi({ label: "Average effective price", dot: B(S).color, value: effOf(S) == null ? "—" : F.usd(effOf(S)), note: `${SUBJ} listings, selected window` })}
     ${kpi({ label: "Saved at checkout", dot: B(S).color, value: effOf(S) == null || !priceOf(S) ? "—" : F.pct((1 - effOf(S) / priceOf(S)) * 100), note: priceOf(S) ? `Against an average ${F.usd(priceOf(S))} Amazon price` : "" })}

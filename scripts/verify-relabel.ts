@@ -7,13 +7,14 @@ import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "../li
 import { rebrandPayload } from "../lib/rebrand";
 import { inStockShare, listingMatchesBrand, type KeepaBrandAggregate, type KeepaHistory } from "../lib/keepa";
 import { AMAZON_RETAIL_SELLER, windowDates, windowEndFor } from "../lib/amazon-series";
-import type { AiQuestionResult, AiSoMResult, EngineSoM, FunnelStage } from "../lib/ai-visibility";
+import { brandAliases, patternMentions, quoteInAnswer, type AiQuestionResult, type AiSoMResult, type EngineSoM, type FunnelStage } from "../lib/ai-visibility";
 import { applyOverrides } from "../lib/brand-overrides";
 import { buildAiConsole, crawlerSites } from "../lib/ai-console";
 import { botAccess, parseRobots } from "../lib/crawler-access";
 import { buildWorkbench, type CommandCenterData } from "../lib/aeo-workbench";
 import { applyAiHistory, readingsFrom } from "../lib/ai-history";
 import { parseAmazonItem, type AmazonProduct, type SearchResult } from "../lib/apify";
+import { marketProfileKey, normaliseProfile, type MarketProfile } from "../lib/market-profile";
 
 type Cell = { value: number | null; rank: number | null; of: number };
 type Payload = {
@@ -30,7 +31,7 @@ type Payload = {
   pricing: { price: Record<string, Array<number | null>>; discount: Record<string, Array<number | null>>; mapBreaches: unknown[] };
   availability: { stock: Record<string, number[]>; episodes: Array<{ model: string; retailer: string; start: string; days: number }> };
   promotions: { events: Array<{ model: string; retailer: string; start: string; end: string; depthPct: number; alwaysOn: boolean }> };
-  distribution: { buybox: Record<string, number | null> };
+  distribution: { buybox: Record<string, number | null>; carriage: Record<string, number[] | null> };
   pdpScores: Array<{ model: string; retailer: string; score: number; measured?: boolean }>;
   delivery: { weekly: Record<string, Array<number | null>> };
   voice: { aspects: Record<string, unknown>; rating: Record<string, Array<number | null> | null>; velocity: Record<string, Array<number | null> | null> };
@@ -91,7 +92,7 @@ const listing = (asin: string, brand: string, title: string, withEvents: boolean
 const aggregate = (perAsin: ReturnType<typeof listing>[], rejected: ReturnType<typeof listing>[] = []): KeepaBrandAggregate => ({
   asinsFetched: perAsin.length, asinsWithData: perAsin.length - rejected.length,
   avgListPrice: 300, avgStreetPrice: 300, avgDiscountRate: 0.02, avgRating: 3.3, totalReviews: 6000, inStockRate: 0.97,
-  perAsin, rejected,
+  perAsin, rejected, offCategory: [],
 });
 const toloco = listing("B0OTHER001", "TOLOCO", "TOLOCO Massage Gun", false);
 const keepa = aggregate([
@@ -152,9 +153,9 @@ const ASPECTS = ["Battery life", "Percussion strength", "Noise level", "Attachme
 
 const VENDOR = resolve(process.cwd(), "vendor", "bravo-platform");
 
-function build(withMeasurements: boolean, seed: string = SUBJECT.slug): Payload {
+function build(withMeasurements: boolean, seed: string = SUBJECT.slug, market: MarketProfile | null = null): Payload {
   const inputs = buildRelabelInputs({
-    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, seed, aspects: ASPECTS,
+    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, seed, aspects: ASPECTS, market,
     keepa: withMeasurements ? keepa : null, competitorKeepa: withMeasurements ? competitorKeepa : [],
     ai: withMeasurements ? ai : null, apify: withMeasurements ? apify : new Map(), shelfResults: withMeasurements ? shelfResults : null,
   });
@@ -196,6 +197,12 @@ check(parsed[0].brand === "TheraGun" && parsed[0].rating === 4.6 && parsed[0].re
 check(parsed[0].deliveryDays === 5 && parsed[0].seller === "TheraGun" && !!parsed[0].sellerId, "Apify: delivery days and buy-box seller", `${parsed[0].deliveryDays}d ${parsed[0].seller} ${parsed[0].sellerId}`);
 check(!!parsed[0].pdp && parsed[0].pdp.images > 0 && parsed[0].pdp.aplus === 1, "Apify: product-page content", JSON.stringify(parsed[0].pdp));
 
+console.log("── brand matching and verdict evidence");
+check(!brandAliases("Dude Wipes", "flushable wipes").includes("Wipes") && brandAliases("Apple HomePod", "smart speakers").includes("HomePod"), "a category word is never a brand nickname; a product-line word still is", brandAliases("Dude Wipes", "flushable wipes").join(", "));
+check(patternMentions("Plumbers say no wipes are truly flushable.", ["Dude Wipes", "Cottonelle"], "flushable wipes").length === 0, "a sentence about wipes in general does not mention Dude Wipes");
+const ans = "**Flushability:** Cottonelle is generally considered the safer flush. Dude Wipes are thicker, which is more of a plumbing risk.";
+check(quoteInAnswer("Dude Wipes are thicker, which is more of a plumbing risk.", ans) && !quoteInAnswer("Dude Wipes clog pipes and should never be flushed.", ans) && !quoteInAnswer("safer flush", ans), "a verdict needs a quote that is really in the answer");
+
 console.log("── hybrid build");
 const p = build(true);
 const ids = Object.fromEntries(p.dims.brands.map((b) => [b.label, b.id]));
@@ -205,7 +212,8 @@ const di = (iso: string) => p.dims.dates.indexOf(iso);
 const E1 = "l-b0thera001", E2 = "l-b0thera002";
 check(p.dims.models.every((m) => m.id === "l-" + String((m as { asin?: string }).asin).toLowerCase()), "every model is keyed by its own ASIN, not a reference slot name");
 check(windowEndFor(NOW) === WINDOW_END && p.dims.dates.at(-1) === WINDOW_END && p.dims.dates.length === 91, "window is the 13 weeks to the last full week", `${p.dims.dates[0]} → ${p.dims.dates.at(-1)}`);
-check(p.dims.retailers.length === 5 && p.dims.retailers.some((r) => r.id === "amazon") && p.dims.cities.length === 6, "five retailers and six cities are modelled around Amazon", p.dims.retailers.map((r) => r.id).join(","));
+check(p.dims.retailers.map((r) => r.id).join(",") === "amazon,walmart,target" && p.dims.cities.length === 6, "without a market profile the plain Amazon, Walmart and Target market is used, never the reference retailers", p.dims.retailers.map((r) => r.id).join(","));
+check(!/bestbuy|newegg|Best Buy|Newegg|Protection plan|Trade-in|Financing/.test(JSON.stringify({ ...p, meta: null })), "no electronics retailers or mechanics without a market profile");
 check(p.dims.models.length === 5 && p.dims.models.every((m) => !/Era|Echo|HomePod|SoundLink|JBL/.test(m.label)), "only real listings appear as models", p.dims.models.map((m) => m.label).join(" · "));
 check(p.dims.models.filter((m) => m.label.startsWith("TheraGun Mini 3rd Gen")).length === 1, "colour variants of one product fill one slot");
 
@@ -283,7 +291,7 @@ check(botAccess(groups, "GPTBot").state === "blocked" && botAccess(groups, "Clau
 const wb = buildWorkbench(cons, p as unknown as CommandCenterData, S) as { baseline: { share: Record<string, number>; questions: number }; dims: { weeks: unknown[]; families: string[] }; deliverables: Array<{ series: number[] }>; ledger: { A: unknown[]; B: unknown[] }; listing: Array<{ rid: string }>; reads: { overview: Array<{ text: string }> } };
 check(wb.dims.weeks.length === 13 && wb.deliverables.length === 18 && wb.deliverables.every((d) => d.series.length === 13), "workbench: 13 weeks, 18 deliverables with weekly series");
 check(wb.baseline.questions === 12 && wb.baseline.share[S] != null && wb.ledger.A.length === 18 && wb.ledger.B.length === 5, "workbench: week 0 measured from the console capture, both ledgers built");
-check(wb.listing.length === 5 && wb.dims.families.length > 0 && wb.reads.overview.every((r) => !/undefined|NaN|null/.test(r.text)), "workbench: listing per retailer, catalogue families and clean reads", wb.dims.families.join(", "));
+check(wb.listing.length === p.dims.retailers.length && wb.dims.families.length > 0 && wb.reads.overview.every((r) => !/undefined|NaN|null/.test(r.text)), "workbench: listing per retailer, catalogue families and clean reads", wb.dims.families.join(", "));
 check(!/Sony|BRAVIA|Samsung|\bTCL\b/.test(JSON.stringify(wb)), "workbench: no reference-brand names");
 
 const clash = rebrandPayload({ meta: {}, dims: { brands: [{ id: "sonos", label: "Sonos" }, { id: "amazon", label: "Amazon Echo" }, { id: "apple", label: "Apple HomePod" }, { id: "bose", label: "Bose" }, { id: "jbl", label: "JBL" }] }, reads: { overview: [{ tone: "good", text: "JBL holds 20% of brand mentions; Bose trails; Amazon Echo is absent." }] } },
@@ -312,6 +320,41 @@ check(r.dims.models.length === 0, "no invented products");
 check((r.ai.prompts ?? []).length === 0, "no invented prompt rows");
 const rleak = JSON.stringify(r).match(/Sonos|Amazon Echo|HomePod|\bBose\b|\bJBL\b|Era 100|speaker/i);
 check(!rleak, "no reference-brand names with nothing measured", rleak ? JSON.stringify(r).slice(Math.max(0, (rleak.index ?? 0) - 80), (rleak.index ?? 0) + 80) : "");
+
+console.log("── market profile");
+const brands = [SUBJECT.name, ...COMPETITORS];
+const market = normaliseProfile({
+  durable: false,
+  typicalPrice: 18,
+  retailers: [
+    { name: "Walmart", domain: "walmart.com", kind: "mass", share: 30, leadDays: 3, priceIndex: 0.97, listingQuality: 0.8 },
+    { name: "Target", domain: "target.com", kind: "mass", share: 20, leadDays: 3.5, priceIndex: 1.02, listingQuality: 0.88 },
+    { name: "Costco", domain: "costco.com", kind: "club", share: 12, leadDays: 4, priceIndex: 0.9, listingQuality: 0.7 },
+  ],
+  carriage: Object.fromEntries(brands.map((b, i) => [b, { Walmart: "yes", Target: i === 0 ? "yes" : "some", Costco: i === 0 ? "no" : "yes" }])),
+  mechanics: { Amazon: { discount: 4, coupon: 4, subscribe: 5, protection: 3 }, Walmart: { discount: 3, multibuy: 2, financing: 2 }, Target: { discount: 2, giftcard: 3, loyalty: 4 }, Costco: { discount: 3 } },
+  traffic: { [SUBJECT.name]: { domain: "https://www.example-brand.com/", monthlyVisits: 90000 } },
+  eventLift: { primeday: 1.4, b2s: 1.0 },
+}, { key: marketProfileKey(CATEGORY, "US", brands), category: CATEGORY, region: "US", brands, source: "llm", changes: ["Removed Best Buy: does not sell this category"] });
+check(market.retailers[0].id === "amazon" && market.retailers.length === 4 && Math.abs(market.retailers.reduce((a, r) => a + r.weight, 0) - 1) < 0.02, "Amazon is added when the model leaves it out; weights sum to one", market.retailers.map((x) => `${x.id} ${x.weight}`).join(", "));
+check(!market.mechanics.amazon.protection && !market.mechanics.walmart.financing && market.mechanics.amazon.subscribe === 5, "durable-only mechanics are dropped for a consumable", JSON.stringify(market.mechanics));
+check(market.traffic[SUBJECT.name].domain === "example-brand.com" && market.carriage[SUBJECT.name].costco === 0, "domains are cleaned and a \"no\" is zero carriage");
+const mk = build(true, SUBJECT.slug, market);
+const mkJson = JSON.stringify({ ...mk, meta: { ...mk.meta, provenance: null } });
+check(mk.dims.retailers.map((x) => x.id).join(",") === "amazon,walmart,target,costco", "the dashboard's retailers are the profile's", mk.dims.retailers.map((x) => x.id).join(","));
+check(!/bestbuy|newegg|Best Buy|Newegg/.test(mkJson), "no electronics retailers leak in");
+const costcoSubject = Object.keys(mk.distribution.carriage).filter((k) => k.endsWith("|costco") && mk.dims.models.find((m) => m.id === k.split("|")[0])?.brand === S && mk.distribution.carriage[k]);
+check(costcoSubject.length === 0, "a retailer that does not stock the brand carries none of its listings", costcoSubject.join(", "));
+const types = new Set(mk.promotions.events.map((e) => (e as unknown as { type: string }).type));
+check(![...types].some((t) => ["protection", "financing", "tradein", "bnpl", "trial"].includes(t)), "no protection plans, financing or trade-ins on a consumable", [...types].join(", "));
+check([...types].some((t) => ["coupon", "subscribe", "multibuy", "giftcard", "loyalty"].includes(t)), "consumable mechanics are used", [...types].join(", "));
+const comps = (mk.tco as Array<{ comps: Array<{ type: string; face: number }> }>).flatMap((x) => x.comps);
+check(comps.every((c) => c.type !== "delivery" || c.face <= 9.99 * 0.55 + 0.01 || c.face <= 18 * 0.18 + 0.01), "delivery is valued at the category's price, not a flat $9.99", comps.filter((c) => c.type === "delivery").map((c) => c.face).slice(0, 4).join(", "));
+const sd = ((mk.traffic as { daily: Record<string, number[] | null> }).daily[S] ?? []).filter((v) => v != null);
+const perDay = sd.reduce((a, v) => a + v, 0) / (sd.length || 1);
+check(perDay > 3000 * 0.6 && perDay < 3000 * 1.8, "site traffic is sized from the profile's monthly visits", `${Math.round(perDay)}/day vs ${90000 / 30}`);
+check((mk.dims as unknown as { durable: boolean }).durable === false, "the dashboard knows the category is a consumable");
+check(mk.meta.disclosure.anchors.some((x) => x.lane === "Market profile" && x.unmeasured && /second Claude pass that made 1 correction/.test(x.measured)), "the ledger says the market is Claude's, not measured");
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");
 process.exit(failures ? 1 : 0);

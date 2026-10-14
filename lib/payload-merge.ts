@@ -1,5 +1,6 @@
 import type { ReviewAspect, ReviewQuote } from "./apify";
 import type { Provenance } from "./provenance";
+import { MECHANIC_LIBRARY } from "./market-mechanics";
 
 type Cell = { value: number | null; prev: number | null; delta: number | null; deltaPct: number | null; rank: number | null; tied: boolean; of: number };
 type MetricDef = { id: string; label: string; good: "up" | "down" | "neutral"; unit?: string };
@@ -137,7 +138,9 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
     promotions: amazonMixed("price-cut history"),
     calendar: amazonMixed("price-cut history"),
     strategy: amazonMixed("price-cut history"),
-    tco: modelled("Protection plans, financing, attach rates and who funds each offer are modelled."),
+    tco: modelled(p.record.market
+      ? `${p.record.market.mechanics.map((m) => MECHANIC_LIBRARY[m].label).join(", ")}: which retailer runs which, how many shoppers take each and who funds it are modelled.`
+      : "Protection plans, financing, attach rates and who funds each offer are modelled."),
   };
 }
 

@@ -23,7 +23,7 @@ const STAGES: Array<{ id: FunnelStage; label: string; desc: string; aida: string
   { id: "decision", label: "Decision", desc: "Bottom-funnel — specific models, price ceilings, ready to buy.", aida: "Action" },
 ];
 
-const RETAIL_HOSTS = ["amazon.", "bestbuy.", "walmart.", "target.", "costco.", "newegg.", "homedepot.", "lowes.", "crutchfield.", "bhphotovideo.", "ebay.", "kohls.", "macys.", "samsclub.", "wayfair.", "dickssportinggoods.", "rei.com"];
+const RETAIL_HOSTS = ["amazon.", "bestbuy.", "walmart.", "target.", "costco.", "newegg.", "homedepot.", "lowes.", "crutchfield.", "bhphotovideo.", "ebay.", "kohls.", "macys.", "samsclub.", "wayfair.", "dickssportinggoods.", "rei.com", "cvs.", "walgreens.", "riteaid.", "kroger.", "albertsons.", "safeway.", "heb.", "meijer.", "publix.", "dollargeneral.", "familydollar.", "ulta.", "sephora.", "chewy.", "petsmart.", "petco.", "staples.", "officedepot.", "bjs.", "iherb.", "vitacost."];
 const COMMUNITY_HOSTS = ["reddit.", "youtube.", "youtu.be", "quora.", "facebook.", "tiktok.", "x.com", "twitter.", "instagram.", "forum", "community.", "stackexchange."];
 const NEWS_HOSTS = ["nytimes.", "cnn.", "bbc.", "reuters.", "apnews.", "washingtonpost.", "wsj.", "usatoday.", "forbes.", "businessinsider.", "cnbc.", "bloomberg.", "theguardian."];
 
@@ -36,7 +36,7 @@ export type ConsoleAnswer = {
   text: string;
   brands: Array<{ id: string; rank: number; recommended: boolean; sentiment: string; product: string }>;
   topPick: string | null;
-  attributes: Record<string, Array<{ attr: string; polarity: "+" | "-" }>>;
+  attributes: Record<string, Array<{ attr: string; polarity: "+" | "-"; quote?: string }>>;
   subjectClaims: Array<{ claim: string; type: string; product: string; value: string }>;
   sources: ConsoleSource[];
   path: EnginePath;
@@ -133,7 +133,7 @@ export function buildAiConsole(input: {
   const domains = input.ai.bank.domains;
   const brands: ConsoleBrand[] = input.brands.map((b, i) => {
     const domain = i === 0 && input.subjectDomain ? input.subjectDomain : domains[b.name];
-    return { id: b.id, label: b.label, color: b.color, subject: i === 0, owned: domain ? [domain] : [], aliases: brandAliases(b.name).map((a) => a.toLowerCase()) };
+    return { id: b.id, label: b.label, color: b.color, subject: i === 0, owned: domain ? [domain] : [], aliases: brandAliases(b.name, input.category).map((a) => a.toLowerCase()) };
   });
   const idOf = new Map(input.brands.map((b) => [b.name, b.id]));
   const brandId = (name: string): string => idOf.get(name) ?? slug(name);
