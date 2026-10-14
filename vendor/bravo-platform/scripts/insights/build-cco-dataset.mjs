@@ -322,7 +322,8 @@ for (const key of pairs) {
                  : 3 + rnd() * Math.max(1, ceiling - 3);
     // Prime Day and Black-Friday-shaped moments go deeper.
     const primeday = EVENTS.find((x) => x.id === "primeday");
-    if (primeday && inEvent(s, primeday)) depthPct *= 1.3;
+    if (primeday && inEvent(s, primeday) && (rt === "amazon" || !range)) depthPct *= 1.3;
+    if (range) depthPct = Math.min(depthPct, range[1]);
     depthPct = r1(clamp(depthPct, 2, 45));
     promoEvents.push({
       id: `p${++pid}`, brand: m.brand, model: mid, retailer: rt, type,

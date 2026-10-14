@@ -57,7 +57,18 @@ export function windowDates(end: string, days = WINDOW_DAYS): string[] {
 export function shortTitle(title: string | null, fallback: string): string {
   if (!title) return fallback;
   const head = title.split(/\s[|–—-]\s|,|\(/)[0].trim();
-  return head.length > 48 ? `${head.slice(0, 47).trimEnd()}…` : head || fallback;
+  const short = head.length > 48 ? `${head.slice(0, 47).trimEnd()}…` : head || fallback;
+  const size = packSize(title);
+  return size && !packSize(head) ? `${short} · ${size} Count` : short;
+}
+
+/**
+ * The unit count a listing title states ("288 Count", "48ct", "180 Wipes"),
+ * so pack sizes of the same product stay apart.
+ */
+export function packSize(title: string): number | null {
+  const m = /\b(\d{1,5})\s*-?\s*(?:count|ct)\b/i.exec(title) ?? /\b(\d{1,5})\s*-?\s*(?:wipes|sheets|pieces|pcs|pods|tablets|capsules)\b/i.exec(title);
+  return m ? Number(m[1]) : null;
 }
 
 const lastValue = <T>(arr: Array<T | null>): T | null => {

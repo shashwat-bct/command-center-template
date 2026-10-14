@@ -1106,7 +1106,25 @@ window.openModelProof = (qids, label) => proof({ title: `${label} · every answe
 // ── page leads for sources, products, change ─────────────────────────────────
 const ENGINE_COLOR = { gpt: "#1a73e8", gemini: "#9334e6", claude: "#e8710a", perplexity: "#12b5cb", copilot: "#34a853" };
 const engColor = (e) => ENGINE_COLOR[e] || "#80868b";
-const priceNums = (v) => (String(v || "").match(/\$?\s?\d[\d,]*(?:\.\d+)?/g) || []).map((x) => parseFloat(x.replace(/[$,\s]/g, ""))).filter((n) => n >= 20 && n < 100000);
+const priceNums = (v) => (String(v || "").match(/\$\s?\d[\d,]*(?:\.\d+)?|\d[\d,]*(?:\.\d+)?\s?(?=USD\b|dollars\b)/gi) || []).map((x) => parseFloat(x.replace(/[$,\s]/g, ""))).filter((n) => n >= 0.5 && n < 100000);
+const packOf = (t) => { const m = /\b(\d{1,5})\s*-?\s*(?:count|ct)\b/i.exec(t) || /\b(\d{1,5})\s*-?\s*(?:wipes|sheets|pieces|pcs|pods|tablets|capsules)\b/i.exec(t); return m ? Number(m[1]) : null; };
+const VARIANT_SYNONYMS = [[/\bfragrance[\s-]?free\b|\bscent[\s-]?free\b|\bno fragrance\b/gi, "unscented"], [/\bextra[\s-]large\b/gi, "xl"], [/\bon[\s-]the[\s-]go\b/gi, "onthego"], [/\bindividually wrapped\b/gi, "singles"]];
+const VARIANT_STOP = new Set(["the", "and", "for", "with", "of", "a", "an", "in", "by", "per", "pack", "count", "ct", "x", "new", "plus", "size", "version", "edition"]);
+const variantWords = (t, drop) => { let s = String(t || "").toLowerCase(); for (const [rx, to] of VARIANT_SYNONYMS) s = s.replace(rx, to); return uniq(s.replace(/\b\d+\s*-?\s*(?:count|ct|wipes|sheets|pieces|pcs|pods|tablets|capsules)\b/g, " ").split(/[^a-z0-9]+/).filter((w) => w.length > 1 && !/^\d+$/.test(w) && !VARIANT_STOP.has(w) && !drop.has(w) && !drop.has(w.replace(/s$/, "")))); };
+// An MSRP only when the quote names a pack size and every tracked listing it can be shares one MSRP;
+// variant words are learned from the brand's own listing titles, so this works for any category.
+function packMsrp(products, named) {
+  const n = packOf(named); if (n == null) return null;
+  const drop = new Set([SL, CAT, ...(D.categoryNoun || [])].join(" ").toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).flatMap((w) => [w, w.replace(/s$/, "")]));
+  const priced = products.filter((p) => p.msrp);
+  const words = priced.map((p) => new Set(variantWords(p.label, drop))); const vocab = new Set(words.flatMap((w) => [...w]));
+  const want = variantWords(named, drop); if (want.some((w) => !vocab.has(w))) return null;
+  const common = (w) => words.filter((x) => x.has(w)).length * 2 >= words.length;
+  const fits = priced.filter((p, i) => packOf(p.label) === n && want.every((w) => words[i].has(w)) && [...words[i]].every((w) => want.includes(w) || common(w)));
+  if (!fits.length) return null;
+  const lo = Math.min(...fits.map((p) => p.msrp)), hi = Math.max(...fits.map((p) => p.msrp));
+  return hi - lo <= lo * 0.01 ? lo : null;
+}
 const money = (n) => "$" + n.toLocaleString("en-US", Number.isInteger(n) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 function subjectClaims(A) {
   const sb = S.brands.find((b) => b.id === subjectId());
@@ -1130,7 +1148,7 @@ function renderClaimsOverview(A) {
   const priced = models.map((m) => {
     const pts = m.claims.filter((c) => c.type === "price").flatMap((c) => priceNums(c.value).map((n) => ({ n, engine: c.engine })));
     const distinct = uniq(pts.map((p) => p.n));
-    return { ...m, pts, distinct, msrp: catalog.get(m.key) || null };
+    return { ...m, pts, distinct, msrp: catalog.get(m.key) || packMsrp((D.catalog && D.catalog.products) || [], m.label) || null };
   }).filter((m) => m.pts.length).sort((x, y) => y.distinct.length - x.distinct.length || y.pts.length - x.pts.length);
   if ($("claimPrices")) {
     if (!priced.length) $("claimPrices").innerHTML = '<div class="pending">No engine quoted a price for a model.</div>';
@@ -1261,7 +1279,7 @@ const stageChip = (s, list) => { const i = list.indexOf(s); return `<span class=
 const VERDICT_LABEL = { notInCatalogue: "not in catalogue", sizeNotTracked: "size not tracked" };
 const PRICE_VERDICT = {
   wrong: { cls: "bad", label: "Off" }, stale: { cls: "warn", label: "Close" }, matches: { cls: "good", label: "Matches" },
-  unverifiable: { cls: "na", label: "No shelf price" }, notInCatalogue: { cls: "na", label: "Not tracked" }, sizeNotTracked: { cls: "na", label: "Size not tracked" },
+  unverifiable: { cls: "na", label: "Not checked" }, notInCatalogue: { cls: "na", label: "Not tracked" }, sizeNotTracked: { cls: "na", label: "Size not tracked" },
 };
 const priceGap = (r) => { if (r.shelf == null || r.value == null) return null; const hi = r.valueHi ?? r.value; const g = r.shelf < r.value ? r.value - r.shelf : r.shelf > hi ? hi - r.shelf : 0; return g / r.shelf; };
 function priceVerdictCell(r) {

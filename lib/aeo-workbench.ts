@@ -1,6 +1,7 @@
 import type { AiConsolePayload } from "./ai-console";
 import { buildBaseline, familyOf, type AeoBaseline, type SourceRow } from "./aeo-baseline";
 import { seededRandom } from "./simulated-world";
+import { matchShelf, packCount, parsePriceQuote, type PriceQuote, type ShelfRef } from "./claim-shelf";
 
 type Series = Record<string, Array<number | null>>;
 export type CommandCenterData = {
@@ -14,6 +15,7 @@ export type CommandCenterData = {
   distribution: { carriage: Series };
   pdpScores: Array<{ model: string; brand: string; retailer: string; score: number; fields: Record<string, number> }>;
   voice: { aspects: Record<string, Record<string, number[]> | null> };
+  meta?: { provenance?: { record?: { shelf?: { results: Array<{ title: string; price: number | null; brand: string | null }> } | null } } };
 };
 
 export const WORKBENCH_VERSION = 6;
@@ -21,29 +23,6 @@ export const WORKBENCH_VERSION = 6;
 /** The search crawler each tracked engine uses to fetch pages it can cite; an engine without one is left out. */
 export const ENGINE_SEARCH_BOT: Record<string, string> = { gpt: "OAI-SearchBot", chatgpt: "OAI-SearchBot", claude: "Claude-SearchBot", perplexity: "PerplexityBot", copilot: "Bingbot" };
 const WEEKS = 13;
-const PRICE_NUM = /(?<![A-Za-z\d.])\$?\s*(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(?:\s*(k)\b)?(?![A-Za-z\d])/gi;
-const RANGE_GAP = /^\s*(?:-|–|—|to|and)\s*$/i;
-const FOREIGN_CURRENCY = /(?:₹|£|€|¥|₩|\bRs\.?|\bINR|\bGBP|\bEUR|\bCAD|\bAUD|\bC\$|\bA\$)\s*$/i;
-
-export type PriceQuote = { lo: number; hi: number };
-
-/**
- * Reads the price an engine quoted: a single figure, or a range such as
- * "$1,500–2,000" kept as both ends rather than run together into one number.
- */
-export function parsePriceQuote(text: string): PriceQuote | null {
-  const found: Array<{ n: number; start: number; end: number }> = [];
-  for (const m of String(text).matchAll(PRICE_NUM)) {
-    if (FOREIGN_CURRENCY.test(String(text).slice(Math.max(0, (m.index ?? 0) - 6), m.index ?? 0))) return null;
-    const n = parseFloat(m[1].replace(/,/g, "") + (m[2] ?? "")) * (m[3] ? 1000 : 1);
-    if (n >= 20 && n < 100000) found.push({ n, start: m.index ?? 0, end: (m.index ?? 0) + m[0].length });
-  }
-  if (!found.length) return null;
-  const [a, b] = found;
-  if (b && RANGE_GAP.test(String(text).slice(a.end, b.start)) && b.n > a.n) return { lo: a.n, hi: b.n };
-  return { lo: a.n, hi: a.n };
-}
-
 function priceVerdict(q: PriceQuote, shelf: number): "matches" | "stale" | "wrong" {
   const gap = shelf < q.lo ? q.lo - shelf : shelf > q.hi ? shelf - q.hi : 0;
   const d = gap / shelf;
@@ -60,6 +39,8 @@ const PDP_FIELDS: Array<{ id: string; label: string }> = [
 const GENERIC_WORDS = new Set(["portable", "bluetooth", "wireless", "speaker", "speakers", "with", "for", "and", "the", "new", "black", "white", "blue", "red", "smart", "pro-grade", "edition"]);
 
 const r1 = (v: number): number => Math.round(v * 10) / 10;
+const OTHER_RETAILERS = ["Walmart", "Target", "Costco", "Sam's Club", "CVS", "Walgreens", "Rite Aid", "Kroger", "H-E-B", "Meijer", "Fred Meyer", "Dollar General", "Best Buy", "Home Depot", "Lowe's", "Kohl's", "Ulta", "Sephora", "Chewy", "eBay"];
+const money = (n: number): string => `$${n.toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
 const last = (a: Array<number | null> | undefined): number | null => { if (!a) return null; for (let i = a.length - 1; i >= 0; i--) if (a[i] != null) return a[i]; return null; };
 const mean = (a: number[]): number => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0);
 const ramp = (start: number, target: number, from: number, to: number): number[] =>
@@ -109,19 +90,36 @@ export function buildWorkbench(c: AiConsolePayload, cc: CommandCenterData, seed:
   };
   const key = (m: string, r: string) => `${m}|${r}`;
 
+  const shelfRefs: ShelfRef[] = [
+    ...models.flatMap((m) => { const p = last(cc.pricing.price[key(m.id, "amazon")]); return p != null ? [{ label: m.label, price: p, source: "tracked" as const }] : []; }),
+    ...(cc.meta?.provenance?.record?.shelf?.results ?? []).filter((r) => r.brand === S && r.price != null).map((r) => ({ label: r.title, price: r.price as number, source: "search" as const })),
+  ];
+  const otherRetailer = (claim: string): string | null => {
+    const names = [...retailers.filter((r) => r.id !== "amazon").map((r) => r.label), ...OTHER_RETAILERS];
+    return names.find((n) => new RegExp(`\\b${n.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`, "i").test(claim)) ?? null;
+  };
   const priceRows = c.captures[c.current].answers.flatMap((a) => a.subjectClaims.filter((cl) => cl.type === "price").map((cl) => ({ a, cl })));
   const verdicts = { matches: 0, stale: 0, wrong: 0, unverifiable: 0, notInCatalogue: 0, sizeNotTracked: 0 };
   const rows = priceRows.map(({ a, cl }, i) => {
     const quote = parsePriceQuote(cl.value || cl.claim) ?? parsePriceQuote(cl.claim);
     const family = familyOf(cl.product || cl.claim, families);
-    const shelf = family ? models.filter((m) => familyName(m.label, c.productLine, c.categoryNoun) === family).map((m) => last(cc.pricing.price[key(m.id, "amazon")])).find((p) => p != null) ?? null : null;
+    const named = [cl.product, cl.value, cl.claim].filter(Boolean).join(" ");
+    const found = matchShelf(cl.product || cl.claim, shelfRefs, c.productLine, c.categoryNoun);
+    const sized = found.kind === "noSize" && packCount(named) != null ? matchShelf(`${cl.product} ${packCount(named)} count`, shelfRefs, c.productLine, c.categoryNoun) : found;
+    const shelf = sized.kind === "match" ? sized.price : null;
     let verdict: keyof typeof verdicts = "unverifiable";
-    if (!quote) verdict = "unverifiable";
-    else if (!family) verdict = "notInCatalogue";
-    else if (shelf == null) verdict = "unverifiable";
-    else verdict = priceVerdict(quote, shelf);
+    let detail = "";
+    const elsewhere = otherRetailer(cl.claim);
+    const onAmazon = sized.kind === "match" ? (sized.refs.length > 1 ? `${sized.refs.length} matching${packCount(named) ? ` ${packCount(named)}-count` : ""} listings on Amazon agree on ${money(sized.price)}` : `${sized.refs[0].label} on Amazon: ${money(sized.price)}`) : "";
+    if (!quote) detail = "no dollar price in the claim";
+    else if (sized.kind === "match" && elsewhere) detail = `quoted at ${elsewhere}; only Amazon is read, so this is not judged — ${onAmazon}`;
+    else if (sized.kind === "match") { verdict = priceVerdict(quote, sized.price); detail = onAmazon; }
+    else if (sized.kind === "notOnShelf") { verdict = "notInCatalogue"; detail = "this product is not among the brand's Amazon listings read on the build date"; }
+    else if (sized.kind === "sizeNotOnShelf") { verdict = "sizeNotTracked"; detail = `no ${sized.size}-count listing on the Amazon shelf read`; }
+    else if (sized.kind === "noSize") detail = "the claim names no pack size, and the brand's Amazon prices differ by size";
+    else detail = `several Amazon listings fit at different prices: ${sized.refs.slice(0, 3).map((r) => `${r.label} ${money(r.price)}`).join("; ")}`;
     verdicts[verdict]++;
-    return { id: `c${i + 1}`, claim: cl.claim, value: quote ? quote.lo : null, valueHi: quote && quote.hi !== quote.lo ? quote.hi : null, shelf, product: cl.product, family, engine: a.engine, question: c.bank.find((q) => q.id === a.queryId)?.text ?? "", hosts: [...new Set(a.sources.map((s) => s.host))].slice(0, 4), verdict, detail: shelf != null ? `${family} on Amazon: $${Math.round(shelf).toLocaleString("en-US")} on the shelf` : family ? `${family}: no shelf price read` : "model not in the tracked catalogue" };
+    return { id: `c${i + 1}`, claim: cl.claim, value: quote ? quote.lo : null, valueHi: quote && quote.hi !== quote.lo ? quote.hi : null, shelf, product: cl.product, family, engine: a.engine, question: c.bank.find((q) => q.id === a.queryId)?.text ?? "", hosts: [...new Set(a.sources.map((s) => s.host))].slice(0, 4), verdict, detail };
   });
   const otherTotal = base.claims.total - rows.length;
   const outOfDate = Math.round(otherTotal * (0.03 + rnd() * 0.03)), wrongOther = Math.round(otherTotal * (0.02 + rnd() * 0.03));
