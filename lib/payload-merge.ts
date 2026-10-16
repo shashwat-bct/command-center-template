@@ -34,14 +34,12 @@ const VOICE_MEASURED_NOTE = "Amazon rating and review counts are read daily from
 const MIN_ASPECT_MENTIONS = 4;
 const MAX_ASPECTS = 6;
 
-const TONE_ORDER = { positive: 0, negative: 1 } as const;
-
 function balancedQuotes(quotes: ReviewQuote[]): ReviewQuote[] {
   const pos = quotes.find((q) => q.tone === "positive");
   const neg = quotes.find((q) => q.tone === "negative");
   const picked = [pos, neg].filter((q): q is ReviewQuote => !!q);
   const rest = quotes.filter((q) => !picked.includes(q));
-  return [...picked, ...rest].slice(0, 3).sort((a, z) => (a.tone ? TONE_ORDER[a.tone] : 2) - (z.tone ? TONE_ORDER[z.tone] : 2));
+  return [...picked, ...rest].slice(0, 3);
 }
 
 export function applyReviewAspects(p: Payload, byBrand: Record<string, ReviewAspect[]>): boolean {

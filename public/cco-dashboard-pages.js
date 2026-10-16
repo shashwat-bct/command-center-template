@@ -400,6 +400,11 @@ P.voice = (host) => {
   }
   const realAspects = d.voice.aspectSource === "amazon-review-summary";
   const aspCount = (b, a) => ((d.voice.aspectCounts || {})[b] || {})[a] || null;
+  const balanced = (quotes) => {
+    const list = quotes || [];
+    const picked = [list.find((q) => q.tone === "positive"), list.find((q) => q.tone === "negative")].filter(Boolean);
+    return [...picked, ...list.filter((q) => !picked.includes(q))];
+  };
   const quoteHtml = (q, opts = {}) => {
     const full = typeof q === "string" ? q : q.text || "";
     const hl = typeof q === "string" ? null : q.highlight;
@@ -449,7 +454,7 @@ P.voice = (host) => {
     el("vcTrend").innerHTML = rows.length ? rows.map(({ a, n }) => { const tot = n.positive + n.negative; return `<div class="vc-asp" data-a="${esc(a)}" style="padding:10px 0;border-bottom:1px solid var(--line2);cursor:pointer">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc(a)}</b><span class="mini">${n.positive} positive · ${n.negative} negative</span></div>
       <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin:6px 0;gap:2px"><i style="flex:${n.positive || 0.0001};background:#1e8e3e"></i><i style="flex:${n.negative || 0.0001};background:#d93025"></i></div>
-      <div style="display:grid;gap:4px">${(n.quotes || []).slice(0, 2).map((q) => quoteHtml(q, { small: true })).join("")}</div></div>`; }).join("") : `<div class="withheld-card"><p>Amazon's review summaries carry no aspects for ${SUBJ}.</p></div>`;
+      <div style="display:grid;gap:4px">${balanced(n.quotes).slice(0, 2).map((q) => quoteHtml(q, { small: true })).join("")}</div></div>`; }).join("") : `<div class="withheld-card"><p>Amazon's review summaries carry no aspects for ${SUBJ}.</p></div>`;
   }
   $$("#vcTrend .vc-asp").forEach((row) => { row.onclick = () => showAspect(S, row.dataset.a); });
   function showAspect(bid, a) {
@@ -479,10 +484,10 @@ P.voice = (host) => {
       return `<div style="padding:14px 0;border-top:1px solid var(--line2)">
         <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc((modelOf(l.asin) || {}).label || l.asin)}</b><span class="mini">${t ? `${Math.round((l.positive / t) * 100)} · ` : ""}${l.positive} positive · ${l.negative} negative</span></div>
         ${l.summary ? `<div style="font-size:13px;color:var(--ink);margin:6px 0 8px;line-height:1.5">${esc(l.summary)} <span class="mini">— Amazon's summary</span></div>` : ""}
-        <div style="display:grid;gap:8px">${(l.quotes || []).map((q) => quoteHtml(q)).join("")}</div></div>`;
+        <div style="display:grid;gap:8px">${balanced(l.quotes).map((q) => quoteHtml(q)).join("")}</div></div>`;
     }).join("");
     const quoteHtmlBlock = listings.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 4px">What reviewers wrote, by product</h4>${byProduct}<p class="mini" style="margin:10px 0 0">Amazon's own aspect summary and the review sentences it tagged for this aspect, with its highlighted phrase in bold. Each links to the full review.</p>`
-      : (n && n.quotes && n.quotes.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">What reviewers wrote</h4><div style="display:grid;gap:8px">${n.quotes.map((q) => quoteHtml(q)).join("")}</div>` : "");
+      : (n && n.quotes && n.quotes.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">What reviewers wrote</h4><div style="display:grid;gap:8px">${balanced(n.quotes).map((q) => quoteHtml(q)).join("")}</div>` : "");
     openDrawer(`${esc(B(bid).label)} · ${esc(a)}`, score != null ? `${score}% of ${n ? n.positive + n.negative : 0} review mentions are positive` : "Too few mentions to score", tiles + compare + prodHtml + quoteHtmlBlock);
   }
   CC.line(el("vcVel"), { height: 250, x: ds, area: true, series: brandSeries((b) => d.voice.velocity[b]), fmtV: F.n, fmtY: F.k });
