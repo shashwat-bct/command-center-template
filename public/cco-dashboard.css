@@ -406,3 +406,8 @@ table.sc td.is-nm .v{color:var(--mute);font-weight:400}
 .cc-scale .dg-lg{display:inline-flex;align-items:center;gap:3px;margin-right:16px;font-size:12px;color:var(--soft)}
 .cc-scale .dg-lg i{display:inline-flex;align-items:center;justify-content:center;width:16px;height:14px;border-radius:3px;font-style:normal;font-size:10px;font-weight:600}
 .cc-scale .dg-lg i:last-of-type{margin-right:4px}
+.named-list{display:inline-flex;flex-wrap:wrap;gap:2px 12px;max-width:380px;white-space:normal;line-height:1.6;vertical-align:middle}
+.named-item{white-space:nowrap}
+#aiPrompts tbody td:last-child::after{content:"›";margin-left:10px;color:var(--mute);font-size:15px}
+#aiPrompts tbody tr:hover td:first-child{color:var(--accent)}
+#aiPrompts tbody tr:hover td:last-child::after{color:var(--accent)}

@@ -124,7 +124,10 @@ function deltaChip(metricId, brand, opts) {
   // A withheld measure has no delta to show, and a zero-looking chip beside a
   // dash reads as a measurement that did not move. Say withheld instead.
   if (o.value == null) return `<span class="delta flat">withheld</span>`;
-  if (o.delta == null) return `<span class="delta flat">${md.static ? "point-in-time" : "no prior"}</span>`;
+  if (o.delta == null) {
+    const readings = ((D.trend[metricId] || {})[brand] || []).filter((v) => v != null).length;
+    return `<span class="delta flat">${md.static ? "point-in-time" : readings === 1 ? `single reading · ${F.date(D.dims.dates[D.dims.dates.length - 1])}` : "no prior"}</span>`;
+  }
   const good = md.good;
   const cls = good === "neutral" ? "neu" : (o.delta > 0) === (good === "up") ? "up" : "dn";
   const arrow = Math.abs(o.delta) < 1e-9 ? "→" : o.delta > 0 ? "↑" : "↓";

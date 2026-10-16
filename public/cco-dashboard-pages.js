@@ -321,8 +321,11 @@ P.ai = (host) => {
   const hasNamed = (d.ai.prompts || []).some((p) => Array.isArray(p.named));
   const trackedByName = new Map(d.dims.brands.map((b) => [b.label.toLowerCase(), b]));
   const brandName = (name) => { const b = trackedByName.get(String(name).toLowerCase()); return b ? `<span class="dot" style="background:${b.color}"></span>${esc(b.label)}` : `<span style="color:var(--mute)">${esc(name)}</span>`; };
-  const namedList = (names) => !names || !names.length ? `<span class="mini">no brand named</span>`
-    : `<span style="white-space:normal;display:inline-block;max-width:380px;line-height:1.7">${names.slice(0, 6).map((n, i) => `${i ? '<span style="color:var(--line)"> · </span>' : ""}${brandName(n)}`).join("")}${names.length > 6 ? ` <span class="mini">+${names.length - 6}</span>` : ""}</span>`;
+  const namedList = (names, other = 0) => {
+    const more = (names || []).length > 6 ? names.length - 6 : 0;
+    const tail = [more ? `+${more}` : "", other ? `+${other} other` : ""].filter(Boolean).join(" · ");
+    return `<span class="named-list">${(names || []).slice(0, 6).map((n) => `<span class="named-item">${brandName(n)}</span>`).join("")}${tail ? `<span class="named-item mini">${tail}</span>` : ""}</span>`;
+  };
   const SENT = { positive: "good", negative: "risk", mixed: "warn", neutral: "" };
   const brandCell = (id) => { const t = d.dims.brands.find((b) => b.id === id); return t ? `<span class="dot" style="background:${t.color}"></span><b style="font-weight:500">${esc(t.label)}</b>` : `<span style="color:var(--soft)">${esc(prettyBrand(id))}</span>`; };
   const stat2 = (k, v) => `<div style="flex:1;min-width:120px;padding:12px 14px;border:1px solid var(--line);border-radius:12px"><div class="mini">${k}</div><div style="font-family:var(--fd);font-size:18px;margin-top:4px">${v}</div></div>`;
@@ -363,7 +366,7 @@ P.ai = (host) => {
       { label: "Prompt", lft: true, get: (r) => `<span class="tag" style="margin-right:8px">${esc((d.dims.stages.find((st) => st.id === r.stage) || { label: r.stage }).label)}</span>${esc(r.q)}` },
       { label: SUBJ, get: (r) => r.present[S] ? `<b class="tnum" style="color:var(--good)">#${r.rank[S]}</b>` : `<span class="mini">absent</span>` },
       { label: "Cited", get: (r) => r.cited[S] ? "✓" : "—" },
-      ...(hasNamed ? [{ label: "Brands named", lft: true, get: (r) => { const n = shown(r); const extra = all ? 0 : (r.named || []).length - n.length; return n.length ? namedList(n) + (extra > 0 ? ` <span class="mini">+${extra} other</span>` : "") : `<span class="mini">${extra > 0 ? `none from your set · ${extra} other` : "no brand named"}</span>`; } }] : []),
+      ...(hasNamed ? [{ label: "Brands named", lft: true, get: (r) => { const n = shown(r); const extra = all ? 0 : (r.named || []).length - n.length; return n.length ? namedList(n, Math.max(0, extra)) : `<span class="mini">${extra > 0 ? `none from your set · ${extra} other` : "no brand named"}</span>`; } }] : []),
       { label: "Answer led by", get: (r) => { const n = hasNamed ? shown(r) : []; return hasNamed ? (n.length ? brandName(n[0]) : "—") : r.topBrand ? `<span class="dot" style="background:${B(r.topBrand).color}"></span>${B(r.topBrand).label}` : "—"; } },
     ], d.ai.prompts, { maxH: "460px" });
     $$("#aiPrompts [data-ob]").forEach((btn) => { btn.onclick = () => { window.__ccOtherBrands = btn.dataset.ob === "1"; renderPrompts(); }; });
