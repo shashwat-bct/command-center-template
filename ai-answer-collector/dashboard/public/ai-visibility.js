@@ -248,7 +248,7 @@ const I = {
   spark: '<path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z"/><path d="M19 3v3M17.5 4.5h3M5 17v3M3.5 18.5h3"/>',
   shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
 };
-const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k] || I.grid}</svg>`;
+const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k] || (window.RetailAudit && RetailAudit.icons[k]) || I.grid}</svg>`;
 const NAV = [
   { id: "console", label: "AI Engine Visibility", pages: [
     { id: "overview", label: "Executive Summary", icon: "grid", crumb: "AI Engine Visibility · Overview", title: "Executive Summary" },
@@ -258,6 +258,7 @@ const NAV = [
     { id: "products", label: "Picks & Products", icon: "box", crumb: "AI Engine Visibility · Measure", title: "Recommendations & Products" },
     { id: "change", label: "Change Over Time", icon: "clock", crumb: "AI Engine Visibility · Measure", title: "Change Over Time" }] },
 ];
+if (window.RetailAudit) RetailAudit.extendNav(NAV);
 const PAGES = NAV.flatMap(g => g.pages);
 // Embedded in the command centre? Its shell (cco-dashboard.js) exposes an extension hook;
 // when it is present this module adds its groups to that rail instead of building its own,
@@ -1550,11 +1551,11 @@ window.jumpTo = (id) => { const el = $(id); if (!el) return; el.scrollIntoView({
 // Embedded in the command centre (EMBED), the rail, routing and title belong to
 // its shell: this module builds its pages, registers its groups, and answers the
 // shell's route callback by showing the top-bar set the page needs.
-const DEFAULT_HASH = /sony-aeo|workbench/.test(location.pathname) ? "#scorecard" : "#overview";
+const DEFAULT_HASH = /sony-aeo|workbench/.test(location.pathname) ? "#scorecard" : window.RetailAudit && RetailAudit.on ? "#ra-scorecard" : "#overview";
 function buildPages() {
   let host = $("pages");
   if (EMBED) { host = document.createElement("div"); host.className = "aiv"; host.id = "aivPages"; host.style.display = "contents"; $("pages").appendChild(host); }
-  host.insertAdjacentHTML("beforeend", PAGES.map(p => `<div class="page" id="pg-${p.hash}"><div class="stack-v">${TPL[p.id]()}</div></div>`).join(""));
+  host.insertAdjacentHTML("beforeend", PAGES.map(p => `<div class="page" id="pg-${p.hash}"><div class="stack-v">${(TPL[p.id] || (() => RetailAudit.tpl(p.id)))()}</div></div>`).join(""));
 }
 function buildNav() {
   $("nav").innerHTML = NAV.filter(g => g.id !== "workbench" || document.body.dataset.payloadWb).map(g => `<div class="nav-grp"><h5>${g.label}</h5>${g.pages.map(p => `<a href="#${p.hash}" data-p="${p.hash}" title="${p.label}">${icon(p.icon)}<span>${p.label}</span>${p.pill ? `<span class="pill">${p.pill}</span>` : ""}</a>`).join("")}</div>`).join("");
@@ -1572,7 +1573,7 @@ function route() {
   document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.p === def.hash));
   document.querySelectorAll("#pages .page").forEach(p => p.classList.toggle("on", p.id === "pg-" + def.hash));
   showTopSets(def);
-  document.title = `${def.title} · ${D.subjectLabel} ${CATS} · AI Visibility`;
+  document.title = `${def.title} · ${D.subjectLabel} ${CATS} · ${def.id.startsWith("ra-") ? "Command Center" : "AI Visibility"}`;
   if (window.CC) CC.hideTip();
   window.scrollTo({ top: 0, behavior: "instant" });
 }
@@ -1612,8 +1613,12 @@ function syncChrome() {
   if (!EMBED) $("scWin").textContent = `${fmtDate(CUR.capturedAt || CUR.basis)} · ${D.market} · ${S.engines.size} engines`;
   if (D.evidenceSummary?.sessions) $("evChip").textContent = `${D.evidenceSummary.sessions} real sessions on file`;
 }
+// the retail pages read the answers through the console, so its scope and lens filters apply to them
+window.__AIV = { get D() { return D; }, activeAnswers: () => activeAnswers(), compareAnswers: () => compareAnswers(), shareOf: (a) => shareOf(a),
+  compareLabel: () => compareLabel(), engLabel: (e) => engLabel(e), openQuestion: (id) => window.openQuestion(id) };
+function renderRetail() { if (window.RetailAudit) RetailAudit.render(window.__AIV); }
 function rerender() {
-  for (const f of [renderCfg, syncChrome, renderCanvas, renderLenses, renderOverview, renderEngines, renderQuestionBank, renderCatalog, renderPageLeads]) {
+  for (const f of [renderCfg, syncChrome, renderCanvas, renderLenses, renderOverview, renderEngines, renderQuestionBank, renderCatalog, renderPageLeads, renderRetail]) {
     try { f(); } catch (e) { console.error(`${f.name} failed`, e); }
   }
 }

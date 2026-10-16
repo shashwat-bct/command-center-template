@@ -6,6 +6,8 @@
 //   /                            every collection's dashboards
 //   /d/<collection>/<brand-cat>  a dashboard
 //   /api/payloads/<collection>/<brand-cat>   its payload
+//   /api/retail/<collection>/<brand-cat>     its retail payload (npm run retail), when built:
+//                                            adds the 360° Scorecard, Retail Shelf and AI × Shelf pages
 //   /files/<collection>/<path>   session images
 
 import { createReadStream, existsSync, readdirSync, statSync } from "node:fs";
@@ -92,12 +94,14 @@ function dashboard(collection: string, key: string): string {
   const others = collections();
   const options = others.flatMap((c) => c.payloads.map((k) => `<option value="/d/${encodeURIComponent(c.id)}/${encodeURIComponent(k)}" ${c.id === collection && k === key ? "selected" : ""}>${esc(pairLabel(k))} · ${esc(c.id)}</option>`)).join("");
   const [brand, cat] = pairLabel(key).split(" · ");
-  return `${HEAD(`${pairLabel(key)} · AI Engine Visibility`)}
-<body class="aiv" data-payload="/api/payloads/${encodeURIComponent(collection)}/${encodeURIComponent(key)}">
+  const retail = existsSync(new CollectionStore(collection).abs(`retail/${key}.json`));
+  const product = retail ? "Command Center" : "AI Engine Visibility";
+  return `${HEAD(`${pairLabel(key)} · ${product}`)}
+<body class="aiv" data-payload="/api/payloads/${encodeURIComponent(collection)}/${encodeURIComponent(key)}"${retail ? ` data-payload-retail="/api/retail/${encodeURIComponent(collection)}/${encodeURIComponent(key)}"` : ""}>
 <a class="sronly" href="#pages">Skip to content</a>
 <nav id="rail" aria-label="Pages">
   <div class="rail-top">
-    <div class="bm"><b class="bm-name" id="bmName">${esc(brand)}</b><span class="bm-sub">${esc(cat ?? "")} · AI Engine Visibility</span></div>
+    <div class="bm"><b class="bm-name" id="bmName">${esc(brand)}</b><span class="bm-sub">${esc(cat ?? "")} · ${product}</span></div>
     <div class="bm-tile" aria-hidden="true">${esc(brand.charAt(0))}</div>
   </div>
   <div class="period"><span id="scWin">—</span></div>
@@ -114,7 +118,7 @@ function dashboard(collection: string, key: string): string {
 <div id="main">
   <header id="top">
     <div class="top-l">
-      <div class="crumb" id="crumb">AI Engine Visibility</div>
+      <div class="crumb" id="crumb">${product}</div>
       <h1 id="ptitle">Executive Summary</h1>
     </div>
     <div class="top-r">
@@ -157,6 +161,7 @@ function dashboard(collection: string, key: string): string {
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="msheet"><button class="close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
 
 <script src="/cco-charts.js"></script>
+<script src="/retail-audit.js"></script>
 <script type="module" src="/ai-visibility.js"></script>
 </body>
 </html>`;
@@ -172,6 +177,10 @@ createServer((req, res) => {
     if (parts[0] === "api" && parts[1] === "payloads" && parts.length === 4) {
       if (!known(parts[2], parts[3])) return notFound(res);
       return sendFile(res, new CollectionStore(parts[2]).abs(`payloads/${parts[3]}.json`));
+    }
+    if (parts[0] === "api" && parts[1] === "retail" && parts.length === 4) {
+      if (!known(parts[2], parts[3])) return notFound(res);
+      return sendFile(res, new CollectionStore(parts[2]).abs(`retail/${parts[3]}.json`));
     }
     if (parts[0] === "files" && parts.length > 2) {
       if (!collections().some((c) => c.id === parts[1])) return notFound(res);

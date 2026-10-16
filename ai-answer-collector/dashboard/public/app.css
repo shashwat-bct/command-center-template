@@ -10,3 +10,16 @@ body.landing{background:var(--app)}
 .land .chips{display:flex;flex-wrap:wrap;gap:8px}
 .land .chip{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:8px;border:1px solid #c4c7c5;text-decoration:none;font-size:13px;font-weight:500;color:var(--soft);background:var(--card)}
 .land .chip:hover{background:var(--accentSoft);color:var(--accentInk);border-color:transparent}
+/* Retail audit pages (retail-audit.js) */
+.ra-host{display:contents}
+.ra-nt{font-size:11px;color:var(--mute)}
+.ra-was{color:var(--mute);font-size:11px}
+.ra-wrap{white-space:normal;display:inline-block;max-width:52ch;line-height:1.45}
+.ra-shot{font-size:11px;color:var(--accent);text-decoration:none;margin-left:6px}
+.ra-shot:hover,.ra-link:hover .ra-wrap{text-decoration:underline}
+.ra-link{color:inherit;text-decoration:none}
+.ra-mt{margin-top:14px}
+.ra-matrix td{text-align:center}
+.ra-ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6;color:var(--ink)}
+.ra-ul li{margin:4px 0}
+.ra-ul code{font-size:12px}

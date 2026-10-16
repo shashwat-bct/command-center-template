@@ -69,6 +69,16 @@ data/<collection>/
 
 **Session images.** As in the template, Bright Data returns the page source of each consumer-app session (`answer_html`). It is rendered offline in headless Chromium with scripts and network disabled, and shown behind "show the real session" on every answer, with capture time, country, web-search and shopping-module flags, the snapshot id and a SHA-256 of the answer. API answers are drawn from their markdown.
 
+## Retail shelf (the retail audit tool's sheet)
+
+```bash
+npm run retail -- --collection 2026-10 --pairs sony-tv   # after `payload`
+```
+
+Reads the category's tab of the retail audit tool's Google Sheet ("Retail Audit Tool Results": one row per product-page screenshot with price, was-price, availability, promotions, delivery, rating, reviews) and writes `data/<collection>/retail/<brand>-<category>.json`, keeping the sheet as read beside it (`retail/sheet-<tab>.json`). Tabs: TV → `TV`, Phones → `Smartphones`, Wireless Speakers → `Bluetooth Speakers` (`RETAIL_TABS` in `src/retail.ts`). Credentials: `RETAIL_SHEETS_KEY` (default the audit tool's `~/.config/retail-audit/sheets-sa.json`), else ADC; `RETAIL_SHEET_ID` overrides the sheet.
+
+When a retail payload exists, the dashboard becomes the brand's **Command Center**: `dashboard/public/retail-audit.js` adds a 360° Scorecard (AI share of answer beside shelf availability, markdowns, promotions and ratings, per brand), a Retail Shelf group (Carriage & Availability, Pricing, Promotions, Ratings & Reviews — the template's page names) and an AI × Shelf group (AI-named models vs audited models, AI price quotes checked against shelf prices, stock on AI-named models; and the method). Rows from non-US pages, non-dollar prices and the 2026-09-27 run's whole-star ratings are left out; the Method page lists what was excluded.
+
 ## Dashboard
 
 `dashboard/public/ai-visibility.js` is generated from the template's console (`dashboard/vendor/ai-visibility.reference.js`, an unchanged copy) by `npm run patch:dashboard`. The patches:
@@ -76,7 +86,8 @@ data/<collection>/
 - only the six pages above;
 - a persona filter (both / Value Seeker / Feature Enthusiast) and a run filter (all / 1 / 2 / 3) in the top bar — the template read run 1 only;
 - volatility from the three runs, per persona;
-- receipts labelled engine · persona · run.
+- receipts labelled engine · persona · run;
+- the retail pages (`retail-audit.js`) join the rail and read the answers through the console's filters (`window.__AIV`).
 
 Styles (`cco-dashboard.css`, `ai-visibility.css`) and charts (`cco-charts.js`) are the template's.
 
