@@ -63,7 +63,6 @@ const NAV = [
   { id: "overview",     label: "Overview",              pages: [{ id: "scorecard", label: "360° Scorecard", icon: "grid", crumb: "Overview", title: "360° Scorecard" }] },
   { id: "demand",       label: "Demand",                pages: [{ id: "traffic", label: "Website Traffic", icon: "traffic", crumb: "Demand", title: "Website Traffic" }] },
   { id: "mind",         label: "Share of Mind",         pages: [
-      { id: "ai",      label: "AI Visibility",     icon: "sparkle", crumb: "Share of Mind", title: "AI Visibility" },
       { id: "voice",   label: "Voice of Customer", icon: "star",    crumb: "Share of Mind", title: "Voice of Customer" }] },
   { id: "visibility",   label: "Share of Visibility",   pages: [
       { id: "shelf",   label: "Retail Shelf",      icon: "shelf",   crumb: "Share of Visibility", title: "Retail Shelf" },

@@ -1614,15 +1614,13 @@ function route() {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 // ── embedded in the command centre: two groups on its rail, its router calls back ──
+const EMBED_HIDDEN = new Set(["claims", "change", "live", "evidence"]);
 const EMBED_GROUPS = () => {
-  const grp = (id) => NAV.find(g => g.id === id).pages.filter(p => p.id !== "live" || D.liveConfig.engines.length);
-  const crumb = (p) => p.crumb.replace(/^Console/, "AI Engine Visibility").replace(/^Workbench/, "AEO Workbench").replace(/^Context$/, "AI Engine Visibility · Context");
+  const grp = (id) => NAV.find(g => g.id === id).pages.filter(p => !EMBED_HIDDEN.has(p.id));
+  const crumb = (p) => p.crumb.replace(/^Console/, "AI Engine Visibility");
   const def = (p) => ({ id: p.hash, label: p.label, svg: I[p.icon], crumb: crumb(p), title: p.title, pill: p.pill, ext: "aiv", managed: true });
-  // both groups sit right under the shell's Share of Mind group: at the foot of the rail they
-  // were below the fold on a laptop and went unseen (Aashish, 2026-09-22)
   return [
-    { id: "aiv-console", label: "AI Engine Visibility", ext: "aiv", after: "mind", pages: [...grp("console"), ...grp("context")].map(def) },
-    { id: "aiv-workbench", label: "AEO Workbench", ext: "aiv", after: "mind", pages: grp("workbench").filter(p => WB || !p.wb).map(def) },
+    { id: "aiv-console", label: "AI Engine Visibility", ext: "aiv", after: "mind", pages: grp("console").map(def) },
   ];
 };
 function onRouteEmbed(def) {
