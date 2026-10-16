@@ -132,8 +132,9 @@ export function buildAiConsole(input: {
   const subjectName = input.brands[0]?.name ?? input.slug;
   const domains = input.ai.bank.domains;
   const brands: ConsoleBrand[] = input.brands.map((b, i) => {
-    const domain = i === 0 && input.subjectDomain ? input.subjectDomain : domains[b.name];
-    return { id: b.id, label: b.label, color: b.color, subject: i === 0, owned: domain ? [domain] : [], aliases: brandAliases(b.name, input.category).map((a) => a.toLowerCase()) };
+    const candidates = i === 0 ? [input.subjectDomain, domains[b.name], `${b.name.toLowerCase().replace(/[^a-z0-9]/g, "")}.com`] : [domains[b.name]];
+    const owned = [...new Set(candidates.filter((d): d is string => !!d && d !== ".com"))];
+    return { id: b.id, label: b.label, color: b.color, subject: i === 0, owned, aliases: brandAliases(b.name, input.category).map((a) => a.toLowerCase()) };
   });
   const idOf = new Map(input.brands.map((b) => [b.name, b.id]));
   const brandId = (name: string): string => idOf.get(name) ?? slug(name);

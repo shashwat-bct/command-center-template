@@ -1,3 +1,5 @@
+import { tagQuoteTones } from "./quote-tone";
+
 const APIFY_BASE = "https://api.apify.com/v2";
 const ACTOR_ID = "junglee~Amazon-crawler";
 
@@ -10,7 +12,7 @@ export type PdpFields = {
   reviews: 0 | 1;
 };
 
-export type ReviewQuote = { text: string; highlight: string | null; url: string | null };
+export type ReviewQuote = { text: string; highlight: string | null; url: string | null; tone?: "positive" | "negative" };
 
 export type ReviewAspect = { name: string; positive: number; negative: number; total: number; summary: string | null; quotes: ReviewQuote[]; asin?: string };
 
@@ -163,6 +165,7 @@ export async function fetchApifyAmazon(asins: string[], apifyToken: string, prox
       for (const asin of asins) results.push({ asin, ...EMPTY, error: (e as Error).message.slice(0, 120) });
     }
   }
+  await tagQuoteTones(results).catch(() => undefined);
 
   const withData = results.filter((p) => p.price != null);
   const stock = withData.map((p) => p.inStock).filter((v): v is boolean => v != null);

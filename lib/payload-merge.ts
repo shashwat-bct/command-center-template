@@ -34,6 +34,16 @@ const VOICE_MEASURED_NOTE = "Amazon rating and review counts are read daily from
 const MIN_ASPECT_MENTIONS = 4;
 const MAX_ASPECTS = 6;
 
+const TONE_ORDER = { positive: 0, negative: 1 } as const;
+
+function balancedQuotes(quotes: ReviewQuote[]): ReviewQuote[] {
+  const pos = quotes.find((q) => q.tone === "positive");
+  const neg = quotes.find((q) => q.tone === "negative");
+  const picked = [pos, neg].filter((q): q is ReviewQuote => !!q);
+  const rest = quotes.filter((q) => !picked.includes(q));
+  return [...picked, ...rest].slice(0, 3).sort((a, z) => (a.tone ? TONE_ORDER[a.tone] : 2) - (z.tone ? TONE_ORDER[z.tone] : 2));
+}
+
 export function applyReviewAspects(p: Payload, byBrand: Record<string, ReviewAspect[]>): boolean {
   const tallies: Record<string, Record<string, AspectTally>> = {};
   for (const [brand, list] of Object.entries(byBrand)) {
@@ -43,9 +53,10 @@ export function applyReviewAspects(p: Payload, byBrand: Record<string, ReviewAsp
       const cur = (t[key] ||= { name: a.name.trim(), positive: 0, negative: 0, quotes: [], listings: [] });
       cur.positive += a.positive;
       cur.negative += a.negative;
-      for (const q of a.quotes ?? []) if (cur.quotes.length < 3 && !cur.quotes.some((x) => x.text === q.text)) cur.quotes.push(q);
-      if (a.asin) cur.listings.push({ asin: a.asin, positive: a.positive, negative: a.negative, summary: a.summary ?? null, quotes: (a.quotes ?? []).slice(0, 4) });
+      for (const q of a.quotes ?? []) if (!cur.quotes.some((x) => x.text === q.text)) cur.quotes.push(q);
+      if (a.asin) cur.listings.push({ asin: a.asin, positive: a.positive, negative: a.negative, summary: a.summary ?? null, quotes: balancedQuotes(a.quotes ?? []) });
     }
+    for (const cur of Object.values(t)) cur.quotes = balancedQuotes(cur.quotes);
     tallies[brand] = t;
   }
   const keys = [...new Set(Object.values(tallies).flatMap((t) => Object.keys(t)))];

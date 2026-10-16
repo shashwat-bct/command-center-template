@@ -105,19 +105,20 @@ P.scorecard = (host) => {
 
   // ── bump: weekly rank on AI share
   const wk = d.dims.weeks;
-  const rankable = d.dims.metrics.filter((m) => !m.static && d.trend[m.id] && d.trend[m.id][S]);
+  const rankable = d.dims.metrics.filter((m) => !m.static && d.trend[m.id] && d.trend[m.id][S] && d.trend[m.id][S].filter((v) => v != null).length >= 2);
   const ranksFor = (mid) => { const md = metricDef(mid);
     return wk.map((_, w) => { const ord = BIDS().map((b) => [b, d.trend[mid][b][w]]).filter((x) => x[1] != null)
         .sort((a, z) => md.good === "down" ? a[1] - z[1] : z[1] - a[1]);
       return Object.fromEntries(ord.map(([b], i) => [b, i + 1])); }); };
   const churn = (mid) => { const r = ranksFor(mid); let c = 0;
-    for (let w = 1; w < r.length; w++) for (const b of BIDS()) if (r[w][b] !== r[w - 1][b]) c++;
+    for (let w = 1; w < r.length; w++) for (const b of BIDS()) if (r[w][b] != null && r[w - 1][b] != null && r[w][b] !== r[w - 1][b]) c++;
     return c; };
   const scored = rankable.map((m) => ({ m, c: churn(m.id) })).sort((a, b) => b.c - a.c);
   let bumpMetric = (scored[0] || {}).m ? scored[0].m.id : "aiSov";
   el("scBumpPick").innerHTML = scored.slice(0, 5).map((x) => `<button data-m="${x.m.id}" title="${x.c} rank changes across the 13 weeks">${tc(x.m.label)}</button>`).join("");
   $$("#scBumpPick button").forEach((btn) => btn.onclick = () => { bumpMetric = btn.dataset.m; drawBump(); });
-  drawBump();
+  if (scored.length) drawBump();
+  else el("scBump").innerHTML = `<p class="mini">No measure has two weekly readings yet, so there is no rank movement to show.</p>`;
   function drawBump() {
     $$("#scBumpPick button").forEach((b) => b.classList.toggle("on", b.dataset.m === bumpMetric));
     const ranks = ranksFor(bumpMetric), f = fmtFor(bumpMetric);
@@ -714,7 +715,7 @@ P.stock = (host) => {
   <h2 class="sec">What availability says</h2>${readsBlock("availability")}`;
   // The floor is read off the data, not fixed at 60: a hard floor clipped the
   // line the moment the in-stock anchor came down to what the capture says.
-  const stockSeries = d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: brandStock(b.id) }));
+  const stockSeries = d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: brandStock(b.id) })).filter((s) => s.data.some((v) => v != null));
   const stockLo = Math.min(...stockSeries.flatMap((s) => s.data).filter((v) => v != null));
   CC.line(el("avLine"), { height: 240, x: ds, bands: winBands(), min: Math.max(0, Math.floor((stockLo - 4) / 5) * 5), max: 100,
     fmtV: (v) => F.pct(v), fmtY: (v) => v + "%", series: stockSeries });
@@ -910,7 +911,7 @@ P.promotions = (host) => {
   const depthDay = (b) => ds.map((_, i) => { const ks = pairsFor(b, rts); const on = ks.map((k) => d.promotions.depthByDay[k][a + i]).filter((v) => v > 0);
     return on.length ? mean(on) : null; });
   const onDay = (b) => ds.map((_, i) => { const ks = pairsFor(b, rts).filter((k) => d.distribution.carriage[k][a + i] === 1);
-    return ks.length ? (ks.filter((k) => d.promotions.depthByDay[k][a + i] > 0).length / ks.length) * 100 : 0; });
+    return ks.length ? (ks.filter((k) => d.promotions.depthByDay[k][a + i] > 0).length / ks.length) * 100 : null; });
   const famOf = (t) => (d.dims.promoTypes.find((x) => x.id === t) || {}).family;
   const famColor = (f) => (d.dims.promoFamilies.find((x) => x.id === f) || {}).color;
   host.innerHTML = `
@@ -947,7 +948,7 @@ P.promotions = (host) => {
   <h2 class="sec">What the promotions say</h2>${readsBlock("promotions")}`;
 
   CC.line(el("pmOn"), { height: 240, x: ds, bands: winBands(), area: true, fmtV: (v) => F.pct(v), fmtY: (v) => v + "%",
-    series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: onDay(b.id) })) });
+    series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: onDay(b.id) })).filter((x) => x.data.some((v) => v != null)) });
   CC.line(el("pmDepth"), { height: 240, x: ds, bands: winBands(), fmtV: (v) => F.pct(v), fmtY: (v) => v + "%",
     series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: depthDay(b.id) })) });
   const typeDays = {};

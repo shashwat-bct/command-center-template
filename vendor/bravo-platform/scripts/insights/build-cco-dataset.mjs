@@ -993,7 +993,7 @@ for (const m of MODELS) {
     byRetailer: Object.fromEntries(ks.map((k) => [k.split("|")[1], r2(mean(priceSeries[k].filter((v) => v != null)))])),
   });
 }
-function mean(a) { return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0; }
+function mean(a) { const v = a.filter((x) => x != null && !Number.isNaN(x)); return v.length ? v.reduce((x, y) => x + y, 0) / v.length : 0; }
 
 const mapBreaches = [];
 for (const key of pairs) {
@@ -1317,7 +1317,7 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
   const worst = disp.sort((a, b) => b.meanSpread - a.meanSpread)[0];
   const br = mapBreaches.filter((m) => m.brand === S);
   reads.pricing = [
-    { tone: "good",  text: `${SUBJ} realises ${r1(pi[S])}% of MSRP across the quarter, ${st.phrase} — the category runs ${r1(mean(BIDS.map((b) => pi[b])))}% and ${L[Object.entries(pi).sort((a, b) => a[1] - b[1])[0][0]]} clears at ${r1(Math.min(...Object.values(pi)))}%.` },
+    { tone: "good",  text: `${SUBJ} realises ${r1(pi[S])}% of MSRP across the quarter, ${st.phrase} — the category runs ${r1(mean(BIDS.map((b) => pi[b])))}% and ${L[Object.entries(pi).filter((e) => e[1] != null).sort((a, b) => a[1] - b[1])[0][0]]} clears at ${r1(Math.min(...Object.values(pi).filter((v) => v != null)))}%.` },
     { tone: "watch", text: worst ? `${MID[worst.model].label} carries the widest cross-retailer spread at $${worst.meanSpread.toFixed(2)} on average and $${worst.maxSpread.toFixed(2)} at its widest — a shopper comparing two tabs sees two different brands.` : `Cross-retailer price spread stayed inside a dollar on every ${SUBJ} model.` },
     { tone: br.length ? "risk" : "good", text: br.length
         ? `${br.length} listing${br.length === 1 ? "" : "s"} traded below the ${Math.round(mapFloorPct[S] * 100)}% floor for ${br.reduce((a, x) => a + x.days, 0)} days in total, worst at ${Math.max(...br.map((x) => x.worstPct))}% under.`

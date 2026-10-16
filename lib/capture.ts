@@ -427,11 +427,12 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       const prevId = await latestReadyBuildId(slug).catch(() => null);
       const prev = prevId ? await loadBuildPayload(slug, prevId) : null;
       const prevJson: unknown = prev ? JSON.parse(prev.bytes.toString("utf8")) : null;
+      const today = new Date().toISOString().slice(0, 10);
       if (prevJson) {
         const pc = (prevJson as { aiConsole?: { captures: Record<string, ConsoleCapture>; current: string } }).aiConsole;
-        previous = pc?.captures[pc.current] ?? null;
+        previous = Object.values(pc?.captures ?? {}).filter((c) => c.basis < today).sort((a, z) => z.basis.localeCompare(a.basis))[0] ?? null;
       }
-      const readings = applyAiHistory(payload, readingsFrom(prevJson), new Date().toISOString().slice(0, 10));
+      const readings = applyAiHistory(payload, readingsFrom(prevJson), today);
       logLine(`AI share history: ${readings.length} reading(s) — ${readings.map((r) => r.date).join(", ")}`);
       const subjectDomain = brandLink ? (() => { try { return new URL(brandLink).hostname.replace(/^www\./, ""); } catch { return null; } })() : null;
       const consolePayload = buildAiConsole({
