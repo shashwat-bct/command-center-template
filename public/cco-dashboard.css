@@ -28,6 +28,7 @@ body.rail-collapsed #rail{width:var(--rwC)}
 .rail-top{padding:0 24px;min-height:var(--topH);display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line2)}
 .bm{min-width:0}
 .bm-logo{display:block;height:20px;width:auto;max-width:158px;object-fit:contain;object-position:left center}
+.bm-logo.stacked{height:38px}
 .bm-name{display:block;font-family:var(--fd);font-size:20px;font-weight:500;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
 .bm-sub{display:block;margin-top:4px;font-size:12px;font-weight:500;color:var(--mute)}
 .bm-tile{display:none;width:36px;height:36px;border-radius:12px;background:var(--accentSoft);place-items:center;font-family:var(--fd);font-weight:500;font-size:16px;color:var(--accentInk)}

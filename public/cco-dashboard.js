@@ -448,11 +448,12 @@ function buildBrand() {
   const name = D.meta.subjectLabel, logo = $("#bmLogo"), nm = $("#bmName"), tile = $("#bmTile");
   nm.textContent = name;
   tile.textContent = name.trim().charAt(0).toUpperCase();
-  if (!D.meta.brandMark) { logo.remove(); return; }
+  const mark = D.meta.brandMark || (S ? `/brand-marks/${encodeURIComponent(S)}.png` : null);
+  if (!mark) { logo.remove(); return; }
   logo.alt = name;
-  logo.onload = () => { logo.hidden = false; nm.hidden = true; };
+  logo.onload = () => { logo.classList.toggle("stacked", logo.naturalWidth < logo.naturalHeight * 3); logo.hidden = false; nm.hidden = true; };
   logo.onerror = () => logo.remove();
-  logo.src = D.meta.brandMark;
+  logo.src = mark;
 }
 function buildNav() {
   // extension groups sit between the shell's own groups and its Method group — unless a group

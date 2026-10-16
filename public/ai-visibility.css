@@ -473,7 +473,7 @@
 /* ── 2026-09-22 (Aashish): less clutter, bigger type. The serif intro paragraph is gone from every
       page; one type scale across cards, tables, bars, chips and the proof modal ── */
 .aiv .pintro{display:none}
-.aiv .card-h h3{font-size:16px;padding:6px 14px}
+.aiv .card-h h3{font-size:16px;padding:6px 0}
 .aiv .card-h p{font-size:13px;line-height:1.55;max-width:76ch;color:var(--soft)}
 .aiv .card-h{margin-bottom:16px}
 .aiv .note{font-size:12.5px;line-height:1.5}
