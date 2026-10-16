@@ -73,7 +73,7 @@ const measuredSlots = (p: Provenance, metric: string): number =>
 export function disclosureFor(p: Provenance, subjectName: string): { short: string; headline: string; body: string } {
   const parts: string[] = [];
   const ai = p.record.ai;
-  if (ai && measuredSlots(p, "aiSov")) parts.push(`AI share of answer for ${plural(measuredSlots(p, "aiSov"), "brand")} across ${ai.engines.map((e) => e.label).join(", ")}`);
+  if (ai && measuredSlots(p, "aiSov")) parts.push(`AI share of mentions for ${plural(measuredSlots(p, "aiSov"), "brand")} across ${ai.engines.map((e) => e.label).join(", ")}`);
   const listingBrands = Object.keys(p.record.amazonListings).length;
   const listings = Object.values(p.record.amazonListings).reduce((n, l) => n + l.length, 0);
   if (listingBrands) parts.push(`daily Amazon price, stock, buy box, rating and reviews for ${plural(listings, "listing")} across ${plural(listingBrands, "brand")} (Keepa, ${windowLabel(p.record.windowEnd)})`);

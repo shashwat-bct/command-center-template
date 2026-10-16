@@ -1083,7 +1083,7 @@ function pdpScore(b) {
 const METRICS = [
   { id: "trafficShare", group: "demand",       label: "Share of category traffic", unit: "%",    good: "up",   fn: trafficShare, fmt: (v) => r1(v) + "%" },
   { id: "sessions",     group: "demand",       label: "Sessions",                  unit: "",     good: "up",   fn: (b, a, z) => trafficDaily[b] ? rangeSum(trafficDaily[b], a, z) : null, fmt: (v) => fmtN(v) },
-  { id: "aiSov",        group: "mind",         label: "AI share of answer",        unit: "%",    good: "up",   fn: (b, a, z) => rangeMean(aiOverall[b], a, z), fmt: (v) => r1(v) + "%" },
+  { id: "aiSov",        group: "mind",         label: "AI share of mentions",      unit: "%",    good: "up",   fn: (b, a, z) => rangeMean(aiOverall[b], a, z), fmt: (v) => r1(v) + "%" },
   { id: "shelfSov",     group: "visibility",   label: "Retail shelf share",        unit: "%",    good: "up",   fn: shelfSov, fmt: (v) => r1(v) + "%" },
   { id: "pdpScore",     group: "visibility",   label: "Landing-page score",        unit: "/100", good: "up",   fn: (b) => pdpScore(b), fmt: (v) => Math.round(v), static: true },
   { id: "carriage",     group: "distribution", label: "Distribution points",       unit: "%",    good: "up",   fn: carriagePoints, fmt: (v) => r1(v) + "%" },

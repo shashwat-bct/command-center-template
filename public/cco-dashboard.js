@@ -135,10 +135,11 @@ function deltaChip(metricId, brand, opts) {
   const body = (opts && opts.pct && o.deltaPct != null) ? `${o.deltaPct > 0 ? "+" : ""}${o.deltaPct.toFixed(1)}%` : `${o.delta > 0 ? "+" : ""}${f(Math.abs(o.delta) < 1e-9 ? 0 : o.delta).replace("$", "")}`;
   return `<span class="delta ${Math.abs(o.delta) < 1e-9 ? "flat" : cls}">${arrow} ${body}</span>`;
 }
+function rankTone(rank, of) { return of > 1 && rank === 1 ? " top" : of > 2 && rank === of ? " low" : ""; }
 function rankChip(metricId, brand) {
   const o = sc(metricId, brand);
   if (!o.rank) return "";
-  return `<span class="rankchip">${o.tied ? "tied " : ""}#${o.rank} of ${o.of}</span>`;
+  return `<span class="rankchip${rankTone(o.rank, o.of)}">${o.tied ? "tied " : ""}#${o.rank} of ${o.of}</span>`;
 }
 const SHOW_SRC = document.body.dataset.sources === "on";
 const PROV_LABEL = {
@@ -391,6 +392,10 @@ function rerankCells(cells, good) {
     c.tied = sorted.filter((v) => v === c.value).length > 1;
   }
 }
+function relabelMetrics(p) {
+  for (const m of (p && p.dims && p.dims.metrics) || []) if (m.id === "aiSov" && m.label === "AI share of answer") m.label = "AI share of mentions";
+  return p;
+}
 function dropPlaceholderBrands(p) {
   const brands = (p && p.dims && p.dims.brands) || [];
   const fake = brands.filter((b) => PLACEHOLDER_BRAND.test(b.label || ""));
@@ -416,7 +421,7 @@ function dropPlaceholderBrands(p) {
   return p;
 }
 bootData.then((json) => {
-  D = CC.googlePalette(window.CCREADS.reviseReads(fillModelledDelivery(shortModelLabels(hideModelledLanes(dropPlaceholderBrands(json)))))); F = CC.fmt;
+  D = CC.googlePalette(window.CCREADS.reviseReads(fillModelledDelivery(shortModelLabels(hideModelledLanes(dropPlaceholderBrands(relabelMetrics(json))))))); F = CC.fmt;
   if (D.dims.durable === false) Object.assign(PAGES.find((x) => x.id === "tco") || {}, { label: "Effective Price", title: "Effective Price After Promotions" });
   S = D.meta.subject; SUBJ = D.meta.subjectLabel;
   if (window.__ccSubject) window.__ccSubject(S, SUBJ);

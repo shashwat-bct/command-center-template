@@ -264,7 +264,8 @@ function card(o) { return `<section class="card${o.cls ? " " + o.cls : ""}"${o.i
 function kpi(o) { return `<div class="kpi${o.onclick ? " tap" : ""}"${o.onclick ? ` onclick="${o.onclick}" role="button" tabindex="0" title="Open the proof"` : ""}><div class="kl">${o.dot ? `<span class="dot" style="background:${o.dot}"></span>` : ""}${esc(o.label)}</div><div class="kv">${o.value}${o.unit ? `<small>${o.unit}</small>` : ""}</div><div class="kf">${o.delta || ""}${o.rank || ""}</div>${o.note ? `<div class="kn">${o.note}</div>` : ""}</div>`; }
 function intro(lead, aside) { return `<div class="pintro"><div class="lead">${lead}</div>${aside ? `<div>${aside}</div>` : ""}</div>`; }
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const rankChip = (obj, id) => { const st = standing(obj, id); return st ? `<span class="rankchip">${st.tie ? "joint " : ""}#${st.rank} of ${st.of}</span>` : ""; };
+const rankTone = (rank, of) => of > 1 && rank === 1 ? " top" : of > 2 && rank === of ? " low" : "";
+const rankChip = (obj, id) => { const st = standing(obj, id); return st ? `<span class="rankchip${rankTone(st.rank, st.of)}">${st.tie ? "joint " : ""}#${st.rank} of ${st.of}</span>` : ""; };
 const monthLabel = (basis) => { const m = /^(\d{4})-(\d{2})/.exec(basis || ""); return m ? `${MON[+m[2] - 1]} ${m[1]}` : basis; };
 const dayLabel = (basis) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(basis || ""); return m ? `${MON[+m[2] - 1]} ${+m[3]}, ${m[1]}` : basis; };
 const enginePathMap = (cap) => Object.fromEntries(Object.entries(cap?.enginePaths || {}).map(([e, x]) => [e, x.path]));
@@ -1279,7 +1280,7 @@ const isMeasured = (n = W) => n === 0;
 const tagFor = (n = W) => isMeasured(n) ? `<span class="tag good">Measured · week 0</span>` : `<span class="tag warn">Modelled · week ${n}</span>`;
 
 // ── computed superlatives ────────────────────────────────────────────────────
-const wbDelta = (a, b, unit = " pts", invert = false) => { if (a == null || b == null) return ""; const d = b - a; const good = invert ? d < 0 : d > 0; const cls = Math.abs(d) < 0.05 ? "flat" : good ? "up" : "dn"; return `<span class="delta ${cls}">${d > 0 ? "▲" : d < 0 ? "▼" : "•"} ${Math.abs(d).toFixed(unit === " pts" ? 1 : 0)}${unit} since week 0</span>`; };
+const wbDelta = (a, b, unit = " pts", invert = false) => { if (a == null || b == null) return ""; const d = b - a; if (!invert && unit === " pts" && Math.abs(d) < 0.05 && b >= 99.95) return `<span class="delta up">• held at 100%</span>`; const good = invert ? d < 0 : d > 0; const cls = Math.abs(d) < 0.05 ? "flat" : good ? "up" : "dn"; return `<span class="delta ${cls}">${d > 0 ? "▲" : d < 0 ? "▼" : "•"} ${Math.abs(d).toFixed(unit === " pts" ? 1 : 0)}${unit} since week 0</span>`; };
 
 // ── workbench shell pieces (the rail, routing and pages are the console's) ──
 function cardW(o) { return `<section class="card${o.cls ? " " + o.cls : ""}"${o.id ? ` id="${o.id}"` : ""}><div class="card-h"><div class="ct"><h3>${o.title}</h3>${o.sub ? `<p>${o.sub}</p>` : ""}</div>${o.tag ? `<div class="ca">${o.tag}</div>` : ""}</div>${o.atlas ? atlasStrip(o.atlas) : ""}${o.slot ? `<div id="${o.slot}"></div>` : ""}${o.html || ""}</section>`; }
