@@ -25,10 +25,12 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 #rail{position:fixed;inset:0 auto 0 0;width:var(--rw);background:var(--rail);border-right:1px solid var(--line);color:var(--railInk);display:flex;flex-direction:column;z-index:60;
   transition:width .2s var(--ease);overflow:hidden}
 body.rail-collapsed #rail{width:var(--rwC)}
-.rail-top{padding:0 24px;min-height:var(--topH);display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line2)}
+.rail-top{padding:12px 24px;min-height:var(--topH);display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line2)}
 .bm{min-width:0}
 .bm-logo{display:block;height:20px;width:auto;max-width:158px;object-fit:contain;object-position:left center}
-.bm-logo.stacked{height:38px}
+.bm-logo.stacked{height:30px}
+.bm:has(.bm-logo.stacked:not([hidden])){display:flex;align-items:center;gap:12px}
+.bm:has(.bm-logo.stacked:not([hidden])) .bm-sub{margin:0;padding-left:12px;border-left:1px solid var(--line);line-height:30px}
 .bm-name{display:block;font-family:var(--fd);font-size:20px;font-weight:500;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
 .bm-sub{display:block;margin-top:4px;font-size:12px;font-weight:500;color:var(--mute)}
 .bm-tile{display:none;width:36px;height:36px;border-radius:12px;background:var(--accentSoft);place-items:center;font-family:var(--fd);font-weight:500;font-size:16px;color:var(--accentInk)}
