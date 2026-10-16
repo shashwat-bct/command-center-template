@@ -1247,82 +1247,45 @@ Price index — street price as a percentage of MSRP, averaged across the brand'
 };
 
 /* ══════════════════════════════════════════════════════════════════════════
-   METHOD — what is measured, what is modelled, and where the line is
+   ABOUT THIS DATA
    ══════════════════════════════════════════════════════════════════════════ */
 P.method = (host) => {
-  const d = D(), dis = d.meta.disclosure;
-  // The third line used to read "One lane has no measurement at all" — true when
-  // traffic carried no anchor, and quietly false the day it got one. Counted
-  // from the ledger now, and dropped when the count is zero.
-  const noAnchor = dis.anchors.filter((x) => x.unmeasured);
-  const measuredOnly = (d.meta.provenance || {}).mode === "measured-only";
+  const d = D();
+  const own = d.dims.models.filter((m) => m.brand === S).length;
+  const rivals = d.dims.brands.filter((b) => b.id !== S).map((b) => b.label);
+  const refreshed = (d.meta.snapshotDates || {}).multiRetailer;
+  const sources = [
+    ["AI answer engines", d.dims.engines.map((e) => e.label).join(", "), "Shopper questions across the purchase funnel; brand mentions, rank and recommendations in each answer"],
+    ["Amazon marketplace", "Daily", "Price, list price, availability, buy box, ratings and reviews for every tracked product"],
+    ["Amazon product pages", "Each refresh", "Content quality, delivery promise and review highlights"],
+    ["Amazon search", "Each refresh", `Organic results for “${esc((d.dims.terms[0] || {}).label || d.meta.category || "")}”`],
+    ["Retail market", d.dims.retailers.map((r) => r.label).join(", "), "Retailer mix, distribution and promotion landscape for the category"],
+  ];
+  const coverage = [
+    ["Reporting window", `${F.dateY(d.meta.window.start)} – ${F.dateY(d.meta.window.end)}`],
+    ["Brand", SUBJ],
+    ["Competitors", rivals.join(", ")],
+    ["Products tracked", `${own} ${SUBJ}, ${d.dims.models.length - own} competitor`],
+    ["Retailers", d.dims.retailers.map((r) => r.label).join(", ")],
+    ["AI engines", d.dims.engines.map((e) => e.label).join(", ")],
+    ["Market", d.meta.market || "US"],
+  ];
+  const row = (k, v) => `<div class="cc-hb-row" style="grid-template-columns:minmax(140px,200px) 1fr;gap:16px"><span class="lb">${esc(k)}</span><b class="vv" style="font-weight:500;text-align:left">${esc(v)}</b></div>`;
   host.innerHTML = `
-  ${intro(`<b>${esc(dis.headline)}</b> ${esc(dis.body)}`,
-    `<div class="card" style="min-width:260px;border-color:#fdd663;background:linear-gradient(168deg,#fffdf6,#fef7e0)">
-      <div class="card-h"><div class="ct"><h3>Read this first</h3><p>The disclosure applies to every screen in the rail, not only this one.</p></div></div>
-      <div class="cc-hb">
-        <div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#1e8e3e;width:10px;height:10px"></span><span class="lb">${measuredOnly ? "Every figure is read from a named source" : "Levels are pinned to a capture"}</span></div>
-        <div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#e37400;width:10px;height:10px"></span><span class="lb">${measuredOnly ? "Daily lines are daily readings; single readings are drawn flat" : "Shapes over time are modelled"}</span></div>
-        ${noAnchor.length ? `<div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#d93025;width:10px;height:10px"></span><span class="lb">${noAnchor.length === 1 ? "One lane has" : `${noAnchor.length} lanes have`} no measurement at all — ${noAnchor.map((x) => esc(x.lane)).join(", ")}</span></div>` : `<div class="cc-hb-row" style="grid-template-columns:auto 1fr;gap:9px"><span class="dot" style="background:#d93025;width:10px;height:10px"></span><span class="lb">Where nothing was measured, the figure is withheld — never filled</span></div>`}
-      </div></div>`)}
-  ${card({ title: "The anchor ledger", help: measuredOnly ? "Source by source: what was read, where from, and which figures it produces. A lane with no source is listed as not measured and left blank." : "Lane by lane: what was actually measured, the capture it came from, and which part of the simulation it pins. A lane with no anchor is marked as such rather than left looking like the rest.", sub: measuredOnly ? "Source by source: what was read, where from, and which figures it produces. Lanes with no source are listed as not measured." : "Lane by lane: what was actually measured, where it came from, and which part of the simulation it pins. A lane with no anchor is marked as such.", tag: `${dis.anchors.length} lanes`, tagCls: "acc",
-    html: `<div class="dt-wrap"><table class="dt anchor-tbl">
-      <thead><tr><th class="lft">Lane</th><th class="lft">What was measured</th><th class="lft">Source</th><th class="lft">What it pins</th></tr></thead>
-      <tbody>${dis.anchors.map((x) => `<tr class="${x.unmeasured ? "" : ""}" ${x.unmeasured ? 'style="background:#fef7e0"' : ""}>
-        <td class="lft">${esc(x.lane)}${x.unmeasured ? ` <span class="tag risk" style="margin-left:4px">${(d.meta.provenance || {}).mode === "hybrid" ? "modelled" : "no anchor"}</span>` : ""}</td>
-        <td class="lft" style="white-space:normal;max-width:340px">${esc(x.measured)}</td>
-        <td class="lft mini" style="white-space:normal;max-width:230px;font-family:var(--fm);font-size:10.5px">${esc(x.source)}</td>
-        <td class="lft" style="white-space:normal;max-width:400px;color:var(--soft)">${esc(x.pins)}</td></tr>`).join("")}</tbody></table></div>` })}
+  ${card({ title: "Data sources", noHelp: true, sub: `Atlas tracks ${esc(SUBJ)} against ${rivals.length} competitors across AI answers, Amazon and the wider retail market.`,
+    html: `<div class="dt-wrap"><table class="dt">
+      <thead><tr><th class="lft">Source</th><th class="lft">Coverage</th><th class="lft">What it powers</th></tr></thead>
+      <tbody>${sources.map(([k, c, w]) => `<tr><td class="lft"><b>${k}</b></td><td class="lft" style="white-space:normal">${esc(c)}</td><td class="lft" style="white-space:normal;color:var(--soft)">${w}</td></tr>`).join("")}</tbody></table></div>` })}
   <div class="grid g2" style="margin-top:14px">
-    ${card({ title: "How the simulation is constrained", help: "The rules the extrapolation runs under — what may be modelled, what may not, and where a value has to be withheld instead of estimated.", html: `<div class="prose" style="font-size:14px">
-      <p><b>Prices step, they do not drift.</b> Each model-retailer pair carries a price ladder that re-sets every nine to
-      twenty-four days and holds in between, because that is how a retail price behaves. The ladder is then scaled so it
-      lands on the captured PDP price at the capture date.</p>
-      <p><b>Depth is bounded by the brand's own measured behaviour.</b> The discount ceiling for each brand comes from its
-      measured discount rate, listed in the Pricing row of the ledger above rather than repeated here — a number
-      restated in two places is a number that can disagree with itself. A brand never seen discounting cannot be
-      simulated running 40% off.</p>
-      <p><b>Out-of-stocks arrive as episodes, not as noise.</b> They cluster after deep promotions, and they stretch the
-      delivery promise on the same listing, because a simulation where lanes do not talk to each other teaches nothing.</p>
-      <p><b>Share sums to 100.</b> AI answer share is normalised across the five brands every day, so a gain for one is a
-      loss for another — you cannot read a rising line as the category growing.</p>
-      <p><b>Nothing is random twice.</b> The generator is seeded; re-running it produces a byte-identical payload.</p></div>` })}
-    ${card({ title: "How the copy is kept honest", help: "Every rank and superlative on this dashboard is computed from the same object the chart reads rather than typed beside it. This is the mechanism, and the checks that fail a build if it lapses.", html: `<div class="prose" style="font-size:14px">
-      <p>Every rank and superlative on these pages is <b>computed from the same object the chart reads</b>, at build time,
-      by a function that handles ties and names the ends of the scale. Nothing that reads like "the shallowest of the
-      ${d.dims.brands.length}" or "second-least paid-reliant" was typed.</p>
-      <p>This matters more than it sounds. A rank written into fixed copy stays on the page long after the number beside
-      it has moved, and no data check fires — the JSON is still valid, the sentence is simply no longer true. On an
-      earlier build of this dataset, a rank on an inverted measure read "first of the five on promotional intensity",
-      which said the opposite of what the number meant: the subject promoting <em>least</em> read as promoting most.</p>
-      <p>Colour is computed too.${d.meta.disclosure.paletteNote ? ` The brands do not wear their marketing colours here: ${esc(d.meta.disclosure.paletteNote)}` : ""}
-      The slots in use were run through a palette validator and pass the lightness band, the chroma floor, all-pairs
-      colour-vision separation, the normal-vision floor and contrast against the chart surface.</p></div>` })}
-  </div>
-  <div class="grid g2" style="margin-top:14px">
-    ${card({ title: "Dimensions in the panel", help: "The shape of the dataset behind every screen: brands, models, retailers, cities, engines, terms and days, and what each dimension contains.", html: `<div class="cc-hb">${[
-      ["Days", d.dims.dates.length, `${F.dateY(d.meta.window.start)} – ${F.dateY(d.meta.window.end)}`],
-      ["Weeks", d.dims.weeks.length, "Whole weeks, Monday to Sunday"],
-      ["Brands", d.dims.brands.length, d.dims.brands.map((b) => b.label).join(", ")],
-      ["Models", d.dims.models.length, `${d.dims.models.filter((m) => m.brand === S).length} ${SUBJ}, ${d.dims.models.length - d.dims.models.filter((m) => m.brand === S).length} competitive`],
-      ["Retailers", d.dims.retailers.length, d.dims.retailers.map((r) => r.label).join(", ")],
-      ["Cities", d.dims.cities.length, d.dims.cities.map((c) => c.label.split(",")[0]).join(", ")],
-      ["AI engines", d.dims.engines.length, d.dims.engines.map((e) => e.label).join(", ")],
-      ["Search terms", d.dims.terms.length, d.dims.terms.map((t) => t.label).join(", ")],
-      ["Promotion mechanics", d.dims.promoTypes.length, `In ${d.dims.promoFamilies.length} families`],
-      ["Live listings", Object.keys(d.distribution.carriage).filter((k) => d.distribution.carriage[k]).length, "Model × retailer pairs with a listing"],
-      ["Promotion events", d.promotions.events.length, `${d.promotions.events.filter((p) => !p.alwaysOn).length} episodic, ${d.promotions.events.filter((p) => p.alwaysOn).length} always-on`],
-      ["Computed reads", Object.values(d.reads).reduce((x, r) => x + r.length, 0), `Across ${Object.keys(d.reads).length} drivers`],
-    ].map(([k, v, note]) => `<div class="cc-hb-row" style="grid-template-columns:minmax(120px,1fr) auto;gap:12px">
-      <span class="lb">${k}<em>${esc(note)}</em></span><b class="tnum vv">${F.n(v)}</b></div>`).join("")}</div>` })}
-    ${!d.meta.sourceReports.length ? "" : card({ title: "The reports this is built on", help: "The delivered captures this dashboard extrapolates from. Every anchored figure on it traces back to one of these.", sub: "The measured snapshots behind the anchor ledger. Both are live client deliverables.", html: `<div class="cc-hb">${
-      d.meta.sourceReports.map((r) => `<a class="cc-hb-row" href="${r.url}" target="_blank" rel="noopener" style="grid-template-columns:1fr auto;gap:12px;text-decoration:none">
-        <span class="lb">${esc(r.label)}<em>${esc(r.url.replace("https://", ""))}</em></span><b class="vv" style="color:var(--accent)">Open →</b></a>`).join("")}</div>
-      <p class="mini" style="margin:12px 0 0">Snapshot dates — multi-retailer capture ${F.dateY(d.meta.snapshotDates.multiRetailer.slice(0, 10))}; launch report ${F.dateY(d.meta.snapshotDates.launchReport.slice(0, 10))}${(d.meta.snapshotDates.priceHistoryMonths || []).length ? `; price history ${d.meta.snapshotDates.priceHistoryMonths[0]} to ${d.meta.snapshotDates.priceHistoryMonths.at(-1)}` : ""}.</p>` })}
+    ${card({ title: "Coverage", noHelp: true, html: `<div class="cc-hb">${coverage.map(([k, v]) => row(k, v)).join("")}</div>` })}
+    ${card({ title: "How metrics are calculated", noHelp: true, html: `<div class="prose" style="font-size:14px">
+      <p><b>AI share of mentions</b> is a brand's share of all brand mentions in the engines' answers. Each brand counts once per answer.</p>
+      <p><b>Price, availability and ratings</b> are read daily for each tracked Amazon product and rolled up to brand level.</p>
+      <p><b>Every rank and comparison</b> is calculated from the same data as the chart beside it, so copy and figures always agree.</p></div>` })}
   </div>
   <div class="foot">
-    <span>BrandContext · Atlas</span><span>${esc(d.meta.title)}</span>
-    <span>Window ${F.dateY(d.meta.window.start)} – ${F.dateY(d.meta.window.end)}</span>
+    <span>BrandContext · Atlas</span>
+    ${refreshed ? `<span>Last refreshed ${F.dateY(refreshed.slice(0, 10))}</span>` : ""}
     <a href="#scorecard">Back to the scorecard</a>
   </div>`;
 };

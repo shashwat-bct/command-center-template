@@ -77,7 +77,7 @@ const NAV = [
       { id: "calendar",   label: "Promo Calendar",     icon: "calendar", crumb: "Commercial", title: "Promotion Calendar" },
       { id: "tco",        label: "Cost of Ownership",  icon: "wallet",   crumb: "Commercial", title: "Total Cost of Ownership" },
       { id: "strategy",   label: "Promo Strategy",     icon: "chess",    crumb: "Commercial", title: "Promotion Strategy" }] },
-  { id: "method",       label: "Method",                pages: [{ id: "method", label: "How this was built", icon: "info", crumb: "Method", title: "How this was built" }] },
+  { id: "method",       label: "Method",                pages: [{ id: "method", label: "About this data", icon: "info", crumb: "Method", title: "About this data" }] },
 ];
 const PAGES = NAV.flatMap((g) => g.pages);
 const pageDef = (id) => allPages().find((p) => p.id === id) || PAGES[0];
