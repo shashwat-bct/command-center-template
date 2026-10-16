@@ -47,6 +47,17 @@ export const STUDY: StudyCategory[] = [
       { id: "google", label: "Google", domain: "store.google.com", productLine: "Pixel" },
     ],
   },
+  {
+    category: "wireless-speakers",
+    enabled: true,
+    brands: [
+      { id: "sonos", label: "Sonos", domain: "sonos.com", productLine: "Era" },
+      { id: "bose", label: "Bose", domain: "bose.com", productLine: "SoundLink" },
+      { id: "apple", label: "Apple", domain: "apple.com", productLine: "HomePod" },
+      { id: "amazon", label: "Amazon", domain: "amazon.com", productLine: "Echo" },
+      { id: "jbl", label: "JBL", domain: "jbl.com", productLine: "Authentics" },
+    ],
+  },
 ];
 
 export type Rival = { id: string; label: string };

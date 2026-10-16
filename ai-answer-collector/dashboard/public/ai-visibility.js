@@ -628,9 +628,15 @@ window.openOwn = (b) => { const own = (window.__own || {})[b]; if (!own) return;
 // short column heads for the heat maps; the full attribute name stays everywhere else
 const ATTR_SHORT = { "picture quality": "Picture", brightness: "Brightness", "black levels / contrast": "Blacks", "colour accuracy": "Colour", "motion / sports": "Motion", "gaming features": "Gaming", sound: "Sound", "smart platform": "Platform", design: "Design", "price / value": "Price", reliability: "Reliability", "warranty / support": "Warranty", "availability / stock": "Stock", "processing / upscaling": "Processing",
   // phone attributes (the long ones collided as column heads on the 14-column heat)
-  "battery life": "Battery", "software / updates": "Updates", "design / build": "Design" };
+  "battery life": "Battery", "software / updates": "Updates", "design / build": "Design",
+  // wireless-speaker attributes
+  "sound quality": "Sound", "bass performance": "Bass", "volume and loudness": "Loudness", "bluetooth range": "Range", "multiroom support": "Multiroom", "app and smart features": "App", "voice assistant integration": "Voice", "water and dust resistance": "Rugged", "portability and size": "Portable", "connectivity options": "Connect", "build quality and durability": "Build", "value for money": "Value", "brand reliability and warranty": "Reliability" };
 const attrHead = (a) => ATTR_SHORT[a] || a;
 const ATTR_KW = {
+  "sound quality": ["sound quality", "sound", "audio", "clarity", "detail", "balanced"], "bass performance": ["bass", "low end", "low-end", "woofer"], "volume and loudness": ["loud", "volume", "fill a room", "fills a room"], "bluetooth range": ["bluetooth", "range"],
+  "multiroom support": ["multiroom", "multi-room", "whole-home", "whole home", "group", "airplay", "rooms"], "app and smart features": ["app", "smart", "trueplay", "eq", "setup"], "voice assistant integration": ["alexa", "siri", "google assistant", "voice", "assistant"],
+  "water and dust resistance": ["waterproof", "water", "dust", "ip67", "ip68", "rugged", "pool"], "portability and size": ["portable", "portab", "compact", "size", "weight", "carry"], "connectivity options": ["wi-fi", "wifi", "bluetooth", "airplay", "spotify connect", "line-in", "hdmi", "usb-c"],
+  "build quality and durability": ["build", "durab", "sturdy", "premium feel"], "value for money": ["price", "value", "expensive", "cheap", "cost", "$", "afford", "budget", "worth"], "brand reliability and warranty": ["reliab", "warranty", "support", "app update", "fail", "issue", "longev"],
   "picture quality": ["picture quality", "image quality", "picture", "pq"], brightness: ["bright", "nits", "brightness", "glare", "sunlit"], "black levels / contrast": ["black level", "blacks", "contrast"], "colour accuracy": ["colour", "color", "accura", "tone"],
   "motion / sports": ["motion", "sports", "judder", "120hz", "144hz", "refresh", "blur"], "gaming features": ["gaming", "gamer", "game", "hdmi 2.1", "vrr", "input lag", "ps5", "xbox", "allm"], sound: ["sound", "audio", "speaker", "acoustic", "bass", "atmos"],
   "smart platform": ["google tv", "tizen", "webos", "smart platform", "smart tv platform", "interface", "operating system", " os ", "apps", "ads"], design: ["design", "thin", "slim", "bezel", "stand", "looks", "aesthetic", "build"],

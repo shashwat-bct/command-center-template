@@ -13,6 +13,8 @@
 //      persona, instead of a separate volatility set.
 //   4. Answer receipts name the persona and run beside the engine.
 //   5. The live run, workbench, landscape and method pages are not built.
+//   6. Short heat-map heads and highlight keywords for the wireless-speaker
+//      attributes (the reference knows TV and phone ones only).
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -110,6 +112,16 @@ for (const [name, from, to] of [
   ["vol cadence", "a single pass is a sketch, which is why the production cadence is seven.", "a single pass is a sketch, which is why every question is asked three times."],
 ]) patch(name, from, to);
 
+// 6 · wireless-speaker attributes (banks/wireless-speakers.category.json)
+patch("speaker heads", `"design / build": "Design" };`, `"design / build": "Design",
+  // wireless-speaker attributes
+  "sound quality": "Sound", "bass performance": "Bass", "volume and loudness": "Loudness", "bluetooth range": "Range", "multiroom support": "Multiroom", "app and smart features": "App", "voice assistant integration": "Voice", "water and dust resistance": "Rugged", "portability and size": "Portable", "connectivity options": "Connect", "build quality and durability": "Build", "value for money": "Value", "brand reliability and warranty": "Reliability" };`);
+patch("speaker keywords", `const ATTR_KW = {\n`, `const ATTR_KW = {
+  "sound quality": ["sound quality", "sound", "audio", "clarity", "detail", "balanced"], "bass performance": ["bass", "low end", "low-end", "woofer"], "volume and loudness": ["loud", "volume", "fill a room", "fills a room"], "bluetooth range": ["bluetooth", "range"],
+  "multiroom support": ["multiroom", "multi-room", "whole-home", "whole home", "group", "airplay", "rooms"], "app and smart features": ["app", "smart", "trueplay", "eq", "setup"], "voice assistant integration": ["alexa", "siri", "google assistant", "voice", "assistant"],
+  "water and dust resistance": ["waterproof", "water", "dust", "ip67", "ip68", "rugged", "pool"], "portability and size": ["portable", "portab", "compact", "size", "weight", "carry"], "connectivity options": ["wi-fi", "wifi", "bluetooth", "airplay", "spotify connect", "line-in", "hdmi", "usb-c"],
+  "build quality and durability": ["build", "durab", "sturdy", "premium feel"], "value for money": ["price", "value", "expensive", "cheap", "cost", "$", "afford", "budget", "worth"], "brand reliability and warranty": ["reliab", "warranty", "support", "app update", "fail", "issue", "longev"],
+`);
 patch("roadmap guard", '$("roadmap").innerHTML = [', 'if ($("roadmap")) $("roadmap").innerHTML = [');
 patch("title", "document.title = `${def.title} · ${D.subjectLabel} AI Visibility`;", "document.title = `${def.title} · ${D.subjectLabel} ${CATS} · AI Visibility`;");
 

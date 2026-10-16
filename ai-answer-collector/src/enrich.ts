@@ -30,7 +30,10 @@ export type Reading = {
 };
 
 const jsonIn = <T>(text: string): T => JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)) as T;
-const PER_CALL = 6;
+// Small calls: the Atlas proxy cuts off calls that run long (502), and long
+// consumer-app answers make a 6-answer call do exactly that.
+const PER_CALL = 2;
+const CONCURRENCY = Number(process.env.ENRICH_CONCURRENCY || 8);
 
 async function enrichAnswers(items: Array<{ q: string; answer: string }>, tracked: string[], category: string, attributes: string[]): Promise<Array<Omit<Reading, "readAt"> & { i: number }>> {
   const listing = items.map((x, i) => `<answer i="${i}">\nQuestion: ${x.q}\n\n${x.answer.slice(0, 7000)}\n</answer>`).join("\n");
@@ -42,7 +45,7 @@ async function enrichAnswers(items: Array<{ q: string; answer: string }>, tracke
 - "attributes": for each brand, which of these attributes the answer praises (+) or criticises (-): ${attributes.join(", ")}. Use those labels exactly.
 - "claims": factual claims the answer makes about any tracked brand — "brand" (the tracked name), "claim" (one sentence), "type" ("price" | "spec" | "award" | "comparison" | "availability" | "other"), "product", "value" (the number or fact, or "").
 
-Tracked brands: ${tracked.map((b) => `"${b}"`).join(", ")}. When a mention refers to a tracked brand — its name, a product line, a parent company, or a misspelling — use the tracked name exactly. Write other brands under their usual name. Do not list retailers or review sites.
+Tracked brands: ${tracked.map((b) => `"${b}"`).join(", ")}. When a mention refers to a tracked brand — its name, a product line, a parent company, or a misspelling — use the tracked name exactly. Write other brands under their usual name. Do not list retailers or review sites. Write screen sizes as 65-inch, never with a " mark, and escape any double quote inside a string value.
 
 Reply with: {"answers":[{"i":0,"brands":[{"name":"","rank":1,"recommended":true,"sentiment":"positive","product":""}],"topPick":null,"attributes":{"Brand":[{"attr":"","polarity":"+"}]},"claims":[{"brand":"","claim":"","type":"other","product":"","value":""}]}]}
 
@@ -69,8 +72,12 @@ export async function enrichCategory(store: CollectionStore, category: string, b
     const ids = index.filter((e) => e.questionHash === hash && !readings[e.id]).map((e) => e.id);
     for (const part of chunk(ids, PER_CALL)) work.push({ q, ids: part });
   }
-  let read = 0, failed = 0;
-  await mapLimit(work, 4, async ({ q, ids }) => {
+  let read = 0, failed = 0, done = 0;
+  // Save as we go (writes chained so they never overlap), so an interrupted pass keeps its work.
+  let saving: Promise<unknown> = Promise.resolve();
+  const save = () => (saving = saving.then(() => store.write(enrichedPath(category), JSON.stringify(readings), "application/json")));
+  console.log(`[enrich] ${category}: ${work.length} calls for ${work.reduce((n, w) => n + w.ids.length, 0)} answers`);
+  await mapLimit(work, CONCURRENCY, async ({ q, ids }) => {
     const records = ids.map((id) => store.readJson<ResponseRecord>(responsePath(id))).filter((r): r is ResponseRecord => !!r?.answer);
     try {
       const res = await enrichAnswers(records.map((r) => ({ q, answer: r.answer!.text })), tracked, banks[0].category.noun[1], banks[0].attributes);
@@ -84,8 +91,12 @@ export async function enrichCategory(store: CollectionStore, category: string, b
       failed += records.length;
       console.error(`[enrich] ${category} “${q.slice(0, 50)}”: ${(err as Error).message}`);
     }
+    if (++done % 10 === 0 || done === work.length) {
+      console.log(`[enrich] ${category}: ${done}/${work.length} calls · ${read} read, ${failed} failed`);
+      await save();
+    }
   });
-  await store.write(enrichedPath(category), JSON.stringify(readings), "application/json");
+  await save();
   return { read, failed };
 }
 
