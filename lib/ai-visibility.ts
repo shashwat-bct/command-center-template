@@ -17,7 +17,7 @@ export type QuestionBank = {
 };
 
 const STAGES: FunnelStage[] = ["awareness", "consideration", "evaluation", "decision"];
-const COMPARE_STAGES: FunnelStage[] = ["awareness", "consideration"];
+const COMPARE_STAGES: FunnelStage[] = ["awareness", "consideration", "evaluation", "decision"];
 const HOW_TO = /^\s*(how (do|should|can) i (choose|pick|decide|know|tell)|what (should|do) i (look|need) for|what (features|specs|factors) (matter|should)|what (does|is) (an? )?(ip\d|[a-z0-9-]+ (rating|mean))|how does)/i;
 
 const FALLBACK_TEMPLATES: Array<{ stage: FunnelStage; q: string }> = [
@@ -139,21 +139,22 @@ function fallbackBank(category: string): QuestionBank {
 
 /**
  * Writes the shopper question bank for a category with Claude: six questions
- * per funnel stage. Awareness and consideration name no brand, so brands are
- * compared on them; evaluation and decision also carry questions naming the
- * subject and comparing it with a rival. Also returns the attributes shoppers
- * judge the category on and each brand's official website. Falls back to
- * fixed questions.
+ * per funnel stage, none naming a brand, so every stage compares the brands on
+ * the same questions. Also returns the attributes shoppers judge the category
+ * on and each brand's official website. Falls back to fixed questions.
  */
 export async function generateQuestionBank(subject: string, competitors: string[], category: string, perStage = 6): Promise<QuestionBank> {
+  const namesBrand = (text: string): boolean => patternMentions(text, [subject, ...competitors], category).length > 0;
   try {
     const text = await callLLM({
       system: "You design shopper research for AI search visibility. Reply with JSON only.",
       user: `Category: ${category} (US shoppers). Subject brand: ${subject}. Competitors: ${competitors.join(", ")}.
 
-Write ${perStage + 2} questions for each funnel stage — awareness, consideration, evaluation, decision — phrased the way a real shopper types into ChatGPT. Every awareness and consideration question must name no brand ("neutral"). In evaluation and decision, ${perStage - 1} questions name no brand ("neutral"), two name ${subject} ("subject"), and one compares ${subject} with one competitor ("vs"). Vary use cases, budgets and needs.
+Write ${perStage + 2} questions for each funnel stage — awareness, consideration, evaluation, decision — phrased the way a real shopper types into ChatGPT. No question may name any brand, product line or retailer-own label: every question is "neutral", so the engines choose which brands to bring up. Vary use cases, budgets and needs.
 
-Every question must be one a shopper asks expecting specific brands or models back — for example "best ${category} for <use> under $<price>", "which ${category} should I buy for <need>", "what's the most reliable ${category} brand", "<brand> or <brand> for <use>?". The "vs" question must name ${subject} and one of the competitors listed above. If a question mentions a year, use ${new Date().getFullYear()}. Never write educational or how-to questions that can be answered without naming a product: no "how do I choose…", "what should I look for…", "what features matter…", "what does <spec> mean…", "how does … work".
+The stages move from browsing to buying: awareness asks what exists ("best ${category} in <year>", "most popular ${category} brands"); consideration narrows by need ("best ${category} for <use>", "which ${category} for <need> under $<price>"); evaluation weighs proof and trade-offs ("which ${category} have the best reviews for <need>", "most reliable ${category} that <claim>"); decision is ready to buy ("best ${category} to buy on Amazon right now", "best value ${category} pack for daily use", "where to buy ${category} cheapest").
+
+Every question must be one a shopper asks expecting specific brands or models back. If a question mentions a year, use ${new Date().getFullYear()}. Never write educational or how-to questions that can be answered without naming a product: no "how do I choose…", "what should I look for…", "what features matter…", "what does <spec> mean…", "how does … work".
 
 Also list the 12 product attributes shoppers judge a ${category} on (short lowercase labels), the singular and plural noun for the product as a shopper says it, and each brand's official US website domain.
 
@@ -165,13 +166,10 @@ Reply with: {"questions":[{"stage":"awareness","focus":"neutral","text":"..."}],
     const questions = (j.questions ?? [])
       .filter((q) => STAGES.includes(q.stage as FunnelStage) && typeof q.text === "string" && q.text.length > 8)
       .map((q, i): BankQuestion => ({ id: `q${String(i + 1).padStart(2, "0")}`, stage: q.stage as FunnelStage, focus: (["neutral", "subject", "vs"].includes(q.focus) ? q.focus : "neutral") as QuestionFocus, text: q.text.trim() }))
-      .filter((q) => !(COMPARE_STAGES.includes(q.stage) && q.focus !== "neutral"))
+      .filter((q) => q.focus === "neutral" && !namesBrand(q.text))
       .filter((q) => !HOW_TO.test(q.text));
-    const picked = STAGES.flatMap((st) => {
-      const inStage = questions.filter((q) => q.stage === st);
-      const branded = [...inStage.filter((q) => q.focus === "vs").slice(0, 1), ...inStage.filter((q) => q.focus === "subject").slice(0, 2)];
-      return [...inStage.filter((q) => q.focus === "neutral").slice(0, perStage - branded.length), ...branded];
-    }).map((q, i) => ({ ...q, id: `q${String(i + 1).padStart(2, "0")}` }));
+    const picked = STAGES.flatMap((st) => questions.filter((q) => q.stage === st).slice(0, perStage))
+      .map((q, i) => ({ ...q, id: `q${String(i + 1).padStart(2, "0")}` }));
     if (picked.length < 8) throw new Error(`only ${picked.length} questions`);
     const attributes = (j.attributes ?? []).map((a) => String(a).trim().toLowerCase()).filter((a) => a && a.length < 40).slice(0, 14);
     return {
