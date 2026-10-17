@@ -106,8 +106,10 @@ P.scorecard = (host) => {
   // ── bump: weekly rank on AI share
   const wk = d.dims.weeks;
   const rankable = d.dims.metrics.filter((m) => !m.static && d.trend[m.id] && d.trend[m.id][S] && d.trend[m.id][S].filter((v) => v != null).length >= 2);
+  const noPromo = (b, w) => ((d.trend.promoIntensity || {})[b] || [])[w] === 0;
+  const weekValue = (mid, b, w) => { const v = d.trend[mid][b][w]; return v == null && mid === "promoDepth" && noPromo(b, w) ? 0 : v; };
   const ranksFor = (mid) => { const md = metricDef(mid);
-    return wk.map((_, w) => { const ord = BIDS().map((b) => [b, d.trend[mid][b][w]]).filter((x) => x[1] != null)
+    return wk.map((_, w) => { const ord = BIDS().map((b) => [b, weekValue(mid, b, w)]).filter((x) => x[1] != null)
         .sort((a, z) => md.good === "down" ? a[1] - z[1] : z[1] - a[1]);
       return Object.fromEntries(ord.map(([b], i) => [b, i + 1])); }); };
   const churn = (mid) => { const r = ranksFor(mid); let c = 0;
@@ -124,12 +126,12 @@ P.scorecard = (host) => {
     const ranks = ranksFor(bumpMetric), f = fmtFor(bumpMetric);
     CC.bump(el("scBump"), { height: 330, x: wk.map((w) => w.id),
       series: d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject,
-        rank: ranks.map((r) => (r[b.id] == null ? null : r[b.id])), value: d.trend[bumpMetric][b.id] }))
+        rank: ranks.map((r) => (r[b.id] == null ? null : r[b.id])), value: wk.map((_, w) => weekValue(bumpMetric, b.id, w)) }))
         .filter((s) => s.rank.some((r) => r != null)),
-      fmtX: (v, i) => wk[i] ? F.date(wk[i].start) : v, fmtV: f,
+      fmtX: (v, i) => wk[i] ? F.date(wk[i].start) : v, fmtV: (v) => v === 0 && bumpMetric === "promoDepth" ? "no promotion" : f(v),
       fmtTip: (v) => { const w = wk.find((x) => x.id === v); return `Week of ${F.dateY(w.start)} · ${metricDef(bumpMetric).label}`; } });
     const changes = (scored.find((x) => x.m.id === bumpMetric) || {}).c || 0;
-    el("scBump").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:10px 0 0">${changes} rank change${changes === 1 ? "" : "s"} across the 13 weeks on this measure. Measures are offered most-volatile first — a flat chart means the order held all quarter, which is itself the finding.</p>`);
+    el("scBump").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:10px 0 0">${changes} rank change${changes === 1 ? "" : "s"} across the 13 weeks on this measure. Measures are offered most-volatile first — a flat chart means the order held all quarter, which is itself the finding.${bumpMetric === "promoDepth" ? " A week with no promotion counts as 0% depth, so that brand ranks last that week rather than dropping off the chart." : ""}</p>`);
   }
 
   // ── mover bars

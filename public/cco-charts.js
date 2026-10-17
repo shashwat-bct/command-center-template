@@ -125,7 +125,7 @@
       g.appendChild(el("rect", { x: px(x(a)), y: m.t, width: px(Math.max(2, x(z < 0 ? n - 1 : z) - x(a))), height: ih, fill: b.color || INK, opacity: b.opacity || 0.05 }));
       if (b.label && spec.bandLabels !== false) bandText.push([x(a) + 4, b.label]);
     }
-    for (const s of ser) {
+    for (const s of [...ser].sort((a, z) => (a.subject ? 1 : 0) - (z.subject ? 1 : 0))) {
       const pts = s.data.map((v, i) => v == null ? null : [x(i), y(v)]);
       const segs = []; let cur = [];
       for (const p of pts) { if (p) cur.push(p); else if (cur.length) { segs.push(cur); cur = []; } }
