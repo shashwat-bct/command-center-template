@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
-import { ADMIN_COOKIE, isAdminSession } from "@/lib/admin-auth";
+import { ADMIN_COOKIE, adminAuthEnabled, isAdminSession } from "@/lib/admin-auth";
 import { savedInputsFor } from "@/lib/build-inputs";
 import AdminForm from "./_components/admin-form";
+import AdminSignIn from "./_components/admin-sign-in";
 import RebuildList from "./_components/rebuild-list";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +15,8 @@ export default async function AdminPage(props: PageProps<"/admin">) {
   const { from } = await props.searchParams;
   const slug = typeof from === "string" && SLUG_RE.test(from) ? from : null;
   const admin = isAdminSession((await cookies()).get(ADMIN_COOKIE)?.value);
-  const saved = slug && admin ? await savedInputsFor(slug).catch(() => null) : null;
+  if (adminAuthEnabled() && !admin) return <AdminSignIn />;
+  const saved = slug ? await savedInputsFor(slug).catch(() => null) : null;
   const editing = slug && saved ? saved.inputs : null;
 
   return (
@@ -30,7 +32,7 @@ export default async function AdminPage(props: PageProps<"/admin">) {
       </p>
       {slug && !saved && (
         <p className="mt-4 rounded-xl bg-[#fef7e0] p-3 text-[13px] text-[#5c3200]">
-          {admin ? `No saved inputs were found for /${slug}; fill the form to rebuild it.` : "Sign in (submit the form once) to load saved inputs."}
+          {`No saved inputs were found for /${slug}; fill the form to rebuild it.`}
         </p>
       )}
       {editing && (
@@ -42,13 +44,9 @@ export default async function AdminPage(props: PageProps<"/admin">) {
       <section className="mt-14">
         <h2 className="mb-1 font-display text-xl text-on-surface">Your brands</h2>
         <p className="mb-4 text-sm text-muted">Rebuild reuses the inputs each brand was last built with. Edit opens them in the form above.</p>
-        {admin ? (
-          <Suspense fallback={<p className="text-sm text-muted">Loading brands…</p>}>
-            <RebuildList />
-          </Suspense>
-        ) : (
-          <p className="text-sm text-muted">Sign in to see and rebuild your brands.</p>
-        )}
+        <Suspense fallback={<p className="text-sm text-muted">Loading brands…</p>}>
+          <RebuildList />
+        </Suspense>
       </section>
     </main>
   );
