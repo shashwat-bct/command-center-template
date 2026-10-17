@@ -14,6 +14,7 @@ export type DashboardHtmlInput = {
   payloadUrl: string;
   share?: boolean;
   shareId?: string;
+  analyst?: boolean;
 };
 
 const SHARE_BOOTSTRAP = `<script>
@@ -55,7 +56,7 @@ const SKELETON_ROWS = [88, 72, 64, 52, 40]
 export const dashboardTitle = (slug: string): string =>
   TITLE_OVERRIDES[slug] ?? `${slug.charAt(0).toUpperCase() + slug.slice(1)} · Commercial Command Center`;
 
-export function renderDashboardHtml({ title, payloadUrl, share = false, shareId }: DashboardHtmlInput): string {
+export function renderDashboardHtml({ title, payloadUrl, share = false, shareId, analyst = false }: DashboardHtmlInput): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -68,7 +69,7 @@ export function renderDashboardHtml({ title, payloadUrl, share = false, shareId 
 <link rel="stylesheet" href="${asset("cco-dashboard.css")}">
 <link rel="stylesheet" href="${asset("ai-visibility.css")}">
 </head>
-<body data-payload="${escapeAttr(payloadUrl)}"${process.env.SHOW_DATA_SOURCES === "true" ? ' data-sources="on"' : ""}>
+<body data-payload="${escapeAttr(payloadUrl)}"${analyst || process.env.SHOW_DATA_SOURCES === "true" ? ' data-sources="on"' : ""}>
 ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer ${escapeAttr(shareId)}";</script>` : ""}
 <div id="ccLoader" class="cc-loader" role="status" aria-live="polite">
   <div class="ccl-progress" aria-hidden="true"><i></i></div>
@@ -195,6 +196,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <script src="${asset("cco-dashboard-pages.js")}"></script>
 <script src="${asset("cco-measured-pages.js")}"></script>
 <script src="${asset("cco-card-ask.js")}"></script>
+<script src="${asset("cco-provenance.js")}"></script>
 <script type="module" src="${asset("ai-visibility.js")}"></script>
 </body>
 </html>`;

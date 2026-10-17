@@ -141,9 +141,11 @@ function rankChip(metricId, brand) {
   return `<span class="rankchip${rankTone(o.rank, o.of)}">${o.tied ? "tied " : ""}#${o.rank} of ${o.of}</span>`;
 }
 const SHOW_SRC = document.body.dataset.sources === "on";
+const SINGLE_SOURCE = new Set(["aiSov", "rating"]);
 const PROV_LABEL = {
   real: ["real", "Read from a live source on this build"],
-  synthetic: ["synthetic", "Modelled — no live source read this on this build"],
+  mixed: ["mixed", "Amazon read live on this build; the other retailers are simulated around it"],
+  synthetic: ["simulated", "Simulated — no live source read this on this build"],
   measured: ["measured", "Measured for this brand"],
   derived: ["derived", "Simulated, but bounded by a measurement taken for this brand"],
   reference: ["ref", "Reference data from another brand's capture, shown under this name"],
@@ -151,7 +153,7 @@ const PROV_LABEL = {
 };
 function provOf(metricId, brand) {
   const p = D && D.meta && D.meta.provenance;
-  if (p && p.mode === "hybrid") return SHOW_SRC && p.metrics && p.metrics[metricId] ? (p.metrics[metricId][brand] === "measured" ? "real" : "synthetic") : null;
+  if (p && p.mode === "hybrid") return SHOW_SRC && p.metrics && p.metrics[metricId] ? (p.metrics[metricId][brand] !== "measured" ? "synthetic" : SINGLE_SOURCE.has(metricId) || retailer === "amazon" ? "real" : "mixed") : null;
   return p && p.metrics && p.metrics[metricId] ? p.metrics[metricId][brand] || (p.mode === "measured-only" ? "unmeasured" : "reference") : null;
 }
 function laneOf(page) {
@@ -428,7 +430,6 @@ bootData.then((json) => {
   $("#scWin").textContent = `${F.date(D.meta.window.start)} – ${F.date(D.meta.window.end)} · ${D.meta.market || "US"}`;
   window.addEventListener("hashchange", route);
   route();
-  $("#simBtn").hidden = false;
   hideLoader();
 }).catch((e) => {
   failLoader(e);
@@ -493,15 +494,16 @@ function syncControls() {
   $("#retSel").value = retailer;
 }
 const SRC_WORD = { measured: "real", mixed: "mixed", modelled: "synthetic" };
+const SRC_TEXT = { real: "real", mixed: "mixed", synthetic: "simulated" };
 function srcNote(lane) {
   const k = SRC_WORD[lane.status] || "synthetic";
-  return `<p class="lane-note src-note"><i class="pv pv-${k}">${k}</i><span>${esc(lane.note)}${!lane.sources ? "" : lane.sources.length ? ` <b>Real sources:</b> ${lane.sources.map(esc).join(" · ")}.` : " <b>No live source</b> — every figure here is synthetic."}</span></p>`;
+  return `<p class="lane-note src-note"><i class="pv pv-${k}">${SRC_TEXT[k]}</i><span>${esc(lane.note)}${!lane.sources ? "" : lane.sources.length ? ` <b>Real sources:</b> ${lane.sources.map(esc).join(" · ")}.` : " <b>No live source</b> — every figure here is simulated."}</span></p>`;
 }
 function srcStatus(def) {
   const id = def.id;
   if (/^ai-/.test(id)) return { k: "real", t: `AI engine answers (${(D.aiConsole?.engines || []).map((e) => e.label).join(", ")})` };
   if (id === "aeo-programme") return { k: "real", t: "built from the AI engine answers" };
-  if (/^aeo-/.test(id)) return { k: "mixed", t: "week 0 real · weeks 1–12 synthetic" };
+  if (/^aeo-/.test(id)) return { k: "mixed", t: "week 0 real · weeks 1–12 simulated" };
   if (id === "method") return null;
   const lane = laneOf(id);
   return lane ? { k: SRC_WORD[lane.status] || "synthetic", t: lane.sources ? lane.sources.join(" · ") || "no live source" : lane.status === "modelled" ? "no live source" : "Amazon data real · rest modelled" } : null;
@@ -514,7 +516,7 @@ function route() {
   const title = (laneOf(page) || {}).label || def.title;
   $("#crumb").textContent = def.crumb; $("#ptitle").textContent = title;
   const chip = $("#srcChip"); const st = SHOW_SRC && D.meta.provenance && D.meta.provenance.mode === "hybrid" ? srcStatus(def) : null;
-  if (chip) { chip.hidden = !st; if (st) chip.innerHTML = `<i class="pv pv-${st.k}">${st.k}</i>${esc(st.t)}`; }
+  if (chip) { chip.hidden = !st; if (st) chip.innerHTML = `<i class="pv pv-${st.k}">${SRC_TEXT[st.k] || st.k}</i>${esc(st.t)}`; }
   $$("#nav a").forEach((a) => a.classList.toggle("on", a.dataset.p === page));
   const onLink = $("#nav a.on"); if (onLink && onLink.scrollIntoView) onLink.scrollIntoView({ block: "nearest" });   // a deep link lands with its rail item in view
   document.title = `${title} · ${SUBJ} Commercial Command Center`;

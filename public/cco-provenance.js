@@ -1,0 +1,141 @@
+/* ===========================================================================
+   ANALYST VIEW — every card, legend entry and table row marked real or simulated
+   =========================================================================== */
+(function () {
+"use strict";
+if (document.body.dataset.sources !== "on") return;
+
+const KEEPA = "Keepa · Amazon daily history";
+const PAGES = "Apify · Amazon product pages, read on the build date";
+const SEARCH = "Apify · Amazon search results, read on the build date";
+const AI = "ChatGPT, Gemini and Claude answers, read on the build date";
+const AMZ_REST = "Amazon read live · other retailers simulated around it";
+const SIM = "No live source · simulated, seeded per brand";
+
+const WORD = { real: "Real", mixed: "Mixed", sim: "Simulated" };
+const HINT = {
+  real: "Every figure in this card is read from a live source on this build.",
+  mixed: "Part read live, part simulated. Rows and legend entries are marked individually.",
+  sim: "Nothing in this card is read from a live source; it is modelled around the real lanes.",
+};
+
+const RULES = [
+  ["scorecard", /measures|where each brand stands|rank movement|driver movement/, "mixed", "Each cell marked: real where a source read it, simulated where modelled"],
+  ["scorecard", /category events/, "mixed", "Retail calendar real · event lift simulated"],
+  ["traffic", /bought in past month|sales rank|every tracked listing/, "real", KEEPA],
+  ["traffic", /./, "sim", SIM],
+  ["voice", /rating through|review velocity/, "real", KEEPA],
+  ["voice", /aspect scores|what reviewers say/, "real", "Amazon review summaries (Apify)"],
+  ["shelf", /share of the first results|the results, in order/, "real", SEARCH],
+  ["shelf", /organic against paid/, "sim", SIM],
+  ["shelf", /./, "mixed", "Amazon search read live · other retailers, terms and daily movement simulated"],
+  ["landing", /./, "mixed", "Amazon product pages read live · other retailers' pages simulated"],
+  ["carriage", /buy box/, "real", KEEPA],
+  ["carriage", /./, "mixed", AMZ_REST],
+  ["stock", /availability by model and (city|location)/, "sim", "Cities simulated"],
+  ["stock", /./, "mixed", AMZ_REST],
+  ["delivery", /./, "mixed", "Amazon delivery promise read on the build date · other retailers, cities and earlier weeks simulated"],
+  ["pricing", /./, "mixed", AMZ_REST],
+  ["promotions", /how .* promotes|where the promotions run/, "sim", "Promotion mechanics simulated"],
+  ["promotions", /./, "mixed", "Amazon price cuts read live · other retailers and mechanics simulated"],
+  ["calendar", /./, "mixed", "Amazon price cuts read live · other retailers simulated"],
+  ["strategy", /mechanic mix/, "sim", "Promotion mechanics simulated"],
+  ["strategy", /./, "mixed", "Amazon price cuts read live · other retailers simulated"],
+  ["tco", /effective price as a share|^by brand$/, "real", "Keepa · Amazon coupons and lightning deals"],
+  ["tco", /./, "sim", SIM],
+  ["ai-", /placement pipeline/, "mixed", "Week 0 real · later stages simulated"],
+  ["ai-", /crawler access|access findings/, "real", "robots.txt read on the build date"],
+  ["ai-", /./, "real", AI],
+  ["aeo-", /./, "mixed", "Week 0 real · weeks 1–12 simulated"],
+];
+
+const U = () => window.__CC;
+const pageOf = (node) => {
+  const pg = node.closest(".page");
+  return pg && pg.id ? pg.id.replace(/^pg-/, "") : (location.hash || "#scorecard").slice(1);
+};
+const ruleFor = (page, title) => {
+  if (page === "method") return null;
+  const t = title.trim().toLowerCase();
+  const r = RULES.find(([p, re]) => (p.endsWith("-") ? page.startsWith(p) : page === p) && re.test(t));
+  return r ? { k: r[2], src: r[3] } : null;
+};
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
+const badge = (k, src) => `<span class="pvx-badge pvx-${k}" title="${esc(HINT[k] + " " + src)}"><i></i><b>${WORD[k]}</b><span>${esc(src)}</span></span>`;
+
+function markLabels(card) {
+  const d = U() && U().D; if (!d) return;
+  const real = new Set(["amazon", "amazon.com"]);
+  const retailers = new Map(d.dims.retailers.map((r) => [r.label.toLowerCase(), real.has(r.id) ? "real" : "sim"]));
+  const cities = new Set(d.dims.cities.map((c) => c.label.toLowerCase()).concat(d.dims.cities.map((c) => c.label.split(",")[0].toLowerCase())));
+  card.querySelectorAll("th, td, .cc-lg, .lb, .chip, .rk-name, .rlab").forEach((n) => {
+    if (n.dataset.pvx || n.querySelector("th, td, .cc-lg")) return;
+    const t = n.textContent.replace(/\s+/g, " ").trim().toLowerCase();
+    const k = retailers.get(t) || (cities.has(t) ? "sim" : null);
+    if (!k) return;
+    n.dataset.pvx = k;
+    n.insertAdjacentHTML("beforeend", `<i class="pvx-dot pvx-${k}" title="${k === "real" ? "Read live on this build" : "Simulated"}"></i>`);
+  });
+}
+
+function decorate(card) {
+  if (card.dataset.pvxDone) return;
+  const h3 = card.querySelector(".card-h h3"); if (!h3) return;
+  const r = ruleFor(pageOf(card), h3.textContent); if (!r) return;
+  card.dataset.pvxDone = r.k;
+  card.classList.add("pvx-card", "pvx-card-" + r.k);
+  let ca = card.querySelector(".card-h .ca");
+  if (!ca) { ca = document.createElement("div"); ca.className = "ca"; card.querySelector(".card-h").appendChild(ca); }
+  ca.insertAdjacentHTML("afterbegin", badge(r.k, r.src));
+  if (r.k === "mixed") markLabels(card);
+}
+
+function pageDefault(page) {
+  const r = RULES.find(([p, re]) => (p.endsWith("-") ? page.startsWith(p) : page === p) && re.source === ".");
+  if (r) return { k: r[2], src: r[3] };
+  const lane = ((U().D.meta.provenance || {}).lanes || {})[page];
+  return lane ? { k: lane.status === "measured" ? "real" : lane.status === "mixed" ? "mixed" : "sim", src: (lane.sources || []).join(" · ") || SIM } : null;
+}
+
+function decorateKpi(kpi) {
+  if (kpi.dataset.pvxDone || kpi.querySelector(".pv")) return;
+  const page = pageOf(kpi); if (page === "method") return;
+  const card = kpi.closest(".card");
+  const r = card && card.dataset.pvxDone ? { k: card.dataset.pvxDone, src: "" } : pageDefault(page);
+  const kl = kpi.querySelector(".kl"); if (!r || !kl) return;
+  kpi.dataset.pvxDone = r.k;
+  kl.insertAdjacentHTML("beforeend", `<i class="pv pv-${r.k === "sim" ? "synthetic" : r.k}" title="${esc(HINT[r.k] + (r.src ? " " + r.src : ""))}">${r.k === "sim" ? "simulated" : r.k}</i>`);
+}
+
+function sweep(root) {
+  (root.matches && root.matches(".card") ? [root] : []).concat([...(root.querySelectorAll ? root.querySelectorAll(".card") : [])]).forEach(decorate);
+  (root.matches && root.matches(".kpi") ? [root] : []).concat([...(root.querySelectorAll ? root.querySelectorAll(".kpi") : [])]).forEach(decorateKpi);
+}
+
+function banner() {
+  if (document.getElementById("pvxBanner")) return;
+  const b = document.createElement("div");
+  b.id = "pvxBanner"; b.className = "pvx-banner";
+  b.innerHTML = `<span class="pvx-tagline"><b>Analyst view</b> · internal, do not share with customers</span>
+    <span class="pvx-legend">${["real", "mixed", "sim"].map((k) => `<span class="pvx-key pvx-${k}" title="${esc(HINT[k])}"><i></i>${WORD[k]}</span>`).join("")}</span>
+    <span class="pvx-hint">Hover any badge or dot for its source</span>`;
+  const pages = document.getElementById("pages");
+  if (pages) pages.parentNode.insertBefore(b, pages);
+}
+
+function start() {
+  const pages = document.getElementById("pages");
+  if (!pages || !U() || !U().D) { setTimeout(start, 150); return; }
+  document.body.classList.add("pvx-on");
+  banner(); sweep(pages);
+  const onAdd = (n) => {
+    if (n.nodeType !== 1 || n.classList.contains("pvx-dot") || n.classList.contains("pvx-badge") || n.classList.contains("pv")) return;
+    const card = n.closest(".card");
+    if (card && card.dataset.pvxDone) { if (card.dataset.pvxDone === "mixed") markLabels(card); card.querySelectorAll(".kpi").forEach(decorateKpi); return; }
+    sweep(card || n);
+  };
+  new MutationObserver((ms) => { for (const m of ms) m.addedNodes.forEach(onAdd); }).observe(pages, { childList: true, subtree: true });
+}
+start();
+})();

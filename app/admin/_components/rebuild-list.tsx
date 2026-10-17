@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { loadBrandRows, tsText } from "@/lib/brand-rows";
-import { sharePath } from "@/lib/share-id";
+import { analystPath, sharePath } from "@/lib/share-id";
 import CopyLinkButton from "./copy-link-button";
 import RebuildButton from "./rebuild-button";
 
@@ -33,6 +33,7 @@ export default async function RebuildList() {
           <div className="flex items-center gap-1">
             {r.ready && <Link href={`${sharePath(r.slug)}#scorecard`} className="g-btn-text">View</Link>}
             {r.ready && <CopyLinkButton path={sharePath(r.slug)} />}
+            {r.ready && <Link href={`${analystPath(r.slug)}#scorecard`} className="g-btn-text" title="Internal: every figure marked real or simulated">Analyst view</Link>}
             <Link href={`/admin?from=${encodeURIComponent(r.slug)}#form`} className="g-btn-text">Edit</Link>
             <RebuildButton slug={r.slug} />
           </div>

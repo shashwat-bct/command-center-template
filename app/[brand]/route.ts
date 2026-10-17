@@ -1,7 +1,7 @@
 import { isAdmin } from "@/lib/admin-auth";
 import { dashboardTitle, renderDashboardHtml, renderSignInHtml } from "@/lib/dashboard-html";
 import { SHARE_HEADERS } from "@/lib/share-response";
-import { isShareId, sharePath } from "@/lib/share-id";
+import { isShareId, resolveShareId, sharePath } from "@/lib/share-id";
 
 const SLUG_RE = /^[a-z0-9-]+$/;
 const HTML = "text/html; charset=utf-8";
@@ -11,7 +11,8 @@ export const dynamic = "force-dynamic";
 export async function GET(req: Request, { params }: { params: Promise<{ brand: string }> }) {
   const { brand } = await params;
   if (isShareId(brand)) {
-    const html = renderDashboardHtml({ title: "Commercial Command Center", payloadUrl: `/api/payloads/${brand}`, shareId: brand });
+    const analyst = (await resolveShareId(brand).catch(() => null))?.analyst ?? false;
+    const html = renderDashboardHtml({ title: analyst ? "Analyst view · Commercial Command Center" : "Commercial Command Center", payloadUrl: `/api/payloads/${brand}`, shareId: brand, analyst });
     return new Response(html, { status: 200, headers: { ...SHARE_HEADERS, "content-type": HTML } });
   }
   if (!SLUG_RE.test(brand)) return new Response("invalid slug", { status: 400 });
