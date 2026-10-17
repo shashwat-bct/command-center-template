@@ -12,11 +12,11 @@ const AI = "ChatGPT, Gemini and Claude answers, read on the build date";
 const AMZ_REST = "Amazon read live · other retailers simulated around it";
 const SIM = "No live source · simulated, seeded per brand";
 
-const WORD = { real: "Real", mixed: "Mixed", sim: "Simulated" };
+const WORD = { real: "Real", mixed: "Partly real", sim: "Simulated" };
 const HINT = {
-  real: "Every figure in this card is read from a live source on this build.",
-  mixed: "Part read live, part simulated. Rows and legend entries are marked individually.",
-  sim: "Nothing in this card is read from a live source; it is modelled around the real lanes.",
+  real: "Real data.",
+  mixed: "Partly real.",
+  sim: "Simulated data, not collected.",
 };
 
 const RULES = [
@@ -62,7 +62,7 @@ const ruleFor = (page, title) => {
 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
-const badge = (k, src) => `<span class="pvx-badge pvx-${k}" title="${esc(HINT[k] + " " + src)}"><i></i><b>${WORD[k]}</b><span>${esc(src)}</span></span>`;
+const badge = (k, src) => `<span class="pvx-tag pvx-${k}" title="${esc(HINT[k] + " Source: " + src)}">${WORD[k]}</span>`;
 
 function markLabels(card) {
   const d = U() && U().D; if (!d) return;
@@ -75,7 +75,7 @@ function markLabels(card) {
     const k = retailers.get(t) || (cities.has(t) ? "sim" : null);
     if (!k) return;
     n.dataset.pvx = k;
-    n.insertAdjacentHTML("beforeend", `<i class="pvx-dot pvx-${k}" title="${k === "real" ? "Read live on this build" : "Simulated"}"></i>`);
+    if (k === "sim") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-sim" title="Simulated data, not collected">simulated</span>`);
   });
 }
 
@@ -84,7 +84,6 @@ function decorate(card) {
   const h3 = card.querySelector(".card-h h3"); if (!h3) return;
   const r = ruleFor(pageOf(card), h3.textContent); if (!r) return;
   card.dataset.pvxDone = r.k;
-  card.classList.add("pvx-card", "pvx-card-" + r.k);
   let ca = card.querySelector(".card-h .ca");
   if (!ca) { ca = document.createElement("div"); ca.className = "ca"; card.querySelector(".card-h").appendChild(ca); }
   ca.insertAdjacentHTML("afterbegin", badge(r.k, r.src));
@@ -105,7 +104,7 @@ function decorateKpi(kpi) {
   const r = card && card.dataset.pvxDone ? { k: card.dataset.pvxDone, src: "" } : pageDefault(page);
   const kl = kpi.querySelector(".kl"); if (!r || !kl) return;
   kpi.dataset.pvxDone = r.k;
-  kl.insertAdjacentHTML("beforeend", `<i class="pv pv-${r.k === "sim" ? "synthetic" : r.k}" title="${esc(HINT[r.k] + (r.src ? " " + r.src : ""))}">${r.k === "sim" ? "simulated" : r.k}</i>`);
+  kl.insertAdjacentHTML("beforeend", `<i class="pv pv-${r.k === "sim" ? "synthetic" : r.k}" title="${esc(HINT[r.k] + (r.src ? " Source: " + r.src : ""))}">${WORD[r.k].toLowerCase()}</i>`);
 }
 
 function sweep(root) {
@@ -117,9 +116,9 @@ function banner() {
   if (document.getElementById("pvxBanner")) return;
   const b = document.createElement("div");
   b.id = "pvxBanner"; b.className = "pvx-banner";
-  b.innerHTML = `<span class="pvx-tagline"><b>Analyst view</b> · internal, do not share with customers</span>
-    <span class="pvx-legend">${["real", "mixed", "sim"].map((k) => `<span class="pvx-key pvx-${k}" title="${esc(HINT[k])}"><i></i>${WORD[k]}</span>`).join("")}</span>
-    <span class="pvx-hint">Hover any badge or dot for its source</span>`;
+  b.innerHTML = `<span><b>Analyst view</b> · internal only. Each chart is tagged:</span>
+    <span class="pvx-legend"><span class="pvx-tag pvx-real">Real</span><span class="pvx-tag pvx-mixed">Partly real</span><span class="pvx-tag pvx-sim">Simulated</span></span>
+    <span>Partly real = Amazon is real, other retailers are simulated. Hover a tag for its source.</span>`;
   const pages = document.getElementById("pages");
   if (pages) pages.parentNode.insertBefore(b, pages);
 }
@@ -130,7 +129,7 @@ function start() {
   document.body.classList.add("pvx-on");
   banner(); sweep(pages);
   const onAdd = (n) => {
-    if (n.nodeType !== 1 || n.classList.contains("pvx-dot") || n.classList.contains("pvx-badge") || n.classList.contains("pv")) return;
+    if (n.nodeType !== 1 || n.classList.contains("pvx-mini") || n.classList.contains("pvx-tag") || n.classList.contains("pv")) return;
     const card = n.closest(".card");
     if (card && card.dataset.pvxDone) { if (card.dataset.pvxDone === "mixed") markLabels(card); card.querySelectorAll(".kpi").forEach(decorateKpi); return; }
     sweep(card || n);

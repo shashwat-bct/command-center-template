@@ -144,7 +144,7 @@ const SHOW_SRC = document.body.dataset.sources === "on";
 const SINGLE_SOURCE = new Set(["aiSov", "rating"]);
 const PROV_LABEL = {
   real: ["real", "Read from a live source on this build"],
-  mixed: ["mixed", "Amazon read live on this build; the other retailers are simulated around it"],
+  mixed: ["partly real", "Amazon data is real; the other retailers are simulated"],
   synthetic: ["simulated", "Simulated — no live source read this on this build"],
   measured: ["measured", "Measured for this brand"],
   derived: ["derived", "Simulated, but bounded by a measurement taken for this brand"],
