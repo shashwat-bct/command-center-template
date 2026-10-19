@@ -49,7 +49,7 @@ npm run dashboard                                     # http://localhost:4600
 
 Without filters, `plan` and `collect` cover every brand of every enabled category. Filters: `--categories` (also reaches a disabled one), `--pairs` (e.g. `lg-tv`), `--brands`, `--stages`, `--questions` (ids), `--engines` (default `chatgpt,gemini,claude`; `perplexity,copilot` exist but their snapshots did not complete in the template). Personas, runs and market are fixed. Tuning: `--batch` (prompts per Bright Data snapshot, 5), `--concurrency` (snapshots in flight per engine, 8), `--claude-concurrency` (4).
 
-`collect`, `enrich` and `payload` are resumable: re-running skips what is done and retries failures. A **collection** is one measurement round (name it by month); Change Over Time compares a collection with the previous one that asked the same bank.
+`collect`, `enrich` and `payload` are resumable: re-running skips what is done and retries failures. A **collection** is one measurement round (name it by its date, e.g. `2026-10-19`). Every collection that asked a bank is a **week** of that bank's dashboard, oldest first (Week 1, Week 2, …): `payload` for the newest collection keeps each week as its own capture and pools them all for the main pages, so adding a week is collect → enrich → payload on a new collection. The dashboard index links each brand to its newest payload only.
 
 ## Storage
 
@@ -85,9 +85,10 @@ When a retail payload exists, the dashboard becomes the brand's **Command Center
 
 - only the six pages above;
 - a persona filter (both / Value Seeker / Feature Enthusiast) and a run filter (all / 1 / 2 / 3) in the top bar — the template read run 1 only;
-- volatility from the three runs, per persona;
-- receipts labelled engine · persona · run;
-- the retail pages (`retail-audit.js`) join the rail and read the answers through the console's filters (`window.__AIV`).
+- volatility from the three runs, per persona and week;
+- receipts labelled week · engine · persona · run;
+- the retail pages (`retail-audit.js`) join the rail and read the answers through the console's filters (`window.__AIV`);
+- weeks: every page reads all weeks pooled, with a week filter (all / Week 1 / Week 2 …) beside the persona and run filters; Change Over Time adds a week-by-week lens (`dashboard/weeks-lens.js`: share of voice per brand, presence, top pick, share per engine and stage, and what happened each week) and its drift lens compares the last two weeks.
 
 Styles (`cco-dashboard.css`, `ai-visibility.css`) and charts (`cco-charts.js`) are the template's.
 

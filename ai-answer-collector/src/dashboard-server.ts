@@ -63,6 +63,14 @@ function collections(): Array<{ id: string; manifest: Manifest; payloads: string
     .sort((a, b) => b.manifest.createdAt.localeCompare(a.manifest.createdAt));
 }
 
+/** As collections(), but each payload only in its newest collection: that payload pools every earlier week. */
+function latest(): ReturnType<typeof collections> {
+  const seen = new Set<string>();
+  return collections()
+    .map((c) => ({ ...c, payloads: c.payloads.filter((k) => !seen.has(k) && !!seen.add(k)) }))
+    .filter((c) => c.payloads.length);
+}
+
 const HEAD = (title: string) => `<!doctype html>
 <html lang="en">
 <head>
@@ -78,7 +86,7 @@ const HEAD = (title: string) => `<!doctype html>
 </head>`;
 
 function landing(): string {
-  const cols = collections();
+  const cols = latest();
   const body = cols.length
     ? cols.map((c) => {
         const byCat = new Map<string, string[]>();
@@ -91,7 +99,7 @@ function landing(): string {
 }
 
 function dashboard(collection: string, key: string): string {
-  const others = collections();
+  const others = latest();
   const options = others.flatMap((c) => c.payloads.map((k) => `<option value="/d/${encodeURIComponent(c.id)}/${encodeURIComponent(k)}" ${c.id === collection && k === key ? "selected" : ""}>${esc(pairLabel(k))} · ${esc(c.id)}</option>`)).join("");
   const [brand, cat] = pairLabel(key).split(" · ");
   const retail = existsSync(new CollectionStore(collection).abs(`retail/${key}.json`));

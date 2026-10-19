@@ -2,9 +2,11 @@
 // schema the command-center-template console reads (lib/ai-console.ts
 // buildAiConsole → public/ai-visibility.js): the brand set with domains and
 // aliases, the question bank, one capture of every read answer with its
-// sources and evidence, the previous collection's capture for change over
-// time, and the crawler-access read. Each answer also carries its persona and
-// run; the dashboard filters on both.
+// sources and evidence, and the crawler-access read. Every collection that
+// asked the bank is a week (oldest first: Week 1, Week 2, …): each week is a
+// capture of its own, and an "all weeks" capture pools them for the main
+// pages; Change Over Time reads the weeks one by one. Each answer also carries
+// its persona, run and week; the dashboard filters on all three.
 //
 //   npm run payload -- --collection 2026-10 [--pairs sony-tv] [--no-crawler]
 
@@ -58,7 +60,7 @@ function consoleBrands(bank: Bank): ConsoleBrand[] {
   });
 }
 
-function capture(store: CollectionStore, manifest: Manifest, bank: Bank, brands: ConsoleBrand[]) {
+function capture(store: CollectionStore, manifest: Manifest, bank: Bank, brands: ConsoleBrand[], week: number) {
   const readings = store.readJson<Record<string, Reading>>(enrichedPath(bank.category.slug)) ?? {};
   const idOf = new Map(brands.map((b) => [b.label.toLowerCase(), b.id]));
   const brandId = (name: string): string => idOf.get(name.toLowerCase()) ?? slug(name);
@@ -75,6 +77,7 @@ function capture(store: CollectionStore, manifest: Manifest, bank: Bank, brands:
         queryId: q.id,
         engine: ENGINE_IDS[r.engine],
         run: r.run,
+        week,
         persona: r.persona.id,
         text: r.answer.text,
         brands: reading.brands.map((b) => ({ id: brandId(b.name), rank: b.rank, recommended: b.recommended, sentiment: b.sentiment, product: b.product })),
@@ -99,7 +102,8 @@ function capture(store: CollectionStore, manifest: Manifest, bank: Bank, brands:
     unread,
     capture: {
       key: store.collection,
-      basis: manifest.createdAt.slice(0, 10),
+      basis: `Week ${week}`,
+      date: manifest.createdAt.slice(0, 10),
       path: (engines.length && engines.every((e) => e.path === "ui") ? "ui" : "api") as EnginePath,
       capturedAt: manifest.updatedAt,
       engineSource: [ui.length ? `${ui.join(", ")} through their consumer apps (Bright Data)` : "", api.length ? `${api.join(", ")} through the model API` : ""].filter(Boolean).join("; "),
@@ -112,6 +116,27 @@ function capture(store: CollectionStore, manifest: Manifest, bank: Bank, brands:
       enginePaths: Object.fromEntries(engines.map((e) => [ENGINE_IDS[e.id], { path: e.path, n: answers.filter((a) => a.engine === ENGINE_IDS[e.id]).length, via: via(e) }])),
     },
     engines: engines.map((e) => ({ id: ENGINE_IDS[e.id], label: e.label, measured: true, live: false, via: via(e) })),
+  };
+}
+
+type Capture = ReturnType<typeof capture>;
+
+/**
+ * The weeks pooled: the engines of any week, every week's answer count. The answers are not
+ * repeated here: the dashboard pools them from the week captures (`pooledFrom`) when it loads.
+ */
+function pooled(weeks: Capture[]) {
+  const last = weeks[weeks.length - 1].capture;
+  const answers = weeks.flatMap((w) => w.capture.answers);
+  const engines = [...new Map(weeks.flatMap((w) => w.engines).map((e) => [e.id, e])).values()];
+  const enginePaths: Record<string, { path: EnginePath; n: number; via: string }> = {};
+  for (const w of weeks) for (const [id, p] of Object.entries(w.capture.enginePaths)) enginePaths[id] = { ...p, n: (enginePaths[id]?.n ?? 0) + p.n };
+  return {
+    unread: weeks.reduce((n, w) => n + w.unread, 0),
+    capture: { ...last, key: "all-weeks", basis: weeks.length > 1 ? `Weeks 1–${weeks.length}` : "Week 1", date: weeks[0].capture.date,
+      engines: [...new Map(weeks.flatMap((w) => w.capture.engines).map((e) => [e.id, e])).values()], n: answers.length, answers, enginePaths,
+      pooledFrom: weeks.map((w) => w.capture.key) },
+    engines,
   };
 }
 
@@ -150,10 +175,14 @@ export async function buildPayload(collection: string, bank: Bank, opts: { crawl
   const manifest = store.readJson<Manifest>("manifest.json");
   if (!manifest) throw new Error(`collection ${collection} has no manifest`);
   const brands = consoleBrands(bank);
-  const cur = capture(store, manifest, bank, brands);
-  const prevName = earlierCollections(collection, bank.key).at(-1) ?? null;
-  const prevStore = prevName ? new CollectionStore(prevName) : null;
-  const prev = prevStore ? capture(prevStore, prevStore.readJson<Manifest>("manifest.json")!, bank, brands) : null;
+  // the weeks: every collection up to this one that asked the bank and has read answers
+  const weeks = [...earlierCollections(collection, bank.key), collection]
+    .map((name) => { const st = new CollectionStore(name); return capture(st, st.readJson<Manifest>("manifest.json")!, bank, brands, 0); })
+    .filter((w) => w.capture.key === collection || w.capture.n);
+  weeks.forEach((w, i) => { w.capture.basis = `Week ${i + 1}`; for (const a of w.capture.answers) a.week = i + 1; });
+  const names = weeks.map((w) => w.capture.key);
+  const cur = pooled(weeks);
+  const [prev, last] = weeks.length > 1 ? weeks.slice(-2) : [null, null];
 
   let crawlerAccess: CrawlerAccess | null = store.readJson<CrawlerAccess>(`crawler/${bank.key}.json`);
   if (!crawlerAccess && opts.crawler) {
@@ -161,9 +190,8 @@ export async function buildPayload(collection: string, bank: Bank, opts: { crawl
     await store.write(`crawler/${bank.key}.json`, JSON.stringify(crawlerAccess, null, 2), "application/json");
   }
 
-  const captures: Record<string, unknown> = { [cur.capture.key]: cur.capture };
-  if (prev && prev.capture.n) captures[prev.capture.key] = prev.capture;
-  const hasPrev = !!(prev && prev.capture.n);
+  const captures: Record<string, unknown> = { [cur.capture.key]: { ...cur.capture, answers: [] }, ...Object.fromEntries(weeks.map((w) => [w.capture.key, w.capture])) };
+  const hasPrev = !!(prev && last && prev.capture.n && last.capture.n);
   const [noun, nouns] = bank.category.noun;
   const payload = {
     instance: bank.key,
@@ -192,7 +220,7 @@ export async function buildPayload(collection: string, bank: Bank, opts: { crawl
     captures,
     current: cur.capture.key,
     previous: hasPrev ? prev!.capture.key : null,
-    driftPair: hasPrev ? { from: prev!.capture.key, to: cur.capture.key } : null,
+    driftPair: hasPrev ? { from: prev!.capture.key, to: last!.capture.key } : null,
     apiCurrent: cur.capture.key,
     volatility: null,
     googleAI: null,
@@ -203,9 +231,10 @@ export async function buildPayload(collection: string, bank: Bank, opts: { crawl
     // added for this tool: the dashboard's persona and run filters
     personas: PERSONAS.map((p) => ({ id: p.id, label: p.label, preamble: p.preamble })),
     runs: manifest.runs,
+    weeks: weeks.map((w, i) => ({ week: i + 1, key: w.capture.key, label: `Week ${i + 1}`, date: w.capture.date, n: w.capture.n })),
   };
   await store.write(`payloads/${bank.key}.json`, JSON.stringify(payload), "application/json");
-  return { answers: cur.capture.n, unread: cur.unread, previous: hasPrev ? prevName : null };
+  return { answers: cur.capture.n, unread: cur.unread, weeks: names };
 }
 
 async function main() {
@@ -215,7 +244,7 @@ async function main() {
   const keys = args.pairs?.split(",").map((s) => s.trim()) ?? PAIRS.map((p) => p.key).filter((k) => manifest?.banks.includes(k));
   for (const key of keys) {
     const r = await buildPayload(args.collection, loadBank(key), { crawler: !args["no-crawler"] });
-    console.log(`[payload] ${key}: ${r.answers} answers${r.unread ? ` (${r.unread} not read yet — run npm run enrich)` : ""}${r.previous ? ` · change over time against ${r.previous}` : ""}`);
+    console.log(`[payload] ${key}: ${r.answers} answers${r.unread ? ` (${r.unread} not read yet — run npm run enrich)` : ""} · ${r.weeks.map((w, i) => `week ${i + 1} = ${w}`).join(", ")}`);
   }
 }
 

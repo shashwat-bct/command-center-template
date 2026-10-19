@@ -24,26 +24,29 @@ let SL = "", PL = "", CAT = "", CATS = "", OWN = "";
 const CAT_NOUN = { tv: ["TV", "TVs"], phone: ["phone", "phones"], headphones: ["pair of headphones", "headphones"], vacuum: ["vacuum", "vacuums"] };
 function setSubjectCopy() { SL = D.subjectLabel; PL = D.productLine || ({ sony: "BRAVIA", samsunggalaxy: "Galaxy", galaxy: "Galaxy" })[D.instance] || SL; [CAT, CATS] = CAT_NOUN[D.category] || D.categoryNoun || [D.category, D.category + "s"]; const sb = D.brands.find(b => b.subject) || D.brands[0]; OWN = (sb && sb.owned && sb.owned[0]) || `${sb ? sb.id : D.subject}.com`; }
 let S = null;                 // state
-// persona and run filters (this tool): RAW keeps the captures as loaded, CUR / PREV / DTO / APIC
-// are the filtered views every page reads
-const LV = { persona: "", run: 0 };
+// persona, run and week filters (this tool): RAW keeps the captures as loaded, CUR / PREV / DTO / APIC
+// are the filtered views every page reads. The week filter narrows the pooled capture only; the
+// drift lens always compares the last two weeks.
+const LV = { persona: "", run: 0, week: 0 };
 let RAW = null;
-const lensCap = (cap) => cap && { ...cap, answers: cap.answers.filter(a => (!LV.persona || a.persona === LV.persona) && (!LV.run || a.run === LV.run)) };
+const WEEKS = () => D.weeks || [];
+const lensCap = (cap, wk = 0) => cap && { ...cap, basis: wk ? `Week ${wk}` : cap.basis, answers: cap.answers.filter(a => (!LV.persona || a.persona === LV.persona) && (!LV.run || a.run === LV.run) && (!wk || a.week === wk)) };
 function applyLens() {
-  CUR = lensCap(RAW.cur); PREV = lensCap(RAW.prev); DTO = lensCap(RAW.dto); APIC = lensCap(RAW.apic);
-  const byRun = {}; for (const a of RAW.cur.answers) if (!LV.persona || a.persona === LV.persona) (byRun[a.run] ||= []).push(a);
+  CUR = lensCap(RAW.cur, LV.week); PREV = lensCap(RAW.prev); DTO = lensCap(RAW.dto); APIC = lensCap(RAW.apic, LV.week);
+  const byRun = {}; for (const a of RAW.cur.answers) if ((!LV.persona || a.persona === LV.persona) && (!LV.week || a.week === LV.week)) (byRun[a.run] ||= []).push(a);
   const runs = Object.keys(byRun).sort();
   D.volatility = runs.length >= 2 ? { runs: runs.map(r => ({ run: "run " + r, capturedAt: RAW.cur.capturedAt, engineSource: RAW.cur.engineSource, answers: byRun[r] })) } : null;
 }
 const personaLabel = (id) => ((D.personas || []).find(p => p.id === id) || {}).label || id || "";
-window.setLens = (k, v) => { LV[k] = k === "run" ? +v : v; applyLens(); rerender(); syncLensChrome(); };
+window.setLens = (k, v) => { LV[k] = k === "run" || k === "week" ? +v : v; applyLens(); rerender(); syncLensChrome(); };
 function syncLensChrome() {
   document.querySelectorAll("[data-lens-k]").forEach(b => b.classList.toggle("on", String(LV[b.dataset.lensK]) === b.dataset.lensV));
 }
 function buildLensChrome() {
   const host = $("lensSet"); if (!host) return;
   const seg = (k, opts) => `<div class="seg mini" role="group">${opts.map(([v, l]) => `<button data-lens-k="${k}" data-lens-v="${v}" onclick="setLens('${k}','${v}')">${esc(l)}</button>`).join("")}</div>`;
-  host.innerHTML = seg("persona", [["", "Both personas"], ...(D.personas || []).map(p => [p.id, p.label])]) + seg("run", [["0", "All runs"], ...Array.from({ length: D.runs || 1 }, (_, i) => [String(i + 1), "Run " + (i + 1)])]);
+  host.innerHTML = seg("persona", [["", "Both personas"], ...(D.personas || []).map(p => [p.id, p.label])]) + seg("run", [["0", "All runs"], ...Array.from({ length: D.runs || 1 }, (_, i) => [String(i + 1), "Run " + (i + 1)])])
+    + (WEEKS().length > 1 ? seg("week", [["0", "All weeks"], ...WEEKS().map(w => [String(w.week), w.label])]) : "");
   syncLensChrome();
 }
 let CUR = null;               // current capture (consumer-UI read, API-filled where the UI path failed)
@@ -208,7 +211,7 @@ function proof({ title, lede, calc, qids, engines = [...S.engines], cap = CUR, h
   const q = qById(); const eng = Object.fromEntries(D.engines.map(e => [e.id, e.label]));
   const blocks = qids.slice(0, maxQ).map(id => {
     const ans = cap.answers.filter(a => a.queryId === id && engines.includes(a.engine));
-    return `<div class="qcard">${qHead(id, ans)}${[...ans].sort((x, y) => String(x.engine).localeCompare(y.engine) || String(x.persona).localeCompare(y.persona) || x.run - y.run).map(a => engRow(a, { label: `${eng[a.engine] || a.engine} · ${personaLabel(a.persona)} · run ${a.run}`, body: md(a.text, hl) })).join("")}</div>`; }).join("");
+    return `<div class="qcard">${qHead(id, ans)}${[...ans].sort((x, y) => (x.week || 0) - (y.week || 0) || String(x.engine).localeCompare(y.engine) || String(x.persona).localeCompare(y.persona) || x.run - y.run).map(a => engRow(a, { label: `${WEEKS().length > 1 ? `Week ${a.week} · ` : ""}${eng[a.engine] || a.engine} · ${personaLabel(a.persona)} · run ${a.run}`, body: md(a.text, hl) })).join("")}</div>`; }).join("");
   openModal(`<div class="mhead"><h2>${esc(title)}</h2><p class="lede" style="margin:4px 0 0">${lede || ""}</p>${calc ? `<div class="calc">${calc}</div>` : ""}</div>${blocks}${qids.length > maxQ ? `<p class="note">${qids.length - maxQ} more questions not shown.</p>` : ""}`);
 }
 window.__proof = proof;
@@ -517,17 +520,47 @@ function renderLenses() {
   cards.push(lensCard("claims", "Lens 09 · Claim audit", `What the engines assert about ${SL}`, `${claims.length} statements extracted from the answers in scope — prices, specs, awards, comparisons. Every one is either true, out of date or wrong, and ${SL} is the only party that can say which.`, `<div class="claimsx">${ctl}<div class="clist fullpage" id="claimList"></div></div>`, `A verified truth-set (${catCopy().truthSet}) is the first deliverable of the programme; the correction route runs through the cited sources, since no engine has a correction desk. ${nConf ? `The ${nConf} conflicting claims are where to start: on the same model and fact the engines already disagree, so one of them is wrong today.` : ""}`));
   // 10 volatility
   if (D.volatility && D.volatility.runs.length >= 2) {
-    const runs = D.volatility.runs; const pairs = {}; for (const r of runs) for (const a of r.answers) { if (!S.engines.has(a.engine)) continue; const k = `${a.queryId}|${a.engine}|${a.persona || ""}`; (pairs[k] ||= []).push({ named: a.brands.some(b => b.id === s), pick: a.topPick || "" }); }
+    const runs = D.volatility.runs; const pairs = {}; for (const r of runs) for (const a of r.answers) { if (!S.engines.has(a.engine)) continue; const k = `${a.queryId}|${a.engine}|${a.persona || ""}|${a.week || ""}`; (pairs[k] ||= []).push({ named: a.brands.some(b => b.id === s), pick: a.topPick || "" }); }
     const rows = Object.entries(pairs).filter(([, v]) => v.length >= 2); const stableNamed = rows.filter(([, v]) => uniq(v.map(x => x.named)).length === 1).length; const stablePick = rows.filter(([, v]) => uniq(v.map(x => x.pick)).length === 1).length;
     const perQ = {}; for (const [k, v] of rows) { const [qid, e] = k.split("|"); (perQ[qid] ||= {})[e] = v; }
     const volEngines = uniq(runs.flatMap(r => r.answers.map(a => a.engine))).filter(e => S.engines.has(e));
-    cards.push(lensCard("vol", "Lens 10 · Answer volatility", "Ask the same question three times", `${runs.length} independent passes of ${Object.keys(perQ).length} questions on ${volEngines.map(e => engL[e]).join(" and ") || "the engines"}, in this collection. Whether ${SL}'s presence and the top pick hold from run to run.`, `<div class="grid2" style="gap:10px">${stat(`${SL} presence stable`, pct(rows.length ? stableNamed / rows.length : null), `${stableNamed} of ${rows.length} question × engine pairs agree across all ${runs.length} runs`)}${stat("Top pick stable", pct(rows.length ? stablePick / rows.length : null), `${stablePick} of ${rows.length} pairs return the same top pick every run`)}</div><div class="tblwrap" style="margin-top:12px"><table class="t"><thead><tr><th>Question</th>${[...S.engines].map(e => `<th class="num">${engName(e, engL[e])}</th>`).join("")}</tr></thead><tbody>${Object.entries(perQ).map(([qid, byE]) => `<tr><td>${esc((q[qid]?.text || qid).slice(0, 60))}</td>${[...S.engines].map(e => { const v = byE[e]; if (!v) return '<td class="num">—</td>'; const k = v.filter(x => x.named).length; return `<td class="num" title="top picks: ${v.map(x => x.pick || "none").join(", ")}">${k}/${v.length}</td>`; }).join("")}</tr>`).join("")}</tbody></table></div><div class="note" style="margin-top:6px">Cells: runs (out of ${runs.length}) in which ${SL} was named. Hover for the top pick each run.</div>`, `A single pass is a coin toss on the unstable rows. That is why the console's default is three runs and the production proposal is seven — and why we report a range, not a point.`));
+    cards.push(lensCard("vol", "Lens 10 · Answer volatility", "Ask the same question three times", `${runs.length} independent passes of ${Object.keys(perQ).length} questions on ${volEngines.map(e => engL[e]).join(" and ") || "the engines"}, within each week. Whether ${SL}'s presence and the top pick hold from run to run.`, `<div class="grid2" style="gap:10px">${stat(`${SL} presence stable`, pct(rows.length ? stableNamed / rows.length : null), `${stableNamed} of ${rows.length} question × engine pairs agree across all ${runs.length} runs`)}${stat("Top pick stable", pct(rows.length ? stablePick / rows.length : null), `${stablePick} of ${rows.length} pairs return the same top pick every run`)}</div><div class="tblwrap" style="margin-top:12px"><table class="t"><thead><tr><th>Question</th>${[...S.engines].map(e => `<th class="num">${engName(e, engL[e])}</th>`).join("")}</tr></thead><tbody>${Object.entries(perQ).map(([qid, byE]) => `<tr><td>${esc((q[qid]?.text || qid).slice(0, 60))}</td>${[...S.engines].map(e => { const v = byE[e]; if (!v) return '<td class="num">—</td>'; const k = v.filter(x => x.named).length; return `<td class="num" title="top picks: ${v.map(x => x.pick || "none").join(", ")}">${k}/${v.length}</td>`; }).join("")}</tr>`).join("")}</tbody></table></div><div class="note" style="margin-top:6px">Cells: runs (out of ${runs.length}) in which ${SL} was named. Hover for the top pick each run.</div>`, `A single pass is a coin toss on the unstable rows. That is why the console's default is three runs and the production proposal is seven — and why we report a range, not a point.`));
+  }
+  // 11a week by week (patch 8): every week of the bank, like for like; the persona and run filters
+  // apply, the week filter does not (this lens is the weeks side by side)
+  if (WEEKS().length >= 2 && sb) {
+    const W = WEEKS().map(w => { const cap = lensCap(D.captures[w.key]); const A = activeAnswers(cap), AC = compareAnswers(cap); return { w, A, AC, sh: shareOf(AC), pr: presenceOf(AC), tp: topPickShare(AC).out }; });
+    const n = W.length, lastW = W[n - 1], prevW = W[n - 2];
+    const pts = (a, b) => a == null || b == null ? "—" : (b - a >= 0 ? "+" : "−") + Math.abs((b - a) * 100).toFixed(0) + " pts";
+    const tone = (a, b) => a == null || b == null ? "inherit" : b - a >= 0.005 ? "var(--good)" : b - a <= -0.005 ? "var(--crit)" : "inherit";
+    const row = (label, vals, cls = "") => `<tr${cls ? ` class="${cls}"` : ""}><td>${label}</td>${vals.map(v => `<td class="num">${pct(v)}</td>`).join("")}<td class="num" style="color:${tone(vals[n - 2], vals[n - 1])}">${pts(vals[n - 2], vals[n - 1])}</td></tr>`;
+    const sec = (t) => `<tr><td colspan="${n + 2}" style="padding-top:14px"><b>${t}</b></td></tr>`;
+    const head = `<thead><tr><th></th>${W.map(x => `<th class="num">${esc(x.w.label)}</th>`).join("")}<th class="num">${esc(prevW.w.label)} → ${esc(lastW.w.label)}</th></tr></thead>`;
+    const brandRows = [...bs].sort((x, y) => (lastW.sh[y.id] ?? 0) - (lastW.sh[x.id] ?? 0)).map(b => row(`<span class="dot" style="background:${b.color}"></span> ${esc(b.label)}`, W.map(x => x.sh[b.id]), b.id === s ? "subj" : ""));
+    const engRows = vEng.map(e => row(esc(engL[e] || e), W.map(x => shareOf(x.AC.filter(a => a.engine === e))[s])));
+    const stRows = D.stages.map(st => row(esc(st.label), W.map(x => shareOf(stageAnswers(st.id, x.A))[s])));
+    const table = `<div class="tblwrap"><table class="t">${head}<tbody>${sec(`Share of voice · brand-neutral questions (${esc(compareLabel())})`)}${brandRows.join("")}${sec(`${SL} on brand-neutral questions`)}${row(`Named in at least one answer`, W.map(x => x.pr[s].rate))}${row(`Top pick, of answers that pick one`, W.map(x => x.tp[s]))}${sec(`${SL} share by engine`)}${engRows.join("")}${sec(`${SL} share by stage`)}${stRows.join("")}</tbody></table></div>`;
+    // what happened each week, against the week before
+    const namedQ = (arr) => new Set(arr.filter(a => mention(a, sb)).map(a => a.queryId));
+    const leader = (x) => bs.reduce((m, b) => (x.sh[b.id] ?? -1) > (x.sh[m.id] ?? -1) ? b : m, bs[0]);
+    const story = W.map((x, i) => {
+      const L = leader(x);
+      const lead = L.id === s ? `${SL} leads the category` : `${esc(L.label)} leads at ${pct(x.sh[L.id])}`;
+      if (!i) return `<li><b>${esc(x.w.label)}</b> — ${SL} holds <b>${pct(x.sh[s])}</b> share of voice, is named on ${x.pr[s].n} of ${x.pr[s].of} brand-neutral questions and is the top pick in ${pct(x.tp[s])} of answers that pick one; ${lead}.</li>`;
+      const p = W[i - 1]; const now = namedQ(x.A), then = namedQ(p.A);
+      const gained = [...now].filter(k => !then.has(k)).length, lost = [...then].filter(k => !now.has(k)).length;
+      const mover = bs.filter(b => b.id !== s).map(b => ({ b, d: (x.sh[b.id] ?? 0) - (p.sh[b.id] ?? 0) })).sort((u, v) => Math.abs(v.d) - Math.abs(u.d))[0];
+      return `<li><b>${esc(x.w.label)}</b> — ${SL}'s share <span style="color:${tone(p.sh[s], x.sh[s])}">${pts(p.sh[s], x.sh[s])}</span> to <b>${pct(x.sh[s])}</b>; top pick ${pct(p.tp[s])} → ${pct(x.tp[s])}. ${gained} question${gained === 1 ? "" : "s"} gained a ${SL} mention and ${lost} lost one.${mover && Math.abs(mover.d) >= 0.005 ? ` Biggest rival move: ${esc(mover.b.label)} ${pts(0, mover.d)}.` : ""} ${lead}.</li>`;
+    });
+    const viz = table + `<h4 style="margin:16px 0 6px">What happened each week</h4><ul class="note" style="margin:0;padding-left:18px;line-height:1.6">${story.join("")}</ul>`;
+    cards.push(lensCard("weeks", "Lens 11a · Week by week", `${SL}, week by week`, `The same ${activeQueries().length} questions, engines and reader every week, with the same collection method (both personas, three runs, US). The other pages pool all ${n} weeks; this lens reads them one at a time.`, viz,
+      `From ${esc(prevW.w.label)} to ${esc(lastW.w.label)}, ${SL}'s share of voice went ${pct(prevW.sh[s])} → ${pct(lastW.sh[s])}. A move smaller than the run-to-run spread in Lens 10 is noise; one that holds for several weeks is a trend.`));
   }
   // 11 drift
   if (PREV && DTO) {
     const d = driftSummary(); const AT = activeAnswers(DTO); const stRows = D.stages.map(st => ({ st, prev: shareOf(stageAnswers(st.id, activeAnswers(PREV)))[s], cur: shareOf(stageAnswers(st.id, AT))[s] }));
-    cards.push(lensCard("drift", "Lens 11 · Drift", `What moved since ${PREV.basis}`, `The same ${activeQueries().length} questions, the same engines, the same reader, the same collection method (both personas, three runs, US) — captured ${PREV.basis} and ${DTO.basis}. Any difference is the engines changing their minds, not our method.`, `<div class="tblwrap"><table class="t"><thead><tr><th>Stage</th><th class="num">${esc(PREV.basis)}</th><th class="num">${esc(DTO.basis)}</th><th class="num">Change</th></tr></thead><tbody>${stRows.map(r => `<tr><td>${esc(r.st.label)}</td><td class="num">${pct(r.prev)}</td><td class="num">${pct(r.cur)}</td><td class="num" style="color:${r.cur - r.prev > 0 ? "var(--good)" : r.cur - r.prev < 0 ? "var(--crit)" : "inherit"}">${r.prev == null || r.cur == null ? "—" : (r.cur - r.prev >= 0 ? "+" : "") + ((r.cur - r.prev) * 100).toFixed(0) + " pts"}</td></tr>`).join("")}<tr class="subj"><td>Brand-neutral questions (${esc(compareLabel())})</td><td class="num">${pct(d.prevShare)}</td><td class="num">${pct(d.curShare)}</td><td class="num">${(d.curShare - d.prevShare >= 0 ? "+" : "") + ((d.curShare - d.prevShare) * 100).toFixed(0)} pts</td></tr></tbody></table></div><div class="note" style="margin-top:8px">${d.gained.length} questions gained a ${SL} mention on at least one engine, ${d.lost.length} lost one. <a href="#" onclick="openMovers();return false">See the movers →</a></div>`, `Drift is the measurement that turns a snapshot into a programme: it is what a monthly cadence reports, and what the targets below are set against.`));
-  } else cards.push(lensCard("drift", "Lens 11 · Drift", "What moved since the last capture", "The same questions, engines and reader on two dates.", '<div class="withheld-card"><b>Withheld</b><p>The second capture is running today; this lens fills in when it lands.</p></div>', null));
+    cards.push(lensCard("drift", "Lens 11 · Drift", `What moved since ${PREV.basis}`, `The same ${activeQueries().length} questions, the same engines, the same reader, the same collection method (both personas, three runs, US) — asked in ${PREV.basis} and again in ${DTO.basis}. Any difference is the engines changing their minds, not our method.`, `<div class="tblwrap"><table class="t"><thead><tr><th>Stage</th><th class="num">${esc(PREV.basis)}</th><th class="num">${esc(DTO.basis)}</th><th class="num">Change</th></tr></thead><tbody>${stRows.map(r => `<tr><td>${esc(r.st.label)}</td><td class="num">${pct(r.prev)}</td><td class="num">${pct(r.cur)}</td><td class="num" style="color:${r.cur - r.prev > 0 ? "var(--good)" : r.cur - r.prev < 0 ? "var(--crit)" : "inherit"}">${r.prev == null || r.cur == null ? "—" : (r.cur - r.prev >= 0 ? "+" : "") + ((r.cur - r.prev) * 100).toFixed(0) + " pts"}</td></tr>`).join("")}<tr class="subj"><td>Brand-neutral questions (${esc(compareLabel())})</td><td class="num">${pct(d.prevShare)}</td><td class="num">${pct(d.curShare)}</td><td class="num">${(d.curShare - d.prevShare >= 0 ? "+" : "") + ((d.curShare - d.prevShare) * 100).toFixed(0)} pts</td></tr></tbody></table></div><div class="note" style="margin-top:8px">${d.gained.length} questions gained a ${SL} mention on at least one engine, ${d.lost.length} lost one. <a href="#" onclick="openMovers();return false">See the movers →</a></div>`, `Drift is the measurement that turns a snapshot into a programme: it is what a monthly cadence reports, and what the targets below are set against.`));
+  } else cards.push(lensCard("drift", "Lens 11 · Drift", "What moved since the last capture", "The same questions, engines and reader on two dates.", '<div class="withheld-card"><b>Withheld</b><p>This lens compares each week with the one before; it fills in from Week 2.</p></div>', null));
   // 11b UI vs API — same day, same questions, two paths
   if (APIC && CUR.enginePaths) {
     const uiEng = Object.entries(CUR.enginePaths).filter(([e, x]) => x.path === "ui" && S.engines.has(e)).map(([e]) => e);
@@ -894,7 +927,7 @@ const TPL = {
     ${card({ title: "Prices the Engines Quote", sub: `Every price an engine states for a ${SL} model, one dot per quote, coloured by engine. A model with one price is consistent; a spread is a shopper seeing different prices depending on which engine they ask. Tap a model for each price and the sentence it came from.`, tag: "Measured", tagCls: "good", slot: "claimPrices" })}
     <div style="margin-top:20px">${card({ title: "Everything Else They Claim, by Model", sub: "Specs, comparisons and awards the engines attach to each model. Tap a model to read them, grouped by type.", tag: "Measured", tagCls: "good", slot: "claimModels" })}</div>
     <details class="h2hq" style="margin-top:20px"><summary>All claims, with filters</summary><div id="lens-claims" style="margin-top:12px"></div></details>`,
-  change: () => `${intro('<span id="chgLead">—</span>')}<div id="lens-drift"></div><div id="lens-vol"></div>`,
+  change: () => `${intro('<span id="chgLead">—</span>')}<div id="lens-weeks"></div><div id="lens-drift"></div><div id="lens-vol"></div>`,
   live: () => `${intro(`Ask the engines any shopper question and read their real answers, with the brands, positions, top pick and citations read out of each one. <b>ChatGPT and Gemini are read from their consumer apps (about 1–3 minutes); Claude answers through its API in about 10 seconds.</b>`)}
     <section class="card"><div class="livebox"><div>
       <label class="lvl" for="liveQ">Ask a question</label>
@@ -962,7 +995,7 @@ function stageRead(A) { const s = subjectId(); return D.stages.map(x => { const 
 const stageRank = (x) => x.cmp ? rankPhrase(x.shareAll, subjectId()) : `questions name ${SL}`;
 function volatilityRead() {
   if (!D.volatility || D.volatility.runs.length < 2) return null; const s = subjectId();
-  const runs = D.volatility.runs; const pairs = {}; for (const r of runs) for (const a of r.answers) { if (!S.engines.has(a.engine)) continue; const k = `${a.queryId}|${a.engine}|${a.persona || ""}`; (pairs[k] ||= []).push({ named: a.brands.some(b => b.id === s), pick: a.topPick || "" }); }
+  const runs = D.volatility.runs; const pairs = {}; for (const r of runs) for (const a of r.answers) { if (!S.engines.has(a.engine)) continue; const k = `${a.queryId}|${a.engine}|${a.persona || ""}|${a.week || ""}`; (pairs[k] ||= []).push({ named: a.brands.some(b => b.id === s), pick: a.topPick || "" }); }
   const rows = Object.entries(pairs).filter(([, v]) => v.length >= 2); if (!rows.length) return null;
   const stableNamed = rows.filter(([, v]) => uniq(v.map(x => x.named)).length === 1).length; const stablePick = rows.filter(([, v]) => uniq(v.map(x => x.pick)).length === 1).length;
   return { runs: runs.length, pairs: rows.length, named: stableNamed / rows.length, pick: stablePick / rows.length };
@@ -1016,7 +1049,7 @@ function renderOverview() {
   const sh = shareOf(AC), pr = presenceOf(AC), tp = topPickShare(AC); const nQ = uniq(AC.map(a => a.queryId)).length;
   const rk = avgRank(AC, sb); const rankObj = Object.fromEntries(bs.map(b => [b.id, b.custom ? null : -(avgRank(AC, b) ?? 99)])); const presObj = Object.fromEntries(bs.map(b => [b.id, pr[b.id].rate]));
   const drift = PREV && DTO ? driftSummary() : null;
-  const dchip = drift ? deltaChip(drift.prevShare, drift.curShare, `Like for like, ${monthLabel(PREV.basis)} → ${monthLabel(DTO.basis)}: ${pct(drift.prevShare)} → ${pct(drift.curShare)}`).replace("</span>", ` since ${esc(monthLabel(PREV.basis))} · API path</span>`) : "";
+  const dchip = drift && (!LV.week || LV.week === WEEKS().length) ? deltaChip(drift.prevShare, drift.curShare, `Like for like, ${monthLabel(PREV.basis)} → ${monthLabel(DTO.basis)}: ${pct(drift.prevShare)} → ${pct(drift.curShare)}`).replace("</span>", ` since ${esc(monthLabel(PREV.basis))}</span>`) : "";
   $("ovKpis").innerHTML =
     kpi({ label: "Share of AI answer", dot: sb.color, value: pct(sh[s]), rank: rankChip(sh, s), delta: dchip, note: `${nQ} brand-neutral questions × ${S.engines.size} engine${S.engines.size === 1 ? "" : "s"} · presence × position × favourability`, onclick: "openShareProof()" }) +
     kpi({ label: "Named in", dot: sb.color, value: String(pr[s]?.n ?? "—"), unit: `/ ${pr[s]?.of ?? "—"} questions`, rank: rankChip(presObj, s), note: `brand-neutral questions where at least one engine names ${SL}`, onclick: `openPresenceProof('${s}')` }) +
@@ -1027,7 +1060,7 @@ function renderOverview() {
   const engSh = Object.fromEntries([...S.engines].map(e => [e, shareOf(AC.filter(a => a.engine === e))[s]])); const engRows = byDesc(Object.fromEntries(Object.entries(engSh).filter(([, v]) => v != null))); const engBest = engRows[0], engWorst = engRows[engRows.length - 1];
   $("ovLead").innerHTML = AC.length ? `<b>${esc(D.subjectLabel)} holds ${pct(sh[s])} of the weighted AI answer</b> across the ${nQ} brand-neutral shopper questions (${esc(compareLabel())}) on ${S.engines.size} engine${S.engines.size === 1 ? "" : "s"} — ${standingPhrase(sh, s, "brands tracked")} — and is named in ${pr[s].n} of ${pr[s].of} of them.${dir ? ` Its share <b>${dir} through the funnel</b>: ${st.map(x => `${esc(x.label)} ${pct(x.share)}`).join(" → ")}.` : ""}${engBest ? ` Strongest on ${esc(engLabel(engBest[0]))} (${pct(engBest[1])})${engRows.length > 1 ? `, weakest on ${esc(engLabel(engWorst[0]))} (${pct(engWorst[1])})` : ""}.` : ""}` : "No brand-neutral stage in scope — switch Awareness or Consideration back on from the Scope panel to compare brands; the funnel below still reads per stage.";
   renderOverviewExtras(AC, sh);
-  $("ovAside").innerHTML = `<div class="k">Capture</div><div class="v">${esc(fmtDate(CUR.capturedAt || CUR.basis))}</div><div class="n">${esc(D.market)} · ${esc(pathsSentence())}${D.evidenceSummary?.sessions ? ` · ${D.evidenceSummary.sessions} real sessions on file` : ""}</div>`;
+  $("ovAside").innerHTML = `<div class="k">Capture</div><div class="v">${esc(WEEKS().length > 1 ? CUR.basis : fmtDate(CUR.capturedAt || CUR.basis))}</div><div class="n">${esc(D.market)} · ${esc(pathsSentence())}${D.evidenceSummary?.sessions ? ` · ${D.evidenceSummary.sessions} real sessions on file` : ""}</div>`;
   // the read today — every sentence is computed, and its tone with it
   const reads = []; const shSt = standing(sh, s);
   if (shSt) { const rows = byDesc(Object.fromEntries(Object.entries(sh).filter(([, v]) => v != null))); reads.push({ tone: shSt.rank === 1 ? "good" : shSt.rank === 2 ? "watch" : "risk", text: `${esc(D.subjectLabel)} is <b>${standingPhrase(sh, s, "brands")}</b> on share of the AI answer at ${pct(sh[s])}; ${shSt.leader === s ? (rows[1] ? `${esc(brandLabel(rows[1][0]))} is next at ${pct(rows[1][1])}` : "no other brand is in scope") : `${esc(brandLabel(shSt.leader))} leads at ${pct(sh[shSt.leader])}`}.` }); }
@@ -1220,9 +1253,9 @@ function renderPageLeads() {
   }
   // change
   const drift = PREV && DTO ? driftSummary() : null; const vol = volatilityRead();
-  const parts = [];
+  const parts = WEEKS().length > 1 ? [`The other pages pool all ${WEEKS().length} weeks; this page reads them one at a time.`] : [];
   if (drift && drift.prevShare != null && drift.curShare != null) parts.push(`Like for like, <b>${SL}'s share moved from ${pct(drift.prevShare)} in ${esc(monthLabel(PREV.basis))} to ${pct(drift.curShare)} in ${esc(monthLabel(DTO.basis))}</b> on the same ${compareQueries().length} brand-neutral questions, engines and reader.`);
-  if (vol) parts.push(`Across ${vol.runs} same-day passes, ${SL}'s presence holds on ${pct(vol.named)} of question × engine pairs and the top pick on ${pct(vol.pick)} — treat single-run differences under that spread as noise.`);
+  if (vol) parts.push(`Across the ${vol.runs} runs of each question within a week, ${SL}'s presence holds on ${pct(vol.named)} of question × engine pairs and the top pick on ${pct(vol.pick)} — treat single-run differences under that spread as noise.`);
   $("chgLead").innerHTML = parts.join(" ") || "The second capture and the volatility passes are still running; this page fills in when they land.";
 }
 
@@ -1646,7 +1679,8 @@ const loadJson = (url) => fetch(url, { cache: "no-store" }).then(r => { if (!r.o
   if (pc.status !== "fulfilled") { console.error(pc.reason); $("pages").insertAdjacentHTML("beforeend", `<div class="withheld-card"><b>Payload</b><p>The payload failed to load (${esc(pc.reason?.message || pc.reason)}).</p></div>`); return; }
   try {
     D = CC.googlePalette(pc.value); setSubjectCopy();
-    RAW = { cur: D.captures[D.current], prev: D.driftPair ? D.captures[D.driftPair.from] : null, dto: D.driftPair ? D.captures[D.driftPair.to] : null, apic: D.apiCurrent ? D.captures[D.apiCurrent] : null }; applyLens();
+    for (const c of Object.values(D.captures)) if (c.pooledFrom) c.answers = c.pooledFrom.flatMap(k => D.captures[k].answers);
+  RAW = { cur: D.captures[D.current], prev: D.driftPair ? D.captures[D.driftPair.from] : null, dto: D.driftPair ? D.captures[D.driftPair.to] : null, apic: D.apiCurrent ? D.captures[D.apiCurrent] : null }; applyLens();
     // the workbench payload is optional: without it the workbench pages withhold, the console is untouched
     if (pw.status === "fulfilled") { WB = CC.googlePalette(pw.value); W = WB.meta.pilotEndWeek; const qw = new URLSearchParams(location.search).get("w"); if (qw != null && !isNaN(+qw)) W = Math.max(0, Math.min(12, +qw)); }
     else if (body.payloadWb) console.error("workbench payload", pw.reason);
