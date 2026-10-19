@@ -99,8 +99,8 @@ function landing(): string {
 }
 
 function dashboard(collection: string, key: string): string {
-  const others = latest();
-  const options = others.flatMap((c) => c.payloads.map((k) => `<option value="/d/${encodeURIComponent(c.id)}/${encodeURIComponent(k)}" ${c.id === collection && k === key ? "selected" : ""}>${esc(pairLabel(k))} · ${esc(c.id)}</option>`)).join("");
+  // each brand's dashboard stands alone: no switching to another brand's from here
+  const options = `<option value="/d/${encodeURIComponent(collection)}/${encodeURIComponent(key)}" selected>${esc(pairLabel(key))}</option>`;
   const [brand, cat] = pairLabel(key).split(" · ");
   const retail = existsSync(new CollectionStore(collection).abs(`retail/${key}.json`));
   const product = retail ? "Command Center" : "AI Engine Visibility";
@@ -115,7 +115,6 @@ function dashboard(collection: string, key: string): string {
   <div class="period"><span id="scWin">—</span></div>
   <div class="nav" id="nav"></div>
   <div class="rail-foot">
-    <a class="rf-btn" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="17" height="17"><path d="M3 12l9-8 9 8M5 10v10h14V10" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="rf-txt">All dashboards</span></a>
     <button class="rf-btn" id="railToggle" aria-label="Collapse navigation">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="17" height="17"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="rf-txt">Collapse</span>
