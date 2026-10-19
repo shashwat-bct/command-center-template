@@ -79,7 +79,7 @@ const shot = (r) => r && r.screenshot ? ` <a class="ra-shot" href="${esc(r.scree
 function listings() {
   const by = new Map();
   for (const r of R.rows) {
-    const k = r.listingKey || `${r.brand}|${r.product}|${r.retailer}`;
+    const k = `${r.brand}|${r.product}|${r.retailer}`;
     if (!by.has(k)) by.set(k, []);
     by.get(k).push(r);
   }
@@ -89,7 +89,6 @@ function listings() {
     const model = R.models.find((m) => m.brand === rs[0].brand && m.product === rs[0].product);
     return {
       brand: rs[0].brand, product: rs[0].product, model, label: model ? model.label : rs[0].product, retailer: rs[0].retailer, history: rs,
-      condition: rs[rs.length - 1].condition || "new", variant: rs[rs.length - 1].variant || "",
       latest: rs[rs.length - 1],
       priced: lastWith((r) => r.priceUsable),
       stocked: lastWith((r) => !!r.availability),
@@ -101,12 +100,6 @@ const AV = {
   in_stock: ["In stock", "good"], limited: ["Limited", "warn"], out_of_stock: ["Out of stock", "risk"],
   no_buy_box: ["No buy box", "risk"], store_required: ["Store pick-up only", "warn"], discontinued: ["Discontinued", "risk"], unknown: ["Unknown", ""],
 };
-/** Phones are listed new, carrier-prepaid or renewed (refurbished, restored, pre-owned); TV listings are all new. */
-const COND = { new: ["New", "good"], prepaid: ["Carrier prepaid", "warn"], renewed: ["Renewed / pre-owned", "warn"] };
-const COND_COLORS = { new: "#1a73e8", prepaid: "#fbbc04", renewed: "#80868b" };
-const isNew = (l) => l.condition === "new";
-const hasCond = () => R.rows.some((r) => r.condition && r.condition !== "new");
-const condTag = (l) => l.condition && l.condition !== "new" ? ` ${tagFor(COND[l.condition][1], COND[l.condition][0])}` : "";
 const sellable = (l) => l.stocked && (l.stocked.availability === "in_stock" || l.stocked.availability === "limited");
 const knownStock = (l) => l.stocked && l.stocked.availability !== "unknown";
 
@@ -129,8 +122,6 @@ function brandShelf(L) {
       promo: mine.length ? (mine.filter((l) => l.latest.promos.length).length / mine.length) * 100 : null,
       rating: reviews ? rated.reduce((n, l) => n + l.rated.rating * (l.rated.reviews || 0), 0) / reviews : mean(rated.map((l) => l.rated.rating)),
       reviews,
-      renewed: (mine.filter((l) => l.condition === "renewed").length / mine.length) * 100,
-      fresh: (mine.filter(isNew).length / mine.length) * 100,
     };
   }
   return out;
@@ -152,62 +143,16 @@ function aiBrand() {
   return { out, n: C.length };
 }
 /** "BRAVIA 9 II True RGB 4K HDR Google TV with Gemini" → "BRAVIA 9 II". */
-function tvModelName(brandId, raw) {
+function aiModelName(brandId, raw) {
   let s = String(raw || "").split(/\s*\/\s*|,|\bor\b|\bvs\.?\b|\(/i)[0];
   s = s.replace(new RegExp(`^\\s*${B(brandId).label}\\s+`, "i"), "");
   s = s.split(/\b(?:QD-?OLED|OLED|Mini[\s-]?LED|LED|4K|8K|True\s+RGB|Smart|Google|with|Series|evo|Neo|Vision|QLED|ULED|TV|\d{2}["”]|\d{2}-?inch|inch)\b/i)[0];
   s = s.replace(/\s+/g, " ").trim().toUpperCase();
   return /\d/.test(s) ? s : null;
 }
-/** As src/retail.ts phoneModel: "Google Pixel 10 Pro XL (256GB)" → Google · "Pixel 10 Pro XL". */
-const PHONE_LINES = [
-  [/\b(?:apple|iphone)\b/i, "Apple", /\biPhone\s*(\d{1,2}[a-z]?|XR|XS|SE|X)\b(?:\s*(Pro\s*Max|Pro|Plus|Max|Mini|Air))?/i],
-  [/\b(?:samsung|galaxy)\b/i, "Samsung", /\bGalaxy\s+(?:(Z)\s*(Fold|Flip)\s*(\d+)|([SAM])\s?(\d{2,3}))(?:\s*(Ultra|FE|Plus|Edge|\+|5G))?(?:\s*(Ultra|FE|Plus|Edge))?/i],
-  [/\b(?:google|pixel)\b/i, "Google", /\bPixel\s*(\d{1,2}a?|Fold|XL)\b(?:\s*(Pro\s*XL|Pro\s*Fold|Pro|XL))?/i],
-];
-const tcase = (s) => s.replace(/\s+/g, " ").trim().replace(/\b(pro|max|plus|mini|air|ultra|edge|fold|flip|xl)\b/gi, (w) => w.toUpperCase() === "XL" ? "XL" : w[0].toUpperCase() + w.slice(1).toLowerCase());
-function phoneModelName(brandId, raw) {
-  const text = String(raw || "");
-  for (const [brandRe, brand, re] of PHONE_LINES) {
-    if (!brandRe.test(text)) continue;
-    if (brand.toLowerCase() !== B(brandId).label.toLowerCase()) return null;
-    const m = re.exec(text);
-    if (!m) return null;
-    if (brand === "Samsung") {
-      const suffix = [m[6], m[7]].filter((x) => x && !/^5G$/i.test(x)).map((x) => x === "+" ? "+" : tcase(x)).join(" ");
-      return `${m[1] ? `Galaxy Z ${tcase(m[2])}${m[3]}` : `Galaxy ${m[4].toUpperCase()}${m[5]}`}${suffix ? (suffix === "+" ? "+" : " " + suffix) : ""}`;
-    }
-    return tcase(`${brand === "Apple" ? "iPhone" : "Pixel"} ${m[1].toUpperCase().replace(/^(\d+)([A-Z])$/, (_, n, l) => n + l.toLowerCase())}${m[2] ? " " + m[2] : ""}`);
-  }
-  return null;
-}
 const modelRe = (m) => new RegExp(m.match, "i");
 const SIZE_RE = /\b(\d{2,3})\s*(?:["”]|-?\s*inch(?:es)?\b|-?in\b|\s*class\b)/i;
-const sizeOf = (s) => { const m = SIZE_RE.exec(s || ""); return m ? `${m[1]}-inch` : null; };
-const storageOf = (s) => { const m = /\b(\d{2,4})\s*(GB|TB)\b/i.exec(String(s || "").replace(/\b\d+\s*GB\s*(?:of\s*)?RAM\b|\bRAM\s*\d+\s*GB\b/gi, "")); return m ? `${m[1]}${m[2].toUpperCase()}` : null; };
-
-/** What differs between TV and phone shelves: how models are named, which configuration a price is for, and the wording. */
-const PROFILES = {
-  tv: {
-    modelName: tvModelName, display: (label) => label.toUpperCase(), variantOf: sizeOf, variant: "screen size", variantShort: "size",
-    pricingNote: "Shelf price and was-price read off each page's screenshot; non-US pages, non-dollar prices and unreadable captures are left out. All audited TVs are the 65-inch size.",
-    quietWhy: "entry and mid-range models that carry the shelf promotions get little AI attention.",
-    modelExample: `"BRAVIA 8 II" matches "Bravia 8 II QD-OLED" but not "Bravia 8"`,
-    sample: (n, sl) => `The audit tracks ${n} ${sl} models at the 65-inch size; it is a sample of the shelf, not the retailers' full range, so shares of listings are not shares of the market.`,
-    audit: (rts) => `The audit opens each tracked product page at ${rts} in a real browser and saves a full-page screenshot to GCS.`,
-  },
-  smartphones: {
-    // a phone price with no storage named is the price of the model as sold, so it is judged against the shelf
-    modelName: phoneModelName, display: (label) => label, variantOf: storageOf, variant: "storage", variantShort: "storage", judgeUnstated: true,
-    pricingNote: "Shelf price and was-price read off each page's screenshot. Each phone listing is priced for the storage its title names; renewed, pre-owned and carrier-prepaid listings are shown but kept out of the price spreads and the AI price check, which compare new, unlocked phones.",
-    quietWhy: "they are older or renewed models the engines no longer put in front of shoppers.",
-    modelExample: `"Pixel 10 Pro" matches "Google Pixel 10 Pro (128GB)" but not "Pixel 10 Pro XL" or "Pixel 10"`,
-    sample: (n, sl) => `The phone tab is the listings the audit captured from retailer search results (${n} ${sl} models), new and renewed alike; it is a sample of the shelf, not the retailers' full range, so shares of listings are not shares of the market.`,
-    audit: (rts) => `The audit opens the smartphone listings it finds at ${rts} in a real browser and saves a full-page screenshot to GCS. Brand, model, storage and condition (new, carrier prepaid, renewed / pre-owned) are read from each listing's title, because the tab's brand column holds the title's first word.`,
-  },
-};
-const P = () => PROFILES[R.categorySlug] || PROFILES.tv;
-const aiModelName = (brandId, raw) => P().modelName(brandId, raw);
+const sizeOf = (s) => { const m = SIZE_RE.exec(s || ""); return m ? +m[1] : null; };
 /** The first dollar figure in a claim, or null for a range or a claim with no dollar figure. */
 function dollars(value, claim) {
   const src = /\$/.test(value || "") ? value : claim;
@@ -231,7 +176,6 @@ function renderScorecard(L, shelf, ai) {
   const R_ = [];
   if (a.share != null) R_.push({ tone: best(shareObj) ? "good" : "watch", text: `On the ${A.compareLabel()} questions that name no brand, <b>${esc(SL())} holds ${pct(a.share)} of the AI answer</b>${best(shareObj) ? ", more than any tracked rival" : ` — ${esc(leaderOf(shareObj))} leads`}. Engines put ${esc(SL())} first in ${pct(a.top)} of those answers.` });
   if (sh && sh.sellable != null) R_.push({ tone: sh.sellable >= 80 ? "good" : sh.sellable >= 60 ? "watch" : "risk", text: `At the shelf, <b>${pct(sh.sellable)} of ${esc(SL())}'s tracked listings could be bought</b> at the latest reading (in stock or limited) — ${rankChip(sellObj, s).replace(/<[^>]+>/g, "")} among the brands audited.` });
-  if (hasCond() && sh && sh.renewed >= 40) R_.push({ tone: "risk", text: `<b>${pct(sh.renewed)} of ${esc(SL())}'s listings on the audited shelf are renewed or pre-owned</b> (${L.filter((l) => l.brand === s && l.condition === "renewed").map((l) => esc(l.label)).filter((x, i, a) => a.indexOf(x) === i).join(", ")}); ${pct(sh.fresh)} are new, unlocked phones. A shopper who searches the retailer finds older ${esc(SL())} models, not the ones the engines recommend.` });
   if (sh && sh.discounted != null) R_.push({ tone: "watch", text: `${pct(sh.discounted)} of ${esc(SL())}'s priced listings showed a was-price${sh.depth ? `, a median ${F().pct(sh.depth, 0)} off` : ""}; across all brands the field average is ${pct(mean(Object.values(discObj)))}.` });
   if (a.share != null && sh && sh.sellable != null) {
     const aiRank = standing(shareObj, s), shelfRank = standing(sellObj, s);
@@ -255,7 +199,6 @@ function renderScorecard(L, shelf, ai) {
     { label: "Buyable", get: (r) => shelf[r.b] ? `${pct(shelf[r.b].sellable)} ${rankChip(sellObj, r.b)}` : "—" },
     { label: "With a was-price", get: (r) => shelf[r.b] ? pct(shelf[r.b].discounted) : "—" },
     { label: "With a promotion", get: (r) => shelf[r.b] ? `${pct(shelf[r.b].promo)}` : "—" },
-    ...(hasCond() ? [{ label: "New, not renewed", get: (r) => shelf[r.b] ? pct(shelf[r.b].fresh) : "—" }] : []),
     { label: "Rating", get: (r) => shelf[r.b] && shelf[r.b].rating != null ? `${F().n(shelf[r.b].rating, 2)}★ ${rankChip(rateObj, r.b)}` : "—" },
   ], brands().map(row)) })}
   <div class="grid g2" style="margin-top:14px">
@@ -276,38 +219,31 @@ function renderScorecard(L, shelf, ai) {
 function renderCarriage(L) {
   const s = S(), retailers = R.retailers;
   const ms = R.models.slice().sort((a, b) => (a.brand === s ? -1 : 0) - (b.brand === s ? -1 : 0) || brands().findIndex((x) => x.id === a.brand) - brands().findIndex((x) => x.id === b.brand));
-  // a phone model can have several listings at one retailer (new, prepaid, renewed): show the new one first
-  const at = (m, rt) => L.filter((l) => l.brand === m.brand && l.product === m.product && l.retailer === rt).sort((a, b) => isNew(b) - isNew(a))[0];
+  const at = (m, rt) => L.find((l) => l.brand === m.brand && l.product === m.product && l.retailer === rt);
   const mine = L.filter((l) => l.brand === s), known = mine.filter(knownStock);
   const oos = known.filter((l) => l.stocked.availability === "out_of_stock");
   const shelf = brandShelf(L), sellObj = col(shelf, "sellable");
-  const chip = (l) => { if (!l) return `<span class="ra-nt" title="No link to this listing in the audit">not tracked</span>`; if (!l.stocked) return `<span class="ra-nt">no reading</span>`; const [t, c] = AV[l.stocked.availability] || [l.stocked.availability, ""]; return `<span class="tag ${c}" title="${esc(l.stocked.stock || t)} · ${esc(l.stocked.date)}">${esc(t)}</span>${condTag(l)}`; };
+  const chip = (l) => { if (!l) return `<span class="ra-nt" title="No link to this listing in the audit">not tracked</span>`; if (!l.stocked) return `<span class="ra-nt">no reading</span>`; const [t, c] = AV[l.stocked.availability] || [l.stocked.availability, ""]; return `<span class="tag ${c}" title="${esc(l.stocked.stock || t)} · ${esc(l.stocked.date)}">${esc(t)}</span>`; };
   $("host-ra-carriage").innerHTML = `
   ${laneNote("measured", `Read off each product page's screenshot by the retail audit tool; latest reading per listing. "Not tracked" means the audit holds no link for that model at that retailer — it is not evidence the retailer does not carry it.`)}
   ${intro(`Which of the audited models each retailer shows as buyable. ${esc(SL())} has <b>${mine.length} tracked listings</b> (${uniq(mine.map((l) => l.product)).length} models across ${uniq(mine.map((l) => l.retailer)).length} retailers); at the latest reading <b>${known.filter(sellable).length} of ${known.length}</b> with a stock reading could be bought.`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${kpi({ label: "Listings buyable", dot: B(s).color, value: pct(shelf[s] && shelf[s].sellable), rank: rankChip(sellObj, s), note: "In stock or limited, latest reading" })}
     ${kpi({ label: "Out of stock", dot: B(s).color, value: String(oos.length), note: oos.length ? oos.map((l) => `${esc(l.label)} at ${esc(l.retailer)}`).join(" · ") : "None at the latest reading" })}
-    ${kpi({ label: "Retailers tracked", dot: "#80868b", value: String(uniq(mine.map((l) => l.retailer)).length), note: (() => { const none = retailers.filter((rt) => !mine.some((l) => l.retailer === rt)); return none.length ? `Of ${retailers.length} in the audit: ${none.map(esc).join(", ")} ${none.length === 1 ? "holds" : "hold"} no ${esc(SL())} link` : `Every retailer in the audit holds a ${esc(SL())} link`; })() })}
+    ${kpi({ label: "Retailers tracked", dot: "#80868b", value: String(uniq(mine.map((l) => l.retailer)).length), note: `Of ${retailers.length} in the audit: ${retailers.filter((rt) => !mine.some((l) => l.retailer === rt)).map(esc).join(", ") || "all"} hold no ${esc(SL())} link` })}
     ${kpi({ label: "Readings", dot: "#80868b", value: String(R.dates.length), note: R.dates.map((d) => F().date(d)).join(" · ") })}
   </div>
   ${card({ title: "Model × retailer", sub: "Latest stock reading for every audited model at every retailer. Hover a status for the page's own wording.", html: `<div class="dt-wrap"><table class="dt ra-matrix"><thead><tr><th class="lft">Model</th>${retailers.map((r) => `<th>${esc(r)}</th>`).join("")}</tr></thead><tbody>${ms.map((m) => `<tr class="${m.brand === s ? "subj" : ""}"><td class="lft">${dot(m.brand)}${esc(m.product)}</td>${retailers.map((rt) => `<td>${chip(at(m, rt))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` })}
   <div class="grid g2" style="margin-top:14px">
     ${card({ title: "Listings buyable, by brand", sub: "Share of each brand's listings with a stock reading that were in stock or limited.", slot: "raSellBars" })}
     ${card({ title: `${esc(SL())} listings, as the page said it`, sub: "Stock and delivery wording read off the latest screenshot, and the ship-to location the page was set to.", html: table([
-      { label: "Listing", lft: true, get: (l) => `${esc(l.label)}${l.variant && hasCond() ? ` ${esc(l.variant)}` : ""} · ${esc(l.retailer)}${shot(l.stocked || l.latest)}` },
+      { label: "Listing", lft: true, get: (l) => `${esc(l.label)} · ${esc(l.retailer)}${shot(l.stocked || l.latest)}` },
       { label: "Status", lft: true, get: (l) => chip(l) },
       { label: "Page says", lft: true, get: (l) => esc(((l.stocked || l.latest).stock || "—").slice(0, 60)) },
       { label: "Delivery", lft: true, get: (l) => esc(((l.stocked || l.latest).delivery || "—").slice(0, 70)) },
       { label: "Ship to", lft: true, get: (l) => esc((l.stocked || l.latest).shipTo || "—") },
     ], mine.map((l) => ({ ...l })), { maxH: "360px" }) })}
-  </div>
-  ${hasCond() ? card({ title: "New or renewed, by brand", sub: "Share of each brand's listings sold new and unlocked, new on a carrier's prepaid plan, or renewed / pre-owned, as the listing title says.", slot: "raCondBars", cls: "ra-mt" }) : ""}`;
-  if (hasCond()) {
-    const bs = brands().filter((b) => L.some((l) => l.brand === b.id));
-    const share = (b, c) => { const ls = L.filter((l) => l.brand === b); return (ls.filter((l) => l.condition === c).length / ls.length) * 100; };
-    CC.bars($("raCondBars"), { height: 230, stacked: true, cats: bs.map((b) => b.label), series: Object.keys(COND).map((c) => ({ id: c, label: COND[c][0], color: COND_COLORS[c], data: bs.map((b) => share(b.id, c)) })), fmtV: (v) => pct(v), fmtY: (v) => v + "%" });
-  }
+  </div>`;
   CC.hbars($("raSellBars"), { rows: brands().filter((b) => shelf[b.id] && shelf[b.id].sellable != null).map((b) => ({ label: esc(b.label), value: shelf[b.id].sellable, color: b.color, subject: b.id === s, note: `${shelf[b.id].listings} listings` })).sort((a, b) => b.value - a.value), max: 100, fmtV: (v) => pct(v) });
 }
 
@@ -315,12 +251,7 @@ function renderPricing(L) {
   const s = S(), retailers = R.retailers;
   const priced = L.filter((l) => l.priced);
   const mine = priced.filter((l) => l.brand === s);
-  // spreads compare like with like: new listings of the same model (and storage, for phones)
-  const byModel = R.models.flatMap((m) => {
-    const ls = priced.filter((l) => l.brand === m.brand && l.product === m.product && isNew(l));
-    if (!hasCond()) return ls.length ? [{ m, ls }] : [];
-    return uniq(ls.map((l) => l.variant)).map((v) => ({ m, v, ls: ls.filter((l) => l.variant === v) }));
-  }).filter((x) => x.ls.length);
+  const byModel = R.models.map((m) => ({ m, ls: priced.filter((l) => l.brand === m.brand && l.product === m.product) })).filter((x) => x.ls.length);
   const spread = (x) => { const p = x.ls.map((l) => l.priced.price); return { lo: Math.min(...p), hi: Math.max(...p) }; };
   const catalog = (A.D.catalog && A.D.catalog.products) || [];
   const msrp = (m) => { const c = catalog.find((p) => p.label.toUpperCase() === m.label.toUpperCase()); return c ? c.msrp : null; };
@@ -329,30 +260,24 @@ function renderPricing(L) {
   const shelf = brandShelf(L), discObj = col(shelf, "discounted");
   const changes = mine.map((l) => { const h = l.history.filter((r) => r.priceUsable); return h.length > 1 && h[0].price !== h.at(-1).price ? { l, from: h[0], to: h.at(-1) } : null; }).filter(Boolean);
   $("host-ra-pricing").innerHTML = `
-  ${laneNote("measured", P().pricingNote)}
-  ${intro(`What a shopper sees as the price of each audited model, retailer by retailer, at the latest reading. ${widest && widest.hi > widest.lo ? `${esc(SL())}'s widest gap is the <b>${esc(widest.m.label)}${widest.v ? " " + esc(widest.v) : ""}: ${F().usd0(widest.lo)} to ${F().usd0(widest.hi)}</b> depending on the listing.` : ""}${hasCond() ? ` ${mine.filter(isNew).length} of ${esc(SL())}'s ${mine.length} priced listings are new; the rest are renewed, pre-owned or carrier-prepaid and are priced as such.` : ""}`)}
+  ${laneNote("measured", "Shelf price and was-price read off each page's screenshot; non-US pages, non-dollar prices and unreadable captures are left out. All audited TVs are the 65-inch size.")}
+  ${intro(`What a shopper sees as the price of each audited model, retailer by retailer, at the latest reading. ${widest ? `${esc(SL())}'s widest gap is the <b>${esc(widest.m.label)}: ${F().usd0(widest.lo)} to ${F().usd0(widest.hi)}</b> depending on the retailer.` : ""}`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${kpi({ label: "Listings with a was-price", dot: B(s).color, value: pct(shelf[s] && shelf[s].discounted), rank: rankChip(discObj, s), note: "A struck-through or list price above the shelf price" })}
     ${kpi({ label: "Median markdown", dot: B(s).color, value: shelf[s] && shelf[s].depth != null ? F().pct(shelf[s].depth, 0) : "—", note: "Among the brand's discounted listings" })}
     ${kpi({ label: "Price moves seen", dot: B(s).color, value: String(changes.length), note: changes.length ? changes.map((c) => `${esc(c.l.label)} at ${esc(c.l.retailer)} ${F().usd0(c.from.price)}→${F().usd0(c.to.price)}`).join(" · ") : `No ${esc(SL())} price changed between readings` })}
     ${kpi({ label: "Priced listings", dot: "#80868b", value: String(mine.length), note: `Of ${L.filter((l) => l.brand === s).length} tracked` })}
   </div>
-  ${card({ title: "Price spread by model", sub: hasCond() ? "Lowest and highest shelf price across the new listings of each model and storage, latest reading, where two listings differ. The figure on the right is the gap." : "Lowest and highest shelf price across retailers, latest reading, for every model priced differently at two or more retailers. The figure on the right is the gap.", slot: "raRanges" })}
+  ${card({ title: "Price spread by model", sub: "Lowest and highest shelf price across retailers, latest reading, for every model priced differently at two or more retailers. The figure on the right is the gap.", slot: "raRanges" })}
   <div class="ra-mt">
-    ${hasCond() ? card({ title: `Every ${esc(SL())} listing`, sub: "Latest shelf price, the was-price where shown, and what the listing is: condition and storage as its title gives them.", html: table([
-      { label: "Model", lft: true, get: (l) => `${esc(l.label)}${shot(l.priced)}` },
-      { label: "Condition", lft: true, get: (l) => tagFor(COND[l.condition][1], COND[l.condition][0]) },
-      { label: "Storage", lft: true, get: (l) => esc(l.variant || "—") },
-      { label: "Retailer", lft: true, get: (l) => esc(l.retailer) },
-      { label: "Price", get: (l) => `${F().usd0(l.priced.price)}${l.priced.listPrice ? `<br><s class="ra-was">${F().usd0(l.priced.listPrice)}</s>` : ""}` },
-    ], mine.slice().sort((a, b) => isNew(b) - isNew(a) || b.priced.price - a.priced.price), { maxH: "420px" }) }) : card({ title: `${esc(SL())} model × retailer`, sub: "Latest shelf price; the was-price, where shown, under it.", html: `<div class="dt-wrap"><table class="dt"><thead><tr><th class="lft">Model</th>${retailers.map((r) => `<th>${esc(r)}</th>`).join("")}${catalog.length ? "<th>Launch MSRP</th>" : ""}</tr></thead><tbody>${own.map((x) => `<tr><td class="lft">${esc(x.m.label)}</td>${retailers.map((rt) => { const l = x.ls.find((y) => y.retailer === rt); return `<td>${l ? `${F().usd0(l.priced.price)}${l.priced.listPrice ? `<br><s class="ra-was">${F().usd0(l.priced.listPrice)}</s>` : ""}` : "—"}</td>`; }).join("")}${catalog.length ? `<td>${msrp(x.m) ? F().usd0(msrp(x.m)) : "—"}</td>` : ""}</tr>`).join("")}</tbody></table></div>` })}
+    ${card({ title: `${esc(SL())} model × retailer`, sub: "Latest shelf price; the was-price, where shown, under it.", html: `<div class="dt-wrap"><table class="dt"><thead><tr><th class="lft">Model</th>${retailers.map((r) => `<th>${esc(r)}</th>`).join("")}${catalog.length ? "<th>Launch MSRP</th>" : ""}</tr></thead><tbody>${own.map((x) => `<tr><td class="lft">${esc(x.m.label)}</td>${retailers.map((rt) => { const l = x.ls.find((y) => y.retailer === rt); return `<td>${l ? `${F().usd0(l.priced.price)}${l.priced.listPrice ? `<br><s class="ra-was">${F().usd0(l.priced.listPrice)}</s>` : ""}` : "—"}</td>`; }).join("")}${catalog.length ? `<td>${msrp(x.m) ? F().usd0(msrp(x.m)) : "—"}</td>` : ""}</tr>`).join("")}</tbody></table></div>` })}
   </div>
   ${card({ title: "Markdown by brand", sub: "Share of each brand's priced listings that showed a was-price, and the median depth of those markdowns.", slot: "raDiscBars", cls: "ra-mt" })}`;
   const rows = byModel.map((x) => ({ x, ...spread(x) })).filter((r) => r.x.ls.length > 1 && r.hi > r.lo)
     .sort((a, b) => (a.x.m.brand === s ? -1 : 0) - (b.x.m.brand === s ? -1 : 0) || b.hi - a.hi)
-    .map((r) => ({ label: `${B(r.x.m.brand).label} ${r.x.m.label}${r.x.v ? " " + r.x.v : ""}`, lo: r.lo, hi: r.hi, color: B(r.x.m.brand).color, subject: r.x.m.brand === s,
+    .map((r) => ({ label: `${B(r.x.m.brand).label} ${r.x.m.label}`, lo: r.lo, hi: r.hi, color: B(r.x.m.brand).color, subject: r.x.m.brand === s,
       tip: `<div class="h">${esc(B(r.x.m.brand).label)} ${esc(r.x.m.label)}</div>${r.x.ls.slice().sort((a, b) => a.priced.price - b.priced.price).map((l) => `<div class="r"><span>${esc(l.retailer)}</span><b class="tnum">${F().usd0(l.priced.price)}</b></div>`).join("")}` }));
-  if (rows.length) CC.ranges($("raRanges"), { rows, fmtV: F().usd0 }); else $("raRanges").innerHTML = withheld(hasCond() ? "No new phone is priced differently on two listings of the same model and storage." : "No model is priced at more than one retailer.");
+  if (rows.length) CC.ranges($("raRanges"), { rows, fmtV: F().usd0 }); else $("raRanges").innerHTML = withheld("No model is priced at more than one retailer.");
   const bs = brands().filter((b) => shelf[b.id] && shelf[b.id].discounted != null);
   CC.bars($("raDiscBars"), { height: 230, cats: bs.map((b) => b.label), series: [
     { id: "share", label: "Listings with a was-price", color: "#1a73e8", data: bs.map((b) => shelf[b.id].discounted) },
@@ -396,7 +321,7 @@ function renderVoice(L) {
   const low = mine.filter((l) => l.rated.reviews >= 10).sort((a, b) => a.rated.rating - b.rated.rating)[0];
   const byModel = R.models.filter((m) => m.brand === s).map((m) => { const ls = mine.filter((l) => l.product === m.product); const n = ls.reduce((x, l) => x + (l.rated.reviews || 0), 0); return { m, n, r: n ? ls.reduce((x, l) => x + l.rated.rating * (l.rated.reviews || 0), 0) / n : null, ls }; }).filter((x) => x.ls.length);
   $("host-ra-voice").innerHTML = `
-  ${laneNote("measured", `Star rating and review count shown on each retailer's page.${Object.keys(R.source.excluded || {}).filter((k) => k.startsWith("ratings rounded")).map((k) => ` The ${F().date(k.slice(-10))} run wrote every rating as a whole star, so its ratings are left out; its other fields are kept.`).join("")}${hasCond() ? " A renewed listing carries the reviews of that listing, not of the phone new." : ""}`)}
+  ${laneNote("measured", "Star rating and review count shown on each retailer's page. The 27 Sep 2026 run wrote every rating as a whole star, so its ratings are left out; its other fields are kept.")}
   ${intro(`How shoppers rate the audited models where they buy them. ${esc(SL())} averages <b>${shelf[s] && shelf[s].rating != null ? F().n(shelf[s].rating, 2) + "★" : "—"}</b> across ${F().n(shelf[s] ? shelf[s].reviews : 0)} reviews, weighted by review count.${low ? ` Its lowest-rated listing with ten or more reviews is the ${esc(low.label)} at ${esc(low.retailer)} (${F().n(low.rated.rating, 1)}★, ${F().n(low.rated.reviews)} reviews).` : ""}`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${kpi({ label: "Rating", dot: B(s).color, value: shelf[s] && shelf[s].rating != null ? F().n(shelf[s].rating, 2) : "—", unit: "★", rank: rankChip(rateObj, s), note: "Review-weighted, latest reading" })}
@@ -407,7 +332,7 @@ function renderVoice(L) {
   <div class="grid g2">
     ${card({ title: "Rating by brand", sub: "Review-weighted average star rating across each brand's tracked listings.", slot: "raRateBars" })}
     ${card({ title: `${esc(SL())} listings`, sub: "Latest rating and review count on each retailer's page.", html: table([
-      { label: "Listing", lft: true, get: (l) => `${esc(l.label)} · ${esc(l.retailer)}${condTag(l)}${shot(l.rated)}` },
+      { label: "Listing", lft: true, get: (l) => `${esc(l.label)} · ${esc(l.retailer)}${shot(l.rated)}` },
       { label: "Rating", get: (l) => `${F().n(l.rated.rating, 1)}★` },
       { label: "Reviews", get: (l) => F().n(l.rated.reviews) },
       { label: "Read on", get: (l) => F().date(l.rated.date) },
@@ -420,15 +345,9 @@ function renderVoice(L) {
 function renderAiShelf(L) {
   const s = S(), Aall = A.activeAnswers();
   const ownModels = R.models.filter((m) => m.brand === s);
-  // AI quotes are for the phone new: renewed and prepaid prices are not the shelf price they can be checked against
-  const priced = L.filter((l) => l.priced && l.brand === s && isNew(l));
-  const varOf = (l) => l.variant || P().variantOf(l.latest.title);
-  // TVs: the one size the audit tracks (65-inch); phones: the storages each model is listed at
-  const counts = {}; for (const l of L.filter((x) => x.brand === s)) { const v = varOf(l); if (v) counts[v] = (counts[v] || 0) + 1; }
-  const tvVar = hasCond() ? null : Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([v]) => v)[0] || null;
-  const shelfRange = (m) => { const ls = priced.filter((l) => l.product === m.product); if (!ls.length) return null; const p = ls.map((l) => l.priced.price); const lists = ls.map((l) => l.priced.listPrice).filter(Boolean); return { lo: Math.min(...p), hi: Math.max(...p), list: lists.length ? Math.max(...lists) : null, ls, vars: tvVar ? [tvVar] : uniq(ls.map(varOf).filter(Boolean)) }; };
-  const allVars = tvVar ? [tvVar] : uniq(priced.map(varOf).filter(Boolean));
-  const varsText = (vs) => vs.length ? vs.join(" / ") : `the audited ${P().variantShort}`;
+  const priced = L.filter((l) => l.priced && l.brand === s);
+  const shelfRange = (m) => { const ls = priced.filter((l) => l.product === m.product); if (!ls.length) return null; const p = ls.map((l) => l.priced.price); const lists = ls.map((l) => l.priced.listPrice).filter(Boolean); return { lo: Math.min(...p), hi: Math.max(...p), list: lists.length ? Math.max(...lists) : null, ls }; };
+  const shelfSize = median(L.filter((l) => l.brand === s).map((l) => sizeOf(l.latest.title)));
   // 1 · the models the engines name, against the audited shelf
   const named = new Map();
   const withSubject = Aall.filter((a) => a.brands.some((x) => x.id === s));
@@ -440,7 +359,7 @@ function renderAiShelf(L) {
   }
   const shelfFor = (name) => ownModels.find((m) => modelRe(m).test(name));
   const ranked = [...named.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([name, n]) => ({ name, n, m: shelfFor(name) }));
-  for (const m of ownModels) if (!ranked.some((r) => r.m === m)) ranked.push({ name: P().display(m.label), n: [...named.entries()].filter(([k]) => shelfFor(k) === m).reduce((x, [, v]) => x + v, 0), m });
+  for (const m of ownModels) if (!ranked.some((r) => r.m === m)) ranked.push({ name: m.label.toUpperCase(), n: [...named.entries()].filter(([k]) => shelfFor(k) === m).reduce((x, [, v]) => x + v, 0), m });
   const onShelf = ownModels.map((m) => ({ m, n: [...named.entries()].filter(([k]) => shelfFor(k) === m).reduce((x, [, v]) => x + v, 0) }));
   const aiOnly = ranked.filter((r) => !r.m);
   // 2 · every dollar figure the engines quoted for a shelf model, checked against the shelf
@@ -451,21 +370,21 @@ function renderAiShelf(L) {
     const m = ownModels.find((mm) => modelRe(mm).test(`${c.product}`) || (name && modelRe(mm).test(name)));
     if (!m) continue;
     const v = dollars(c.value, c.claim); if (v == null) continue;
-    const size = P().variantOf(`${c.claim} ${c.value}`);
+    const size = sizeOf(`${c.claim} ${c.value}`);
     const rg = shelfRange(m); if (!rg) continue;
-    // a quote that names no size (storage) and misses the shelf is most likely for another
-    // configuration of the same model, so it is not judged; only a quote at the audited one can be off the shelf
+    // a quote that names no size and misses the shelf is most likely for another size of the
+    // same model, so it is not judged; only a quote at the audited size can be off the shelf
     const inRange = v >= rg.lo * 0.97 && v <= Math.max(rg.hi, rg.list || 0) * 1.03;
     let verdict;
-    if (size && rg.vars.length && !rg.vars.includes(size)) verdict = [`other ${P().variantShort}`, ""];
+    if (size && shelfSize && size !== shelfSize) verdict = ["other size", ""];
     else if (inRange) verdict = ["matches the shelf", "good"];
-    else if (!size && !P().judgeUnstated) verdict = [`${P().variantShort} not stated`, ""];
+    else if (!size) verdict = ["size not stated", ""];
     else if (v > rg.hi) verdict = ["above the shelf", "warn"];
     else verdict = ["below the shelf", "risk"];
     claims.push({ a, c, m, v, size, rg, verdict, gap: (v - rg.lo) / rg.lo * 100 });
   }
-  const sameSize = claims.filter((x) => x.verdict[1]);
-  const unstated = claims.filter((x) => x.verdict[0] === `${P().variantShort} not stated`);
+  const sameSize = claims.filter((x) => x.verdict[0] !== "other size" && x.verdict[0] !== "size not stated");
+  const unstated = claims.filter((x) => x.verdict[0] === "size not stated");
   const ok = sameSize.filter((x) => x.verdict[1] === "good");
   const byEngine = A.D.engines.filter((e) => sameSize.some((x) => x.a.engine === e.id)).map((e) => { const xs = sameSize.filter((x) => x.a.engine === e.id); return { e, n: xs.length, ok: xs.filter((x) => x.verdict[1] === "good").length }; });
   // 3 · stock on the models the engines send shoppers to
@@ -474,10 +393,8 @@ function renderAiShelf(L) {
   const R_ = [];
   if (aiOnly.length) R_.push({ tone: "risk", text: `The engines' most-named ${esc(SL())} models are <b>${aiOnly.slice(0, 3).map((r) => esc(r.name)).join(", ")}</b> — none of them is in the retail audit. The shelf that is audited (${ownModels.map((m) => esc(m.label)).join(", ")}) is what shoppers find; add the AI-named models to the audit's links to see whether those answers can convert.` });
   const quiet = onShelf.filter((x) => x.n <= 2);
-  if (quiet.length) R_.push({ tone: "watch", text: `${quiet.map((x) => `<b>${esc(x.m.label)}</b> (${x.n} answer${x.n === 1 ? "" : "s"})`).join(", ")} ${quiet.length === 1 ? "is" : "are"} on the audited shelf but almost absent from the AI answers in scope: ${P().quietWhy}` });
-  const renewedOnly = named4.filter((x) => { const ls = L.filter((l) => l.brand === s && l.product === x.m.product); return ls.length && !ls.some(isNew); });
-  if (hasCond() && renewedOnly.length) R_.push({ tone: "risk", text: `The engines name ${renewedOnly.map((x) => `<b>${esc(x.m.label)}</b>`).join(", ")}, but the audited shelf only has ${renewedOnly.length === 1 ? "it" : "them"} renewed, pre-owned or carrier-prepaid — a shopper who follows the answer does not find ${renewedOnly.length === 1 ? "it" : "them"} new at these retailers.` });
-  if (sameSize.length) R_.push({ tone: ok.length / sameSize.length >= 0.6 ? "good" : "watch", text: `Of ${sameSize.length} checkable dollar prices the engines quoted for audited ${esc(SL())} models${hasCond() ? " sold new" : ""}, <b>${ok.length} (${pct(ok.length / sameSize.length * 100)}) fall inside what the shelf showed</b> (lowest price to highest was-price, ±3%)${sameSize.length - ok.length ? `; ${sameSize.filter((x) => x.verdict[0] === "above the shelf").length} quote ${varsText(allVars)} above it and ${sameSize.filter((x) => x.verdict[0] === "below the shelf").length} below it` : ""}.${unstated.length ? ` A further ${unstated.length} quotes give no ${P().variant} and miss the ${varsText(allVars)} range — most likely another configuration, so they are listed but not judged.` : ""}` });
+  if (quiet.length) R_.push({ tone: "watch", text: `${quiet.map((x) => `<b>${esc(x.m.label)}</b> (${x.n} answer${x.n === 1 ? "" : "s"})`).join(", ")} ${quiet.length === 1 ? "is" : "are"} on the audited shelf but almost absent from the AI answers in scope: entry and mid-range models that carry the shelf promotions get little AI attention.` });
+  if (sameSize.length) R_.push({ tone: ok.length / sameSize.length >= 0.6 ? "good" : "watch", text: `Of ${sameSize.length} checkable dollar prices the engines quoted for audited ${esc(SL())} models, <b>${ok.length} (${pct(ok.length / sameSize.length * 100)}) fall inside what the shelf showed</b> (lowest price to highest was-price, ±3%)${sameSize.length - ok.length ? `; ${sameSize.filter((x) => x.verdict[0] === "above the shelf").length} quote the ${shelfSize}-inch above it and ${sameSize.filter((x) => x.verdict[0] === "below the shelf").length} below it` : ""}. A further ${unstated.length} quotes give no screen size and miss the ${shelfSize}-inch range — most likely another size, so they are listed but not judged.` });
   if (oosNamed.length) R_.push({ tone: "risk", text: `AI-named models were out of stock at: ${oosNamed.map((l) => `${esc(l.label)} at ${esc(l.retailer)}`).join(", ")} (latest reading).` });
   $("host-ra-aishelf").innerHTML = `
   ${laneNote("derived", `Joins the two measured sets: the AI reader's product names and price claims for ${esc(SL())} (answers in the console's current scope) matched to the audited models by model name. Neither side is modelled.`)}
@@ -485,22 +402,22 @@ function renderAiShelf(L) {
   <div class="grid g4" style="margin-bottom:14px">
     ${kpi({ label: "Audited models the AI names", dot: B(s).color, value: `${named4.length}<small> of ${ownModels.length}</small>`, note: `In ${withSubject.length} answers that name ${esc(SL())}` })}
     ${kpi({ label: "AI-named models not audited", dot: "#80868b", value: String(aiOnly.length), note: aiOnly.slice(0, 4).map((r) => esc(r.name)).join(" · ") || "—" })}
-    ${kpi({ label: "AI prices that match the shelf", dot: "#34a853", value: sameSize.length ? pct(ok.length / sameSize.length * 100) : "—", note: `${ok.length} of ${sameSize.length} quotes at ${varsText(allVars)} or matching it · ${unstated.length} with no ${P().variantShort} and off the range, ${claims.length - sameSize.length - unstated.length} for another ${P().variantShort}, not judged` })}
+    ${kpi({ label: "AI prices that match the shelf", dot: "#34a853", value: sameSize.length ? pct(ok.length / sameSize.length * 100) : "—", note: `${ok.length} of ${sameSize.length} quotes at ${shelfSize || "the audited"}" or matching it · ${unstated.length} with no size and off the ${shelfSize || ""}" range, ${claims.length - sameSize.length - unstated.length} for another size, not judged` })}
     ${kpi({ label: "Named models out of stock", dot: "#ea4335", value: String(oosNamed.length), note: "Listings at the latest reading" })}
   </div>
   <div class="grid g2">
     ${card({ title: `The ${esc(SL())} models the engines name`, sub: "Answers in scope that name each model (any engine, persona, run), and whether the retail audit tracks it.", html: table([
       { label: "Model as the engines name it", lft: true, get: (r) => esc(r.name) },
       { label: "Answers", get: (r) => F().n(r.n) },
-      { label: "On the audited shelf", lft: true, get: (r) => { if (!r.m) return tagFor("warn", "not audited"); const ls = L.filter((l) => l.product === r.m.product); const n = R.retailers.filter((rt) => ls.some((l) => l.retailer === rt)).length; return hasCond() && !ls.some(isNew) ? tagFor("warn", `renewed only · ${n} retailer${n === 1 ? "" : "s"}`) : tagFor("good", `${n} retailer${n === 1 ? "" : "s"}`); } },
+      { label: "On the audited shelf", lft: true, get: (r) => r.m ? tagFor("good", `${R.retailers.filter((rt) => L.some((l) => l.product === r.m.product && l.retailer === rt)).length} retailers`) : tagFor("warn", "not audited") },
       { label: "Shelf price", get: (r) => { const rg = r.m && shelfRange(r.m); return rg ? (rg.lo === rg.hi ? F().usd0(rg.lo) : `${F().usd0(rg.lo)}–${F().usd0(rg.hi)}`) : "—"; } },
       { label: "Buyable", get: (r) => { if (!r.m) return "—"; const ls = L.filter((l) => l.product === r.m.product && knownStock(l)); return ls.length ? `${ls.filter(sellable).length} of ${ls.length}` : "—"; } },
     ], ranked.slice().sort((a, b) => !!b.m - !!a.m || b.n - a.n).map((r) => ({ ...r, _subject: !!r.m })), { maxH: "430px" }) })}
     ${card({ title: "AI price quotes against the shelf", sub: "Checkable dollar quotes per engine for audited models, and how many sat inside the shelf range.", slot: "raClaimBars" })}
   </div>
-  <div style="margin-top:14px">${card({ title: "Every price quote, checked", sub: `Dollar figures the engines gave for audited ${esc(SL())} models, against the latest shelf range (lowest price to highest was-price${hasCond() ? ", new listings only" : ""}). Tap a row for the full answers to that question.`, html: claims.length ? table([
+  <div style="margin-top:14px">${card({ title: "Every price quote, checked", sub: `Dollar figures the engines gave for audited ${esc(SL())} models, against the latest shelf range (lowest price to highest was-price). Tap a row for the full answers to that question.`, html: claims.length ? table([
     { label: "Engine", lft: true, get: (x) => esc(A.engLabel(x.a.engine)) },
-    { label: "Model", lft: true, get: (x) => `${esc(x.m.label)}${x.size ? ` <span class="ra-nt">${esc(x.size)}</span>` : ""}` },
+    { label: "Model", lft: true, get: (x) => esc(x.m.label) },
     { label: "What the engine said", lft: true, get: (x) => `<a class="ra-link" href="javascript:void 0" onclick="__AIV.openQuestion('${esc(x.a.queryId)}')"><span class="ra-wrap">${esc(x.c.claim)}</span></a>` },
     { label: "Quoted", get: (x) => F().usd0(x.v) },
     { label: "Shelf", get: (x) => `${F().usd0(x.rg.lo)}${x.rg.hi !== x.rg.lo ? "–" + F().usd0(x.rg.hi) : ""}${x.rg.list ? `<br><s class="ra-was">${F().usd0(x.rg.list)}</s>` : ""}` },
@@ -524,19 +441,19 @@ function renderMethod(L) {
       <li>Every answer read once by a Claude reader pass: brands named and their order, recommendations, top pick, attributes, and claims about ${esc(SL())} (price, spec, comparison).</li>
       <li>Payload in the command-center-template console schema (<code>lib/ai-console.ts</code>), rendered by its <code>ai-visibility.js</code>.</li></ul>` })}
     ${card({ title: "2 · Retail shelf (Retail Shelf pages)", sub: `retail audit tool → Google Sheet "${esc(src.tab)}" tab`, html: `<ul class="ra-ul">
-      <li>${P().audit(R.retailers.map(esc).join(", "))}</li>
+      <li>The audit opens each tracked product page at ${R.retailers.map(esc).join(", ")} in a real browser and saves a full-page screenshot to GCS.</li>
       <li>A vision model reads price, was-price, availability, stock wording, delivery, rating, reviews and up to three promotions off each screenshot; rows are appended to the <a href="${esc(src.sheetUrl)}" target="_blank" rel="noopener">Retail Audit Tool Results</a> sheet.</li>
       <li><code>npm run retail</code> read ${F().n(src.rows)} rows on ${F().dateY(src.readAt.slice(0, 10))} (readings ${R.dates.map((d) => F().date(d)).join(", ")}) and kept the sheet as read beside the payload.</li></ul>` })}
   </div>
   <div class="grid g2" style="margin-top:14px">
     ${card({ title: "How the two are joined", html: `<ul class="ra-ul">
       <li><b>Brands</b>: both sides use the study's brand ids (${brands().map((b) => esc(b.label)).join(", ")}), so a brand's colour and rank mean the same on every page.</li>
-      <li><b>Models</b>: each audited model gets a name pattern (e.g. ${esc(P().modelExample)}). The reader's product names and claim products are matched against it.</li>
-      <li><b>Prices</b>: the first dollar figure in a price claim is checked against the model's latest shelf range${hasCond() ? " among new listings" : ""}, lowest price to highest was-price, ±3%. Ranges, non-dollar claims and quotes for another ${P().variant} are not judged${P().judgeUnstated ? "; a quote that names no storage is judged as the price of the model as sold" : ""}.</li>
+      <li><b>Models</b>: each audited model gets a name pattern (e.g. "BRAVIA 8 II" matches "Bravia 8 II QD-OLED" but not "Bravia 8"). The reader's product names and claim products are matched against it.</li>
+      <li><b>Prices</b>: the first dollar figure in a price claim is checked against the model's latest shelf range, lowest price to highest was-price, ±3%. Ranges, non-dollar claims and quotes for another screen size are not judged.</li>
       <li><b>Scope</b>: the persona, run, engine and question filters of the AI console apply to the 360° Scorecard and AI vs the Shelf; the shelf pages do not depend on them.</li></ul>` })}
     ${card({ title: "What is left out, and why", html: `<ul class="ra-ul">${ex.map(([k, v]) => `<li>${F().n(v)} rows: ${esc(k)}.</li>`).join("")}
       <li>A model the audit holds no link for at a retailer shows as "not tracked", not as unavailable.</li>
-      <li>${P().sample(R.models.filter((m) => m.brand === s).length, esc(SL()))}</li>
+      <li>The audit tracks ${R.models.filter((m) => m.brand === s).length} ${esc(SL())} models at the 65-inch size; it is a sample of the shelf, not the retailers' full range, so shares of listings are not shares of the market.</li>
       <li>Ship-to locations differ by retailer and run (New York, Sacramento, Texas…); delivery wording is shown as read, not compared.</li></ul>` })}
   </div>`;
 }

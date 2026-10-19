@@ -79,8 +79,6 @@ Reads the category's tab of the retail audit tool's Google Sheet ("Retail Audit 
 
 When a retail payload exists, the dashboard becomes the brand's **Command Center**: `dashboard/public/retail-audit.js` adds a 360° Scorecard (AI share of answer beside shelf availability, markdowns, promotions and ratings, per brand), a Retail Shelf group (Carriage & Availability, Pricing, Promotions, Ratings & Reviews — the template's page names) and an AI × Shelf group (AI-named models vs audited models, AI price quotes checked against shelf prices, stock on AI-named models; and the method). Rows from non-US pages, non-dollar prices and the 2026-09-27 run's whole-star ratings are left out; the Method page lists what was excluded.
 
-**Phones** (`--pairs google-smartphones`, `samsung-smartphones`, `apple-smartphones`). The Smartphones tab is a search-results crawl rather than a curated model list: its `brand` cell is the title's first word ("Restored", "Straight") and `product` the full title. `retail.ts` reads brand, model ("Pixel 10 Pro", "Galaxy Z Fold8"), storage and condition (new, carrier prepaid, renewed / pre-owned) from the title, and keys each listing by its URL, since one model can have several listings at a retailer. The dashboard adds a condition mix, shows storage where TV shows screen size, and keeps renewed and prepaid listings out of the price spreads and the AI price check (a phone quote with no storage is judged as the price of the model as sold).
-
 ## Dashboard
 
 `dashboard/public/ai-visibility.js` is generated from the template's console (`dashboard/vendor/ai-visibility.reference.js`, an unchanged copy) by `npm run patch:dashboard`. The patches:
