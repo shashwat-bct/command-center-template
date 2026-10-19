@@ -531,7 +531,7 @@ function renderLenses() {
   if (WEEKS().length >= 2 && sb) {
     const W = WEEKS().map(w => { const cap = lensCap(D.captures[w.key]); const A = activeAnswers(cap), AC = compareAnswers(cap); return { w, A, AC, sh: shareOf(AC), pr: presenceOf(AC), tp: topPickShare(AC).out }; });
     const n = W.length, lastW = W[n - 1], prevW = W[n - 2];
-    const pts = (a, b) => a == null || b == null ? "—" : (b - a >= 0 ? "+" : "−") + Math.abs((b - a) * 100).toFixed(0) + " pts";
+    const pts = (a, b) => { if (a == null || b == null) return "—"; const d = Math.round((b - a) * 100); return (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d) + " pts"; };
     const tone = (a, b) => a == null || b == null ? "inherit" : b - a >= 0.005 ? "var(--good)" : b - a <= -0.005 ? "var(--crit)" : "inherit";
     const row = (label, vals, cls = "") => `<tr${cls ? ` class="${cls}"` : ""}><td>${label}</td>${vals.map(v => `<td class="num">${pct(v)}</td>`).join("")}<td class="num" style="color:${tone(vals[n - 2], vals[n - 1])}">${pts(vals[n - 2], vals[n - 1])}</td></tr>`;
     const sec = (t) => `<tr><td colspan="${n + 2}" style="padding-top:14px"><b>${t}</b></td></tr>`;
