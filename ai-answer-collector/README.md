@@ -92,6 +92,26 @@ When a retail payload exists, the dashboard becomes the brand's **Command Center
 
 Styles (`cco-dashboard.css`, `ai-visibility.css`) and charts (`cco-charts.js`) are the template's.
 
+## Deploy (Google dashboard)
+
+The `Dockerfile` runs only the dashboard server, set to read `gs://ai-answer-collector` (`DASHBOARD_BUCKET`) and serve only `google-smartphones` (`DASHBOARD_PAIRS`). `/` opens that dashboard. The server checks the bucket again every 5 minutes (`DASHBOARD_REFRESH_SECONDS`), so a week pushed with `archive/push-google.mjs` shows up without a redeploy. It reads payloads and screenshots only. Sony's files and any other category's images return 404.
+
+Try it locally against the bucket: `DASHBOARD_BUCKET=ai-answer-collector DASHBOARD_PAIRS=google-smartphones npm run dashboard`.
+
+Cloud Run, in `bravo-platform-bc`:
+
+```bash
+P=bravo-platform-bc; R=us-central1; SA=google-dashboard@$P.iam.gserviceaccount.com
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com iap.googleapis.com --project $P
+gcloud iam service-accounts create google-dashboard --project $P --display-name "Google AI dashboard (reads the bucket)"
+gcloud storage buckets add-iam-policy-binding gs://ai-answer-collector --member serviceAccount:$SA --role roles/storage.objectViewer
+gcloud run deploy google-dashboard --source . --project $P --region $R --service-account $SA --no-allow-unauthenticated
+```
+
+Who can open the link:
+- company Google accounts only (IAP): `gcloud beta run services update google-dashboard --project $P --region $R --iap` then `gcloud iap web add-iam-policy-binding --project $P --resource-type cloud-run --service google-dashboard --region $R --member domain:brandcontext.ai --role roles/iap.httpsResourceAccessor` (add a `user:` member for each outside viewer);
+- anyone with the link: deploy with `--allow-unauthenticated` instead.
+
 ## Scale
 
 TV (5 brands) and Phones (3 brands): 8 banks × 62 questions × 2 personas × 3 runs = 2,976 answers per engine if every brand were asked separately; with the neutral questions shared it is **1,536 distinct prompts per engine** (48% fewer), so about 1,536 Bright Data records each for ChatGPT and Gemini and 1,536 Claude calls, plus about 260 reader calls. Pilot first and measure throughput and failure rate.
