@@ -359,7 +359,7 @@ check((mk.dims as unknown as { durable: boolean }).durable === false, "the dashb
 check(mk.meta.disclosure.anchors.some((x) => x.lane === "Market profile" && x.unmeasured && /second Claude pass that made 1 correction/.test(x.measured)), "the ledger says the market is Claude's, not measured");
 
 console.log("── other retailers");
-check(readableRetailers(market.retailers).map((x) => x.id).join() === "walmart,target", "Walmart and Target are read from their own sites; Amazon and Costco are not", readableRetailers(market.retailers).map((x) => x.id).join());
+check(readableRetailers(market.retailers).map((x) => x.id).join() === "walmart,target,costco", "every retailer but Amazon is read from its own site", readableRetailers(market.retailers).map((x) => x.id).join());
 const walmartHtml = `<html><script id="__NEXT_DATA__" type="application/json">${JSON.stringify({ props: { pageProps: { initialData: { searchResult: { itemStacks: [{ items: [
   { name: "DUDE Wipes Flushable Wipes, XL Wet Wipes for At Home Use, Unscented, 48 Count, 6 Pack", price: 20.58, priceInfo: { wasPrice: "$24.97" }, sellerName: "Walmart.com", canonicalUrl: "/ip/DUDE-Wipes/123?classType=REGULAR", availabilityStatusV2: { value: "IN_STOCK" } },
   { name: "DUDE Wipes Flushable Wipes, XL Wet Wipes for At Home Use, Unscented, 48 Count, 6 Pack", price: 29.79, sellerName: "TrueDay Essentials", canonicalUrl: "/ip/DUDE-Wipes/456" },

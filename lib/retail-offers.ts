@@ -3,6 +3,7 @@ import type { KeepaBrandAggregate } from "./keepa";
 import { callLLM } from "./llm";
 import { parseJsonObject } from "./market-mechanics";
 import type { MarketRetailer } from "./market-profile";
+import { readGeneric } from "./retail-generic";
 import { SITE_READERS, type SiteOffer } from "./retail-sites";
 
 const HISTORY_KEY = (slug: string) => `retail-offers/v1/${slug}.json`;
@@ -40,11 +41,15 @@ export function shoppingQuery(p: RetailProduct): string {
 }
 
 /**
- * The market's retailers whose own site this build can read.
+ * The market's retailers whose own site this build can read: every one but
+ * Amazon, through a dedicated reader where there is one and the generic
+ * browser reader otherwise.
  */
 export function readableRetailers(retailers: ShopRetailer[]): ShopRetailer[] {
-  return retailers.filter((r) => SITE_READERS[r.id]);
+  return retailers.filter((r) => r.id !== "amazon" && (SITE_READERS[r.id] || r.domain));
 }
+
+const readerFor = (r: ShopRetailer) => SITE_READERS[r.id] ?? ((query: string, key: string) => readGeneric(r, query, key));
 
 /**
  * One product per accepted Keepa listing, with the brand it was tracked under.
@@ -131,7 +136,7 @@ export async function pickOffers(p: RetailProduct, offers: SiteOffer[], labels: 
 
 async function readProduct(p: RetailProduct, retailers: ShopRetailer[], key: string, log: (s: string) => void): Promise<Picked> {
   const query = shoppingQuery(p);
-  const found = await Promise.all(retailers.map((r) => SITE_READERS[r.id](query, key).catch((e: unknown) => {
+  const found = await Promise.all(retailers.map((r) => readerFor(r)(query, key).catch((e: unknown) => {
     log(`  ${p.asin} ${r.label}: ${(e as Error).message}`);
     return [] as SiteOffer[];
   })));
