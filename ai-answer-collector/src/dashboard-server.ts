@@ -11,8 +11,8 @@
 //   /files/<collection>/<path>   session images
 //
 // Data comes from data/ by default. Deployed, it reads the bucket instead:
-//   DASHBOARD_BUCKET=ai-answer-collector   gs://<bucket>/<collection>/<same path as data/>, re-listed every
-//                                          DASHBOARD_REFRESH_SECONDS (default 300), so a pushed week shows up by itself
+//   DASHBOARD_BUCKET=ai-answer-collector   gs://<bucket>/<DASHBOARD_PREFIX><collection>/<same path as data/>, re-listed
+//   DASHBOARD_PREFIX=google-smartphones/   every DASHBOARD_REFRESH_SECONDS (default 300), so a pushed week shows up by itself
 //   DASHBOARD_PAIRS=google-smartphones     serve only these dashboards (comma-separated); with one, / opens it
 
 import { createReadStream, existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -64,31 +64,32 @@ const localSource: Source = {
   },
 };
 
-function bucketSource(name: string): Source {
+function bucketSource(name: string, prefix: string): Source {
   const bucket = new Storage({ projectId: GCP_PROJECT }).bucket(name);
   return {
     async list() {
-      const [, , top] = await bucket.getFiles({ delimiter: "/", autoPaginate: false, maxResults: 1000 });
-      const ids = ((top as { prefixes?: string[] })?.prefixes ?? []).map((p) => p.slice(0, -1));
+      const [, , top] = await bucket.getFiles({ prefix, delimiter: "/", autoPaginate: false, maxResults: 1000 });
+      const ids = ((top as { prefixes?: string[] })?.prefixes ?? []).map((p) => p.slice(prefix.length, -1));
       const cols = await Promise.all(ids.map(async (id) => {
-        const names = (await Promise.all(["payloads/", "retail/"].map((d) => bucket.getFiles({ prefix: `${id}/${d}`, delimiter: "/" }))))
-          .flatMap(([files]) => files.map((f) => f.name.slice(id.length + 1)));
+        const names = (await Promise.all(["payloads/", "retail/"].map((d) => bucket.getFiles({ prefix: `${prefix}${id}/${d}`, delimiter: "/" }))))
+          .flatMap(([files]) => files.map((f) => f.name.slice(prefix.length + id.length + 1)));
         if (!keysIn(names, "payloads").length) return null;
-        const [buf] = await bucket.file(`${id}/manifest.json`).download().catch(() => [null]);
+        const [buf] = await bucket.file(`${prefix}${id}/manifest.json`).download().catch(() => [null]);
         return buf ? { id, manifest: JSON.parse(buf.toString("utf8")) as Manifest, payloads: keysIn(names, "payloads"), retail: keysIn(names, "retail") } : null;
       }));
       return cols.filter((c): c is Collection => !!c);
     },
     async open(collection, rel) {
       if (!inside("/x", rel)) return null;
-      const file = bucket.file(`${collection}/${normalize(rel).replace(/^([/\\])+/, "")}`);
+      const file = bucket.file(`${prefix}${collection}/${normalize(rel).replace(/^([/\\])+/, "")}`);
       const [exists] = await file.exists();
       return exists ? file.createReadStream() : null;
     },
   };
 }
 
-const SOURCE = process.env.DASHBOARD_BUCKET ? bucketSource(process.env.DASHBOARD_BUCKET) : localSource;
+const PREFIX = (process.env.DASHBOARD_PREFIX ?? "").replace(/^\/+|\/+$/g, "");
+const SOURCE = process.env.DASHBOARD_BUCKET ? bucketSource(process.env.DASHBOARD_BUCKET, PREFIX && `${PREFIX}/`) : localSource;
 
 const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const esc = (s: string) => String(s).replace(/[&<>"']/g, (c) => ESC[c] ?? c);
@@ -277,4 +278,4 @@ createServer(async (req, res) => {
   } catch (e) {
     if (!res.headersSent) send(res, 500, "text/plain", (e as Error).message);
   }
-}).listen(PORT, () => console.log(`[dashboard] http://localhost:${PORT}  (data: ${process.env.DASHBOARD_BUCKET ? `gs://${process.env.DASHBOARD_BUCKET}` : DATA_DIR}${PAIRS_ONLY ? `, only ${[...PAIRS_ONLY].join(", ")}` : ""})`));
+}).listen(PORT, () => console.log(`[dashboard] http://localhost:${PORT}  (data: ${process.env.DASHBOARD_BUCKET ? `gs://${process.env.DASHBOARD_BUCKET}/${PREFIX}` : DATA_DIR}${PAIRS_ONLY ? `, only ${[...PAIRS_ONLY].join(", ")}` : ""})`));

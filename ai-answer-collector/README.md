@@ -94,9 +94,11 @@ Styles (`cco-dashboard.css`, `ai-visibility.css`) and charts (`cco-charts.js`) a
 
 ## Deploy (Google dashboard)
 
-The `Dockerfile` runs only the dashboard server, set to read `gs://ai-answer-collector` (`DASHBOARD_BUCKET`) and serve only `google-smartphones` (`DASHBOARD_PAIRS`). `/` opens that dashboard. The server checks the bucket again every 5 minutes (`DASHBOARD_REFRESH_SECONDS`), so a week pushed with `archive/push-google.mjs` shows up without a redeploy. It reads payloads and screenshots only. Sony's files and any other category's images return 404.
+The Google data lives on its own in `gs://ai-answer-collector/google-smartphones/<collection>/`, with one folder per week (2026-10 = Week 1, 2026-10-19 = Week 2) and a `README.md` describing the layout. It holds only answers asked for the Google bank, without answer HTML or ChatGPT's raw page stream, so about 290 MB for two weeks. `archive/google-folder.mjs <repo> <collection>` builds a week's folder from `data/` and checks every file. To add a week: collect → enrich → payload, then run that script.
 
-Try it locally against the bucket: `DASHBOARD_BUCKET=ai-answer-collector DASHBOARD_PAIRS=google-smartphones npm run dashboard`.
+The `Dockerfile` runs only the dashboard server, set to read that folder (`DASHBOARD_BUCKET`, `DASHBOARD_PREFIX`) and serve only `google-smartphones` (`DASHBOARD_PAIRS`). `/` opens that dashboard. The server checks the bucket again every 5 minutes (`DASHBOARD_REFRESH_SECONDS`), so a new week shows up without a redeploy. It serves payloads and screenshots only.
+
+Try it locally against the bucket: `DASHBOARD_BUCKET=ai-answer-collector DASHBOARD_PREFIX=google-smartphones/ DASHBOARD_PAIRS=google-smartphones npm run dashboard`.
 
 Cloud Run, in `bravo-platform-bc`:
 
