@@ -26,6 +26,8 @@ import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "./rel
 import { rebrandPayload } from "./rebrand";
 import { categoryCheck } from "./listing-relevance";
 import { generateMarketProfile, marketProfileKey, type MarketProfile } from "./market-profile";
+import { brightDataKey } from "./brightdata";
+import { captureRetailOffers, readableRetailers, retailProductsFrom, type RetailCapture } from "./retail-offers";
 
 const REFERENCE_BRAND = "sonos";
 
@@ -175,6 +177,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   const willHitCompetitorKeepa = !!category && aiCompetitors.length > 0;
   const willHitApify = willHitKeepa && !!process.env.APIFY_TOKEN;
   const willReadShelf = !!category && !!process.env.APIFY_TOKEN;
+  const willReadRetail = willHitKeepa && !!category && !!brightDataKey();
 
   const steps: BuildStep[] = [
     { name: "config", status: "pending" },
@@ -185,6 +188,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     ...(willReadShelf ? [{ name: "amazon-shelf", status: "pending" as const }] : []),
     ...(willHitAI ? [{ name: "ai-visibility", status: "pending" as const }] : []),
     ...(category ? [{ name: "market-profile", status: "pending" as const }] : []),
+    ...(willReadRetail ? [{ name: "retail-offers", status: "pending" as const }] : []),
     { name: "builder", status: "pending" },
     { name: "relabel", status: "pending" },
     { name: "rebrand", status: "pending" },
@@ -378,7 +382,19 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
 
   if (!market) logLine(`market profile: none for this build; using the plain Amazon, Walmart and Target market`);
 
-  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, seed: slug });
+  let retail: RetailCapture | null = null;
+  const retailers = readableRetailers(market?.retailers ?? []);
+  if (willReadRetail && retailers.length) {
+    retail = await runStep("retail-offers", async () => {
+      const products = retailProductsFrom([[name, keepaResult], ...aiCompetitors.slice(0, 4).map((c, i): [string, KeepaBrandAggregate | null] => [c, competitorKeepa[i] ?? null])], listingAsins);
+      logLine(`retailer sites: ${products.length} listings at ${retailers.map((r) => r.label).join(", ")}`);
+      const r = await captureRetailOffers({ slug, products, retailers: market?.retailers ?? [], key: brightDataKey()!, log: logLine, remember: new Set(products.map((p) => p.asin)) });
+      logLine(`retailer sites: ${Object.keys(r.readings).length}/${products.length} listings found at another retailer`);
+      return r;
+    });
+  }
+
+  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, seed: slug });
   prepareRelabelWorkDir(workDir, relabelInputs);
   logLine(`applied measurements: ${JSON.stringify(relabelInputs.applied)}`);
 

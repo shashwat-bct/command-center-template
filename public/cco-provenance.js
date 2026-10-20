@@ -50,6 +50,9 @@ const RULES = [
 ];
 
 const U = () => window.__CC;
+const RETAIL_PAGES = new Set(["pricing", "promotions", "calendar", "strategy", "carriage"]);
+const prov = () => (U() && U().D && U().D.meta.provenance) || {};
+const retailRead = () => new Set(Object.keys(((prov().record || {}).retail || {}).retailers || {}));
 const pageOf = (node) => {
   const pg = node.closest(".page");
   return pg && pg.id ? pg.id.replace(/^pg-/, "") : (location.hash || "#scorecard").slice(1);
@@ -58,7 +61,9 @@ const ruleFor = (page, title) => {
   if (page === "method") return null;
   const t = title.trim().toLowerCase();
   const r = RULES.find(([p, re]) => (p.endsWith("-") ? page.startsWith(p) : page === p) && re.test(t));
-  return r ? { k: r[2], src: r[3] } : null;
+  if (!r) return null;
+  const note = RETAIL_PAGES.has(page) && r[2] === "mixed" && retailRead().size ? ((prov().lanes || {})[page] || {}).note : null;
+  return { k: r[2], src: note || r[3] };
 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
@@ -67,7 +72,8 @@ const badge = (k, src) => `<span class="pvx-tag pvx-${k}" title="${esc(HINT[k] +
 function markLabels(card) {
   const d = U() && U().D; if (!d) return;
   const real = new Set(["amazon", "amazon.com"]);
-  const retailers = new Map(d.dims.retailers.map((r) => [r.label.toLowerCase(), real.has(r.id) ? "real" : "sim"]));
+  const read = RETAIL_PAGES.has(pageOf(card)) ? retailRead() : new Set();
+  const retailers = new Map(d.dims.retailers.map((r) => [r.label.toLowerCase(), real.has(r.id) ? "real" : read.has(r.id) ? "read" : "sim"]));
   const cities = new Set(d.dims.cities.map((c) => c.label.toLowerCase()).concat(d.dims.cities.map((c) => c.label.split(",")[0].toLowerCase())));
   card.querySelectorAll("th, td, .cc-lg, .lb, .chip, .rk-name, .rlab").forEach((n) => {
     if (n.dataset.pvx || n.querySelector("th, td, .cc-lg")) return;
@@ -76,6 +82,7 @@ function markLabels(card) {
     if (!k) return;
     n.dataset.pvx = k;
     if (k === "sim") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-sim" title="Simulated data, not collected">simulated</span>`);
+    if (k === "read") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-mixed" title="Prices read from the retailer's own website; days before the first reading simulated">partly real</span>`);
   });
 }
 
@@ -118,7 +125,7 @@ function banner() {
   b.id = "pvxBanner"; b.className = "pvx-banner";
   b.innerHTML = `<span><b>Analyst view</b> · internal only. Each chart is tagged:</span>
     <span class="pvx-legend"><span class="pvx-tag pvx-real">Real</span><span class="pvx-tag pvx-mixed">Partly real</span><span class="pvx-tag pvx-sim">Simulated</span></span>
-    <span>Partly real = Amazon is real, other retailers are simulated. Hover a tag for its source.</span>`;
+    <span>Partly real = Amazon is real, other retailers are simulated unless marked partly real. Hover a tag for its source.</span>`;
   const pages = document.getElementById("pages");
   if (pages) pages.parentNode.insertBefore(b, pages);
 }

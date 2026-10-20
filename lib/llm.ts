@@ -54,6 +54,8 @@ export type LLMArgs = {
   model?: string;
 };
 
+const DEFAULT_MODEL = process.env.LLM_MODEL || "claude-sonnet-5-5";
+
 const RETRYABLE = new Set([408, 425, 429, 500, 502, 503, 504]);
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
@@ -85,7 +87,7 @@ async function callLLMRaw(args: LLMArgs & { messages?: ChatMessage[] }): Promise
       // chat-style single array). We send a single-turn user message.
       body: JSON.stringify({
         ...(args.system ? { system: args.system } : {}),
-        ...(args.model ? { model: args.model } : {}),
+        model: args.model ?? DEFAULT_MODEL,
         messages: args.messages ?? [{ role: "user", content: args.user }],
         max_tokens: args.maxTokens ?? 800,
         temperature: args.temperature ?? 0.2,

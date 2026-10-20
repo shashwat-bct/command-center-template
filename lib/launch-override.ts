@@ -2,12 +2,13 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { KeepaBrandAggregate } from "./keepa";
 import { brandAliases, type AiSoMResult, type EngineSoM } from "./ai-visibility";
-import { buildAmazonSeries, windowEndFor, type AmazonSeries } from "./amazon-series";
+import { buildAmazonSeries, windowDates, windowEndFor, type AmazonSeries } from "./amazon-series";
 import type { AmazonProduct, ReviewAspect, SearchResult } from "./apify";
 import { shelfSnapshot, type ShelfSnapshot } from "./amazon-shelf";
 import { WORLD_VARIATION_SOURCE, retailEventsFor, seededRandom, simulatedAspects } from "./simulated-world";
 import { fallbackProfile, type MarketProfile } from "./market-profile";
 import { builderPromoTypes, type MechanicId } from "./market-mechanics";
+import { retailSeriesFor, type RetailCapture } from "./retail-offers";
 
 export const SUBJECT_SLOT = "sonos";
 export const COMPETITOR_SLOTS = ["amazon", "apple", "bose", "jbl"] as const;
@@ -36,6 +37,7 @@ export type AppliedMeasurements = {
   shelf: string[];
   demand: string[];
   effectivePrice: string[];
+  retailPrices: string[];
 };
 
 export type KeepaRecord = {
@@ -61,9 +63,17 @@ export type MarketRecord = {
   changes: string[];
 };
 
+export type RetailRecord = {
+  readOn: string;
+  days: string[];
+  listings: number;
+  retailers: Record<string, number>;
+};
+
 export type MeasurementRecord = {
   windowEnd: string;
   market?: MarketRecord | null;
+  retail?: RetailRecord | null;
   shelf: ShelfSnapshot | null;
   amazonListings: Record<string, Array<{ asin: string; label: string }>>;
   keepa: KeepaRecord[];
@@ -124,6 +134,7 @@ export function buildRelabelInputs(input: {
   shelfResults?: SearchResult[] | null;
   aspects?: string[];
   market?: MarketProfile | null;
+  retail?: RetailCapture | null;
   seed?: string;
   now?: Date;
 }): RelabelInputs {
@@ -133,7 +144,7 @@ export function buildRelabelInputs(input: {
   const seed = input.seed ?? input.subjectName.toLowerCase();
   const rnd = seededRandom(`${seed}:anchors`);
   const vary = (v: number, spread: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v * (1 + (rnd() * 2 - 1) * spread)));
-  const applied: AppliedMeasurements = { rating: [], discount: [], inStock: [], aiSlots: [], amazonSeries: [], pdp: [], delivery: [], shelf: [], demand: [], effectivePrice: [] };
+  const applied: AppliedMeasurements = { rating: [], discount: [], inStock: [], aiSlots: [], amazonSeries: [], pdp: [], delivery: [], shelf: [], demand: [], effectivePrice: [], retailPrices: [] };
   const windowEnd = windowEndFor(input.now ?? new Date());
   const record: MeasurementRecord = { windowEnd, shelf: null, amazonListings: {}, keepa: [], ai: null };
   const allSlots = [SUBJECT_SLOT, ...COMPETITOR_SLOTS];
@@ -248,6 +259,26 @@ export function buildRelabelInputs(input: {
     if (listings.some((l) => l.effective.some((v) => v != null))) applied.effectivePrice.push(slot);
   }
 
+  const window = windowDates(windowEnd);
+  const asinSlot = new Map(Object.entries(series.listings).flatMap(([slot, ls]) => ls.map((l) => [l.asin, slot] as const)));
+  const retail = input.retail ? retailSeriesFor(input.retail.history, [...asinSlot.keys()], window[0], windowEnd) : {};
+  if (input.retail && Object.keys(retail).length) {
+    const retailers: Record<string, number> = {};
+    for (const key of Object.keys(retail)) {
+      const rt = key.split("|")[1];
+      retailers[rt] = (retailers[rt] ?? 0) + 1;
+    }
+    const asins = new Set(Object.keys(retail).map((k) => k.split("|")[0]));
+    const slots = [...asinSlot].filter(([asin]) => asins.has(`l-${asin.toLowerCase()}`)).map(([, slot]) => slot);
+    applied.retailPrices.push(...new Set(slots));
+    record.retail = {
+      readOn: input.retail.date,
+      days: [...new Set(Object.values(retail).flatMap((d) => Object.keys(d)))].sort(),
+      listings: asins.size,
+      retailers,
+    };
+  }
+
   const shelf = input.shelfResults?.length && input.category
     ? shelfSnapshot(input.category, input.shelfResults, brandSlots, new Date().toISOString().slice(0, 10))
     : null;
@@ -301,6 +332,7 @@ export function buildRelabelInputs(input: {
     promptBank: Object.entries(STAGE_LABELS).flatMap(([stage]) => [[stage, `${STAGE_LABELS[stage]} questions about ${category}`]]),
     stageQuestions: input.ai ? Object.fromEntries(input.ai.perQuestion.filter((q) => q.run === 1).map((q) => [q.stage, q.q])) : {},
     listings: series.listings,
+    retail,
     rating: series.rating,
     reviews: series.reviews,
   };
@@ -334,6 +366,7 @@ export default {
   TERMS: overlay.terms,
   PROMPT_BANK: overlay.promptBank,
   MEASURED_AMAZON,
+  MEASURED_RETAIL: overlay.retail,
   MEASURED_PDP,
   MEASURED_DELIVERY,
   MEASURED_RATING: overlay.rating,

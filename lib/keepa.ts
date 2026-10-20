@@ -26,6 +26,7 @@ export type KeepaAsinResult = {
   inStockShare30d: number | null;
   brand: string | null;
   title: string | null;
+  model: string | null;
   history: KeepaHistory | null;
   categories: Record<string, string>;
   error?: string;
@@ -108,7 +109,7 @@ export function inStockShare(series: Array<number[] | null | undefined>, nowMs: 
   return known ? buyable / known : null;
 }
 
-const EMPTY = { priceNow: null, listPrice: null, discountPct: null, rating: null, reviews: null, inStockShare30d: null, brand: null, title: null, history: null, categories: {} };
+const EMPTY = { priceNow: null, listPrice: null, discountPct: null, rating: null, reviews: null, inStockShare30d: null, brand: null, title: null, model: null, history: null, categories: {} };
 
 const DAY_MS = 86400000;
 
@@ -193,14 +194,14 @@ export async function fetchKeepaAsin(asin: string, apiKey: string, domain = 1): 
     if (!r.ok) return { asin, ...EMPTY, error: `HTTP ${r.status}` };
     const j = (await r.json()) as {
       products?: Array<{
-        csv?: Array<number[] | null>; brand?: string; title?: string; buyBoxSellerIdHistory?: string[];
+        csv?: Array<number[] | null>; brand?: string; title?: string; model?: string; partNumber?: string; buyBoxSellerIdHistory?: string[];
         couponHistory?: number[]; salesRanks?: Record<string, number[]>; monthlySoldHistory?: number[];
         categoryTree?: Array<{ catId?: number; name?: string }>;
       }>;
       tokensLeft?: number;
     };
     const p = j.products?.[0];
-    if (!p?.csv) return { asin, ...EMPTY, brand: p?.brand ?? null, title: p?.title ?? null, error: "no data" };
+    if (!p?.csv) return { asin, ...EMPTY, brand: p?.brand ?? null, title: p?.title ?? null, model: p?.model || p?.partNumber || null, error: "no data" };
     const amazon = p.csv[0], newM = p.csv[1], list = p.csv[4], offers = p.csv[11], rating = p.csv[16], reviews = p.csv[17];
     const priceArr = amazon?.length ? amazon : newM;
     const pNow = cents(latest(priceArr));
@@ -216,6 +217,7 @@ export async function fetchKeepaAsin(asin: string, apiKey: string, domain = 1): 
       inStockShare30d: inStockShare([amazon, newM], Date.now()),
       brand: p.brand ?? null,
       title: p.title ?? null,
+      model: p.model || p.partNumber || null,
       categories: Object.fromEntries((p.categoryTree ?? []).flatMap((c) => (c.catId != null && c.name ? [[String(c.catId), c.name]] : []))),
       history: {
         amazon: amazon ?? null, newPrice: newM ?? null, list: list ?? null, offers: offers ?? null, rating: rating ?? null, reviews: reviews ?? null,

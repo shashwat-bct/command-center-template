@@ -15,6 +15,8 @@ import { buildWorkbench, type CommandCenterData } from "../lib/aeo-workbench";
 import { applyAiHistory, readingsFrom } from "../lib/ai-history";
 import { parseAmazonItem, type AmazonProduct, type SearchResult } from "../lib/apify";
 import { marketProfileKey, normaliseProfile, type MarketProfile } from "../lib/market-profile";
+import { readableRetailers, shoppingQuery, type RetailCapture } from "../lib/retail-offers";
+import { parseTargetSearch, parseWalmartSearch } from "../lib/retail-sites";
 
 type Cell = { value: number | null; rank: number | null; of: number };
 type Payload = {
@@ -86,7 +88,7 @@ const history = (price: number, withEvents: boolean, rating = 33): KeepaHistory 
 });
 const listing = (asin: string, brand: string, title: string, withEvents: boolean, rating = 33) => ({
   categories: { "3767551": "Massagers" } as Record<string, string>,
-  asin, priceNow: 300, listPrice: 300, discountPct: 0, rating: rating / 10, reviews: 2000, inStockShare30d: 1, brand, title,
+  asin, priceNow: 300, listPrice: 300, discountPct: 0, rating: rating / 10, reviews: 2000, inStockShare30d: 1, brand, title, model: null as string | null,
   history: history(300, withEvents, rating),
 });
 const aggregate = (perAsin: ReturnType<typeof listing>[], rejected: ReturnType<typeof listing>[] = []): KeepaBrandAggregate => ({
@@ -153,9 +155,9 @@ const ASPECTS = ["Battery life", "Percussion strength", "Noise level", "Attachme
 
 const VENDOR = resolve(process.cwd(), "vendor", "bravo-platform");
 
-function build(withMeasurements: boolean, seed: string = SUBJECT.slug, market: MarketProfile | null = null): Payload {
+function build(withMeasurements: boolean, seed: string = SUBJECT.slug, market: MarketProfile | null = null, retail: RetailCapture | null = null): Payload {
   const inputs = buildRelabelInputs({
-    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, seed, aspects: ASPECTS, market,
+    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, seed, aspects: ASPECTS, market, retail,
     keepa: withMeasurements ? keepa : null, competitorKeepa: withMeasurements ? competitorKeepa : [],
     ai: withMeasurements ? ai : null, apify: withMeasurements ? apify : new Map(), shelfResults: withMeasurements ? shelfResults : null,
   });
@@ -355,6 +357,49 @@ const perDay = sd.reduce((a, v) => a + v, 0) / (sd.length || 1);
 check(perDay > 3000 * 0.6 && perDay < 3000 * 1.8, "site traffic is sized from the profile's monthly visits", `${Math.round(perDay)}/day vs ${90000 / 30}`);
 check((mk.dims as unknown as { durable: boolean }).durable === false, "the dashboard knows the category is a consumable");
 check(mk.meta.disclosure.anchors.some((x) => x.lane === "Market profile" && x.unmeasured && /second Claude pass that made 1 correction/.test(x.measured)), "the ledger says the market is Claude's, not measured");
+
+console.log("── other retailers");
+check(readableRetailers(market.retailers).map((x) => x.id).join() === "walmart,target", "Walmart and Target are read from their own sites; Amazon and Costco are not", readableRetailers(market.retailers).map((x) => x.id).join());
+const walmartHtml = `<html><script id="__NEXT_DATA__" type="application/json">${JSON.stringify({ props: { pageProps: { initialData: { searchResult: { itemStacks: [{ items: [
+  { name: "DUDE Wipes Flushable Wipes, XL Wet Wipes for At Home Use, Unscented, 48 Count, 6 Pack", price: 20.58, priceInfo: { wasPrice: "$24.97" }, sellerName: "Walmart.com", canonicalUrl: "/ip/DUDE-Wipes/123?classType=REGULAR", availabilityStatusV2: { value: "IN_STOCK" } },
+  { name: "DUDE Wipes Flushable Wipes, XL Wet Wipes for At Home Use, Unscented, 48 Count, 6 Pack", price: 29.79, sellerName: "TrueDay Essentials", canonicalUrl: "/ip/DUDE-Wipes/456" },
+  { name: "(3 pack) Charmin Flushable Wet Wipes, 4 packs, 40 Wipes Per Pack", price: 25.08, sellerName: "Walmart.com", canonicalUrl: "/ip/Charmin/789", availabilityStatusV2: { value: "OUT_OF_STOCK" } },
+  { name: "Ad tile" },
+] }] } } } } })}</script></html>`;
+const wmOffers = parseWalmartSearch(walmartHtml);
+check(wmOffers.length === 1 && wmOffers[0].price === 20.58 && wmOffers[0].was === 24.97 && wmOffers[0].url === "https://www.walmart.com/ip/DUDE-Wipes/123" && wmOffers[0].inStock === true, "Walmart offers are the in-stock ones Walmart sells itself, with price, was-price and link", JSON.stringify(wmOffers));
+const tgOffers = parseTargetSearch(JSON.stringify({ data: { search: { products: [
+  { tcin: "93867392", item: { product_description: { title: "Cottonelle FreshCare Flushable Wipes - 2pk/168ct" } }, price: { current_retail: 13.99, reg_retail: 13.99 } },
+  { tcin: "91517425", item: { product_description: { title: "Flushable Cleansing Wipes - Fresh Scent - 2pk/60ct - up&#38;up&#8482;" } }, price: { current_retail: 3.49, reg_retail: 3.99 } },
+  { tcin: "1", item: { product_description: { title: "No price" } }, price: {} },
+] } } }));
+check(tgOffers.length === 2 && tgOffers[0].price === 13.99 && tgOffers[0].was === null && tgOffers[1].was === 3.99 && tgOffers[1].title.endsWith("up&up™") && tgOffers[0].url === "https://www.target.com/p/-/A-93867392", "Target offers carry each pack size's own price and link", JSON.stringify(tgOffers.map((o) => [o.title, o.price, o.was])));
+check(shoppingQuery({ asin: "X", brand: "Sonos", title: "Sonos Era 100 - Black - Wireless, Alexa Enabled Smart Speaker", model: null, price: null }) === "Sonos Era 100" && shoppingQuery({ asin: "X", brand: "Therabody", title: "TheraGun Mini 3rd Gen, Travel", model: null, price: null }) === "Therabody TheraGun Mini 3rd Gen", "the query is the product name, with the brand added when the title leaves it out");
+const offer = (price: number, was: number | null) => ({ price, was, title: "TheraGun PRO Plus", url: "https://example.com/p" });
+const retail: RetailCapture = {
+  date: "2026-10-02",
+  readings: {},
+  history: { version: 1, asins: { B0THERA001: { "2026-09-20": { walmart: offer(249, 299) }, "2026-10-02": { walmart: offer(279, null), target: offer(289, null) } } } },
+};
+const rt = build(true, SUBJECT.slug, market, retail);
+const ri = (iso: string) => rt.dims.dates.indexOf(iso);
+const wm = rt.pricing.price[`${E1}|walmart`] ?? [], tg = rt.pricing.price[`${E1}|target`] ?? [];
+check(wm[ri("2026-09-20")] === 249 && wm[ri("2026-09-26")] === 249 && wm[ri(WINDOW_END)] === 279, "a retailer's price is the reading from its first day, carried to the next; a reading after the window closes lands on its last day", `${wm[ri("2026-09-20")]} / ${wm[ri("2026-09-26")]} / ${wm[ri(WINDOW_END)]}`);
+check(tg[ri(WINDOW_END)] === 289 && tg[ri("2026-09-20")] !== 289, "days before a retailer's first reading stay modelled", `${tg[ri("2026-09-20")]} → ${tg[ri(WINDOW_END)]}`);
+check(near(rt.pricing.discount[`${E1}|walmart`]?.[ri("2026-09-20")], 16.7, 0.1), "the crossed-out price sets the discount", String(rt.pricing.discount[`${E1}|walmart`]?.[ri("2026-09-20")]));
+const e1Msrp = rt.dims.models.find((m) => m.id === E1)?.msrp ?? 0;
+check(near(rt.pricing.discount[`${E1}|walmart`]?.[ri(WINDOW_END)], Math.max(0, ((e1Msrp - 279) / e1Msrp) * 100), 0.1), "without a crossed-out price the discount is against the MSRP", `${rt.pricing.discount[`${E1}|walmart`]?.[ri(WINDOW_END)]} vs MSRP ${e1Msrp}`);
+const wmEvents = rt.promotions.events.filter((e) => e.model === E1 && e.retailer === "walmart" && !e.alwaysOn);
+check(wmEvents.some((e) => e.start === "2026-09-20" && (e as unknown as { measured?: boolean }).measured) && !wmEvents.some((e) => e.end >= "2026-09-20" && !(e as unknown as { measured?: boolean }).measured), "price cuts from the first reading on are the measured ones only", wmEvents.map((e) => `${e.start}→${e.end}`).join(", "));
+const wmCarriage = rt.distribution.carriage[`${E1}|walmart`] ?? [];
+check(wmCarriage.slice(ri("2026-09-20")).every((v) => v === 1) && (rt.availability.stock[`${E1}|walmart`] ?? [])[ri("2026-09-20")] === 1, "a retailer with a reading carries the listing and has it in stock that day");
+const pricingNote = (rt.meta.provenance?.lanes.pricing as unknown as { note: string }).note;
+check(/Walmart, Target prices are read from their own websites \(2 readings since 2026-09-20\)/.test(pricingNote), "the pricing lane names the retailers read", pricingNote);
+check(rt.meta.disclosure.anchors.some((x) => x.lane === "Other retailers' prices" && !x.unmeasured && /marketplace sellers left out/.test(x.measured)), "the ledger lists other retailers' prices as measured, sold by the retailer itself");
+check(/Walmart, Target prices for 1 listing from their own websites/.test(rt.meta.disclosure.headline) && /every figure at Costco/.test(rt.meta.disclosure.body), "the disclosure names what was read and what is still modelled", rt.meta.disclosure.body.slice(0, 160));
+const plain = build(true, SUBJECT.slug, market);
+const hyCostco = "l-b0hyper001|costco";
+check(!!plain.pricing.price[hyCostco] && plain.pricing.price[hyCostco].join() === rt.pricing.price[hyCostco]?.join(), "retailers without a reading are modelled exactly as before");
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");
 process.exit(failures ? 1 : 0);

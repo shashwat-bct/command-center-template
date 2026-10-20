@@ -28,6 +28,8 @@ const LANE_NAMES: Record<string, string> = {
   promotions: "Promotions", calendar: "Promo calendar", strategy: "Promo strategy",
 };
 const plural = (n: number, word: string): string => `${n} ${word}${n === 1 ? "" : "s"}`;
+const retailLabels = (record: MeasurementRecord): string[] =>
+  Object.keys(record.retail?.retailers ?? {}).map((id) => record.market?.retailers.find((r) => r.id === id)?.label ?? id);
 const windowLabel = (end: string): string => {
   const start = new Date(Date.parse(`${end}T00:00:00Z`) - 90 * 86400000).toISOString().slice(0, 10);
   return `${start} to ${end}`;
@@ -55,6 +57,7 @@ export function computeProvenance(applied: AppliedMeasurements, record: Measurem
   if (applied.pdp.length || applied.delivery.length) sources.apify = "Apify · Amazon product pages read on the build date";
   if (record.ai) sources.ai = `${record.ai.engines.map((e) => e.label).join(", ")} · ${record.ai.questionsAsked - record.ai.questionsFailed} answers`;
   if (applied.shelf.length) sources.shelf = "Apify · Amazon search results on the build date";
+  if (record.retail) sources.retail = `${retailLabels(record).join(", ")} websites (Bright Data) · ${plural(record.retail.listings, "listing")}`;
 
   return { version: 2, mode: "hybrid", subjectSlot: SUBJECT_SLOT, metrics, sources, applied, record };
 }
@@ -79,8 +82,12 @@ export function disclosureFor(p: Provenance, subjectName: string): { short: stri
   if (listingBrands) parts.push(`daily Amazon price, stock, buy box, rating and reviews for ${plural(listings, "listing")} across ${plural(listingBrands, "brand")} (Keepa, ${windowLabel(p.record.windowEnd)})`);
   if (measuredSlots(p, "pdpScore")) parts.push("Amazon product-page content and delivery promise on the build date (Apify)");
   if (measuredSlots(p, "shelfSov")) parts.push("Amazon organic search results for the category on the build date (Apify)");
+  const retail = p.record.retail;
+  if (retail) parts.push(`${retailLabels(p.record).join(", ")} prices for ${plural(retail.listings, "listing")} from their own websites (${plural(retail.days.length, "reading")})`);
   const market = p.record.market;
-  const body = `Other retailers${market ? ` (${market.retailers.filter((r) => r.id !== "amazon").map((r) => r.label).join(", ")})` : ""}, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts, ${market && !market.durable ? "effective price after promotions" : "cost of ownership"}, and the day-to-day movement behind single readings are modelled around these measurements.`;
+  const read = new Set(Object.keys(retail?.retailers ?? {}));
+  const others = market ? market.retailers.filter((r) => r.id !== "amazon" && !read.has(r.id)).map((r) => r.label) : [];
+  const body = `${retail ? `Other retailers' stock, promotions beyond the price shown and days before the first price reading${others.length ? `, plus every figure at ${others.join(", ")}` : ""}` : `Other retailers${others.length ? ` (${others.join(", ")})` : ""}`}, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts, ${market && !market.durable ? "effective price after promotions" : "cost of ownership"}, and the day-to-day movement behind single readings are modelled around these measurements.`;
   if (!parts.length) {
     return { short: "Modelled view", headline: `No live source answered for ${subjectName} on this build.`, body: "Every figure is modelled. Rebuild once the category and competitors are set to read AI answers and Amazon listings." };
   }
@@ -125,6 +132,11 @@ export function anchorsFor(p: Provenance, lanes: Record<string, { status: string
     const sh = p.record.shelf;
     out.push({ lane: "Retail shelf", measured: `First ${sh.depth} organic Amazon search results for "${sh.term}" on ${sh.capturedAt}, each attributed to a brand by its title`,
       source: "Apify Amazon crawler · search page", pins: "The level each brand's Amazon shelf share is anchored to." });
+  }
+  const retail = p.record.retail;
+  if (retail) {
+    out.push({ lane: "Other retailers' prices", measured: `Price and crossed-out price at ${retailLabels(p.record).join(", ")} for ${plural(retail.listings, "tracked listing")}, sold by the retailer itself (marketplace sellers left out), matched to each Amazon listing by an LLM check that drops bundles, variety packs and other models; a different pack size is priced per unit and restated for the Amazon listing's quantity`,
+      source: `Retailer search pages via Bright Data · ${retail.days.length === 1 ? retail.days[0] : `${retail.days[0]} to ${retail.days[retail.days.length - 1]}`}`, pins: "Those retailers' prices and price cuts from the first reading on; a later day without a reading keeps the last price." });
   }
   const market = p.record.market;
   if (market) {

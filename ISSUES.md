@@ -14,9 +14,9 @@ Builds are **hybrid** (since 2026-10-06): lanes with a live source are measured 
 | Lane | Measured | Modelled |
 |---|---|---|
 | AI visibility | ChatGPT (web search), Gemini (Google Search grounding), Claude: 12 questions × 2 runs each; brands extracted per answer | daily movement (single reading, drawn flat) |
-| Pricing, Promotions, Promo calendar, Promo strategy | Keepa daily Amazon price + list price; Amazon price cuts | other retailers; non-price mechanics; MAP floor |
+| Pricing, Promotions, Promo calendar, Promo strategy | Keepa daily Amazon price + list price; Amazon price cuts; Walmart and Target price and crossed-out price from their own sites, for products they sell themselves (from the first reading on) | other retailers before their first reading or with no match; non-price mechanics; MAP floor |
 | Availability | Keepa daily Amazon buyable state | other retailers; cities |
-| Carriage & buy box | Keepa listing dates, offers, buy-box seller | other retailers |
+| Carriage & buy box | Keepa listing dates, offers, buy-box seller; Walmart and Target carry a listing from its first reading on their site | other retailers before their first reading or with no match |
 | Voice of customer | Keepa daily rating and review count | review themes (named per category by Claude, scored by simulation) |
 | Landing pages | Apify Amazon product page | other retailers |
 | Delivery | Apify Amazon delivery promise on the build date | other retailers, cities, earlier weeks |
@@ -82,7 +82,7 @@ Cost per build: ~100 Keepa tokens (buy-box history is 4 tokens per listing), ~$0
 |---|---|---|
 | L0 | Pricing, Stock, Voice, Carriage (Amazon) from Keepa daily history | fixed |
 | L1 | Landing pages and delivery from Apify | fixed (single reading per build) |
-| L2 | Best Buy / Target / Walmart / Newegg — shelf, carriage, price, promotions, delivery | blocked — needs a scraper per retailer and a scheduled weekly capture so history accumulates; until then these retailers are not shown |
+| L2 | Best Buy / Target / Walmart / Newegg — shelf, carriage, price, promotions, delivery | partly fixed — Walmart and Target price, crossed-out price and carriage read from their own sites per build and daily via `POST /api/retail-offers`; Best Buy, Costco, CVS and others have no reader yet; shelf, stock, non-price promotions and delivery still modelled |
 | L3 | Website traffic (visits) | blocked — needs a SimilarWeb key, or SimilarWeb pages via Bright Data (monthly levels only). Amazon demand is shown in its place. |
 | L5 | Retail shelf (Amazon) | fixed — Apify search, single reading per build |
 | L6 | Effective price (real part of cost of ownership) | fixed — Keepa deals + coupons; attach-rate costs not measured |

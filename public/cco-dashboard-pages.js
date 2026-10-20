@@ -1261,6 +1261,12 @@ P.method = (host) => {
     ["Amazon marketplace", "Daily", "Price, list price, availability, buy box, ratings and reviews for every tracked product"],
     ["Amazon product pages", "Each refresh", "Content quality, delivery promise and review highlights"],
     ["Amazon search", "Each refresh", `Organic results for “${esc((d.dims.terms[0] || {}).label || d.meta.category || "")}”`],
+    ...(() => {
+      const rr = ((d.meta.provenance || {}).record || {}).retail;
+      if (!rr) return [];
+      const labels = Object.keys(rr.retailers).map((id) => (d.dims.retailers.find((r) => r.id === id) || { label: id }).label);
+      return [["Other retailers", "Each refresh", `Price and crossed-out price on ${esc(labels.join(", "))}'s own websites, for products the retailer sells itself, matched to each tracked product and restated for its pack size`]];
+    })(),
     ["Retail market", d.dims.retailers.map((r) => r.label).join(", "), "Retailer mix, distribution and promotion landscape for the category"],
   ];
   const coverage = [

@@ -120,9 +120,19 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
   const engines = p.record.ai?.engines.map((e) => e.label) ?? [];
   const keepa = "Keepa · Amazon daily history";
   const modelled = (note: string): LaneStatus => ({ status: "modelled", note, sources: [] });
-  const amazonMixed = (what: string): LaneStatus => amazon
-    ? { status: "mixed", note: `Amazon ${what} is read daily from Keepa; the other retailers are modelled around it.`, sources: [keepa] }
-    : modelled(`No Amazon listings were found, so ${what} is modelled for every retailer.`);
+  const retail = p.record.retail;
+  const retailLabels = retail ? Object.keys(retail.retailers).map((id) => p.record.market?.retailers.find((r) => r.id === id)?.label ?? id) : [];
+  const shopping = "Retailer websites · Bright Data";
+  const retailNote = retail
+    ? ` ${retailLabels.join(", ")} prices are read from their own websites (${retail.days.length === 1 ? `on ${retail.days[0]}` : `${retail.days.length} readings since ${retail.days[0]}`}); days before the first reading and the other retailers are modelled.`
+    : "";
+  const amazonMixed = (what: string, withRetail = false): LaneStatus => {
+    const extra = withRetail && retail ? retailNote : " The other retailers are modelled around it.";
+    if (amazon) return { status: "mixed", note: `Amazon ${what} is read daily from Keepa.${extra}`, sources: withRetail && retail ? [keepa, shopping] : [keepa] };
+    return withRetail && retail
+      ? { status: "mixed", note: `No Amazon listings were found.${retailNote}`, sources: [shopping] }
+      : modelled(`No Amazon listings were found, so ${what} is modelled for every retailer.`);
+  };
   return {
     scorecard: { status: "mixed", note: "Each cell is marked: real where a source read it on this build, synthetic where it is modelled.", sources: [...(engines.length ? [`${engines.join(", ")} answers`] : []), ...(amazon ? [keepa] : []), ...(p.applied.pdp.length ? ["Apify · Amazon product pages"] : []), ...(p.applied.shelf.length ? ["Apify · Amazon search"] : [])] },
     ai: anyMeasured("aiSov")
@@ -138,15 +148,15 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
     landing: anyMeasured("pdpScore")
       ? { status: "mixed", note: "Amazon product pages were read on the build date; other retailers' pages are modelled.", sources: ["Apify · Amazon product pages"] }
       : modelled("Product-page scores are modelled."),
-    carriage: amazonMixed("listing and buy-box history"),
+    carriage: amazonMixed("listing and buy-box history", true),
     stock: amazonMixed("stock"),
     delivery: anyMeasured("leadTime")
       ? { status: "mixed", note: "Amazon's delivery promise was read on the build date; other retailers, cities and earlier weeks are modelled.", sources: ["Apify · Amazon delivery promise"] }
       : modelled("Delivery promises are modelled."),
-    pricing: amazonMixed("pricing"),
-    promotions: amazonMixed("price-cut history"),
-    calendar: amazonMixed("price-cut history"),
-    strategy: amazonMixed("price-cut history"),
+    pricing: amazonMixed("pricing", true),
+    promotions: amazonMixed("price-cut history", true),
+    calendar: amazonMixed("price-cut history", true),
+    strategy: amazonMixed("price-cut history", true),
     tco: modelled(p.record.market
       ? `${p.record.market.mechanics.map((m) => MECHANIC_LIBRARY[m].label).join(", ")}: which retailer runs which, how many shoppers take each and who funds it are modelled.`
       : "Protection plans, financing, attach rates and who funds each offer are modelled."),

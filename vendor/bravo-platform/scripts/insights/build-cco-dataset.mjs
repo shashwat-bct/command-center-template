@@ -117,6 +117,30 @@ const MID = Object.fromEntries(MODELS.map((m) => [m.id, m]));
 const MEASURED_AMAZON = CFG.MEASURED_AMAZON || {};
 const AMAZON_UNLISTED = new Set(CFG.AMAZON_UNLISTED || []);
 const measuredFor = (key) => { const [mid, rt] = key.split("|"); return rt === "amazon" ? MEASURED_AMAZON[mid] || null : null; };
+const retailFirst = {}, retailDaily = {};
+for (const [key, days] of Object.entries(CFG.MEASURED_RETAIL || {})) {
+  if (key.endsWith("|amazon")) continue;
+  const idx = Object.keys(days).map((d) => dIdx[d]).filter((i) => i != null).sort((a, b) => a - b);
+  if (!idx.length) continue;
+  const msrp = MID[key.split("|")[0]]?.msrp ?? 0;
+  const price = new Array(NDAYS).fill(null), list = new Array(NDAYS).fill(null), read = new Array(NDAYS).fill(false);
+  let cur = null;
+  for (let i = idx[0]; i < NDAYS; i++) {
+    if (days[dates[i]]) { cur = days[dates[i]]; read[i] = true; }
+    price[i] = cur.price; list[i] = cur.was ?? Math.max(msrp, cur.price);
+  }
+  retailFirst[key] = idx[0];
+  retailDaily[key] = { price, list, read };
+}
+const noteOf = (arr) => {
+  const on = arr.indexOf(1);
+  if (on < 0) return null;
+  if (on > 0) return { kind: "listed", day: dates[on] };
+  const off = arr.indexOf(0);
+  if (off < 0) return null;
+  const back = arr.indexOf(1, off);
+  return back < 0 ? { kind: "delisted", day: dates[off] } : { kind: "lapsed", day: dates[off], days: back - off };
+};
 
 
 const PT = Object.fromEntries(PROMO_TYPES.map((p) => [p.id, p]));
@@ -167,7 +191,7 @@ for (const m of MODELS) {
     let carried;
     if (meas === "carried") carried = true;
     else if (meas === "not carried") carried = false;
-    else carried = rnd() < BASE_CARRIAGE[m.brand][rt];
+    else carried = retailFirst[key] != null || rnd() < BASE_CARRIAGE[m.brand][rt];
     if (!carried) { carriage[key] = null; continue; }
 
     // A listing can appear or lapse mid-quarter — that is the point of watching.
@@ -200,6 +224,10 @@ for (const m of MODELS) {
         else { arr[capIdx] = 1; if (note && note.kind === "lapsed") note = null; }
       }
     }
+    if (retailFirst[key] != null) {
+      for (let i = retailFirst[key]; i < NDAYS; i++) arr[i] = 1;
+      note = noteOf(arr);
+    }
     carriage[key] = arr;
     const nSell = rt === "amazon" ? 3 + Math.floor(rnd() * 18) : THIRD_PARTY.has(rt) ? 2 + Math.floor(rnd() * 9) : 1;
     sellers[key] = nSell;
@@ -224,6 +252,21 @@ const capturedPriceDay = dIdx[MULTI.capturedAt.slice(0, 10)] ?? null;
 
 const promoEvents = [];
 let pid = 0;
+function pushMeasuredDiscounts(m, mid, rt, price, list, from) {
+  const depth = (j) => (price[j] != null && list[j] ? (1 - price[j] / list[j]) * 100 : 0);
+  for (let i = from; i < NDAYS; i++) {
+    if (depth(i) < 3 || (i > from && depth(i - 1) >= 3)) continue;
+    let end = i, deepest = depth(i);
+    while (end + 1 < NDAYS && depth(end + 1) >= 3) { end++; deepest = Math.max(deepest, depth(end)); }
+    const depthPct = r1(clamp(deepest, 3, 95));
+    promoEvents.push({
+      id: `p${++pid}`, brand: m.brand, model: mid, retailer: rt, type: "discount",
+      start: dates[i], end: dates[end], days: end - i + 1, alwaysOn: false,
+      depthPct, depthUsd: r2((list[i] * depthPct) / 100), addonUsd: 0, monthly: null, measured: true,
+      onEvent: (EVENTS.find((ev) => dates[i] >= ev.start && dates[i] <= ev.end) || {}).id || null,
+    });
+  }
+}
 for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const m = MID[mid];
@@ -234,19 +277,7 @@ for (const key of pairs) {
 
   const real = measuredFor(key);
   if (real) {
-    for (let i = 0; i < NDAYS; i++) {
-      const depth = (j) => (real.price[j] != null && real.list[j] ? (1 - real.price[j] / real.list[j]) * 100 : 0);
-      if (depth(i) < 3 || (i > 0 && depth(i - 1) >= 3)) continue;
-      let end = i, deepest = depth(i);
-      while (end + 1 < NDAYS && depth(end + 1) >= 3) { end++; deepest = Math.max(deepest, depth(end)); }
-      const depthPct = r1(clamp(deepest, 3, 95));
-      promoEvents.push({
-        id: `p${++pid}`, brand: m.brand, model: mid, retailer: rt, type: "discount",
-        start: dates[i], end: dates[end], days: end - i + 1, alwaysOn: false,
-        depthPct, depthUsd: r2((real.list[i] * depthPct) / 100), addonUsd: 0, monthly: null, measured: true,
-        onEvent: (EVENTS.find((ev) => dates[i] >= ev.start && dates[i] <= ev.end) || {}).id || null,
-      });
-    }
+    pushMeasuredDiscounts(m, mid, rt, real.price, real.list, 0);
     continue;
   }
 
@@ -305,6 +336,7 @@ for (const key of pairs) {
     if (capturedPriceDay != null && capturedPrice[key] != null
         && s <= capturedPriceDay && end >= capturedPriceDay
         && ["discount", "clearance", "openbox"].includes(type)) continue;
+    if (retailFirst[key] != null && end >= retailFirst[key] && ["discount", "clearance", "openbox"].includes(type)) continue;
     for (let i = s; i <= end; i++) used[i] = 1;
 
     // Depth is bounded by the brand's measured willingness to be discounted.
@@ -332,6 +364,7 @@ for (const key of pairs) {
       onEvent: (EVENTS.find((ev) => dates[s] >= ev.start && dates[s] <= ev.end) || {}).id || null,
     });
   }
+  if (retailDaily[key]) pushMeasuredDiscounts(m, mid, rt, retailDaily[key].price, retailDaily[key].list, retailFirst[key]);
 }
 // day -> live price-affecting depth, per model|retailer
 const promoDepthByDay = {};
@@ -364,7 +397,8 @@ for (const key of pairs) {
     continue;
   }
   const rnd = rngFor("price:" + key);
-  const anchor = (m.measured ? null : capturedPrice[key]) ?? r2(m.street0 * (1 + RETAILER_PRICE_BIAS[rt]));
+  const rd = retailDaily[key];
+  const anchor = (rd ? rd.price[retailFirst[key]] : null) ?? (m.measured ? null : capturedPrice[key]) ?? r2(m.street0 * (1 + RETAILER_PRICE_BIAS[rt]));
   const list = m.msrp;
   // A floor bounds how far the MODEL may wander. It must never sit above a
   // price that was actually observed: LG's CordZero A949 was captured at $249.99
@@ -386,7 +420,8 @@ for (const key of pairs) {
   }
   // Land the series on the captured value at the capture date.
   const capIdx = dIdx[MULTI.capturedAt.slice(0, 10)] ?? NDAYS - 11;
-  if (capturedPrice[key] && !m.measured) { const adj = capturedPrice[key] / base[capIdx]; for (let i = 0; i < NDAYS; i++) base[i] *= adj; }
+  if (rd) { const adj = rd.price[retailFirst[key]] / base[retailFirst[key]]; for (let i = 0; i < NDAYS; i++) base[i] *= adj; }
+  else if (capturedPrice[key] && !m.measured) { const adj = capturedPrice[key] / base[capIdx]; for (let i = 0; i < NDAYS; i++) base[i] *= adj; }
 
   const price = new Array(NDAYS), disc = new Array(NDAYS), lst = new Array(NDAYS);
   for (let i = 0; i < NDAYS; i++) {
@@ -394,6 +429,14 @@ for (const key of pairs) {
     const d = promoDepthByDay[key][i];
     const p = clamp(base[i] * (1 - d / 100), Math.min(list * 0.55, floorAbs), list * 1.05);
     price[i] = r2(p); lst[i] = list; disc[i] = r1(clamp(((list - p) / list) * 100, 0, 46));
+  }
+  if (rd) {
+    for (let i = retailFirst[key]; i < NDAYS; i++) {
+      if (!isCarried(mid, rt, i)) continue;
+      price[i] = r2(rd.price[i]);
+      lst[i] = rd.list[i];
+      disc[i] = r1(clamp(((lst[i] - price[i]) / lst[i]) * 100, 0, 95));
+    }
   }
   priceSeries[key] = price; listSeries[key] = lst; discSeries[key] = disc;
 }
@@ -419,6 +462,7 @@ for (const key of pairs) {
     continue;
   }
   const rnd = rngFor("stock:" + key);
+  const read = retailDaily[key]?.read;
   // The measured figure is the target, full stop. An earlier version added a
   // blanket +14 points "for other retailers" and then drew episodes at a rate
   // that never reached even that, so a brand measured at 62% in-stock rendered
@@ -431,11 +475,11 @@ for (const key of pairs) {
   let out = 0, guard = 0;
   while (out < wantOut && guard++ < 400) {
     const i = Math.floor(rnd() * NDAYS);
-    if (arr[i] === 0) continue;
+    if (arr[i] === 0 || read?.[i]) continue;
     const deep = Math.max(...promoDepthByDay[key].slice(Math.max(0, i - 5), i + 1), 0) > 14;
     const len = Math.min(1 + Math.floor(rnd() * (deep ? 9 : 5)), wantOut - out);
     let placed = 0;
-    for (let j = i; j < Math.min(NDAYS, i + len); j++) { if (arr[j] === 1) { arr[j] = 0; placed++; } }
+    for (let j = i; j < Math.min(NDAYS, i + len); j++) { if (arr[j] === 1 && !read?.[j]) { arr[j] = 0; placed++; } }
     if (!placed) continue;
     out += placed;
     stockEpisodes.push({ model: mid, brand: m.brand, retailer: rt, start: dates[i], days: placed, afterPromo: deep });
