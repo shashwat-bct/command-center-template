@@ -35,6 +35,7 @@ const RULES = [
   ["stock", /availability by model and (city|location)/, "sim", "Cities simulated"],
   ["stock", /./, "mixed", AMZ_REST],
   ["delivery", /./, "mixed", "Amazon delivery promise read on the build date · other retailers, cities and earlier weeks simulated"],
+  ["pricing", /below the price floor/, "mixed", "Prices as read where real · the price floor itself is an assumed policy, not measured"],
   ["pricing", /./, "mixed", AMZ_REST],
   ["promotions", /how .* promotes|where the promotions run/, "sim", "Promotion mechanics simulated"],
   ["promotions", /./, "mixed", "Amazon price cuts read live · other retailers and mechanics simulated"],
@@ -52,7 +53,27 @@ const RULES = [
 const U = () => window.__CC;
 const RETAIL_PAGES = new Set(["pricing", "promotions", "calendar", "strategy", "carriage"]);
 const prov = () => (U() && U().D && U().D.meta.provenance) || {};
-const retailRead = () => new Set(Object.keys(((prov().record || {}).retail || {}).retailers || {}));
+const retailRec = () => (prov().record || {}).retail || null;
+const retailRead = () => new Set(Object.keys((retailRec() || {}).retailers || {}));
+const CAPTION_PAGES = new Set([...RETAIL_PAGES, "stock"]);
+const ASSUMED = [[/price floor/, "the price floor itself (an assumed policy)"]];
+const day = (iso) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+const firstRead = () => { const r = retailRec(); return r && r.days && r.days.length ? day(r.days[0]) : null; };
+const labelOf = (id) => ((U().D.dims.retailers.find((r) => r.id === id) || {}).label || id);
+function split(page, title) {
+  const read = RETAIL_PAGES.has(page) ? [...retailRead()] : [];
+  const names = read.map(labelOf).join(" & "), from = firstRead();
+  const real = ["Amazon (daily, Keepa)"].concat(read.length ? [`${names} (from ${from}, their own websites)`] : []);
+  const sim = U().D.dims.retailers.filter((r) => r.id !== "amazon" && !read.includes(r.id)).map((r) => r.label)
+    .concat(read.length ? [`${names} before ${from}`] : [])
+    .concat(ASSUMED.filter(([re]) => re.test(title)).map(([, s]) => s));
+  return { real, sim };
+}
+function caption(card, page, title) {
+  if (!CAPTION_PAGES.has(page) || card.querySelector(".pvx-cap")) return;
+  const { real, sim } = split(page, title.toLowerCase());
+  card.querySelector(".card-h").insertAdjacentHTML("afterend", `<div class="pvx-cap"><span class="pvx-cap-k pvx-real">Real</span> ${esc(real.join(", "))}${sim.length ? ` <span class="pvx-cap-k pvx-sim">Simulated</span> ${esc(sim.join(", "))}` : ""}</div>`);
+}
 const pageOf = (node) => {
   const pg = node.closest(".page");
   return pg && pg.id ? pg.id.replace(/^pg-/, "") : (location.hash || "#scorecard").slice(1);
@@ -81,8 +102,9 @@ function markLabels(card) {
     const k = retailers.get(t) || (cities.has(t) ? "sim" : null);
     if (!k) return;
     n.dataset.pvx = k;
+    if (k === "real") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-real" title="Read daily from Keepa">real</span>`);
     if (k === "sim") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-sim" title="Simulated data, not collected">simulated</span>`);
-    if (k === "read") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-mixed" title="Prices read from the retailer's own website; days before the first reading simulated">partly real</span>`);
+    if (k === "read") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-mixed" title="Prices read from the retailer's own website from ${esc(firstRead() || "")}; earlier days simulated">real from ${esc(firstRead() || "")}</span>`);
   });
 }
 
@@ -94,7 +116,7 @@ function decorate(card) {
   let ca = card.querySelector(".card-h .ca");
   if (!ca) { ca = document.createElement("div"); ca.className = "ca"; card.querySelector(".card-h").appendChild(ca); }
   ca.insertAdjacentHTML("afterbegin", badge(r.k, r.src));
-  if (r.k === "mixed") markLabels(card);
+  if (r.k === "mixed") { markLabels(card); caption(card, pageOf(card), h3.textContent); }
 }
 
 function pageDefault(page) {
@@ -119,13 +141,20 @@ function sweep(root) {
   (root.matches && root.matches(".kpi") ? [root] : []).concat([...(root.querySelectorAll ? root.querySelectorAll(".kpi") : [])]).forEach(decorateKpi);
 }
 
+function partlyReal() {
+  const read = [...retailRead()].map(labelOf);
+  return read.length
+    ? `Partly real = Amazon is read daily; ${read.join(" & ")} prices are read from their own websites from ${firstRead()}; every other retailer, and earlier days, are simulated.`
+    : "Partly real = Amazon is read daily; every other retailer is simulated.";
+}
+
 function banner() {
   if (document.getElementById("pvxBanner")) return;
   const b = document.createElement("div");
   b.id = "pvxBanner"; b.className = "pvx-banner";
   b.innerHTML = `<span><b>Analyst view</b> · internal only. Each chart is tagged:</span>
     <span class="pvx-legend"><span class="pvx-tag pvx-real">Real</span><span class="pvx-tag pvx-mixed">Partly real</span><span class="pvx-tag pvx-sim">Simulated</span></span>
-    <span>Partly real = Amazon is real, other retailers are simulated unless marked partly real. Hover a tag for its source.</span>`;
+    <span>${esc(partlyReal())} Partly real charts list which parts are real and which are simulated; hover a tag for its source.</span>`;
   const pages = document.getElementById("pages");
   if (pages) pages.parentNode.insertBefore(b, pages);
 }
