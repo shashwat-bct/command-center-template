@@ -1635,8 +1635,8 @@ function route() {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 // ── embedded in the command centre: two groups on its rail, its router calls back ──
-const EMBED_HIDDEN = new Set(["overview", "claims", "change", "evidence"]);
-const EMBED_LAST = ["sources", "live"];
+const EMBED_HIDDEN = new Set(["overview", "claims", "change", "evidence", "live"]);
+const EMBED_LAST = ["sources"];
 const EMBED_GROUPS = () => {
   const grp = (id) => { const pages = NAV.find(g => g.id === id).pages.filter(p => !EMBED_HIDDEN.has(p.id)); return [...pages.filter(p => !EMBED_LAST.includes(p.id)), ...pages.filter(p => EMBED_LAST.includes(p.id))]; };
   const crumb = (p) => p.crumb.replace(/^Console/, "AI Engine Visibility");

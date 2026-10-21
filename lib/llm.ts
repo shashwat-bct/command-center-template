@@ -94,7 +94,7 @@ async function callLLMRaw(args: LLMArgs & { messages?: ChatMessage[] }): Promise
       }),
     });
     if (res.ok) {
-      const j = (await res.json()) as { text?: string; message?: string; content?: unknown };
+      const j = (await res.json()) as { text?: string; message?: string; content?: unknown; stop_reason?: string };
       // The proxy returns various shapes depending on Claude's response format.
       // Common: { text: "..." }, { message: "..." }, { content: [{text: "..."}] }
       if (typeof j.text === "string") return j.text;
@@ -103,7 +103,7 @@ async function callLLMRaw(args: LLMArgs & { messages?: ChatMessage[] }): Promise
         const text = (j.content as Array<{ type?: string; text?: string }>).filter((b) => typeof b.text === "string").map((b) => b.text).join("");
         if (text) return text;
       }
-      return JSON.stringify(j);
+      throw new Error(`LLM proxy returned no text (stop: ${j.stop_reason ?? "unknown"})`);
     }
     if (res.status === 401 && !refreshed) {
       refreshed = true;

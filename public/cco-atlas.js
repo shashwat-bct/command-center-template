@@ -167,7 +167,7 @@ async function askClaude(text) {
   const system = `You are Atlas, a commercial analyst for ${brand} (flushable wipes) against its competitors. Answer only from the analyses below, which come from ${atlas.sources.join(", ")}. Quote the figures as given. If the data does not cover the question, say so in one sentence and name the closest analysis you can offer. Write two to four short paragraphs or a short list, no headings, under 200 words.\n\n${context()}`;
   const history = current.msgs.filter((m) => m.role === "user" || (m.text && !m.error)).slice(-8).map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.text }));
   try {
-    const res = await fetch("/api/llm", { method: "POST", headers: { "content-type": "application/json", ...(window.__CC_AUTH ? { authorization: window.__CC_AUTH } : {}) }, body: JSON.stringify({ system, messages: history, max_tokens: 1200, temperature: 0.2 }) });
+    const res = await fetch("/api/llm", { method: "POST", headers: { "content-type": "application/json", ...(window.__CC_AUTH ? { authorization: window.__CC_AUTH } : {}) }, body: JSON.stringify({ system, messages: history, max_tokens: 3000, temperature: 0.2 }) });
     const json = await res.json().catch(() => ({}));
     if (!res.ok) return { role: "atlas", error: true, text: res.status === 429 ? "Too many questions this hour on this link. Try one of the prepared analyses above." : `Atlas could not reach Claude (${json.message || res.status}). The six prepared analyses still work.` };
     const out = (json.content || []).map((c) => c.text || "").join("").trim();

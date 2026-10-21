@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   const messages = Array.isArray(body.messages) ? body.messages.filter(isMessage).slice(-MAX_MESSAGES).map((m) => ({ role: m.role, content: m.content.slice(0, MAX_MESSAGE) })) : [];
   if (!messages.length || messages[messages.length - 1].role !== "user") return Response.json({ error: "bad request", message: "messages must end with a user turn" }, { status: 400 });
   const system = typeof body.system === "string" ? body.system.slice(0, MAX_SYSTEM) : undefined;
-  const maxTokens = Math.min(1200, Math.max(64, Number(body.max_tokens) || 700));
+  const maxTokens = Math.min(4000, Math.max(2000, Number(body.max_tokens) || 2000));
   const temperature = Math.min(1, Math.max(0, Number(body.temperature) || 0.2));
   try {
     const text = await callLLMChat({ system, messages, maxTokens, temperature });

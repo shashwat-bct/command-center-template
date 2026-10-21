@@ -6,39 +6,36 @@
 "use strict";
 if (document.body.dataset.sources !== "on") return;
 
-const KEEPA = "Keepa · Amazon daily history";
-const AI = "ChatGPT, Gemini and Claude answers, read on the build date";
-const SIM = "No live source · simulated, seeded per brand";
-const WALMART = "Walmart data (Histomart, Kompy, RetailerAPI)";
-const REVIEWS = `Amazon review summaries (Apify) and Walmart reviews (${WALMART})`;
-const RATINGS = `Amazon (Keepa, daily) and Walmart (${WALMART}), weighted by review count`;
-
-const WORD = { real: "Real", mixed: "Partly real", sim: "Simulated" };
+const AMAZON = "Amazon";
+const AI = "ChatGPT, Gemini and Claude answers";
+const SIM = "Simulated";
+const REVIEWS = "Amazon and Walmart reviews";
+const RATINGS = "Amazon and Walmart ratings, weighted by review count";
 
 const RULES = [
   ["scorecard", /measures|where each brand stands|rank movement|driver movement/, "mixed", "measures"],
   ["scorecard", /category events/, "mixed", "Retail calendar real · event lift simulated"],
-  ["traffic", /bought in past month|sales rank|every tracked listing/, "real", KEEPA],
+  ["traffic", /bought in past month|sales rank|every tracked listing/, "real", AMAZON],
   ["traffic", /./, "sim", SIM],
   ["voice", /aspect scores|what reviewers say|praise vs complaints|best competitor/, "real", REVIEWS],
   ["voice", /rating through|review velocity/, "real", RATINGS],
-  ["voice", /star mix|would recommend/, "real", `Walmart review summaries (${WALMART})`],
-  ["shelf", /organic against paid/, "sim", "Sponsored placements simulated on every retailer"],
-  ["shelf", /./, "mixed", "Amazon search read on the build date · other retailers, terms and daily movement simulated"],
-  ["landing", /./, "mixed", "Amazon product pages read on the build date · other retailers' pages simulated"],
+  ["voice", /star mix|would recommend/, "real", "Walmart reviews"],
+  ["shelf", /organic against paid/, "sim", "Sponsored placements on every retailer"],
+  ["shelf", /./, "mixed", ""],
+  ["landing", /./, "mixed", ""],
   ["carriage", /./, "mixed", ""],
   ["stock", /./, "mixed", ""],
   ["delivery", /./, "mixed", ""],
   ["pricing", /./, "mixed", ""],
-  ["promotions", /how .* promotes/, "sim", "Promotion mechanics simulated"],
+  ["promotions", /how .* promotes/, "sim", "Promotion mechanics on every retailer"],
   ["promotions", /./, "mixed", ""],
   ["calendar", /./, "mixed", ""],
-  ["strategy", /mechanic mix/, "sim", "Promotion mechanics simulated"],
+  ["strategy", /mechanic mix/, "sim", "Promotion mechanics on every retailer"],
   ["strategy", /./, "mixed", ""],
-  ["tco", /effective price as a share|^by brand$/, "real", "Keepa · Amazon coupons and lightning deals"],
+  ["tco", /effective price as a share|^by brand$/, "real", "Amazon coupons and deals"],
   ["tco", /./, "sim", SIM],
   ["ai-", /placement pipeline/, "mixed", "Week 0 real · later stages simulated"],
-  ["ai-", /crawler access|access findings/, "real", "robots.txt read on the build date"],
+  ["ai-", /crawler access|access findings/, "real", "The brands' and retailers' own websites"],
   ["ai-", /./, "real", AI],
   ["aeo-", /./, "mixed", "Week 0 real · weeks 1–12 simulated"],
 ];
@@ -46,7 +43,7 @@ const RULES = [
 const U = () => window.__CC;
 const RETAIL_PAGES = new Set(["pricing", "promotions", "calendar", "strategy", "carriage"]);
 const SPLIT_PAGES = new Set([...RETAIL_PAGES, "shelf", "landing", "stock", "delivery"]);
-const AMAZON_REAL = { shelf: "Amazon search results (Apify, read on the build date)", landing: "Amazon product pages (Apify, read on the build date)", delivery: "Amazon delivery promise (Apify, read on the build date)" };
+const AMAZON_REAL = { shelf: "Amazon search results", landing: "Amazon product pages", delivery: "Amazon delivery promise" };
 const prov = () => (U() && U().D && U().D.meta.provenance) || {};
 const retailRec = () => (prov().record || {}).retail || null;
 const importedRec = () => (retailRec() || {}).imported || null;
@@ -75,10 +72,8 @@ const anchored = () => Object.entries((prov().record || {}).anchors || {});
 function split(page, title) {
   const read = readOn(page);
   const anchors = anchored();
-  const what = { delivery: "delivery promise", stock: "stock, sellers and buy box" }[page];
-  const m = measuredRec();
-  const real = [AMAZON_REAL[page] || "Amazon (daily, Keepa)"].concat(read.map((id) => `${labelOf(id)} (${what && m && measuredOf(id) ? `${what} from ${m.label}` : sourceOf(id)})`));
-  const sim = U().D.dims.retailers.filter((r) => r.id !== "amazon" && !read.includes(r.id)).map((r) => { const a = anchors.find(([id]) => id === r.id); return a ? `${r.label} (anchored on its own site on ${day(a[1])})` : r.label; })
+  const real = [AMAZON_REAL[page] || AMAZON].concat(read.map((id) => (firstIso(id) > windowStart() ? `${labelOf(id)} from ${firstRead(id)}` : labelOf(id))));
+  const sim = U().D.dims.retailers.filter((r) => r.id !== "amazon" && !read.includes(r.id)).map((r) => { const a = anchors.find(([id]) => id === r.id); return a ? `${r.label} (set to match its own site on ${day(a[1])})` : r.label; })
     .concat(read.filter((id) => firstIso(id) > windowStart()).map((id) => `${labelOf(id)} before ${firstRead(id)}`))
     .concat(ASSUMED.filter(([re]) => re.test(title)).map(([, f]) => f(page)).filter(Boolean));
   return { real, sim };
@@ -106,16 +101,17 @@ function pageDefault(page) {
   const r = RULES.find(([p, re]) => (p.endsWith("-") ? page.startsWith(p) : page === p) && re.source === ".");
   if (r) return { k: r[2], src: r[3] };
   const lane = ((U().D.meta.provenance || {}).lanes || {})[page];
-  return lane ? { k: lane.status === "measured" ? "real" : lane.status === "mixed" ? "mixed" : "sim", src: (lane.sources || []).join(" · ") || SIM } : null;
+  if (!lane) return null;
+  const k = lane.status === "measured" ? "real" : lane.status === "mixed" ? "mixed" : "sim";
+  return { k, src: { real: "Amazon and Walmart", mixed: "Amazon and Walmart where they were read; the other retailers are simulated", sim: SIM }[k] };
 }
 
-const tag = (k) => `<span class="pvx-tag pvx-${k}">${WORD[k]}</span>`;
 
-function partlyReal() {
+function summary() {
   const read = [...retailRead()];
-  return read.length
-    ? `Amazon is read daily; ${read.map((id) => `${labelOf(id)} prices are real from ${firstRead(id)} (${sourceOf(id)})`).join("; ")}; every other retailer, and earlier days, are simulated.`
-    : "Amazon is read daily; every other retailer is simulated.";
+  const real = ["Amazon is read daily"].concat(read.map((id) => `${labelOf(id)} is real from ${firstRead(id)}`));
+  const sim = U().D.dims.retailers.filter((r) => r.id !== "amazon" && !read.includes(r.id)).map((r) => r.label);
+  return `${real.join(", ")}. ${sim.length ? `${sim.join(" and ")} and` : "Any"} earlier days are simulated.`;
 }
 
 function currentPage() {
@@ -136,11 +132,15 @@ function panelHtml() {
   const rows = cards.map(cardTitle).filter((t) => t && !seen.has(t) && seen.add(t)).map((title) => {
     const r = ruleFor(id, title) || dflt; if (!r) return "";
     const parts = r.src === "measures" ? measures() : r.k === "mixed" && SPLIT_PAGES.has(id) ? split(id, title.toLowerCase()) : null;
-    return `<li><div class="pvx-row"><b>${esc(title)}</b>${tag(r.k)}</div><div class="pvx-src">${parts ? `<span class="pvx-k">Real</span> ${esc(parts.real.join(", "))}${parts.sim.length ? `<br><span class="pvx-k">Simulated</span> ${esc(parts.sim.join(", "))}` : ""}` : esc(r.src)}</div></li>`;
+    const line = (k, v) => `<div class="pvx-src"><span class="pvx-k">${k}</span> ${esc(v)}</div>`;
+    const body = parts ? line("Real", parts.real.join(", ")) + (parts.sim.length ? line("Simulated", parts.sim.join(", ")) : "")
+      : r.k === "sim" ? line("Simulated", r.src && r.src !== SIM ? r.src : "everything on this chart")
+      : r.k === "real" ? line("Real", r.src) : `<div class="pvx-src">${esc(r.src)}</div>`;
+    return `<li><b class="pvx-t">${esc(title)}</b>${body}</li>`;
   }).filter(Boolean);
   return `<div class="pvx-head"><b>Where this page's data comes from</b><button type="button" class="pvx-x" aria-label="Close">✕</button></div>
-    <p class="pvx-sum">${esc(partlyReal())}</p>
-    ${rows.length ? `<ul class="pvx-list">${rows.join("")}</ul>` : dflt ? `<p class="pvx-sum">${tag(dflt.k)} ${esc(dflt.src)}</p>` : `<p class="pvx-sum">Nothing on this page is tagged.</p>`}`;
+    <p class="pvx-sum">${esc(summary())}</p>
+    ${rows.length ? `<ul class="pvx-list">${rows.join("")}</ul>` : dflt ? `<p class="pvx-sum">${esc(dflt.src)}</p>` : `<p class="pvx-sum">Nothing on this page is tagged.</p>`}`;
 }
 
 function start() {
