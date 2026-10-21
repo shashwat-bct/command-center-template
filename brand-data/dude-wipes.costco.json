@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "retailer": "costco",
+  "readOn": "2026-10-21",
+  "location": { "zip": "98101", "warehouse": "Seattle" },
+  "carried": { "dude-wipes": true, "cottonelle": true, "charmin": false, "goodwipes": false },
+  "products": [
+    {
+      "brand": "dude-wipes",
+      "item": "1770137",
+      "title": "DUDE Wipes Fragrance-Free + Moisturizing XL Flushable Wipes, 480 Wipes",
+      "url": "https://www.costco.com/p/-/dude-wipes-fragrance-free-moisturizing-xl-flushable-wipes-480-wipes/4000213921",
+      "units": 480,
+      "pack": "8 packs, 60 wipes each",
+      "onlinePrice": 25.99,
+      "warehousePrice": 20.99,
+      "rating": 4.6,
+      "reviews": 1455,
+      "online": "available",
+      "warehouse": "in stock",
+      "deliveryBy": "2026-10-26",
+      "shippingIncluded": true,
+      "promotion": { "label": "Pharmacy Buy More, Save More: buy 3 save $15, buy 5 or more save $30", "start": "2026-08-31", "end": "2026-11-22", "onlineOnly": true }
+    },
+    {
+      "brand": "cottonelle",
+      "item": "1205611",
+      "title": "Cottonelle Fresh Care Flushable Wipes, 560 Wipes",
+      "url": "https://www.costco.com/p/-/cottonelle-fresh-care-flushable-wipes-560-wipes/100397056",
+      "units": 560,
+      "pack": "10 flip-top packs, 56 wipes each",
+      "onlinePrice": 23.99,
+      "warehousePrice": 16.49,
+      "rating": 4.7,
+      "reviews": 5497,
+      "online": "available",
+      "warehouse": "in stock",
+      "deliveryBy": "2026-10-26",
+      "shippingIncluded": true,
+      "promotion": { "label": "Pharmacy Buy More, Save More: buy 3 save $15, buy 5 or more save $30", "start": "2026-08-31", "end": "2026-11-22", "onlineOnly": true }
+    }
+  ]
+}
