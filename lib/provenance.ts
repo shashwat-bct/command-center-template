@@ -28,8 +28,17 @@ const LANE_NAMES: Record<string, string> = {
   promotions: "Promotions", calendar: "Promo calendar", strategy: "Promo strategy",
 };
 const plural = (n: number, word: string): string => `${n} ${word}${n === 1 ? "" : "s"}`;
+const retailerLabel = (record: MeasurementRecord, id: string): string => record.market?.retailers.find((r) => r.id === id)?.label ?? id;
 const retailLabels = (record: MeasurementRecord): string[] =>
-  Object.keys(record.retail?.retailers ?? {}).map((id) => record.market?.retailers.find((r) => r.id === id)?.label ?? id);
+  Object.keys(record.retail?.retailers ?? {}).map((id) => retailerLabel(record, id));
+const importedLabels = (record: MeasurementRecord): string[] =>
+  Object.keys(record.retail?.imported?.retailers ?? {}).map((id) => retailerLabel(record, id));
+const importedSpan = (record: MeasurementRecord): string => {
+  const r = Object.values(record.retail?.imported?.retailers ?? {});
+  const first = r.map((x) => x.first).sort()[0];
+  const last = r.map((x) => x.last).sort().reverse()[0];
+  return first === last ? first : `${first} to ${last}`;
+};
 const windowLabel = (end: string): string => {
   const start = new Date(Date.parse(`${end}T00:00:00Z`) - 90 * 86400000).toISOString().slice(0, 10);
   return `${start} to ${end}`;
@@ -57,7 +66,9 @@ export function computeProvenance(applied: AppliedMeasurements, record: Measurem
   if (applied.pdp.length || applied.delivery.length) sources.apify = "Apify · Amazon product pages read on the build date";
   if (record.ai) sources.ai = `${record.ai.engines.map((e) => e.label).join(", ")} · ${record.ai.questionsAsked - record.ai.questionsFailed} answers`;
   if (applied.shelf.length) sources.shelf = "Apify · Amazon search results on the build date";
-  if (record.retail) sources.retail = `${retailLabels(record).join(", ")} websites (Bright Data) · ${plural(record.retail.listings, "listing")}`;
+  if (record.retail?.listings) sources.retail = `${retailLabels(record).join(", ")} websites (Bright Data) · ${plural(record.retail.listings, "listing")}`;
+  const imported = record.retail?.imported;
+  if (imported) sources.retailImported = `${imported.label} · ${importedLabels(record).join(", ")} prices for ${plural(imported.listings, "listing")}, ${importedSpan(record)}`;
 
   return { version: 2, mode: "hybrid", subjectSlot: SUBJECT_SLOT, metrics, sources, applied, record };
 }
@@ -83,11 +94,13 @@ export function disclosureFor(p: Provenance, subjectName: string): { short: stri
   if (measuredSlots(p, "pdpScore")) parts.push("Amazon product-page content and delivery promise on the build date (Apify)");
   if (measuredSlots(p, "shelfSov")) parts.push("Amazon organic search results for the category on the build date (Apify)");
   const retail = p.record.retail;
-  if (retail) parts.push(`${retailLabels(p.record).join(", ")} prices for ${plural(retail.listings, "listing")} from their own websites (${plural(retail.days.length, "reading")})`);
+  if (retail?.listings) parts.push(`${retailLabels(p.record).join(", ")} prices for ${plural(retail.listings, "listing")} from their own websites (${plural(retail.days.length, "reading")})`);
+  if (retail?.imported) parts.push(`${importedLabels(p.record).join(", ")} prices for ${plural(retail.imported.listings, "listing")} from ${retail.imported.label} (${importedSpan(p.record)})`);
+  if (retail?.measured) parts.push(`${Object.entries(retail.measured.retailers).map(([id, r]) => `${retailerLabel(p.record, id)} stock, seller count and buy box for ${plural(r.listings, "listing")}`).join(" and ")} from ${retail.measured.label}`);
   const market = p.record.market;
-  const read = new Set(Object.keys(retail?.retailers ?? {}));
+  const read = new Set([...Object.keys(retail?.retailers ?? {}), ...Object.keys(retail?.imported?.retailers ?? {})]);
   const others = market ? market.retailers.filter((r) => r.id !== "amazon" && !read.has(r.id)).map((r) => r.label) : [];
-  const body = `${retail ? `Other retailers' stock, promotions beyond the price shown and days before the first price reading${others.length ? `, plus every figure at ${others.join(", ")}` : ""}` : `Other retailers${others.length ? ` (${others.join(", ")})` : ""}`}, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts, ${market && !market.durable ? "effective price after promotions" : "cost of ownership"}, and the day-to-day movement behind single readings are modelled around these measurements.`;
+  const body = `${retail ? `${retail.measured ? "Stock at retailers without retailer data" : "Other retailers' stock"}, promotions beyond the price shown and days before the first price reading${others.length ? `, plus every figure at ${others.join(", ")}` : ""}` : `Other retailers${others.length ? ` (${others.join(", ")})` : ""}`}, cities, website traffic, review themes, promotion mechanics beyond Amazon price cuts, ${market && !market.durable ? "effective price after promotions" : "cost of ownership"}, and the day-to-day movement behind single readings are modelled around these measurements.`;
   if (!parts.length) {
     return { short: "Modelled view", headline: `No live source answered for ${subjectName} on this build.`, body: "Every figure is modelled. Rebuild once the category and competitors are set to read AI answers and Amazon listings." };
   }
@@ -134,9 +147,18 @@ export function anchorsFor(p: Provenance, lanes: Record<string, { status: string
       source: "Apify Amazon crawler · search page", pins: "The level each brand's Amazon shelf share is anchored to." });
   }
   const retail = p.record.retail;
-  if (retail) {
+  if (retail?.listings) {
     out.push({ lane: "Other retailers' prices", measured: `Price and crossed-out price at ${retailLabels(p.record).join(", ")} for ${plural(retail.listings, "tracked listing")}, sold by the retailer itself (marketplace sellers left out), matched to each Amazon listing by an LLM check that drops bundles, variety packs and other models; a different pack size is priced per unit and restated for the Amazon listing's quantity`,
       source: `Retailer search pages via Bright Data · ${retail.days.length === 1 ? retail.days[0] : `${retail.days[0]} to ${retail.days[retail.days.length - 1]}`}`, pins: "Those retailers' prices and price cuts from the first reading on; a later day without a reading keeps the last price." });
+  }
+  if (retail?.imported) {
+    out.push({ lane: "Imported retailer prices", measured: `Daily price at ${importedLabels(p.record).join(", ")} for ${plural(retail.imported.listings, "tracked listing")} from ${retail.imported.label}, imported on ${retail.imported.importedOn}: the buy-box price of the same item at the retailer, whoever held the buy box (for some products a marketplace seller), restated for the listing's pack size where the item's pack differs. A live website reading replaces it on any day both exist.`,
+      source: `${retail.imported.label} · ${importedSpan(p.record)}`, pins: "Those retailers' prices and price cuts on the imported days; a later day without a reading keeps the last price." });
+  }
+  if (retail?.measured) {
+    const m = retail.measured;
+    out.push({ lane: "Retailer stock and sellers", measured: `Daily stock state, offer count and buy-box holder at ${Object.entries(m.retailers).map(([id, r]) => `${retailerLabel(p.record, id)} for ${plural(r.listings, "tracked listing")} (${plural(r.days, "day")} with a reading in the window)`).join(", ")}, from ${m.label}. A price reading means the item was listed and in stock that day; a day without any reading counts as in stock; a price, offer count or buy-box holder older than 45 days is not carried.`,
+      source: `${m.label} · ${Object.values(m.retailers).map((r) => `${r.first} to ${r.last}`).join(", ")}`, pins: "Those retailers' carriage, stock-outs, seller count, buy-box share, price and price cuts for each listing across the window." });
   }
   const market = p.record.market;
   if (market) {

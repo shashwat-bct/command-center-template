@@ -1,0 +1,122 @@
+{
+  "186643620": {
+    "units": 48,
+    "asin": "B00L1GHHV2",
+    "listingUnits": 48,
+    "match": "upc"
+  },
+  "773024529": {
+    "units": 96,
+    "asin": "B07WW7CL69",
+    "listingUnits": 96,
+    "match": "upc"
+  },
+  "338343631": {
+    "units": 192,
+    "asin": "B084QG6FVP",
+    "listingUnits": 192,
+    "match": "upc"
+  },
+  "217103338": {
+    "units": 240,
+    "asin": "B08KHY1PKR",
+    "listingUnits": 288,
+    "match": "line"
+  },
+  "5089154023": {
+    "units": 240,
+    "asin": "B0C22SZQ3Y",
+    "listingUnits": 288,
+    "match": "line"
+  },
+  "1609485636": {
+    "units": 320,
+    "asin": "B0FS6Y7ZTV",
+    "listingUnits": 320,
+    "match": "upc"
+  },
+  "378202485": {
+    "units": 160,
+    "asin": "B07DVY2PDZ",
+    "listingUnits": 160,
+    "match": "upc"
+  },
+  "872979528": {
+    "units": 80,
+    "asin": "B07DW5892X",
+    "listingUnits": 80,
+    "match": "upc"
+  },
+  "605526382": {
+    "units": 40,
+    "asin": "B07DWB245F",
+    "listingUnits": 40,
+    "match": "upc"
+  },
+  "1726645489": {
+    "units": 160,
+    "asin": "B081J7L9MD",
+    "listingUnits": 160,
+    "match": "line"
+  },
+  "38192980": {
+    "units": 168,
+    "asin": "B00FZGZHO8",
+    "listingUnits": 168,
+    "match": "upc"
+  },
+  "877770035": {
+    "units": 168,
+    "asin": "B08VMWQ6BF",
+    "listingUnits": 168,
+    "match": "upc"
+  },
+  "224640669": {
+    "units": 420,
+    "asin": "B084KLB7YR",
+    "listingUnits": 336,
+    "match": "line"
+  },
+  "782523046": {
+    "units": 168,
+    "asin": null,
+    "listingUnits": null,
+    "match": null
+  },
+  "826763382": {
+    "units": 84,
+    "asin": null,
+    "listingUnits": null,
+    "match": null
+  },
+  "139903959": {
+    "units": 150,
+    "asin": "B0DSQSWL8B",
+    "listingUnits": 153,
+    "match": "line"
+  },
+  "11584722928": {
+    "units": 150,
+    "asin": "B0DSQX3XMV",
+    "listingUnits": 153,
+    "match": "line"
+  },
+  "948359201": {
+    "units": 150,
+    "asin": "B0DSQQ93JL",
+    "listingUnits": 418,
+    "match": "line"
+  },
+  "14626416071": {
+    "units": 200,
+    "asin": "B0DSQQ2R62",
+    "listingUnits": 318,
+    "match": "line"
+  },
+  "14675564418": {
+    "units": 100,
+    "asin": "B0DSQWQCHM",
+    "listingUnits": 153,
+    "match": "line"
+  }
+}

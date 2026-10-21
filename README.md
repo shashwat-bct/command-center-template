@@ -36,7 +36,7 @@ Run `npm run test:relabel` after touching `lib/` — it runs the real builder wi
 | `/share#<token>` | Older signed magic links, still honoured |
 | `/api/magic-links` | Create a share link — see below |
 | `/api/admin/session` | Sign in (`POST {token}`) / out (`DELETE`) |
-| `/api/brands` | List / create brands (BigQuery `cco_mgmt.brands`) |
+| `/api/brands` | List / create brands (BigQuery `cco_mgmt.brands`). `POST` takes the form's fields plus optional `asins` (the subject's Amazon listings, in place of product discovery) and `competitorAsins` (`{"<competitor name>": ["<ASIN>", …]}`, in place of the Keepa search for that competitor); both are saved and reused by Rebuild |
 | `/api/brands/<slug>` | The inputs the brand was last built with |
 | `/api/brands/<slug>/rebuild` | Rebuild with those inputs (`POST`) |
 | `/api/builds/<build_id>` | Build status (BigQuery `cco_mgmt.builds`) |
@@ -82,6 +82,32 @@ Every build is **hybrid**: lanes with a live source are measured on that build, 
 Hybrid and measured-only builds are served; builds from before per-lane provenance answer 409 until rebuilt. Only hybrid builds are reused for new links.
 
 Cost per build: ~100 Keepa tokens, ~$0.07 Apify, 24 Bright Data records each for ChatGPT and Gemini, one Bright Data Web Unlocker request per tracked listing for Walmart, ~33 LLM proxy calls (Claude answers, brand extraction, review themes) plus one per tracked listing for offer matching. Production needs `BRIGHTDATA_API_KEY` (or the existing `BRIGHTDATA_SERP_KEY`) as a Cloud Run secret; without it only Claude runs. A Bright Data snapshot takes a few minutes, so a build's AI step and a live console run are slower than the old API path. An engine that fails is left out of the build and listed as failed on the Method page.
+
+### Retailer feed (any retailer's data)
+
+`brand-data/<slug>.feed.json` is one retailer-agnostic file of everything collected about a brand's products at other retailers (`lib/retail-feed.ts`). A scraper for any retailer writes the same shape:
+
+- `products`: one per retailer item (`walmart:<item>`), with brand, title, URL, UPC, unit count, and the tracked Amazon listing it matches (`asin`, `listingUnits`, `match`: `upc` for the same item, `line` for the same line and scent in another pack).
+- `daily`: per item and day, the buy-box price (the retailer's own offer price when no buy-box reading exists), crossed-out price, in-stock state, stock count, offer count, buy-box seller, rating and review count, and the sources read.
+- `reviewSummary` and `reviews`: the retailer's rating totals, star breakdown, review highlights and individual reviews.
+
+On a build (`lib/capture.ts`) the feed does three things:
+
+1. Its prices join the live website readings, restated for the listing's pack size. A live reading wins on its day.
+2. Every tracked listing it covers becomes measured at that retailer. The builder's measured path, which used to serve only Amazon (`measuredFor` in the vendored builder), now takes any retailer's daily price, list, stock, offer count and buy box, so carriage, stock-outs, seller count, buy-box share, price cuts and price index come from the data. A day without a reading counts as in stock. A price, offer count or buy-box holder older than 45 days is not carried.
+3. Its weekly view from January 2025 and its reviews are attached as `payload.retailFeed`. They feed Voice of Customer: the retailer's reviews are counted into each aspect, with their quotes and products in the aspect drawers.
+
+Provenance keeps the feed apart from website reads (`record.retail.imported`, `record.retail.measured`), and the lane notes, ledger and analyst view name it as its own source.
+
+`scripts/import-retailer-csv.ts` writes a feed from the cleaned Walmart CSVs and a match table (`brand-data/<slug>.matches.json`):
+
+```
+npx tsx scripts/import-retailer-csv.ts --clean <dir with all_data_clean.csv, review_summary_clean.csv, reviews_clean.csv> \
+  --matches brand-data/dude-wipes.matches.json --out brand-data/dude-wipes.feed.json \
+  --retailer walmart --label "Walmart data (Histomart, Kompy, RetailerAPI)" --on 2026-10-21
+```
+
+`dude-wipes` pins its tracked listings to the products in that feed: `asins` for the subject and `competitorAsins` for Charmin, Cottonelle and Goodwipes. Pinned listings are never merged as colour variants, and a brand may track up to eight listings. There are 18 of 20 Walmart items: 9 are the same item by UPC (through Keepa), and 9 are the same line and scent in Amazon's own pack size. Cottonelle Ultra Fresh has no Amazon line, so it appears only in the reviews.
 
 ### Daily retailer prices
 

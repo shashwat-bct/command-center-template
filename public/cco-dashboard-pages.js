@@ -416,17 +416,25 @@ P.voice = (host) => {
     let body = esc(full);
     if (hl) { const at = body.toLowerCase().indexOf(esc(hl).toLowerCase()); if (at >= 0) body = `${body.slice(0, at)}<b style="font-weight:600;color:var(--ink)">${body.slice(at, at + esc(hl).length)}</b>${body.slice(at + esc(hl).length)}`; }
     const link = typeof q !== "string" && q.url ? ` <a href="${esc(q.url)}" target="_blank" rel="noopener" style="color:var(--accent);font-style:normal;white-space:nowrap">view review ↗</a>` : "";
-    return `<div style="font-size:${opts.small ? "12.5px" : "13.5px"};line-height:1.55;color:var(--soft)">\u201c${body}\u201d${link}</div>`;
+    const from = typeof q !== "string" && q.retailer ? `<span class="mini" style="font-weight:600;color:var(--ink)">${esc(RT(q.retailer).label)}${q.rating != null ? ` · ${q.rating}★` : ""}${q.title ? ` · ${esc(q.title)}` : ""}</span> ` : "";
+    const meta = typeof q !== "string" && q.retailer ? [q.date ? F.date(q.date) : "", q.verified ? "verified purchase" : "", q.variant ? esc(q.variant) : "", q.fulfilledBy ? `fulfilled by ${esc(q.fulfilledBy)}` : "", q.helpful ? `${q.helpful} found helpful` : ""].filter(Boolean).join(" · ") : "";
+    return `<div style="font-size:${opts.small ? "12.5px" : "13.5px"};line-height:1.55;color:var(--soft)">${from}\u201c${body}\u201d${link}${meta ? ` <span class="mini">${meta}</span>` : ""}</div>`;
   };
   const withheld = d.dims.brands.filter((b) => !d.voice.aspects[b.id]);
   const anyAspect = realAspects && withheld.length < d.dims.brands.length;
   const velOf = (b) => (d.voice.velocity[b] ? sum(slice(d.voice.velocity[b])) : null);
+  const joined = (((d.meta.provenance || {}).record || {}).retail || {}).voice;
+  const across = joined ? ["Amazon", ...Object.keys(joined.retailers).map((id) => RT(id).label)].join(" and ") : null;
+  const ratingWhat = across ? `Daily star rating across ${across}, weighted by review count` : "Daily Amazon star rating across each brand's tracked listings";
   host.innerHTML = `
-  ${intro(`Rating and review velocity from Keepa's daily Amazon history${anyAspect ? `, and what reviewers say about each aspect from Amazon's own review summaries` : ""}. A brand or aspect without enough reviews to score is withheld rather than filled in.`)}
+  ${intro(`${across ? `Rating and review velocity across ${across}: Keepa's daily Amazon history joined with ${esc(joined.label)}, weighted by review count` : "Rating and review velocity from Keepa's daily Amazon history"}${anyAspect ? `, and what reviewers say about each aspect from Amazon's own review summaries` : ""}. A brand or aspect without enough reviews to score is withheld rather than filled in.`)}
   <div class="grid ${anyAspect ? "g4" : "g2"}" style="margin-bottom:14px">
     ${metricKpi("rating", S)}
     ${kpi({ label: "Reviews in window", dot: B(S).color, value: velOf(S) == null ? "—" : F.k(velOf(S)),
-      note: (() => { const lead = BIDS().map((b) => ({ b, v: velOf(b) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0];
+      note: (() => {
+        const other = joined && joined.added && joined.added[S] ? sum(slice(joined.added[S])) : null;
+        if (other != null && velOf(S) != null) return `Amazon ${F.k(Math.max(0, velOf(S) - other))} · ${Object.keys(joined.retailers).map((id) => RT(id).label).join(", ")} ${F.k(other)}`;
+        const lead = BIDS().map((b) => ({ b, v: velOf(b) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0];
         return !lead ? "Not measured" : lead.b === S ? "The most new reviews in the set" : `Against ${F.k(lead.v)} for ${B(lead.b).label}`; })() })}
     ${!anyAspect ? "" : `${kpi({ label: "Strongest aspect", dot: "#1e8e3e", value: (() => { const a = topAspect(S, 1); return a ? String(a.v) : "—"; })(),
       note: (() => { const a = topAspect(S, 1); return a ? `${a.k} · % of mentions positive` : "No aspect scored"; })() })}
@@ -434,15 +442,15 @@ P.voice = (host) => {
       note: (() => { const a = topAspect(S, -1); return a ? `${a.k} · % of mentions positive` : "No aspect scored"; })() })}`}
   </div>
   ${!anyAspect ? `<div class="grid g2">
-    ${card({ title: "Rating through the quarter", help: "Keepa's daily Amazon star rating, averaged across each brand's tracked listings.", sub: "Daily Amazon star rating across each brand's tracked listings.", slot: "vcLine" })}
-    ${card({ title: "Review velocity", help: "New Amazon reviews per day, from the daily change in Keepa's review count. One-day jumps where Amazon regroups variant listings are not counted.", sub: "New Amazon reviews per day.", slot: "vcVel" })}
+    ${card({ title: "Rating through the quarter", help: across ? `Each brand's star rating across ${across}, weighted by review count; an Amazon review pool shared by several listings counts once.` : "Keepa's daily Amazon star rating, averaged across each brand's tracked listings.", sub: `${ratingWhat}.`, slot: "vcLine" })}
+    ${card({ title: "Review velocity", help: across ? `New reviews per day across ${across}: Amazon from the daily change in Keepa's review count, the others spread evenly between their review-count readings.` : "New Amazon reviews per day, from the daily change in Keepa's review count. One-day jumps where Amazon regroups variant listings are not counted.", sub: across ? `New reviews per day across ${across}.` : "New Amazon reviews per day.", slot: "vcVel" })}
   </div>` : `<div class="grid g2">
     ${card({ title: "Aspect scores by brand", help: "Amazon summarises each listing's reviews into aspects and counts how many customers mention each one positively or negatively. The score is the share of those mentions that are positive, added up across the brand's tracked listings. Fewer than four mentions is withheld.", sub: "Share of review mentions that are positive, per aspect, from Amazon's \u201cCustomers say\u201d summaries. Hover a cell for the counts.", slot: "vcHeat" })}
-    ${card({ title: "Rating through the quarter", help: "Keepa's daily Amazon star rating, averaged across each brand's tracked listings. Days without a reading carry the last one.", sub: "Daily Amazon star rating across each brand's tracked listings.", slot: "vcLine" })}
+    ${card({ title: "Rating through the quarter", help: across ? `Each brand's star rating across ${across}, weighted by review count; an Amazon review pool shared by several listings counts once. Days without a reading carry the last one.` : "Keepa's daily Amazon star rating, averaged across each brand's tracked listings. Days without a reading carry the last one.", sub: `${ratingWhat}.`, slot: "vcLine" })}
   </div>
   <div class="grid g2" style="margin-top:14px">
-    ${card({ title: `What reviewers say about ${SUBJ}`, help: "Positive and negative mentions per aspect across the subject's tracked Amazon listings, with snippets Amazon highlights from the reviews themselves.", sub: "Positive against negative mentions per aspect, with what reviewers actually wrote.", slot: "vcTrend" })}
-    ${card({ title: "Review velocity", help: "New reviews arriving per day. It is a demand proxy rather than a sentiment one: rating says how people feel, velocity says how many are arriving to feel it.", sub: "Reviews arriving per day. Volume is what makes a rating hard to move — in either direction.", slot: "vcVel" })}
+    ${card({ title: `What reviewers say about ${SUBJ}`, help: across ? `Positive and negative mentions per aspect across the subject's tracked Amazon listings, with the snippets Amazon highlights and quotes from ${across.replace(/^Amazon and /, "")} reviews that name the aspect.` : "Positive and negative mentions per aspect across the subject's tracked Amazon listings, with snippets Amazon highlights from the reviews themselves.", sub: "Positive against negative mentions per aspect, with what reviewers actually wrote.", slot: "vcTrend" })}
+    ${card({ title: "Review velocity", help: `New reviews arriving per day${across ? ` across ${across}` : ""}. It is a demand proxy rather than a sentiment one: rating says how people feel, velocity says how many are arriving to feel it.`, sub: `Reviews arriving per day${across ? ` across ${across}` : ""}. Volume is what makes a rating hard to move — in either direction.`, slot: "vcVel" })}
   </div>`}
   ${anyAspect ? "" : `<div style="margin-top:14px">${card({ title: "Aspect scores by brand", help: "Scored from the per-aspect positive and negative mention counts in Amazon's review summaries for each brand's tracked listings.", sub: "What reviewers praise and complain about, per aspect.", html: `<div class="withheld-card"><b>Arrives with the next build</b><p>This dashboard was built before aspect scores were read from Amazon's review summaries. Rebuild ${esc(SUBJ)} to see real scores, with the review snippets behind them.</p></div>` })}</div>`}
   <h2 class="sec">What the reviews say</h2>${readsBlock("voice")}`;
@@ -457,9 +465,9 @@ P.voice = (host) => {
   if (anyAspect) {
     const rows = d.dims.aspects.map((a) => ({ a, n: aspCount(S, a) })).filter((x) => x.n).sort((x, y) => (y.n.positive + y.n.negative) - (x.n.positive + x.n.negative));
     el("vcTrend").innerHTML = rows.length ? rows.map(({ a, n }) => { const tot = n.positive + n.negative; return `<div class="vc-asp" data-a="${esc(a)}" style="padding:10px 0;border-bottom:1px solid var(--line2);cursor:pointer">
-      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc(a)}</b><span class="mini">${n.positive} positive · ${n.negative} negative</span></div>
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc(a)}</b><span class="mini">${n.positive} positive · ${n.negative} negative${n.byRetailer ? ` (${Object.entries(n.byRetailer).filter(([, x]) => x.positive + x.negative).map(([rt, x]) => `${RT(rt).label} ${x.positive}/${x.negative}`).join(" · ")})` : ""}</span></div>
       <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin:6px 0;gap:2px"><i style="flex:${n.positive || 0.0001};background:#1e8e3e"></i><i style="flex:${n.negative || 0.0001};background:#d93025"></i></div>
-      <div style="display:grid;gap:4px">${balanced(n.quotes).slice(0, 2).map((q) => quoteHtml(q, { small: true })).join("")}</div></div>`; }).join("") : `<div class="withheld-card"><p>Amazon's review summaries carry no aspects for ${SUBJ}.</p></div>`;
+      <div style="display:grid;gap:4px">${[...balanced(n.quotes.filter((q) => !q.retailer)).slice(0, 2), ...balanced(n.quotes.filter((q) => q.retailer)).slice(0, 2)].map((q) => quoteHtml(q, { small: true })).join("")}</div></div>`; }).join("") : `<div class="withheld-card"><p>Amazon's review summaries carry no aspects for ${SUBJ}.</p></div>`;
   }
   $$("#vcTrend .vc-asp").forEach((row) => { row.onclick = () => showAspect(S, row.dataset.a); });
   function showAspect(bid, a) {
@@ -469,6 +477,14 @@ P.voice = (host) => {
     const avg = all.length ? Math.round(mean(all.map((x) => x.v))) : null;
     const best = all[0];
     const modelOf = (asin) => d.dims.models.find((m) => m.asin === asin);
+    const feedName = (id, title) => {
+      const fp = ((d.retailFeed || {}).products || []).find((x) => x.id === id);
+      const m = fp && fp.model ? d.dims.models.find((x) => x.id === fp.model) : null;
+      if (m) return fp.units && (fp.units !== (m.label.match(/· (\d+) Count$/) || [])[1] * 1) ? `${m.label} (${RT(fp.retailer).label} pack: ${fp.units} ct)` : m.label;
+      return `${title.split(",")[0]}${fp && fp.units ? ` · ${fp.units} ct` : ""}`;
+    };
+    const rowLabel = (l) => l.retailer ? `<span class="mini" style="font-weight:600;color:var(--ink)">${esc(RT(l.retailer).label)}</span> ${esc(feedName(l.product, l.title))}` : `<span class="mini" style="font-weight:600;color:var(--ink)">Amazon</span> ${esc((modelOf(l.asin) || {}).label || l.asin)}${l.shared ? ` <span class="mini" title="Amazon shows one review pool across ${l.shared} pack sizes of this line; the brand total counts it once">· shared review pool</span>` : ""}`;
+    const rowLink = (l) => l.retailer ? (l.url ? `<a href="${esc(l.url)}" target="_blank" rel="noopener" style="color:var(--accent)">read ↗</a>` : "—") : `<a href="https://www.amazon.com/product-reviews/${encodeURIComponent(l.asin)}" target="_blank" rel="noopener" style="color:var(--accent)">read ↗</a>`;
     const tile = (k, v, note) => `<div style="flex:1;min-width:110px;padding:12px 14px;border:1px solid var(--line);border-radius:12px"><div class="mini">${k}</div><div style="font-family:var(--fd);font-size:22px;margin-top:2px">${v}</div>${note ? `<div class="mini">${note}</div>` : ""}</div>`;
     const tiles = `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
       ${tile("Score", score != null ? String(score) : "—", "% of mentions positive")}
@@ -476,22 +492,23 @@ P.voice = (host) => {
       ${tile("Category average", avg != null ? String(avg) : "—", score != null && avg != null ? `${score >= avg ? "+" : ""}${score - avg} points` : "")}
       ${tile("Best on this aspect", best ? esc(best.b.label) : "—", best ? `scores ${best.v}` : "")}</div>`;
     const compare = all.length ? `<h4 style="font-size:13px;font-weight:500;margin:0 0 8px">Every brand on ${esc(a.toLowerCase())}</h4><div class="cc-hb">${all.map(({ b, v }) => `<div class="cc-hb-row${b.id === bid ? " subject" : ""}"><span class="lb">${esc(b.label)}</span><span class="tr"><i style="width:${v}%;background:${b.color}"></i></span><b class="tnum vv">${v}</b></div>`).join("")}</div>` : "";
-    const listings = (n && n.listings) || [];
+    const listings = ((n && n.listings) || []).flatMap((l) => (l.asins && l.asins.length > 1 ? l.asins.map((x) => ({ ...l, asin: x, asins: undefined, shared: l.asins.length })) : [l]));
     const prodHtml = listings.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">Which products drive it</h4>${table([
-      { label: "Product", lft: true, get: (l) => esc((modelOf(l.asin) || {}).label || l.asin) },
+      { label: "Product", lft: true, get: (l) => rowLabel(l) },
       { label: "Positive", get: (l) => `<span class="tnum" style="color:var(--good)">${l.positive}</span>` },
       { label: "Negative", get: (l) => `<span class="tnum" style="color:var(--risk)">${l.negative}</span>` },
       { label: "Score", get: (l) => { const t = l.positive + l.negative; return t ? `<b class="tnum">${Math.round((l.positive / t) * 100)}</b>` : "—"; } },
-      { label: "Reviews", get: (l) => `<a href="https://www.amazon.com/product-reviews/${encodeURIComponent(l.asin)}" target="_blank" rel="noopener" style="color:var(--accent)">read ↗</a>` },
+      { label: "Reviews", get: (l) => rowLink(l) },
     ], listings.slice().sort((x, y) => (y.positive + y.negative) - (x.positive + x.negative)))}` : "";
     const byProduct = listings.slice().sort((x, y) => (y.positive + y.negative) - (x.positive + x.negative)).map((l) => {
       const t = l.positive + l.negative;
       return `<div style="padding:14px 0;border-top:1px solid var(--line2)">
-        <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${esc((modelOf(l.asin) || {}).label || l.asin)}</b><span class="mini">${t ? `${Math.round((l.positive / t) * 100)} · ` : ""}${l.positive} positive · ${l.negative} negative</span></div>
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><b style="font-weight:500">${rowLabel(l)}</b><span class="mini">${t ? `${Math.round((l.positive / t) * 100)} · ` : ""}${l.positive} positive · ${l.negative} negative</span></div>
         ${l.summary ? `<div style="font-size:13px;color:var(--ink);margin:6px 0 8px;line-height:1.5">${esc(l.summary)} <span class="mini">— Amazon's summary</span></div>` : ""}
+        ${l.retailer ? window.__CCFEED.reviewSummaryHtml(l.product, a) : ""}
         <div style="display:grid;gap:8px">${balanced(l.quotes).map((q) => quoteHtml(q)).join("")}</div></div>`;
     }).join("");
-    const quoteHtmlBlock = listings.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 4px">What reviewers wrote, by product</h4>${byProduct}<p class="mini" style="margin:10px 0 0">Amazon's own aspect summary and the review sentences it tagged for this aspect, with its highlighted phrase in bold. Each links to the full review.</p>`
+    const quoteHtmlBlock = listings.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 4px">What reviewers wrote, by product</h4>${byProduct}<p class="mini" style="margin:10px 0 0">${listings.some((l) => l.retailer) ? "Walmart rows count each Walmart review that names this aspect: rated 4–5★ as positive, 1–2★ as negative, with the sentence that names it. " : ""}Amazon's own aspect summary and the review sentences it tagged for this aspect, with its highlighted phrase in bold; Amazon listings marked “shared review pool” show the same reviews, counted once in the brand total. Each links to the full review.</p>`
       : (n && n.quotes && n.quotes.length ? `<h4 style="font-size:13px;font-weight:500;margin:22px 0 8px">What reviewers wrote</h4><div style="display:grid;gap:8px">${balanced(n.quotes).map((q) => quoteHtml(q)).join("")}</div>` : "");
     openDrawer(`${esc(B(bid).label)} · ${esc(a)}`, score != null ? `${score}% of ${n ? n.positive + n.negative : 0} review mentions are positive` : "Too few mentions to score", tiles + compare + prodHtml + quoteHtmlBlock);
   }
@@ -676,14 +693,14 @@ P.carriage = (host) => {
     legendHtml: `<span class="dg-lg"><i style="background:#e6f4ea;color:#137333">✓</i>on the shelf all ${winLen} days</span><span class="dg-lg"><i style="background:#f6aea9"></i><i style="background:#ea4335"></i><i style="background:#a50e0e"></i>missing for some days — darker is longer, the number is days missing</span><span class="dg-lg"><i style="background:#f1f3f4;color:#80868b">—</i>not carried by that retailer</span>`,
     naTip: (r, c) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>Not carried by ${c.label} in this window</span></div>`,
     tip: (r, c, v) => { const k = `${r.id}|${c.id}`;
-      return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>On the shelf</span><b class="tnum">${winLen - v} of ${winLen} days</b></div>${v ? `<div class="r"><span>Missing</span><b class="tnum" style="color:#c5221f">${v} day${v === 1 ? "" : "s"}${v === winLen ? " (whole window)" : ""}</b></div>` : ""}<div class="r"><span>Sellers</span><b class="tnum">${d.distribution.sellers[k] ?? "—"}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct((d.distribution.buybox[k] ?? 0) * 100)}</b></div>`; } });
+      return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>On the shelf</span><b class="tnum">${winLen - v} of ${winLen} days</b></div>${v ? `<div class="r"><span>Missing</span><b class="tnum" style="color:#c5221f">${v} day${v === 1 ? "" : "s"}${v === winLen ? " (whole window)" : ""}</b></div>` : ""}<div class="r"><span>Sellers</span><b class="tnum">${d.distribution.sellers[k] ?? "—"}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct((d.distribution.buybox[k] ?? 0) * 100)}</b></div>` + window.__CCFEED.rows(r.id, c.id, ds[0], ds[ds.length - 1], ["fulfil", "stock", "badges", "sellers"]); } });
   CC.hbars(el("dsBars"), { rows: d.dims.brands.map((b) => ({ label: b.label, value: sc("carriage", b.id).value || 0, color: b.color, subject: b.id === S,
     note: `${pairsFor(b.id, rts).length} live cells` })).sort((a, b) => b.value - a.value), fmtV: (v) => F.pct(v) });
   const mk = d.distribution.listings.filter((l) => rts.includes(l.retailer) && l.sellers > 1);
   CC.scatter(el("dsScatter"), { height: 240, xLabel: "Sellers on the listing", yLabel: "Buy-box ownership", yZero: false, yMax: 100,
     fmtX: (v) => String(Math.round(v)), fmtY: (v) => F.pct(v, 0), sized: false,
     points: mk.map((l) => ({ label: MD(l.model).label, color: B(l.brand).color, x: l.sellers, y: l.buybox * 100, r: 1,
-      tip: `<div class="h">${MD(l.model).label} · ${RT(l.retailer).label}</div><div class="r"><i style="background:${B(l.brand).color}"></i><span>${B(l.brand).label}</span></div><div class="r"><span>Sellers</span><b class="tnum">${l.sellers}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct(l.buybox * 100)}</b></div>` })) });
+      tip: `<div class="h">${MD(l.model).label} · ${RT(l.retailer).label}</div><div class="r"><i style="background:${B(l.brand).color}"></i><span>${B(l.brand).label}</span></div><div class="r"><span>Sellers</span><b class="tnum">${l.sellers}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct(l.buybox * 100)}</b></div>` + window.__CCFEED.rows(l.model, l.retailer, ds[0], ds[ds.length - 1], ["sellers", "fulfil"]) })) });
 };
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -737,7 +754,7 @@ P.stock = (host) => {
     value: (r, c) => { const ks = subjPairs.filter((k) => k.startsWith(r.id + "|"));
       const v = ks.map((k) => d.availability.byCity[`${k}|${c.id}`]).filter((x) => x != null);
       return v.length ? mean(v) * 100 : null; },
-    tip: (r, c, v) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>In stock</span><b class="tnum">${F.pct(v)}</b></div><div class="r sub"><span>Across</span><b>${subjPairs.filter((k) => k.startsWith(r.id + "|")).length} retailer listing(s)</b></div>` });
+    tip: (r, c, v) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>In stock</span><b class="tnum">${F.pct(v)}</b></div><div class="r sub"><span>Across</span><b>${subjPairs.filter((k) => k.startsWith(r.id + "|")).length} retailer listing(s)</b></div>` + subjPairs.filter((k) => k.startsWith(r.id + "|")).map((k) => window.__CCFEED.rows(r.id, k.split("|")[1], ds[0], ds[ds.length - 1], ["stock"])).join("") });
 };
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -795,7 +812,8 @@ P.delivery = (host) => {
       value: (r, c) => mean(pairsFor(S, [r.id]).map((k) => promise(k.split("|")[0], r.id, c.id)).filter((v) => v != null)),
       onPick: (r, c) => openDrawer(`${r.label} · ${c.label}`, "Promised days, by model",
         table([{ label: "Model", lft: true, get: (x) => `<span class="dot" style="background:${B(MD(x.mid).brand).color}"></span>${MD(x.mid).label}` },
-               { label: "Days", get: (x) => `<b class="tnum">${F.d(x.v)}</b>` }],
+               { label: "Days", get: (x) => `<b class="tnum">${F.d(x.v)}</b>` },
+               { label: "Ships from", lft: true, get: (x) => window.__CCFEED.facts(x.mid, r.id, winDates()[0], winDates()[winDates().length - 1], ["fulfil"]).map(([k, v]) => `${k}: ${v}`).join(" · ") || "—" }],
           pairsFor(null, [r.id]).map((k) => ({ mid: k.split("|")[0], v: promise(k.split("|")[0], r.id, c.id), _subject: MD(k.split("|")[0]).brand === S }))
             .filter((x) => x.v != null).sort((x, y) => x.v - y.v))) });
   }
@@ -883,6 +901,7 @@ P.pricing = (host) => {
     $$("#prPick button").forEach((b) => b.classList.toggle("on", b.dataset.m === focus.id));
     const ks = pairsFor(focus.brand, rts).filter((k) => k.startsWith(focus.id + "|"));
     CC.line(el("prModel"), { height: 236, x: ds, bands: winBands(), zero: false, fmtV: F.usd, fmtY: F.usd0,
+      tipExtra: (i) => ks.map((k) => window.__CCFEED.rows(focus.id, k.split("|")[1], ds[i], ds[i], ["range", "unit", "sellers", "badges"])).join(""),
       series: ks.map((k) => { const rt = k.split("|")[1]; return { id: rt, label: RT(rt).label, color: RT(rt).color, data: slice(d.pricing.price[k]) }; })
         .concat([{ id: "msrp", label: "MSRP " + F.usd0(focus.msrp), color: "#80868b", dash: "5 4", data: ds.map(() => focus.msrp) }]) });
   }
@@ -897,11 +916,11 @@ P.pricing = (host) => {
       return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>Mean street</span><b class="tnum">${F.usd(priceMean(k))}</b></div><div class="r"><span>MSRP</span><b class="tnum">${F.usd0(r.msrp)}</b></div><div class="r"><span>Price index</span><b class="tnum">${F.pct(v)}</b></div><div class="r sub"><span>Mean discount</span><b class="tnum">${F.pct(mean(slice(d.pricing.discount[k])))}</b></div>`; },
     fmtCell: (r, c) => { const k = `${r.id}|${c.id}`; return d.pricing.price[k] ? F.usd0(priceMean(k)) : null; } });
   CC.ranges(el("prRange"), { indexed: true, fmtV: (v) => Math.round(v),
-    rows: disp.slice().sort((x, y) => y.meanSpreadPct - x.meanSpreadPct).slice(0, 12).map((x) => {
-      const vals = Object.values(x.byRetailer);
+    rows: disp.filter((x) => Object.values(x.byRetailer).filter((v) => v > 0).length >= 2).sort((x, y) => y.meanSpreadPct - x.meanSpreadPct).slice(0, 12).map((x) => {
+      const vals = Object.values(x.byRetailer).filter((v) => v > 0);
       const lo = Math.min(...vals), hi = Math.max(...vals);
       return { label: MD(x.model).label, lo, hi, color: B(x.brand).color, subject: x.brand === S,
-        tip: `<div class="h">${MD(x.model).label}</div>` + Object.entries(x.byRetailer).sort((p, q) => p[1] - q[1]).map(([rt, v]) =>
+        tip: `<div class="h">${MD(x.model).label}</div>` + Object.entries(x.byRetailer).filter(([, v]) => v > 0).sort((p, q) => p[1] - q[1]).map(([rt, v]) =>
           `<div class="r"><i style="background:${RT(rt).color}"></i><span>${RT(rt).label}</span><b class="tnum">${F.usd(v)}</b></div>`).join("") +
           `<div class="r sub"><span>Spread</span><b class="tnum">${F.usd0(hi - lo)} · ${F.pct(((hi - lo) / hi) * 100)}</b></div>` };
     }), fmtSpread: (r) => F.usd0(r._hi - r._lo) + " · " + F.pct(((r._hi - r._lo) / r._hi) * 100) });
@@ -1264,8 +1283,14 @@ P.method = (host) => {
     ...(() => {
       const rr = ((d.meta.provenance || {}).record || {}).retail;
       if (!rr) return [];
-      const labels = Object.keys(rr.retailers).map((id) => (d.dims.retailers.find((r) => r.id === id) || { label: id }).label);
-      return [["Other retailers", "Each refresh", `Price and crossed-out price on ${esc(labels.join(", "))}'s own websites, for products the retailer sells itself, matched to each tracked product and restated for its pack size`]];
+      const name = (id) => (d.dims.retailers.find((r) => r.id === id) || { label: id }).label;
+      const labels = Object.keys(rr.retailers).map(name);
+      const imp = rr.imported;
+      const span = imp ? Object.values(imp.retailers).reduce((s, r) => ({ first: !s.first || r.first < s.first ? r.first : s.first, last: !s.last || r.last > s.last ? r.last : s.last }), { first: "", last: "" }) : null;
+      return [
+        ...(labels.length ? [["Other retailers", "Each refresh", `Price and crossed-out price on ${esc(labels.join(", "))}'s own websites, for products the retailer sells itself, matched to each tracked product and restated for its pack size`]] : []),
+        ...(imp ? [["Retailer price history", `${F.dateY(span.first)} – ${F.dateY(span.last)}`, `${esc(Object.keys(imp.retailers).map(name).join(", "))} daily buy-box price for ${imp.listings} tracked product${imp.listings === 1 ? "" : "s"}, matched to the same item and restated for its pack size where it differs`]] : []),
+      ];
     })(),
     ["Retail market", d.dims.retailers.map((r) => r.label).join(", "), "Retailer mix, distribution and promotion landscape for the category"],
   ];

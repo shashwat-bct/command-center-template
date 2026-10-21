@@ -10,11 +10,27 @@ export type BuildInputs = {
   aiCategory: string;
   aiCompetitors: string[];
   products: string[];
+  asins: string[];
+  competitorAsins: Record<string, string[]>;
 };
 
 export type SavedInputs = { inputs: BuildInputs; source: "saved" | "reconstructed" };
 
 const strings = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string" && x.trim().length > 0) : []);
+
+/**
+ * Pinned Amazon listings per competitor name, keeping only names with at least
+ * one ASIN.
+ */
+export function competitorAsinMap(v: unknown): Record<string, string[]> {
+  if (!v || typeof v !== "object" || Array.isArray(v)) return {};
+  const out: Record<string, string[]> = {};
+  for (const [k, list] of Object.entries(v as Record<string, unknown>)) {
+    const asins = strings(list);
+    if (k.trim() && asins.length) out[k.trim()] = asins;
+  }
+  return out;
+}
 
 export function normaliseInputs(raw: Partial<Record<keyof BuildInputs, unknown>>, slug: string): BuildInputs | null {
   const name = typeof raw.name === "string" ? raw.name.trim() : "";
@@ -28,6 +44,8 @@ export function normaliseInputs(raw: Partial<Record<keyof BuildInputs, unknown>>
     aiCategory,
     aiCompetitors: strings(raw.aiCompetitors),
     products: strings(raw.products),
+    asins: strings(raw.asins),
+    competitorAsins: competitorAsinMap(raw.competitorAsins),
   };
 }
 

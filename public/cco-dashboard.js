@@ -241,6 +241,18 @@ function card(o) {
 function intro(lead, aside) {
   return `<div class="pintro"><div class="lead">${lead}</div>${aside ? `<div>${aside}</div>` : ""}</div>`;
 }
+function liftReads(host) {
+  const reads = host.querySelector(":scope > .reads");
+  if (!reads) return;
+  const prev = reads.previousElementSibling;
+  const note = prev && prev.matches("p.mini") ? prev : null;
+  const head = (note || reads).previousElementSibling;
+  const block = [head && head.matches("h2.sec") ? head : null, note, reads].filter(Boolean);
+  const anchor = host.querySelector(":scope > .pintro");
+  const after = anchor ? anchor.nextSibling : host.firstChild;
+  block.forEach((n) => host.insertBefore(n, after));
+  reads.style.marginBottom = "18px";
+}
 function table(cols, rows, opts) {
   opts = opts || {};
   return `<div class="dt-wrap"${opts.maxH ? ` style="--dtmax:${opts.maxH}"` : ""}><table class="dt">
@@ -351,9 +363,16 @@ function fillModelledDelivery(p) {
   const avg = (a) => a && a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
   const all = avg(Object.values(amazonBase).flat());
   if (all == null) return p;
+  const retail = (((p.meta || {}).provenance || {}).record || {}).retail || {};
+  const readByFeed = new Set(retail.delivery ? Object.keys((retail.measured || {}).retailers || {}) : []);
   for (const [k, s] of Object.entries(weekly)) {
     if (!Array.isArray(s)) continue;
     const [mid, rt, city] = k.split("|");
+    if (readByFeed.has(rt)) {
+      let held = s.find((v) => v != null);
+      for (let i = 0; i < s.length; i++) { if (s[i] != null) held = s[i]; else s[i] = held ?? null; }
+      continue;
+    }
     const base = avg(amazonBase[mid]) ?? avg(brandBase[brandOfModel.get(mid)]) ?? all;
     for (let i = 0; i < s.length; i++) {
       if (s[i] != null) continue;
@@ -546,7 +565,7 @@ function repaint(force) {
         + `<p class="mini" style="margin:0">This page is left blank rather than filled with modelled figures. <a href="#method">What was measured</a></p></div>`;
       return;
     }
-    try { (RENDER[page] || (() => {}))(host); if (SHOW_SRC && lane && D.meta.provenance.mode === "hybrid") host.insertAdjacentHTML("afterbegin", srcNote(lane)); if (lane && lane.status !== "modelled" && lane.status !== "mixed" && D.meta.provenance.mode !== "hybrid") host.insertAdjacentHTML("afterbegin", `<p class="lane-note"><i class="pv pv-${lane.status === "snapshot" ? "derived" : "measured"}">${lane.status === "snapshot" ? "single reading" : "measured"}</i>${esc(lane.note)}</p>`); }
+    try { (RENDER[page] || (() => {}))(host); liftReads(host); if (SHOW_SRC && lane && D.meta.provenance.mode === "hybrid") host.insertAdjacentHTML("afterbegin", srcNote(lane)); if (lane && lane.status !== "modelled" && lane.status !== "mixed" && D.meta.provenance.mode !== "hybrid") host.insertAdjacentHTML("afterbegin", `<p class="lane-note"><i class="pv pv-${lane.status === "snapshot" ? "derived" : "measured"}">${lane.status === "snapshot" ? "single reading" : "measured"}</i>${esc(lane.note)}</p>`); }
     catch (e) {
       host.innerHTML = `<div class="card"><div class="card-h"><div class="ct"><h3>This page could not be drawn</h3>`
         + `<p>The rest of the dashboard is unaffected — pick another page from the rail. If this tab has been open a while, a hard reload will fetch the current build.</p></div></div>`

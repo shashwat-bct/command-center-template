@@ -27,7 +27,10 @@ import { rebrandPayload } from "./rebrand";
 import { categoryCheck } from "./listing-relevance";
 import { generateMarketProfile, marketProfileKey, type MarketProfile } from "./market-profile";
 import { brightDataKey } from "./brightdata";
-import { captureRetailOffers, readableRetailers, retailProductsFrom, type RetailCapture } from "./retail-offers";
+import { captureRetailOffers, loadRetailHistory, readableRetailers, retailProductsFrom, type RetailCapture } from "./retail-offers";
+import { feedPath, feedPriceImport, loadRetailFeed, type RetailFeed } from "./retail-feed";
+import { loadReusableAi, saveAiResult } from "./ai-reuse";
+import { feedView, withFeedReviewLane, withRetailerReviews } from "./retail-feed-view";
 
 const REFERENCE_BRAND = "sonos";
 
@@ -55,6 +58,7 @@ export type CreateBuildInput = {
   // Internal — advanced override, still supported by the API for callers
   // that know specific ASINs. Not exposed in the admin UI.
   asins?: string[];
+  competitorAsins?: Record<string, string[]>;
   retailers?: string[];
   models?: unknown[];
   cities?: string[];
@@ -103,6 +107,8 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
     aiCategory: input.aiCategory ?? "",
     aiCompetitors: input.aiCompetitors ?? [],
     products: input.products ?? [],
+    asins: input.asins ?? [],
+    competitorAsins: input.competitorAsins ?? {},
   };
   const options: BuildOptions = { simulation_only: true, ...input.options, inputs: request };
 
@@ -137,6 +143,7 @@ export async function createBuild(input: CreateBuildInput): Promise<CreateBuildR
     products: input.products ?? [],
     aiCategory: input.aiCategory ?? null,
     aiCompetitors: input.aiCompetitors ?? [],
+    competitorAsins: input.competitorAsins ?? {},
     brandLink: input.brandLink ?? null,
     region: (input.region ?? "US").toUpperCase(),
   }).catch((e: unknown) => {
@@ -161,12 +168,13 @@ type RunInputs = {
   products: string[];
   aiCategory: string | null;
   aiCompetitors: string[];
+  competitorAsins: Record<string, string[]>;
   brandLink: string | null;
   region: string;
 };
 
 async function runBuild(build_id: string, slug: string, name: string, options: BuildOptions, inputs: RunInputs) {
-  const { asins, products, aiCategory, aiCompetitors, brandLink, region } = inputs;
+  const { asins, products, aiCategory, aiCompetitors, competitorAsins, brandLink, region } = inputs;
   const keepaDomain = KEEPA_DOMAINS[region] ?? 1;
   const category = aiCategory && aiCategory.trim() ? aiCategory.trim() : null;
   const willDiscoverByProducts = asins.length === 0 && products.length > 0;
@@ -194,6 +202,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     { name: "rebrand", status: "pending" },
     ...(willHitAI ? [{ name: "ai-console", status: "pending" as const }] : []),
     { name: "overrides", status: "pending" },
+    ...(existsSync(feedPath(slug)) ? [{ name: "retail-feed", status: "pending" as const }] : []),
     { name: "upload", status: "pending" },
   ];
   const logChunks: string[] = [];
@@ -290,6 +299,15 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       if (!apiKey) throw new Error("INS_KEEPA_KEY not configured");
       const out: Array<KeepaBrandAggregate | null> = [];
       for (const comp of aiCompetitors.slice(0, 4)) {
+        const pinned = competitorAsins[comp] ?? [];
+        if (pinned.length) {
+          const r = await fetchKeepaBrand(pinned, apiKey, keepaDomain, comp, inCategory);
+          for (const x of r.rejected.filter((y) => !r.offCategory.includes(y))) logLine(`  ${comp}: excluded pinned ${x.asin} brand "${x.brand ?? "?"}" · ${(x.title ?? "").slice(0, 60)}`);
+          logOffCategory(comp, r);
+          logLine(`  ${comp}: ${r.asinsWithData}/${r.asinsFetched} pinned listings (rating ${r.avgRating}, discount ${r.avgDiscountRate}, 30-day in-stock ${r.inStockRate})`);
+          out.push(r.asinsWithData > 0 ? r : null);
+          continue;
+        }
         const found = await fetchKeepaSearch(`${comp} ${category}`, apiKey, 5, keepaDomain);
         if (!found.length) {
           logLine(`  ${comp}: no Keepa search results`);
@@ -341,9 +359,20 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   }
 
   let aiResult: AiSoMResult | null = null;
+  let aiCapturedAt = new Date();
   let aspects: string[] = [];
   if (willHitAI && category) {
     aiResult = await runStep("ai-visibility", async () => {
+      if (options.reuse_ai) {
+        const reused = await loadReusableAi(slug, name, category, aiCompetitors).catch(() => null);
+        if (reused) {
+          aiCapturedAt = new Date(reused.capturedAt);
+          aspects = reused.result.bank.attributes.slice(0, 6).map((a) => a.charAt(0).toUpperCase() + a.slice(1));
+          logLine(`AI answers reused from the ${reused.source} (captured ${reused.capturedAt}): ${reused.result.engines.map((e) => e.label).join(", ")}, ${reused.result.questionsAsked - reused.result.questionsFailed} answers; share ${JSON.stringify(reused.result.shareByBrand)}`);
+          return reused.result;
+        }
+        logLine("AI answers: none to reuse for this category and these brands, asking the engines");
+      }
       const engines = availableEngines();
       const bank = await generateQuestionBank(name, aiCompetitors, category);
       logLine(`question bank for "${category}": ${bank.questions.length} questions (${bank.questions.filter((q) => q.focus === "neutral").length} brand-neutral); attributes: ${bank.attributes.join(", ")}; domains: ${JSON.stringify(bank.domains)}`);
@@ -357,6 +386,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       }
       logLine(`AI share across engines: ${JSON.stringify(r.shareByBrand)}`);
       for (const q of r.perQuestion.filter((x) => x.run === 1)) logLine(`  [${q.engine} · ${q.stage}] ${q.q.slice(0, 70)} → ${q.error ? `failed: ${q.error}` : [...q.mentionOrder, ...q.otherBrands.map((o) => `(${o})`)].join(" > ") || "no brands"}`);
+      await saveAiResult(slug, category, [name, ...aiCompetitors], r, aiCapturedAt.toISOString()).catch((e: unknown) => logLine(`  AI answers not saved for reuse: ${(e as Error).message}`));
       return r;
     });
   }
@@ -394,7 +424,22 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     });
   }
 
-  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, seed: slug });
+  let feed: RetailFeed | null = null;
+  try {
+    feed = loadRetailFeed(slug);
+    if (feed) {
+      retail ??= { date: new Date().toISOString().slice(0, 10), readings: {}, history: await loadRetailHistory(slug) };
+      retail.imported = feedPriceImport(feed);
+      retail.feed = feed;
+      const days = Object.values(feed.daily).flat().map((d) => d.date).sort();
+      const products = Object.values(feed.products);
+      logLine(`retailer feed: ${feed.label} — ${products.length} products (${products.filter((p) => p.asin).length} matched to Amazon listings), ${days[0]} to ${days[days.length - 1]}, ${Object.values(feed.reviews).flat().length} reviews; a live reading replaces a feed price on its day`);
+    }
+  } catch (e) {
+    logLine(`retailer feed not applied: ${(e as Error).message}`);
+  }
+
+  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, seed: slug, pinned: [...(asins.length ? [name] : []), ...aiCompetitors.filter((c) => (competitorAsins[c] ?? []).length)] });
   prepareRelabelWorkDir(workDir, relabelInputs);
   logLine(`applied measurements: ${JSON.stringify(relabelInputs.applied)}`);
 
@@ -443,7 +488,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       const prevId = await latestReadyBuildId(slug).catch(() => null);
       const prev = prevId ? await loadBuildPayload(slug, prevId) : null;
       const prevJson: unknown = prev ? JSON.parse(prev.bytes.toString("utf8")) : null;
-      const today = new Date().toISOString().slice(0, 10);
+      const today = aiCapturedAt.toISOString().slice(0, 10);
       if (prevJson) {
         const pc = (prevJson as { aiConsole?: { captures: Record<string, ConsoleCapture>; current: string } }).aiConsole;
         previous = Object.values(pc?.captures ?? {}).filter((c) => c.basis < today).sort((a, z) => z.basis.localeCompare(a.basis))[0] ?? null;
@@ -454,7 +499,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       const consolePayload = buildAiConsole({
         slug, ai, brands, subjectDomain, category: category ?? "", market: region,
         products: payload.dims.models.filter((m) => m.brand === payload.meta.subject).map((m) => ({ label: m.label, msrp: m.msrp ?? null })),
-        previous, crawlerAccess: null,
+        previous, crawlerAccess: null, now: aiCapturedAt,
       });
       const sites = crawlerSites(consolePayload, 8, market ? market.retailers.map((r) => r.domain) : undefined);
       consolePayload.crawlerAccess = await readCrawlerAccess(sites).catch(() => null);
@@ -474,6 +519,20 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     payloadJson = JSON.stringify(payload);
     logLine(`brand-data/${slug}.json: ${r.applied.length} value(s) applied${r.skipped.length ? `; kept measured data at ${r.skipped.join(", ")}` : ""}`);
   });
+
+  if (feed) {
+    const loaded = feed;
+    await runStep("retail-feed", async () => {
+      const payload = JSON.parse(payloadJson) as { meta: unknown; dims: { brands: Array<{ id: string; label: string }>; models: Array<{ id: string; asin?: string }>; dates: string[]; aspects?: string[]; aspectMonths?: string[] } } & Record<string, unknown>;
+      const view = feedView(loaded, payload.dims);
+      payload.retailFeed = view;
+      const added = withRetailerReviews(payload.voice as Parameters<typeof withRetailerReviews>[0], payload.dims, view);
+      logLine(`retailer reviews folded into Voice of Customer: ${added.mentions} aspect mentions, ${added.quotes} quotes`);
+      withFeedReviewLane((payload.meta as { provenance?: { lanes?: Record<string, { status: string; note: string; sources?: string[] }> } }).provenance?.lanes, view);
+      payloadJson = JSON.stringify(payload);
+      logLine(`retailer feed view: ${view.products.length} products, ${Object.values(view.daily).reduce((n, d) => n + d.length, 0)} product-days in the window, ${view.products.filter((p) => p.model).length} tied to a tracked listing`);
+    });
+  }
 
   await setStep("upload", { status: "running", started_at: new Date().toISOString() });
   const uploadStart = Date.now();

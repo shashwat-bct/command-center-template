@@ -116,7 +116,8 @@ const MID = Object.fromEntries(MODELS.map((m) => [m.id, m]));
 // and offer count per model, sampled from the listing's own history.
 const MEASURED_AMAZON = CFG.MEASURED_AMAZON || {};
 const AMAZON_UNLISTED = new Set(CFG.AMAZON_UNLISTED || []);
-const measuredFor = (key) => { const [mid, rt] = key.split("|"); return rt === "amazon" ? MEASURED_AMAZON[mid] || null : null; };
+const MEASURED_LISTINGS = CFG.MEASURED_LISTINGS || {};
+const measuredFor = (key) => { const [mid, rt] = key.split("|"); return rt === "amazon" ? MEASURED_AMAZON[mid] || null : MEASURED_LISTINGS[key] || null; };
 const retailFirst = {}, retailDaily = {};
 for (const [key, days] of Object.entries(CFG.MEASURED_RETAIL || {})) {
   if (key.endsWith("|amazon")) continue;
@@ -529,8 +530,9 @@ const DELIV_AT = CIDS.length ? CIDS : ["national"];
 for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const realDays = rt === "amazon" ? (CFG.MEASURED_DELIVERY || {})[mid] : undefined;
+  const retailWeekly = rt === "amazon" ? undefined : (CFG.MEASURED_DELIVERY_RETAIL || {})[key];
   if (MID[mid].measured) {
-    for (const c of DELIV_AT) deliveryWeekly[`${key}|${c}`] = Array.from({ length: WEEKS }, (_, w) => (w === WEEKS - 1 && realDays != null ? realDays : null));
+    for (const c of DELIV_AT) deliveryWeekly[`${key}|${c}`] = Array.from({ length: WEEKS }, (_, w) => (retailWeekly ? retailWeekly[w] ?? null : w === WEEKS - 1 && realDays != null ? realDays : null));
     continue;
   }
   for (const c of DELIV_AT) {
@@ -1034,7 +1036,7 @@ for (const m of MODELS) {
     meanSpreadPct: r1(live.reduce((a, d) => a + d.spreadPct, 0) / (live.length || 1)),
     maxSpread: r2(Math.max(0, ...live.map((d) => d.spread))),
     series: perDay,
-    byRetailer: Object.fromEntries(ks.map((k) => [k.split("|")[1], r2(mean(priceSeries[k].filter((v) => v != null)))])),
+    byRetailer: Object.fromEntries(ks.filter((k) => priceSeries[k].some((v) => v != null)).map((k) => [k.split("|")[1], r2(mean(priceSeries[k].filter((v) => v != null)))])),
   });
 }
 function mean(a) { const v = a.filter((x) => x != null && !Number.isNaN(x)); return v.length ? v.reduce((x, y) => x + y, 0) / v.length : 0; }
@@ -1044,6 +1046,7 @@ for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const m = MID[mid];
   const floor = m.msrp * mapFloorPct[m.brand];
+  if (!(floor > 0)) continue;
   let days = 0, worst = 0, first = null;
   for (let i = 0; i < NDAYS; i++) {
     const p = priceSeries[key][i];

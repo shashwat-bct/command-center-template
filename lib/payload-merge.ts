@@ -27,10 +27,22 @@ type Payload = {
   voice?: Record<string, unknown>;
 };
 
-type ListingTally = { asin: string; positive: number; negative: number; summary: string | null; quotes: ReviewQuote[] };
+type ListingTally = { asin: string; asins?: string[]; positive: number; negative: number; summary: string | null; quotes: ReviewQuote[] };
 type AspectTally = { name: string; positive: number; negative: number; quotes: ReviewQuote[]; listings: ListingTally[] };
 
 const VOICE_MEASURED_NOTE = "Amazon rating and review counts are read daily from Keepa; aspect scores are the share of positive mentions in Amazon's review summaries.";
+const ASPECT_NOTE = "aspect scores are the share of positive mentions in Amazon's review summaries";
+
+/**
+ * Where a build's rating and review velocity come from: Amazon alone, or
+ * Amazon joined with the retailers a retailer feed covers.
+ */
+function ratingSource(p: Provenance): { note: string; sources: string[] } {
+  const v = p.record.retail?.voice;
+  if (!v) return { note: "Amazon rating and review counts are read daily from Keepa", sources: ["Keepa · Amazon daily history"] };
+  const names = Object.keys(v.retailers).map((id) => p.record.market?.retailers.find((r) => r.id === id)?.label ?? id).join(", ");
+  return { note: `Rating and review velocity combine Amazon (read daily from Keepa, one review pool counted once) with ${names} (${v.label}), weighted by review count`, sources: ["Keepa · Amazon daily history", `Retailer reviews · ${v.label}`] };
+}
 const MIN_ASPECT_MENTIONS = 4;
 const MAX_ASPECTS = 6;
 
@@ -49,6 +61,8 @@ export function applyReviewAspects(p: Payload, byBrand: Record<string, ReviewAsp
     for (const a of list) {
       const key = a.name.trim().toLowerCase();
       const cur = (t[key] ||= { name: a.name.trim(), positive: 0, negative: 0, quotes: [], listings: [] });
+      const pool = cur.listings.find((l) => l.positive === a.positive && l.negative === a.negative && l.summary === (a.summary ?? null));
+      if (pool && a.asin) { (pool.asins ||= [pool.asin]).push(a.asin); continue; }
       cur.positive += a.positive;
       cur.negative += a.negative;
       for (const q of a.quotes ?? []) if (!cur.quotes.some((x) => x.text === q.text)) cur.quotes.push(q);
@@ -121,16 +135,29 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
   const keepa = "Keepa · Amazon daily history";
   const modelled = (note: string): LaneStatus => ({ status: "modelled", note, sources: [] });
   const retail = p.record.retail;
-  const retailLabels = retail ? Object.keys(retail.retailers).map((id) => p.record.market?.retailers.find((r) => r.id === id)?.label ?? id) : [];
+  const labelOf = (id: string): string => p.record.market?.retailers.find((r) => r.id === id)?.label ?? id;
+  const retailLabels = retail ? Object.keys(retail.retailers).map(labelOf) : [];
+  const imported = retail?.imported;
+  const importedSpans = imported ? Object.entries(imported.retailers).map(([id, r]) => `${labelOf(id)} prices for ${r.listings === 1 ? "1 listing" : `${r.listings} listings`} from ${r.first} to ${r.last}`) : [];
   const shopping = "Retailer websites · Bright Data";
-  const retailNote = retail
-    ? ` ${retailLabels.join(", ")} prices are read from their own websites (${retail.days.length === 1 ? `on ${retail.days[0]}` : `${retail.days.length} readings since ${retail.days[0]}`}); days before the first reading and the other retailers are modelled.`
+  const retailSources = [...(retail?.listings ? [shopping] : []), ...(imported ? [`Imported price history · ${imported.label}`] : [])];
+  const retailParts = [
+    ...(retail?.listings ? [`${retailLabels.join(", ")} prices are read from their own websites (${retail.days.length === 1 ? `on ${retail.days[0]}` : `${retail.days.length} readings since ${retail.days[0]}`})`] : []),
+    ...(imported ? [`${importedSpans.join(" and ")} come from ${imported.label}, imported on ${imported.importedOn}`] : []),
+  ];
+  const retailNote = retailParts.length ? ` ${retailParts.join("; ")}; days before the first reading and the other retailers are modelled.` : "";
+  const measured = retail?.measured;
+  const measuredSource = measured ? `Retailer data · ${measured.label}` : null;
+  const measuredNote = measured
+    ? ` ${Object.entries(measured.retailers).map(([id, r]) => `${labelOf(id)} stock, seller count and buy box for ${r.listings === 1 ? "1 listing" : `${r.listings} listings`}`).join(" and ")} come from ${measured.label}; a day without a reading counts as in stock.`
     : "";
-  const amazonMixed = (what: string, withRetail = false): LaneStatus => {
-    const extra = withRetail && retail ? retailNote : " The other retailers are modelled around it.";
-    if (amazon) return { status: "mixed", note: `Amazon ${what} is read daily from Keepa.${extra}`, sources: withRetail && retail ? [keepa, shopping] : [keepa] };
-    return withRetail && retail
-      ? { status: "mixed", note: `No Amazon listings were found.${retailNote}`, sources: [shopping] }
+  const amazonMixed = (what: string, withRetail = false, withMeasured = false): LaneStatus => {
+    const own = (withRetail ? retailNote : "") + (withMeasured ? measuredNote : "");
+    const sources = [...(withRetail && retailNote ? retailSources : []), ...(withMeasured && measuredSource ? [measuredSource] : [])];
+    const extra = own || " The other retailers are modelled around it.";
+    if (amazon) return { status: "mixed", note: `Amazon ${what} is read daily from Keepa.${extra}${own && withMeasured && !withRetail ? " The other retailers are modelled." : ""}`, sources: [keepa, ...sources] };
+    return own
+      ? { status: "mixed", note: `No Amazon listings were found.${own}`, sources }
       : modelled(`No Amazon listings were found, so ${what} is modelled for every retailer.`);
   };
   return {
@@ -140,7 +167,7 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
       : modelled("No AI engine answered on this build, so AI share is modelled."),
     traffic: modelled("Website traffic, channels, engagement and product-page visits are modelled."),
     voice: anyMeasured("rating")
-      ? { status: "mixed", note: "Amazon rating and review counts are read daily from Keepa; review themes are modelled.", sources: [keepa] }
+      ? { status: "mixed", note: `${ratingSource(p).note}; review themes are modelled.`, sources: ratingSource(p).sources }
       : modelled("Ratings and review themes are modelled."),
     shelf: p.applied.shelf.length
       ? { status: "mixed", note: `Amazon's organic results for "${p.record.shelf?.term ?? ""}" were read on the build date and anchor the Amazon shelf; other retailers, terms and the daily movement are modelled.`, sources: ["Apify · Amazon search results"] }
@@ -148,11 +175,15 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
     landing: anyMeasured("pdpScore")
       ? { status: "mixed", note: "Amazon product pages were read on the build date; other retailers' pages are modelled.", sources: ["Apify · Amazon product pages"] }
       : modelled("Product-page scores are modelled."),
-    carriage: amazonMixed("listing and buy-box history", true),
-    stock: amazonMixed("stock"),
-    delivery: anyMeasured("leadTime")
-      ? { status: "mixed", note: "Amazon's delivery promise was read on the build date; other retailers, cities and earlier weeks are modelled.", sources: ["Apify · Amazon delivery promise"] }
-      : modelled("Delivery promises are modelled."),
+    carriage: amazonMixed("listing and buy-box history", true, true),
+    stock: amazonMixed("stock", false, true),
+    delivery: (() => {
+      const rd = p.record.retail?.delivery;
+      const retailPart = rd ? ` Walmart's promise for ${rd.listings === 1 ? "1 listing" : `${rd.listings} listings`} comes from ${rd.label} (${rd.readings === 1 ? "1 reading" : `${rd.readings} readings`}, weekly median, the same promise shown for every city); weeks without a reading are blank.` : "";
+      const sources = [...(anyMeasured("leadTime") ? ["Apify · Amazon delivery promise"] : []), ...(rd ? [`Retailer data · ${rd.label}`] : [])];
+      if (anyMeasured("leadTime")) return { status: "mixed" as const, note: `Amazon's delivery promise was read on the build date.${retailPart} Other retailers, cities and earlier weeks are modelled.`, sources };
+      return rd ? { status: "mixed" as const, note: `${retailPart.trim()} Other retailers are modelled.`, sources } : modelled("Delivery promises are modelled.");
+    })(),
     pricing: amazonMixed("pricing", true),
     promotions: amazonMixed("price-cut history", true),
     calendar: amazonMixed("price-cut history", true),
@@ -211,7 +242,7 @@ export function mergeMeasured(payload: unknown, prov: Provenance, extras: Measur
 
   const realAspects = extras.reviewAspects ? applyReviewAspects(p, extras.reviewAspects) : false;
   const lanes = laneStatuses(prov);
-  if (realAspects && lanes.voice) lanes.voice = { ...lanes.voice, status: "measured", note: VOICE_MEASURED_NOTE };
+  if (realAspects && lanes.voice) lanes.voice = { ...lanes.voice, status: "measured", note: `${ratingSource(prov).note}; ${ASPECT_NOTE}.`, sources: ratingSource(prov).sources };
   p.meta.provenance = { ...prov, lanes };
   return p;
 }

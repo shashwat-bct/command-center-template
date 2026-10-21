@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin, withAdminSession } from "@/lib/admin-auth";
 import { expireIfStale, listBrands, listLatestBuildsPerBrand } from "@/lib/bq";
+import { competitorAsinMap } from "@/lib/build-inputs";
 import { createBuild } from "@/lib/capture";
 
 export const dynamic = "force-dynamic";
@@ -64,6 +65,7 @@ export async function POST(req: NextRequest) {
       brandLink: (body.brandLink as string | null | undefined) ?? null,
       region: (body.region as string | null | undefined) ?? "US",
       asins: Array.isArray(body.asins) ? (body.asins as string[]) : undefined,
+      competitorAsins: competitorAsinMap(body.competitorAsins),
       products: Array.isArray(body.products) ? (body.products as string[]) : undefined,
       aiCategory: (body.aiCategory as string | null | undefined) ?? null,
       aiCompetitors: Array.isArray(body.aiCompetitors) ? (body.aiCompetitors as string[]) : undefined,

@@ -871,10 +871,10 @@ window.runLive = runLive;
 const LIVE_PLACEHOLDER = { tv: "e.g. Which 65-inch TV should I buy for a bright living room under $2,000?", phone: "e.g. Which phone should I buy for the best camera under $1,000?" };
 const TPL = {
   overview: () => `${intro('<span id="ovLead">—</span>', '<div class="ovcap" id="ovAside"></div>')}
+    <h2 class="sec">The Read Today</h2><div class="reads" id="ovReads" style="margin-bottom:18px"></div>
     <div class="grid g4 lead-kpis" id="ovKpis"></div>
     <div class="grid g2" style="margin-top:20px">${card({ title: "Head-to-Head", sub: "Every brand-neutral answer that names either brand: who the engine puts first.", slot: "ovH2H" })}${card({ title: "Brands Winning Outside Your Set", sub: "Brands the engines recommend that are not in your competitor set — the blind spots in this read.", slot: "ovOutside" })}</div>
     <div style="margin-top:20px">${card({ title: "Questions to Win Next", sub: "The brand-neutral questions where the engines most often leave you out or rank you low, and who they put first instead. Tap a question for every answer.", slot: "ovWin" })}</div>
-    <h2 class="sec">The Read Today</h2><div class="reads" id="ovReads"></div>
     <div class="foot" id="ovFoot"></div>`,
   // the funnel carries the rivals' shares on the brand-neutral stages, so the stage × brand
   // pivot is gone; the engine stack sits below it; the question bank opens from the top bar

@@ -161,7 +161,7 @@
       ser.forEach((s, k) => { const v = s.data[i]; if (v == null) { dots[k].setAttribute("r", 0); return; } dots[k].setAttribute("r", 4.4); dots[k].setAttribute("cx", px(x(i))); dots[k].setAttribute("cy", px(y(v))); });
       const rows = ser.map((s) => ({ s, v: s.data[i] })).filter((o) => o.v != null).sort((a, b) => b.v - a.v)
         .map((o) => `<div class="r"><i style="background:${o.s.color}"></i><span>${o.s.label}</span><b class="tnum">${(spec.fmtV || fmt.n)(o.v)}</b></div>`).join("");
-      showTip(`<div class="h">${spec.fmtTip ? spec.fmtTip(xs[i]) : fmt.dateY(xs[i])}</div>${rows}`, ev);
+      showTip(`<div class="h">${spec.fmtTip ? spec.fmtTip(xs[i]) : fmt.dateY(xs[i])}</div>${rows}${spec.tipExtra ? spec.tipExtra(i) || "" : ""}`, ev);
     });
     hit.addEventListener("mouseleave", () => { hv.setAttribute("opacity", 0); hideTip(); });
     if (spec.legend !== false && ser.length > 1) legendRow(host, ser.map((s) => ({ id: s.id, color: s.color, label: s.label })));

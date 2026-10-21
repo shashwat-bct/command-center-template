@@ -25,6 +25,7 @@ export type BuildOptions = {
   run_similarweb?: boolean;
   run_ai_visibility?: boolean;
   simulation_only?: boolean;
+  reuse_ai?: boolean;
   inputs?: {
     name?: string;
     brandLink?: string | null;
@@ -32,6 +33,8 @@ export type BuildOptions = {
     aiCategory?: string;
     aiCompetitors?: string[];
     products?: string[];
+    asins?: string[];
+    competitorAsins?: Record<string, string[]>;
   };
 };
 

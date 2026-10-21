@@ -64,17 +64,12 @@ function buildBrandMap(input: RebrandInput): {
   for (let i = 0; i < slots.length; i++) {
     const oldId = slots[i];
     const comp = input.competitors[i];
-    if (comp) {
-      const newId = slugify(comp);
-      idMap[oldId] = newId;
-      labelMap[SONOS_BRAND_LABELS[oldId]] = comp;
-      newBrands.push({ id: newId, label: comp });
-    } else {
-      const label = `Competitor ${i + 1}`;
-      idMap[oldId] = `comp${i + 1}`;
-      labelMap[SONOS_BRAND_LABELS[oldId]] = label;
-      newBrands.push({ id: `comp${i + 1}`, label });
-    }
+    if (!comp && input.competitors.some(Boolean)) break;
+    const newId = comp ? slugify(comp) : `comp${i + 1}`;
+    const label = comp || `Competitor ${i + 1}`;
+    idMap[oldId] = newId;
+    labelMap[SONOS_BRAND_LABELS[oldId]] = label;
+    newBrands.push({ id: newId, label });
   }
   return { idMap, labelMap, newBrands };
 }
@@ -83,14 +78,15 @@ function buildBrandMap(input: RebrandInput): {
 // Sonos brand id, that key is renamed. Values are NOT remapped (so unrelated
 // strings that happen to equal "amazon" are safe). Used for scorecard, trend,
 // pricing, shelf, distribution, availability, voice, ai, promotions, traffic.
-function renameBrandKeys(node: unknown, idMap: Record<string, string>): unknown {
-  if (Array.isArray(node)) return node.map((x) => renameBrandKeys(x, idMap));
+function renameBrandKeys(node: unknown, idMap: Record<string, string>, dropped: ReadonlySet<string> = new Set()): unknown {
+  if (Array.isArray(node)) return node.map((x) => renameBrandKeys(x, idMap, dropped));
   if (node && typeof node === "object") {
     const src = node as Record<string, unknown>;
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(src)) {
+      if (dropped.has(k)) continue;
       const newKey = idMap[k] ?? k;
-      out[newKey] = renameBrandKeys(v, idMap);
+      out[newKey] = renameBrandKeys(v, idMap, dropped);
     }
     return out;
   }
@@ -178,10 +174,8 @@ function rewriteDimsModels(
 
   // Each competitor
   const slots = ["amazon", "apple", "bose", "jbl"];
-  for (let i = 0; i < slots.length; i++) {
-    const comp = competitors[i];
-    const products = competitorProducts[i] ?? [];
-    emitForBrand(slots[i], comp, products);
+  for (let i = 0; i < Math.min(slots.length, competitors.length); i++) {
+    emitForBrand(slots[i], competitors[i], competitorProducts[i] ?? []);
   }
 
   return out;
@@ -194,6 +188,7 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
   const { idMap, labelMap, newBrands } = buildBrandMap(input);
   const subjectBrand = newBrands[0];
   const competitors = newBrands.slice(1);
+  const dropped = new Set(["amazon", "apple", "bose", "jbl"].filter((slot) => !idMap[slot]));
 
   // Sections where brand ids are used as object keys. Only these get the key
   // rename — nothing else is touched, so retailers / engines / cities / metrics
@@ -212,7 +207,7 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
     "traffic",
   ] as const;
   for (const section of BRAND_KEY_SECTIONS) {
-    if (p[section] != null) p[section] = renameBrandKeys(p[section], idMap);
+    if (p[section] != null) p[section] = renameBrandKeys(p[section], idMap, dropped);
   }
 
   // Sections where brand ids are string VALUES of a `brand` property on each
@@ -365,7 +360,7 @@ export function rebrandPayload(payload: unknown, input: RebrandInput): unknown {
   if (provenance) {
     meta.provenance = {
       ...provenance,
-      metrics: renameBrandKeys(provenance.metrics, idMap),
+      metrics: renameBrandKeys(provenance.metrics, idMap, dropped),
       record: renameBrandKeys(remapBrandValues(provenance.record, idMap), idMap),
       applied: Object.fromEntries(Object.entries(provenance.applied ?? {}).map(([k, v]) => [k, Array.isArray(v) ? v.map((x) => (typeof x === "string" ? idMap[x] ?? x : x)) : v])),
       subjectSlot: subjectBrand.id,

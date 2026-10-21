@@ -57,9 +57,23 @@ export function windowDates(end: string, days = WINDOW_DAYS): string[] {
 export function shortTitle(title: string | null, fallback: string): string {
   if (!title) return fallback;
   const head = title.split(/\s[|–—-]\s|,|\(/)[0].trim();
-  const short = head.length > 48 ? `${head.slice(0, 47).trimEnd()}…` : head || fallback;
+  const words = head.length > 60 ? head.slice(0, 61).split(/\s+/).slice(0, -1) : head.split(/\s+/);
+  while (words.length > 1 && /^(with|and|for|of|the|a|in|&)$/i.test(words[words.length - 1])) words.pop();
+  const short = words.join(" ") || fallback;
   const size = packSize(title);
   return size && !packSize(head) ? `${short} · ${size} Count` : short;
+}
+
+/**
+ * A short label with the variant a title names after its product name
+ * ("Shea-Coco", "Mint Chill"), for listings whose short labels would
+ * otherwise read the same.
+ */
+export function withVariant(label: string, title: string | null): string {
+  const variant = (title ?? "").split(/\s[|–—-]\s/)[1]?.split(/,|\(/)[0]?.trim();
+  if (!variant || variant.length > 32 || label.toLowerCase().includes(variant.toLowerCase())) return label;
+  const [name, size] = label.split(" · ");
+  return size ? `${name} ${variant} · ${size}` : `${name} ${variant}`;
 }
 
 /**
@@ -67,8 +81,14 @@ export function shortTitle(title: string | null, fallback: string): string {
  * so pack sizes of the same product stay apart.
  */
 export function packSize(title: string): number | null {
-  const m = /\b(\d{1,5})\s*-?\s*(?:count|ct)\b/i.exec(title) ?? /\b(\d{1,5})\s*-?\s*(?:wipes|sheets|pieces|pcs|pods|tablets|capsules)\b/i.exec(title);
-  return m ? Number(m[1]) : null;
+  const m = /\b(\d{1,5})\s*-?\s*(?:count|ct)\b/i.exec(title) ?? /\b(\d{1,5})\s+total\b/i.exec(title);
+  if (m) return Number(m[1]);
+  const packsOf = /\b(\d{1,3})\s+packs?\s+of\s+(\d{1,5})\b/i.exec(title);
+  if (packsOf) return Number(packsOf[1]) * Number(packsOf[2]);
+  const perPack = /\b(\d{1,3})\s+(?:flip-top\s+)?packs?\b[^\d]{0,12}(\d{1,5})\s+(?:[a-z]+\s+)?(?:wipes|sheets)\s+per\s+pack\b/i.exec(title);
+  if (perPack) return Number(perPack[1]) * Number(perPack[2]);
+  const unit = /\b(\d{1,5})\s*-?\s*(?:[a-z]+\s+)?(?:wipes|sheets|pieces|pcs|pods|tablets|capsules)\b/i.exec(title);
+  return unit ? Number(unit[1]) : null;
 }
 
 const lastValue = <T>(arr: Array<T | null>): T | null => {
@@ -103,7 +123,7 @@ function pdpFields(product: AmazonProduct | undefined, category: string | null):
 }
 
 export function buildAmazonSeries(
-  brands: Array<{ slot: string; brand: string; keepa: KeepaBrandAggregate | null | undefined; slotsAvailable: number }>,
+  brands: Array<{ slot: string; brand: string; keepa: KeepaBrandAggregate | null | undefined; slotsAvailable: number; pinned?: boolean }>,
   windowEnd: string,
   options: { apify?: Map<string, AmazonProduct>; category?: string | null } = {},
 ): AmazonSeries {
@@ -113,19 +133,22 @@ export function buildAmazonSeries(
   const categoryNames: Record<string, string> = {};
   const subRanksByListing: Array<{ listing: ListingSeries; subRanks: Record<string, Array<number | null>>; root: Array<number | null> }> = [];
 
-  for (const { slot, brand, keepa, slotsAvailable } of brands) {
+  for (const { slot, brand, keepa, slotsAvailable, pinned } of brands) {
     if (!keepa || keepa.asinsWithData === 0) continue;
     const rejected = new Set(keepa.rejected.map((r) => r.asin));
     const usable = keepa.perAsin.filter((r) => r.history && !rejected.has(r.asin) && (r.priceNow != null || r.rating != null));
     for (const r of usable) Object.assign(categoryNames, r.categories ?? {});
-    const seenLabels = new Set<string>();
-    const series = usable.map((r) => ({ r, d: dailySeries(r.history!, withPrior), label: shortTitle(r.title, `${brand} ${r.asin}`) }))
-      .filter(({ d, label }) => {
-        if (!d.stock.slice(1).some((v) => v != null) || seenLabels.has(label.toLowerCase())) return false;
-        seenLabels.add(label.toLowerCase());
+    const seen = new Set<string>();
+    const picked = usable.map((r) => ({ r, d: dailySeries(r.history!, withPrior), label: shortTitle(r.title, `${brand} ${r.asin}`) }))
+      .filter(({ r, d, label }) => {
+        const key = pinned ? r.asin : label.toLowerCase();
+        if (!d.stock.slice(1).some((v) => v != null) || seen.has(key)) return false;
+        seen.add(key);
         return true;
       })
       .slice(0, slotsAvailable);
+    const clash = new Set(picked.map((x) => x.label.toLowerCase()).filter((l, i, all) => all.indexOf(l) !== i));
+    const series = picked.map((x) => (pinned || clash.has(x.label.toLowerCase()) ? { ...x, label: withVariant(x.label, x.r.title) } : x));
     if (!series.length) continue;
 
     const owners = new Set<string>([AMAZON_RETAIL_SELLER]);

@@ -80,6 +80,8 @@
       kv.dataset.ccm = "1";
       const node = [...kv.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
       if (!node) continue;
+      if (kv.__ccmRun) { kv.__ccmRun.stop(); kv.__ccmRun = null; node.textContent = kv.dataset.ccmFinal; }
+      kv.dataset.ccmFinal = kv.dataset.ccmFinal ?? node.textContent;
       const m = node.textContent.trim().match(NUM);
       if (!m) continue;
       const raw = m[2];
@@ -92,11 +94,11 @@
         return commas ? Number(s).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) : s;
       };
       const final = node.textContent;
-      animate(0, target, {
+      kv.__ccmRun = animate(0, target, {
         duration: 0.9,
         ease: [0.2, 0, 0, 1],
         onUpdate: (v) => { node.textContent = `${m[1]}${fmt(v)}${m[3]}`; },
-        onComplete: () => { node.textContent = final; },
+        onComplete: () => { node.textContent = final; kv.__ccmRun = null; },
       });
     }
   }

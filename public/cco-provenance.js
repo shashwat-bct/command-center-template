@@ -54,18 +54,30 @@ const U = () => window.__CC;
 const RETAIL_PAGES = new Set(["pricing", "promotions", "calendar", "strategy", "carriage"]);
 const prov = () => (U() && U().D && U().D.meta.provenance) || {};
 const retailRec = () => (prov().record || {}).retail || null;
-const retailRead = () => new Set(Object.keys((retailRec() || {}).retailers || {}));
-const CAPTION_PAGES = new Set([...RETAIL_PAGES, "stock"]);
+const importedRec = () => (retailRec() || {}).imported || null;
+const measuredRec = () => (retailRec() || {}).measured || null;
+const retailRead = () => new Set(Object.keys((retailRec() || {}).retailers || {}).concat(Object.keys((importedRec() || {}).retailers || {}), Object.keys((measuredRec() || {}).retailers || {})));
+const readOn = (page) => (RETAIL_PAGES.has(page) ? [...retailRead()] : page === "stock" || (page === "delivery" && (retailRec() || {}).delivery) ? Object.keys((measuredRec() || {}).retailers || {}) : []);
+const CAPTION_PAGES = new Set([...RETAIL_PAGES, "stock", "delivery"]);
 const ASSUMED = [[/price floor/, "the price floor itself (an assumed policy)"]];
 const day = (iso) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
-const firstRead = () => { const r = retailRec(); return r && r.days && r.days.length ? day(r.days[0]) : null; };
+const liveFrom = (id) => { const r = retailRec(); if (!r || !(r.retailers || {})[id]) return null; return (r.firstLive || {})[id] || (r.days || [])[0] || null; };
+const importedOf = (id) => ((importedRec() || {}).retailers || {})[id] || null;
+const measuredOf = (id) => ((measuredRec() || {}).retailers || {})[id] || null;
+const windowStart = () => (U().D.dims.dates || [])[0];
+const firstIso = (id) => (measuredOf(id) ? windowStart() : [liveFrom(id), (importedOf(id) || {}).first].filter(Boolean).sort()[0] || null);
+const firstRead = (id) => { const f = firstIso(id); return f ? day(f) : null; };
+const sourceOf = (id) => {
+  const imp = importedOf(id), live = liveFrom(id), m = measuredRec();
+  const parts = [m && measuredOf(id) ? `stock, sellers and prices from ${m.label}` : imp ? `imported price history ${day(imp.first)}–${day(imp.last)}` : "", live ? `own website from ${day(live)}` : ""].filter(Boolean);
+  return parts.join(", ");
+};
 const labelOf = (id) => ((U().D.dims.retailers.find((r) => r.id === id) || {}).label || id);
 function split(page, title) {
-  const read = RETAIL_PAGES.has(page) ? [...retailRead()] : [];
-  const names = read.map(labelOf).join(" & "), from = firstRead();
-  const real = ["Amazon (daily, Keepa)"].concat(read.length ? [`${names} (from ${from}, their own websites)`] : []);
+  const read = readOn(page);
+  const real = ["Amazon (daily, Keepa)"].concat(read.map((id) => `${labelOf(id)} (${sourceOf(id)})`));
   const sim = U().D.dims.retailers.filter((r) => r.id !== "amazon" && !read.includes(r.id)).map((r) => r.label)
-    .concat(read.length ? [`${names} before ${from}`] : [])
+    .concat(read.filter((id) => firstIso(id) > windowStart()).map((id) => `${labelOf(id)} before ${firstRead(id)}`))
     .concat(ASSUMED.filter(([re]) => re.test(title)).map(([, s]) => s));
   return { real, sim };
 }
@@ -83,7 +95,7 @@ const ruleFor = (page, title) => {
   const t = title.trim().toLowerCase();
   const r = RULES.find(([p, re]) => (p.endsWith("-") ? page.startsWith(p) : page === p) && re.test(t));
   if (!r) return null;
-  const note = RETAIL_PAGES.has(page) && r[2] === "mixed" && retailRead().size ? ((prov().lanes || {})[page] || {}).note : null;
+  const note = r[2] === "mixed" && readOn(page).length ? ((prov().lanes || {})[page] || {}).note : null;
   return { k: r[2], src: note || r[3] };
 };
 
@@ -93,8 +105,8 @@ const badge = (k, src) => `<span class="pvx-tag pvx-${k}" title="${esc(HINT[k] +
 function markLabels(card) {
   const d = U() && U().D; if (!d) return;
   const real = new Set(["amazon", "amazon.com"]);
-  const read = RETAIL_PAGES.has(pageOf(card)) ? retailRead() : new Set();
-  const retailers = new Map(d.dims.retailers.map((r) => [r.label.toLowerCase(), real.has(r.id) ? "real" : read.has(r.id) ? "read" : "sim"]));
+  const read = new Set(readOn(pageOf(card)));
+  const retailers = new Map(d.dims.retailers.map((r) => [r.label.toLowerCase(), real.has(r.id) ? "real" : read.has(r.id) ? `read:${r.id}` : "sim"]));
   const cities = new Set(d.dims.cities.map((c) => c.label.toLowerCase()).concat(d.dims.cities.map((c) => c.label.split(",")[0].toLowerCase())));
   card.querySelectorAll("th, td, .cc-lg, .lb, .chip, .rk-name, .rlab").forEach((n) => {
     if (n.dataset.pvx || n.querySelector("th, td, .cc-lg")) return;
@@ -104,7 +116,10 @@ function markLabels(card) {
     n.dataset.pvx = k;
     if (k === "real") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-real" title="Read daily from Keepa">real</span>`);
     if (k === "sim") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-sim" title="Simulated data, not collected">simulated</span>`);
-    if (k === "read") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-mixed" title="Prices read from the retailer's own website from ${esc(firstRead() || "")}; earlier days simulated">real from ${esc(firstRead() || "")}</span>`);
+    if (k.startsWith("read:")) {
+      const id = k.slice(5);
+      n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-mixed" title="Prices: ${esc(sourceOf(id))}; earlier days simulated">real from ${esc(firstRead(id) || "")}</span>`);
+    }
   });
 }
 
@@ -142,9 +157,9 @@ function sweep(root) {
 }
 
 function partlyReal() {
-  const read = [...retailRead()].map(labelOf);
+  const read = [...retailRead()];
   return read.length
-    ? `Partly real = Amazon is read daily; ${read.join(" & ")} prices are read from their own websites from ${firstRead()}; every other retailer, and earlier days, are simulated.`
+    ? `Partly real = Amazon is read daily; ${read.map((id) => `${labelOf(id)} prices are real from ${firstRead(id)} (${sourceOf(id)})`).join("; ")}; every other retailer, and earlier days, are simulated.`
     : "Partly real = Amazon is read daily; every other retailer is simulated.";
 }
 

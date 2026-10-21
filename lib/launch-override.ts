@@ -8,11 +8,13 @@ import { shelfSnapshot, type ShelfSnapshot } from "./amazon-shelf";
 import { WORLD_VARIATION_SOURCE, retailEventsFor, seededRandom, simulatedAspects } from "./simulated-world";
 import { fallbackProfile, type MarketProfile } from "./market-profile";
 import { builderPromoTypes, type MechanicId } from "./market-mechanics";
-import { retailSeriesFor, type RetailCapture } from "./retail-offers";
+import { importedOnly, mergedRetailSeries, retailSeriesFor, type RetailCapture } from "./retail-offers";
+import { measuredRetailDelivery, measuredRetailListings, type MeasuredRetailRecord } from "./retail-feed";
+import { combinedVoice, type CombinedVoiceRecord, type VoiceSlot } from "./retail-feed-voice";
 
 export const SUBJECT_SLOT = "sonos";
 export const COMPETITOR_SLOTS = ["amazon", "apple", "bose", "jbl"] as const;
-export const MODEL_SLOTS_PER_BRAND: Record<string, number> = { sonos: 7, amazon: 4, apple: 2, bose: 3, jbl: 4 };
+export const MODEL_SLOTS_PER_BRAND: Record<string, number> = { sonos: 8, amazon: 8, apple: 8, bose: 8, jbl: 8 };
 
 type BrandShares = Record<string, number>;
 
@@ -38,6 +40,7 @@ export type AppliedMeasurements = {
   demand: string[];
   effectivePrice: string[];
   retailPrices: string[];
+  retailMeasured: string[];
 };
 
 export type KeepaRecord = {
@@ -50,6 +53,7 @@ export type KeepaRecord = {
   listPrice: number | null;
   streetPrice: number | null;
   reviews: number | null;
+  listings?: Array<{ asin: string; rating: number | null; reviews: number | null }>;
 };
 
 export type MarketRecord = {
@@ -63,11 +67,23 @@ export type MarketRecord = {
   changes: string[];
 };
 
+export type ImportedRetailRecord = {
+  label: string;
+  importedOn: string;
+  listings: number;
+  retailers: Record<string, { listings: number; first: string; last: string; days: number }>;
+};
+
 export type RetailRecord = {
   readOn: string;
   days: string[];
   listings: number;
   retailers: Record<string, number>;
+  firstLive?: Record<string, string>;
+  imported?: ImportedRetailRecord;
+  measured?: MeasuredRetailRecord;
+  voice?: CombinedVoiceRecord;
+  delivery?: { label: string; listings: number; readings: number };
 };
 
 export type MeasurementRecord = {
@@ -116,6 +132,57 @@ const VENDOR_DIR = () => resolve(process.cwd(), "vendor", "bravo-platform");
 
 const STAGE_LABELS: Record<string, string> = { awareness: "Awareness", consideration: "Consideration", evaluation: "Evaluation", decision: "Decision" };
 
+type RetailCells = ReturnType<typeof retailSeriesFor>;
+
+const retailerOf = (key: string): string => key.split("|")[1];
+
+function countByRetailer(cells: RetailCells): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const key of Object.keys(cells)) out[retailerOf(key)] = (out[retailerOf(key)] ?? 0) + 1;
+  return out;
+}
+
+function firstDayByRetailer(cells: RetailCells): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const [key, days] of Object.entries(cells)) {
+    const first = Object.keys(days).sort()[0];
+    const rt = retailerOf(key);
+    if (first && (!out[rt] || first < out[rt])) out[rt] = first;
+  }
+  return out;
+}
+
+/**
+ * A reference price per tracked listing from what other retailers charged in
+ * the window (its highest observed price), for listings Amazon did not price.
+ */
+function retailReference(cells: RetailCells, measured: Record<string, { price: Array<number | null> }>): Record<string, number> {
+  const out: Record<string, number> = {};
+  const take = (key: string, prices: Array<number | null>) => {
+    const id = key.split("|")[0];
+    for (const v of prices) if (v != null && v > 0 && v > (out[id] ?? 0)) out[id] = v;
+  };
+  for (const [key, days] of Object.entries(cells)) take(key, Object.values(days).map((d) => d.price));
+  for (const [key, m] of Object.entries(measured)) take(key, m.price);
+  return out;
+}
+
+function importedRecord(label: string, importedOn: string, cells: RetailCells): ImportedRetailRecord {
+  const byRetailer = new Map<string, { listings: number; days: Set<string> }>();
+  for (const [key, days] of Object.entries(cells)) {
+    const cur = byRetailer.get(retailerOf(key)) ?? { listings: 0, days: new Set<string>() };
+    cur.listings += 1;
+    for (const d of Object.keys(days)) cur.days.add(d);
+    byRetailer.set(retailerOf(key), cur);
+  }
+  const retailers: ImportedRetailRecord["retailers"] = {};
+  for (const [rt, { listings, days }] of byRetailer) {
+    const d = [...days].sort();
+    retailers[rt] = { listings, first: d[0], last: d[d.length - 1], days: d.length };
+  }
+  return { label, importedOn, listings: new Set(Object.keys(cells).map((k) => k.split("|")[0])).size, retailers };
+}
+
 /**
  * Builds the inputs for running the reference builder under another brand:
  * the reference launch-data with every measured field replaced and every
@@ -135,6 +202,7 @@ export function buildRelabelInputs(input: {
   aspects?: string[];
   market?: MarketProfile | null;
   retail?: RetailCapture | null;
+  pinned?: string[];
   seed?: string;
   now?: Date;
 }): RelabelInputs {
@@ -144,7 +212,7 @@ export function buildRelabelInputs(input: {
   const seed = input.seed ?? input.subjectName.toLowerCase();
   const rnd = seededRandom(`${seed}:anchors`);
   const vary = (v: number, spread: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v * (1 + (rnd() * 2 - 1) * spread)));
-  const applied: AppliedMeasurements = { rating: [], discount: [], inStock: [], aiSlots: [], amazonSeries: [], pdp: [], delivery: [], shelf: [], demand: [], effectivePrice: [], retailPrices: [] };
+  const applied: AppliedMeasurements = { rating: [], discount: [], inStock: [], aiSlots: [], amazonSeries: [], pdp: [], delivery: [], shelf: [], demand: [], effectivePrice: [], retailPrices: [], retailMeasured: [] };
   const windowEnd = windowEndFor(input.now ?? new Date());
   const record: MeasurementRecord = { windowEnd, shelf: null, amazonListings: {}, keepa: [], ai: null };
   const allSlots = [SUBJECT_SLOT, ...COMPETITOR_SLOTS];
@@ -184,6 +252,7 @@ export function buildRelabelInputs(input: {
       listPrice: keepa.avgListPrice,
       streetPrice: keepa.avgStreetPrice,
       reviews: keepa.totalReviews,
+      listings: keepa.perAsin.filter((r) => !rejectedAsins.has(r.asin)).map((r) => ({ asin: r.asin, rating: r.rating, reviews: r.reviews })),
     });
   }
 
@@ -245,7 +314,7 @@ export function buildRelabelInputs(input: {
   }
 
   const series: AmazonSeries = buildAmazonSeries(
-    keepaBySlot.filter(([, brand]) => !!brand).map(([slot, brand, keepa]) => ({ slot, brand, keepa, slotsAvailable: MODEL_SLOTS_PER_BRAND[slot] ?? 0 })),
+    keepaBySlot.filter(([, brand]) => !!brand).map(([slot, brand, keepa]) => ({ slot, brand, keepa, slotsAvailable: MODEL_SLOTS_PER_BRAND[slot] ?? 0, pinned: input.pinned?.includes(brand) ?? false })),
     windowEnd,
     { apify: input.apify, category: input.category },
   );
@@ -261,23 +330,41 @@ export function buildRelabelInputs(input: {
 
   const window = windowDates(windowEnd);
   const asinSlot = new Map(Object.entries(series.listings).flatMap(([slot, ls]) => ls.map((l) => [l.asin, slot] as const)));
-  const retail = input.retail ? retailSeriesFor(input.retail.history, [...asinSlot.keys()], window[0], windowEnd) : {};
+  const tracked = [...asinSlot.keys()];
+  const live = input.retail ? retailSeriesFor(input.retail.history, tracked, window[0], windowEnd) : {};
+  const imported = input.retail?.imported ? retailSeriesFor(importedOnly(input.retail.history, input.retail.imported), tracked, window[0], windowEnd) : {};
+  const retail = mergedRetailSeries(live, imported);
   if (input.retail && Object.keys(retail).length) {
-    const retailers: Record<string, number> = {};
-    for (const key of Object.keys(retail)) {
-      const rt = key.split("|")[1];
-      retailers[rt] = (retailers[rt] ?? 0) + 1;
-    }
     const asins = new Set(Object.keys(retail).map((k) => k.split("|")[0]));
     const slots = [...asinSlot].filter(([asin]) => asins.has(`l-${asin.toLowerCase()}`)).map(([, slot]) => slot);
     applied.retailPrices.push(...new Set(slots));
     record.retail = {
       readOn: input.retail.date,
-      days: [...new Set(Object.values(retail).flatMap((d) => Object.keys(d)))].sort(),
-      listings: asins.size,
-      retailers,
+      days: [...new Set(Object.values(live).flatMap((d) => Object.keys(d)))].sort(),
+      listings: new Set(Object.keys(live).map((k) => k.split("|")[0])).size,
+      retailers: countByRetailer(live),
+      firstLive: firstDayByRetailer(live),
+      ...(input.retail.imported && Object.keys(imported).length ? { imported: importedRecord(input.retail.imported.label, input.retail.imported.importedOn, imported) } : {}),
     };
   }
+  const msrpByAsin = Object.fromEntries(Object.values(series.listings).flat().map((l) => [l.asin, l.msrp ?? l.street ?? null]));
+  const measured = input.retail?.feed
+    ? measuredRetailListings({ feed: input.retail.feed, live: input.retail.history, msrp: msrpByAsin, dates: window, asins: tracked })
+    : { listings: {}, record: null };
+  if (measured.record && input.retail) {
+    const asins = new Set(Object.keys(measured.listings).map((k) => k.split("|")[0]));
+    applied.retailMeasured.push(...new Set([...asinSlot].filter(([asin]) => asins.has(`l-${asin.toLowerCase()}`)).map(([, slot]) => slot)));
+    record.retail = { ...(record.retail ?? { readOn: input.retail.date, days: [], listings: 0, retailers: {} }), measured: measured.record };
+  }
+  const voiceSlots = keepaBySlot.filter(([slot, brand]) => !!brand && series.listings[slot]).map(([slot, brand, keepa]): VoiceSlot => {
+    const asins = new Set((series.listings[slot] ?? []).map((l) => l.asin));
+    const pools = new Set((keepa?.perAsin ?? []).filter((r) => asins.has(r.asin) && r.reviews).map((r) => r.reviews as number));
+    return { slot, name: brand, rating: series.rating[slot] ?? [], reviews: series.reviews[slot] ?? [], amazonReviews: [...pools].reduce((a, n) => a + n, 0) || null };
+  });
+  const voice = input.retail?.feed ? combinedVoice(input.retail.feed, window, voiceSlots) : null;
+  const delivery = input.retail?.feed ? measuredRetailDelivery(input.retail.feed, tracked, window) : { weekly: {}, readings: 0, listings: 0 };
+  if (delivery.listings && record.retail) record.retail = { ...record.retail, delivery: { label: input.retail!.feed!.label, listings: delivery.listings, readings: delivery.readings } };
+  if (voice?.record && record.retail) record.retail = { ...record.retail, voice: voice.record };
 
   const shelf = input.shelfResults?.length && input.category
     ? shelfSnapshot(input.category, input.shelfResults, brandSlots, new Date().toISOString().slice(0, 10))
@@ -318,6 +405,7 @@ export function buildRelabelInputs(input: {
     world,
     seed,
     labels,
+    activeSlots: input.competitors.some(Boolean) ? allSlots.filter((_, i) => i === 0 || !!input.competitors[i - 1]) : allSlots,
     category: input.category,
     subjectLabel: input.subjectName,
     title: `${input.subjectName} · Commercial Command Center`,
@@ -333,25 +421,29 @@ export function buildRelabelInputs(input: {
     stageQuestions: input.ai ? Object.fromEntries(input.ai.perQuestion.filter((q) => q.run === 1).map((q) => [q.stage, q.q])) : {},
     listings: series.listings,
     retail,
-    rating: series.rating,
-    reviews: series.reviews,
+    measuredListings: measured.listings,
+    measuredDelivery: delivery.weekly,
+    retailMsrp: retailReference(retail, measured.listings),
+    rating: voice ? { ...series.rating, ...voice.rating } : series.rating,
+    reviews: voice ? { ...series.reviews, ...voice.reviews } : series.reviews,
   };
   const configSource = `import reference from "./config-sonos.mjs";
 const overlay = ${JSON.stringify(overlay)};
 const base = { ...reference, ...overlay.world };
 ${WORLD_VARIATION_SOURCE}
 const MEASURED_AMAZON = {}, MEASURED_PDP = {}, MEASURED_DELIVERY = {};
+const pos = (v) => (typeof v === "number" && v > 0 ? v : null);
 const MODELS = [];
 for (const [brand, listings] of Object.entries(overlay.listings)) {
   const slots = base.MODELS.filter((m) => m.brand === brand);
   listings.forEach((l, k) => {
-    const m = slots[k];
+    const m = slots[k] ?? slots[slots.length - 1];
     if (!m) return;
     const id = "l-" + l.asin.toLowerCase();
     MEASURED_AMAZON[id] = { price: l.price, list: l.list, stock: l.stock, offers: l.offers, buybox: l.buybox };
     if (l.pdp) MEASURED_PDP[id] = l.pdp;
     if (l.deliveryDays != null) MEASURED_DELIVERY[id] = l.deliveryDays;
-    MODELS.push({ ...m, id, label: l.label, msrp: l.msrp ?? l.street ?? m.msrp, street0: l.street ?? l.msrp ?? m.street0, asin: l.asin, measured: true, anchored: false, launched: null, isNew: false });
+    MODELS.push({ ...m, id, label: l.label, msrp: pos(l.msrp) ?? pos(l.street) ?? overlay.retailMsrp[id] ?? m.msrp, street0: pos(l.street) ?? pos(l.msrp) ?? overlay.retailMsrp[id] ?? m.street0, asin: l.asin, measured: true, anchored: false, launched: null, isNew: false });
   });
 }
 export default {
@@ -367,6 +459,8 @@ export default {
   PROMPT_BANK: overlay.promptBank,
   MEASURED_AMAZON,
   MEASURED_RETAIL: overlay.retail,
+  MEASURED_LISTINGS: overlay.measuredListings,
+  MEASURED_DELIVERY_RETAIL: overlay.measuredDelivery,
   MEASURED_PDP,
   MEASURED_DELIVERY,
   MEASURED_RATING: overlay.rating,
@@ -376,7 +470,7 @@ export default {
   category: overlay.category ?? base.category,
   brandMark: null,
   sourceReports: [],
-  BRANDS: base.BRANDS.map((b, i) => ({ ...b, label: overlay.labels[i] ?? b.label })),
+  BRANDS: base.BRANDS.map((b, i) => ({ ...b, label: overlay.labels[i] ?? b.label })).filter((b) => overlay.activeSlots.includes(b.id)),
   ENGINES: overlay.engines ?? base.ENGINES,
   LAUNCH_PULL: null,
 };

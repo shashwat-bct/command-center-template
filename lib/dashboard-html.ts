@@ -193,6 +193,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <script src="${asset("cco-charts.js")}"></script>
 <script src="${asset("cco-reads.js")}"></script>
 <script src="${asset("cco-dashboard.js")}"></script>
+<script src="${asset("cco-feed.js")}"></script>
 <script src="${asset("cco-dashboard-pages.js")}"></script>
 <script src="${asset("cco-measured-pages.js")}"></script>
 <script src="${asset("cco-card-ask.js")}"></script>

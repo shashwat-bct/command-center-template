@@ -6,7 +6,7 @@ import { buildRelabelInputs } from "../lib/launch-override";
 import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "../lib/relabel-pipeline";
 import { rebrandPayload } from "../lib/rebrand";
 import { inStockShare, listingMatchesBrand, type KeepaBrandAggregate, type KeepaHistory } from "../lib/keepa";
-import { AMAZON_RETAIL_SELLER, windowDates, windowEndFor } from "../lib/amazon-series";
+import { AMAZON_RETAIL_SELLER, packSize, shortTitle, withVariant, windowDates, windowEndFor } from "../lib/amazon-series";
 import { brandAliases, patternMentions, quoteInAnswer, type AiQuestionResult, type AiSoMResult, type EngineSoM, type FunnelStage } from "../lib/ai-visibility";
 import { applyOverrides } from "../lib/brand-overrides";
 import { buildAiConsole, crawlerSites } from "../lib/ai-console";
@@ -15,7 +15,9 @@ import { buildWorkbench, type CommandCenterData } from "../lib/aeo-workbench";
 import { applyAiHistory, readingsFrom } from "../lib/ai-history";
 import { parseAmazonItem, type AmazonProduct, type SearchResult } from "../lib/apify";
 import { marketProfileKey, normaliseProfile, type MarketProfile } from "../lib/market-profile";
-import { readableRetailers, shoppingQuery, type RetailCapture } from "../lib/retail-offers";
+import { importedOnly, readableRetailers, shoppingQuery, type ImportedRetailHistory, type RetailCapture } from "../lib/retail-offers";
+import { feedPriceImport, type FeedDay, type RetailFeed } from "../lib/retail-feed";
+import { feedView } from "../lib/retail-feed-view";
 import { parseTargetSearch, parseWalmartSearch } from "../lib/retail-sites";
 
 type Cell = { value: number | null; rank: number | null; of: number };
@@ -155,9 +157,9 @@ const ASPECTS = ["Battery life", "Percussion strength", "Noise level", "Attachme
 
 const VENDOR = resolve(process.cwd(), "vendor", "bravo-platform");
 
-function build(withMeasurements: boolean, seed: string = SUBJECT.slug, market: MarketProfile | null = null, retail: RetailCapture | null = null): Payload {
+function build(withMeasurements: boolean, seed: string = SUBJECT.slug, market: MarketProfile | null = null, retail: RetailCapture | null = null, competitors: string[] = COMPETITORS): Payload {
   const inputs = buildRelabelInputs({
-    subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, seed, aspects: ASPECTS, market, retail,
+    subjectName: SUBJECT.name, competitors, category: CATEGORY, now: NOW, seed, aspects: ASPECTS, market, retail,
     keepa: withMeasurements ? keepa : null, competitorKeepa: withMeasurements ? competitorKeepa : [],
     ai: withMeasurements ? ai : null, apify: withMeasurements ? apify : new Map(), shelfResults: withMeasurements ? shelfResults : null,
   });
@@ -168,7 +170,7 @@ function build(withMeasurements: boolean, seed: string = SUBJECT.slug, market: M
     execFileSync("node", [join(workDir, "scripts", "insights", "build-cco-dataset.mjs"), "--brand", RELABEL_CONFIG_ID], { cwd: workDir, stdio: "pipe" });
     const raw = readFileSync(join(workDir, "public", "sonos-command-center-data.json"), "utf8");
     const { json } = applyProvenance(raw, inputs, SUBJECT.name);
-    return rebrandPayload(JSON.parse(json), { subject: SUBJECT, competitors: COMPETITORS, subjectProducts: [], competitorProducts: [] }) as Payload;
+    return rebrandPayload(JSON.parse(json), { subject: SUBJECT, competitors, subjectProducts: [], competitorProducts: [] }) as Payload;
   } finally {
     rmSync(workDir, { recursive: true, force: true });
   }
@@ -400,6 +402,88 @@ check(/Walmart, Target prices for 1 listing from their own websites/.test(rt.met
 const plain = build(true, SUBJECT.slug, market);
 const hyCostco = "l-b0hyper001|costco";
 check(!!plain.pricing.price[hyCostco] && plain.pricing.price[hyCostco].join() === rt.pricing.price[hyCostco]?.join(), "retailers without a reading are modelled exactly as before");
+
+console.log("── imported retailer prices");
+const importedHistory: ImportedRetailHistory = {
+  version: 1, label: "Test price history", importedOn: "2026-10-01",
+  matches: { B0THERA001: { walmart: { item: "123", title: "TheraGun PRO Plus", url: "https://example.com/p", units: 1, listingUnits: 1 } } },
+  asins: { B0THERA001: { "2026-09-01": { walmart: offer(259, null) }, "2026-09-20": { walmart: offer(240, null) } } },
+};
+check(Object.keys(importedOnly(retail.history, importedHistory).asins.B0THERA001 ?? {}).join() === "2026-09-01", "an imported reading is dropped where a live reading of the same day exists");
+type RetailRec = { days: string[]; listings: number; retailers: Record<string, number>; firstLive?: Record<string, string>; imported?: { label: string; listings: number; retailers: Record<string, { first: string; last: string; days: number }> } };
+const recOf = (x: Payload) => (x.meta.provenance as unknown as { record: { retail?: RetailRec } }).record.retail;
+const im = build(true, SUBJECT.slug, market, { ...retail, imported: importedHistory });
+const iw = im.pricing.price[`${E1}|walmart`] ?? [];
+const ii = (iso: string) => im.dims.dates.indexOf(iso);
+check(iw[ii("2026-09-01")] === 259 && iw[ii("2026-09-10")] === 259 && iw[ii("2026-09-20")] === 249 && iw[ii(WINDOW_END)] === 279, "imported prices fill the days before the first live reading, and a live reading wins on its day", `${iw[ii("2026-09-01")]} / ${iw[ii("2026-09-10")]} / ${iw[ii("2026-09-20")]} / ${iw[ii(WINDOW_END)]}`);
+check(wm[ri("2026-09-01")] !== 259, "without the import the same day stays modelled");
+const ir = recOf(im);
+check(ir?.days.join() === "2026-09-20,2026-09-27" && ir.firstLive?.walmart === "2026-09-20" && ir.imported?.retailers.walmart?.first === "2026-09-01" && ir.imported.retailers.walmart.days === 1 && ir.imported.label === "Test price history", "the record keeps live readings and imported days apart", JSON.stringify(ir));
+const imNote = im.meta.provenance?.lanes.pricing as unknown as { note: string; sources: string[] };
+check(/Walmart, Target prices are read from their own websites \(2 readings since 2026-09-20\)/.test(imNote.note) && /Walmart prices for 1 listing from 2026-09-01 to 2026-09-01 come from Test price history, imported on 2026-10-01/.test(imNote.note) && imNote.sources.includes("Imported price history · Test price history"), "the pricing lane names both the websites read and the imported history", imNote.note);
+check(im.meta.disclosure.anchors.some((x) => x.lane === "Imported retailer prices" && !x.unmeasured && /Test price history/.test(x.source)) && /from Test price history \(2026-09-01\)/.test(im.meta.disclosure.headline), "the ledger and disclosure list the imported history as its own source", im.meta.disclosure.headline.slice(-120));
+const only = build(true, SUBJECT.slug, market, { date: "2026-10-02", readings: {}, history: { version: 1, asins: {} }, imported: importedHistory });
+const onlyRec = recOf(only);
+const onlyNote = only.meta.provenance?.lanes.pricing as unknown as { note: string; sources: string[] };
+check(onlyRec?.listings === 0 && onlyRec.days.length === 0 && onlyRec.imported?.retailers.walmart?.days === 2 && (only.pricing.price[`${E1}|walmart`] ?? [])[ii("2026-09-20")] === 240, "with no live reading the imported prices stand on their own", JSON.stringify(onlyRec));
+check(!/own websites/.test(onlyNote.note) && !onlyNote.sources.includes("Retailer websites · Bright Data") && !only.meta.disclosure.anchors.some((x) => x.lane === "Other retailers' prices") && !/own websites/.test(only.meta.disclosure.headline), "imported prices are never described as read from a website", onlyNote.note);
+
+console.log("── fewer than four competitors");
+const three = build(true, SUBJECT.slug, null, null, COMPETITORS.slice(0, 3));
+const threeJson = JSON.stringify(three);
+check(three.dims.brands.map((b) => b.label).join() === [SUBJECT.name, ...COMPETITORS.slice(0, 3)].join() && !/Competitor 4|"jbl"|\|jbl\b|"comp4"/.test(threeJson), "an unused competitor slot leaves no placeholder brand behind", three.dims.brands.map((b) => b.label).join(", "));
+
+console.log("── retailer feed as measured data");
+const fday = (date: string, o: Partial<FeedDay>): FeedDay => ({ date, price: null, was: null, inStock: null, stock: null, offers: null, seller: null, rating: null, reviews: null, sources: ["test"], ...o });
+const feed: RetailFeed = {
+  version: 1, label: "Test feed", importedOn: "2026-10-01", sources: ["test"],
+  products: {
+    "walmart:1": { id: "walmart:1", retailer: "walmart", item: "1", brand: "Theragun", title: "TheraGun PRO Plus", url: null, upc: null, units: 1, asin: "B0THERA001", listingUnits: 1, match: "upc" },
+    "walmart:2": { id: "walmart:2", retailer: "walmart", item: "2", brand: "Theragun", title: "TheraGun Mini", url: null, upc: null, units: 1, asin: null, listingUnits: null, match: null },
+  },
+  daily: {
+    "walmart:1": [fday("2026-06-20", { price: 250, offers: 3, seller: "Walmart.com", rating: 4.5, reviews: 100 }), fday("2026-09-10", { inStock: false }), fday("2026-09-12", { price: 255, seller: "Other Seller", deliveryDays: 2.5 })],
+    "walmart:2": [fday("2025-03-03", { price: 99 }), fday("2025-03-31", { price: 101 })],
+  },
+  reviewSummary: {}, reviews: {},
+};
+const fm = build(true, SUBJECT.slug, market, { ...retail, imported: feedPriceImport(feed), feed });
+const fi = (iso: string) => fm.dims.dates.indexOf(iso);
+const fwm = fm.pricing.price[`${E1}|walmart`] ?? [];
+const fstock = fm.availability.stock[`${E1}|walmart`] ?? [];
+check(fwm[fi("2026-07-01")] === 250 && fwm[fi("2026-08-15")] == null && fwm[fi("2026-09-12")] === 255 && fwm[fi("2026-09-20")] === 249 && fwm[fi(WINDOW_END)] === 279, "a feed price carries for up to 45 days, then breaks; a live reading wins on its day", `${fwm[fi("2026-07-01")]} / ${fwm[fi("2026-08-15")]} / ${fwm[fi("2026-09-12")]} / ${fwm[fi("2026-09-20")]} / ${fwm[fi(WINDOW_END)]}`);
+check(fstock[fi("2026-08-15")] === 1 && fstock[fi("2026-09-10")] === 0 && fstock[fi("2026-09-11")] === 0 && fstock[fi("2026-09-12")] === 1, "a day without a reading counts as in stock; an out-of-stock reading holds until the next reading", `${fstock[fi("2026-08-15")]}${fstock[fi("2026-09-10")]}${fstock[fi("2026-09-11")]}${fstock[fi("2026-09-12")]}`);
+check(fm.availability.episodes.some((e) => e.model === E1 && e.retailer === "walmart" && e.start === "2026-09-10" && e.days === 2), "the out-of-stock readings become a measured stock-out at the retailer");
+check(fm.distribution.buybox[`${E1}|walmart`] != null && (fm.distribution.buybox[`${E1}|walmart`] as number) > 0 && (fm.distribution.buybox[`${E1}|walmart`] as number) < 1, "the retailer's buy-box share comes from who held it in the feed", String(fm.distribution.buybox[`${E1}|walmart`]));
+const fWeek = Math.floor(fi("2026-09-12") / 7);
+const fDeliv = Object.entries(fm.delivery.weekly).filter(([k]) => k.startsWith(`${E1}|walmart|`)).map(([, v]) => v);
+const deliveryNote = (fm.meta.provenance?.lanes.delivery as unknown as { note: string }).note;
+check(fDeliv.length > 0 && fDeliv.every((v) => v[fWeek] === 2.5 && v.filter((x) => x != null).length === 1) && /Walmart's promise for 1 listing comes from Test feed/.test(deliveryNote), "a retailer's delivery promise fills its week of the delivery lane, other weeks blank, and the lane names the feed", `${fDeliv[0]?.join(",")} | ${deliveryNote}`);
+const fRec = recOf(fm) as RetailRec & { measured?: { label: string; retailers: Record<string, { listings: number }> } };
+check(fRec?.measured?.label === "Test feed" && fRec.measured.retailers.walmart?.listings === 1, "the record names the feed and the listings it measured", JSON.stringify(fRec?.measured));
+const stockLane = fm.meta.provenance?.lanes.stock as unknown as { status: string; note: string; sources: string[] };
+check(/Walmart stock, seller count and buy box for 1 listing come from Test feed; a day without a reading counts as in stock/.test(stockLane.note) && stockLane.sources.includes("Retailer data · Test feed"), "the availability lane says which retailer's stock is read and from where", stockLane.note);
+check(fm.meta.disclosure.anchors.some((x) => x.lane === "Retailer stock and sellers" && !x.unmeasured) && /^Stock at retailers without retailer data/.test(fm.meta.disclosure.body), "the ledger lists retailer stock and sellers, and the disclosure no longer calls that retailer's stock modelled", fm.meta.disclosure.body.slice(0, 80));
+const view = feedView(feed, fm.dims as unknown as { brands: Array<{ id: string; label: string }>; models: Array<{ id: string; asin?: string }>; dates: string[] });
+check(view.daily["walmart:1"].map((d) => d.date).join() === "2026-09-10,2026-09-12" && view.daily["walmart:2"].length === 0 && view.products.find((p) => p.id === "walmart:1")?.model === E1 && view.products.find((p) => p.id === "walmart:2")?.model === null && view.products.every((p) => p.brand === "theragun"), "the dashboard gets each product's readings inside the window, tied to its listing and brand", view.daily["walmart:1"].map((d) => d.date).join());
+
+console.log("── pack sizes");
+const sizes: Array<[string, number | null]> = [
+  ["Charmin Flushable Wipes, 320 Total Wipes (8 Packs of 40)", 320],
+  ["Charmin Flushable Wipes, 2 packs, 40 Wipes Per Pack, 80 Total Wipes", 80],
+  ["Charmin Flushable Wipes, 40 Flushable Wipes Per Pack", 40],
+  ["Cottonelle GentlePlus Flushable Wipes, 4 Packs, 42 Wipes per Pack", 168],
+  ["DUDE Wipes - Flushable Wipes - 2 Pack, 96 Count - Unscented", 96],
+  ["Dude Wipes Flushable Wet Wipes Dispenser - (4 Packs of 48 Wipes, Unscented Wet Wipes with Vitamin-E)", 192],
+  ["Sonos Era 100 - Black - Wireless, Alexa Enabled Smart Speaker", null],
+];
+const gw = ["goodwipes Flushable Wipes - Shea-Coco, 153 Wipes (3 Pack + 3 Singles)", "goodwipes Flushable Wipes - Botanical Bliss, 153 Wipes (3 Pack + 3 Singles)"].map((t) => withVariant(shortTitle(t, "x"), t));
+check(gw[0] === "goodwipes Flushable Wipes Shea-Coco · 153 Count" && gw[1] === "goodwipes Flushable Wipes Botanical Bliss · 153 Count", "listings whose short labels read the same are told apart by the variant in the title", gw.join(" | "));
+const pinnedInputs = buildRelabelInputs({ subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, keepa, competitorKeepa, ai: null, pinned: [SUBJECT.name] });
+const searchedInputs = buildRelabelInputs({ subjectName: SUBJECT.name, competitors: COMPETITORS, category: CATEGORY, now: NOW, keepa, competitorKeepa, ai: null });
+check(pinnedInputs.series.listings.sonos.length > searchedInputs.series.listings.sonos.length, "pinned listings are all kept, while searched colour variants still share a slot", `${pinnedInputs.series.listings.sonos.length} pinned vs ${searchedInputs.series.listings.sonos.length} searched`);
+const wrongSizes = sizes.filter(([t, n]) => packSize(t) !== n);
+check(!wrongSizes.length, "a title's total unit count is read from counts, totals and packs × per-pack, so pack sizes of one line stay apart", wrongSizes.map(([t]) => `${t} → ${packSize(t)}`).join("; "));
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");
 process.exit(failures ? 1 : 0);

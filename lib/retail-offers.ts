@@ -1,4 +1,5 @@
 import { bucket } from "./gcs";
+import type { RetailFeed } from "./retail-feed";
 import type { KeepaBrandAggregate } from "./keepa";
 import { callLLM } from "./llm";
 import { parseJsonObject } from "./market-mechanics";
@@ -20,11 +21,25 @@ export type RetailHistory = { version: 1; asins: Record<string, Record<string, R
 
 export type RetailProduct = { asin: string; brand: string; title: string | null; model: string | null; price: number | null };
 
+export type ImportedMatch = { item: string; title: string; url: string; units: number; listingUnits: number };
+
+export type ImportedRetailHistory = {
+  version: 1;
+  label: string;
+  importedOn: string;
+  matches: Record<string, Record<string, ImportedMatch>>;
+  asins: Record<string, Record<string, RetailReading>>;
+};
+
 export type RetailCapture = {
   date: string;
   readings: Record<string, RetailReading>;
   history: RetailHistory;
+  imported?: ImportedRetailHistory | null;
+  feed?: RetailFeed | null;
 };
+
+type DailyCells = Record<string, Record<string, { price: number; was: number | null }>>;
 
 type Match = { units: number | null; listings: Map<number, number | null> };
 
@@ -216,11 +231,26 @@ export async function captureRetailOffers(input: {
 }
 
 /**
+ * The imported readings that no live reading replaces: a live reading of the
+ * same product, retailer and day always wins.
+ */
+export function importedOnly(live: RetailHistory, imported: ImportedRetailHistory): RetailHistory {
+  const asins: RetailHistory["asins"] = {};
+  for (const [asin, days] of Object.entries(imported.asins)) {
+    for (const [d, reading] of Object.entries(days)) {
+      const kept = Object.entries(reading).filter(([rt]) => !live.asins[asin]?.[d]?.[rt]);
+      if (kept.length) (asins[asin] ||= {})[d] = Object.fromEntries(kept);
+    }
+  }
+  return { version: 1, asins };
+}
+
+/**
  * The builder's per-cell readings, keyed "l-<asin>|<retailer>" then by window
  * day. A reading taken after the window closes stands for its last day.
  */
-export function retailSeriesFor(history: RetailHistory, asins: string[], windowStart: string, windowEnd: string): Record<string, Record<string, { price: number; was: number | null }>> {
-  const out: Record<string, Record<string, { price: number; was: number | null }>> = {};
+export function retailSeriesFor(history: RetailHistory, asins: string[], windowStart: string, windowEnd: string): DailyCells {
+  const out: DailyCells = {};
   for (const asin of asins) {
     const days = history.asins[asin];
     if (!days) continue;
@@ -230,5 +260,16 @@ export function retailSeriesFor(history: RetailHistory, asins: string[], windowS
       for (const [rt, o] of Object.entries(days[d])) (out[`l-${asin.toLowerCase()}|${rt}`] ||= {})[day] = { price: o.price, was: o.was };
     }
   }
+  return out;
+}
+
+/**
+ * Live and imported readings together for the window, day by day; a live
+ * reading replaces an imported one on its day.
+ */
+export function mergedRetailSeries(live: DailyCells, imported: DailyCells): DailyCells {
+  const out: DailyCells = {};
+  for (const [key, days] of Object.entries(imported)) out[key] = { ...days };
+  for (const [key, days] of Object.entries(live)) out[key] = { ...(out[key] ?? {}), ...days };
   return out;
 }
