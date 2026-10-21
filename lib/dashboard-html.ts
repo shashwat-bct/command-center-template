@@ -63,6 +63,8 @@ export function renderDashboardHtml({ title, payloadUrl, share = false, shareId,
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -128,7 +130,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <div id="main">
   <header id="top">
     <div class="top-l">
-      <div class="crumb" id="crumb">Overview</div><span class="srcchip" id="srcChip" hidden></span>
+      <div class="crumb" id="crumb">Overview</div>
       <h1 id="ptitle">360° Scorecard</h1>
     </div>
     <div class="top-r">
@@ -213,6 +215,8 @@ const escapeAttr = (s: string) => String(s).replace(/[&<>"']/g, (c) => ESC[c] ??
 
 export function renderSignInHtml(title: string): string {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHtml(title)}</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f8fafd;font-family:'Google Sans Text','Google Sans',Roboto,system-ui,sans-serif;color:#1f1f1f;-webkit-font-smoothing:antialiased}form{width:min(400px,calc(100vw - 32px));padding:36px 32px 28px;background:#fff;border:1px solid #e3e3e3;border-radius:28px;box-sizing:border-box}h1{font-family:'Google Sans Display','Google Sans',Roboto,sans-serif;font-weight:400;font-size:24px;margin:0 0 8px}p{margin:0 0 20px;color:#444746;line-height:1.5;font-size:14px}input{width:100%;box-sizing:border-box;height:52px;padding:0 16px;border:1px solid #747775;border-radius:8px;font:inherit;font-size:15px;color:#1f1f1f}input:focus{outline:none;border-color:#0b57d0;box-shadow:inset 0 0 0 1px #0b57d0}button{margin-top:20px;float:right;height:40px;padding:0 24px;border:0;border-radius:999px;background:#0b57d0;color:#fff;font:500 14px 'Google Sans Text','Google Sans',Roboto,sans-serif;cursor:pointer}button:hover{background:#0842a0}#err{clear:both;color:#c5221f;margin:12px 0 0;min-height:1em;font-size:13px}</style>
 </head><body><form id="f"><h1>Private dashboard</h1><p>Sign in with the admin token, or open a share link you were sent.</p>

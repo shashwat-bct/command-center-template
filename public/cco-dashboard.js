@@ -145,15 +145,6 @@ function rankChip(metricId, brand) {
 }
 const SHOW_SRC = document.body.dataset.sources === "on";
 const SINGLE_SOURCE = new Set(["aiSov", "rating"]);
-const PROV_LABEL = {
-  real: ["real", "Read from a live source on this build"],
-  mixed: ["partly real", "Amazon data is real; the other retailers are simulated"],
-  synthetic: ["simulated", "Simulated — no live source read this on this build"],
-  measured: ["measured", "Measured for this brand"],
-  derived: ["derived", "Simulated, but bounded by a measurement taken for this brand"],
-  reference: ["ref", "Reference data from another brand's capture, shown under this name"],
-  unmeasured: ["not measured", "Not measured on this build — left blank"],
-};
 function provOf(metricId, brand) {
   const p = D && D.meta && D.meta.provenance;
   if (p && p.mode === "hybrid") return SHOW_SRC && p.metrics && p.metrics[metricId] ? (p.metrics[metricId][brand] !== "measured" ? "synthetic" : SINGLE_SOURCE.has(metricId) || retailer === "amazon" ? "real" : "mixed") : null;
@@ -162,11 +153,6 @@ function provOf(metricId, brand) {
 function laneOf(page) {
   const lanes = D && D.meta && D.meta.provenance && D.meta.provenance.lanes;
   return lanes ? lanes[page] || null : null;
-}
-function provBadge(metricId, brand) {
-  const k = provOf(metricId, brand);
-  if (!k || !PROV_LABEL[k]) return "";
-  return `<i class="pv pv-${k}" title="${esc(PROV_LABEL[k][1])}">${PROV_LABEL[k][0]}</i>`;
 }
 function labelSimChip() {
   const p = D.meta.provenance;
@@ -184,7 +170,7 @@ function kpi(o) {
 function metricKpi(metricId, brand, note) {
   const md = metricDef(metricId), o = sc(metricId, brand), f = fmtFor(metricId);
   return kpi({
-    label: md.label, dot: B(brand).color, badge: provBadge(metricId, brand),
+    label: md.label, dot: B(brand).color,
     value: o.value == null ? "—" : f(o.value),
     delta: deltaChip(metricId, brand), rank: rankChip(metricId, brand),
     spark: (D.trend[metricId] && D.trend[metricId][brand]) ? CC.spark({ data: D.trend[metricId][brand], color: B(brand).color, width: 62, height: 20 }) : "",
@@ -526,21 +512,6 @@ function syncControls() {
   $$("#cadence button").forEach((b) => b.classList.toggle("on", b.dataset.c === cadence));
   $("#retSel").value = retailer;
 }
-const SRC_WORD = { measured: "real", mixed: "mixed", modelled: "synthetic" };
-const SRC_TEXT = { real: "real", mixed: "mixed", synthetic: "simulated" };
-function srcNote(lane) {
-  const k = SRC_WORD[lane.status] || "synthetic";
-  return `<p class="lane-note src-note"><i class="pv pv-${k}">${SRC_TEXT[k]}</i><span>${esc(lane.note)}${!lane.sources ? "" : lane.sources.length ? ` <b>Real sources:</b> ${lane.sources.map(esc).join(" · ")}.` : " <b>No live source</b> — every figure here is simulated."}</span></p>`;
-}
-function srcStatus(def) {
-  const id = def.id;
-  if (/^ai-/.test(id)) return { k: "real", t: `AI engine answers (${(D.aiConsole?.engines || []).map((e) => e.label).join(", ")})` };
-  if (id === "aeo-programme") return { k: "real", t: "built from the AI engine answers" };
-  if (/^aeo-/.test(id)) return { k: "mixed", t: "week 0 real · weeks 1–12 simulated" };
-  if (id === "method") return null;
-  const lane = laneOf(id);
-  return lane ? { k: SRC_WORD[lane.status] || "synthetic", t: lane.sources ? lane.sources.join(" · ") || "no live source" : lane.status === "modelled" ? "no live source" : "Amazon data real · rest modelled" } : null;
-}
 function route() {
   const id = (location.hash || "#scorecard").slice(1);
   if (isHiddenPage(id)) { location.replace("#scorecard"); return; }
@@ -548,8 +519,6 @@ function route() {
   const def = pageDef(page);
   const title = (laneOf(page) || {}).label || def.title;
   $("#crumb").textContent = def.crumb; $("#ptitle").textContent = title;
-  const chip = $("#srcChip"); const st = SHOW_SRC && D.meta.provenance && D.meta.provenance.mode === "hybrid" ? srcStatus(def) : null;
-  if (chip) { chip.hidden = !st; if (st) chip.innerHTML = `<i class="pv pv-${st.k}">${SRC_TEXT[st.k] || st.k}</i>${esc(st.t)}`; }
   $$("#nav a").forEach((a) => a.classList.toggle("on", a.dataset.p === page));
   const onLink = $("#nav a.on"); if (onLink && onLink.scrollIntoView) onLink.scrollIntoView({ block: "nearest" });   // a deep link lands with its rail item in view
   document.title = `${title} · ${SUBJ} Commercial Command Center`;
@@ -579,7 +548,7 @@ function repaint(force) {
         + `<p class="mini" style="margin:0">This page is left blank rather than filled with modelled figures. <a href="#method">What was measured</a></p></div>`;
       return;
     }
-    try { (RENDER[page] || (() => {}))(host); liftReads(host); if (SHOW_SRC && lane && D.meta.provenance.mode === "hybrid") host.insertAdjacentHTML("afterbegin", srcNote(lane)); if (lane && lane.status !== "modelled" && lane.status !== "mixed" && D.meta.provenance.mode !== "hybrid") host.insertAdjacentHTML("afterbegin", `<p class="lane-note"><i class="pv pv-${lane.status === "snapshot" ? "derived" : "measured"}">${lane.status === "snapshot" ? "single reading" : "measured"}</i>${esc(lane.note)}</p>`); }
+    try { (RENDER[page] || (() => {}))(host); liftReads(host); }
     catch (e) {
       host.innerHTML = `<div class="card"><div class="card-h"><div class="ct"><h3>This page could not be drawn</h3>`
         + `<p>The rest of the dashboard is unaffected — pick another page from the rail. If this tab has been open a while, a hard reload will fetch the current build.</p></div></div>`
@@ -600,5 +569,5 @@ repaint = function (force) { if (force) painted.clear(); _repaint(force); if (fo
 const RENDER = {};
 window.__CCPAGES = RENDER; window.__CC = { get D() { return D; }, get S() { return S; }, get SUBJ() { return SUBJ; }, get cadence() { return cadence; }, get retailer() { return retailer; },
   B, RT, MD, BIDS, AI_BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock, card, intro, table, slot,
-  win, winDates, winBands, slice, mean, sum, pairsFor, carriedPairs, retailerScope, openDrawer, closeDrawer, esc, h, $, $$, period, tc, provOf, provBadge, laneOf };
+  win, winDates, winBands, slice, mean, sum, pairsFor, carriedPairs, retailerScope, openDrawer, closeDrawer, esc, h, $, $$, period, tc, provOf, laneOf };
 })();

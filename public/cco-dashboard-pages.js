@@ -6,7 +6,7 @@
 const P = window.__CCPAGES, U = window.__CC, F = CC.fmt;
 const { B, RT, MD, BIDS, AI_BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock,
         card, intro, table, slot, tc, win, winDates, winBands, slice, mean, sum, pairsFor, carriedPairs,
-        retailerScope, openDrawer, esc, $, $$, period, provOf, provBadge } = U;
+        retailerScope, openDrawer, esc, $, $$, period, provOf } = U;
 const D = () => U.D;
 // Set from the payload by the shell before any renderer runs, so no screen here
 // knows or names the brand it is showing.
@@ -71,16 +71,13 @@ P.scorecard = (host) => {
         <td class="lft metric">${md.label}<em>${md.good === "down" ? "lower is better" : md.good === "neutral" ? "no better direction" : "higher is better"}${md.unit ? ` · ${md.unit}` : ""}</em></td>
         ${BIDS().map((b) => { const o = sc(mid, b);
           if (provOf(mid, b) === "unmeasured") return `<td class="${b === S ? "subj " : ""}is-nm"><div class="cell"><span class="v" title="Not measured on this build">—</span></div></td>`;
-          return `<td class="${b === S ? "subj" : ""}${provOf(mid, b) === "reference" ? " is-ref" : ""}"><div class="cell">${deltaChip(mid, b)}<span class="v ${o.rank === 1 ? "r1" : ""}">${o.value == null ? "—" : f(o.value)}</span>${provBadge(mid, b)}</div></td>`; }).join("")}
+          return `<td class="${b === S ? "subj" : ""}${provOf(mid, b) === "reference" ? " is-ref" : ""}"><div class="cell">${deltaChip(mid, b)}<span class="v ${o.rank === 1 ? "r1" : ""}">${o.value == null ? "—" : f(o.value)}</span></div></td>`; }).join("")}
         <td>${d.trend[mid] && d.trend[mid][S] ? `<span class="sc-spark">${CC.spark({ data: d.trend[mid][S], color: B(S).color, width: 74, height: 22 })}</span>` : "—"}</td>
       </tr>`);
     }
   }
   el("scTable").innerHTML = `<table class="sc"><thead><tr><th class="lft">Measure</th>${BIDS().map((b) =>
-    `<th class="${b === S ? "subj" : ""}"><span class="dot" style="background:${B(b).color}"></span>${B(b).label}</th>`).join("")}<th>13-week trend</th></tr></thead><tbody>${rows.join("")}</tbody></table>`
-    + (!d.meta.provenance || d.meta.provenance.mode === "hybrid" ? "" : d.meta.provenance.mode === "measured-only"
-      ? `<p class="mini prov-legend"><i class="pv pv-measured">measured</i> read from a source on this build · — not measured (no source on this build), left blank</p>`
-      : `<p class="mini prov-legend"><i class="pv pv-measured">measured</i> measured for this brand · <i class="pv pv-derived">derived</i> simulated, bounded by a measurement for this brand · <i class="pv pv-reference">ref</i> ${esc(d.meta.provenance.reference)}'s data shown under this name</p>`);
+    `<th class="${b === S ? "subj" : ""}"><span class="dot" style="background:${B(b).color}"></span>${B(b).label}</th>`).join("")}<th>13-week trend</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
 
   // ── radar: each brand's position, normalised across the set
   const axes = [

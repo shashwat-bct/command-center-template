@@ -1,5 +1,6 @@
 /* ===========================================================================
-   ANALYST VIEW — every card, legend entry and table row marked real or simulated
+   DATA SOURCES — an "i" button in the top bar listing which charts on the page
+   are real, partly real or simulated, and where each one comes from
    =========================================================================== */
 (function () {
 "use strict";
@@ -13,11 +14,6 @@ const AMZ_REST = "Amazon read live · other retailers simulated around it";
 const SIM = "No live source · simulated, seeded per brand";
 
 const WORD = { real: "Real", mixed: "Partly real", sim: "Simulated" };
-const HINT = {
-  real: "Real data.",
-  mixed: "Partly real.",
-  sim: "Simulated data, not collected.",
-};
 
 const RULES = [
   ["scorecard", /measures|where each brand stands|rank movement|driver movement/, "mixed", "Each cell marked: real where a source read it, simulated where modelled"],
@@ -26,7 +22,8 @@ const RULES = [
   ["traffic", /./, "sim", SIM],
   ["voice", /rating through|review velocity/, "real", KEEPA],
   ["voice", /aspect scores|what reviewers say/, "real", "Amazon review summaries (Apify)"],
-  ["voice", /praise vs complaints|best competitor|review mentions come from|positive share across/, "real", "Amazon review summaries (Apify) and Walmart reviews"],
+  ["voice", /praise vs complaints|best competitor/, "real", "Amazon review summaries (Apify) and Walmart reviews"],
+  ["voice", /star mix|would recommend/, "real", "Walmart review summaries"],
   ["shelf", /share of the first results|the results, in order/, "real", SEARCH],
   ["shelf", /organic against paid/, "sim", SIM],
   ["shelf", /./, "mixed", "Amazon search read live · other retailers, terms and daily movement simulated"],
@@ -59,7 +56,6 @@ const importedRec = () => (retailRec() || {}).imported || null;
 const measuredRec = () => (retailRec() || {}).measured || null;
 const retailRead = () => new Set(Object.keys((retailRec() || {}).retailers || {}).concat(Object.keys((importedRec() || {}).retailers || {}), Object.keys((measuredRec() || {}).retailers || {})));
 const readOn = (page) => (RETAIL_PAGES.has(page) ? [...retailRead()] : page === "stock" || (page === "delivery" && (retailRec() || {}).delivery) ? Object.keys((measuredRec() || {}).retailers || {}) : []);
-const CAPTION_PAGES = new Set([...RETAIL_PAGES, "stock", "delivery"]);
 const ASSUMED = [[/price floor/, "the price floor itself (an assumed policy)"]];
 const day = (iso) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 const liveFrom = (id) => { const r = retailRec(); if (!r || !(r.retailers || {})[id]) return null; return (r.firstLive || {})[id] || (r.days || [])[0] || null; };
@@ -82,11 +78,6 @@ function split(page, title) {
     .concat(ASSUMED.filter(([re]) => re.test(title)).map(([, s]) => s));
   return { real, sim };
 }
-function caption(card, page, title) {
-  if (!CAPTION_PAGES.has(page) || card.querySelector(".pvx-cap")) return;
-  const { real, sim } = split(page, title.toLowerCase());
-  card.querySelector(".card-h").insertAdjacentHTML("afterend", `<div class="pvx-cap"><span class="pvx-cap-k pvx-real">Real</span> ${esc(real.join(", "))}${sim.length ? ` <span class="pvx-cap-k pvx-sim">Simulated</span> ${esc(sim.join(", "))}` : ""}</div>`);
-}
 const pageOf = (node) => {
   const pg = node.closest(".page");
   return pg && pg.id ? pg.id.replace(/^pg-/, "") : (location.hash || "#scorecard").slice(1);
@@ -101,40 +92,6 @@ const ruleFor = (page, title) => {
 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
-const badge = (k, src) => `<span class="pvx-tag pvx-${k}" title="${esc(HINT[k] + " Source: " + src)}">${WORD[k]}</span>`;
-
-function markLabels(card) {
-  const d = U() && U().D; if (!d) return;
-  const real = new Set(["amazon", "amazon.com"]);
-  const read = new Set(readOn(pageOf(card)));
-  const retailers = new Map(d.dims.retailers.map((r) => [r.label.toLowerCase(), real.has(r.id) ? "real" : read.has(r.id) ? `read:${r.id}` : "sim"]));
-  const cities = new Set(d.dims.cities.map((c) => c.label.toLowerCase()).concat(d.dims.cities.map((c) => c.label.split(",")[0].toLowerCase())));
-  card.querySelectorAll("th, td, .cc-lg, .lb, .chip, .rk-name, .rlab").forEach((n) => {
-    if (n.dataset.pvx || n.querySelector("th, td, .cc-lg")) return;
-    const t = n.textContent.replace(/\s+/g, " ").trim().toLowerCase();
-    const k = retailers.get(t) || (cities.has(t) ? "sim" : null);
-    if (!k) return;
-    n.dataset.pvx = k;
-    if (k === "real") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-real" title="Read daily from Keepa">real</span>`);
-    if (k === "sim") n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-sim" title="Simulated data, not collected">simulated</span>`);
-    if (k.startsWith("read:")) {
-      const id = k.slice(5);
-      n.insertAdjacentHTML("beforeend", `<span class="pvx-mini pvx-mixed" title="Prices: ${esc(sourceOf(id))}; earlier days simulated">real from ${esc(firstRead(id) || "")}</span>`);
-    }
-  });
-}
-
-function decorate(card) {
-  if (card.dataset.pvxDone) return;
-  const h3 = card.querySelector(".card-h h3"); if (!h3) return;
-  const r = ruleFor(pageOf(card), h3.textContent); if (!r) return;
-  card.dataset.pvxDone = r.k;
-  let ca = card.querySelector(".card-h .ca");
-  if (!ca) { ca = document.createElement("div"); ca.className = "ca"; card.querySelector(".card-h").appendChild(ca); }
-  ca.insertAdjacentHTML("afterbegin", badge(r.k, r.src));
-  if (r.k === "mixed") { markLabels(card); caption(card, pageOf(card), h3.textContent); }
-}
-
 function pageDefault(page) {
   const r = RULES.find(([p, re]) => (p.endsWith("-") ? page.startsWith(p) : page === p) && re.source === ".");
   if (r) return { k: r[2], src: r[3] };
@@ -142,52 +99,49 @@ function pageDefault(page) {
   return lane ? { k: lane.status === "measured" ? "real" : lane.status === "mixed" ? "mixed" : "sim", src: (lane.sources || []).join(" · ") || SIM } : null;
 }
 
-function decorateKpi(kpi) {
-  if (kpi.dataset.pvxDone || kpi.querySelector(".pv")) return;
-  const page = pageOf(kpi); if (page === "method") return;
-  const card = kpi.closest(".card");
-  const r = card && card.dataset.pvxDone ? { k: card.dataset.pvxDone, src: "" } : pageDefault(page);
-  const kl = kpi.querySelector(".kl"); if (!r || !kl) return;
-  kpi.dataset.pvxDone = r.k;
-  kl.insertAdjacentHTML("beforeend", `<i class="pv pv-${r.k === "sim" ? "synthetic" : r.k}" title="${esc(HINT[r.k] + (r.src ? " Source: " + r.src : ""))}">${WORD[r.k].toLowerCase()}</i>`);
-}
-
-function sweep(root) {
-  (root.matches && root.matches(".card") ? [root] : []).concat([...(root.querySelectorAll ? root.querySelectorAll(".card") : [])]).forEach(decorate);
-  (root.matches && root.matches(".kpi") ? [root] : []).concat([...(root.querySelectorAll ? root.querySelectorAll(".kpi") : [])]).forEach(decorateKpi);
-}
+const tag = (k) => `<span class="pvx-tag pvx-${k}">${WORD[k]}</span>`;
 
 function partlyReal() {
   const read = [...retailRead()];
   return read.length
-    ? `Partly real = Amazon is read daily; ${read.map((id) => `${labelOf(id)} prices are real from ${firstRead(id)} (${sourceOf(id)})`).join("; ")}; every other retailer, and earlier days, are simulated.`
-    : "Partly real = Amazon is read daily; every other retailer is simulated.";
+    ? `Amazon is read daily; ${read.map((id) => `${labelOf(id)} prices are real from ${firstRead(id)} (${sourceOf(id)})`).join("; ")}; every other retailer, and earlier days, are simulated.`
+    : "Amazon is read daily; every other retailer is simulated.";
 }
 
-function banner() {
-  if (document.getElementById("pvxBanner")) return;
-  const b = document.createElement("div");
-  b.id = "pvxBanner"; b.className = "pvx-banner";
-  const analyst = document.body.dataset.view === "analyst";
-  b.innerHTML = `<span><b>${analyst ? "Analyst view" : "Data sources"}</b>${analyst ? " · internal only" : ""}. Each chart is tagged:</span>
-    <span class="pvx-legend"><span class="pvx-tag pvx-real">Real</span><span class="pvx-tag pvx-mixed">Partly real</span><span class="pvx-tag pvx-sim">Simulated</span></span>
-    <span>${esc(partlyReal())} Partly real charts list which parts are real and which are simulated; hover a tag for its source.</span>`;
-  const pages = document.getElementById("pages");
-  if (pages) pages.parentNode.insertBefore(b, pages);
+function currentPage() {
+  const id = (location.hash || "#scorecard").slice(1);
+  const el = document.getElementById(`pg-${id}`) || document.querySelector("#pages .page:not([hidden])");
+  return { id: el && el.id ? el.id.replace(/^pg-/, "") : id, el };
+}
+
+function panelHtml() {
+  const { id, el } = currentPage();
+  const seen = new Set();
+  const rows = [...(el ? el.querySelectorAll(".card .card-h h3") : [])].map((h) => h.textContent.trim()).filter((t) => t && !seen.has(t) && seen.add(t)).map((title) => {
+    const r = ruleFor(id, title); if (!r) return "";
+    const parts = r.k === "mixed" ? split(id, title.toLowerCase()) : null;
+    return `<li><div class="pvx-row"><b>${esc(title)}</b>${tag(r.k)}</div><div class="pvx-src">${parts ? `<span class="pvx-k">Real</span> ${esc(parts.real.join(", "))}${parts.sim.length ? `<br><span class="pvx-k">Simulated</span> ${esc(parts.sim.join(", "))}` : ""}` : esc(r.src)}</div></li>`;
+  }).filter(Boolean);
+  const dflt = pageDefault(id);
+  return `<div class="pvx-head"><b>Where this page's data comes from</b><button type="button" class="pvx-x" aria-label="Close">✕</button></div>
+    <p class="pvx-sum">${esc(partlyReal())}</p>
+    ${rows.length ? `<ul class="pvx-list">${rows.join("")}</ul>` : dflt ? `<p class="pvx-sum">${tag(dflt.k)} ${esc(dflt.src)}</p>` : `<p class="pvx-sum">Nothing on this page is tagged.</p>`}`;
 }
 
 function start() {
-  const pages = document.getElementById("pages");
-  if (!pages || !U() || !U().D) { setTimeout(start, 150); return; }
-  document.body.classList.add("pvx-on");
-  banner(); sweep(pages);
-  const onAdd = (n) => {
-    if (n.nodeType !== 1 || n.classList.contains("pvx-mini") || n.classList.contains("pvx-tag") || n.classList.contains("pv")) return;
-    const card = n.closest(".card");
-    if (card && card.dataset.pvxDone) { if (card.dataset.pvxDone === "mixed") markLabels(card); card.querySelectorAll(".kpi").forEach(decorateKpi); return; }
-    sweep(card || n);
-  };
-  new MutationObserver((ms) => { for (const m of ms) m.addedNodes.forEach(onAdd); }).observe(pages, { childList: true, subtree: true });
+  const top = document.querySelector("#top .top-r");
+  if (!top || !U() || !U().D) { setTimeout(start, 150); return; }
+  if (document.getElementById("pvxInfo")) return;
+  const wrap = document.createElement("div"); wrap.className = "pvx-wrap";
+  wrap.innerHTML = `<button type="button" class="pvx-info" id="pvxInfo" aria-label="Which data is real and which is simulated" aria-expanded="false" title="Which data is real">i</button><div class="pvx-pop" id="pvxPop" role="dialog" hidden></div>`;
+  top.appendChild(wrap);
+  const btn = wrap.querySelector("#pvxInfo"), pop = wrap.querySelector("#pvxPop");
+  const close = () => { pop.hidden = true; btn.setAttribute("aria-expanded", "false"); };
+  btn.addEventListener("click", () => { if (!pop.hidden) { close(); return; } pop.innerHTML = panelHtml(); pop.hidden = false; btn.setAttribute("aria-expanded", "true"); });
+  pop.addEventListener("click", (e) => { if (e.target.closest(".pvx-x")) close(); });
+  document.addEventListener("click", (e) => { if (!pop.hidden && !wrap.contains(e.target)) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !pop.hidden) close(); });
+  window.addEventListener("hashchange", close);
 }
 start();
 })();
