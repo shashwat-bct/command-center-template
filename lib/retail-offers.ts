@@ -10,6 +10,8 @@ import { SITE_READERS, type SiteOffer } from "./retail-sites";
 const HISTORY_KEY = (slug: string) => `retail-offers/v1/${slug}.json`;
 const KEEP_DAYS = 120;
 const CONCURRENCY = 4;
+const LISTING_BUDGET_MS = 150_000;
+const STEP_BUDGET_MS = 360_000;
 
 export type ShopRetailer = Pick<MarketRetailer, "id" | "label" | "domain">;
 
@@ -158,6 +160,12 @@ async function readProduct(p: RetailProduct, retailers: ShopRetailer[], key: str
   return pickOffers(p, found.flat(), new Map(retailers.map((r) => [r.id, r.label])));
 }
 
+function within<T>(ms: number, work: Promise<T>, why: string): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const late = new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error(why)), ms); });
+  return Promise.race([work, late]).finally(() => clearTimeout(timer));
+}
+
 async function pool<T, R>(items: T[], size: number, fn: (x: T) => Promise<R>): Promise<R[]> {
   const out: R[] = new Array(items.length);
   let next = 0;
@@ -204,10 +212,15 @@ export async function captureRetailOffers(input: {
   const retailers = readableRetailers(input.retailers);
   const skipped = input.retailers.filter((r) => !retailers.includes(r));
   if (skipped.length) input.log(`  no reader for ${skipped.map((r) => r.label).join(", ")}; they stay modelled`);
-  const results = await pool(input.products, CONCURRENCY, (p) => readProduct(p, retailers, input.key, input.log).catch((e: unknown): Picked => {
-    input.log(`  ${p.asin}: ${(e as Error).message}`);
-    return { reading: {}, why: "" };
-  }));
+  const stopAt = Date.now() + STEP_BUDGET_MS;
+  const results = await pool(input.products, CONCURRENCY, (p) => {
+    const left = Math.min(LISTING_BUDGET_MS, stopAt - Date.now());
+    if (left <= 0) return Promise.resolve<Picked>({ reading: {}, why: `skipped, retailer reads passed ${STEP_BUDGET_MS / 60_000} minutes` });
+    return within(left, readProduct(p, retailers, input.key, input.log), `no answer from the retailer sites within ${Math.round(left / 1000)}s`).catch((e: unknown): Picked => {
+      input.log(`  ${p.asin}: ${(e as Error).message}`);
+      return { reading: {}, why: (e as Error).message };
+    });
+  });
   const readings: Record<string, RetailReading> = {};
   input.products.forEach((p, i) => {
     const r = results[i];
