@@ -128,11 +128,14 @@ function deltaChip(metricId, brand, opts) {
     return `<span class="delta flat">${md.static ? "point-in-time" : readings === 1 ? `single reading · ${F.date(D.dims.dates[D.dims.dates.length - 1])}` : "no prior"}</span>`;
   }
   const good = md.good;
-  const cls = good === "neutral" ? "neu" : (o.delta > 0) === (good === "up") ? "up" : "dn";
-  const arrow = Math.abs(o.delta) < 1e-9 ? "→" : o.delta > 0 ? "↑" : "↓";
   const f = fmtFor(metricId);
-  const body = (opts && opts.pct && o.deltaPct != null) ? `${o.deltaPct > 0 ? "+" : ""}${o.deltaPct.toFixed(1)}%` : `${o.delta > 0 ? "+" : ""}${f(Math.abs(o.delta) < 1e-9 ? 0 : o.delta).replace("$", "")}`;
-  return `<span class="delta ${Math.abs(o.delta) < 1e-9 ? "flat" : cls}">${arrow} ${body}</span>`;
+  const asPct = opts && opts.pct && o.deltaPct != null;
+  const shown = asPct ? Math.abs(o.deltaPct).toFixed(1) : String(f(Math.abs(o.delta)));
+  const flat = !(Number(shown.replace(/[^\d.]/g, "")) > 0);
+  const cls = good === "neutral" ? "neu" : (o.delta > 0) === (good === "up") ? "up" : "dn";
+  const arrow = flat ? "→" : o.delta > 0 ? "↑" : "↓";
+  const body = asPct ? `${flat ? "" : o.deltaPct > 0 ? "+" : "-"}${shown}%` : `${flat ? "" : o.delta > 0 ? "+" : "-"}${shown.replace("$", "")}`;
+  return `<span class="delta ${flat ? "flat" : cls}">${arrow} ${body}</span>`;
 }
 function rankTone(rank, of) { return of > 1 && rank === 1 ? " top" : of > 2 && rank === of ? " low" : ""; }
 function rankChip(metricId, brand) {

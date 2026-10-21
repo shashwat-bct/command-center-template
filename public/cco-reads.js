@@ -24,7 +24,7 @@
     return reads.map((r) => {
       const m = r.text.match(/^Presence concentrates where the intent is specific — "([^"]+)" returns (.+?) in ([\d.]+)% of the grid, against ([\d.]+)% on the weakest term\.$/);
       if (!m || +m[3] - +m[4] >= 2) return r;
-      return { tone: "watch", text: `Presence is even across the search terms — ${m[4]}% to ${m[3]}% of the grid — so no single term is carrying ${m[2]}, and none is a hole.` };
+      return { tone: "watch", text: `Presence is even across the search terms — ${m[4] === m[3] ? `${m[4]}% of the grid on every term` : `${m[4]}% to ${m[3]}% of the grid`} — so no single term is carrying ${m[2]}, and none is a hole.` };
     });
   }
 

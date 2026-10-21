@@ -96,6 +96,22 @@ const lastValue = <T>(arr: Array<T | null>): T | null => {
   return null;
 };
 
+const STALE_LIST_SHARE = 0.6;
+
+const median = (arr: Array<number | null>): number | null => {
+  const v = arr.filter((x): x is number => x != null && x > 0).sort((a, z) => a - z);
+  return v.length ? v[Math.floor(v.length / 2)] : null;
+};
+
+/**
+ * A listing's list price, or null when it is far below what the listing
+ * actually sells for (a list price left over from an older pack).
+ */
+export function usableListPrice(list: number | null, prices: Array<number | null>): number | null {
+  const typical = median(prices);
+  return list != null && typical != null && list < typical * STALE_LIST_SHARE ? null : list;
+}
+
 /**
  * Turns each brand's brand-checked Keepa listings into daily Amazon series
  * over the dashboard window. `slotsAvailable` caps how many listings a brand
@@ -160,7 +176,7 @@ export function buildAmazonSeries(
     out.listings[slot] = series.map(({ r, d, label }) => ({
       asin: r.asin,
       label,
-      msrp: lastValue(d.list) ?? r.listPrice ?? null,
+      msrp: usableListPrice(lastValue(d.list) ?? r.listPrice ?? null, d.price.slice(1)) ?? median(d.price.slice(1)),
       street: lastValue(d.price) ?? r.priceNow ?? null,
       price: d.price.slice(1),
       list: d.list.slice(1),
@@ -185,10 +201,13 @@ export function buildAmazonSeries(
     });
     out.reviews[slot] = dates.map((_, i) => {
       let total = 0, any = false;
+      const pools = new Set<string>();
       for (const { d } of series) {
         const today = d.reviews[i + 1], prior = d.reviews[i];
         if (today == null || prior == null) continue;
         any = true;
+        if (pools.has(`${prior}|${today}`)) continue;
+        pools.add(`${prior}|${today}`);
         const delta = today - prior;
         if (Math.abs(delta) > Math.max(REINDEX_MIN, prior * REINDEX_SHARE)) continue;
         total += Math.max(0, delta);

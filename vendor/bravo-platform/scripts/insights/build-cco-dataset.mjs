@@ -1076,11 +1076,17 @@ function inStockRate(b, a, z) {
     for (let i = a; i <= z; i++) { if (!isCarried(mid, rt, i)) continue; tot++; if (stockSeries[key][i]) on++; } }
   return tot ? (on / tot) * 100 : null;
 }
-function leadTimeDays(b, a, z) {
+function leadTimeCells(b, a, z) {
+  const w0 = Math.floor(a / 7), w1 = Math.floor(z / 7), out = new Set();
+  for (const key of pairs) { const [mid] = key.split("|"); if (MID[mid].brand !== b) continue;
+    for (const c of DELIV_AT) { const s = deliveryWeekly[`${key}|${c}`]; if (s) for (let w = w0; w <= w1; w++) if (s[w] != null) out.add(`${key}|${c}`); } }
+  return out;
+}
+function leadTimeDays(b, a, z, only) {
   const w0 = Math.floor(a / 7), w1 = Math.floor(z / 7);
   const v = [];
   for (const key of pairs) { const [mid] = key.split("|"); if (MID[mid].brand !== b) continue;
-    for (const c of DELIV_AT) { const s = deliveryWeekly[`${key}|${c}`]; if (s) for (let w = w0; w <= w1; w++) if (s[w] != null) v.push(s[w]); } }
+    for (const c of DELIV_AT) { const cell = `${key}|${c}`; if (only && !only.has(cell)) continue; const s = deliveryWeekly[cell]; if (s) for (let w = w0; w <= w1; w++) if (s[w] != null) v.push(s[w]); } }
   return v.length ? mean(v) : null;
 }
 function shelfSov(b, a, z) {
@@ -1135,7 +1141,7 @@ const METRICS = [
   { id: "pdpScore",     group: "visibility",   label: "Landing-page score",        unit: "/100", good: "up",   fn: (b) => pdpScore(b), fmt: (v) => Math.round(v), static: true },
   { id: "carriage",     group: "distribution", label: "Distribution points",       unit: "%",    good: "up",   fn: carriagePoints, fmt: (v) => r1(v) + "%" },
   { id: "inStock",      group: "distribution", label: "In-stock rate",             unit: "%",    good: "up",   fn: inStockRate, fmt: (v) => r1(v) + "%" },
-  { id: "leadTime",     group: "distribution", label: "Delivery promise",          unit: "d",    good: "down", fn: leadTimeDays, fmt: (v) => r1(v) + "d" },
+  { id: "leadTime",     group: "distribution", label: "Delivery promise",          unit: "d",    good: "down", fn: leadTimeDays, cells: leadTimeCells, fmt: (v) => r1(v) + "d" },
   { id: "priceIndex",   group: "commercial",   label: "Price index vs MSRP",       unit: "%",    good: "up",   fn: priceIndex, fmt: (v) => r1(v) + "%" },
   { id: "promoIntensity", group: "commercial", label: "Days on promotion",         unit: "%",    good: "neutral", fn: promoIntensity, fmt: (v) => r1(v) + "%" },
   { id: "promoDepth",   group: "commercial",   label: "Mean discount depth",       unit: "%",    good: "neutral", fn: promoDepth, fmt: (v) => r1(v) + "%" },
@@ -1158,8 +1164,9 @@ for (const P of PERIODS) {
     const byBrand = {};
     for (const b of BIDS) {
       const value = M.fn(b, ca, cz);
-      const cur = M.static ? value : M.fn(b, dCur[0], dCur[1]);
-      const prev = M.static || !dPrev ? null : M.fn(b, dPrev[0], dPrev[1]);
+      const both = M.cells && dPrev ? new Set([...M.cells(b, dCur[0], dCur[1])].filter((c) => M.cells(b, dPrev[0], dPrev[1]).has(c))) : null;
+      const cur = M.static ? value : both ? (both.size ? M.fn(b, dCur[0], dCur[1], both) : null) : M.fn(b, dCur[0], dCur[1]);
+      const prev = M.static || !dPrev || (both && !both.size) ? null : M.fn(b, dPrev[0], dPrev[1], both ?? undefined);
       byBrand[b] = {
         value: value == null ? null : r2(value),
         prev: prev == null ? null : r2(prev),
@@ -1308,8 +1315,9 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
     (() => { const lo = Math.min(...Object.values(byTerm)), gap = bt[1] - lo, label = TERMS.find((t) => t.id === bt[0]).label;
       return gap >= 2
         ? { tone: "good", text: `Presence concentrates where the intent is specific — "${label}" returns ${SUBJ} in ${r1(bt[1])}% of the grid, against ${r1(lo)}% on the weakest term.` }
-        : { tone: "watch", text: `Presence is even across the search terms — ${r1(lo)}% to ${r1(bt[1])}% of the grid — so no single term is carrying ${SUBJ}, and none is a hole.` }; })(),
-    { tone: "risk",  text: `${r1(spon)}% of ${SUBJ} shelf presence is paid — ${standing(sponAll, S, "down", ["least paid-reliant", "most paid-reliant"]).phrase}. ${L[standing(sponAll, S, "down").laggard]} buys its way onto the grid at ${r1(standing(sponAll, S, "down").laggardVal)}%, which is why ${SUBJ} share moves against it in event weeks.` },
+        : { tone: "watch", text: `Presence is even across the search terms — ${r1(lo) === r1(bt[1]) ? `${r1(lo)}% of the grid on every term` : `${r1(lo)}% to ${r1(bt[1])}% of the grid`} — so no single term is carrying ${SUBJ}, and none is a hole.` }; })(),
+    (() => { const st = standing(sponAll, S, "down", ["least paid-reliant", "most paid-reliant"]), most = standing(sponAll, S, "down");
+      return { tone: st.rank != null && st.rank <= Math.ceil(st.of / 2) ? "watch" : "risk", text: `${r1(spon)}% of ${SUBJ} shelf presence is paid — ${st.phrase}.${most.laggard !== S ? ` ${L[most.laggard]} buys its way onto the grid at ${r1(most.laggardVal)}%.` : ""}` }; })(),
     { tone: "watch", text: `${RETAILERS.find((r) => r.id === worst[0]).label} reads thinnest for ${SUBJ} at ${r1(worst[1])}% of the grid, against ${r1(best[1])}% at ${RETAILERS.find((r) => r.id === best[0]).label} — a ${r1(best[1] - worst[1])}-point gap between the brand's best and worst shelf.` },
   ];
 }
@@ -1337,7 +1345,7 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
       if (!longest) return { tone: "good", text: "No listing went out of stock over the quarter." };
       return post
         ? { tone: "watch", text: `${post} of those ${eps.length} episodes opened within five days of a discount deeper than 14% — the promotion cleared the shelf faster than replenishment refilled it.` }
-        : { tone: "good", text: `None of the ${eps.length} episode${eps.length === 1 ? "" : "s"} followed a deep discount, so these are replenishment gaps rather than promotions outrunning supply. The longest ran ${longest.days} days on ${MID[longest.model].label} at ${RETAILERS.find((r) => r.id === longest.retailer).label}, from ${longest.start}.` }; })(),
+        : { tone: longest.days >= 7 ? "watch" : "good", text: `None of the ${eps.length} episode${eps.length === 1 ? "" : "s"} followed a deep discount, so these are replenishment gaps rather than promotions outrunning supply. The longest ran ${longest.days} days on ${MID[longest.model].label} at ${RETAILERS.find((r) => r.id === longest.retailer).label}, from ${longest.start}.` }; })(),
   ];
   reads.delivery = [
     (() => { const st2 = standing(q("leadTime"), S, "down", ["fastest", "slowest"]), o = other(q("leadTime"), S, "down");
@@ -1407,7 +1415,9 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
   const rt = q("rating");
   reads.voice = [
     { tone: "good", text: `${SUBJ} rates ${r2(rt[S])}★, ${standing(rt, S).phrase}; ${L[standing(rt, S).leader]} leads on ${r2(standing(rt, S).leaderVal)}★.` },
-    { tone: "watch", text: `Review velocity of ${fmtN(rangeSum(reviewVelocity[S], 0, NDAYS - 1))} over the quarter is ${standing(Object.fromEntries(BIDS.map((b) => [b, rangeSum(reviewVelocity[b], 0, NDAYS - 1)])), S).phrase} — a smaller base to defend the rating with.` },
+    (() => { const vel = standing(Object.fromEntries(BIDS.map((b) => [b, rangeSum(reviewVelocity[b], 0, NDAYS - 1)])), S);
+      const top = vel.rank === 1, bottom = vel.rank != null && vel.rank === vel.of;
+      return { tone: top ? "good" : bottom ? "risk" : "watch", text: `Review velocity of ${fmtN(rangeSum(reviewVelocity[S], 0, NDAYS - 1))} over the quarter is ${vel.phrase} — ${top ? "the deepest flow of fresh reviews to hold the rating with" : bottom ? "the thinnest flow of fresh reviews to defend the rating with" : "a mid-pack flow of fresh reviews behind the rating"}.` }; })(),
   ];
 }
 

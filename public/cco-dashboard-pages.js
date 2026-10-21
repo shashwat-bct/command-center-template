@@ -709,7 +709,9 @@ P.carriage = (host) => {
 P.stock = (host) => {
   const d = D(), ds = winDates(), rts = retailerScope();
   const [a, z] = win();
-  const eps = d.availability.episodes.filter((e) => rts.includes(e.retailer) && e.start >= ds[0] && e.start <= ds.at(-1));
+  const dayOf = (iso) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
+  const eps = d.availability.episodes.filter((e) => rts.includes(e.retailer) && e.start <= ds.at(-1) && dayOf(e.start) + e.days - 1 >= dayOf(ds[0]))
+    .map((e) => ({ ...e, days: Math.min(dayOf(e.start) + e.days - 1, dayOf(ds.at(-1))) - Math.max(dayOf(e.start), dayOf(ds[0])) + 1 }));
   const brandStock = (b) => ds.map((_, i) => { const ks = pairsFor(b, rts);
     const live = ks.filter((k) => d.distribution.carriage[k][a + i] === 1);
     return live.length ? (live.filter((k) => d.availability.stock[k][a + i]).length / live.length) * 100 : null; });

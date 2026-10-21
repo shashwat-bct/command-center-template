@@ -6,7 +6,7 @@ import { buildRelabelInputs } from "../lib/launch-override";
 import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "../lib/relabel-pipeline";
 import { rebrandPayload } from "../lib/rebrand";
 import { inStockShare, listingMatchesBrand, type KeepaBrandAggregate, type KeepaHistory } from "../lib/keepa";
-import { AMAZON_RETAIL_SELLER, packSize, shortTitle, withVariant, windowDates, windowEndFor } from "../lib/amazon-series";
+import { AMAZON_RETAIL_SELLER, packSize, shortTitle, usableListPrice, withVariant, windowDates, windowEndFor } from "../lib/amazon-series";
 import { brandAliases, patternMentions, quoteInAnswer, type AiQuestionResult, type AiSoMResult, type EngineSoM, type FunnelStage } from "../lib/ai-visibility";
 import { applyOverrides } from "../lib/brand-overrides";
 import { buildAiConsole, crawlerSites } from "../lib/ai-console";
@@ -243,7 +243,7 @@ check(p.pdpScores.some((x) => x.model === E1 && x.retailer === "amazon" && x.mea
 const ratingS = p.voice.rating[S] ?? [];
 check(ratingS[di("2026-08-31")] === 3.3 && ratingS[di(RATING_DROP)] === 3.1, "rating is Keepa's daily rating");
 const vel = p.voice.velocity[S] ?? [];
-check(vel[di("2026-07-01")] === 30 && vel[di("2026-09-05")] === 0, "review velocity ignores reindex jumps");
+check(vel[di("2026-07-01")] === 10 && vel[di("2026-09-05")] === 0, "review velocity ignores reindex jumps and counts listings that share one review pool once", `${vel[di("2026-07-01")]} / ${vel[di("2026-09-05")]}`);
 
 console.log("── modelled lanes");
 const traffic = p.traffic as { daily?: Record<string, number[] | null>; channels?: Record<string, unknown> };
@@ -484,6 +484,9 @@ const searchedInputs = buildRelabelInputs({ subjectName: SUBJECT.name, competito
 check(pinnedInputs.series.listings.sonos.length > searchedInputs.series.listings.sonos.length, "pinned listings are all kept, while searched colour variants still share a slot", `${pinnedInputs.series.listings.sonos.length} pinned vs ${searchedInputs.series.listings.sonos.length} searched`);
 const wrongSizes = sizes.filter(([t, n]) => packSize(t) !== n);
 check(!wrongSizes.length, "a title's total unit count is read from counts, totals and packs × per-pack, so pack sizes of one line stay apart", wrongSizes.map(([t]) => `${t} → ${packSize(t)}`).join("; "));
+
+console.log("── list price");
+check(usableListPrice(3.19, [8.7, 8.72, 8.8]) === null && usableListPrice(15.99, [16.16, 15.5]) === 15.99, "a list price far below what the listing sells for is not used as its MSRP, while an ordinary one is kept", `${usableListPrice(3.19, [8.7, 8.72, 8.8])} · ${usableListPrice(15.99, [16.16, 15.5])}`);
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nall checks passed");
 process.exit(failures ? 1 : 0);

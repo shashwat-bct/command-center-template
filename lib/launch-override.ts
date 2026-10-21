@@ -347,9 +347,8 @@ export function buildRelabelInputs(input: {
       ...(input.retail.imported && Object.keys(imported).length ? { imported: importedRecord(input.retail.imported.label, input.retail.imported.importedOn, imported) } : {}),
     };
   }
-  const msrpByAsin = Object.fromEntries(Object.values(series.listings).flat().map((l) => [l.asin, l.msrp ?? l.street ?? null]));
   const measured = input.retail?.feed
-    ? measuredRetailListings({ feed: input.retail.feed, live: input.retail.history, msrp: msrpByAsin, dates: window, asins: tracked })
+    ? measuredRetailListings({ feed: input.retail.feed, live: input.retail.history, dates: window, asins: tracked })
     : { listings: {}, record: null };
   if (measured.record && input.retail) {
     const asins = new Set(Object.keys(measured.listings).map((k) => k.split("|")[0]));

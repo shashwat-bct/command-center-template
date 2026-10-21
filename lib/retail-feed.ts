@@ -168,18 +168,17 @@ export function feedPriceImport(feed: RetailFeed): ImportedRetailHistory {
  * covers at a retailer, in the shape the builder reads for Amazon: price,
  * offer count and whether the retailer itself holds the buy box (each carried
  * from its last reading for up to 45 days, a live website price winning on its
- * day), list (crossed-out price, else the higher of MSRP and price) and stock
+ * day), list (crossed-out price when above the price, else the price) and stock
  * (the latest reading's state; a price reading means in stock, and a day with
  * no reading counts as in stock).
  */
 export function measuredRetailListings(input: {
   feed: RetailFeed;
   live: RetailHistory;
-  msrp: Record<string, number | null>;
   dates: string[];
   asins: string[];
 }): { listings: Record<string, MeasuredListing>; record: MeasuredRetailRecord | null } {
-  const { feed, live, msrp, dates } = input;
+  const { feed, live, dates } = input;
   const tracked = new Set(input.asins);
   const windowEnd = dates[dates.length - 1];
   const listings: Record<string, MeasuredListing> = {};
@@ -210,9 +209,8 @@ export function measuredRetailListings(input: {
       const liveToday = liveOn.get(date);
       const v = liveToday ?? fresh(price, date);
       if (liveToday != null) { stock = 1; seen.add(date); }
-      const m = msrp[p.asin as string] ?? null;
       out.price.push(v == null ? null : r2(v));
-      out.list.push(v == null ? null : r2(liveToday == null && was != null ? was : Math.max(m ?? 0, v)));
+      out.list.push(v == null ? null : r2(liveToday == null && was != null && was > v ? was : v));
       out.stock.push(stock);
       out.offers.push(fresh(offers, date));
       out.buybox.push(fresh(buybox, date));
