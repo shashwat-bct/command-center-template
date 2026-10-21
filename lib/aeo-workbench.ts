@@ -18,7 +18,7 @@ export type CommandCenterData = {
   meta?: { provenance?: { record?: { shelf?: { results: Array<{ title: string; price: number | null; brand: string | null }> } | null } } };
 };
 
-export const WORKBENCH_VERSION = 6;
+export const WORKBENCH_VERSION = 7;
 
 /** The search crawler each tracked engine uses to fetch pages it can cite; an engine without one is left out. */
 export const ENGINE_SEARCH_BOT: Record<string, string> = { gpt: "OAI-SearchBot", chatgpt: "OAI-SearchBot", claude: "Claude-SearchBot", perplexity: "PerplexityBot", copilot: "Bingbot" };

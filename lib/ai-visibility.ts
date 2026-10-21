@@ -1,5 +1,5 @@
 import { callLLM } from "./llm";
-import { availableEngines, type AiEngine, type AnswerSource, type EngineAnswer, type EngineId, type EnginePath } from "./ai-engines";
+import { availableEngines, type AiEngine, type AnswerEvidence, type AnswerSource, type EngineAnswer, type EngineId, type EnginePath } from "./ai-engines";
 
 export type FunnelStage = "awareness" | "consideration" | "evaluation" | "decision";
 export type QuestionFocus = "neutral" | "subject" | "vs";
@@ -59,6 +59,7 @@ export type AiQuestionResult = {
   attributes: Record<string, AttributeMention[]>;
   claims: SubjectClaim[];
   sources: AnswerSource[];
+  evidence?: AnswerEvidence;
   answer: string | null;
   error?: string;
 };
@@ -286,13 +287,13 @@ export function quoteInAnswer(quote: unknown, answer: string): boolean {
 }
 const CLAIM_TYPES: SubjectClaim["type"][] = ["price", "spec", "award", "comparison", "availability", "other"];
 
-type Raw = { run: number; queryId: string; stage: FunnelStage; focus: QuestionFocus; q: string; answer: string | null; sources: AnswerSource[]; error?: string };
+type Raw = { run: number; queryId: string; stage: FunnelStage; focus: QuestionFocus; q: string; answer: string | null; sources: AnswerSource[]; evidence?: AnswerEvidence; error?: string };
 
-async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" | "sources" | "error">>, tracked: string[], subject: string, category: string, attributes: string[], concurrency: number): Promise<{ som: EngineSoM; rows: AiQuestionResult[] }> {
-  const toRaw = (x: Omit<Raw, "answer" | "sources" | "error">, a: EngineAnswer | Error): Raw =>
+async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" | "sources" | "evidence" | "error">>, tracked: string[], subject: string, category: string, attributes: string[], concurrency: number): Promise<{ som: EngineSoM; rows: AiQuestionResult[] }> {
+  const toRaw = (x: Omit<Raw, "answer" | "sources" | "evidence" | "error">, a: EngineAnswer | Error): Raw =>
     a instanceof Error || !a.text.trim()
       ? { ...x, answer: null, sources: [], error: (a instanceof Error ? a.message : "empty answer").slice(0, 200) }
-      : { ...x, answer: a.text, sources: a.sources };
+      : { ...x, answer: a.text, sources: a.sources, ...(a.evidence ? { evidence: a.evidence } : {}) };
   const raw = engine.askMany
     ? await engine.askMany(questions.map((x) => x.q)).then((list) => questions.map((x, i) => toRaw(x, list[i])))
     : await mapLimit(questions, concurrency, (x) => engine.ask(x.q).catch((e: Error) => e).then((a) => toRaw(x, a)));
@@ -319,7 +320,7 @@ async function runEngine(engine: AiEngine, questions: Array<Omit<Raw, "answer" |
   const trackedLower = new Map(tracked.map((b) => [b.toLowerCase(), b]));
   const canonical = (n: string): string | undefined => trackedLower.get(n.trim().toLowerCase()) ?? tracked.find((b) => aliasPattern(b, category).test(n));
   const rows: AiQuestionResult[] = raw.map((r, i) => {
-    const base = { engine: engine.id, run: r.run, queryId: r.queryId, stage: r.stage, focus: r.focus, q: r.q, sources: r.sources };
+    const base = { engine: engine.id, run: r.run, queryId: r.queryId, stage: r.stage, focus: r.focus, q: r.q, sources: r.sources, ...(r.evidence ? { evidence: r.evidence } : {}) };
     if (r.answer == null) return { ...base, mentionOrder: [], otherBrands: [], brands: [], topPick: null, attributes: {}, claims: [], answer: null, error: r.error };
     const e = found.get(i);
     const listed: EnrichedBrand[] = e

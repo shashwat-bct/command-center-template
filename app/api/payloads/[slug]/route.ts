@@ -6,6 +6,7 @@ import { SHARE_HEADERS, checkShareToken } from "@/lib/share-response";
 import { withReviewAspects } from "@/lib/aspect-backfill";
 import { withCurrentWorkbench } from "@/lib/workbench-repair";
 import { withAtlas } from "@/lib/atlas";
+import { withEvidence } from "@/lib/evidence-backfill";
 import type { PayloadSource } from "@/lib/payload-source";
 import { isShareId, slugForShareId } from "@/lib/share-id";
 
@@ -18,7 +19,7 @@ import { isShareId, slugForShareId } from "@/lib/share-id";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: withAtlas(slug, source.buildId, withCurrentWorkbench(slug, source.buildId, await withReviewAspects(slug, source.buildId, source.bytes))) });
+const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: withAtlas(slug, source.buildId, withEvidence(slug, source.buildId, withCurrentWorkbench(slug, source.buildId, await withReviewAspects(slug, source.buildId, source.bytes)))) });
 
 const SHARE_STATUS = { expired: 410, invalid: 401, config: 500 } as const;
 

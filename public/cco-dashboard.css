@@ -127,6 +127,7 @@ select.sel:focus{outline:2px solid var(--accent);outline-offset:-1px}
 .card-h p{margin:4px 0 0;max-width:80ch;font-size:13px;color:var(--mute);line-height:1.5}
 .card-h .ca{display:flex;gap:6px;align-items:center;order:-1;margin-bottom:8px}
 h2.sec{font-family:var(--fd);font-size:20px;font-weight:400;margin:32px 0 14px;color:var(--ink)}
+h2.sec.lead{font-size:28px;font-weight:500;line-height:1.2;margin:40px 0 16px}
 .tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--line2);color:var(--soft);white-space:nowrap}
 .tag.acc{background:var(--accentSoft);color:var(--accentInk)}
 .tag.good{background:var(--goodSoft);color:var(--good)}

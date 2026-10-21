@@ -717,9 +717,6 @@ P.stock = (host) => {
     const live = ks.filter((k) => d.distribution.carriage[k][a + i] === 1);
     return live.length ? (live.filter((k) => d.availability.stock[k][a + i]).length / live.length) * 100 : null; });
   host.innerHTML = `
-  ${intro(`Whether the listing could actually be bought. In-stock rate is the quietest number on this dashboard and
-    the most expensive to be wrong about — a shopper who reaches an out-of-stock page does not come back, and the
-    demand shows up in a competitor's numbers.`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("inStock", S)}
     ${kpi({ label: "Out-of-stock episodes", dot: eps.filter((e) => e.brand === S).length ? "#d93025" : "#1e8e3e", value: String(eps.filter((e) => e.brand === S).length),
@@ -742,7 +739,7 @@ P.stock = (host) => {
       { label: "After a deal", get: (r) => r.afterPromo ? `<span style="color:var(--warn);font-weight:700">yes</span>` : "—" },
     ], eps.slice().sort((x, y) => y.days - x.days).map((e) => ({ ...e, _subject: e.brand === S })), { maxH: "300px" }) : `<p class="mini">No out-of-stock episode recorded in this window.</p>` })}
   </div>
-  <h2 class="sec">What availability says</h2>${readsBlock("availability")}`;
+  <h2 class="sec lead">Top takeaways</h2>${readsBlock("availability")}`;
   // The floor is read off the data, not fixed at 60: a hard floor clipped the
   // line the moment the in-stock anchor came down to what the capture says.
   const stockSeries = d.dims.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.subject, data: brandStock(b.id) })).filter((s) => s.data.some((v) => v != null));

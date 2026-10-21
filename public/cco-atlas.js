@@ -29,8 +29,7 @@ function shell(host) {
     <section class="atl-main"><div class="atl-stream" id="atlStream" aria-live="polite"></div>
       <form class="atl-input" id="atlForm"><div class="atl-box"><label for="atlQ" class="atl-sr">Ask Atlas</label>
         <textarea id="atlQ" rows="1" placeholder="Ask Atlas about ${esc(brand)}…"></textarea>
-        <button type="submit" class="atl-send" id="atlSend" aria-label="Send">${svg("send")}</button></div>
-        <p class="atl-foot">Answers come from ${esc(atlas.sources.join(", "))}. Questions outside the six analyses go to Claude.</p></form>
+        <button type="submit" class="atl-send" id="atlSend" aria-label="Send">${svg("send")}</button></div></form>
     </section>
     <aside class="atl-side" aria-label="Conversation history">
       <button type="button" class="atl-new" id="atlNew">${svg("plus")}<span>New chat</span></button>
@@ -195,7 +194,7 @@ function register() {
   atlas = cc.D.atlas; brand = cc.SUBJ || atlas.brand; subject = cc.S || "brand";
   load();
   window.__CCEXT.register({ id: "atlas", onRoute, groups: [{ id: "atlas", label: "Ask Atlas", ext: "atlas", after: "overview", pages: [
-    { id: "atlas", label: "Ask Atlas", icon: "sparkle", crumb: "Ask Atlas", title: "Ask Atlas", ext: "atlas", managed: true, pill: "New" },
+    { id: "atlas", label: "Ask Atlas", icon: "sparkle", crumb: "Ask Atlas", title: "Ask Atlas", ext: "atlas", managed: true },
   ] }] });
   return true;
 }

@@ -82,6 +82,8 @@ const recCount = (answers, b) => answers.filter(a => ownMention(a, b)?.recommend
 const posCount = (answers, b) => answers.filter(a => ownMention(a, b)?.sentiment === "positive").length;
 function recRate(answers, b) { return answers.length ? recCount(answers, b) / answers.length : null; }
 function topPickShare(answers, brands = brandsOn()) { const withPick = answers.filter(a => a.topPick); const out = {}; for (const b of brands) out[b.id] = withPick.length ? withPick.filter(a => a.topPick === b.id).length / withPick.length : null; const outside = withPick.filter(a => !brands.some(b => b.id === a.topPick)).length; return { out, n: withPick.length, outside }; }
+function trackedPick(a) { if (!a.topPick || D.brands.some(b => b.id === a.topPick)) return a.topPick || ""; const m = (a.brands || []).filter(x => x.rank && D.brands.some(b => b.id === x.id)).sort((x, y) => x.rank - y.rank)[0]; return m ? m.id : ""; }
+function settlePicks() { const all = [...Object.values(D.captures).flatMap(c => c.answers), ...(D.volatility?.runs || []).flatMap(r => r.answers)]; for (const a of all) { if ("aiPick" in a) continue; a.aiPick = a.topPick || ""; a.topPick = trackedPick(a); } }
 function stageAnswers(st, answers) { const q = qById(); return answers.filter(a => q[a.queryId]?.stage === st); }
 
 // ── the brand-comparison set (Aashish, 2026-09-21) ───────────────────────────
@@ -130,15 +132,22 @@ function md(text, hlBrands = []) {
 const fmtTime = (iso) => { try { return new Date(iso).toLocaleString(undefined, { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", timeZoneName: "short" }); } catch { return iso; } };
 const PATH_LABEL = { ui: "consumer app session", api: "engine API with web search", "claude-api": "Claude API with web search" };
 function askRow(text, small) { const L = D.askLinks || {}; const measured = new Set(D.engines.map(e => e.id)); const items = [["gpt", "ChatGPT"], ["perplexity", "Perplexity"], ["claude", "Claude"], ["copilot", "Copilot"], ["googleAiMode", "Google AI Mode"]].filter(([k]) => L[k] && (!small || measured.has(k))).map(([k, l]) => `<a href="${esc(L[k] + encodeURIComponent(text))}" target="_blank" rel="noopener">${engIcon(k, l)}${l} ↗</a>`); if (L.gemini && (!small || measured.has("gemini"))) items.push(`<a href="${esc(L.gemini)}" target="_blank" rel="noopener" title="Gemini has no prefill link — paste the question">${engIcon("gemini", "Gemini")}Gemini ↗</a>`); return `<div class="ask ${small ? "sm" : ""}"><span class="evk">Ask it yourself</span>${items.join("")}</div>`; }
+const ENGINE_APP = { gpt: "ChatGPT app", gemini: "Gemini app", perplexity: "Perplexity app", copilot: "Copilot app" };
 function evidenceStrip(a) {
-  const ev = a.evidence || {}; const bits = [PATH_LABEL[a.path] || a.path || "measured"];
-  if (ev.capturedAt) bits.push(`captured ${fmtTime(ev.capturedAt)}`); if (ev.country) bits.push(ev.country);
-  if (ev.appModel) bits.push(`app answered with ${esc(ev.appModel)}`); if (ev.model) bits.push(esc(ev.model));
-  if (ev.webSearchTriggered != null) bits.push(`web search ${ev.webSearchTriggered ? "on" : "off"}`); if (ev.shoppingVisible) bits.push("shopping module shown");
-  if (a.sha256) bits.push(`<span title="SHA-256 of the captured answer text">sha256 ${a.sha256.slice(0, 12)}…</span>`);
-  return `<div class="evd"><span class="evk">Evidence</span>${bits.join(" · ")} ${ev.image ? `<button class="more" onclick="toggleEv(this)">show the real session</button><div class="evimg" hidden><img loading="lazy" src="${esc(ev.image)}" alt="Captured ${esc(a.engine)} session for this question"><div class="note">Rendered from the page source captured in the session (scripts and network off); the fingerprint above is of the answer text.</div></div>` : ""}</div>`;
+  const ev = a.evidence || {}; const where = a.path === "ui" ? ENGINE_APP[a.engine] || "consumer app" : `${engLabel(a.engine)} API`;
+  const when = ev.capturedAt ? ` · ${esc(fmtTime(ev.capturedAt))}` : "";
+  if (!ev.image) return `<div class="evd"><span>Answered in the ${esc(where)}${when}</span></div>`;
+  return `<div class="evd shot"><button type="button" class="evthumb" onclick="openShot('${esc(ev.image)}', '${esc(where)}${when}')" aria-label="View the screenshot of this answer"><img loading="lazy" src="${esc(ev.image)}" alt=""></button><div><b>Screenshot of the ${esc(where)}</b><span>${when.slice(3) || "captured in the session"}</span><button type="button" class="evlink" onclick="openShot('${esc(ev.image)}', '${esc(where)}${when}')">View full screenshot</button></div></div>`;
 }
-window.toggleEv = (btn) => { const d = btn.nextElementSibling; if (!d) return; d.hidden = !d.hidden; if (btn.textContent.includes("session")) btn.textContent = d.hidden ? "show the real session" : "hide the session"; };
+window.openShot = (src, label) => {
+  const box = document.createElement("div"); box.className = "aiv-shot"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true");
+  box.innerHTML = `<div class="aiv-shot-bar"><span>${esc(label)}</span><a href="${esc(src)}" target="_blank" rel="noopener">Open in new tab ↗</a><button type="button" aria-label="Close">✕</button></div><div class="aiv-shot-body"><img src="${esc(src)}" alt="Screenshot of the engine's answer"></div>`;
+  const close = () => { box.remove(); document.removeEventListener("keydown", onKey, true); };
+  const onKey = (e) => { if (e.key === "Escape") { e.stopPropagation(); close(); } };
+  box.addEventListener("click", (e) => { if (e.target === box || e.target.classList.contains("aiv-shot-body") || e.target.closest("button")) close(); });
+  document.addEventListener("keydown", onKey, true);
+  document.body.appendChild(box); box.querySelector("button").focus();
+};
 
 // ── modal / proof drawer ─────────────────────────────────────────────────────
 const modalStack = [];
@@ -756,7 +765,7 @@ function renderMethod() {
       ${D.googleAI && D.engines.some(e => e.id === "google-aio") ? `<li><b>Google</b> — ${D.googleAI.n} google.com result pages captured ${D.googleAI.capturedAt.slice(0, 10)} (${esc(D.googleAI.source)}): AI Overview presence and text, organic top-10, “popular products”, people-also-ask.</li>` : ""}
       ${D.crawlerAccess ? `<li><b>Crawler access</b> — robots.txt and llms.txt of ${D.crawlerAccess.sites.length} sites read ${D.crawlerAccess.capturedAt.slice(0, 10)}, parsed for ${D.crawlerAccess.bots.length} crawler user-agents.</li>` : ""}</ul>
     <h3>Engines: measured vs live</h3><ul>${CUR.enginePaths ? `<li><b>Engine paths in the current read</b> — ${Object.entries(CUR.enginePaths).map(([e, x]) => `${D.engines.find(y => y.id === e)?.label || e}: ${x.path === "ui" ? "consumer-UI sessions" : "API path"} (${x.n} questions)${x.why ? " — " + esc(x.why) : ""}`).join("; ")}.</li>` : ""}<li>The measured lenses use Bright Data's real consumer-UI sessions on chatgpt.com, perplexity.ai and gemini.google.com, as a US shopper, with the citations the interface showed. One session per question per pass; a batch takes minutes per engine.</li><li>Live runs use the same engines' model APIs with web search on (GPT-5.4, Gemini 2.5 Flash, Perplexity Sonar, Claude Sonnet) through one fan-out, in seconds. Claude has no consumer-UI scraper, so its measured lane is Claude's API with its own web search — the retrieval the Claude app uses — and it is labelled as such. Third-party tests find the API and the consumer app can differ in the sources they pull; a live answer is a real answer from that model today, and the page labels which path produced it.</li></ul>
-    <h3>Reading the answers</h3><ul><li>One reader model per question extracts, for every engine answer: the tracked brands named, the order of first mention, whether a brand is framed as the top pick, the sentiment, the specific model, the attributes attached to each brand, and every checkable claim about ${SL}. The same reader runs on every capture date, so drift is the engines changing, not the reader.</li><li>A brand added in the console is read by text match on the captured answers (presence and order only) until the next capture reads it properly. It is labelled as such wherever it appears.</li><li>Share of AI answer = Σ over answers of (1 ÷ position) × favourability (positive 1, neutral or mixed 0.6, negative 0.2), normalised across the selected brands. Presence = questions where at least one engine names the brand. Top pick = the single brand an answer most recommends, when it commits to one.</li></ul>
+    <h3>Reading the answers</h3><ul><li>One reader model per question extracts, for every engine answer: the tracked brands named, the order of first mention, whether a brand is framed as the top pick, the sentiment, the specific model, the attributes attached to each brand, and every checkable claim about ${SL}. The same reader runs on every capture date, so drift is the engines changing, not the reader.</li><li>A brand added in the console is read by text match on the captured answers (presence and order only) until the next capture reads it properly. It is labelled as such wherever it appears.</li><li>Share of AI answer = Σ over answers of (1 ÷ position) × favourability (positive 1, neutral or mixed 0.6, negative 0.2), normalised across the selected brands. Presence = questions where at least one engine names the brand. Top pick = the single brand an answer most recommends, when it commits to one; when that brand is outside the tracked set, the tracked brand the answer names first takes the pick.</li></ul>
     <h3>Evidence</h3><ul><li>Consumer-app answers keep the page source the session returned; it is rendered offline (scripts and network disabled) into the image behind “show the real session”, with the capture time, country, whether the app ran a web search, whether the shopping module was on screen, and the model the app reported. API-path answers keep the model id and the request time.</li><li>Every answer carries a SHA-256 fingerprint of its text.</li><li>“Ask it yourself” opens the engines with the same question. The answer may differ from the capture: Lens 10 measures how often it does.</li></ul>
     <h3>Rules this page obeys</h3><ul><li>Every figure is computed from the payload in the browser; change the scope and it recomputes. No superlative is typed — “first”, “joint third” are read from the same object as the number.</li><li>A lens whose data source is not connected shows no number. Nothing is illustrative.</li><li>Every tile opens to its receipt: the questions, each engine's full answer, the citations and the arithmetic.</li><li>External figures in the programme are attributed inline to their study; they are the literature's numbers, not ours.</li></ul>
     <h3>Limits</h3><ul><li>US market, English, one pass per question on the full bank (three on the volatility set). Personalisation and memory are off in the captured sessions; a signed-in shopper may see a different answer.</li><li>Engine answers vary run to run; the volatility lens quantifies how much for this bank. Treat single-run differences under that spread as noise.</li><li>The question bank is ours, weighted by judgement. Weighting it by real prompt demand is the first roadmap item.</li></ul>
@@ -801,7 +810,7 @@ function liveCard(e, s) {
     <div class="txt">${md(e.text, S.brands.filter(b => b.on))}</div>
     ${e.subjectClaims?.length ? `<div class="note"><b>Claims about ${SL}:</b> ${e.subjectClaims.map(c => esc(c.claim)).join(" · ")}</div>` : ""}
     ${e.sources?.length ? `<div class="cites">${e.sources.slice(0, 8).map(x => `<span><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.host || x.title)}</a></span>`).join("")}</div>` : (e.text ? '<div class="note">no citations returned</div>' : "")}
-    <div class="evd"><span class="evk">Evidence</span>${esc(e.via || "")}${e.model ? ` · ${esc(e.model)}` : ""}${e.costUsd != null ? ` · $${Number(e.costUsd).toFixed(4)}` : ""}${e.sha256 ? ` · sha256 ${esc(e.sha256.slice(0, 12))}…` : ""}</div></div>`;
+    ${e.via ? `<div class="evd"><span>Answered in ${esc(e.via)}</span></div>` : ""}</div>`;
 }
 function renderLiveSummary(out) {
   const s = subjectId(); const eng = out.engines.filter(e => e.text); const named = eng.filter(e => e.brands?.some(b => b.id === s)); const ranks = eng.map(e => e.brands?.find(b => b.id === s)?.rank).filter(x => x);
@@ -864,7 +873,7 @@ async function runLive() {
       const answers = LIVE_ANSWERS.filter(e => e.text).map(e => ({ id: e.id, text: e.text }));
       const rx = await fetch(D.liveConfig.directUrl || D.liveConfig.endpoint, { method: "POST", headers: hdr, body: JSON.stringify({ question, mode: "extract", subject: base.subject, category: base.category, brands: base.brands, answers }) });
       const ex = await rx.json();
-      if (rx.ok && ex.engines) { for (const e of ex.engines) { const a = LIVE_ANSWERS.find(x => x.id === e.id); if (!a) continue; if (e.brands?.length) a.brands = e.brands; a.topPick = e.topPick || ""; a.subjectClaims = e.subjectClaims || []; patchLiveCard(a); } $("liveProgress").innerHTML = `answers in <b>${tEngines} s</b> · reader done in ${((Date.now() - t0) / 1000).toFixed(1)} s (${esc(ex.extraction?.model || "")})${out.runId ? ` · run ${esc(out.runId)}` : ""}`; }
+      if (rx.ok && ex.engines) { for (const e of ex.engines) { const a = LIVE_ANSWERS.find(x => x.id === e.id); if (!a) continue; if (e.brands?.length) a.brands = e.brands; a.aiPick = e.topPick || ""; a.topPick = trackedPick({ ...a, topPick: e.topPick }); a.subjectClaims = e.subjectClaims || []; patchLiveCard(a); } $("liveProgress").innerHTML = `answers in <b>${tEngines} s</b> · reader done in ${((Date.now() - t0) / 1000).toFixed(1)} s (${esc(ex.extraction?.model || "")})${out.runId ? ` · run ${esc(out.runId)}` : ""}`; }
       else $("liveProgress").innerHTML = `answers in <b>${tEngines} s</b> · reader unavailable, brands shown by text match${out.runId ? ` · run ${esc(out.runId)}` : ""}`;
     } catch { $("liveProgress").innerHTML = `answers in <b>${tEngines} s</b> · reader unavailable, brands shown by text match`; }
     const rec = $("liveRecentList"); $("liveRecent").hidden = false; rec.insertAdjacentHTML("afterbegin", `<div class="note" style="padding:5px 0;border-bottom:1px solid var(--line2)">${esc(new Date().toLocaleTimeString())} · “${esc(question.slice(0, 60))}” · ${tEngines} s · ${LIVE_ANSWERS.map(e => `${esc(e.label)}: ${e.brands?.some(b => b.id === subjectId()) ? `${SL} named` : `no ${SL}`}`).join(" · ")}</div>`);
@@ -1626,8 +1635,8 @@ function route() {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 // ── embedded in the command centre: two groups on its rail, its router calls back ──
-const EMBED_HIDDEN = new Set(["overview", "claims", "change"]);
-const EMBED_LAST = ["sources"];
+const EMBED_HIDDEN = new Set(["overview", "claims", "change", "evidence"]);
+const EMBED_LAST = ["sources", "live"];
 const EMBED_GROUPS = () => {
   const grp = (id) => { const pages = NAV.find(g => g.id === id).pages.filter(p => !EMBED_HIDDEN.has(p.id)); return [...pages.filter(p => !EMBED_LAST.includes(p.id)), ...pages.filter(p => EMBED_LAST.includes(p.id))]; };
   const crumb = (p) => p.crumb.replace(/^Console/, "AI Engine Visibility");
@@ -1690,7 +1699,7 @@ const loadJson = (url) => fetch(url, { cache: "no-store" }).then(r => { if (!r.o
   ]);
   if (pc.status !== "fulfilled") { console.error(pc.reason); $("pages").insertAdjacentHTML("beforeend", `<div class="withheld-card"><b>Payload</b><p>The payload failed to load (${esc(pc.reason?.message || pc.reason)}).</p></div>`); return; }
   try {
-    D = CC.googlePalette(pc.value); setSubjectCopy();
+    D = CC.googlePalette(pc.value); setSubjectCopy(); settlePicks();
     CUR = D.captures[D.current]; PREV = D.driftPair ? D.captures[D.driftPair.from] : null; DTO = D.driftPair ? D.captures[D.driftPair.to] : null; if (PREV && DTO && PREV.basis >= DTO.basis) PREV = DTO = null; APIC = D.apiCurrent ? D.captures[D.apiCurrent] : null;
     // the workbench payload is optional: without it the workbench pages withhold, the console is untouched
     if (pw.status === "fulfilled") { WB = CC.googlePalette(pw.value); W = WB.meta.pilotEndWeek; const qw = new URLSearchParams(location.search).get("w"); if (qw != null && !isNaN(+qw)) W = Math.max(0, Math.min(12, +qw)); }

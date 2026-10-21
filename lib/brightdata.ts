@@ -1,4 +1,5 @@
-import type { AnswerSource, EngineAnswer } from "./ai-engines";
+import type { AnswerEvidence, AnswerSource, EngineAnswer } from "./ai-engines";
+import { storeAnswerShot } from "./answer-shot";
 
 export type BrightDataEngineId = "chatgpt" | "perplexity" | "gemini" | "copilot";
 
@@ -19,7 +20,7 @@ const MAX_PROGRESS_ERRORS = 5;
 
 type SourceLike = string | { url?: string; link?: string; title?: string } | null;
 
-type Row = {
+export type Row = {
   prompt?: string;
   input?: { prompt?: string };
   answer_text?: string;
@@ -29,13 +30,20 @@ type Row = {
   sources?: SourceLike[];
   links_attached?: SourceLike[];
   search_sources?: SourceLike[];
+  answer_html?: string;
+  timestamp?: string;
+  prompt_sent_at?: string;
+  country?: string;
+  model?: string | null;
+  web_search_triggered?: boolean;
+  shopping_visible?: boolean;
   error?: string;
   error_code?: string;
 };
 
 type Progress = { status?: "starting" | "running" | "ready" | "failed"; error?: string };
 
-export type BrightDataOptions = { country?: string; pollMs?: number; timeoutMs?: number; batchSize?: number };
+export type BrightDataOptions = { country?: string; pollMs?: number; timeoutMs?: number; batchSize?: number; screenshots?: boolean };
 
 export function brightDataKey(): string | null {
   return process.env.BRIGHTDATA_API_KEY || process.env.BRIGHTDATA_SERP_KEY || null;
@@ -44,6 +52,22 @@ export function brightDataKey(): string | null {
 export function brightDataHost(engine: BrightDataEngineId): string {
   return DATASETS[engine].host;
 }
+
+/** What a Bright Data row records about the session, with its screenshot stored when asked. */
+export async function evidenceOf(row: Row, text: string, screenshot: boolean): Promise<AnswerEvidence> {
+  const image = screenshot && row.answer_html ? await storeAnswerShot(row.answer_html, text) : null;
+  return {
+    capturedAt: row.timestamp || row.prompt_sent_at,
+    country: row.country,
+    appModel: row.model || undefined,
+    webSearchTriggered: row.web_search_triggered,
+    shoppingVisible: row.shopping_visible || undefined,
+    ...(image ? { image } : {}),
+  };
+}
+
+/** The answer text a row carries, as the capture stores it. */
+export const rowText = (row: Row): string => row.answer_text || row.answer_text_markdown || row.answer_text_raw || "";
 
 function sourcesOf(row: Row): AnswerSource[] {
   const seen = new Set<string>();
@@ -96,7 +120,16 @@ async function waitReady(engine: string, snapshot: string, key: string, pollMs: 
   }
 }
 
-async function download(snapshot: string, key: string): Promise<Row[]> {
+/** Every ready snapshot Bright Data still holds for an engine's dataset, newest first. */
+export async function listSnapshots(engine: BrightDataEngineId, key: string): Promise<Array<{ id: string; created: string }>> {
+  const res = await fetch(`${API}/snapshots?dataset_id=${DATASETS[engine].id}&status=ready`, { headers: { authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+  if (!res.ok) throw new Error(`Bright Data snapshots ${res.status}`);
+  const list = (await res.json()) as Array<{ id: string; created: string }>;
+  return list.sort((a, b) => b.created.localeCompare(a.created));
+}
+
+/** The rows of a finished snapshot. */
+export async function download(snapshot: string, key: string): Promise<Row[]> {
   for (let attempt = 1; ; attempt++) {
     try {
       const res = await fetch(`${API}/snapshot/${snapshot}?format=jsonl`, { headers: { authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(5 * 60_000) });
@@ -138,7 +171,7 @@ function rowError(row: Row): string {
   return detail || `no answer (fields: ${Object.keys(row).slice(0, 12).join(", ")})`;
 }
 
-async function runBatch(engine: BrightDataEngineId, key: string, prompts: string[], country: string, pollMs: number, deadline: number): Promise<Array<EngineAnswer | Error>> {
+async function runBatch(engine: BrightDataEngineId, key: string, prompts: string[], country: string, pollMs: number, deadline: number, screenshots: boolean): Promise<Array<EngineAnswer | Error>> {
   const t0 = Date.now();
   const snapshot = await trigger(DATASETS[engine], key, prompts, country);
   await waitReady(engine, snapshot, key, pollMs, deadline);
@@ -147,10 +180,10 @@ async function runBatch(engine: BrightDataEngineId, key: string, prompts: string
   const errors: string[] = [];
   for (const row of rows) {
     const prompt = (row.prompt ?? row.input?.prompt ?? "").trim();
-    const text = row.answer_text || row.answer_text_markdown || row.answer_text_raw || "";
+    const text = rowText(row);
     if (!text.trim()) errors.push(rowError(row));
     if (!prompt) continue;
-    const entry = text.trim() ? { text, sources: sourcesOf(row) } : new Error(rowError(row));
+    const entry = text.trim() ? { text, sources: sourcesOf(row), evidence: await evidenceOf(row, text, screenshots) } : new Error(rowError(row));
     byPrompt.set(prompt, [...(byPrompt.get(prompt) ?? []), entry]);
   }
   for (const list of byPrompt.values()) list.sort((x, y) => Number(x instanceof Error) - Number(y instanceof Error));
@@ -174,7 +207,7 @@ export async function brightDataAsk(engine: BrightDataEngineId, key: string, pro
   for (let i = 0; i < trimmed.length; i += size) batches.push(trimmed.slice(i, i + size));
   console.log(`[brightdata] ${engine} ${trimmed.length} prompts in ${batches.length} snapshots`);
   const run = (b: string[]): Promise<Array<EngineAnswer | Error>> =>
-    runBatch(engine, key, b, opts.country ?? "US", opts.pollMs ?? 10_000, deadline).catch((e: unknown) => b.map(() => (e instanceof Error ? e : new Error(String(e)))));
+    runBatch(engine, key, b, opts.country ?? "US", opts.pollMs ?? 10_000, deadline, opts.screenshots ?? true).catch((e: unknown) => b.map(() => (e instanceof Error ? e : new Error(String(e)))));
   const withRetry = async (b: string[]): Promise<Array<EngineAnswer | Error>> => {
     const t0 = Date.now();
     const first = await run(b);

@@ -5,7 +5,9 @@ export type EngineId = "chatgpt" | "perplexity" | "gemini" | "copilot" | "claude
 
 export type AnswerSource = { url: string; title: string };
 
-export type EngineAnswer = { text: string; sources: AnswerSource[] };
+export type AnswerEvidence = { capturedAt?: string; country?: string; appModel?: string; webSearchTriggered?: boolean; shoppingVisible?: boolean; image?: string };
+
+export type EngineAnswer = { text: string; sources: AnswerSource[]; evidence?: AnswerEvidence };
 
 export type EnginePath = "ui" | "api";
 
@@ -30,7 +32,7 @@ function consumerApp(id: BrightDataEngineId, label: string, key: string): AiEngi
     webSearch: true,
     path: "ui",
     ask: async (question) => {
-      const [a] = await brightDataAsk(id, key, [question], { timeoutMs: LIVE_TIMEOUT_MS, pollMs: LIVE_POLL_MS });
+      const [a] = await brightDataAsk(id, key, [question], { timeoutMs: LIVE_TIMEOUT_MS, pollMs: LIVE_POLL_MS, screenshots: false });
       if (a instanceof Error) throw a;
       return a;
     },

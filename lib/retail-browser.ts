@@ -17,7 +17,8 @@ async function api<T>(path: string, key: string): Promise<T> {
   return (await res.json()) as T;
 }
 
-function browserEndpoint(key: string): Promise<string> {
+/** The CDP endpoint of Bright Data's Scraping Browser for this account. */
+export function browserEndpoint(key: string): Promise<string> {
   const zone = process.env.BRIGHTDATA_BROWSER_ZONE || "scraping_browser1";
   endpoint ??= (async () => {
     const [{ customer }, { passwords }] = await Promise.all([

@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { brandAliases, type AiSoMResult, type FunnelStage } from "./ai-visibility";
-import type { EngineId, EnginePath } from "./ai-engines";
+import type { AnswerEvidence, EngineId, EnginePath } from "./ai-engines";
 import type { CrawlerAccess } from "./crawler-access";
 
 const ENGINE_IDS: Record<EngineId, string> = { chatgpt: "gpt", perplexity: "perplexity", gemini: "gemini", copilot: "copilot", claude: "claude" };
@@ -41,6 +41,7 @@ export type ConsoleAnswer = {
   sources: ConsoleSource[];
   path: EnginePath;
   sha256: string;
+  evidence?: AnswerEvidence;
 };
 export type ConsoleCapture = {
   key: string;
@@ -99,6 +100,15 @@ const hostOf = (url: string): string => {
  * Classifies a cited site as the subject's own, a tracked rival's own, a
  * retailer, a community, news, or editorial.
  */
+/**
+ * The answer's top pick within the tracked brands: the engine's own pick when it is tracked,
+ * else the tracked brand the answer names first; null when it names none or gives no verdict.
+ */
+export function trackedPick(a: { topPick: string | null; brands: Array<{ id: string; rank: number }> }, ids: string[]): string | null {
+  if (!a.topPick || ids.includes(a.topPick)) return a.topPick;
+  return a.brands.filter((m) => m.rank && ids.includes(m.id)).sort((x, y) => x.rank - y.rank)[0]?.id ?? null;
+}
+
 export function sourceKind(host: string, brands: ConsoleBrand[]): string {
   const owner = brands.find((b) => b.owned.some((d) => host === d || host.endsWith(`.${d}`)));
   if (owner) return owner.subject ? "owned" : "rival-owned";
@@ -161,6 +171,7 @@ export function buildAiConsole(input: {
       sources,
       path: pathOf.get(q.engine) ?? "api",
       sha256: createHash("sha256").update(q.answer as string).digest("hex"),
+      ...(q.evidence ? { evidence: q.evidence } : {}),
     };
   });
   const engines = input.ai.engines.map((e) => ({ id: ENGINE_IDS[e.engine], label: e.label, model: e.model }));

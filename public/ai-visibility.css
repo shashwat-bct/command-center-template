@@ -166,10 +166,20 @@
 .aiv .ask.sm{display:inline-flex;margin:0 0 0 6px;gap:2px}
 .aiv .ask.sm .evk{display:none}
 .aiv .ask.sm a{font-size:12px;padding:2px 6px;border:0;background:transparent;border-radius:6px}
-.aiv .evd{margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:9px;font-family:var(--fm);font-size:10.5px;color:var(--soft);line-height:1.6;background:var(--card2)}
-.aiv .evd .more{margin-left:8px}
-.aiv .evimg{margin-top:8px}
-.aiv .evimg img{display:block;max-width:100%;border:1px solid var(--line);border-radius:8px;box-shadow:none}
+.aiv .evd{margin-top:10px;font-size:12px;color:var(--soft);line-height:1.5}
+.aiv .evd.shot{display:flex;gap:12px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card2)}
+.aiv .evd.shot b{display:block;font-weight:500;color:var(--ink)}
+.aiv .evd.shot span{display:block}
+.aiv .evthumb{flex:none;width:96px;height:72px;padding:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff;cursor:zoom-in}
+.aiv .evthumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.aiv .evlink{margin-top:2px;padding:0;border:0;background:none;color:var(--accent);font:inherit;font-weight:500;cursor:pointer}
+.aiv-shot{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;background:rgba(32,33,36,.82)}
+.aiv-shot-bar{display:flex;gap:16px;align-items:center;padding:10px 16px;background:#202124;color:#e8eaed;font-size:13px}
+.aiv-shot-bar span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aiv-shot-bar a{color:#8ab4f8;text-decoration:none}
+.aiv-shot-bar button{border:0;background:none;color:#e8eaed;font-size:18px;line-height:1;cursor:pointer;padding:4px}
+.aiv-shot-body{flex:1;overflow:auto;padding:24px 16px}
+.aiv-shot-body img{display:block;width:min(900px,100%);height:auto;margin:0 auto;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.4);background:#fff}
 .aiv .evraw{margin:8px 0 0;font-size:10.5px;white-space:pre-wrap;word-break:break-all;max-height:260px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--soft)}
 .aiv .hl{background:color-mix(in srgb,var(--accent) 16%,transparent);border-radius:3px;padding:0 2px}
 .aiv .hlr{background:color-mix(in srgb,var(--warn) 22%,transparent);border-radius:3px;padding:0 2px}
@@ -553,7 +563,6 @@
 .aiv .bchip{font-size:12.5px}
 .aiv .ask a{font-size:12.5px;padding:4px 12px}
 
-.aiv .evd{font-size:11px}
 .aiv .calc{font-size:12px}
 .aiv .heat .hh{overflow-wrap:normal;word-break:normal;hyphens:none;white-space:nowrap;font-size:9.5px;letter-spacing:.04em}
 .aiv .heat.big .hh{font-size:10px}
@@ -700,3 +709,5 @@
 .aiv .atlas .lane i{width:6px;height:6px;border-radius:50%;background:var(--accent)}
 .aiv table.crawl th.cg .cgo{color:var(--mute);font-weight:400;font-size:11px}
 .aiv .kpi .kf .delta{white-space:normal;max-width:100%}
+.grid.g2:has(> [id^="lens-"]:empty){grid-template-columns:minmax(0,1fr)}
+.grid.g2 > [id^="lens-"]:empty{display:none}

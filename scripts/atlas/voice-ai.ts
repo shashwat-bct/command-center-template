@@ -1,4 +1,5 @@
 import type { AtlasAnswer, AtlasCell } from "../../lib/atlas";
+import { trackedPick } from "../../lib/ai-console";
 import { amazonListings, brandOf, niceDate, pct, possessive, r1, type Ctx } from "./common";
 
 const STAGE: Record<string, string> = { awareness: "Awareness", consideration: "Consideration", evaluation: "Evaluation & Trust", decision: "Decision" };
@@ -106,10 +107,10 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
     columns: [{ label: "Question", align: "left" as const }, { label: "Stage", align: "left" as const }, { label: "Named first", align: "left" as const }],
     rows: missing.slice(0, 12).map((q): AtlasCell[] => [q.q, STAGE[q.stage] ?? q.stage, ctx.brands.find((b) => b.id === q.topBrand)?.label ?? q.topBrand ?? "—"]) };
   const named = engines.map((e) => { const qs = P.ai.prompts.filter((q) => q.q.toLowerCase().startsWith(`${ENGINE[e].toLowerCase()}:`)); return { e, n: qs.filter((q) => q.present[S.id]).length, of: qs.length }; }).sort((x, y) => y.n / Math.max(1, y.of) - x.n / Math.max(1, x.of));
-  const answers = P.aiConsole.captures[P.aiConsole.current]?.answers ?? [];
+  const ids = ctx.brands.map((b) => b.id);
+  const answers = (P.aiConsole.captures[P.aiConsole.current]?.answers ?? []).map((a) => ({ ...a, topPick: trackedPick(a, ids) }));
   const committed = answers.filter((a) => a.topPick);
   const picks = ctx.brands.map((b) => ({ b, n: committed.filter((a) => a.topPick === b.id).length })).sort((x, y) => y.n - x.n);
-  const outsidePicks = committed.filter((a) => !ctx.brands.some((b) => b.id === a.topPick)).length;
   const subjPicks = picks.find((x) => x.b.id === S.id)?.n ?? 0;
   const weakStage = stages.map((st) => { const qs = P.ai.prompts.filter((q) => q.stage === st); return { s: st, named: qs.filter((q) => q.present[S.id]).length, of: qs.length }; }).filter((x) => x.of).sort((x, y) => x.named / x.of - y.named / y.of)[0];
   const move = (last.overall[S.id] ?? 0) - (first.overall[S.id] ?? 0);
@@ -126,7 +127,7 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
     ],
     headline: `${S.label} holds ${pct(last.overall[S.id], 1)} of brand mentions in AI answers, #${rank} of ${ranked.length}; ${leader.b.label} leads at ${pct(leader.v, 1)}. It is named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers, most often by ${ENGINE[named[0].e]} (${named[0].n} of ${named[0].of}).`,
     what: `${ranked.map((x) => `${x.b.label} ${pct(x.v, 1)}`).join(" · ")}. Since ${niceDate(first.date)} ${S.label} moved ${move > 0 ? "+" : ""}${r1(move)} points.`,
-    why: `Being named is not being recommended: of the ${committed.length} answers that commit to one top pick, ${picks[0].b.label} gets ${picks[0].n}, ${S.label} ${subjPicks}, and brands outside the set ${outsidePicks}. ${ENGINE[named[named.length - 1].e]} names ${S.label} least often (${named[named.length - 1].n} of ${named[named.length - 1].of}), so that is where the gap is widest.`,
+    why: `Being named is not being recommended: of the ${committed.length} answers that commit to one top pick, ${picks[0].b.label} gets ${picks[0].n}, ${S.label} ${subjPicks}. ${ENGINE[named[named.length - 1].e]} names ${S.label} least often (${named[named.length - 1].n} of ${named[named.length - 1].of}), so that is where the gap is widest.`,
     when: `${hist.length} readings between ${niceDate(first.date)} and ${niceDate(last.date)}.`,
     insight: `${S.label} is known to the engines but rarely chosen: named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers yet the top pick in ${subjPicks} of the ${committed.length} that commit to one brand. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.`,
     actions: [

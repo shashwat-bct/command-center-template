@@ -1,0 +1,581 @@
+{
+  "version": 1,
+  "answers": {
+    "4a152c5ecad20a3976108e1a2f3d650566643dfaaf41b1c8db1bb7dff246b538": {
+      "capturedAt": "2026-10-21T07:45:57.095Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/4a152c5ecad20a3976108e1a2f3d650566643dfaaf41b1c8db1bb7dff246b538.jpg"
+    },
+    "8763cfab7af0e2f52b17dec35f684895bffdf1aebbc8474711288cf07490d0f3": {
+      "capturedAt": "2026-10-21T07:46:19.239Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/8763cfab7af0e2f52b17dec35f684895bffdf1aebbc8474711288cf07490d0f3.jpg"
+    },
+    "2025c58eda260f60affefeb61bf7dc2f12dc970f979f98e9c628c63a1c4ee086": {
+      "capturedAt": "2026-10-21T07:50:01.010Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/2025c58eda260f60affefeb61bf7dc2f12dc970f979f98e9c628c63a1c4ee086.jpg"
+    },
+    "9be56f49204f31fe3767cbeca52ba95ca006e077c02f060d26f5ab06092150b9": {
+      "capturedAt": "2026-10-21T07:45:49.371Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/9be56f49204f31fe3767cbeca52ba95ca006e077c02f060d26f5ab06092150b9.jpg"
+    },
+    "dc546cfbdf6a3c390920ebc6e67dc36887f04709286ce49663304a8d281e37bd": {
+      "capturedAt": "2026-10-21T07:47:31.172Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/dc546cfbdf6a3c390920ebc6e67dc36887f04709286ce49663304a8d281e37bd.jpg"
+    },
+    "1138d44864b9af11745e8ec9cc3df9ce467b4e8f7006e8edca15ef5fb7f8b983": {
+      "capturedAt": "2026-10-21T07:45:56.605Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/1138d44864b9af11745e8ec9cc3df9ce467b4e8f7006e8edca15ef5fb7f8b983.jpg"
+    },
+    "13e319393c86b725ed6a11a32ccadb470e8ccaa0b1bc9cf8ea8b9ca8940612ee": {
+      "capturedAt": "2026-10-21T07:47:26.876Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/13e319393c86b725ed6a11a32ccadb470e8ccaa0b1bc9cf8ea8b9ca8940612ee.jpg"
+    },
+    "b72ffbcd1a52f0c4f66fd68dbdcc0a597b13912c0e4891bde262e5ff44c8e3e3": {
+      "capturedAt": "2026-10-21T07:45:50.157Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/b72ffbcd1a52f0c4f66fd68dbdcc0a597b13912c0e4891bde262e5ff44c8e3e3.jpg"
+    },
+    "05ec97ae7b2fde17ab408a54370c22f49eb75fe1cb6f4d400a9e986a5d90cf2e": {
+      "capturedAt": "2026-10-21T07:50:38.668Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/05ec97ae7b2fde17ab408a54370c22f49eb75fe1cb6f4d400a9e986a5d90cf2e.jpg"
+    },
+    "c2a8724300fd13f46547dc69ed52085e753e0554fe378274181a624fe46f7c82": {
+      "capturedAt": "2026-10-21T07:52:29.593Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/c2a8724300fd13f46547dc69ed52085e753e0554fe378274181a624fe46f7c82.jpg"
+    },
+    "f9f3d873e34fed91875b361648e7d01de89e6722ea91a1008b6b6c26472be1cb": {
+      "capturedAt": "2026-10-21T07:51:23.408Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/f9f3d873e34fed91875b361648e7d01de89e6722ea91a1008b6b6c26472be1cb.jpg"
+    },
+    "ea171db14097eb319089ce2494ab7345ef8f74b6f3e05db5c41560e138422afb": {
+      "capturedAt": "2026-10-21T07:45:55.787Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/ea171db14097eb319089ce2494ab7345ef8f74b6f3e05db5c41560e138422afb.jpg"
+    },
+    "caaff87857993ab4ef5122c8c3ce0cc132c7785da2c367cd6c195f484b32ef93": {
+      "capturedAt": "2026-10-21T07:49:21.943Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/caaff87857993ab4ef5122c8c3ce0cc132c7785da2c367cd6c195f484b32ef93.jpg"
+    },
+    "99a55c387025b626044895836b7020017a55308a93dcf6b2328b373fec2ce8d3": {
+      "capturedAt": "2026-10-21T07:46:20.327Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/99a55c387025b626044895836b7020017a55308a93dcf6b2328b373fec2ce8d3.jpg"
+    },
+    "17b67f2d61503be54477de9bd9e989f8fda258a23c3cb669ea43c8c4509e23db": {
+      "capturedAt": "2026-10-21T07:46:07.515Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/17b67f2d61503be54477de9bd9e989f8fda258a23c3cb669ea43c8c4509e23db.jpg"
+    },
+    "196363697c12e3fe8b43a9ec00c039b8eed055f84c1b40a13e73c8535803e768": {
+      "capturedAt": "2026-10-21T07:45:48.666Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/196363697c12e3fe8b43a9ec00c039b8eed055f84c1b40a13e73c8535803e768.jpg"
+    },
+    "9e60f17971fb2e378264fa5e2b665a5177e04ea4ac760f6d631b7700782233fc": {
+      "capturedAt": "2026-10-21T07:45:50.871Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/9e60f17971fb2e378264fa5e2b665a5177e04ea4ac760f6d631b7700782233fc.jpg"
+    },
+    "af90590269006d16862785c0a7c7ef25272d771a549efcd3837cb6b4605e90e0": {
+      "capturedAt": "2026-10-21T07:46:24.417Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/af90590269006d16862785c0a7c7ef25272d771a549efcd3837cb6b4605e90e0.jpg"
+    },
+    "794bbcb63abf3e231f433196863c1ccb9b1cd3eb6e43a378a2fe8e33ce46a14a": {
+      "capturedAt": "2026-10-21T07:46:21.416Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/794bbcb63abf3e231f433196863c1ccb9b1cd3eb6e43a378a2fe8e33ce46a14a.jpg"
+    },
+    "e2e3889a916128d2aa28c9a4e76ea55e75e8f49edf747effdff159ec9fea50da": {
+      "capturedAt": "2026-10-21T07:46:18.125Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/e2e3889a916128d2aa28c9a4e76ea55e75e8f49edf747effdff159ec9fea50da.jpg"
+    },
+    "a87e992f59ed520b66614369a3f662e7d66f4578937fa1269f55dd28e969bd81": {
+      "capturedAt": "2026-10-21T07:46:27.042Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/a87e992f59ed520b66614369a3f662e7d66f4578937fa1269f55dd28e969bd81.jpg"
+    },
+    "fcb22829f8e0ff9c01701ca7e23ef0ddf9131dae0f2868ca5e3086ca1182b1c6": {
+      "capturedAt": "2026-10-21T07:45:48.658Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/fcb22829f8e0ff9c01701ca7e23ef0ddf9131dae0f2868ca5e3086ca1182b1c6.jpg"
+    },
+    "82c6c7cd4fb39a3a39b3f3dcfaa63f156869ecb6aabe9db921679feab0c07a0d": {
+      "capturedAt": "2026-10-21T07:54:11.097Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/82c6c7cd4fb39a3a39b3f3dcfaa63f156869ecb6aabe9db921679feab0c07a0d.jpg"
+    },
+    "6b76805e79c9e13ef9756b7406cc75902e68ab959214fce86ad24fdead87de1d": {
+      "capturedAt": "2026-10-21T07:46:38.997Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/6b76805e79c9e13ef9756b7406cc75902e68ab959214fce86ad24fdead87de1d.jpg"
+    },
+    "8b1554a415d5501458cb625752670c299cbb12a38569897c20be2c9986113211": {
+      "capturedAt": "2026-10-20T11:59:21.353Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/8b1554a415d5501458cb625752670c299cbb12a38569897c20be2c9986113211.jpg"
+    },
+    "86b0f9b3ad516b268e1d25b903146092ab065530553203e085c7f82f4c9889dc": {
+      "capturedAt": "2026-10-20T11:59:21.179Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/86b0f9b3ad516b268e1d25b903146092ab065530553203e085c7f82f4c9889dc.jpg"
+    },
+    "ce4f24adba2ec919d720cea1e7d26b0d5cd90e20f1e1adeca8127c11cf717ba3": {
+      "capturedAt": "2026-10-20T11:58:55.122Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/ce4f24adba2ec919d720cea1e7d26b0d5cd90e20f1e1adeca8127c11cf717ba3.jpg"
+    },
+    "37239752080fbfd43ed724b0a757510349ebbec970cb714038e5f59b10a1e2bf": {
+      "capturedAt": "2026-10-20T12:00:08.373Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/37239752080fbfd43ed724b0a757510349ebbec970cb714038e5f59b10a1e2bf.jpg"
+    },
+    "c21bbdf72b9c89b4b2305c68955a72c99c07c2ac749d594e31e2f88e1cb07731": {
+      "capturedAt": "2026-10-20T12:00:18.044Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/c21bbdf72b9c89b4b2305c68955a72c99c07c2ac749d594e31e2f88e1cb07731.jpg"
+    },
+    "f7c1d9bf7e83edca12d0a233a8dfbafd67aa457ee287b761af8a514a86799a70": {
+      "capturedAt": "2026-10-20T11:59:28.912Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/f7c1d9bf7e83edca12d0a233a8dfbafd67aa457ee287b761af8a514a86799a70.jpg"
+    },
+    "7748e34b001c14a0d38a4dda570855dd8b3d84df792ab51dd89dc3ff3ce724f2": {
+      "capturedAt": "2026-10-20T11:58:52.811Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/7748e34b001c14a0d38a4dda570855dd8b3d84df792ab51dd89dc3ff3ce724f2.jpg"
+    },
+    "a77bf22508ccd0850c1895f37c91f6d985cebac62e0eeddae65b50905c7d9f35": {
+      "capturedAt": "2026-10-20T12:01:13.975Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/a77bf22508ccd0850c1895f37c91f6d985cebac62e0eeddae65b50905c7d9f35.jpg"
+    },
+    "146da3bcbbad5b09ed12929d478e6600dc463cb83cbb2727114587c7619da4a0": {
+      "capturedAt": "2026-10-20T11:59:25.589Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/146da3bcbbad5b09ed12929d478e6600dc463cb83cbb2727114587c7619da4a0.jpg"
+    },
+    "be0202020176334e374ef4c41e4c81ea11d0cfb96b236a8cbb13ef9062343e5a": {
+      "capturedAt": "2026-10-20T12:00:16.764Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/be0202020176334e374ef4c41e4c81ea11d0cfb96b236a8cbb13ef9062343e5a.jpg"
+    },
+    "794889cdbee80d5b3f302a68a24417d59d124bf5b289c14069442ca117057435": {
+      "capturedAt": "2026-10-20T12:00:12.554Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/794889cdbee80d5b3f302a68a24417d59d124bf5b289c14069442ca117057435.jpg"
+    },
+    "fd7dc34045e879b1d1584ac1ef363ef05527d033846060e548adef760ef05b90": {
+      "capturedAt": "2026-10-20T11:59:20.285Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/fd7dc34045e879b1d1584ac1ef363ef05527d033846060e548adef760ef05b90.jpg"
+    },
+    "34e651233b1367326aed48a343ea0b6f281db07d505bdb0a3b761de48e98a6cb": {
+      "capturedAt": "2026-10-20T12:03:21.651Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/34e651233b1367326aed48a343ea0b6f281db07d505bdb0a3b761de48e98a6cb.jpg"
+    },
+    "d76f77a491fb165b3c2269208edc4143f205ddfcc3d551e15849a6aaa4fd6762": {
+      "capturedAt": "2026-10-20T11:59:20.006Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/d76f77a491fb165b3c2269208edc4143f205ddfcc3d551e15849a6aaa4fd6762.jpg"
+    },
+    "89deffe5081d25843f98af0b285751e1e0c5f5a606de6e1abc7124a5a17e47d0": {
+      "capturedAt": "2026-10-20T12:01:33.890Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/89deffe5081d25843f98af0b285751e1e0c5f5a606de6e1abc7124a5a17e47d0.jpg"
+    },
+    "f6efd56ba1cef3e02e1a1b6958a797535575462a0694676a465b6c32371da69d": {
+      "capturedAt": "2026-10-20T11:59:30.770Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/f6efd56ba1cef3e02e1a1b6958a797535575462a0694676a465b6c32371da69d.jpg"
+    },
+    "57bc5741b328f011691331e69010bac09e19bc73fa0dd1cf8361bad70319ae01": {
+      "capturedAt": "2026-10-20T11:59:09.219Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/57bc5741b328f011691331e69010bac09e19bc73fa0dd1cf8361bad70319ae01.jpg"
+    },
+    "9c4b819cb084b076089b59579194925068be732df561769a81abc22ff337cddb": {
+      "capturedAt": "2026-10-20T12:02:52.472Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/9c4b819cb084b076089b59579194925068be732df561769a81abc22ff337cddb.jpg"
+    },
+    "659aac573d341c45c1daa9aa0520a6c9b51cf55a435a6a6f34874b0958b772fb": {
+      "capturedAt": "2026-10-20T11:59:22.450Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/659aac573d341c45c1daa9aa0520a6c9b51cf55a435a6a6f34874b0958b772fb.jpg"
+    },
+    "af4f62b719541bd3e01a04aaead91d312092748c595f9adc31e5457280740076": {
+      "capturedAt": "2026-10-20T11:59:28.676Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/af4f62b719541bd3e01a04aaead91d312092748c595f9adc31e5457280740076.jpg"
+    },
+    "ed14f1c7f06291facd9fd2ab1cb828a6bb54d216c55b94f3ef2ed784f00e0b15": {
+      "capturedAt": "2026-10-20T11:58:48.090Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/ed14f1c7f06291facd9fd2ab1cb828a6bb54d216c55b94f3ef2ed784f00e0b15.jpg"
+    },
+    "9280c4f78a45d424e60f82aad69b5d953adb8e8cd2ed3d13219d4f8f50e56296": {
+      "capturedAt": "2026-10-20T11:59:34.295Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/9280c4f78a45d424e60f82aad69b5d953adb8e8cd2ed3d13219d4f8f50e56296.jpg"
+    },
+    "71838bead316cdf57fa18bf1ce7faabc852150eec980bbaedec46566094cca61": {
+      "capturedAt": "2026-10-20T11:59:19.199Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/71838bead316cdf57fa18bf1ce7faabc852150eec980bbaedec46566094cca61.jpg"
+    },
+    "13b158fa6e1293a5e8cf07c8b64f23fe3eb281bc7fef08495a86dd9358baef17": {
+      "capturedAt": "2026-10-20T11:59:21.717Z",
+      "country": "US",
+      "webSearchTriggered": false,
+      "image": "/api/evidence/13b158fa6e1293a5e8cf07c8b64f23fe3eb281bc7fef08495a86dd9358baef17.jpg"
+    },
+    "798ead22f1670c17932b1bbfc397679cf3ceda5666ee20fcf16623ef54923ad4": {
+      "capturedAt": "2026-10-21T07:45:56.230Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/798ead22f1670c17932b1bbfc397679cf3ceda5666ee20fcf16623ef54923ad4.jpg"
+    },
+    "fac80486e31b03016386821701b9d8f84930e9447d7b37d8ecadd74a2003f1ed": {
+      "capturedAt": "2026-10-21T07:45:59.356Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/fac80486e31b03016386821701b9d8f84930e9447d7b37d8ecadd74a2003f1ed.jpg"
+    },
+    "8592d3f7fb6171c7f44fa9288a651513fdcb3f5459224766046e79a650628b27": {
+      "capturedAt": "2026-10-21T07:46:04.733Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/8592d3f7fb6171c7f44fa9288a651513fdcb3f5459224766046e79a650628b27.jpg"
+    },
+    "9adee1049f69ba2fb6b2d874edc4f542d235089d78f649045e96d416aa0f0c79": {
+      "capturedAt": "2026-10-21T07:46:00.336Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/9adee1049f69ba2fb6b2d874edc4f542d235089d78f649045e96d416aa0f0c79.jpg"
+    },
+    "e8fd7c0e9d0d926637049dbc41b185be8d1c03057d7bfae0022e46091cb451b2": {
+      "capturedAt": "2026-10-21T07:46:06.378Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/e8fd7c0e9d0d926637049dbc41b185be8d1c03057d7bfae0022e46091cb451b2.jpg"
+    },
+    "462b4787152f7501f67bbde333946fb95da7b3f64d0a24b868894ae14e767245": {
+      "capturedAt": "2026-10-21T07:47:01.731Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/462b4787152f7501f67bbde333946fb95da7b3f64d0a24b868894ae14e767245.jpg"
+    },
+    "aad61a9868004a65de6c4c8354c62907128fcbb4be88ddaa6b3fb7356c960120": {
+      "capturedAt": "2026-10-21T07:45:58.441Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/aad61a9868004a65de6c4c8354c62907128fcbb4be88ddaa6b3fb7356c960120.jpg"
+    },
+    "8b1b0cf0a6527314919f6d4cc7d66efc8280394cee0a99fa831efa4d4346b3bb": {
+      "capturedAt": "2026-10-21T07:46:01.758Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/8b1b0cf0a6527314919f6d4cc7d66efc8280394cee0a99fa831efa4d4346b3bb.jpg"
+    },
+    "a43fa00bc4a702b47662932ec13f3ef2512a86c750405f07f9ca2de09ac5eff6": {
+      "capturedAt": "2026-10-21T07:46:27.001Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a43fa00bc4a702b47662932ec13f3ef2512a86c750405f07f9ca2de09ac5eff6.jpg"
+    },
+    "aa2d49668be8505d021ac506a17a90abbf06fbc223acb4f9c6c701888d354fac": {
+      "capturedAt": "2026-10-21T07:47:01.160Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/aa2d49668be8505d021ac506a17a90abbf06fbc223acb4f9c6c701888d354fac.jpg"
+    },
+    "547687ee3c4e2503abc3137bf09ce83d4d7dfb9b740e6d37c62e2069175b6538": {
+      "capturedAt": "2026-10-21T07:47:03.252Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/547687ee3c4e2503abc3137bf09ce83d4d7dfb9b740e6d37c62e2069175b6538.jpg"
+    },
+    "88f1a9a85bfb39acc71045b14ff862aca8bd6a9690fbc01c7d389f6b568e88e5": {
+      "capturedAt": "2026-10-21T07:47:05.404Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/88f1a9a85bfb39acc71045b14ff862aca8bd6a9690fbc01c7d389f6b568e88e5.jpg"
+    },
+    "9e19d187c920fbc82a24b15a7ad1139064b122fe14aea7309cb3d943cf3ffa2f": {
+      "capturedAt": "2026-10-21T07:46:14.558Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/9e19d187c920fbc82a24b15a7ad1139064b122fe14aea7309cb3d943cf3ffa2f.jpg"
+    },
+    "64ecaddfb8bff5bbad62a2a6552b06b60f91c9dc85066c755e23c83b444aa5eb": {
+      "capturedAt": "2026-10-21T07:46:46.331Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/64ecaddfb8bff5bbad62a2a6552b06b60f91c9dc85066c755e23c83b444aa5eb.jpg"
+    },
+    "0c31a42739d7454f57e0d77f32ca85ec04b509916f7a6ab00202701d8af3348e": {
+      "capturedAt": "2026-10-21T07:46:46.769Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/0c31a42739d7454f57e0d77f32ca85ec04b509916f7a6ab00202701d8af3348e.jpg"
+    },
+    "c97510f2c2e45afbf6482913f5dd778fbabaf4a5bd4e0992a5b8263461945ebd": {
+      "capturedAt": "2026-10-21T07:45:55.095Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/c97510f2c2e45afbf6482913f5dd778fbabaf4a5bd4e0992a5b8263461945ebd.jpg"
+    },
+    "a924d65eed30432ea40d94b5bd140a3f8a0adc4fe229d05828e5b2a0f1647af3": {
+      "capturedAt": "2026-10-21T07:46:04.047Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a924d65eed30432ea40d94b5bd140a3f8a0adc4fe229d05828e5b2a0f1647af3.jpg"
+    },
+    "5f00c70b4a6998223d77a014f969cddec1e2de6a5c8b6e9234c441aec464b9b4": {
+      "capturedAt": "2026-10-21T07:46:48.748Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/5f00c70b4a6998223d77a014f969cddec1e2de6a5c8b6e9234c441aec464b9b4.jpg"
+    },
+    "553bb5b9c5ab5991cdc27fd041658dd628077b22c4f9545716666723821afdc7": {
+      "capturedAt": "2026-10-21T07:45:57.082Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/553bb5b9c5ab5991cdc27fd041658dd628077b22c4f9545716666723821afdc7.jpg"
+    },
+    "568a4bff96665b0f9ca26449d217501e4e8410500d6945cea38668bad6483b0f": {
+      "capturedAt": "2026-10-21T07:46:41.018Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/568a4bff96665b0f9ca26449d217501e4e8410500d6945cea38668bad6483b0f.jpg"
+    },
+    "b2b2aa2f4a731e3ab1176c0c625dba82a62273cf7460fc2f96bcd468fa76bc4d": {
+      "capturedAt": "2026-10-21T07:46:42.995Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/b2b2aa2f4a731e3ab1176c0c625dba82a62273cf7460fc2f96bcd468fa76bc4d.jpg"
+    },
+    "d87c975ccfdc5cd029e0df0e4f740af33d8cac2169c5064e3b3c2a30eed46091": {
+      "capturedAt": "2026-10-21T07:45:38.452Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/d87c975ccfdc5cd029e0df0e4f740af33d8cac2169c5064e3b3c2a30eed46091.jpg"
+    },
+    "3fd26ad4d8031a746e416146ae13cbb77e48c1954f4913e52331819fa066cb1c": {
+      "capturedAt": "2026-10-21T07:45:38.987Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/3fd26ad4d8031a746e416146ae13cbb77e48c1954f4913e52331819fa066cb1c.jpg"
+    },
+    "8e3b285ecc59d7c8f026e7feb88bba33b4e1e2f56ba767bfdeb948a111c95e55": {
+      "capturedAt": "2026-10-21T07:45:42.919Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/8e3b285ecc59d7c8f026e7feb88bba33b4e1e2f56ba767bfdeb948a111c95e55.jpg"
+    },
+    "05388c8a4d52cfa6b61e99ae0849642d095722c43d0f58f8cf5778a3eed665db": {
+      "capturedAt": "2026-10-20T11:59:01.366Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/05388c8a4d52cfa6b61e99ae0849642d095722c43d0f58f8cf5778a3eed665db.jpg"
+    },
+    "a9ec028cfba746789ab486e8b343aab12afed7d31e7e1a7918aa9fa7e2f3cd88": {
+      "capturedAt": "2026-10-20T11:59:28.378Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a9ec028cfba746789ab486e8b343aab12afed7d31e7e1a7918aa9fa7e2f3cd88.jpg"
+    },
+    "a6d4332629e27a98463a0c1598afcda28f017b9e6eee2612b280f38ac29ba3b8": {
+      "capturedAt": "2026-10-20T11:59:39.535Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a6d4332629e27a98463a0c1598afcda28f017b9e6eee2612b280f38ac29ba3b8.jpg"
+    },
+    "bc7eeca91a624d11a3b186db042e4fc4d0ab4747b7c4706232fd83d879b01337": {
+      "capturedAt": "2026-10-20T11:59:11.479Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/bc7eeca91a624d11a3b186db042e4fc4d0ab4747b7c4706232fd83d879b01337.jpg"
+    },
+    "a360933dc4771b90f3549d6fb989c71f5c12714d3a89ac54b0d4218bc4c71a11": {
+      "capturedAt": "2026-10-20T11:59:15.697Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a360933dc4771b90f3549d6fb989c71f5c12714d3a89ac54b0d4218bc4c71a11.jpg"
+    },
+    "5ebd5b0e78637a688d17456fa7c19304ea25d102c665093735ee7b050866c377": {
+      "capturedAt": "2026-10-20T12:01:24.643Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/5ebd5b0e78637a688d17456fa7c19304ea25d102c665093735ee7b050866c377.jpg"
+    },
+    "a6a4457561a4d849d0e950e2f72c5185bc52b47349a57727a76299349ac64ded": {
+      "capturedAt": "2026-10-20T11:59:14.884Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a6a4457561a4d849d0e950e2f72c5185bc52b47349a57727a76299349ac64ded.jpg"
+    },
+    "82d57c364f210210cb32bb024c7a65952ad20032a66623317bd9039298a1a3fb": {
+      "capturedAt": "2026-10-20T11:59:30.425Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/82d57c364f210210cb32bb024c7a65952ad20032a66623317bd9039298a1a3fb.jpg"
+    },
+    "c2b1b6da8c5261bf905c0b3c8a5c652039f27988412438b7e99cd92499b5246d": {
+      "capturedAt": "2026-10-20T12:01:19.128Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/c2b1b6da8c5261bf905c0b3c8a5c652039f27988412438b7e99cd92499b5246d.jpg"
+    },
+    "70c629352dc2d1aaf39678c995c06a8b95702bd8e69f7b2f76e307b30715f53a": {
+      "capturedAt": "2026-10-20T11:59:02.880Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/70c629352dc2d1aaf39678c995c06a8b95702bd8e69f7b2f76e307b30715f53a.jpg"
+    },
+    "238c5836746b2c3cc5d457d1d70e216b2e6d53f042407bdf3756eef1b4e7b7c4": {
+      "capturedAt": "2026-10-20T11:59:19.270Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/238c5836746b2c3cc5d457d1d70e216b2e6d53f042407bdf3756eef1b4e7b7c4.jpg"
+    },
+    "c7bba644938d7b68a3a42135405097b5e9c0f8b53996fb053624f5cf51fcd4f9": {
+      "capturedAt": "2026-10-20T11:59:19.654Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/c7bba644938d7b68a3a42135405097b5e9c0f8b53996fb053624f5cf51fcd4f9.jpg"
+    },
+    "eb590749dc28c4a6833f97ac8de15f11322171fdc6e5ca441721e880073294d4": {
+      "capturedAt": "2026-10-20T11:59:09.654Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/eb590749dc28c4a6833f97ac8de15f11322171fdc6e5ca441721e880073294d4.jpg"
+    },
+    "cf40f14df054925ffb522eeb6f6fa45a0939bb4b5d2a1ec99738e55ab6b07ede": {
+      "capturedAt": "2026-10-20T11:59:15.268Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/cf40f14df054925ffb522eeb6f6fa45a0939bb4b5d2a1ec99738e55ab6b07ede.jpg"
+    },
+    "daf59d1de9fae4b69dd2e293f9331ee995b65a4bf2e916837cec57d227816c93": {
+      "capturedAt": "2026-10-20T11:59:38.769Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/daf59d1de9fae4b69dd2e293f9331ee995b65a4bf2e916837cec57d227816c93.jpg"
+    },
+    "eb5391e75b4213606909765ef097960de55b637b46b1c97ab2103ac943f8558c": {
+      "capturedAt": "2026-10-20T11:59:05.646Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/eb5391e75b4213606909765ef097960de55b637b46b1c97ab2103ac943f8558c.jpg"
+    },
+    "3fe536ce6a2818c2e02a12adb625a6e816872e51d0ae36fb1b91d5d00f061f48": {
+      "capturedAt": "2026-10-20T11:59:12.142Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/3fe536ce6a2818c2e02a12adb625a6e816872e51d0ae36fb1b91d5d00f061f48.jpg"
+    },
+    "e2d6e99f19dd666a30eccaa08cccfdc577043f35cb99bec74ec6261f9318252b": {
+      "capturedAt": "2026-10-20T11:59:35.879Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/e2d6e99f19dd666a30eccaa08cccfdc577043f35cb99bec74ec6261f9318252b.jpg"
+    },
+    "d4fd48acd3e24ae081f1939d332270343fae0657a412d7b79017bb14946b636e": {
+      "capturedAt": "2026-10-20T11:59:15.794Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/d4fd48acd3e24ae081f1939d332270343fae0657a412d7b79017bb14946b636e.jpg"
+    },
+    "c1399e056bfe20665333bbeb440c3aa882dd3d923a74ce834deb7ea55bd543bd": {
+      "capturedAt": "2026-10-20T11:59:23.910Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/c1399e056bfe20665333bbeb440c3aa882dd3d923a74ce834deb7ea55bd543bd.jpg"
+    },
+    "a4339d8bb58bd8c834aa0fcd69bd8be147d0a413362b9a1dccb260277dc537ae": {
+      "capturedAt": "2026-10-20T12:04:57.752Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a4339d8bb58bd8c834aa0fcd69bd8be147d0a413362b9a1dccb260277dc537ae.jpg"
+    },
+    "0d544e08a5ac7e2b84935010ace9fd39a085e720d1c84f34fe84abca44eb5854": {
+      "capturedAt": "2026-10-20T11:58:46.546Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/0d544e08a5ac7e2b84935010ace9fd39a085e720d1c84f34fe84abca44eb5854.jpg"
+    },
+    "a3782ecf9d1e36aa71c53ec5e3631c8260d3e165a9b75c837779709130e41bb8": {
+      "capturedAt": "2026-10-20T11:58:58.183Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/a3782ecf9d1e36aa71c53ec5e3631c8260d3e165a9b75c837779709130e41bb8.jpg"
+    },
+    "8b2f3edb97b00281c767e44365466a179f1d47b11d71b6e087acab8d59899bab": {
+      "capturedAt": "2026-10-20T11:59:26.318Z",
+      "country": "US",
+      "appModel": "Flash-Lite",
+      "image": "/api/evidence/8b2f3edb97b00281c767e44365466a179f1d47b11d71b6e087acab8d59899bab.jpg"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import type { AiConsolePayload, ConsoleAnswer, ConsoleCapture } from "./ai-console";
+import { trackedPick, type AiConsolePayload, type ConsoleAnswer, type ConsoleCapture } from "./ai-console";
 
 export type Shares = Record<string, number | null>;
 export type Presence = Record<string, { n: number; of: number; rate: number }>;
@@ -84,9 +84,9 @@ export function buildBaseline(c: AiConsolePayload, families: string[]): AeoBasel
   const ids = c.brands.map((b) => b.id);
   const stages = compareStages(c);
   const cq = c.bank.filter((q) => stages.includes(q.stage)).map((q) => q.id);
-  const all = cap.answers.filter((a) => a.run === 1);
+  const all = cap.answers.filter((a) => a.run === 1).map((a) => ({ ...a, topPick: trackedPick(a, ids) }));
   const ca = all.filter((a) => cq.includes(a.queryId));
-  const picks = ca.filter((a) => a.topPick && ids.includes(a.topPick));
+  const picks = ca.filter((a) => a.topPick);
 
   const stageShare: Record<string, Shares> = {};
   for (const st of c.stages) {
