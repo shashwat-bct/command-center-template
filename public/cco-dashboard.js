@@ -491,7 +491,7 @@ function buildNav() {
     groups.splice(i, 0, g);
   }
   groups.push(...tail, ...NAV.slice(-1));
-  const visible = groups.map((g) => ({ ...g, pages: g.pages.filter((p) => !isHiddenPage(p.id)) })).filter((g) => g.pages.length);
+  const visible = groups.map((g) => ({ ...g, pages: g.pages.filter((p) => !isHiddenPage(p.id) && p.nav !== false) })).filter((g) => g.pages.length);
   $("#nav").innerHTML = visible.map((g) => `<div class="nav-grp${g.ext ? " ext" : ""}"><h5>${g.label}</h5>${g.pages.map((p) =>
     `<a href="#${p.id}" data-p="${p.id}" title="${p.label}"${laneOf(p.id) && laneOf(p.id).status === "not_measured" ? ' class="nm"' : ""}>${icon(p.icon, p.svg)}<span>${(laneOf(p.id) || {}).label || p.label}</span>${p.pill ? `<span class="pill">${p.pill}</span>` : ""}</a>`).join("")}</div>`).join("");
   $("#railToggle").onclick = () => {

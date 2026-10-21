@@ -1,0 +1,192 @@
+/* Ask Atlas: a chat over the brand's prepared analyses, with saved conversations and a Claude fallback */
+(function () {
+"use strict";
+const A = () => window.__ATLAS;
+const STEP_MS = 650;
+const MAX_CHATS = 30;
+const MATCH = {
+  "black-friday": /black\s*friday|bfcm|cyber\s*monday|thanksgiving|holiday/i,
+  "price-per-wipe": /per\s*wipe|per\s*100|unit\s*price|cheap|expensive|premium|value|pric(e|ing)\s*position/i,
+  "big-deal-days": /prime|big\s*deal|deal\s*days|october\s*event/i,
+  availability: /stock|availab|out\s*of|oos|unavailable|buyable/i,
+  reviews: /review|rating|complain|love|hate|durab|soft|customer|shopper.*say/i,
+  "ai-visibility": /\bai\b|chatgpt|gemini|claude|llm|engine|answer\s*share|mention/i,
+};
+
+let atlas = null, brand = "", subject = "", chats = [], current = null, busy = false;
+
+const storeKey = () => `atlas_chats_${subject}`;
+function load() { try { chats = JSON.parse(localStorage.getItem(storeKey()) || "[]"); } catch (e) { chats = []; } }
+function save() { try { localStorage.setItem(storeKey(), JSON.stringify(chats.slice(0, MAX_CHATS))); } catch (e) {} }
+const answerOf = (id) => atlas.answers.find((a) => a.id === id) || null;
+const matchAnswer = (text) => { const exact = atlas.answers.find((a) => a.question.toLowerCase() === text.trim().toLowerCase()); if (exact) return exact; const hit = Object.keys(MATCH).find((id) => MATCH[id].test(text)); return hit ? answerOf(hit) : null; };
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const reduced = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function shell(host) {
+  const { esc, svg } = A();
+  host.innerHTML = `<div class="atl">
+    <aside class="atl-side"><button type="button" class="atl-new" id="atlNew">${svg("spark")}<span>New chat</span></button><h6>Recent</h6><div id="atlHist"></div></aside>
+    <section class="atl-main"><div class="atl-stream" id="atlStream" aria-live="polite"></div>
+      <form class="atl-input" id="atlForm"><div class="atl-box"><label for="atlQ" class="sr-only" style="position:absolute;left:-9999px">Ask Atlas</label>
+        <textarea id="atlQ" rows="1" placeholder="Ask Atlas about ${esc(brand)}…"></textarea>
+        <button type="submit" class="atl-send" id="atlSend" aria-label="Send">${svg("send")}</button></div>
+        <p class="atl-foot">Atlas answers from ${esc(atlas.sources.join(", "))}. Prepared analyses are instant; other questions go to Claude.</p></form>
+    </section></div>`;
+  const q = host.querySelector("#atlQ");
+  q.addEventListener("input", () => { q.style.height = "auto"; q.style.height = Math.min(160, q.scrollHeight) + "px"; });
+  q.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); host.querySelector("#atlForm").requestSubmit(); } });
+  host.querySelector("#atlForm").addEventListener("submit", (e) => { e.preventDefault(); const t = q.value.trim(); if (!t || busy) return; q.value = ""; q.style.height = "auto"; ask(host, t); });
+  host.querySelector("#atlNew").onclick = () => { current = null; renderHist(host); renderChat(host); q.focus(); };
+  renderHist(host); renderChat(host);
+}
+
+function renderHist(host) {
+  const { esc } = A();
+  const el = host.querySelector("#atlHist");
+  el.innerHTML = chats.length ? chats.map((c) => `<button type="button" class="atl-hist ${current && current.id === c.id ? "on" : ""}" data-id="${esc(c.id)}"><span title="${esc(c.title)}">${esc(c.title)}</span><i role="button" aria-label="Delete chat" data-del="${esc(c.id)}">×</i></button>`).join("")
+    : `<p class="atl-empty-hist">Your conversations are saved in this browser.</p>`;
+  el.querySelectorAll(".atl-hist").forEach((b) => b.onclick = (e) => {
+    const del = e.target.closest("[data-del]");
+    if (del) { chats = chats.filter((c) => c.id !== del.dataset.del); if (current && current.id === del.dataset.del) current = null; save(); renderHist(host); renderChat(host); return; }
+    current = chats.find((c) => c.id === b.dataset.id) || null; renderHist(host); renderChat(host);
+  });
+}
+
+function renderChat(host) {
+  const { esc, svg, ICON } = A();
+  const stream = host.querySelector("#atlStream");
+  if (!current) {
+    stream.innerHTML = `<div class="atl-hello"><h1>Hello, ${esc(brand)} team</h1><p>What do you want to know about the market?</p>
+      <div class="atl-sugg">${atlas.answers.map((a) => `<button type="button" class="atl-card" data-q="${esc(a.id)}"><span>${esc(a.question)}<small>${esc(a.chip)}</small></span><b>${svg(ICON[a.id])}</b></button>`).join("")}</div></div>`;
+    stream.querySelectorAll(".atl-card").forEach((b) => b.onclick = () => { if (!busy) ask(host, answerOf(b.dataset.q).question); });
+    return;
+  }
+  stream.innerHTML = "";
+  for (const m of current.msgs) stream.appendChild(msgNode(m));
+}
+
+function msgNode(m) {
+  const { esc } = A();
+  const wrap = document.createElement("div");
+  if (m.role === "user") { wrap.className = "atl-u"; wrap.textContent = m.text; return wrap; }
+  wrap.className = "atl-a";
+  wrap.innerHTML = `<div class="atl-av">${A().svg("spark")}</div><div class="atl-body"></div>`;
+  const body = wrap.querySelector(".atl-body");
+  if (m.answer) fillAnswer(body, answerOf(m.answer), true);
+  else body.innerHTML = m.error ? `<p class="atl-err">${esc(m.text)}</p>` : `<div class="atl-llm">${md(m.text)}</div>`;
+  return wrap;
+}
+
+function md(text) {
+  const { esc } = A();
+  return esc(text).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").split(/\n{2,}/).map((p) => /^\s*[-•]\s/m.test(p)
+    ? `<ul>${p.split(/\n/).filter((l) => l.trim()).map((l) => `<li>${l.replace(/^\s*[-•]\s*/, "")}</li>`).join("")}</ul>` : `<p>${p.replace(/\n/g, "<br>")}</p>`).join("");
+}
+
+function stepsHtml(a, done) {
+  const { esc } = A();
+  return `<details class="atl-think" ${done ? "" : "open"}><summary>${done ? `Analysed ${a.steps.length} steps` : "Analysing…"}</summary><ol>${a.steps.map((s) => `<li class="${done ? "done" : "wait"}"><i></i><span>${esc(s)}</span></li>`).join("")}</ol></details>`;
+}
+
+function fillAnswer(body, a, done) {
+  const { esc, svg, kpisHtml, wwwHtml, blocksHtml, drawCharts } = A();
+  if (!a) { body.innerHTML = `<p class="atl-err">This analysis is no longer available.</p>`; return; }
+  const r = blocksHtml(a.blocks, `chat-${a.id}-${Math.random().toString(36).slice(2, 7)}`);
+  body.innerHTML = `${stepsHtml(a, done)}<p class="atl-head">${esc(a.headline)}</p>${kpisHtml(a.kpis)}${wwwHtml(a)}${r.html}
+    <div class="atl-actions"><a class="atl-report-btn" href="#atlas-${esc(a.id)}">View full report ${svg("arrow")}</a><span class="atl-src">${esc(atlas.sources.join(" · "))}</span></div>`;
+  drawCharts(body, r.keyed);
+}
+
+function newChat(title) {
+  current = { id: `c${Date.now().toString(36)}`, title: title.slice(0, 70), at: Date.now(), msgs: [] };
+  chats.unshift(current);
+}
+
+async function ask(host, text) {
+  busy = true;
+  host.querySelector("#atlSend").disabled = true;
+  if (!current) newChat(text);
+  const stream = host.querySelector("#atlStream");
+  if (current.msgs.length === 0) stream.innerHTML = "";
+  const userMsg = { role: "user", text };
+  current.msgs.push(userMsg); stream.appendChild(msgNode(userMsg));
+  save(); renderHist(host);
+  const a = matchAnswer(text);
+  const node = document.createElement("div");
+  node.className = "atl-a busy";
+  node.innerHTML = `<div class="atl-av">${A().svg("spark")}</div><div class="atl-body"></div>`;
+  stream.appendChild(node);
+  const body = node.querySelector(".atl-body");
+  node.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+  let msg;
+  if (a) {
+    body.innerHTML = stepsHtml(a, false);
+    const items = body.querySelectorAll(".atl-think li");
+    for (const li of items) { li.className = "run"; await sleep(reduced() ? 0 : STEP_MS); li.className = "done"; }
+    fillAnswer(body, a, true);
+    msg = { role: "atlas", answer: a.id };
+  } else {
+    body.innerHTML = `<details class="atl-think" open><summary>Asking Claude with the ${A().esc(brand)} data…</summary><ol><li class="run"><i></i><span>Reading the prepared analyses and the question</span></li></ol></details>`;
+    msg = await askClaude(text);
+    body.innerHTML = msg.error ? `<p class="atl-err">${A().esc(msg.text)}</p>` : `<div class="atl-llm">${md(msg.text)}</div>`;
+  }
+  node.classList.remove("busy");
+  current.msgs.push(msg); current.at = Date.now();
+  chats = [current, ...chats.filter((c) => c.id !== current.id)];
+  save(); renderHist(host);
+  busy = false;
+  host.querySelector("#atlSend").disabled = false;
+}
+
+function context() {
+  return atlas.answers.map((a) => `## ${a.question}\n${a.headline}\nWhat: ${a.what}\nWhy: ${a.why}\nWhen: ${a.when}\nFigures: ${a.kpis.map((k) => `${k.label} ${k.value}${k.note ? ` (${k.note})` : ""}`).join("; ")}`).join("\n\n");
+}
+
+async function askClaude(text) {
+  const system = `You are Atlas, a commercial analyst for ${brand} (flushable wipes) against its competitors. Answer only from the analyses below, which come from ${atlas.sources.join(", ")}. Quote the figures as given. If the data does not cover the question, say so in one sentence and name the closest analysis you can offer. Write two to four short paragraphs or a short list, no headings, under 200 words.\n\n${context()}`;
+  const history = current.msgs.filter((m) => m.role === "user" || (m.text && !m.error)).slice(-8).map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.text }));
+  try {
+    const res = await fetch("/api/llm", { method: "POST", headers: { "content-type": "application/json", ...(window.__CC_AUTH ? { authorization: window.__CC_AUTH } : {}) }, body: JSON.stringify({ system, messages: history, max_tokens: 1200, temperature: 0.2 }) });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) return { role: "atlas", error: true, text: res.status === 429 ? "Too many questions this hour on this link. Try one of the prepared analyses above." : `Atlas could not reach Claude (${json.message || res.status}). The six prepared analyses still work.` };
+    const out = (json.content || []).map((c) => c.text || "").join("").trim();
+    return out ? { role: "atlas", text: out } : { role: "atlas", error: true, text: "Claude returned an empty answer. Try rephrasing the question." };
+  } catch (e) {
+    return { role: "atlas", error: true, text: "Atlas could not reach Claude. Check the connection and try again." };
+  }
+}
+
+function report(host, id) {
+  const a = answerOf(id);
+  if (!a) { host.innerHTML = `<p class="atl-err">This report is not available.</p>`; return; }
+  const r = A().reportHtml(a, atlas, brand);
+  host.innerHTML = r.html;
+  A().drawCharts(host, r.keyed);
+}
+
+function onRoute(def) {
+  if (!def) return;
+  requestAnimationFrame(() => {
+    const host = document.getElementById(`pg-${def.id}`);
+    if (!host) return;
+    if (def.id === "atlas") { if (!host.querySelector(".atl")) shell(host); }
+    else report(host, def.id.replace(/^atlas-/, ""));
+  });
+}
+
+function register() {
+  const cc = window.__CC;
+  if (!cc || !cc.D || !window.__CCEXT || !window.__ATLAS) return false;
+  if (!cc.D.atlas || !cc.D.atlas.answers || !cc.D.atlas.answers.length) return true;
+  atlas = cc.D.atlas; brand = cc.SUBJ || atlas.brand; subject = cc.S || "brand";
+  load();
+  window.__CCEXT.register({ id: "atlas", onRoute, groups: [{ id: "atlas", label: "Ask Atlas", ext: "atlas", after: "overview", pages: [
+    { id: "atlas", label: "Ask Atlas", icon: "sparkle", crumb: "Ask Atlas", title: "Ask Atlas", ext: "atlas", managed: true, pill: "New" },
+    ...atlas.answers.map((a) => ({ id: `atlas-${a.id}`, label: a.chip, icon: "sparkle", crumb: "Ask Atlas · Report", title: a.report.title, ext: "atlas", managed: true, nav: false })),
+  ] }] });
+  return true;
+}
+
+const timer = setInterval(() => { if (register()) clearInterval(timer); }, 150);
+})();

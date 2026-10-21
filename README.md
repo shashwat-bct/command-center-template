@@ -111,6 +111,16 @@ npx tsx scripts/import-retailer-csv.ts --clean <dir with all_data_clean.csv, rev
 
 `dude-wipes` pins its tracked listings to the products in that feed: `asins` for the subject and `competitorAsins` for Charmin, Cottonelle and Goodwipes. Pinned listings are never merged as colour variants, and a brand may track up to eight listings. There are 18 of 20 Walmart items: 9 are the same item by UPC (through Keepa), and 9 are the same line and scent in Amazon's own pack size. Cottonelle Ultra Fresh has no Amazon line, so it appears only in the reviews.
 
+### Ask Atlas
+
+The **Ask Atlas** page (after the 360° Scorecard) is a chat over prepared analyses: six questions with fixed answers, each with the analysis steps, a two-line headline, what / why / when, KPIs, tables and charts, and a full report page (`#atlas-<id>`). Any other question goes to Claude through `/api/llm`, with the six analyses as its only data. Conversations are saved in the viewer's browser.
+
+The answers live in `brand-data/<slug>.atlas.json` and are added to the payload when it is served (`lib/atlas.ts`), so they need no rebuild. Regenerate them from the Walmart feed and a build's payload:
+
+```
+npx tsx scripts/build-atlas.ts --slug dude-wipes --payload <payload.json>
+```
+
 ### Daily retailer prices
 
 `POST /api/retail-offers` (admin token) takes one more retailer-site reading for every product on each brand's latest dashboard and adds it to the stored history, without rebuilding. Body `{ "slugs": ["anker"] }` limits it to some brands; without it every brand is read. It answers `202` and works in the background. The next build of a brand picks up every reading in its window. Run it daily from Cloud Scheduler:

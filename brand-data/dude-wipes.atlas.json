@@ -1,0 +1,3703 @@
+{
+  "version": 1,
+  "brand": "Dude Wipes",
+  "generatedOn": "2026-10-21",
+  "sources": [
+    "Walmart data (Histomart, Kompy, RetailerAPI)",
+    "Amazon via Keepa and Apify",
+    "AI answers from ChatGPT, Gemini and Claude"
+  ],
+  "answers": [
+    {
+      "id": "black-friday",
+      "question": "How did Dude Wipes perform over Black Friday 2025?",
+      "chip": "Black Friday 2025 performance",
+      "steps": [
+        "Reading 3,877 Walmart product-days from Histomart, Kompy and RetailerAPI",
+        "Isolating Black Friday week (Nov 21 – Dec 1, 2025) against the Oct 1 – Nov 13 baseline",
+        "Comparing 16 items across 4 brands on price, crossed-out markdowns, stock and sellers",
+        "Ranking the price moves and checking which brands cut"
+      ],
+      "headline": "Dude Wipes did not discount for Black Friday 2025 at Walmart: its items moved +6.4% on average (4 of 5 went up), while the rest of the set moved +2.9%. It held price and stayed 100% in stock; nobody in the set ran a broad Black Friday cut at Walmart.",
+      "what": "Dude Wipes held or raised price on every item through Black Friday week. The deepest cut in the set was Goodwipes Rosewater · 200 ct at -41.6%, while it was out of stock most of the week (0% in stock). No tracked item showed a crossed-out Walmart markdown during the week (0 markdown readings).",
+      "why": "There was no deal to follow: no Dude Wipes item showed a crossed-out Walmart markdown, and its median item had 1 seller, so no reseller undercut the shelf. Without brand-funded promotion the shelf price simply followed Walmart's own pricing, which drifted up into the holidays.",
+      "when": "Black Friday was Nov 28, 2025. Prices were read from Nov 21 to Dec 1, 2025 against Oct 1 – Nov 13. The holiday chart runs to Dec 31, 2025.",
+      "kpis": [
+        {
+          "label": "Dude Wipes price move",
+          "value": "+6.4%",
+          "note": "Black Friday low vs autumn median",
+          "tone": "watch"
+        },
+        {
+          "label": "Rest of the set",
+          "value": "+2.9%",
+          "note": "3 competitors"
+        },
+        {
+          "label": "Dude Wipes in stock",
+          "value": "100%",
+          "note": "Black Friday week readings",
+          "tone": "good"
+        },
+        {
+          "label": "Per 100 wipes",
+          "value": "$7.91",
+          "note": "Dude Wipes median on Black Friday"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Average Black Friday price move by brand",
+          "sub": "Mean change of each brand's items, lowest Black Friday price vs autumn median",
+          "unit": "signedPct",
+          "rows": [
+            {
+              "label": "Dude Wipes",
+              "value": 6.4,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "5 items · 0 cut"
+            },
+            {
+              "label": "Charmin",
+              "value": 34.5,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "2 items · 0 cut"
+            },
+            {
+              "label": "Cottonelle",
+              "value": 1.3,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "4 items · 0 cut"
+            },
+            {
+              "label": "Goodwipes",
+              "value": -8.3,
+              "color": "#be123c",
+              "subject": false,
+              "note": "5 items · 1 cut"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Every tracked item, Black Friday week vs its autumn price",
+          "sub": "Lowest price Nov 21 – Dec 1, 2025 against the median Oct 1 – Nov 13, 2025 · Walmart",
+          "columns": [
+            {
+              "label": "Brand",
+              "align": "left"
+            },
+            {
+              "label": "Item",
+              "align": "left"
+            },
+            {
+              "label": "Autumn median"
+            },
+            {
+              "label": "Black Friday low"
+            },
+            {
+              "label": "Change"
+            },
+            {
+              "label": "Per 100 wipes"
+            },
+            {
+              "label": "In stock"
+            },
+            {
+              "label": "Sellers"
+            }
+          ],
+          "rows": [
+            [
+              "Dude Wipes",
+              "Unscented · 96 ct",
+              "$7.84",
+              "$8.68",
+              "+10.7%",
+              "$9.04",
+              "—",
+              1
+            ],
+            [
+              "Dude Wipes",
+              "Shea BUTTer · 240 ct",
+              "$17.97",
+              "$17.97",
+              "0.0%",
+              "$7.49",
+              "100%",
+              1
+            ],
+            [
+              "Dude Wipes",
+              "Unscented · 192 ct",
+              "$14.00",
+              "$15.18",
+              "+8.4%",
+              "$7.91",
+              "100%",
+              1
+            ],
+            [
+              "Dude Wipes",
+              "Mint Chill · 240 ct",
+              "$16.68",
+              "$17.97",
+              "+7.7%",
+              "$7.49",
+              "—",
+              2
+            ],
+            [
+              "Dude Wipes",
+              "Unscented · 48 ct",
+              "$4.54",
+              "$4.78",
+              "+5.3%",
+              "$9.96",
+              "100%",
+              3
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 320 ct",
+              "$24.99",
+              "$24.99",
+              "0.0%",
+              "$7.81",
+              "—",
+              3
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 160 ct",
+              "$7.96",
+              "$13.45",
+              "+69.0%",
+              "$8.41",
+              "—",
+              6
+            ],
+            [
+              "Cottonelle",
+              "Fresh Care · 420 ct",
+              "$16.88",
+              "$16.88",
+              "0.0%",
+              "$4.02",
+              "100%",
+              5
+            ],
+            [
+              "Cottonelle",
+              "Ultra Fresh · 168 ct",
+              "$8.17",
+              "$8.17",
+              "0.0%",
+              "$4.86",
+              "—",
+              4
+            ],
+            [
+              "Cottonelle",
+              "Gentle Plus · 168 ct",
+              "$7.77",
+              "$7.77",
+              "0.0%",
+              "$4.63",
+              "100%",
+              4
+            ],
+            [
+              "Cottonelle",
+              "Fresh Care · 168 ct",
+              "$6.98",
+              "$7.33",
+              "+5.0%",
+              "$4.36",
+              "—",
+              4
+            ],
+            [
+              "Goodwipes",
+              "Rosewater · 200 ct",
+              "$22.20",
+              "$12.96",
+              "-41.6%",
+              "$6.48",
+              "0%",
+              1
+            ],
+            [
+              "Goodwipes",
+              "Botanical Bliss · 150 ct",
+              "$9.97",
+              "$9.97",
+              "0.0%",
+              "$6.65",
+              "100%",
+              4
+            ],
+            [
+              "Goodwipes",
+              "Shea-Coco · 150 ct",
+              "$9.97",
+              "$9.97",
+              "0.0%",
+              "$6.65",
+              "100%",
+              3
+            ],
+            [
+              "Goodwipes",
+              "Rosewater · 100 ct",
+              "$6.76",
+              "$6.76",
+              "0.0%",
+              "$6.76",
+              "0%",
+              1
+            ],
+            [
+              "Goodwipes",
+              "Lavender · 150 ct",
+              "$9.97",
+              "$9.97",
+              "0.0%",
+              "$6.65",
+              "100%",
+              6
+            ]
+          ],
+          "highlight": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "report": {
+        "title": "Dude Wipes · Black Friday 2025 at Walmart",
+        "summary": "Black Friday 2025 was a hold-price event for Dude Wipes: its items stayed at or above their autumn price while staying in stock, with no crossed-out markdowns. Competitors moved +2.9% on average, with 1 of 11 competitor items cut and 2 raised.",
+        "sections": [
+          {
+            "title": "The brand view",
+            "text": "Average move per brand between the autumn median and the lowest Black Friday week price. A negative bar is a brand that cut.",
+            "blocks": [
+              {
+                "type": "hbars",
+                "title": "Average Black Friday price move by brand",
+                "sub": "Mean change of each brand's items, lowest Black Friday price vs autumn median",
+                "unit": "signedPct",
+                "rows": [
+                  {
+                    "label": "Dude Wipes",
+                    "value": 6.4,
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "note": "5 items · 0 cut"
+                  },
+                  {
+                    "label": "Charmin",
+                    "value": 34.5,
+                    "color": "#0891b2",
+                    "subject": false,
+                    "note": "2 items · 0 cut"
+                  },
+                  {
+                    "label": "Cottonelle",
+                    "value": 1.3,
+                    "color": "#2563eb",
+                    "subject": false,
+                    "note": "4 items · 0 cut"
+                  },
+                  {
+                    "label": "Goodwipes",
+                    "value": -8.3,
+                    "color": "#be123c",
+                    "subject": false,
+                    "note": "5 items · 1 cut"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Through the season",
+            "text": "Median price per 100 wipes per brand, carried forward up to 21 days between readings. The shaded band is Black Friday week.",
+            "blocks": [
+              {
+                "type": "line",
+                "title": "Price per 100 wipes through the holiday season",
+                "sub": "Median across each brand's Walmart items, Oct – Dec 2025",
+                "unit": "usd",
+                "x": [
+                  "2025-10-01",
+                  "2025-10-02",
+                  "2025-10-03",
+                  "2025-10-04",
+                  "2025-10-05",
+                  "2025-10-06",
+                  "2025-10-07",
+                  "2025-10-08",
+                  "2025-10-09",
+                  "2025-10-10",
+                  "2025-10-11",
+                  "2025-10-12",
+                  "2025-10-13",
+                  "2025-10-14",
+                  "2025-10-15",
+                  "2025-10-16",
+                  "2025-10-17",
+                  "2025-10-18",
+                  "2025-10-19",
+                  "2025-10-20",
+                  "2025-10-21",
+                  "2025-10-22",
+                  "2025-10-23",
+                  "2025-10-24",
+                  "2025-10-25",
+                  "2025-10-26",
+                  "2025-10-27",
+                  "2025-10-28",
+                  "2025-10-29",
+                  "2025-10-30",
+                  "2025-10-31",
+                  "2025-11-01",
+                  "2025-11-02",
+                  "2025-11-03",
+                  "2025-11-04",
+                  "2025-11-05",
+                  "2025-11-06",
+                  "2025-11-07",
+                  "2025-11-08",
+                  "2025-11-09",
+                  "2025-11-10",
+                  "2025-11-11",
+                  "2025-11-12",
+                  "2025-11-13",
+                  "2025-11-14",
+                  "2025-11-15",
+                  "2025-11-16",
+                  "2025-11-17",
+                  "2025-11-18",
+                  "2025-11-19",
+                  "2025-11-20",
+                  "2025-11-21",
+                  "2025-11-22",
+                  "2025-11-23",
+                  "2025-11-24",
+                  "2025-11-25",
+                  "2025-11-26",
+                  "2025-11-27",
+                  "2025-11-28",
+                  "2025-11-29",
+                  "2025-11-30",
+                  "2025-12-01",
+                  "2025-12-02",
+                  "2025-12-03",
+                  "2025-12-04",
+                  "2025-12-05",
+                  "2025-12-06",
+                  "2025-12-07",
+                  "2025-12-08",
+                  "2025-12-09",
+                  "2025-12-10",
+                  "2025-12-11",
+                  "2025-12-12",
+                  "2025-12-13",
+                  "2025-12-14",
+                  "2025-12-15",
+                  "2025-12-16",
+                  "2025-12-17",
+                  "2025-12-18",
+                  "2025-12-19",
+                  "2025-12-20",
+                  "2025-12-21",
+                  "2025-12-22",
+                  "2025-12-23",
+                  "2025-12-24",
+                  "2025-12-25",
+                  "2025-12-26",
+                  "2025-12-27",
+                  "2025-12-28",
+                  "2025-12-29",
+                  "2025-12-30",
+                  "2025-12-31"
+                ],
+                "series": [
+                  {
+                    "id": "dude-wipes",
+                    "label": "Dude Wipes",
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "data": [
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.29,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.29,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.29,
+                      7.29,
+                      7.29,
+                      7.29,
+                      7.29,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.54,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.91,
+                      7.7,
+                      7.7,
+                      7.7,
+                      7.7,
+                      7.7,
+                      7.7,
+                      7.7,
+                      7.7,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      7.49,
+                      8.72,
+                      8.72,
+                      8.72,
+                      8.72,
+                      8.72
+                    ]
+                  },
+                  {
+                    "id": "charmin",
+                    "label": "Charmin",
+                    "color": "#0891b2",
+                    "subject": false,
+                    "data": [
+                      8.58,
+                      8.58,
+                      8.58,
+                      8.58,
+                      8.58,
+                      9.05,
+                      8.58,
+                      9.05,
+                      8.58,
+                      8.58,
+                      7.19,
+                      7.19,
+                      7.19,
+                      7.19,
+                      7.19,
+                      7.19,
+                      7.19,
+                      7.19,
+                      8.63,
+                      8.56,
+                      8.9,
+                      7.5,
+                      8.28,
+                      8.28,
+                      7.5,
+                      7.5,
+                      7.5,
+                      7.81,
+                      8.47,
+                      8.41,
+                      8.41,
+                      8.41,
+                      8.41,
+                      8.41,
+                      8.41,
+                      8.41,
+                      8.41,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      10.62,
+                      10.62,
+                      10.62,
+                      10.62,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      9.69,
+                      10.61,
+                      10.55,
+                      11.1,
+                      7.81,
+                      7.81,
+                      7.75,
+                      7.75,
+                      7.75,
+                      7.75,
+                      6.39,
+                      8.59,
+                      8.59,
+                      8.59,
+                      6.39,
+                      6.39,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29
+                    ]
+                  },
+                  {
+                    "id": "cottonelle",
+                    "label": "Cottonelle",
+                    "color": "#2563eb",
+                    "subject": false,
+                    "data": [
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.49,
+                      4.49,
+                      4.49,
+                      4.49,
+                      4.63,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.32,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63
+                    ]
+                  },
+                  {
+                    "id": "goodwipes",
+                    "label": "Goodwipes",
+                    "color": "#be123c",
+                    "subject": false,
+                    "data": [
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65
+                    ]
+                  }
+                ],
+                "bands": [
+                  {
+                    "start": "2025-11-21",
+                    "end": "2025-12-01",
+                    "label": "Black Friday week"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Item by item",
+            "text": "Every tracked Walmart item with readings in both windows. Dude Wipes rows are highlighted.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Every tracked item, Black Friday week vs its autumn price",
+                "sub": "Lowest price Nov 21 – Dec 1, 2025 against the median Oct 1 – Nov 13, 2025 · Walmart",
+                "columns": [
+                  {
+                    "label": "Brand",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Item",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Autumn median"
+                  },
+                  {
+                    "label": "Black Friday low"
+                  },
+                  {
+                    "label": "Change"
+                  },
+                  {
+                    "label": "Per 100 wipes"
+                  },
+                  {
+                    "label": "In stock"
+                  },
+                  {
+                    "label": "Sellers"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Dude Wipes",
+                    "Unscented · 96 ct",
+                    "$7.84",
+                    "$8.68",
+                    "+10.7%",
+                    "$9.04",
+                    "—",
+                    1
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Shea BUTTer · 240 ct",
+                    "$17.97",
+                    "$17.97",
+                    "0.0%",
+                    "$7.49",
+                    "100%",
+                    1
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented · 192 ct",
+                    "$14.00",
+                    "$15.18",
+                    "+8.4%",
+                    "$7.91",
+                    "100%",
+                    1
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Mint Chill · 240 ct",
+                    "$16.68",
+                    "$17.97",
+                    "+7.7%",
+                    "$7.49",
+                    "—",
+                    2
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented · 48 ct",
+                    "$4.54",
+                    "$4.78",
+                    "+5.3%",
+                    "$9.96",
+                    "100%",
+                    3
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 320 ct",
+                    "$24.99",
+                    "$24.99",
+                    "0.0%",
+                    "$7.81",
+                    "—",
+                    3
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 160 ct",
+                    "$7.96",
+                    "$13.45",
+                    "+69.0%",
+                    "$8.41",
+                    "—",
+                    6
+                  ],
+                  [
+                    "Cottonelle",
+                    "Fresh Care · 420 ct",
+                    "$16.88",
+                    "$16.88",
+                    "0.0%",
+                    "$4.02",
+                    "100%",
+                    5
+                  ],
+                  [
+                    "Cottonelle",
+                    "Ultra Fresh · 168 ct",
+                    "$8.17",
+                    "$8.17",
+                    "0.0%",
+                    "$4.86",
+                    "—",
+                    4
+                  ],
+                  [
+                    "Cottonelle",
+                    "Gentle Plus · 168 ct",
+                    "$7.77",
+                    "$7.77",
+                    "0.0%",
+                    "$4.63",
+                    "100%",
+                    4
+                  ],
+                  [
+                    "Cottonelle",
+                    "Fresh Care · 168 ct",
+                    "$6.98",
+                    "$7.33",
+                    "+5.0%",
+                    "$4.36",
+                    "—",
+                    4
+                  ],
+                  [
+                    "Goodwipes",
+                    "Rosewater · 200 ct",
+                    "$22.20",
+                    "$12.96",
+                    "-41.6%",
+                    "$6.48",
+                    "0%",
+                    1
+                  ],
+                  [
+                    "Goodwipes",
+                    "Botanical Bliss · 150 ct",
+                    "$9.97",
+                    "$9.97",
+                    "0.0%",
+                    "$6.65",
+                    "100%",
+                    4
+                  ],
+                  [
+                    "Goodwipes",
+                    "Shea-Coco · 150 ct",
+                    "$9.97",
+                    "$9.97",
+                    "0.0%",
+                    "$6.65",
+                    "100%",
+                    3
+                  ],
+                  [
+                    "Goodwipes",
+                    "Rosewater · 100 ct",
+                    "$6.76",
+                    "$6.76",
+                    "0.0%",
+                    "$6.76",
+                    "0%",
+                    1
+                  ],
+                  [
+                    "Goodwipes",
+                    "Lavender · 150 ct",
+                    "$9.97",
+                    "$9.97",
+                    "0.0%",
+                    "$6.65",
+                    "100%",
+                    6
+                  ]
+                ],
+                "highlight": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              }
+            ]
+          }
+        ],
+        "method": [
+          "Source: Walmart readings from Histomart, Kompy and RetailerAPI, cleaned and merged per item per day (latest reading wins).",
+          "Autumn price is the median of Oct 1 – Nov 13, 2025; Black Friday price is the lowest reading Nov 21 – Dec 1, 2025.",
+          "A markdown is a day where Walmart showed a crossed-out price above the selling price.",
+          "Price per 100 wipes uses the item's own count read from its Walmart title."
+        ]
+      }
+    },
+    {
+      "id": "price-per-wipe",
+      "question": "Is Dude Wipes the premium or the value choice per wipe?",
+      "chip": "Price per wipe vs competitors",
+      "steps": [
+        "Restating 19 Walmart items to price per 100 wipes from their own pack counts",
+        "Taking each item's median over Jul 20, 2026 – Oct 18, 2026",
+        "Ranking 4 brands and tracing twelve months of the same measure"
+      ],
+      "headline": "Dude Wipes is the second most expensive of 4 brands per wipe at Walmart: $8.47 per 100 wipes on its median item, 78.8% above Cottonelle at $4.74. It is priced as a premium wipe, not the value one.",
+      "what": "Median price per 100 wipes: Cottonelle $4.74, Goodwipes $6.65, Dude Wipes $8.47, Charmin $9.93. The cheapest single item is Cottonelle Fresh Care · 420 ct at $4.22.",
+      "why": "Pack size drives it: Dude Wipes sells 48, 96, 192, 240-count packs, and its smallest (48 ct) costs $9.54 per 100 wipes against $7.49 for its largest (240 ct). Cottonelle's median item is $4.74.",
+      "when": "Jul 20, 2026 to Oct 18, 2026 for the ranking; the trend covers Oct 19, 2025 to Oct 18, 2026.",
+      "kpis": [
+        {
+          "label": "Dude Wipes per 100 wipes",
+          "value": "$8.47",
+          "note": "median item",
+          "tone": "neutral"
+        },
+        {
+          "label": "Rank (cheapest first)",
+          "value": "#3 of 4"
+        },
+        {
+          "label": "Premium vs Cottonelle",
+          "value": "78.8%",
+          "tone": "watch"
+        },
+        {
+          "label": "Cheapest Dude Wipes item",
+          "value": "$7.49",
+          "note": "Mint Chill · 240 ct"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Median price per 100 wipes by brand",
+          "sub": "Walmart, Jul 20, 2026 – Oct 18, 2026",
+          "unit": "usd",
+          "rows": [
+            {
+              "label": "Cottonelle",
+              "value": 4.74,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "5 items"
+            },
+            {
+              "label": "Goodwipes",
+              "value": 6.65,
+              "color": "#be123c",
+              "subject": false,
+              "note": "5 items"
+            },
+            {
+              "label": "Dude Wipes",
+              "value": 8.475,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "4 items"
+            },
+            {
+              "label": "Charmin",
+              "value": 9.93,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "5 items"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Every Walmart item, cheapest per wipe first",
+          "sub": "Median over the 13-week window",
+          "columns": [
+            {
+              "label": "Brand",
+              "align": "left"
+            },
+            {
+              "label": "Item",
+              "align": "left"
+            },
+            {
+              "label": "Shelf price"
+            },
+            {
+              "label": "Per 100 wipes"
+            }
+          ],
+          "rows": [
+            [
+              "Cottonelle",
+              "Fresh Care · 420 ct",
+              "$17.72",
+              "$4.22"
+            ],
+            [
+              "Cottonelle",
+              "Fresh Care · 168 ct",
+              "$7.33",
+              "$4.36"
+            ],
+            [
+              "Cottonelle",
+              "Ultra Fresh · 84 ct",
+              "$3.98",
+              "$4.74"
+            ],
+            [
+              "Cottonelle",
+              "Ultra Fresh · 168 ct",
+              "$8.17",
+              "$4.86"
+            ],
+            [
+              "Cottonelle",
+              "Gentle Plus · 168 ct",
+              "$8.16",
+              "$4.86"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 80 ct",
+              "$4.48",
+              "$5.60"
+            ],
+            [
+              "Goodwipes",
+              "Rosewater · 200 ct",
+              "$12.96",
+              "$6.48"
+            ],
+            [
+              "Goodwipes",
+              "Botanical Bliss · 150 ct",
+              "$9.97",
+              "$6.65"
+            ],
+            [
+              "Goodwipes",
+              "Shea-Coco · 150 ct",
+              "$9.97",
+              "$6.65"
+            ],
+            [
+              "Goodwipes",
+              "Lavender · 150 ct",
+              "$9.97",
+              "$6.65"
+            ],
+            [
+              "Goodwipes",
+              "Rosewater · 100 ct",
+              "$6.76",
+              "$6.76"
+            ],
+            [
+              "Dude Wipes",
+              "Mint Chill · 240 ct",
+              "$17.97",
+              "$7.49"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented · 192 ct",
+              "$15.18",
+              "$7.91"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 320 ct",
+              "$27.98",
+              "$8.74"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented · 96 ct",
+              "$8.68",
+              "$9.04"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented · 48 ct",
+              "$4.58",
+              "$9.54"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 160 ct",
+              "$15.89",
+              "$9.93"
+            ],
+            [
+              "Charmin",
+              "Freshmates · 160 ct",
+              "$17.98",
+              "$11.24"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 40 ct",
+              "$9.88",
+              "$24.70"
+            ]
+          ],
+          "highlight": [
+            11,
+            12,
+            14,
+            15
+          ]
+        }
+      ],
+      "report": {
+        "title": "Dude Wipes · Price per wipe at Walmart",
+        "summary": "Per wipe, Dude Wipes is ranked #3 of 4 (cheapest first) at Walmart. The gap is structural: pack sizes and XL sheets, not discounting.",
+        "sections": [
+          {
+            "title": "Where each brand sits",
+            "text": "Median of each brand's items over the dashboard window.",
+            "blocks": [
+              {
+                "type": "hbars",
+                "title": "Median price per 100 wipes by brand",
+                "sub": "Walmart, Jul 20, 2026 – Oct 18, 2026",
+                "unit": "usd",
+                "rows": [
+                  {
+                    "label": "Cottonelle",
+                    "value": 4.74,
+                    "color": "#2563eb",
+                    "subject": false,
+                    "note": "5 items"
+                  },
+                  {
+                    "label": "Goodwipes",
+                    "value": 6.65,
+                    "color": "#be123c",
+                    "subject": false,
+                    "note": "5 items"
+                  },
+                  {
+                    "label": "Dude Wipes",
+                    "value": 8.475,
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "note": "4 items"
+                  },
+                  {
+                    "label": "Charmin",
+                    "value": 9.93,
+                    "color": "#0891b2",
+                    "subject": false,
+                    "note": "5 items"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "The last twelve months",
+            "text": "Monthly median of the same measure. A flat line is a brand that holds price.",
+            "blocks": [
+              {
+                "type": "line",
+                "title": "Twelve months of price per 100 wipes",
+                "sub": "Monthly median of each brand's Walmart items",
+                "unit": "usd",
+                "x": [
+                  "2025-11-15",
+                  "2025-12-15",
+                  "2026-01-15",
+                  "2026-02-15",
+                  "2026-03-15",
+                  "2026-04-15",
+                  "2026-05-15",
+                  "2026-06-15",
+                  "2026-07-15",
+                  "2026-08-15",
+                  "2026-09-15",
+                  "2026-10-15"
+                ],
+                "series": [
+                  {
+                    "id": "dude-wipes",
+                    "label": "Dude Wipes",
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "data": [
+                      7.54,
+                      7.91,
+                      8.63,
+                      7.7,
+                      8.63,
+                      7.7,
+                      8.51,
+                      8.51,
+                      7.7,
+                      7.91,
+                      8.29,
+                      7.54
+                    ]
+                  },
+                  {
+                    "id": "charmin",
+                    "label": "Charmin",
+                    "color": "#0891b2",
+                    "subject": false,
+                    "data": [
+                      9.69,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.29,
+                      5.6,
+                      9.05,
+                      11.21,
+                      10.62
+                    ]
+                  },
+                  {
+                    "id": "cottonelle",
+                    "label": "Cottonelle",
+                    "color": "#2563eb",
+                    "subject": false,
+                    "data": [
+                      4.63,
+                      4.63,
+                      4.3,
+                      4.24,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.63,
+                      4.61,
+                      4.74,
+                      4.61,
+                      4.61
+                    ]
+                  },
+                  {
+                    "id": "goodwipes",
+                    "label": "Goodwipes",
+                    "color": "#be123c",
+                    "subject": false,
+                    "data": [
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65,
+                      6.65
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Every item",
+            "text": "All Walmart items with readings in the window. Dude Wipes rows are highlighted.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Every Walmart item, cheapest per wipe first",
+                "sub": "Median over the 13-week window",
+                "columns": [
+                  {
+                    "label": "Brand",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Item",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Shelf price"
+                  },
+                  {
+                    "label": "Per 100 wipes"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Cottonelle",
+                    "Fresh Care · 420 ct",
+                    "$17.72",
+                    "$4.22"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Fresh Care · 168 ct",
+                    "$7.33",
+                    "$4.36"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Ultra Fresh · 84 ct",
+                    "$3.98",
+                    "$4.74"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Ultra Fresh · 168 ct",
+                    "$8.17",
+                    "$4.86"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Gentle Plus · 168 ct",
+                    "$8.16",
+                    "$4.86"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 80 ct",
+                    "$4.48",
+                    "$5.60"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Rosewater · 200 ct",
+                    "$12.96",
+                    "$6.48"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Botanical Bliss · 150 ct",
+                    "$9.97",
+                    "$6.65"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Shea-Coco · 150 ct",
+                    "$9.97",
+                    "$6.65"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Lavender · 150 ct",
+                    "$9.97",
+                    "$6.65"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Rosewater · 100 ct",
+                    "$6.76",
+                    "$6.76"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Mint Chill · 240 ct",
+                    "$17.97",
+                    "$7.49"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented · 192 ct",
+                    "$15.18",
+                    "$7.91"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 320 ct",
+                    "$27.98",
+                    "$8.74"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented · 96 ct",
+                    "$8.68",
+                    "$9.04"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented · 48 ct",
+                    "$4.58",
+                    "$9.54"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 160 ct",
+                    "$15.89",
+                    "$9.93"
+                  ],
+                  [
+                    "Charmin",
+                    "Freshmates · 160 ct",
+                    "$17.98",
+                    "$11.24"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 40 ct",
+                    "$9.88",
+                    "$24.70"
+                  ]
+                ],
+                "highlight": [
+                  11,
+                  12,
+                  14,
+                  15
+                ]
+              }
+            ]
+          }
+        ],
+        "method": [
+          "Source: Walmart readings from Histomart, Kompy and RetailerAPI.",
+          "Price per 100 wipes = shelf price ÷ the item's wipe count × 100, using the count read from its Walmart title.",
+          "Brand figures are the median of its items, so one odd pack does not move the brand."
+        ]
+      }
+    },
+    {
+      "id": "big-deal-days",
+      "question": "Did Dude Wipes compete on Prime Big Deal Days?",
+      "chip": "Prime Big Deal Days, Oct 2026",
+      "steps": [
+        "Pulling daily Amazon (Keepa) and Walmart prices for 19 tracked listings",
+        "Comparing Oct 13, 2026 – Oct 14, 2026 against the 14 days before",
+        "Matching measured price events and stock on the event days"
+      ],
+      "headline": "Dude Wipes mostly held price on Prime Big Deal Days: its listings moved -0.4% on average against Cottonelle's -4.9%. 1 of 9 Dude Wipes listings cut 3% or more.",
+      "what": "Dude Wipes -0.4% (1/9 cut) · Charmin +6.6% (1/10 cut) · Cottonelle -4.9% (2/6 cut) · Goodwipes 0.0% (0/10 cut). Dude Wipes ran 0 measured price events overlapping the event.",
+      "why": "Across the set, Amazon listings moved -0.6% and Walmart listings +2.4% on the event days; Dude Wipes moved -0.9% on Amazon and 0.0% on Walmart. Its priced listings were 100% in stock on the event days, so price, not stock, decided what it sold.",
+      "when": "Prime Big Deal Days: Oct 13, 2026 – Oct 14, 2026. Baseline: the 14 days before.",
+      "kpis": [
+        {
+          "label": "Dude Wipes price move",
+          "value": "-0.4%",
+          "note": "event low vs 14 days before"
+        },
+        {
+          "label": "Listings cut 3%+",
+          "value": "1 / 9",
+          "tone": "good"
+        },
+        {
+          "label": "Deepest rival move",
+          "value": "-4.9%",
+          "note": "Cottonelle"
+        },
+        {
+          "label": "Dude Wipes in stock",
+          "value": "100%",
+          "note": "on the event days",
+          "tone": "good"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Average price move on the event days",
+          "sub": "Lowest price Oct 13, 2026 – Oct 14, 2026 vs the median of the 14 days before · Amazon and Walmart",
+          "unit": "signedPct",
+          "rows": [
+            {
+              "label": "Dude Wipes",
+              "value": -0.4,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "1 of 9 listings cut 3%+"
+            },
+            {
+              "label": "Charmin",
+              "value": 6.6,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "1 of 10 listings cut 3%+"
+            },
+            {
+              "label": "Cottonelle",
+              "value": -4.9,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "2 of 6 listings cut 3%+"
+            },
+            {
+              "label": "Goodwipes",
+              "value": 0,
+              "color": "#be123c",
+              "subject": false,
+              "note": "0 of 10 listings cut 3%+"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Every measured listing on the event",
+          "sub": "Amazon (Keepa) and Walmart readings only",
+          "columns": [
+            {
+              "label": "Brand",
+              "align": "left"
+            },
+            {
+              "label": "Listing",
+              "align": "left"
+            },
+            {
+              "label": "Retailer",
+              "align": "left"
+            },
+            {
+              "label": "Before"
+            },
+            {
+              "label": "Event low"
+            },
+            {
+              "label": "Change"
+            },
+            {
+              "label": "In stock"
+            }
+          ],
+          "rows": [
+            [
+              "Cottonelle",
+              "Fresh Care Flushable Wipes · 168 Count",
+              "Amazon",
+              "$18.37",
+              "$13.98",
+              "-23.9%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 320 Count",
+              "Amazon",
+              "$13.87",
+              "$11.74",
+              "-15.3%",
+              "100%"
+            ],
+            [
+              "Cottonelle",
+              "Fresh Care Flushable Wipes · 168 Count",
+              "Walmart",
+              "$7.33",
+              "$6.98",
+              "-4.8%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Mint Chill Adult Flushable Wet Wipes · 288 Count",
+              "Amazon",
+              "$22.34",
+              "$21.56",
+              "-3.5%",
+              "100%"
+            ],
+            [
+              "Cottonelle",
+              "Fresh Care Flushable Wet Wipes · 336 Count",
+              "Amazon",
+              "$15.89",
+              "$15.79",
+              "-0.6%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 40 Count",
+              "Walmart",
+              "$9.91",
+              "$9.88",
+              "-0.3%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 80 Count",
+              "Walmart",
+              "$12.99",
+              "$12.96",
+              "-0.2%",
+              "100%"
+            ],
+            [
+              "Cottonelle",
+              "GentlePlus Flushable Wipes · 168 Count",
+              "Amazon",
+              "$7.78",
+              "$7.77",
+              "-0.1%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented Adult Flushable Wet Wipes · 48 Count",
+              "Amazon",
+              "$4.58",
+              "$4.58",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented Adult Flushable Wet Wipes · 48 Count",
+              "Walmart",
+              "$4.58",
+              "$4.58",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Flushable Wipes · 96 Count",
+              "Walmart",
+              "$8.68",
+              "$8.68",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Flushable Wet Wipes Dispenser · 192 Count",
+              "Walmart",
+              "$14.48",
+              "$14.48",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented Adult Flushable Wet Wipes · 288 Count",
+              "Amazon",
+              "$20.58",
+              "$20.58",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Unscented Adult Flushable Wet Wipes · 288 Count",
+              "Walmart",
+              "$20.59",
+              "$20.58",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Mint Chill Adult Flushable Wet Wipes · 288 Count",
+              "Walmart",
+              "$21.56",
+              "$21.56",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Dude Wipes",
+              "Shea BUTTer Adult Flushable Wet Wipes · 288 Count",
+              "Amazon",
+              "$21.56",
+              "$21.56",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 80 Count",
+              "Amazon",
+              "$8.69",
+              "$8.69",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 40 Count",
+              "Amazon",
+              "$8.72",
+              "$8.72",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Freshmates Flushable Wipes with Refillable Tub",
+              "Walmart",
+              "$15.28",
+              "$15.28",
+              "0.0%",
+              "0%"
+            ],
+            [
+              "Cottonelle",
+              "GentlePlus Flushable Wipes · 168 Count",
+              "Walmart",
+              "$8.16",
+              "$8.16",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Cottonelle",
+              "Fresh Care Flushable Wet Wipes · 336 Count",
+              "Walmart",
+              "$14.18",
+              "$14.18",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Shea-Coco · 153 Count",
+              "Amazon",
+              "$15.89",
+              "$15.89",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Shea-Coco · 153 Count",
+              "Walmart",
+              "$10.17",
+              "$10.17",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Botanical Bliss · 153 Count",
+              "Amazon",
+              "$15.89",
+              "$15.89",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Botanical Bliss · 153 Count",
+              "Walmart",
+              "$9.30",
+              "$9.30",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Lavender · 418 Count",
+              "Amazon",
+              "$33.99",
+              "$33.99",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Lavender · 418 Count",
+              "Walmart",
+              "$27.78",
+              "$27.78",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Rosewater · 318 Count",
+              "Amazon",
+              "$25.99",
+              "$25.99",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Rosewater · 318 Count",
+              "Walmart",
+              "$20.61",
+              "$20.61",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Rosewater · 153 Count",
+              "Amazon",
+              "$15.89",
+              "$15.89",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Goodwipes",
+              "Flushable Wipes Rosewater · 153 Count",
+              "Walmart",
+              "$10.34",
+              "$10.34",
+              "0.0%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Freshmates Flushable Wipes with Refillable Tub",
+              "Amazon",
+              "$17.49",
+              "$18.49",
+              "+5.7%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 320 Count",
+              "Walmart",
+              "$24.99",
+              "$27.98",
+              "+12.0%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 160 Count",
+              "Amazon",
+              "$9.23",
+              "$11.82",
+              "+28.1%",
+              "100%"
+            ],
+            [
+              "Charmin",
+              "Flushable Wipes · 160 Count",
+              "Walmart",
+              "$12.48",
+              "$16.99",
+              "+36.2%",
+              "100%"
+            ]
+          ],
+          "highlight": [
+            3,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        }
+      ],
+      "report": {
+        "title": "Dude Wipes · Prime Big Deal Days 2026",
+        "summary": "How each brand priced its measured Amazon and Walmart listings over Prime Big Deal Days, against the two weeks before.",
+        "sections": [
+          {
+            "title": "Who cut",
+            "text": "Average move per brand. A negative bar is a brand that cut for the event.",
+            "blocks": [
+              {
+                "type": "hbars",
+                "title": "Average price move on the event days",
+                "sub": "Lowest price Oct 13, 2026 – Oct 14, 2026 vs the median of the 14 days before · Amazon and Walmart",
+                "unit": "signedPct",
+                "rows": [
+                  {
+                    "label": "Dude Wipes",
+                    "value": -0.4,
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "note": "1 of 9 listings cut 3%+"
+                  },
+                  {
+                    "label": "Charmin",
+                    "value": 6.6,
+                    "color": "#0891b2",
+                    "subject": false,
+                    "note": "1 of 10 listings cut 3%+"
+                  },
+                  {
+                    "label": "Cottonelle",
+                    "value": -4.9,
+                    "color": "#2563eb",
+                    "subject": false,
+                    "note": "2 of 6 listings cut 3%+"
+                  },
+                  {
+                    "label": "Goodwipes",
+                    "value": 0,
+                    "color": "#be123c",
+                    "subject": false,
+                    "note": "0 of 10 listings cut 3%+"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Around the event",
+            "text": "Each brand's listings indexed to 100 the day before the event.",
+            "blocks": [
+              {
+                "type": "line",
+                "title": "Amazon and Walmart price index around the event",
+                "sub": "Each brand's listings indexed to 100 on the day before the event, then averaged",
+                "unit": "num",
+                "x": [
+                  "2026-09-22",
+                  "2026-09-23",
+                  "2026-09-24",
+                  "2026-09-25",
+                  "2026-09-26",
+                  "2026-09-27",
+                  "2026-09-28",
+                  "2026-09-29",
+                  "2026-09-30",
+                  "2026-10-01",
+                  "2026-10-02",
+                  "2026-10-03",
+                  "2026-10-04",
+                  "2026-10-05",
+                  "2026-10-06",
+                  "2026-10-07",
+                  "2026-10-08",
+                  "2026-10-09",
+                  "2026-10-10",
+                  "2026-10-11",
+                  "2026-10-12",
+                  "2026-10-13",
+                  "2026-10-14",
+                  "2026-10-15",
+                  "2026-10-16",
+                  "2026-10-17",
+                  "2026-10-18"
+                ],
+                "series": [
+                  {
+                    "id": "dude-wipes",
+                    "label": "Dude Wipes",
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "data": [
+                      100.4,
+                      102.5,
+                      102.5,
+                      101.5,
+                      101.5,
+                      101.5,
+                      102.1,
+                      102.1,
+                      103.6,
+                      101.5,
+                      101.5,
+                      101.6,
+                      101.5,
+                      100.8,
+                      100,
+                      98.9,
+                      100.1,
+                      100,
+                      100,
+                      100.1,
+                      100,
+                      100,
+                      101.5,
+                      101.5,
+                      100.8,
+                      102,
+                      101.4
+                    ]
+                  },
+                  {
+                    "id": "charmin",
+                    "label": "Charmin",
+                    "color": "#0891b2",
+                    "subject": false,
+                    "data": [
+                      105.2,
+                      104.7,
+                      99.1,
+                      99.8,
+                      99.8,
+                      100.8,
+                      89.5,
+                      90,
+                      87.3,
+                      82.4,
+                      88.1,
+                      91.1,
+                      89.9,
+                      90.8,
+                      100,
+                      98.8,
+                      98.7,
+                      98.7,
+                      97.4,
+                      104.7,
+                      100,
+                      103.1,
+                      100.1,
+                      104,
+                      104,
+                      103.8,
+                      80.4
+                    ]
+                  },
+                  {
+                    "id": "cottonelle",
+                    "label": "Cottonelle",
+                    "color": "#2563eb",
+                    "subject": false,
+                    "data": [
+                      95.8,
+                      90.1,
+                      90.2,
+                      86.6,
+                      94.9,
+                      97.4,
+                      87.5,
+                      97.7,
+                      87.3,
+                      87.3,
+                      97.7,
+                      101.1,
+                      99.5,
+                      99.5,
+                      100.8,
+                      91,
+                      91.9,
+                      91.2,
+                      89.7,
+                      100,
+                      100,
+                      100,
+                      95.2,
+                      89.7,
+                      89.7,
+                      96.1,
+                      95.4
+                    ]
+                  },
+                  {
+                    "id": "goodwipes",
+                    "label": "Goodwipes",
+                    "color": "#be123c",
+                    "subject": false,
+                    "data": [
+                      100.9,
+                      100.9,
+                      100.9,
+                      100.9,
+                      100.9,
+                      100.9,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100,
+                      99.1,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100.2,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100,
+                      100,
+                      101.1
+                    ]
+                  }
+                ],
+                "bands": [
+                  {
+                    "start": "2026-10-13",
+                    "end": "2026-10-14",
+                    "label": "Prime Big Deal Days"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Listing by listing",
+            "text": "Dude Wipes rows are highlighted.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Every measured listing on the event",
+                "sub": "Amazon (Keepa) and Walmart readings only",
+                "columns": [
+                  {
+                    "label": "Brand",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Listing",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Retailer",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Before"
+                  },
+                  {
+                    "label": "Event low"
+                  },
+                  {
+                    "label": "Change"
+                  },
+                  {
+                    "label": "In stock"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Cottonelle",
+                    "Fresh Care Flushable Wipes · 168 Count",
+                    "Amazon",
+                    "$18.37",
+                    "$13.98",
+                    "-23.9%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 320 Count",
+                    "Amazon",
+                    "$13.87",
+                    "$11.74",
+                    "-15.3%",
+                    "100%"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Fresh Care Flushable Wipes · 168 Count",
+                    "Walmart",
+                    "$7.33",
+                    "$6.98",
+                    "-4.8%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Mint Chill Adult Flushable Wet Wipes · 288 Count",
+                    "Amazon",
+                    "$22.34",
+                    "$21.56",
+                    "-3.5%",
+                    "100%"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Fresh Care Flushable Wet Wipes · 336 Count",
+                    "Amazon",
+                    "$15.89",
+                    "$15.79",
+                    "-0.6%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 40 Count",
+                    "Walmart",
+                    "$9.91",
+                    "$9.88",
+                    "-0.3%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 80 Count",
+                    "Walmart",
+                    "$12.99",
+                    "$12.96",
+                    "-0.2%",
+                    "100%"
+                  ],
+                  [
+                    "Cottonelle",
+                    "GentlePlus Flushable Wipes · 168 Count",
+                    "Amazon",
+                    "$7.78",
+                    "$7.77",
+                    "-0.1%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented Adult Flushable Wet Wipes · 48 Count",
+                    "Amazon",
+                    "$4.58",
+                    "$4.58",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented Adult Flushable Wet Wipes · 48 Count",
+                    "Walmart",
+                    "$4.58",
+                    "$4.58",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Flushable Wipes · 96 Count",
+                    "Walmart",
+                    "$8.68",
+                    "$8.68",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Flushable Wet Wipes Dispenser · 192 Count",
+                    "Walmart",
+                    "$14.48",
+                    "$14.48",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Amazon",
+                    "$20.58",
+                    "$20.58",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "$20.59",
+                    "$20.58",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Mint Chill Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "$21.56",
+                    "$21.56",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Dude Wipes",
+                    "Shea BUTTer Adult Flushable Wet Wipes · 288 Count",
+                    "Amazon",
+                    "$21.56",
+                    "$21.56",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 80 Count",
+                    "Amazon",
+                    "$8.69",
+                    "$8.69",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 40 Count",
+                    "Amazon",
+                    "$8.72",
+                    "$8.72",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Freshmates Flushable Wipes with Refillable Tub",
+                    "Walmart",
+                    "$15.28",
+                    "$15.28",
+                    "0.0%",
+                    "0%"
+                  ],
+                  [
+                    "Cottonelle",
+                    "GentlePlus Flushable Wipes · 168 Count",
+                    "Walmart",
+                    "$8.16",
+                    "$8.16",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Cottonelle",
+                    "Fresh Care Flushable Wet Wipes · 336 Count",
+                    "Walmart",
+                    "$14.18",
+                    "$14.18",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Shea-Coco · 153 Count",
+                    "Amazon",
+                    "$15.89",
+                    "$15.89",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Shea-Coco · 153 Count",
+                    "Walmart",
+                    "$10.17",
+                    "$10.17",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Botanical Bliss · 153 Count",
+                    "Amazon",
+                    "$15.89",
+                    "$15.89",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Botanical Bliss · 153 Count",
+                    "Walmart",
+                    "$9.30",
+                    "$9.30",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Lavender · 418 Count",
+                    "Amazon",
+                    "$33.99",
+                    "$33.99",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Lavender · 418 Count",
+                    "Walmart",
+                    "$27.78",
+                    "$27.78",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Rosewater · 318 Count",
+                    "Amazon",
+                    "$25.99",
+                    "$25.99",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Rosewater · 318 Count",
+                    "Walmart",
+                    "$20.61",
+                    "$20.61",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Rosewater · 153 Count",
+                    "Amazon",
+                    "$15.89",
+                    "$15.89",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Goodwipes",
+                    "Flushable Wipes Rosewater · 153 Count",
+                    "Walmart",
+                    "$10.34",
+                    "$10.34",
+                    "0.0%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Freshmates Flushable Wipes with Refillable Tub",
+                    "Amazon",
+                    "$17.49",
+                    "$18.49",
+                    "+5.7%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 320 Count",
+                    "Walmart",
+                    "$24.99",
+                    "$27.98",
+                    "+12.0%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 160 Count",
+                    "Amazon",
+                    "$9.23",
+                    "$11.82",
+                    "+28.1%",
+                    "100%"
+                  ],
+                  [
+                    "Charmin",
+                    "Flushable Wipes · 160 Count",
+                    "Walmart",
+                    "$12.48",
+                    "$16.99",
+                    "+36.2%",
+                    "100%"
+                  ]
+                ],
+                "highlight": [
+                  3,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15
+                ]
+              }
+            ]
+          }
+        ],
+        "method": [
+          "Amazon prices are Keepa's daily price; Walmart prices are the Histomart, Kompy and RetailerAPI readings.",
+          "Target is left out because its readings are partly modelled.",
+          "A cut is an event-day low at least 3% below the median of the 14 days before."
+        ]
+      }
+    },
+    {
+      "id": "availability",
+      "question": "Where is Dude Wipes losing sales to stock-outs?",
+      "chip": "Stock-outs and availability",
+      "steps": [
+        "Reading daily buyable state for 12 Dude Wipes listing-retailer pairs (Keepa for Amazon, Walmart feed)",
+        "Finding every continuous outage in Jul 20, 2026 – Oct 18, 2026",
+        "Comparing in-stock rate with 3 competitors"
+      ],
+      "headline": "Dude Wipes was in stock 79.7% of the time on Amazon and Walmart, #4 of 4. 2 listings were unavailable the whole quarter (Flushable Wipes · 96 Count on Amazon, Flushable Wet Wipes Dispenser · 192 Count on Amazon); without them the rate is 95.6%.",
+      "what": "13 outages cost 214 listing-days. Cottonelle 100.0% · Goodwipes 100.0% · Charmin 94.5% · Dude Wipes 79.7%.",
+      "why": "A listing with no buyable offer for the whole 91 days is not a short stock-out: it is a listing Amazon is not selling. Fixing those listings, or retiring them, moves the rate more than any replenishment change.",
+      "when": "Jul 20, 2026 – Oct 18, 2026 (13 weeks).",
+      "kpis": [
+        {
+          "label": "In-stock rate",
+          "value": "79.7%",
+          "note": "#4 of 4",
+          "tone": "risk"
+        },
+        {
+          "label": "Outages",
+          "value": "13",
+          "note": "214 listing-days lost"
+        },
+        {
+          "label": "Dead listings",
+          "value": "2",
+          "note": "unavailable all quarter",
+          "tone": "risk"
+        },
+        {
+          "label": "Longest outage",
+          "value": "91d",
+          "note": "Flushable Wipes · 96 Count · Amazon"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "In-stock rate by brand",
+          "sub": "Amazon and Walmart listings, Jul 20, 2026 – Oct 18, 2026",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Cottonelle",
+              "value": 100,
+              "color": "#2563eb",
+              "subject": false
+            },
+            {
+              "label": "Goodwipes",
+              "value": 100,
+              "color": "#be123c",
+              "subject": false
+            },
+            {
+              "label": "Charmin",
+              "value": 94.5,
+              "color": "#0891b2",
+              "subject": false
+            },
+            {
+              "label": "Dude Wipes",
+              "value": 79.7,
+              "color": "#5b21b6",
+              "subject": true
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Dude Wipes listings, in-stock rate",
+          "sub": "Share of days each listing could be bought",
+          "columns": [
+            {
+              "label": "Listing",
+              "align": "left"
+            },
+            {
+              "label": "Amazon"
+            },
+            {
+              "label": "Walmart"
+            }
+          ],
+          "rows": [
+            [
+              "Unscented Adult Flushable Wet Wipes · 48 Count",
+              "100%",
+              "100%"
+            ],
+            [
+              "Flushable Wipes · 96 Count",
+              "0%",
+              "100%"
+            ],
+            [
+              "Flushable Wet Wipes Dispenser · 192 Count",
+              "0%",
+              "100%"
+            ],
+            [
+              "Unscented Adult Flushable Wet Wipes · 288 Count",
+              "100%",
+              "56%"
+            ],
+            [
+              "Mint Chill Adult Flushable Wet Wipes · 288 Count",
+              "100%",
+              "100%"
+            ],
+            [
+              "Shea BUTTer Adult Flushable Wet Wipes · 288 Count",
+              "100%",
+              "100%"
+            ]
+          ]
+        }
+      ],
+      "report": {
+        "title": "Dude Wipes · Availability, Jul 20, 2026 – Oct 18, 2026",
+        "summary": "Where Dude Wipes could not be bought on Amazon and Walmart over the quarter, and how that compares with the set.",
+        "sections": [
+          {
+            "title": "Against the set",
+            "text": "Share of live listing-days each brand could be bought.",
+            "blocks": [
+              {
+                "type": "hbars",
+                "title": "In-stock rate by brand",
+                "sub": "Amazon and Walmart listings, Jul 20, 2026 – Oct 18, 2026",
+                "unit": "pct",
+                "rows": [
+                  {
+                    "label": "Cottonelle",
+                    "value": 100,
+                    "color": "#2563eb",
+                    "subject": false
+                  },
+                  {
+                    "label": "Goodwipes",
+                    "value": 100,
+                    "color": "#be123c",
+                    "subject": false
+                  },
+                  {
+                    "label": "Charmin",
+                    "value": 94.5,
+                    "color": "#0891b2",
+                    "subject": false
+                  },
+                  {
+                    "label": "Dude Wipes",
+                    "value": 79.7,
+                    "color": "#5b21b6",
+                    "subject": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Listing by listing",
+            "text": "A 0% cell is a listing that never had a buyable offer in the quarter.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Dude Wipes listings, in-stock rate",
+                "sub": "Share of days each listing could be bought",
+                "columns": [
+                  {
+                    "label": "Listing",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Amazon"
+                  },
+                  {
+                    "label": "Walmart"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 48 Count",
+                    "100%",
+                    "100%"
+                  ],
+                  [
+                    "Flushable Wipes · 96 Count",
+                    "0%",
+                    "100%"
+                  ],
+                  [
+                    "Flushable Wet Wipes Dispenser · 192 Count",
+                    "0%",
+                    "100%"
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "100%",
+                    "56%"
+                  ],
+                  [
+                    "Mint Chill Adult Flushable Wet Wipes · 288 Count",
+                    "100%",
+                    "100%"
+                  ],
+                  [
+                    "Shea BUTTer Adult Flushable Wet Wipes · 288 Count",
+                    "100%",
+                    "100%"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Every outage",
+            "text": "Continuous runs of unbuyable days.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Every Dude Wipes outage",
+                "sub": "Longest first",
+                "columns": [
+                  {
+                    "label": "Listing",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Retailer",
+                    "align": "left"
+                  },
+                  {
+                    "label": "From",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Days"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Flushable Wipes · 96 Count",
+                    "Amazon",
+                    "Jul 20, 2026",
+                    91
+                  ],
+                  [
+                    "Flushable Wet Wipes Dispenser · 192 Count",
+                    "Amazon",
+                    "Jul 20, 2026",
+                    91
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Aug 14, 2026",
+                    5
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Aug 20, 2026",
+                    4
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Sep 28, 2026",
+                    4
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Oct 5, 2026",
+                    4
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Sep 8, 2026",
+                    4
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Sep 14, 2026",
+                    4
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Oct 9, 2026",
+                    2
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Aug 10, 2026",
+                    2
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Aug 21, 2026",
+                    1
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Oct 17, 2026",
+                    1
+                  ],
+                  [
+                    "Unscented Adult Flushable Wet Wipes · 288 Count",
+                    "Walmart",
+                    "Oct 2, 2026",
+                    1
+                  ]
+                ]
+              }
+            ]
+          }
+        ],
+        "method": [
+          "Amazon availability is Keepa's buyable state; Walmart availability is the Walmart feed's stock reading, with a day without a reading counted as in stock.",
+          "Target is left out because its readings are partly modelled."
+        ]
+      }
+    },
+    {
+      "id": "reviews",
+      "question": "What do shoppers love and hate about Dude Wipes?",
+      "chip": "What reviewers say",
+      "steps": [
+        "Counting 22,999 aspect mentions across Amazon and Walmart reviews",
+        "Scoring 6 aspects for 4 brands",
+        "Reading 463 Dude Wipes Walmart reviews for the sharpest complaints"
+      ],
+      "headline": "Shoppers love Dude Wipes' softness (92% positive) and complain about durability (42% positive, against Goodwipes' 78%). It rates 4.72★, #2 of 4.",
+      "what": "Softness 92% · Effectiveness 91% · Fragrance 85% · Quality 85% · Size 67% · Durability 42%.",
+      "why": "Durability is where the brand loses: 1,801 negative mentions against 1,288 positive. Goodwipes scores 78% on the same aspect, so the complaint is about the product, not the category.",
+      "when": "Amazon review summaries as read on the build date; Walmart reviews from Apr 18, 2025 to Oct 17, 2026.",
+      "kpis": [
+        {
+          "label": "Rating",
+          "value": "4.72★",
+          "note": "#2 of 4",
+          "tone": "neutral"
+        },
+        {
+          "label": "Strongest aspect",
+          "value": "92%",
+          "note": "Softness",
+          "tone": "good"
+        },
+        {
+          "label": "Weakest aspect",
+          "value": "42%",
+          "note": "Durability",
+          "tone": "risk"
+        },
+        {
+          "label": "Walmart 5★ share",
+          "value": "76%",
+          "note": "463 reviews"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Dude Wipes: positive share by aspect",
+          "sub": "Weakest first · mentions in brackets",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Durability",
+              "value": 41.7,
+              "color": "#d93025",
+              "subject": true,
+              "note": "3,089 mentions"
+            },
+            {
+              "label": "Size",
+              "value": 67.2,
+              "color": "#f9ab00",
+              "subject": true,
+              "note": "2,751 mentions"
+            },
+            {
+              "label": "Quality",
+              "value": 84.6,
+              "color": "#1e8e3e",
+              "subject": true,
+              "note": "8,997 mentions"
+            },
+            {
+              "label": "Fragrance",
+              "value": 84.9,
+              "color": "#1e8e3e",
+              "subject": true,
+              "note": "2,831 mentions"
+            },
+            {
+              "label": "Effectiveness",
+              "value": 91.1,
+              "color": "#1e8e3e",
+              "subject": true,
+              "note": "3,947 mentions"
+            },
+            {
+              "label": "Softness",
+              "value": 92.4,
+              "color": "#1e8e3e",
+              "subject": true,
+              "note": "1,384 mentions"
+            }
+          ]
+        },
+        {
+          "type": "quotes",
+          "title": "What Walmart reviewers wrote about Dude Wipes",
+          "sub": "Most helpful complaints and praise",
+          "items": [
+            {
+              "text": "These are absolutely not toilet safe. They caused a massive plumbing issue to the point where they're showing up in my front yard. They're fine for using in the field but saying they are septic safe after many plumbers have said otherwise is false advertising.",
+              "meta": "1★ · May 21, 2025",
+              "tone": "negative"
+            },
+            {
+              "text": "Delivered with a dispenser that was pulled off its package. Minimal glue used on it, so I figured they'd all be that way and returned them without ever using them. My son uses these and said he's had some do the same thing, but not many of them.",
+              "meta": "2★ · Oct 13, 2026 · verified purchase",
+              "tone": "negative"
+            },
+            {
+              "text": "didn't receive",
+              "meta": "1★ · Oct 11, 2026 · verified purchase",
+              "tone": "negative"
+            },
+            {
+              "text": "this item was not delivered",
+              "meta": "1★ · Oct 11, 2026 · verified purchase",
+              "tone": "negative"
+            },
+            {
+              "text": "Hi Just bought these today. For a wedding I'm going to.  Witch is my nieces. We have something similar to these at home. Wasn't sure at first if I would like them.  Butt. They work great. And looking forward on trying yours.",
+              "meta": "5★ · Jul 9, 2026",
+              "tone": "positive"
+            },
+            {
+              "text": "Dude Wipes to the rescue! I recently had an incident where both my showers were not working. I was going to be without water for an unknown amount of time. In the meantime, I contracted stomach flu. As you can imagine, I desperately needed a shower or perhaps ",
+              "meta": "5★ · Nov 27, 2025",
+              "tone": "positive"
+            }
+          ]
+        }
+      ],
+      "report": {
+        "title": "Dude Wipes · Voice of the customer",
+        "summary": "What reviewers on Amazon and Walmart praise and criticise about Dude Wipes, against the competitors on the same aspects.",
+        "sections": [
+          {
+            "title": "Dude Wipes by aspect",
+            "text": "Share of mentions that are positive. Red is below 60%.",
+            "blocks": [
+              {
+                "type": "hbars",
+                "title": "Dude Wipes: positive share by aspect",
+                "sub": "Weakest first · mentions in brackets",
+                "unit": "pct",
+                "rows": [
+                  {
+                    "label": "Durability",
+                    "value": 41.7,
+                    "color": "#d93025",
+                    "subject": true,
+                    "note": "3,089 mentions"
+                  },
+                  {
+                    "label": "Size",
+                    "value": 67.2,
+                    "color": "#f9ab00",
+                    "subject": true,
+                    "note": "2,751 mentions"
+                  },
+                  {
+                    "label": "Quality",
+                    "value": 84.6,
+                    "color": "#1e8e3e",
+                    "subject": true,
+                    "note": "8,997 mentions"
+                  },
+                  {
+                    "label": "Fragrance",
+                    "value": 84.9,
+                    "color": "#1e8e3e",
+                    "subject": true,
+                    "note": "2,831 mentions"
+                  },
+                  {
+                    "label": "Effectiveness",
+                    "value": 91.1,
+                    "color": "#1e8e3e",
+                    "subject": true,
+                    "note": "3,947 mentions"
+                  },
+                  {
+                    "label": "Softness",
+                    "value": 92.4,
+                    "color": "#1e8e3e",
+                    "subject": true,
+                    "note": "1,384 mentions"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Against the set",
+            "text": "The same measure for every brand.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Positive share of review mentions, by aspect",
+                "sub": "Amazon review summaries and Walmart reviews combined",
+                "columns": [
+                  {
+                    "label": "Aspect",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Dude Wipes"
+                  },
+                  {
+                    "label": "Charmin"
+                  },
+                  {
+                    "label": "Cottonelle"
+                  },
+                  {
+                    "label": "Goodwipes"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Effectiveness",
+                    "91%",
+                    "90%",
+                    "93%",
+                    "97%"
+                  ],
+                  [
+                    "Durability",
+                    "42%",
+                    "54%",
+                    "52%",
+                    "78%"
+                  ],
+                  [
+                    "Fragrance",
+                    "85%",
+                    "93%",
+                    "86%",
+                    "94%"
+                  ],
+                  [
+                    "Softness",
+                    "92%",
+                    "90%",
+                    "99%",
+                    "99%"
+                  ],
+                  [
+                    "Quality",
+                    "85%",
+                    "78%",
+                    "85%",
+                    "90%"
+                  ],
+                  [
+                    "Size",
+                    "67%",
+                    "68%",
+                    "48%",
+                    "91%"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Walmart reviews",
+            "text": "The star mix and the reviews behind the complaints.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Dude Wipes Walmart reviews by star",
+                "sub": "463 reviews on file",
+                "columns": [
+                  {
+                    "label": "Stars",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Reviews"
+                  },
+                  {
+                    "label": "Share"
+                  }
+                ],
+                "rows": [
+                  [
+                    "5★",
+                    352,
+                    "76%"
+                  ],
+                  [
+                    "4★",
+                    33,
+                    "7%"
+                  ],
+                  [
+                    "3★",
+                    19,
+                    "4%"
+                  ],
+                  [
+                    "2★",
+                    18,
+                    "4%"
+                  ],
+                  [
+                    "1★",
+                    41,
+                    "9%"
+                  ]
+                ]
+              },
+              {
+                "type": "quotes",
+                "title": "What Walmart reviewers wrote about Dude Wipes",
+                "sub": "Most helpful complaints and praise",
+                "items": [
+                  {
+                    "text": "These are absolutely not toilet safe. They caused a massive plumbing issue to the point where they're showing up in my front yard. They're fine for using in the field but saying they are septic safe after many plumbers have said otherwise is false advertising.",
+                    "meta": "1★ · May 21, 2025",
+                    "tone": "negative"
+                  },
+                  {
+                    "text": "Delivered with a dispenser that was pulled off its package. Minimal glue used on it, so I figured they'd all be that way and returned them without ever using them. My son uses these and said he's had some do the same thing, but not many of them.",
+                    "meta": "2★ · Oct 13, 2026 · verified purchase",
+                    "tone": "negative"
+                  },
+                  {
+                    "text": "didn't receive",
+                    "meta": "1★ · Oct 11, 2026 · verified purchase",
+                    "tone": "negative"
+                  },
+                  {
+                    "text": "this item was not delivered",
+                    "meta": "1★ · Oct 11, 2026 · verified purchase",
+                    "tone": "negative"
+                  },
+                  {
+                    "text": "Hi Just bought these today. For a wedding I'm going to.  Witch is my nieces. We have something similar to these at home. Wasn't sure at first if I would like them.  Butt. They work great. And looking forward on trying yours.",
+                    "meta": "5★ · Jul 9, 2026",
+                    "tone": "positive"
+                  },
+                  {
+                    "text": "Dude Wipes to the rescue! I recently had an incident where both my showers were not working. I was going to be without water for an unknown amount of time. In the meantime, I contracted stomach flu. As you can imagine, I desperately needed a shower or perhaps ",
+                    "meta": "5★ · Nov 27, 2025",
+                    "tone": "positive"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "method": [
+          "Amazon aspect counts come from Amazon's \"Customers say\" review summaries.",
+          "Walmart reviews are counted into aspects by keyword, 4–5★ as positive and 1–2★ as negative.",
+          "Ratings are review-weighted across Amazon and Walmart."
+        ]
+      }
+    },
+    {
+      "id": "ai-visibility",
+      "question": "How visible is Dude Wipes in AI shopping answers?",
+      "chip": "AI answer visibility",
+      "steps": [
+        "Reading 72 engine answers to 24 shopper questions",
+        "Comparing 5 captured readings from Oct 14, 2026 to Oct 21, 2026",
+        "Splitting by engine (ChatGPT, Gemini, Claude) and funnel stage"
+      ],
+      "headline": "Dude Wipes holds 14.9% of brand mentions in AI answers, #2 of 4; Cottonelle leads at 21.3%. It is named in 47 of 72 answers, most often by Claude (18 of 24).",
+      "what": "Cottonelle 21.3% · Dude Wipes 14.9% · Charmin 5.9% · Goodwipes 4.9%. Since Oct 14, 2026 Dude Wipes moved -3.4 points.",
+      "why": "Being named is not being recommended: Cottonelle is the engines' top pick in 58 of 72 answers, Dude Wipes in 5. ChatGPT names Dude Wipes least often (12 of 24), so that is where the gap is widest.",
+      "when": "5 readings between Oct 14, 2026 and Oct 21, 2026.",
+      "kpis": [
+        {
+          "label": "AI share of mentions",
+          "value": "14.9%",
+          "note": "#2 of 4",
+          "tone": "watch"
+        },
+        {
+          "label": "Named in",
+          "value": "47 / 72",
+          "note": "engine answers"
+        },
+        {
+          "label": "Top pick",
+          "value": "5 / 72",
+          "note": "Cottonelle 58",
+          "tone": "risk"
+        },
+        {
+          "label": "Change",
+          "value": "-3.4 pts",
+          "note": "since Oct 14, 2026",
+          "tone": "watch"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Share of brand mentions in AI answers",
+          "sub": "Latest reading, Oct 21, 2026",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Cottonelle",
+              "value": 21.3,
+              "color": "#2563eb",
+              "subject": false
+            },
+            {
+              "label": "Dude Wipes",
+              "value": 14.9,
+              "color": "#5b21b6",
+              "subject": true
+            },
+            {
+              "label": "Charmin",
+              "value": 5.9,
+              "color": "#0891b2",
+              "subject": false
+            },
+            {
+              "label": "Goodwipes",
+              "value": 4.9,
+              "color": "#be123c",
+              "subject": false
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Dude Wipes share by engine and stage",
+          "sub": "Share of brand mentions in each engine's answers at each funnel stage",
+          "columns": [
+            {
+              "label": "Engine",
+              "align": "left"
+            },
+            {
+              "label": "Awareness"
+            },
+            {
+              "label": "Consideration"
+            },
+            {
+              "label": "Evaluation & Trust"
+            },
+            {
+              "label": "Decision"
+            }
+          ],
+          "rows": [
+            [
+              "ChatGPT",
+              "16%",
+              "14%",
+              "11%",
+              "13%"
+            ],
+            [
+              "Gemini",
+              "15%",
+              "17%",
+              "17%",
+              "13%"
+            ],
+            [
+              "Claude",
+              "15%",
+              "17%",
+              "15%",
+              "16%"
+            ]
+          ]
+        }
+      ],
+      "report": {
+        "title": "Dude Wipes · AI answer visibility",
+        "summary": "How often ChatGPT, Gemini and Claude name Dude Wipes when shoppers ask about flushable wipes, against the competitors.",
+        "sections": [
+          {
+            "title": "Share of mentions",
+            "text": "Each brand's share of all brand mentions in the latest reading.",
+            "blocks": [
+              {
+                "type": "hbars",
+                "title": "Share of brand mentions in AI answers",
+                "sub": "Latest reading, Oct 21, 2026",
+                "unit": "pct",
+                "rows": [
+                  {
+                    "label": "Cottonelle",
+                    "value": 21.3,
+                    "color": "#2563eb",
+                    "subject": false
+                  },
+                  {
+                    "label": "Dude Wipes",
+                    "value": 14.9,
+                    "color": "#5b21b6",
+                    "subject": true
+                  },
+                  {
+                    "label": "Charmin",
+                    "value": 5.9,
+                    "color": "#0891b2",
+                    "subject": false
+                  },
+                  {
+                    "label": "Goodwipes",
+                    "value": 4.9,
+                    "color": "#be123c",
+                    "subject": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Over time",
+            "text": "The same share at each captured reading.",
+            "blocks": [
+              {
+                "type": "line",
+                "title": "AI share of mentions over the captured readings",
+                "sub": "5 readings, Oct 14, 2026 – Oct 21, 2026",
+                "unit": "pct",
+                "x": [
+                  "2026-10-14",
+                  "2026-10-16",
+                  "2026-10-17",
+                  "2026-10-20",
+                  "2026-10-21"
+                ],
+                "series": [
+                  {
+                    "id": "dude-wipes",
+                    "label": "Dude Wipes",
+                    "color": "#5b21b6",
+                    "subject": true,
+                    "data": [
+                      18.3,
+                      17.7,
+                      19.6,
+                      16.3,
+                      14.9
+                    ]
+                  },
+                  {
+                    "id": "charmin",
+                    "label": "Charmin",
+                    "color": "#0891b2",
+                    "subject": false,
+                    "data": [
+                      5.8,
+                      4.8,
+                      6.4,
+                      6.1,
+                      5.9
+                    ]
+                  },
+                  {
+                    "id": "cottonelle",
+                    "label": "Cottonelle",
+                    "color": "#2563eb",
+                    "subject": false,
+                    "data": [
+                      21.8,
+                      22.7,
+                      21.7,
+                      21.5,
+                      21.3
+                    ]
+                  },
+                  {
+                    "id": "goodwipes",
+                    "label": "Goodwipes",
+                    "color": "#be123c",
+                    "subject": false,
+                    "data": [
+                      5.4,
+                      7.6,
+                      5,
+                      5.3,
+                      4.9
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": "By engine and stage",
+            "text": "Where the brand is strong and where it is missing.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Dude Wipes share by engine and stage",
+                "sub": "Share of brand mentions in each engine's answers at each funnel stage",
+                "columns": [
+                  {
+                    "label": "Engine",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Awareness"
+                  },
+                  {
+                    "label": "Consideration"
+                  },
+                  {
+                    "label": "Evaluation & Trust"
+                  },
+                  {
+                    "label": "Decision"
+                  }
+                ],
+                "rows": [
+                  [
+                    "ChatGPT",
+                    "16%",
+                    "14%",
+                    "11%",
+                    "13%"
+                  ],
+                  [
+                    "Gemini",
+                    "15%",
+                    "17%",
+                    "17%",
+                    "13%"
+                  ],
+                  [
+                    "Claude",
+                    "15%",
+                    "17%",
+                    "15%",
+                    "16%"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Questions to win",
+            "text": "Answers that do not name the brand, with the brand they put first.",
+            "blocks": [
+              {
+                "type": "table",
+                "title": "Questions where Dude Wipes is not named",
+                "sub": "25 of 72 engine answers",
+                "columns": [
+                  {
+                    "label": "Question",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Stage",
+                    "align": "left"
+                  },
+                  {
+                    "label": "Top brand",
+                    "align": "left"
+                  }
+                ],
+                "rows": [
+                  [
+                    "ChatGPT: which flushable wipes brands are septic safe",
+                    "Awareness",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: best flushable wipes for hemorrhoid relief",
+                    "Consideration",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: best flushable wipes for potty training toddlers",
+                    "Consideration",
+                    "—"
+                  ],
+                  [
+                    "ChatGPT: which flushable wipes work best with a septic system",
+                    "Consideration",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: most reliable flushable wipes that won't clog pipes",
+                    "Evaluation & Trust",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: flushable wipes that break down fastest in plumbing",
+                    "Evaluation & Trust",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: which flushable wipes are dermatologist tested and alcohol-free",
+                    "Evaluation & Trust",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: most reliable flushable wipes for old house plumbing",
+                    "Evaluation & Trust",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: best value flushable wipes pack for daily use",
+                    "Decision",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: where to buy flushable wipes cheapest",
+                    "Decision",
+                    "—"
+                  ],
+                  [
+                    "ChatGPT: best bulk flushable wipes multipack under $25",
+                    "Decision",
+                    "Cottonelle"
+                  ],
+                  [
+                    "ChatGPT: cheapest flushable wipes per wipe",
+                    "Decision",
+                    "—"
+                  ]
+                ]
+              }
+            ]
+          }
+        ],
+        "method": [
+          "Each brand counts once per answer; share is its mentions over all brand mentions.",
+          "Questions are brand-neutral shopper questions across four funnel stages."
+        ]
+      }
+    }
+  ]
+}

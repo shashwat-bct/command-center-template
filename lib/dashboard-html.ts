@@ -68,6 +68,7 @@ export function renderDashboardHtml({ title, payloadUrl, share = false, shareId,
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${asset("cco-dashboard.css")}">
 <link rel="stylesheet" href="${asset("ai-visibility.css")}">
+<link rel="stylesheet" href="${asset("cco-atlas.css")}">
 </head>
 <body data-payload="${escapeAttr(payloadUrl)}"${analyst || process.env.SHOW_DATA_SOURCES === "true" ? ' data-sources="on"' : ""}>
 ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer ${escapeAttr(shareId)}";</script>` : ""}
@@ -198,6 +199,8 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <script src="${asset("cco-measured-pages.js")}"></script>
 <script src="${asset("cco-card-ask.js")}"></script>
 <script src="${asset("cco-provenance.js")}"></script>
+<script src="${asset("cco-atlas-blocks.js")}"></script>
+<script src="${asset("cco-atlas.js")}"></script>
 <script type="module" src="${asset("ai-visibility.js")}"></script>
 </body>
 </html>`;
