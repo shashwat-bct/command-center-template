@@ -29,12 +29,12 @@ function drawStars(host, cc, D) {
   const rows = walmartReviews(D);
   if (!rows.length) return;
   const F = CC.fmt;
+  const cards = card("vmStars", "Star mix by brand", "Share of each brand's Walmart ratings at each star level, from Walmart's review summaries")
+    + card("vmRec", "Would recommend", "Share of Walmart reviewers who say they would recommend the product, weighted by each listing's review count");
+  const side = host.querySelector("#vcSide");
   const wrap = document.createElement("div");
-  wrap.innerHTML = `<div class="grid g2" style="margin-top:14px">
-    ${card("vmStars", "Star mix by brand", "Share of each brand's Walmart ratings at each star level, from Walmart's review summaries")}
-    ${card("vmRec", "Would recommend", "Share of Walmart reviewers who say they would recommend the product, weighted by each listing's review count")}
-  </div>`;
-  host.append(...wrap.children);
+  wrap.innerHTML = side ? cards : `<div class="grid g2" style="margin-top:14px">${cards}</div>`;
+  (side || host).append(...wrap.children);
   CC.bars(document.getElementById("vmStars"), { height: 250, stacked: true, max: 100, cats: rows.map((r) => r.b.label), fmtV: (v) => `${v.toFixed(1)}%`, fmtY: (v) => `${v}%`,
     catLabel: (c, i) => `${c} · ${F.k(rows[i].total)}`,
     series: STARS.map((st) => ({ id: `s${st.n}`, label: `${st.n}★`, color: st.color, data: rows.map((r) => (r.stars[st.n - 1] / r.total) * 100) })) });

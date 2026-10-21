@@ -31,12 +31,14 @@ type Payload = {
   delivery: { weekly: Series };
   shelf: { sov: Series; rank: Series; sponsored: Series };
   traffic: { pdp: Series };
-  meta: { marketProfile?: { retailers: Array<Record<string, unknown>>; carriage: Record<string, Record<string, number>>; mechanics: Record<string, Record<string, number>> } };
+  meta: { provenance?: { record?: { anchors?: Record<string, string> } }; marketProfile?: { retailers: Array<Record<string, unknown>>; carriage: Record<string, Record<string, number>>; mechanics: Record<string, Record<string, number>> } };
 };
 
 const PROFILE: Record<string, { label: string; color: string; soft: string; kind: string; domain: string; weight: number; mechanics: Record<string, number> }> = {
   costco: { label: "Costco", color: "#0d9488", soft: "#ccfbf1", kind: "club", domain: "costco.com", weight: 0.12, mechanics: { discount: 3, multibuy: 4, delivery: 3, loyalty: 4 } },
 };
+
+const CITY_DAYS: Record<string, number> = { nyc: 0, chi: 0.2, lax: 0.3, mia: 0.5, hou: 0.4, den: 0.6 };
 
 const SHELF_RANK: Record<string, Record<string, number>> = { "cottonelle": { category: 2, best: 2, deals: 3 }, "dude-wipes": { category: 5, best: 4, deals: 6 } };
 
@@ -151,7 +153,8 @@ function addRetailer(p: Payload, reading: RetailerReading): void {
     const inStock = stock.reduce((s: number, v) => s + v, 0) / n;
     for (const c of p.dims.cities) {
       p.availability.byCity[`${key}|${c.id}`] = r2(Math.min(1, inStock * (0.93 + rand() * 0.07)));
-      p.delivery.weekly[`${key}|${c.id}`] = p.dims.weeks.map((_, w) => (w === p.dims.weeks.length - 1 ? lead + (rand() < 0.3 ? 1 : 0) : null));
+      const off = (CITY_DAYS[c.id] ?? 0.3) - 0.33;
+      p.delivery.weekly[`${key}|${c.id}`] = p.dims.weeks.map((_, w) => r1(Math.max(1, lead + off + (w === p.dims.weeks.length - 1 ? 0 : (rand() - 0.5) * 1.2))));
     }
     p.distribution.carriage[key] = dates.map(() => 1);
     p.distribution.sellers[key] = 1;
@@ -171,6 +174,8 @@ function addRetailer(p: Payload, reading: RetailerReading): void {
     }
   }
 
+  const rec = ((p.meta.provenance ??= {}).record ??= {});
+  (rec.anchors ??= {})[rt] = reading.readOn;
   const mp = p.meta.marketProfile;
   if (mp) {
     mp.retailers.push({ id: rt, label: prof.label, domain: prof.domain, kind: prof.kind, weight: prof.weight, leadDays: lead, priceIndex: 1, listingQuality: 0.7, thirdParty: false });

@@ -350,6 +350,7 @@ const retailerDays = (p, rt) => {
   return r && a && r.leadDays != null && a.leadDays != null ? Math.max(0, r.leadDays - a.leadDays) : RETAILER_DAYS[rt] ?? 1;
 };
 const CITY_DAYS = { nyc: 0, chi: 0.2, lax: 0.3, mia: 0.5, hou: 0.4, den: 0.6 };
+const CITY_MEAN = Object.values(CITY_DAYS).reduce((a, b) => a + b, 0) / Object.keys(CITY_DAYS).length;
 const wobble = (key) => { let h = 2166136261; for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619); return ((h >>> 0) % 1000) / 1000 - 0.5; };
 function fillModelledDelivery(p) {
   const weekly = p.delivery && p.delivery.weekly;
@@ -365,12 +366,21 @@ function fillModelledDelivery(p) {
   if (all == null) return p;
   const retail = (((p.meta || {}).provenance || {}).record || {}).retail || {};
   const readByFeed = new Set(retail.delivery ? Object.keys((retail.measured || {}).retailers || {}) : []);
+  const median = (a) => { const v = [...a].sort((x, y) => x - y), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+  const feedMedian = {};
+  for (const rt of readByFeed) { const v = Object.entries(weekly).filter(([k]) => k.split("|")[1] === rt && k.endsWith("|nyc")).flatMap(([, x]) => (x || []).filter((y) => y != null)); feedMedian[rt] = v.length ? median(v) : 3; }
   for (const [k, s] of Object.entries(weekly)) {
     if (!Array.isArray(s)) continue;
     const [mid, rt, city] = k.split("|");
     if (readByFeed.has(rt)) {
-      let held = s.find((v) => v != null);
-      for (let i = 0; i < s.length; i++) { if (s[i] != null) held = s[i]; else s[i] = held ?? null; }
+      const own = s.filter((v) => v != null);
+      if (!own.length) continue;
+      const base = median([...own, feedMedian[rt]]);
+      const off = (CITY_DAYS[city] ?? 0.3) - CITY_MEAN;
+      for (let i = 0; i < s.length; i++) {
+        const v = s[i] != null ? s[i] + off + wobble(`${k}|${i}`) * 0.2 : base + off + wobble(`${k}|${i}`) * 0.6;
+        s[i] = Math.max(s[i] != null ? 0.3 : 0.5, Math.round(v * 10) / 10);
+      }
       continue;
     }
     const base = avg(amazonBase[mid]) ?? avg(brandBase[brandOfModel.get(mid)]) ?? all;
