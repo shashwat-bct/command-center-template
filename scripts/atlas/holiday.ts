@@ -1,9 +1,8 @@
 import type { AtlasAnswer, AtlasCell } from "../../lib/atlas";
-import { amazonListings, between, compact, cutText, brandDailyPer100, brandOf, dateRange, daysOf, fmtRank, fmtSold, mean, median, niceDate, pct, per100, possessive, productLabel, r1, r2, signed, usd, type Ctx } from "./common";
+import { amazonListings, between, compact, cutText, brandOf, daysOf, fmtRank, fmtSold, mean, median, niceDate, pct, per100, possessive, productLabel, r1, r2, signed, usd, type Ctx } from "./common";
 
 const BASE = { from: "2025-10-01", to: "2025-11-13" };
 const BF = { from: "2025-11-21", to: "2025-12-01", day: "2025-11-28" };
-const SEASON = { from: "2025-10-01", to: "2025-12-31" };
 
 type Row = { brandId: string; brand: string; label: string; retailer: "Amazon" | "Walmart"; base: number; low: number; change: number; unit: number | null; inStock: number | null; rank0: number | null; rank1: number | null; sold: number | null; sellers: number | null; bb0: number | null; bb1: number | null };
 
@@ -74,11 +73,6 @@ export function blackFriday(ctx: Ctx): AtlasAnswer {
     rows: rows.map((r): AtlasCell[] => [r.brand, r.retailer, r.label, usd(r.base), usd(r.low), signed(r.change), usd(r.unit), r.inStock == null ? "—" : pct(r.inStock, 0), r.bb0 == null ? "—" : `${pct(r.bb0, 0)} → ${pct(r.bb1, 0)}`, r.rank0 ? `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)}` : "—", fmtSold(r.sold)]),
     highlight: rows.map((r, i) => (r.brandId === S.id ? i : -1)).filter((i) => i >= 0),
   };
-  const dates = dateRange(SEASON.from, SEASON.to);
-  const amzLine = { type: "line" as const, title: "Amazon price per 100 wipes through the season", sub: "Median of each brand's Amazon listings, Oct – Dec 2025", unit: "usd" as const, x: dates, bands: [{ start: BF.from, end: BF.to, label: "Black Friday week" }],
-    series: ctx.brands.map((b) => { const ls = amazonListings(ctx).filter((l) => l.brand.id === b.id && l.units); return { id: b.id, label: b.label, color: b.color, subject: b.id === S.id, data: dates.map((d) => { const v = median(ls.map((l) => { const i = l.h.dates.indexOf(d); const p = i < 0 ? null : l.h.price[i]; return p == null ? null : (p / l.units!) * 100; })); return v == null ? null : r2(v); }) }; }) };
-  const wmLine = { type: "line" as const, title: "Walmart price per 100 wipes through the season", sub: "Median of each brand's Walmart items, carried forward up to 21 days", unit: "usd" as const, x: dates, bands: [{ start: BF.from, end: BF.to, label: "Black Friday week" }],
-    series: ctx.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.id === S.id, data: brandDailyPer100(ctx, b, dates) })).filter((s) => s.data.some((v) => v != null)) };
   const lostBox = !!hero && hero.bb0 != null && hero.bb1 != null && hero.bb0 >= 50 && hero.bb1 < 50;
   const lostAll = by(S.id, "Amazon").filter((r) => r.bb0 != null && r.bb1 != null && r.bb0 >= 50 && r.bb1 < 50);
   const heroLine = hero ? `On Amazon, ${possessive(S.label)} ${hero.label} went from ${usd(hero.base)} to a Black Friday low of ${usd(hero.low)} (${signed(hero.change)}) and its sales rank slipped from ${fmtRank(hero.rank0)} to ${fmtRank(hero.rank1)}` : "";
@@ -112,23 +106,7 @@ export function blackFriday(ctx: Ctx): AtlasAnswer {
       { label: "Hero listing rank", value: hero ? `${fmtRank(hero.rank0)} → ${fmtRank(hero.rank1)}` : "—", note: hero?.label, tone: hero && hero.rank1! > hero.rank0! ? "risk" : "good" },
       ...(lostBox ? [] : [{ label: `${S.label} in stock`, value: pct(subjStock, 0), note: "Black Friday week", tone: (subjStock ?? 0) >= 95 ? "good" as const : "risk" as const }]),
     ],
-    blocks: [bars, { ...rankBars, title: `${rankBars.title}: biggest movers`, rows: rankBars.rows.slice().sort((x, y) => Math.abs(y.value) - Math.abs(x.value)).slice(0, 8) }],
-    report: {
-      title: `${S.label} · Black Friday 2025 on Amazon and Walmart`,
-      summary: `How every tracked listing priced, stocked and ranked through Black Friday week 2025, and what holding price meant for ${possessive(S.label)} Amazon visibility.`,
-      sections: [
-        { title: "Who cut, and where", text: "Average Black Friday move per brand and retailer. A negative bar is a brand that cut.", blocks: [bars] },
-        { title: "What the cuts bought on Amazon", text: "Best Sellers Rank in Black Friday week against autumn. Listings that cut and climbed are the ones that took the week.", blocks: [rankBars] },
-        { title: "Through the season", text: "Median price per 100 wipes per brand on each retailer. The shaded band is Black Friday week.", blocks: [amzLine, wmLine] },
-        { title: "Listing by listing", text: `Filter by brand or retailer, or sort any column. ${S.label} rows are highlighted.`, blocks: [table] },
-      ],
-      method: [
-        "Amazon: Keepa daily price (Amazon or the lowest new offer), buyable state, Best Sellers Rank and Amazon's 'bought in past month' count.",
-        "Walmart: Histomart, Kompy and RetailerAPI readings merged per item per day, latest reading wins.",
-        "Autumn price is the median of Oct 1 – Nov 13, 2025; Black Friday price is the lowest reading Nov 21 – Dec 1, 2025. A cut is 2% or more below autumn.",
-        "Sales rank is the median Best Sellers Rank in each window; variants that share a parent listing share a rank.",
-        "Amazon on buy box is the share of days Keepa recorded Amazon itself as the buy-box seller.",
-      ],
-    },
+    blocks: [bars, { ...rankBars, title: `${rankBars.title}: biggest movers`, rows: rankBars.rows.slice().sort((x, y) => Math.abs(y.value) - Math.abs(x.value)).slice(0, 8) }, table],
+    link: { page: "pricing", label: "Pricing" },
   };
 }

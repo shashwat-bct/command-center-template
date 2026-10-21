@@ -1,8 +1,7 @@
 import type { AtlasAnswer, AtlasCell } from "../../lib/atlas";
-import { amazonListings, between, ordinalRank, brandDailyPer100, brandOf, dateRange, daysOf, fmtRank, fmtSold, median, niceDate, per100, possessive, productLabel, r1, r2, usd, type Ctx } from "./common";
+import { amazonListings, between, ordinalRank, brandOf, daysOf, fmtRank, fmtSold, median, niceDate, per100, possessive, productLabel, r1, r2, usd, type Ctx } from "./common";
 
 const WINDOW = { from: "2026-07-20", to: "2026-10-18" };
-const YEAR = { from: "2025-10-19", to: "2026-10-18" };
 
 type Item = { brandId: string; brand: string; color: string; retailer: "Amazon" | "Walmart"; label: string; units: number; price: number; unit: number; rank: number | null; sold: number | null };
 
@@ -48,13 +47,6 @@ export function pricePerWipe(ctx: Ctx): AtlasAnswer {
     columns: [{ label: "Brand", align: "left" as const }, { label: "Retailer", align: "left" as const }, { label: "Listing", align: "left" as const }, { label: "Wipes" }, { label: "Shelf price" }, { label: "Per 100 wipes" }, { label: "Sales rank" }, { label: "Bought / month" }],
     rows: all.map((x): AtlasCell[] => [x.brand, x.retailer, x.label, x.units, usd(x.price), usd(x.unit), fmtRank(x.rank), fmtSold(x.sold)]),
     highlight: all.map((x, i) => (x.brandId === S.id ? i : -1)).filter((i) => i >= 0) };
-  const gapTable = { type: "table" as const, title: `Same ${S.label} pack, Amazon vs Walmart`, sub: "Positive = dearer on Amazon",
-    columns: [{ label: "Pack", align: "left" as const }, { label: "Amazon" }, { label: "Walmart" }, { label: "Amazon vs Walmart" }],
-    rows: gaps.map((g): AtlasCell[] => [`${g.a.label}`, usd(g.a.price), usd(g.w.price), `${g.gap > 0 ? "+" : ""}${g.gap}%`]) };
-  const months = dateRange(YEAR.from, YEAR.to).filter((d) => d.endsWith("-15"));
-  const yd = dateRange(YEAR.from, YEAR.to);
-  const trend = { type: "line" as const, title: "Twelve months of Walmart price per 100 wipes", sub: "Monthly median of each brand's Walmart items", unit: "usd" as const, x: months,
-    series: ctx.brands.map((b) => { const daily = brandDailyPer100(ctx, b, yd); return { id: b.id, label: b.label, color: b.color, subject: b.id === S.id, data: months.map((m) => { const v = median(daily.filter((_, i) => yd[i].startsWith(m.slice(0, 7)))); return v == null ? null : r2(v); }) }; }).filter((s) => s.data.some((v) => v != null)) };
   const topGap = gaps[0];
   return {
     id: "price-per-wipe",
@@ -70,7 +62,7 @@ export function pricePerWipe(ctx: Ctx): AtlasAnswer {
     headline: `${S.label} is the ${ordinalRank(rank, ranked.length)} of ${ranked.length} brands per wipe at ${usd(subj.v)} per 100 wipes, ${r1(premium)}% above ${cheapest.b.label} (${usd(cheapest.v)}). Its own ladder runs from ${usd(big.unit)} (${big.label}, ${big.retailer}) to ${usd(small.unit)} (${small.label}, ${small.retailer}).`,
     what: `Per 100 wipes on Amazon: ${ctx.brands.map((b) => `${b.label} ${usd(brandMed(b.id, "Amazon"))}`).join(", ")}. On Walmart: ${ctx.brands.map((b) => `${b.label} ${usd(brandMed(b.id, "Walmart"))}`).join(", ")}.`,
     why: `The premium is structural: XL sheets in packs of ${[...new Set(own.map((x) => x.units))].sort((a, z) => a - z).join(", ")}, against competitors' bulk packs. ${topGap && Math.abs(topGap.gap) >= 3 ? `The biggest cross-retailer gap is ${topGap.a.label}: ${usd(topGap.a.price)} on Amazon vs ${usd(topGap.w.price)} on Walmart (${topGap.gap > 0 ? "+" : ""}${topGap.gap}%).` : gaps.length ? `Packs sold on both retailers are priced within 3% of each other, so the premium is the same wherever the shopper looks.` : ""}`,
-    when: `${niceDate(WINDOW.from)} – ${niceDate(WINDOW.to)} for the ranking; the trend covers ${niceDate(YEAR.from)} – ${niceDate(YEAR.to)}.`,
+    when: `${niceDate(WINDOW.from)} – ${niceDate(WINDOW.to)} (13 weeks).`,
     insight: `Shoppers pay a ${r1(premium)}% per-wipe premium for ${S.label} and still make its ${best.find((x) => x.brandId === S.id)?.label ?? "lead pack"} one of the category's best sellers on Amazon (${fmtRank(best.find((x) => x.brandId === S.id)?.rank ?? null)}), so the brand has pricing power. The risk is the per-wipe price on small packs, which is what a value shopper compares.`,
     actions: [
       { title: `Lead with the ${big.units}-count pack in value messaging`, detail: `At ${usd(big.unit)} per 100 wipes it is ${r1((small.unit / big.unit - 1) * 100)}% cheaper per wipe than the ${small.units}-count.`, impact: `Narrows the per-wipe gap to ${cheapest.b.label} without a price cut` },
@@ -83,17 +75,7 @@ export function pricePerWipe(ctx: Ctx): AtlasAnswer {
       { label: "Own ladder", value: `${usd(big.unit)}–${usd(small.unit)}`, note: `${big.units} ct → ${small.units} ct` },
       { label: "Largest Amazon–Walmart gap", value: topGap ? `${topGap.gap > 0 ? "+" : ""}${topGap.gap}%` : "—", note: topGap?.a.label, tone: topGap && Math.abs(topGap.gap) >= 10 ? "risk" : "neutral" },
     ],
-    blocks: [bars, ladder],
-    report: {
-      title: `${S.label} · Price per wipe on Amazon and Walmart`,
-      summary: `Where ${S.label} sits per wipe against the set on each retailer, how its own packs ladder, and where the same pack is priced differently across retailers.`,
-      sections: [
-        { title: "Brand by retailer", text: "Median price per 100 wipes of each brand's listings on each retailer.", blocks: [bars] },
-        { title: `${possessive(S.label)} pack ladder`, text: "Every pack on both retailers. Bigger packs should be cheaper per wipe; a break in that order is a pricing gap.", blocks: [ladder, gapTable] },
-        { title: "Twelve months on Walmart", text: "A flat line is a brand that holds price.", blocks: [trend] },
-        { title: "Every listing", text: "Filter by brand or retailer, or sort any column.", blocks: [table] },
-      ],
-      method: ["Price per 100 wipes = shelf price ÷ the listing's wipe count × 100.", "Amazon: Keepa daily price; Walmart: Histomart, Kompy and RetailerAPI readings.", "Brand figures are the median of its listings, so one odd pack does not move the brand."],
-    },
+    blocks: [bars, ladder, table],
+    link: { page: "pricing", label: "Pricing" },
   };
 }

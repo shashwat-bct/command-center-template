@@ -48,11 +48,6 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
     columns: [{ label: "Brand", align: "left" as const }, { label: "Retailer", align: "left" as const }, { label: "Listing", align: "left" as const }, { label: "Before" }, { label: "Event low" }, { label: "Change" }, { label: "In stock" }, { label: "Sales rank" }, { label: "Bought / month" }],
     rows: sorted.map((r): AtlasCell[] => [r.brand.label, RETAILER[r.rt], r.label, usd(r.before), usd(r.low), signed(r.change), r.inStock == null ? "—" : pct(r.inStock, 0), r.rank0 ? `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)}` : "—", fmtSold(r.sold)]),
     highlight: sorted.map((r, i) => (r.brand.id === S.id ? i : -1)).filter((i) => i >= 0) };
-  const dates = P.dims.dates.slice(Math.max(0, a - 21), Math.min(P.dims.dates.length, z + 5));
-  const idx = dates.map(di);
-  const line = { type: "line" as const, title: "Price index around the event", sub: "Each brand's Amazon and Walmart listings indexed to 100 the day before the event, then averaged", unit: "num" as const, x: dates, bands: [{ start: ev.start, end: ev.end, label: ev.label }],
-    series: ctx.brands.map((b) => { const keys = P.dims.models.filter((m) => m.brand === b.id).flatMap((m) => MEASURED.map((rt) => `${m.id}|${rt}`)).filter((k) => P.pricing.price[k]?.[a - 1] != null);
-      return { id: b.id, label: b.label, color: b.color, subject: b.id === S.id, data: idx.map((i) => { const v = mean(keys.map((k) => { const p = P.pricing.price[k][i]; return p == null ? null : (p / P.pricing.price[k][a - 1]!) * 100; })); return v == null ? null : r1(v); }) }; }).filter((s) => s.data.some((v) => v != null)) };
   const heroHeld = subjHero && subjHero.rank1! <= subjHero.rank0!;
   return {
     id: "big-deal-days",
@@ -81,18 +76,8 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
       { label: "Deepest rival move", value: signed(cutter.change), note: cutter.b.label },
       { label: "Lead listing rank", value: subjHero ? `${fmtRank(subjHero.rank0)} → ${fmtRank(subjHero.rank1)}` : "—", note: subjHero?.label, tone: heroHeld ? "good" : "risk" },
     ],
-    blocks: [bars, { ...rankBars, title: `${rankBars.title}: biggest movers`, rows: rankBars.rows.slice().sort((x, y) => Math.abs(y.value) - Math.abs(x.value)).slice(0, 8) }],
-    report: {
-      title: `${S.label} · ${ev.label} ${ev.start.slice(0, 4)}`,
-      summary: `How each brand priced its Amazon and Walmart listings over ${ev.label}, and whether the cuts bought Amazon sales rank.`,
-      sections: [
-        { title: "Who cut, and where", text: "Average move per brand and retailer. A negative bar is a brand that cut.", blocks: [bars] },
-        { title: "What the cuts bought", text: "Amazon Best Sellers Rank response, listing by listing.", blocks: [rankBars] },
-        { title: "Around the event", text: "Each brand's listings indexed to 100 the day before the event.", blocks: [line] },
-        { title: "Listing by listing", text: "Filter by brand or retailer, or sort any column.", blocks: [table] },
-      ],
-      method: ["Amazon prices and ranks are Keepa's daily readings; Walmart prices are the Walmart feed.", "A cut is an event-day low at least 3% below the median of the 14 days before.", "Target is left out because its readings are partly modelled."],
-    },
+    blocks: [bars, { ...rankBars, title: `${rankBars.title}: biggest movers`, rows: rankBars.rows.slice().sort((x, y) => Math.abs(y.value) - Math.abs(x.value)).slice(0, 8) }, table],
+    link: { page: "calendar", label: "Promo Calendar" },
   };
 }
 
@@ -153,16 +138,7 @@ export function availability(ctx: Ctx): AtlasAnswer {
       { label: "Dead listings", value: String(dead.length), note: "no buyable offer all quarter", tone: dead.length ? "risk" : "good" },
       { label: "Outage days", value: String(lost), note: `${eps.length} outages` },
     ],
-    blocks: [bars, table],
-    report: {
-      title: `${S.label} · Availability, ${niceDate(window.from)} – ${niceDate(window.to)}`,
-      summary: `Where ${S.label} could not be bought on Amazon and Walmart over the quarter, what drives it, and which fixes move the rate most.`,
-      sections: [
-        { title: "Against the set", text: "Share of live listing-days each brand could be bought, and the subject without its dead listings.", blocks: [bars] },
-        { title: "Listing by listing", text: "A 0% cell is a listing that never had a buyable offer in the quarter.", blocks: [table] },
-        { title: "Every outage", text: "Continuous runs of unbuyable days. Filter by retailer or sort by days.", blocks: [epTable] },
-      ],
-      method: ["Amazon availability is Keepa's buyable state; Walmart availability is the Walmart feed's stock reading, with a day without a reading counted as in stock.", "Target is left out because its readings are partly modelled.", "Demand is Amazon's 'bought in past month' count and Best Sellers Rank from Keepa."],
-    },
+    blocks: [bars, table, epTable],
+    link: { page: "stock", label: "Availability" },
   };
 }

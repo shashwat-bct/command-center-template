@@ -1,4 +1,4 @@
-/* Ask Atlas: answer blocks (KPIs, what/why/when, tables, bar and line charts, quotes) and the full report page */
+/* Ask Atlas: answer blocks (KPIs, takeaway, what/why/when, moves, tables, bar and line charts, quotes) */
 (function () {
 "use strict";
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
@@ -115,23 +115,5 @@ function blocksHtml(list, prefix) {
   return { html, keyed };
 }
 
-function reportHtml(a, atlas, brand) {
-  const keyed = {};
-  const sections = a.report.sections.map((s, si) => {
-    const r = blocksHtml(s.blocks, `rep-${a.id}-${si}`);
-    Object.assign(keyed, r.keyed);
-    return `<section class="atl-sec"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>${r.html}</section>`;
-  }).join("");
-  const html = `<div class="atl-rep">
-    <a class="atl-back" href="#atlas">← Back to Ask Atlas</a>
-    <header class="atl-rep-h"><small>Atlas report · ${esc(brand)} <span class="pvx-tag pvx-real" title="Every figure in this report comes from measured Amazon, Walmart, review and AI-answer data">Real</span></small><h2>${esc(a.report.title)}</h2>
-      <p class="atl-rep-q">${esc(a.question)}</p><p>${esc(a.headline)}</p><p>${esc(a.report.summary)}</p></header>
-    ${kpisHtml(a.kpis)}${insightHtml(a)}${wwwHtml(a)}${actionsHtml(a)}${sections}
-    <div class="atl-method"><h3>How this was worked out</h3><ul>${a.report.method.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>
-      <p class="atl-src" style="margin:10px 0 0">Sources: ${esc(atlas.sources.join(" · "))} · prepared ${esc(F().date ? F().date(atlas.generatedOn) : atlas.generatedOn)}</p></div>
-  </div>`;
-  return { html, keyed };
-}
-
-window.__ATLAS = { esc, svg, ICON, kpisHtml, wwwHtml, insightHtml, actionsHtml, blocksHtml, drawCharts, reportHtml };
+window.__ATLAS = { esc, svg, ICON, kpisHtml, wwwHtml, insightHtml, actionsHtml, blocksHtml, drawCharts };
 })();

@@ -65,7 +65,6 @@
 .atl-blk .sub{margin:2px 0 12px;font-size:12.5px;color:var(--mute)}
 .atl-blk .dt-wrap{max-height:340px;overflow:auto}
 .atl-blk table.dt tr.subj td{background:var(--accentSoft)}
-.atl-rep .atl-blk .dt-wrap{max-height:none}
 .atl-q{display:flex;flex-direction:column;gap:10px}
 .atl-q blockquote{margin:0;padding:10px 14px;border-radius:12px;font-size:13.5px;line-height:1.55;color:var(--ink);background:var(--card2)}
 .atl-q blockquote[data-tone=negative]{background:var(--riskSoft)}
@@ -80,19 +79,6 @@
 .atl-llm p{margin:0 0 10px}
 .atl-llm ul{margin:0 0 10px;padding-left:20px}
 .atl-err{color:var(--risk);font-size:13.5px}
-.atl-rep{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:18px;padding-bottom:40px}
-.atl-back{align-self:flex-start;border:0;background:none;color:var(--accent);font:500 14px var(--fg);cursor:pointer;padding:6px 0;text-decoration:none}
-.atl-rep-h{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 26px;display:flex;flex-direction:column;gap:10px}
-.atl-rep-h small{font:500 12px var(--fg);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.atl-rep-h h2{margin:0;font:500 28px/1.2 var(--fd);color:var(--ink);text-wrap:balance}
-.atl-rep-h p{margin:0;font-size:15px;line-height:1.6;color:var(--soft);max-width:80ch}
-.atl-rep-q{font:400 14px var(--fg);color:var(--mute)}
-.atl-sec{display:flex;flex-direction:column;gap:12px}
-.atl-sec h3{margin:8px 0 0;font:500 19px var(--fd);color:var(--ink)}
-.atl-sec>p{margin:0;font-size:14px;color:var(--soft);line-height:1.55;max-width:80ch}
-.atl-method{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px}
-.atl-method h3{margin:0 0 8px;font:500 15px var(--fd)}
-.atl-method ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--soft)}
 @media (max-width:1100px){.atl{grid-template-columns:1fr}.atl-side{position:static;max-height:none;flex-direction:row;flex-wrap:wrap;align-items:center}.atl-side h6{width:100%}.atl-hist{width:auto;max-width:220px}}
 @media (max-width:760px){.atl-sugg{grid-template-columns:1fr 1fr}.atl-www{grid-template-columns:1fr}.atl-kpis{grid-template-columns:1fr 1fr}.atl-u{max-width:90%}}
 @media (max-width:480px){.atl-sugg{grid-template-columns:1fr}}

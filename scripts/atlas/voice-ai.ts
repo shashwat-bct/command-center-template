@@ -21,14 +21,8 @@ export function reviews(ctx: Ctx): AtlasAnswer {
   const subjRating = ratings.find((x) => x.b.id === S.id)?.v ?? null;
   const products = Object.values(ctx.feed.products).filter((p) => brandOf(ctx, p)?.id === S.id);
   const wm = products.flatMap((p) => ctx.feed.reviews[p.id] ?? []);
-  const stars = [5, 4, 3, 2, 1].map((s) => wm.filter((r) => r.rating === s).length);
   const complaints = wm.filter((r) => (r.rating ?? 5) <= 2 && r.text).sort((x, y) => (y.helpful ?? 0) - (x.helpful ?? 0) || y.date.localeCompare(x.date)).slice(0, 4);
   const praise = wm.filter((r) => r.rating === 5 && r.text && r.text.length > 40).sort((x, y) => (y.helpful ?? 0) - (x.helpful ?? 0) || y.date.localeCompare(x.date)).slice(0, 2);
-  const heat = {
-    type: "table" as const, title: "Positive share of review mentions, by aspect", sub: "Amazon review summaries and Walmart reviews combined",
-    columns: [{ label: "Aspect", align: "left" as const }, ...ctx.brands.map((b) => ({ label: b.label }))],
-    rows: aspects.map((a): AtlasCell[] => [a, ...ctx.brands.map((b) => { const v = share(b.id, a); return v == null ? "—" : pct(v, 0); })]),
-  };
   const bars = {
     type: "hbars" as const, title: `${S.label}: positive share by aspect`, sub: "Weakest first · mentions in brackets", unit: "pct" as const,
     rows: mine.map((x) => ({ label: x.a, value: r1(x.share ?? 0), color: (x.share ?? 0) < 60 ? "#d93025" : (x.share ?? 0) < 80 ? "#f9ab00" : "#1e8e3e", subject: true, note: `${(x.c.positive + x.c.negative).toLocaleString("en-US")} mentions` })),
@@ -38,8 +32,6 @@ export function reviews(ctx: Ctx): AtlasAnswer {
     items: [...complaints.map((r) => ({ text: r.text!.slice(0, 260), meta: `${r.rating}★ · ${niceDate(r.date.slice(0, 10))}${r.verified ? " · verified purchase" : ""}`, tone: "negative" as const })),
       ...praise.map((r) => ({ text: r.text!.slice(0, 260), meta: `${r.rating}★ · ${niceDate(r.date.slice(0, 10))}${r.verified ? " · verified purchase" : ""}`, tone: "positive" as const }))],
   };
-  const starTable = { type: "table" as const, title: `${S.label} Walmart reviews by star`, sub: `${wm.length} reviews on file`, columns: [{ label: "Stars", align: "left" as const }, { label: "Reviews" }, { label: "Share" }],
-    rows: [5, 4, 3, 2, 1].map((s, i): AtlasCell[] => [`${s}★`, stars[i], wm.length ? pct((stars[i] / wm.length) * 100, 0) : "—"]) };
   const mentions = mine.reduce((t, x) => t + x.c.positive + x.c.negative, 0);
   const W = P.meta.window;
   const velocity = ctx.brands.map((b) => {
@@ -85,18 +77,8 @@ export function reviews(ctx: Ctx): AtlasAnswer {
       { label: "Weakest aspect", value: pct(weakest.share, 0), note: weakest.a, tone: (weakest.share ?? 100) < 60 ? "risk" : "watch" },
       { label: "New Amazon reviews", value: subjVel.toLocaleString("en-US"), note: `this quarter · #${velRank} of ${velocity.length}`, tone: velRank === 1 ? "good" : "neutral" },
     ],
-    blocks: [bars, velBars],
-    report: {
-      title: `${S.label} · Voice of the customer`,
-      summary: `What reviewers on Amazon and Walmart praise and criticise about ${S.label}, against the competitors on the same aspects.`,
-      sections: [
-        { title: `${S.label} by aspect`, text: "Share of mentions that are positive. Red is below 60%.", blocks: [bars] },
-        { title: "Against the set", text: "The same measure for every brand.", blocks: [heat] },
-        { title: "Review velocity", text: "How fast each brand adds Amazon reviews, the volume that keeps a rating hard to move.", blocks: [velBars] },
-        { title: "Walmart reviews", text: "The star mix and the reviews behind the complaints.", blocks: [starTable, quotes] },
-      ],
-      method: ["Amazon aspect counts come from Amazon's \"Customers say\" review summaries.", "Walmart reviews are counted into aspects by keyword, 4–5★ as positive and 1–2★ as negative.", "Ratings are review-weighted across Amazon and Walmart.", "Review velocity is Keepa's Amazon review count at the end of the quarter minus the start; listings sharing one review pool are counted once."],
-    },
+    blocks: [bars, velBars, quotes],
+    link: { page: "voice", label: "Voice of Customer" },
   };
 }
 
@@ -115,8 +97,6 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
   const stages = Object.keys(STAGE);
   const cell = (e: string, s: string, b: string): number | null => last.byEngineStage[`${e}|${s}|${b}`] ?? null;
   const missing = P.ai.prompts.filter((q) => !q.present[S.id]);
-  const trend = { type: "line" as const, title: "AI share of mentions over the captured readings", sub: `${hist.length} readings, ${niceDate(first.date)} – ${niceDate(last.date)}`, unit: "pct" as const, x: hist.map((h) => h.date),
-    series: ctx.brands.map((b) => ({ id: b.id, label: b.label, color: b.color, subject: b.id === S.id, data: hist.map((h) => h.overall[b.id] ?? null) })) };
   const bars = { type: "hbars" as const, title: "Share of brand mentions in AI answers", sub: `Latest reading, ${niceDate(last.date)}`, unit: "pct" as const,
     rows: ranked.map((x) => ({ label: x.b.label, value: r1(x.v), color: x.b.color, subject: x.b.id === S.id })) };
   const grid = { type: "table" as const, title: `${S.label} share by engine and stage`, sub: "Share of brand mentions in each engine's answers at each funnel stage",
@@ -160,17 +140,7 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
       { label: "Top pick", value: `${subjPicks} / ${committed.length}`, note: `answers that commit · ${picks[0].b.label} ${picks[0].n}`, tone: subjPicks >= picks[0].n ? "good" : "risk" },
       { label: "Change", value: `${move > 0 ? "+" : ""}${r1(move)} pts`, note: `since ${niceDate(first.date)}`, tone: move >= 0 ? "good" : "watch" },
     ],
-    blocks: [bars, grid],
-    report: {
-      title: `${S.label} · AI answer visibility`,
-      summary: `How often ChatGPT, Gemini and Claude name ${S.label} when shoppers ask about flushable wipes, against the competitors.`,
-      sections: [
-        { title: "Share of mentions", text: "Each brand's share of all brand mentions in the latest reading.", blocks: [bars] },
-        { title: "Over time", text: "The same share at each captured reading.", blocks: [trend] },
-        { title: "By engine and stage", text: "Where the brand is strong and where it is missing.", blocks: [grid] },
-        { title: "Questions to win", text: "Answers that do not name the brand, with the brand they put first.", blocks: [gaps] },
-      ],
-      method: ["Each brand counts once per answer; share is its mentions over all brand mentions.", "Questions are brand-neutral shopper questions across four funnel stages."],
-    },
+    blocks: [bars, grid, gaps],
+    link: { page: "ai-funnel", label: "Funnel & Engines" },
   };
 }

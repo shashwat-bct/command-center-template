@@ -13,8 +13,6 @@ export type AtlasBlock =
   | { type: "line"; title: string; sub?: string; unit: "usd" | "pct" | "num"; x: string[]; series: Array<{ id: string; label: string; color: string; subject?: boolean; data: Array<number | null> }>; bands?: Array<{ start: string; end: string; label: string }> }
   | { type: "quotes"; title: string; sub?: string; items: Array<{ text: string; meta: string; tone: "positive" | "negative" }> };
 
-export type AtlasSection = { title: string; text: string; blocks: AtlasBlock[] };
-
 export type AtlasAction = { title: string; detail: string; impact: string };
 
 export type AtlasAnswer = {
@@ -30,7 +28,7 @@ export type AtlasAnswer = {
   actions: AtlasAction[];
   kpis: AtlasKpi[];
   blocks: AtlasBlock[];
-  report: { title: string; summary: string; sections: AtlasSection[]; method: string[] };
+  link: { page: string; label: string };
 };
 
 export type AtlasData = { version: 1; brand: string; generatedOn: string; sources: string[]; answers: AtlasAnswer[] };

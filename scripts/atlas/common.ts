@@ -70,12 +70,6 @@ export const usd = (v: number | null): string => (v == null ? "—" : `$${v.toFi
 export const pct = (v: number | null, d = 1): string => (v == null ? "—" : `${v.toFixed(d)}%`);
 export const signed = (v: number | null, d = 1): string => (v == null ? "—" : `${v > 0 ? "+" : ""}${v.toFixed(d)}%`);
 
-export function dateRange(from: string, to: string): string[] {
-  const out: string[] = [];
-  for (let t = Date.parse(`${from}T00:00:00Z`); t <= Date.parse(`${to}T00:00:00Z`); t += 86_400_000) out.push(new Date(t).toISOString().slice(0, 10));
-  return out;
-}
-
 export const possessive = (name: string): string => (name.endsWith("s") ? `${name}'` : `${name}'s`);
 
 export const niceDate = (iso: string): string => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -88,22 +82,6 @@ export function productLabel(p: FeedProduct): string {
   return `${line ?? "Flushable Wipes"}${p.units ? ` · ${p.units} ct` : ""}`;
 }
 
-/**
- * The last reading on or before each date, carried forward, for a brand's daily median
- * price per 100 wipes across its feed products.
- */
-export function brandDailyPer100(ctx: Ctx, brand: PayloadBrand, dates: string[]): Array<number | null> {
-  const products = Object.values(ctx.feed.products).filter((p) => brandOf(ctx, p)?.id === brand.id && p.units);
-  const carried = products.map((p) => {
-    const days = ctx.feed.daily[p.id] ?? [];
-    let k = 0, last: number | null = null, lastOn = "";
-    return dates.map((d) => {
-      while (k < days.length && days[k].date <= d) { if (days[k].price != null) { last = per100(p, days[k].price); lastOn = days[k].date; } k++; }
-      return last != null && (Date.parse(d) - Date.parse(lastOn)) / 86_400_000 <= 21 ? last : null;
-    });
-  });
-  return dates.map((_, i) => { const m = median(carried.map((c) => c[i])); return m == null ? null : r2(m); });
-}
 
 export type AmazonListing = AmazonHistory["listings"][string];
 

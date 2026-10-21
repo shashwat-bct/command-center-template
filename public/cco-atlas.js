@@ -3,7 +3,6 @@
 "use strict";
 const A = () => window.__ATLAS;
 const THINK_MS = 10000;
-const RAIL_ICON = { "black-friday": "calendar", "price-per-wipe": "tag", "big-deal-days": "percent", availability: "stack", reviews: "star", "ai-visibility": "sparkle" };
 const MAX_CHATS = 30;
 const MATCH = {
   "black-friday": /black\s*friday|bfcm|cyber\s*monday|thanksgiving|holiday/i,
@@ -95,7 +94,7 @@ function fillAnswer(body, a, done) {
   if (!a) { body.innerHTML = `<p class="atl-err">This analysis is no longer available.</p>`; return; }
   const r = blocksHtml(a.blocks, `chat-${a.id}-${Math.random().toString(36).slice(2, 7)}`);
   body.innerHTML = `${stepsHtml(a, done)}<p class="atl-head">${esc(a.headline)}</p>${kpisHtml(a.kpis)}${insightHtml(a)}${wwwHtml(a)}${r.html}${actionsHtml(a)}
-    <div class="atl-actions"><a class="atl-report-btn" href="#atlas-${esc(a.id)}">View full report ${svg("arrow")}</a><span class="atl-src">${esc(atlas.sources.join(" · "))}</span></div>`;
+    <div class="atl-actions"><a class="atl-report-btn" href="#${esc(a.link.page)}">View full report · ${esc(a.link.label)} ${svg("arrow")}</a><span class="atl-src">${esc(atlas.sources.join(" · "))}</span></div>`;
   drawCharts(body, r.keyed);
 }
 
@@ -164,21 +163,12 @@ async function askClaude(text) {
   }
 }
 
-function report(host, id) {
-  const a = answerOf(id);
-  if (!a) { host.innerHTML = `<p class="atl-err">This report is not available.</p>`; return; }
-  const r = A().reportHtml(a, atlas, brand);
-  host.innerHTML = r.html;
-  A().drawCharts(host, r.keyed);
-}
-
 function onRoute(def) {
   if (!def) return;
   requestAnimationFrame(() => {
     const host = document.getElementById(`pg-${def.id}`);
     if (!host) return;
-    if (def.id === "atlas") { if (!host.querySelector(".atl")) shell(host); }
-    else report(host, def.id.replace(/^atlas-/, ""));
+    if (!host.querySelector(".atl")) shell(host);
   });
 }
 
@@ -190,7 +180,6 @@ function register() {
   load();
   window.__CCEXT.register({ id: "atlas", onRoute, groups: [{ id: "atlas", label: "Ask Atlas", ext: "atlas", after: "overview", pages: [
     { id: "atlas", label: "Ask Atlas", icon: "sparkle", crumb: "Ask Atlas", title: "Ask Atlas", ext: "atlas", managed: true, pill: "New" },
-    ...atlas.answers.map((a) => ({ id: `atlas-${a.id}`, label: a.chip.split(" · ")[0], icon: RAIL_ICON[a.id] || "sparkle", crumb: "Ask Atlas · Report", title: a.report.title, ext: "atlas", managed: true })),
   ] }] });
   return true;
 }
