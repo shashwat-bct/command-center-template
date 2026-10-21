@@ -72,9 +72,9 @@ const anchored = () => Object.entries((prov().record || {}).anchors || {});
 function split(page, title) {
   const read = readOn(page);
   const anchors = anchored();
-  const real = [AMAZON_REAL[page] || AMAZON].concat(read.map((id) => (firstIso(id) > windowStart() ? `${labelOf(id)} from ${firstRead(id)}` : labelOf(id))));
+  const real = [AMAZON_REAL[page] || AMAZON].concat(read.map((id) => (firstIso(id) > windowStart() ? `(${labelOf(id)} from ${firstRead(id)})` : labelOf(id))));
   const sim = U().D.dims.retailers.filter((r) => r.id !== "amazon" && !read.includes(r.id)).map((r) => { const a = anchors.find(([id]) => id === r.id); return a ? `${r.label} (set to match its own site on ${day(a[1])})` : r.label; })
-    .concat(read.filter((id) => firstIso(id) > windowStart()).map((id) => `${labelOf(id)} before ${firstRead(id)}`))
+    .concat(read.filter((id) => firstIso(id) > windowStart()).map((id) => `(${labelOf(id)} before ${firstRead(id)})`))
     .concat(ASSUMED.filter(([re]) => re.test(title)).map(([, f]) => f(page)).filter(Boolean));
   return { real, sim };
 }
