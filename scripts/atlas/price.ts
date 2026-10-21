@@ -50,7 +50,7 @@ export function pricePerWipe(ctx: Ctx): AtlasAnswer {
   const topGap = gaps[0];
   return {
     id: "price-per-wipe",
-    question: `Is ${S.label} priced as the premium or the value wipe once you normalise to price per 100 wipes, how does that change by retailer and pack size, and where is the same ${S.label} pack priced differently on Amazon and Walmart in a way a comparison shopper would notice?`,
+    question: `Per 100 wipes, is ${S.label} the premium or the value pick by pack and retailer, and where do prices diverge?`,
     chip: "Per-wipe pricing · packs × retailers",
     steps: [
       `Restating ${all.length} Amazon and Walmart listings to price per 100 wipes from their own pack counts`,

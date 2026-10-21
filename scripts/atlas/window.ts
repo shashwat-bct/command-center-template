@@ -51,7 +51,7 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
   const heroHeld = subjHero && subjHero.rank1! <= subjHero.rank0!;
   return {
     id: "big-deal-days",
-    question: `During Prime Big Deal Days in October 2026, which brands cut price on Amazon versus Walmart and how deep did they go, did the brands that discounted actually gain Amazon sales rank, and what did ${possessive(S.label)} decision to largely hold price cost or save us?`,
+    question: `Prime Big Deal Days: who discounted, on which retailer, and did the cuts actually buy Amazon sales rank?`,
     chip: "Prime Big Deal Days · cut vs hold",
     steps: [
       `Pulling daily Keepa prices and Best Sellers Rank for ${amz.length} Amazon listings`,
@@ -113,7 +113,7 @@ export function availability(ctx: Ctx): AtlasAnswer {
   const deadNames = dead.map((c) => shortLabel(c.m.label, S.label));
   return {
     id: "availability",
-    question: `Which ${S.label} listings are losing buyable days on Amazon and Walmart this quarter, how much of our in-stock gap against Charmin, Cottonelle and Goodwipes comes from listings with no buyable offer at all versus short replenishment gaps, and where should supply and listing fixes go first?`,
+    question: `How much of ${possessive(S.label)} in-stock gap comes from dead listings versus short outages, and what to fix first?`,
     chip: "Stock-outs · dead listings vs gaps",
     steps: [
       `Reading the daily buyable state of ${cells.length} ${S.label} listing–retailer pairs (Keepa for Amazon, Walmart feed)`,

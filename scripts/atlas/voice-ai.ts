@@ -24,8 +24,8 @@ export function reviews(ctx: Ctx): AtlasAnswer {
   const complaints = wm.filter((r) => (r.rating ?? 5) <= 2 && r.text).sort((x, y) => (y.helpful ?? 0) - (x.helpful ?? 0) || y.date.localeCompare(x.date)).slice(0, 4);
   const praise = wm.filter((r) => r.rating === 5 && r.text && r.text.length > 40).sort((x, y) => (y.helpful ?? 0) - (x.helpful ?? 0) || y.date.localeCompare(x.date)).slice(0, 2);
   const bars = {
-    type: "hbars" as const, title: `${S.label}: positive share by aspect`, sub: "Weakest first · mentions in brackets", unit: "pct" as const,
-    rows: mine.map((x) => ({ label: x.a, value: r1(x.share ?? 0), color: (x.share ?? 0) < 60 ? "#d93025" : (x.share ?? 0) < 80 ? "#f9ab00" : "#1e8e3e", subject: true, note: `${(x.c.positive + x.c.negative).toLocaleString("en-US")} mentions` })),
+    type: "hbars" as const, title: `${S.label}: positive share by aspect`, sub: "Weakest first, with the number of mentions behind each", unit: "pct" as const,
+    rows: mine.map((x) => ({ label: x.a, value: r1(x.share ?? 0), color: (x.share ?? 0) < 60 ? "#d93025" : (x.share ?? 0) < 80 ? "#f9ab00" : "#1e8e3e", note: `${(x.c.positive + x.c.negative).toLocaleString("en-US")} mentions` })),
   };
   const quotes = {
     type: "quotes" as const, title: `What Walmart reviewers wrote about ${S.label}`, sub: "Most helpful complaints and praise",
@@ -52,7 +52,7 @@ export function reviews(ctx: Ctx): AtlasAnswer {
   const negAbout = wm.filter((r) => (r.rating ?? 5) <= 2 && r.text && (weakWords[weakest.a] ?? /$^/).test(r.text)).length;
   return {
     id: "reviews",
-    question: `Across Amazon and Walmart reviews, which product attributes are driving praise and complaints for ${S.label} against Charmin, Cottonelle and Goodwipes, is the durability problem specific to us or category-wide, and is our review velocity strong enough to keep the rating defensible?`,
+    question: `What drives ${possessive(S.label)} praise and complaints, and is durability our problem or the category's?`,
     chip: "Review drivers · praise vs complaints",
     steps: [
       `Counting ${mentions.toLocaleString("en-US")} aspect mentions across Amazon and Walmart reviews`,
@@ -115,7 +115,7 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
   const move = (last.overall[S.id] ?? 0) - (first.overall[S.id] ?? 0);
   return {
     id: "ai-visibility",
-    question: `When shoppers ask ChatGPT, Gemini and Claude which flushable wipes to buy, at which funnel stage and on which engine does ${S.label} drop out of the answer, which brand takes the top recommendation instead, and which questions are the biggest share-of-answer opportunities?`,
+    question: `Where in the AI shopping funnel does ${S.label} drop out, and who wins the top recommendation instead?`,
     chip: "AI answers · where we drop out",
     steps: [
       `Reading ${P.ai.prompts.length} engine answers to ${new Set(P.ai.prompts.map((q) => q.q.replace(/^[^:]+:\s*/, ""))).size} shopper questions`,

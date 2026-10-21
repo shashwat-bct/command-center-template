@@ -26,30 +26,43 @@ const reduced = () => window.matchMedia && window.matchMedia("(prefers-reduced-m
 function shell(host) {
   const { esc, svg } = A();
   host.innerHTML = `<div class="atl">
-    <aside class="atl-side"><button type="button" class="atl-new" id="atlNew">${svg("spark")}<span>New chat</span></button><h6>Recent</h6><div id="atlHist"></div></aside>
     <section class="atl-main"><div class="atl-stream" id="atlStream" aria-live="polite"></div>
-      <form class="atl-input" id="atlForm"><div class="atl-box"><label for="atlQ" class="sr-only" style="position:absolute;left:-9999px">Ask Atlas</label>
+      <form class="atl-input" id="atlForm"><div class="atl-box"><label for="atlQ" class="atl-sr">Ask Atlas</label>
         <textarea id="atlQ" rows="1" placeholder="Ask Atlas about ${esc(brand)}…"></textarea>
         <button type="submit" class="atl-send" id="atlSend" aria-label="Send">${svg("send")}</button></div>
-        <p class="atl-foot">Atlas answers from ${esc(atlas.sources.join(", "))}. The six prepared analyses run on this data; any other question goes to Claude.</p></form>
-    </section></div>`;
+        <p class="atl-foot">Answers come from ${esc(atlas.sources.join(", "))}. Questions outside the six analyses go to Claude.</p></form>
+    </section>
+    <aside class="atl-side" aria-label="Conversation history">
+      <button type="button" class="atl-new" id="atlNew">${svg("plus")}<span>New chat</span></button>
+      <div class="atl-hist-wrap" id="atlHist"></div>
+    </aside></div>`;
   const q = host.querySelector("#atlQ");
   q.addEventListener("input", () => { q.style.height = "auto"; q.style.height = Math.min(160, q.scrollHeight) + "px"; });
   q.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); host.querySelector("#atlForm").requestSubmit(); } });
   host.querySelector("#atlForm").addEventListener("submit", (e) => { e.preventDefault(); const t = q.value.trim(); if (!t || busy) return; q.value = ""; q.style.height = "auto"; ask(host, t); });
-  host.querySelector("#atlNew").onclick = () => { current = null; renderHist(host); renderChat(host); q.focus(); };
+  host.querySelector("#atlNew").onclick = () => { if (busy) return; current = null; renderHist(host); renderChat(host); window.scrollTo({ top: 0 }); q.focus(); };
   renderHist(host); renderChat(host);
 }
 
+const DAY = 86_400_000;
+function bucket(at) {
+  const start = new Date(); start.setHours(0, 0, 0, 0);
+  const t = start.getTime();
+  return at >= t ? "Today" : at >= t - DAY ? "Yesterday" : at >= t - 7 * DAY ? "Previous 7 days" : "Older";
+}
+
 function renderHist(host) {
-  const { esc } = A();
+  const { esc, svg } = A();
   const el = host.querySelector("#atlHist");
-  el.innerHTML = chats.length ? chats.map((c) => `<button type="button" class="atl-hist ${current && current.id === c.id ? "on" : ""}" data-id="${esc(c.id)}"><span title="${esc(c.title)}">${esc(c.title)}</span><i role="button" aria-label="Delete chat" data-del="${esc(c.id)}">×</i></button>`).join("")
-    : `<p class="atl-empty-hist">Your conversations are saved in this browser.</p>`;
-  el.querySelectorAll(".atl-hist").forEach((b) => b.onclick = (e) => {
-    const del = e.target.closest("[data-del]");
-    if (del) { chats = chats.filter((c) => c.id !== del.dataset.del); if (current && current.id === del.dataset.del) current = null; save(); renderHist(host); renderChat(host); return; }
-    current = chats.find((c) => c.id === b.dataset.id) || null; renderHist(host); renderChat(host);
+  if (!chats.length) { el.innerHTML = `<div class="atl-empty-hist">${svg("chat")}<b>No conversations yet</b><span>Pick a question or ask your own. Chats are saved in this browser.</span></div>`; return; }
+  const groups = [];
+  for (const c of chats) { const g = bucket(c.at); const last = groups[groups.length - 1]; if (last && last.g === g) last.list.push(c); else groups.push({ g, list: [c] }); }
+  el.innerHTML = groups.map(({ g, list }) => `<h6>${g}</h6>${list.map((c) => `<div class="atl-hist ${current && current.id === c.id ? "on" : ""}" data-id="${esc(c.id)}">
+      <button type="button" class="atl-hist-open" title="${esc(c.title)}"><span>${esc(c.title)}</span><small>${esc(new Date(c.at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }))}</small></button>
+      <button type="button" class="atl-hist-del" aria-label="Delete this chat" title="Delete">${svg("trash")}</button></div>`).join("")}`).join("");
+  el.querySelectorAll(".atl-hist").forEach((row) => {
+    row.querySelector(".atl-hist-open").onclick = () => { if (busy) return; current = chats.find((c) => c.id === row.dataset.id) || null; renderHist(host); renderChat(host); };
+    row.querySelector(".atl-hist-del").onclick = () => { if (busy) return; chats = chats.filter((c) => c.id !== row.dataset.id); if (current && current.id === row.dataset.id) current = null; save(); renderHist(host); renderChat(host); };
   });
 }
 
@@ -57,9 +70,9 @@ function renderChat(host) {
   const { esc, svg, ICON } = A();
   const stream = host.querySelector("#atlStream");
   if (!current) {
-    stream.innerHTML = `<div class="atl-hello"><h1>Hello, ${esc(brand)} team</h1><p>What do you want to know about the market?</p>
-      <div class="atl-sugg">${atlas.answers.map((a) => `<button type="button" class="atl-card" data-q="${esc(a.id)}"><span><span class="atl-tag">${esc(a.chip)}</span><span class="atl-cq">${esc(a.question)}</span></span><b>${svg(ICON[a.id])}</b></button>`).join("")}</div></div>`;
-    stream.querySelectorAll(".atl-card").forEach((b) => b.onclick = () => { if (!busy) ask(host, answerOf(b.dataset.q).question); });
+    stream.innerHTML = `<div class="atl-hello"><h1>Hello, ${esc(brand)} team</h1><p>Ask about price, stock, reviews or AI visibility, or start from one of these analyses.</p>
+      <div class="atl-sugg">${atlas.answers.map((a) => `<button type="button" class="atl-card" data-q="${esc(a.id)}"><b>${svg(ICON[a.id])}</b><span><span class="atl-tag">${esc(a.chip.split(" · ")[0])}</span><span class="atl-cq">${esc(a.question)}</span></span></button>`).join("")}</div></div>`;
+    stream.querySelectorAll(".atl-card").forEach((b) => b.onclick = () => { if (!busy) ask(host, answerOf(b.dataset.q).question, b.dataset.q); });
     return;
   }
   stream.innerHTML = "";
@@ -99,20 +112,21 @@ function fillAnswer(body, a, done) {
 }
 
 function newChat(title) {
-  current = { id: `c${Date.now().toString(36)}`, title: title.slice(0, 70), at: Date.now(), msgs: [] };
+  current = { id: `c${Date.now().toString(36)}`, title: title.slice(0, 90), at: Date.now(), msgs: [] };
   chats.unshift(current);
 }
 
-async function ask(host, text) {
+async function ask(host, text, picked) {
   busy = true;
   host.querySelector("#atlSend").disabled = true;
-  if (!current) newChat(text);
+  host.querySelector("#atlNew").disabled = true;
+  if (!current) newChat(picked ? answerOf(picked).chip : text);
   const stream = host.querySelector("#atlStream");
   if (current.msgs.length === 0) stream.innerHTML = "";
   const userMsg = { role: "user", text };
   current.msgs.push(userMsg); stream.appendChild(msgNode(userMsg));
   save(); renderHist(host);
-  const a = matchAnswer(text);
+  const a = picked ? answerOf(picked) : matchAnswer(text);
   const node = document.createElement("div");
   node.className = "atl-a busy";
   node.innerHTML = `<div class="atl-av">${A().svg("spark")}</div><div class="atl-body"></div>`;
@@ -143,6 +157,7 @@ async function ask(host, text) {
   save(); renderHist(host);
   busy = false;
   host.querySelector("#atlSend").disabled = false;
+  host.querySelector("#atlNew").disabled = false;
 }
 
 function context() {
@@ -164,6 +179,7 @@ async function askClaude(text) {
 }
 
 function onRoute(def) {
+  document.body.classList.toggle("atlas-on", !!def);
   if (!def) return;
   requestAnimationFrame(() => {
     const host = document.getElementById(`pg-${def.id}`);

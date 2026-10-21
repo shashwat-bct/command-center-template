@@ -79,7 +79,7 @@ export function blackFriday(ctx: Ctx): AtlasAnswer {
   const winnerLine = rivalWinner ? `${possessive(rivalWinner.brand)} ${rivalWinner.label} cut ${cutText(rivalWinner.change)} and climbed from ${fmtRank(rivalWinner.rank0)} to ${fmtRank(rivalWinner.rank1)}` : "";
   return {
     id: "black-friday",
-    question: `How did ${S.label} perform across Amazon and Walmart through Black Friday 2025 against Charmin, Cottonelle and Goodwipes: who cut price, on which retailer and how deep, did we stay in stock, and did holding price cost us Amazon sales rank while competitors discounted?`,
+    question: `Black Friday 2025: who cut price on Amazon and Walmart, and did holding price cost ${S.label} sales rank?`,
     chip: "Black Friday 2025 · Amazon + Walmart",
     steps: [
       `Loading ${amazonListings(ctx).length} Amazon listings' daily Keepa history (price, stock, Best Sellers Rank, bought-in-past-month)`,

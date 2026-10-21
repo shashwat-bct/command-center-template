@@ -11,7 +11,7 @@
   "answers": [
     {
       "id": "black-friday",
-      "question": "How did Dude Wipes perform across Amazon and Walmart through Black Friday 2025 against Charmin, Cottonelle and Goodwipes: who cut price, on which retailer and how deep, did we stay in stock, and did holding price cost us Amazon sales rank while competitors discounted?",
+      "question": "Black Friday 2025: who cut price on Amazon and Walmart, and did holding price cost Dude Wipes sales rank?",
       "chip": "Black Friday 2025 · Amazon + Walmart",
       "steps": [
         "Loading 19 Amazon listings' daily Keepa history (price, stock, Best Sellers Rank, bought-in-past-month)",
@@ -692,7 +692,7 @@
     },
     {
       "id": "price-per-wipe",
-      "question": "Is Dude Wipes priced as the premium or the value wipe once you normalise to price per 100 wipes, how does that change by retailer and pack size, and where is the same Dude Wipes pack priced differently on Amazon and Walmart in a way a comparison shopper would notice?",
+      "question": "Per 100 wipes, is Dude Wipes the premium or the value pick by pack and retailer, and where do prices diverge?",
       "chip": "Per-wipe pricing · packs × retailers",
       "steps": [
         "Restating 35 Amazon and Walmart listings to price per 100 wipes from their own pack counts",
@@ -1274,7 +1274,7 @@
     },
     {
       "id": "big-deal-days",
-      "question": "During Prime Big Deal Days in October 2026, which brands cut price on Amazon versus Walmart and how deep did they go, did the brands that discounted actually gain Amazon sales rank, and what did Dude Wipes' decision to largely hold price cost or save us?",
+      "question": "Prime Big Deal Days: who discounted, on which retailer, and did the cuts actually buy Amazon sales rank?",
       "chip": "Prime Big Deal Days · cut vs hold",
       "steps": [
         "Pulling daily Keepa prices and Best Sellers Rank for 17 Amazon listings",
@@ -1894,7 +1894,7 @@
     },
     {
       "id": "availability",
-      "question": "Which Dude Wipes listings are losing buyable days on Amazon and Walmart this quarter, how much of our in-stock gap against Charmin, Cottonelle and Goodwipes comes from listings with no buyable offer at all versus short replenishment gaps, and where should supply and listing fixes go first?",
+      "question": "How much of Dude Wipes' in-stock gap comes from dead listings versus short outages, and what to fix first?",
       "chip": "Stock-outs · dead listings vs gaps",
       "steps": [
         "Reading the daily buyable state of 12 Dude Wipes listing–retailer pairs (Keepa for Amazon, Walmart feed)",
@@ -2147,7 +2147,7 @@
     },
     {
       "id": "reviews",
-      "question": "Across Amazon and Walmart reviews, which product attributes are driving praise and complaints for Dude Wipes against Charmin, Cottonelle and Goodwipes, is the durability problem specific to us or category-wide, and is our review velocity strong enough to keep the rating defensible?",
+      "question": "What drives Dude Wipes' praise and complaints, and is durability our problem or the category's?",
       "chip": "Review drivers · praise vs complaints",
       "steps": [
         "Counting 22,999 aspect mentions across Amazon and Walmart reviews",
@@ -2208,49 +2208,43 @@
         {
           "type": "hbars",
           "title": "Dude Wipes: positive share by aspect",
-          "sub": "Weakest first · mentions in brackets",
+          "sub": "Weakest first, with the number of mentions behind each",
           "unit": "pct",
           "rows": [
             {
               "label": "Durability",
               "value": 41.7,
               "color": "#d93025",
-              "subject": true,
               "note": "3,089 mentions"
             },
             {
               "label": "Size",
               "value": 67.2,
               "color": "#f9ab00",
-              "subject": true,
               "note": "2,751 mentions"
             },
             {
               "label": "Quality",
               "value": 84.6,
               "color": "#1e8e3e",
-              "subject": true,
               "note": "8,997 mentions"
             },
             {
               "label": "Fragrance",
               "value": 84.9,
               "color": "#1e8e3e",
-              "subject": true,
               "note": "2,831 mentions"
             },
             {
               "label": "Effectiveness",
               "value": 91.1,
               "color": "#1e8e3e",
-              "subject": true,
               "note": "3,947 mentions"
             },
             {
               "label": "Softness",
               "value": 92.4,
               "color": "#1e8e3e",
-              "subject": true,
               "note": "1,384 mentions"
             }
           ]
@@ -2332,7 +2326,7 @@
     },
     {
       "id": "ai-visibility",
-      "question": "When shoppers ask ChatGPT, Gemini and Claude which flushable wipes to buy, at which funnel stage and on which engine does Dude Wipes drop out of the answer, which brand takes the top recommendation instead, and which questions are the biggest share-of-answer opportunities?",
+      "question": "Where in the AI shopping funnel does Dude Wipes drop out, and who wins the top recommendation instead?",
       "chip": "AI answers · where we drop out",
       "steps": [
         "Reading 72 engine answers to 24 shopper questions",
