@@ -81,7 +81,7 @@ const ownMention = (a, b) => (a.brands || []).find(x => x.id === b);
 const recCount = (answers, b) => answers.filter(a => ownMention(a, b)?.recommended).length;
 const posCount = (answers, b) => answers.filter(a => ownMention(a, b)?.sentiment === "positive").length;
 function recRate(answers, b) { return answers.length ? recCount(answers, b) / answers.length : null; }
-function topPickShare(answers, brands = brandsOn()) { const withPick = answers.filter(a => a.topPick && brands.some(b => b.id === a.topPick)); const out = {}; for (const b of brands) out[b.id] = withPick.length ? withPick.filter(a => a.topPick === b.id).length / withPick.length : null; return { out, n: withPick.length }; }
+function topPickShare(answers, brands = brandsOn()) { const withPick = answers.filter(a => a.topPick); const out = {}; for (const b of brands) out[b.id] = withPick.length ? withPick.filter(a => a.topPick === b.id).length / withPick.length : null; const outside = withPick.filter(a => !brands.some(b => b.id === a.topPick)).length; return { out, n: withPick.length, outside }; }
 function stageAnswers(st, answers) { const q = qById(); return answers.filter(a => q[a.queryId]?.stage === st); }
 
 // ── the brand-comparison set (Aashish, 2026-09-21) ───────────────────────────
@@ -420,7 +420,7 @@ function renderLenses() {
   const pickTable = `<details class="h2hq"><summary>See the ${cq.length} brand-neutral questions and each engine's top pick</summary><div class="tblwrap tall"><table class="t wrap"><thead><tr><th>Question</th>${vEng.map(e => `<th class="num">${engName(e, engL[e])}</th>`).join("")}</tr></thead><tbody>${cq.map(qq => `<tr class="tap" onclick="openQuestion('${qq.id}')"><td class="wrap">${esc(qq.text)}<small class="note" style="display:block">${esc(stageLabel(qq.stage))}</small></td>${vEng.map(e => pickCell(AC.find(y => y.queryId === qq.id && y.engine === e))).join("")}</tr>`).join("")}</tbody></table></div></details>`;
   const pickEngRows = vEng.map(e => { const ea = AC.filter(a => a.engine === e); const t = topPickShare(ea); const lead = byDesc(Object.fromEntries(Object.entries(t.out).filter(([, v]) => v != null)))[0]; return { e, n: t.n, sony: ea.filter(a => a.topPick === s).length, share: t.out[s], lead }; });
   const pickByEngTable = `<div class="tblwrap" style="margin-top:14px"><table class="t"><thead><tr><th>Engine</th><th class="num">Commits</th><th class="num">Picks ${SL}</th><th class="num">${SL} share</th><th>Most picked</th></tr></thead><tbody>${pickEngRows.map(r => `<tr class="tap" onclick="openEngineProof('${r.e}')"><td>${engName(r.e, engL[r.e])}</td><td class="num">${r.n}</td><td class="num"><b>${r.sony}</b></td><td class="num">${pct(r.share)}</td><td>${r.lead ? `<span class="pk" style="--sw:${brandColor(r.lead[0])}">${esc(brandLabel(r.lead[0]))} ${pct(r.lead[1])}</span>` : "—"}</td></tr>`).join("")}</tbody></table></div>`;
-  cards.push(lensCard("pick", "Lens 01 · Recommendation", "Recommendation rate", "Being named is not being recommended. The share of answers whose single top recommendation is each brand; the bars add to 100% of the answers that commit to one brand.", barRows(tp.out, { onclick: "openPickProof" }) + `<div class="note" style="margin-top:8px">${tp.n} of ${AC.length} answers to the ${cq.length} brand-neutral questions commit to one top pick; the rest hedge.</div>` + pickByEngTable + pickTable, `${SL} is the top pick in ${pct(tp.out[s])} of committed answers — ${rankPhrase(tp.out, s)}. The programme's content and source work is judged on this number, not on mentions.`));
+  cards.push(lensCard("pick", "Lens 01 · Recommendation", "Recommendation rate", `Being named is not being recommended. The share of answers whose single top recommendation is each brand, out of every answer that commits to one brand${tp.outside ? `; ${tp.outside} of them pick a brand outside the tracked set` : ""}.`, barRows(tp.out, { onclick: "openPickProof" }) + `<div class="note" style="margin-top:8px">${tp.n} of ${AC.length} answers to the ${cq.length} brand-neutral questions commit to one top pick; the rest hedge.</div>` + pickByEngTable + pickTable, `${SL} is the top pick in ${pct(tp.out[s])} of committed answers — ${rankPhrase(tp.out, s)}. The programme's content and source work is judged on this number, not on mentions.`));
   // 2 head-to-head — every answer is one of: Sony, a rival, another brand, or no verdict, so the
   // verdict bar adds to 100% (the bars alone once read 32 / 9 / 7 / 5 and left the reader to
   // guess where the other 48% went — Aashish, 2026-09-22)
@@ -1620,9 +1620,10 @@ function route() {
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 // ── embedded in the command centre: two groups on its rail, its router calls back ──
-const EMBED_HIDDEN = new Set(["claims", "change", "live", "evidence"]);
+const EMBED_HIDDEN = new Set(["overview", "claims", "change"]);
+const EMBED_LAST = ["sources"];
 const EMBED_GROUPS = () => {
-  const grp = (id) => NAV.find(g => g.id === id).pages.filter(p => !EMBED_HIDDEN.has(p.id));
+  const grp = (id) => { const pages = NAV.find(g => g.id === id).pages.filter(p => !EMBED_HIDDEN.has(p.id)); return [...pages.filter(p => !EMBED_LAST.includes(p.id)), ...pages.filter(p => EMBED_LAST.includes(p.id))]; };
   const crumb = (p) => p.crumb.replace(/^Console/, "AI Engine Visibility");
   const def = (p) => ({ id: p.hash, label: p.label, svg: I[p.icon], crumb: crumb(p), title: p.title, pill: p.pill, ext: "aiv", managed: true });
   return [

@@ -70,7 +70,7 @@ export function renderDashboardHtml({ title, payloadUrl, share = false, shareId,
 <link rel="stylesheet" href="${asset("ai-visibility.css")}">
 <link rel="stylesheet" href="${asset("cco-atlas.css")}">
 </head>
-<body data-payload="${escapeAttr(payloadUrl)}"${analyst || process.env.SHOW_DATA_SOURCES === "true" ? ' data-sources="on"' : ""}>
+<body data-payload="${escapeAttr(payloadUrl)}" data-sources="on" data-view="${analyst ? "analyst" : "share"}">
 ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer ${escapeAttr(shareId)}";</script>` : ""}
 <div id="ccLoader" class="cc-loader" role="status" aria-live="polite">
   <div class="ccl-progress" aria-hidden="true"><i></i></div>
@@ -195,6 +195,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <script src="${asset("cco-reads.js")}"></script>
 <script src="${asset("cco-dashboard.js")}"></script>
 <script src="${asset("cco-feed.js")}"></script>
+<script src="${asset("cco-voice-more.js")}"></script>
 <script src="${asset("cco-dashboard-pages.js")}"></script>
 <script src="${asset("cco-measured-pages.js")}"></script>
 <script src="${asset("cco-card-ask.js")}"></script>

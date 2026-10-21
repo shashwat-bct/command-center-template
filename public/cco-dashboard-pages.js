@@ -513,6 +513,7 @@ P.voice = (host) => {
     openDrawer(`${esc(B(bid).label)} · ${esc(a)}`, score != null ? `${score}% of ${n ? n.positive + n.negative : 0} review mentions are positive` : "Too few mentions to score", tiles + compare + prodHtml + quoteHtmlBlock);
   }
   CC.line(el("vcVel"), { height: 250, x: ds, area: true, series: brandSeries((b) => d.voice.velocity[b]), fmtV: F.n, fmtY: F.k });
+  if (window.__CCVOICE) window.__CCVOICE.draw(host);
 };
 
 /* ══════════════════════════════════════════════════════════════════════════

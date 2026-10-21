@@ -26,6 +26,7 @@ const RULES = [
   ["traffic", /./, "sim", SIM],
   ["voice", /rating through|review velocity/, "real", KEEPA],
   ["voice", /aspect scores|what reviewers say/, "real", "Amazon review summaries (Apify)"],
+  ["voice", /praise vs complaints|best competitor|review mentions come from|positive share across/, "real", "Amazon review summaries (Apify) and Walmart reviews"],
   ["shelf", /share of the first results|the results, in order/, "real", SEARCH],
   ["shelf", /organic against paid/, "sim", SIM],
   ["shelf", /./, "mixed", "Amazon search read live · other retailers, terms and daily movement simulated"],
@@ -167,7 +168,8 @@ function banner() {
   if (document.getElementById("pvxBanner")) return;
   const b = document.createElement("div");
   b.id = "pvxBanner"; b.className = "pvx-banner";
-  b.innerHTML = `<span><b>Analyst view</b> · internal only. Each chart is tagged:</span>
+  const analyst = document.body.dataset.view === "analyst";
+  b.innerHTML = `<span><b>${analyst ? "Analyst view" : "Data sources"}</b>${analyst ? " · internal only" : ""}. Each chart is tagged:</span>
     <span class="pvx-legend"><span class="pvx-tag pvx-real">Real</span><span class="pvx-tag pvx-mixed">Partly real</span><span class="pvx-tag pvx-sim">Simulated</span></span>
     <span>${esc(partlyReal())} Partly real charts list which parts are real and which are simulated; hover a tag for its source.</span>`;
   const pages = document.getElementById("pages");

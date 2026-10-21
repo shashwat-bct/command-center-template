@@ -123,10 +123,13 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
     columns: [{ label: "Engine", align: "left" as const }, ...stages.map((s) => ({ label: STAGE[s] }))],
     rows: engines.map((e): AtlasCell[] => [ENGINE[e], ...stages.map((s) => { const v = cell(e, s, S.id); return v == null ? "—" : pct(v, 0); })]) };
   const gaps = { type: "table" as const, title: `Questions where ${S.label} is not named`, sub: `${missing.length} of ${P.ai.prompts.length} engine answers`,
-    columns: [{ label: "Question", align: "left" as const }, { label: "Stage", align: "left" as const }, { label: "Top brand", align: "left" as const }],
+    columns: [{ label: "Question", align: "left" as const }, { label: "Stage", align: "left" as const }, { label: "Named first", align: "left" as const }],
     rows: missing.slice(0, 12).map((q): AtlasCell[] => [q.q, STAGE[q.stage] ?? q.stage, ctx.brands.find((b) => b.id === q.topBrand)?.label ?? q.topBrand ?? "—"]) };
   const named = engines.map((e) => { const qs = P.ai.prompts.filter((q) => q.q.toLowerCase().startsWith(`${ENGINE[e].toLowerCase()}:`)); return { e, n: qs.filter((q) => q.present[S.id]).length, of: qs.length }; }).sort((x, y) => y.n / Math.max(1, y.of) - x.n / Math.max(1, x.of));
-  const picks = ctx.brands.map((b) => ({ b, n: P.ai.prompts.filter((q) => q.topBrand === b.id).length })).sort((x, y) => y.n - x.n);
+  const answers = P.aiConsole.captures[P.aiConsole.current]?.answers ?? [];
+  const committed = answers.filter((a) => a.topPick);
+  const picks = ctx.brands.map((b) => ({ b, n: committed.filter((a) => a.topPick === b.id).length })).sort((x, y) => y.n - x.n);
+  const outsidePicks = committed.filter((a) => !ctx.brands.some((b) => b.id === a.topPick)).length;
   const subjPicks = picks.find((x) => x.b.id === S.id)?.n ?? 0;
   const weakStage = stages.map((st) => { const qs = P.ai.prompts.filter((q) => q.stage === st); return { s: st, named: qs.filter((q) => q.present[S.id]).length, of: qs.length }; }).filter((x) => x.of).sort((x, y) => x.named / x.of - y.named / y.of)[0];
   const move = (last.overall[S.id] ?? 0) - (first.overall[S.id] ?? 0);
@@ -138,23 +141,23 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
       `Reading ${P.ai.prompts.length} engine answers to ${new Set(P.ai.prompts.map((q) => q.q.replace(/^[^:]+:\s*/, ""))).size} shopper questions`,
       `Comparing ${hist.length} captured readings from ${niceDate(first.date)} to ${niceDate(last.date)}`,
       `Splitting by engine (${engines.map((e) => ENGINE[e]).join(", ")}) and funnel stage`,
-      "Counting the top recommendation in every answer that commits to one brand",
+      `Counting the top recommendation in the ${committed.length} answers that commit to one brand`,
       "Listing the questions where the brand is missing, with who is named first",
     ],
     headline: `${S.label} holds ${pct(last.overall[S.id], 1)} of brand mentions in AI answers, #${rank} of ${ranked.length}; ${leader.b.label} leads at ${pct(leader.v, 1)}. It is named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers, most often by ${ENGINE[named[0].e]} (${named[0].n} of ${named[0].of}).`,
     what: `${ranked.map((x) => `${x.b.label} ${pct(x.v, 1)}`).join(" · ")}. Since ${niceDate(first.date)} ${S.label} moved ${move > 0 ? "+" : ""}${r1(move)} points.`,
-    why: `Being named is not being recommended: ${picks[0].b.label} is the engines' top pick in ${picks[0].n} of ${P.ai.prompts.length} answers, ${S.label} in ${subjPicks}. ${ENGINE[named[named.length - 1].e]} names ${S.label} least often (${named[named.length - 1].n} of ${named[named.length - 1].of}), so that is where the gap is widest.`,
+    why: `Being named is not being recommended: of the ${committed.length} answers that commit to one top pick, ${picks[0].b.label} gets ${picks[0].n}, ${S.label} ${subjPicks}, and brands outside the set ${outsidePicks}. ${ENGINE[named[named.length - 1].e]} names ${S.label} least often (${named[named.length - 1].n} of ${named[named.length - 1].of}), so that is where the gap is widest.`,
     when: `${hist.length} readings between ${niceDate(first.date)} and ${niceDate(last.date)}.`,
-    insight: `${S.label} is known to the engines but rarely chosen: named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers yet the top pick in ${subjPicks}. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.`,
+    insight: `${S.label} is known to the engines but rarely chosen: named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers yet the top pick in ${subjPicks} of the ${committed.length} that commit to one brand. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.`,
     actions: [
       { title: `Win the ${STAGE[weakStage.s] ?? weakStage.s} questions`, detail: `${S.label} is named in ${weakStage.named} of ${weakStage.of} answers at that stage, its weakest.`, impact: "The stage where shoppers get a shortlist without it" },
       { title: `Close the ${ENGINE[named[named.length - 1].e]} gap`, detail: `${ENGINE[named[named.length - 1].e]} names ${S.label} in ${named[named.length - 1].n} of ${named[named.length - 1].of} answers against ${named[0].n} on ${ENGINE[named[0].e]}.`, impact: "The engine with the most room" },
-      { title: `Take on ${picks[0].b.label} in head-to-head content`, detail: `${picks[0].b.label} is the top pick in ${picks[0].n} of ${P.ai.prompts.length} answers.`, impact: "Where top picks are decided" },
+      { title: `Take on ${picks[0].b.label} in head-to-head content`, detail: `${picks[0].b.label} is the top pick in ${picks[0].n} of the ${committed.length} answers that commit to one brand.`, impact: "Where top picks are decided" },
     ],
     kpis: [
       { label: "AI share of mentions", value: pct(last.overall[S.id], 1), note: `#${rank} of ${ranked.length}`, tone: rank === 1 ? "good" : "watch" },
       { label: "Named in", value: `${P.ai.prompts.length - missing.length} / ${P.ai.prompts.length}`, note: "engine answers" },
-      { label: "Top pick", value: `${subjPicks} / ${P.ai.prompts.length}`, note: `${picks[0].b.label} ${picks[0].n}`, tone: subjPicks >= picks[0].n ? "good" : "risk" },
+      { label: "Top pick", value: `${subjPicks} / ${committed.length}`, note: `answers that commit · ${picks[0].b.label} ${picks[0].n}`, tone: subjPicks >= picks[0].n ? "good" : "risk" },
       { label: "Change", value: `${move > 0 ? "+" : ""}${r1(move)} pts`, note: `since ${niceDate(first.date)}`, tone: move >= 0 ? "good" : "watch" },
     ],
     blocks: [bars, grid],

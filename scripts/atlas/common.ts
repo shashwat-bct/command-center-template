@@ -16,6 +16,7 @@ export type Payload = {
   promotions: { events: PromoEvent[] };
   scorecard: Record<string, Record<string, Record<string, { value: number | null; rank?: number; of?: number }>>>;
   voice: { aspectCounts: Record<string, Record<string, AspectCount>> };
+  aiConsole: { current: string; captures: Record<string, { answers: Array<{ queryId: string; engine: string; topPick: string | null }> }> };
   ai: { history: Array<{ date: string; overall: Record<string, number>; byEngineStage: Record<string, number> }>; prompts: AiPrompt[] };
 };
 

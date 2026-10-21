@@ -62,8 +62,6 @@ const icon = (k, raw) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentCo
 const NAV = [
   { id: "overview",     label: "Overview",              pages: [{ id: "scorecard", label: "360° Scorecard", icon: "grid", crumb: "Overview", title: "360° Scorecard" }] },
   { id: "demand",       label: "Demand",                pages: [{ id: "traffic", label: "Website Traffic", icon: "traffic", crumb: "Demand", title: "Website Traffic" }] },
-  { id: "mind",         label: "Share of Mind",         pages: [
-      { id: "voice",   label: "Voice of Customer", icon: "star",    crumb: "Share of Mind", title: "Voice of Customer" }] },
   { id: "visibility",   label: "Share of Visibility",   pages: [
       { id: "shelf",   label: "Retail Shelf",      icon: "shelf",   crumb: "Share of Visibility", title: "Retail Shelf" },
       { id: "landing", label: "Landing Pages",     icon: "page",    crumb: "Share of Visibility", title: "Landing Pages" }] },
@@ -71,6 +69,8 @@ const NAV = [
       { id: "carriage", label: "Carriage & Buy Box", icon: "box",   crumb: "Share of Distribution", title: "Carriage & Buy Box" },
       { id: "stock",    label: "Availability",       icon: "stack", crumb: "Share of Distribution", title: "Availability" },
       { id: "delivery", label: "Delivery Promise",   icon: "truck", crumb: "Share of Distribution", title: "Delivery Promise" }] },
+  { id: "mind",         label: "Share of Mind",         pages: [
+      { id: "voice",   label: "Voice of Customer", icon: "star",    crumb: "Share of Mind", title: "Voice of Customer" }] },
   { id: "commercial",   label: "Commercial",            pages: [
       { id: "pricing",    label: "Pricing",            icon: "tag",      crumb: "Commercial", title: "Pricing" },
       { id: "promotions", label: "Promotions",         icon: "percent",  crumb: "Commercial", title: "Promotions" },
@@ -250,11 +250,22 @@ function liftReads(host) {
   const prev = reads.previousElementSibling;
   const note = prev && prev.matches("p.mini") ? prev : null;
   const head = (note || reads).previousElementSibling;
-  const block = [head && head.matches("h2.sec") ? head : null, note, reads].filter(Boolean);
+  const title = head && head.matches("h2.sec") ? head : null;
   const anchor = host.querySelector(":scope > .pintro");
   const after = anchor ? anchor.nextSibling : host.firstChild;
-  block.forEach((n) => host.insertBefore(n, after));
-  reads.style.marginBottom = "18px";
+  const acc = document.createElement("details");
+  acc.className = "reads-acc";
+  const tones = [...reads.querySelectorAll(".read")].reduce((m, r) => { const t = r.querySelector(".rt"); if (t) m[t.textContent] = (m[t.textContent] || 0) + 1; return m; }, {});
+  const key = `cc_reads_${host.id}`;
+  try { acc.open = localStorage.getItem(key) === "1"; } catch (e) {}
+  acc.addEventListener("toggle", () => { try { localStorage.setItem(key, acc.open ? "1" : "0"); } catch (e) {} });
+  acc.innerHTML = `<summary><span class="ra-t">${tc(title ? title.textContent : "Top takeaways")}</span><span class="ra-n">${Object.entries(tones).map(([t, n]) => `<i class="ra-${t.toLowerCase()}">${n} ${t}</i>`).join("")}</span><span class="ra-x" aria-hidden="true"></span></summary>`;
+  const body = document.createElement("div");
+  body.className = "ra-b";
+  [note, reads].filter(Boolean).forEach((n) => body.appendChild(n));
+  acc.appendChild(body);
+  if (title) title.remove();
+  host.insertBefore(acc, after);
 }
 function table(cols, rows, opts) {
   opts = opts || {};

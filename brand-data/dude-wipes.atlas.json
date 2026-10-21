@@ -4612,14 +4612,14 @@
         "Reading 72 engine answers to 24 shopper questions",
         "Comparing 5 captured readings from Oct 14, 2026 to Oct 21, 2026",
         "Splitting by engine (ChatGPT, Gemini, Claude) and funnel stage",
-        "Counting the top recommendation in every answer that commits to one brand",
+        "Counting the top recommendation in the 35 answers that commit to one brand",
         "Listing the questions where the brand is missing, with who is named first"
       ],
       "headline": "Dude Wipes holds 14.9% of brand mentions in AI answers, #2 of 4; Cottonelle leads at 21.3%. It is named in 47 of 72 answers, most often by Claude (18 of 24).",
       "what": "Cottonelle 21.3% · Dude Wipes 14.9% · Charmin 5.9% · Goodwipes 4.9%. Since Oct 14, 2026 Dude Wipes moved -3.4 points.",
-      "why": "Being named is not being recommended: Cottonelle is the engines' top pick in 58 of 72 answers, Dude Wipes in 5. ChatGPT names Dude Wipes least often (12 of 24), so that is where the gap is widest.",
+      "why": "Being named is not being recommended: of the 35 answers that commit to one top pick, Cottonelle gets 20, Dude Wipes 0, and brands outside the set 15. ChatGPT names Dude Wipes least often (12 of 24), so that is where the gap is widest.",
       "when": "5 readings between Oct 14, 2026 and Oct 21, 2026.",
-      "insight": "Dude Wipes is known to the engines but rarely chosen: named in 47 of 72 answers yet the top pick in 5. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.",
+      "insight": "Dude Wipes is known to the engines but rarely chosen: named in 47 of 72 answers yet the top pick in 0 of the 35 that commit to one brand. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.",
       "actions": [
         {
           "title": "Win the Evaluation & Trust questions",
@@ -4633,7 +4633,7 @@
         },
         {
           "title": "Take on Cottonelle in head-to-head content",
-          "detail": "Cottonelle is the top pick in 58 of 72 answers.",
+          "detail": "Cottonelle is the top pick in 20 of the 35 answers that commit to one brand.",
           "impact": "Where top picks are decided"
         }
       ],
@@ -4651,8 +4651,8 @@
         },
         {
           "label": "Top pick",
-          "value": "5 / 72",
-          "note": "Cottonelle 58",
+          "value": "0 / 35",
+          "note": "answers that commit · Cottonelle 20",
           "tone": "risk"
         },
         {
@@ -4927,7 +4927,7 @@
                     "align": "left"
                   },
                   {
-                    "label": "Top brand",
+                    "label": "Named first",
                     "align": "left"
                   }
                 ],

@@ -124,7 +124,7 @@ function reportHtml(a, atlas, brand) {
   }).join("");
   const html = `<div class="atl-rep">
     <a class="atl-back" href="#atlas">← Back to Ask Atlas</a>
-    <header class="atl-rep-h"><small>Atlas report · ${esc(brand)}</small><h2>${esc(a.report.title)}</h2>
+    <header class="atl-rep-h"><small>Atlas report · ${esc(brand)} <span class="pvx-tag pvx-real" title="Every figure in this report comes from measured Amazon, Walmart, review and AI-answer data">Real</span></small><h2>${esc(a.report.title)}</h2>
       <p class="atl-rep-q">${esc(a.question)}</p><p>${esc(a.headline)}</p><p>${esc(a.report.summary)}</p></header>
     ${kpisHtml(a.kpis)}${insightHtml(a)}${wwwHtml(a)}${actionsHtml(a)}${sections}
     <div class="atl-method"><h3>How this was worked out</h3><ul>${a.report.method.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>
