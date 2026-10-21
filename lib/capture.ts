@@ -185,7 +185,8 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   const willHitCompetitorKeepa = !!category && aiCompetitors.length > 0;
   const willHitApify = willHitKeepa && !!process.env.APIFY_TOKEN;
   const willReadShelf = !!category && !!process.env.APIFY_TOKEN;
-  const willReadRetail = willHitKeepa && !!category && !!brightDataKey();
+  const hasFeed = existsSync(feedPath(slug));
+  const willReadRetail = willHitKeepa && !!category && !!brightDataKey() && !hasFeed;
 
   const steps: BuildStep[] = [
     { name: "config", status: "pending" },
@@ -202,7 +203,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     { name: "rebrand", status: "pending" },
     ...(willHitAI ? [{ name: "ai-console", status: "pending" as const }] : []),
     { name: "overrides", status: "pending" },
-    ...(existsSync(feedPath(slug)) ? [{ name: "retail-feed", status: "pending" as const }] : []),
+    ...(hasFeed ? [{ name: "retail-feed", status: "pending" as const }] : []),
     { name: "upload", status: "pending" },
   ];
   const logChunks: string[] = [];
@@ -423,6 +424,8 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       return r;
     });
   }
+
+  if (hasFeed) logLine(`retailer sites: not read live; brand-data/${slug}.feed.json supplies the retailer data`);
 
   let feed: RetailFeed | null = null;
   try {

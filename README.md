@@ -91,9 +91,11 @@ Cost per build: ~100 Keepa tokens, ~$0.07 Apify, 24 Bright Data records each for
 - `daily`: per item and day, the buy-box price (the retailer's own offer price when no buy-box reading exists), crossed-out price, in-stock state, stock count, offer count, buy-box seller, rating and review count, and the sources read.
 - `reviewSummary` and `reviews`: the retailer's rating totals, star breakdown, review highlights and individual reviews.
 
+A brand with a feed is built from it: the build does not read retailer websites through Bright Data (no `retail-offers` step), and only readings already saved from earlier builds join it.
+
 On a build (`lib/capture.ts`) the feed does three things:
 
-1. Its prices join the live website readings, restated for the listing's pack size. A live reading wins on its day.
+1. Its prices join any saved website readings, restated for the listing's pack size. A saved website reading wins on its day.
 2. Every tracked listing it covers becomes measured at that retailer. The builder's measured path, which used to serve only Amazon (`measuredFor` in the vendored builder), now takes any retailer's daily price, list, stock, offer count and buy box, so carriage, stock-outs, seller count, buy-box share, price cuts and price index come from the data. A day without a reading counts as in stock. A price, offer count or buy-box holder older than 45 days is not carried.
 3. Its weekly view from January 2025 and its reviews are attached as `payload.retailFeed`. They feed Voice of Customer: the retailer's reviews are counted into each aspect, with their quotes and products in the aspect drawers.
 
