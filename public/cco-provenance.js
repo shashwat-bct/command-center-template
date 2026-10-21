@@ -119,20 +119,25 @@ function partlyReal() {
 }
 
 function currentPage() {
-  const id = (location.hash || "#scorecard").slice(1);
-  const el = document.getElementById(`pg-${id}`) || document.querySelector("#pages .page:not([hidden])");
-  return { id: el && el.id ? el.id.replace(/^pg-/, "") : id, el };
+  const el = document.querySelector("#pages .page.on") || document.getElementById(`pg-${(location.hash || "#scorecard").slice(1)}`);
+  return { id: el && el.id ? el.id.replace(/^pg-/, "") : (location.hash || "#scorecard").slice(1), el };
 }
+
+const cardTitle = (card) => {
+  const h = card.querySelector(".card-h h3, h3, h4, h2");
+  return h ? h.textContent.replace(/\s+/g, " ").trim() : "";
+};
 
 function panelHtml() {
   const { id, el } = currentPage();
   const seen = new Set();
-  const rows = [...(el ? el.querySelectorAll(".card .card-h h3") : [])].map((h) => h.textContent.trim()).filter((t) => t && !seen.has(t) && seen.add(t)).map((title) => {
-    const r = ruleFor(id, title); if (!r) return "";
+  const dflt = pageDefault(id);
+  const cards = el ? [...el.querySelectorAll(".card")].filter((c) => !c.parentElement.closest(".card") && c.getClientRects().length) : [];
+  const rows = cards.map(cardTitle).filter((t) => t && !seen.has(t) && seen.add(t)).map((title) => {
+    const r = ruleFor(id, title) || dflt; if (!r) return "";
     const parts = r.src === "measures" ? measures() : r.k === "mixed" && SPLIT_PAGES.has(id) ? split(id, title.toLowerCase()) : null;
     return `<li><div class="pvx-row"><b>${esc(title)}</b>${tag(r.k)}</div><div class="pvx-src">${parts ? `<span class="pvx-k">Real</span> ${esc(parts.real.join(", "))}${parts.sim.length ? `<br><span class="pvx-k">Simulated</span> ${esc(parts.sim.join(", "))}` : ""}` : esc(r.src)}</div></li>`;
   }).filter(Boolean);
-  const dflt = pageDefault(id);
   return `<div class="pvx-head"><b>Where this page's data comes from</b><button type="button" class="pvx-x" aria-label="Close">✕</button></div>
     <p class="pvx-sum">${esc(partlyReal())}</p>
     ${rows.length ? `<ul class="pvx-list">${rows.join("")}</ul>` : dflt ? `<p class="pvx-sum">${tag(dflt.k)} ${esc(dflt.src)}</p>` : `<p class="pvx-sum">Nothing on this page is tagged.</p>`}`;
