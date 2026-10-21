@@ -1,5 +1,5 @@
 import type { AtlasAnswer, AtlasCell } from "../../lib/atlas";
-import { brandOf, niceDate, pct, possessive, r1, type Ctx } from "./common";
+import { amazonListings, brandOf, niceDate, pct, possessive, r1, type Ctx } from "./common";
 
 const STAGE: Record<string, string> = { awareness: "Awareness", consideration: "Consideration", evaluation: "Evaluation & Trust", decision: "Decision" };
 const ENGINE: Record<string, string> = { chatgpt: "ChatGPT", gemini: "Gemini", claude: "Claude" };
@@ -41,35 +41,61 @@ export function reviews(ctx: Ctx): AtlasAnswer {
   const starTable = { type: "table" as const, title: `${S.label} Walmart reviews by star`, sub: `${wm.length} reviews on file`, columns: [{ label: "Stars", align: "left" as const }, { label: "Reviews" }, { label: "Share" }],
     rows: [5, 4, 3, 2, 1].map((s, i): AtlasCell[] => [`${s}★`, stars[i], wm.length ? pct((stars[i] / wm.length) * 100, 0) : "—"]) };
   const mentions = mine.reduce((t, x) => t + x.c.positive + x.c.negative, 0);
+  const W = P.meta.window;
+  const velocity = ctx.brands.map((b) => {
+    const pools = new Map<string, number>();
+    for (const l of amazonListings(ctx).filter((x) => x.brand.id === b.id)) {
+      const i0 = l.h.dates.indexOf(W.start), i1 = l.h.dates.indexOf(W.end);
+      const r0 = l.h.reviews.slice(i0, i1 + 1).find((v) => v != null), r1v = l.h.reviews.slice(i0, i1 + 1).reverse().find((v) => v != null);
+      if (r0 != null && r1v != null) pools.set(`${r0}|${r1v}`, Math.max(0, r1v - r0));
+    }
+    return { b, n: [...pools.values()].reduce((t, v) => t + v, 0) };
+  }).sort((x, y) => y.n - x.n);
+  const subjVel = velocity.find((x) => x.b.id === S.id)?.n ?? 0;
+  const velRank = velocity.findIndex((x) => x.b.id === S.id) + 1;
+  const velBars = { type: "hbars" as const, title: "New Amazon reviews this quarter", sub: `Review count growth ${niceDate(W.start)} – ${niceDate(W.end)}, a shared review pool counted once`, unit: "num" as const,
+    rows: velocity.map((x) => ({ label: x.b.label, value: x.n, color: x.b.color, subject: x.b.id === S.id })) };
+  const wmNeg = wm.filter((r) => (r.rating ?? 5) <= 2).length;
+  const weakWords: Record<string, RegExp> = { Durability: /tear|rip|thin|fall apart|flimsy|break/i, Size: /small|size|tiny/i, Fragrance: /smell|scent|fragrance/i, Softness: /rough|scratch/i, Quality: /quality|cheap/i, Effectiveness: /clean|work/i };
+  const negAbout = wm.filter((r) => (r.rating ?? 5) <= 2 && r.text && (weakWords[weakest.a] ?? /$^/).test(r.text)).length;
   return {
     id: "reviews",
-    question: `What do shoppers love and hate about ${S.label}?`,
-    chip: "What reviewers say",
+    question: `Across Amazon and Walmart reviews, which product attributes are driving praise and complaints for ${S.label} against Charmin, Cottonelle and Goodwipes, is the durability problem specific to us or category-wide, and is our review velocity strong enough to keep the rating defensible?`,
+    chip: "Review drivers · praise vs complaints",
     steps: [
       `Counting ${mentions.toLocaleString("en-US")} aspect mentions across Amazon and Walmart reviews`,
       `Scoring ${aspects.length} aspects for ${ctx.brands.length} brands`,
       `Reading ${wm.length} ${S.label} Walmart reviews for the sharpest complaints`,
+      "Measuring Amazon review velocity from Keepa review counts, one count per shared review pool",
+      "Benchmarking each weak aspect against the best competitor",
     ],
     headline: `Shoppers love ${possessive(S.label)} ${strongest.a.toLowerCase()} (${pct(strongest.share, 0)} positive) and complain about ${weakest.a.toLowerCase()} (${pct(weakest.share, 0)} positive${weakest.best ? `, against ${possessive(weakest.best.b.label)} ${pct(weakest.best.v, 0)}` : ""}). It rates ${subjRating?.toFixed(2)}★, #${ratingRank} of ${ratings.length}.`,
     what: mine.slice().reverse().map((x) => `${x.a} ${pct(x.share, 0)}`).join(" · ") + ".",
     why: `${weakest.a} is where the brand loses: ${weakest.c.negative.toLocaleString("en-US")} negative mentions against ${weakest.c.positive.toLocaleString("en-US")} positive. ${weakest.best ? `${weakest.best.b.label} scores ${pct(weakest.best.v, 0)} on the same aspect, so the complaint is about the product, not the category.` : ""}`,
     when: `Amazon review summaries as read on the build date; Walmart reviews from ${wm.length ? niceDate(wm.map((r) => r.date).sort()[0].slice(0, 10)) : "—"} to ${wm.length ? niceDate(wm.map((r) => r.date).sort().reverse()[0].slice(0, 10)) : "—"}.`,
+    insight: `${possessive(S.label)} rating rests on ${strongest.a.toLowerCase()} and ${mine[mine.length - 2]?.a.toLowerCase() ?? "effectiveness"}, and it adds new Amazon reviews faster than ${velRank === 1 ? "anyone in the set" : `${velocity.length - velRank} of the set`} (${subjVel.toLocaleString("en-US")} this quarter). ${weakest.a} is the one attribute where a competitor proves the category can do better${weakest.best ? ` (${weakest.best.b.label} ${pct(weakest.best.v, 0)})` : ""}, so it is a product fix, not a messaging one.`,
+    actions: [
+      { title: `Brief R&D on ${weakest.a.toLowerCase()}`, detail: `${weakest.c.negative.toLocaleString("en-US")} negative mentions; ${weakest.best ? `${weakest.best.b.label} scores ${pct(weakest.best.v, 0)} on the same aspect` : "the weakest aspect in the set"}.`, impact: `Moves the aspect from ${pct(weakest.share, 0)} positive` },
+      { title: `Lead listings with ${strongest.a.toLowerCase()}`, detail: `${pct(strongest.share, 0)} of mentions are positive; make it the first bullet and image claim.`, impact: "Turns the strongest proof into conversion" },
+      { title: "Answer every 1–2★ Walmart review", detail: `${wmNeg} of ${wm.length} Walmart reviews on file are 1–2★; ${negAbout} of them mention ${weakest.a.toLowerCase()} problems.`, impact: "Visible brand response where the complaints sit" },
+    ],
     kpis: [
       { label: "Rating", value: subjRating == null ? "—" : `${subjRating.toFixed(2)}★`, note: `#${ratingRank} of ${ratings.length}`, tone: ratingRank === 1 ? "good" : "neutral" },
       { label: "Strongest aspect", value: pct(strongest.share, 0), note: strongest.a, tone: "good" },
       { label: "Weakest aspect", value: pct(weakest.share, 0), note: weakest.a, tone: (weakest.share ?? 100) < 60 ? "risk" : "watch" },
-      { label: "Walmart 5★ share", value: wm.length ? pct((stars[0] / wm.length) * 100, 0) : "—", note: `${wm.length} reviews` },
+      { label: "New Amazon reviews", value: subjVel.toLocaleString("en-US"), note: `this quarter · #${velRank} of ${velocity.length}`, tone: velRank === 1 ? "good" : "neutral" },
     ],
-    blocks: [bars, quotes],
+    blocks: [bars, velBars],
     report: {
       title: `${S.label} · Voice of the customer`,
       summary: `What reviewers on Amazon and Walmart praise and criticise about ${S.label}, against the competitors on the same aspects.`,
       sections: [
         { title: `${S.label} by aspect`, text: "Share of mentions that are positive. Red is below 60%.", blocks: [bars] },
         { title: "Against the set", text: "The same measure for every brand.", blocks: [heat] },
+        { title: "Review velocity", text: "How fast each brand adds Amazon reviews, the volume that keeps a rating hard to move.", blocks: [velBars] },
         { title: "Walmart reviews", text: "The star mix and the reviews behind the complaints.", blocks: [starTable, quotes] },
       ],
-      method: ["Amazon aspect counts come from Amazon's \"Customers say\" review summaries.", "Walmart reviews are counted into aspects by keyword, 4–5★ as positive and 1–2★ as negative.", "Ratings are review-weighted across Amazon and Walmart."],
+      method: ["Amazon aspect counts come from Amazon's \"Customers say\" review summaries.", "Walmart reviews are counted into aspects by keyword, 4–5★ as positive and 1–2★ as negative.", "Ratings are review-weighted across Amazon and Walmart.", "Review velocity is Keepa's Amazon review count at the end of the quarter minus the start; listings sharing one review pool are counted once."],
     },
   };
 }
@@ -102,20 +128,29 @@ export function aiVisibility(ctx: Ctx): AtlasAnswer {
   const named = engines.map((e) => { const qs = P.ai.prompts.filter((q) => q.q.toLowerCase().startsWith(`${ENGINE[e].toLowerCase()}:`)); return { e, n: qs.filter((q) => q.present[S.id]).length, of: qs.length }; }).sort((x, y) => y.n / Math.max(1, y.of) - x.n / Math.max(1, x.of));
   const picks = ctx.brands.map((b) => ({ b, n: P.ai.prompts.filter((q) => q.topBrand === b.id).length })).sort((x, y) => y.n - x.n);
   const subjPicks = picks.find((x) => x.b.id === S.id)?.n ?? 0;
+  const weakStage = stages.map((st) => { const qs = P.ai.prompts.filter((q) => q.stage === st); return { s: st, named: qs.filter((q) => q.present[S.id]).length, of: qs.length }; }).filter((x) => x.of).sort((x, y) => x.named / x.of - y.named / y.of)[0];
   const move = (last.overall[S.id] ?? 0) - (first.overall[S.id] ?? 0);
   return {
     id: "ai-visibility",
-    question: `How visible is ${S.label} in AI shopping answers?`,
-    chip: "AI answer visibility",
+    question: `When shoppers ask ChatGPT, Gemini and Claude which flushable wipes to buy, at which funnel stage and on which engine does ${S.label} drop out of the answer, which brand takes the top recommendation instead, and which questions are the biggest share-of-answer opportunities?`,
+    chip: "AI answers · where we drop out",
     steps: [
       `Reading ${P.ai.prompts.length} engine answers to ${new Set(P.ai.prompts.map((q) => q.q.replace(/^[^:]+:\s*/, ""))).size} shopper questions`,
       `Comparing ${hist.length} captured readings from ${niceDate(first.date)} to ${niceDate(last.date)}`,
       `Splitting by engine (${engines.map((e) => ENGINE[e]).join(", ")}) and funnel stage`,
+      "Counting the top recommendation in every answer that commits to one brand",
+      "Listing the questions where the brand is missing, with who is named first",
     ],
     headline: `${S.label} holds ${pct(last.overall[S.id], 1)} of brand mentions in AI answers, #${rank} of ${ranked.length}; ${leader.b.label} leads at ${pct(leader.v, 1)}. It is named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers, most often by ${ENGINE[named[0].e]} (${named[0].n} of ${named[0].of}).`,
     what: `${ranked.map((x) => `${x.b.label} ${pct(x.v, 1)}`).join(" · ")}. Since ${niceDate(first.date)} ${S.label} moved ${move > 0 ? "+" : ""}${r1(move)} points.`,
     why: `Being named is not being recommended: ${picks[0].b.label} is the engines' top pick in ${picks[0].n} of ${P.ai.prompts.length} answers, ${S.label} in ${subjPicks}. ${ENGINE[named[named.length - 1].e]} names ${S.label} least often (${named[named.length - 1].n} of ${named[named.length - 1].of}), so that is where the gap is widest.`,
     when: `${hist.length} readings between ${niceDate(first.date)} and ${niceDate(last.date)}.`,
+    insight: `${S.label} is known to the engines but rarely chosen: named in ${P.ai.prompts.length - missing.length} of ${P.ai.prompts.length} answers yet the top pick in ${subjPicks}. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.`,
+    actions: [
+      { title: `Win the ${STAGE[weakStage.s] ?? weakStage.s} questions`, detail: `${S.label} is named in ${weakStage.named} of ${weakStage.of} answers at that stage, its weakest.`, impact: "The stage where shoppers get a shortlist without it" },
+      { title: `Close the ${ENGINE[named[named.length - 1].e]} gap`, detail: `${ENGINE[named[named.length - 1].e]} names ${S.label} in ${named[named.length - 1].n} of ${named[named.length - 1].of} answers against ${named[0].n} on ${ENGINE[named[0].e]}.`, impact: "The engine with the most room" },
+      { title: `Take on ${picks[0].b.label} in head-to-head content`, detail: `${picks[0].b.label} is the top pick in ${picks[0].n} of ${P.ai.prompts.length} answers.`, impact: "Where top picks are decided" },
+    ],
     kpis: [
       { label: "AI share of mentions", value: pct(last.overall[S.id], 1), note: `#${rank} of ${ranked.length}`, tone: rank === 1 ? "good" : "watch" },
       { label: "Named in", value: `${P.ai.prompts.length - missing.length} / ${P.ai.prompts.length}`, note: "engine answers" },

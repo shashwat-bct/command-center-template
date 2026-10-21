@@ -19,7 +19,19 @@ export type Payload = {
   ai: { history: Array<{ date: string; overall: Record<string, number>; byEngineStage: Record<string, number> }>; prompts: AiPrompt[] };
 };
 
-export type Ctx = { feed: RetailFeed; payload: Payload; subject: PayloadBrand; brands: PayloadBrand[] };
+export type AmazonHistory = {
+  version: 1;
+  fetchedOn: string;
+  from: string;
+  listings: Record<string, {
+    asin: string; title: string | null; dates: string[];
+    price: Array<number | null>; list: Array<number | null>; stock: Array<0 | 1 | null>; offers: Array<number | null>;
+    rating: Array<number | null>; reviews: Array<number | null>; dealPrice: Array<number | null>; salesRank: Array<number | null>;
+    monthlySold: Array<number | null>; amazonBuyBox: Array<0 | 1 | null>;
+  }>;
+};
+
+export type Ctx = { feed: RetailFeed; payload: Payload; amazon: AmazonHistory; subject: PayloadBrand; brands: PayloadBrand[] };
 
 const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]/g, "");
 
@@ -91,3 +103,52 @@ export function brandDailyPer100(ctx: Ctx, brand: PayloadBrand, dates: string[])
   });
   return dates.map((_, i) => { const m = median(carried.map((c) => c[i])); return m == null ? null : r2(m); });
 }
+
+export type AmazonListing = AmazonHistory["listings"][string];
+
+/**
+ * The wipe count a listing label names ("… · 288 Count"), or null.
+ */
+export const ordinalRank = (rank: number, of: number): string => {
+  const word = ["", "", "second", "third", "fourth"];
+  if (rank === 1) return "cheapest";
+  if (rank === of) return "most expensive";
+  return rank > of / 2 ? `${word[of - rank + 1] ?? `#${of - rank + 1}`} most expensive` : `${word[rank] ?? `#${rank}`} cheapest`;
+};
+
+export const unitsOf = (label: string): number | null => { const m = /(\d+)\s*Count/i.exec(label); return m ? Number(m[1]) : null; };
+
+/**
+ * Each tracked Amazon listing with its brand, short label, wipe count and Keepa history.
+ */
+export function amazonListings(ctx: Ctx): Array<{ brand: PayloadBrand; model: PayloadModel; label: string; units: number | null; h: AmazonListing }> {
+  return ctx.payload.dims.models.flatMap((m) => {
+    const h = m.asin ? ctx.amazon.listings[m.asin] : undefined;
+    const brand = ctx.brands.find((b) => b.id === m.brand);
+    return h && brand ? [{ brand, model: m, label: shortLabel(m.label, brand.label), units: unitsOf(m.label), h }] : [];
+  });
+}
+
+export function shortLabel(label: string, brand: string): string {
+  const esc = brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const out = label.replace(new RegExp(`^${esc}\\s+`, "i"), "").replace(/^(DUDE Wipes|goodwipes)\s+/i, "").replace(/\s*Adult Flushable Wet Wipes|\s*Flushable Wet Wipes|\s*Flushable Wipes/i, "").trim();
+  return !out ? label : out.startsWith("·") ? `Flushable Wipes ${out}` : out;
+}
+
+/**
+ * The values of one Keepa series between two dates, inclusive.
+ */
+export function between<T>(h: AmazonListing, series: Array<T | null>, from: string, to: string): T[] {
+  const a = h.dates.indexOf(from), z = h.dates.indexOf(to);
+  if (a < 0 || z < 0) return [];
+  return series.slice(a, z + 1).filter((v): v is T => v != null);
+}
+
+export const fmtRank = (v: number | null): string => (v == null ? "—" : v >= 10000 ? `#${Math.round(v / 1000)}k` : `#${Math.round(v).toLocaleString("en-US")}`);
+export const cutText = (v: number): string => `${Math.abs(v).toFixed(1)}%`;
+export const fmtSold = (v: number | null): string => (v == null ? "—" : v >= 1000 ? `${Math.round(v / 1000)}k+` : `${v}+`);
+
+/**
+ * A listing label short enough for a chart row: line or scent plus pack ("Mint Chill 288 ct").
+ */
+export const compact = (label: string): string => label.replace(/^Flushable Wipes\s*·\s*/i, "").replace(/\s*(?:·\s*)?(\d+)\s*Count/i, " $1 ct").replace(/Flushable Wipes with Refillable Tub/i, "Refillable Tub").trim();

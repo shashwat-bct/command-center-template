@@ -113,11 +113,12 @@ npx tsx scripts/import-retailer-csv.ts --clean <dir with all_data_clean.csv, rev
 
 ### Ask Atlas
 
-The **Ask Atlas** page (after the 360° Scorecard) is a chat over prepared analyses: six questions with fixed answers, each with the analysis steps, a two-line headline, what / why / when, KPIs, tables and charts, and a full report page (`#atlas-<id>`). Any other question goes to Claude through `/api/llm`, with the six analyses as its only data. Conversations are saved in the viewer's browser.
+The **Ask Atlas** section (after the 360° Scorecard) is a chat over six prepared analyst questions, with a report page for each in the rail (`#atlas-<id>`). Each answer shows about ten seconds of analysis steps, then a headline, KPIs, a business takeaway, what / why / when, charts and tables, recommended moves and a link to the full report. Report tables can be searched, filtered by brand, retailer or stage, and sorted. Any other question goes to Claude through `/api/llm`, with the six analyses as its only data. Conversations are saved in the viewer's browser.
 
-The answers live in `brand-data/<slug>.atlas.json` and are added to the payload when it is served (`lib/atlas.ts`), so they need no rebuild. Regenerate them from the Walmart feed and a build's payload:
+The answers are computed from real data only: Amazon from Keepa (price, buyable state, buy-box seller, Best Sellers Rank, bought-in-past-month, review counts), Walmart from the Histomart, Kompy and RetailerAPI feed, Amazon review summaries and Walmart reviews, and the captured AI answers. They live in `brand-data/<slug>.atlas.json` and are added to the payload when it is served (`lib/atlas.ts`), so they need no rebuild.
 
 ```
+npx tsx scripts/fetch-amazon-history.ts --slug dude-wipes --payload <payload.json> --from 2025-09-01 --to <today>   # one Keepa call per tracked ASIN
 npx tsx scripts/build-atlas.ts --slug dude-wipes --payload <payload.json>
 ```
 

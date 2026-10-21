@@ -1,8 +1,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import type { AtlasData } from "../lib/atlas";
 import type { RetailFeed } from "../lib/retail-feed";
-import type { Ctx, Payload } from "./atlas/common";
-import { blackFriday, pricePerWipe } from "./atlas/walmart";
+import type { AmazonHistory, Ctx, Payload } from "./atlas/common";
+import { blackFriday } from "./atlas/holiday";
+import { pricePerWipe } from "./atlas/price";
 import { availability, bigDealDays } from "./atlas/window";
 import { aiVisibility, reviews } from "./atlas/voice-ai";
 
@@ -11,16 +12,17 @@ for (const k of ["slug", "payload"]) if (!args[k]) throw new Error(`--${k} is re
 
 const feed = JSON.parse(readFileSync(`brand-data/${args.slug}.feed.json`, "utf8")) as RetailFeed;
 const payload = JSON.parse(readFileSync(args.payload, "utf8")) as Payload;
+const amazon = JSON.parse(readFileSync(`brand-data/${args.slug}.amazon-history.json`, "utf8")) as AmazonHistory;
 const brands = payload.dims.brands;
 const subject = brands.find((b) => b.id === payload.meta.subject) ?? brands[0];
-const ctx: Ctx = { feed, payload, subject, brands };
+const ctx: Ctx = { feed, payload, amazon, subject, brands };
 
 const answers = [blackFriday(ctx), pricePerWipe(ctx), bigDealDays(ctx), availability(ctx), reviews(ctx), aiVisibility(ctx)];
 const atlas: AtlasData = {
   version: 1,
   brand: subject.label,
   generatedOn: new Date().toISOString().slice(0, 10),
-  sources: [feed.label, "Amazon via Keepa and Apify", "AI answers from ChatGPT, Gemini and Claude"],
+  sources: ["Amazon (Keepa price, stock, sales rank and bought-in-past-month history)", feed.label, "Amazon and Walmart reviews", "AI answers from ChatGPT, Gemini and Claude"],
   answers,
 };
 const out = args.out ?? `brand-data/${args.slug}.atlas.json`;

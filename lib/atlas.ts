@@ -15,6 +15,8 @@ export type AtlasBlock =
 
 export type AtlasSection = { title: string; text: string; blocks: AtlasBlock[] };
 
+export type AtlasAction = { title: string; detail: string; impact: string };
+
 export type AtlasAnswer = {
   id: string;
   question: string;
@@ -24,6 +26,8 @@ export type AtlasAnswer = {
   what: string;
   why: string;
   when: string;
+  insight: string;
+  actions: AtlasAction[];
   kpis: AtlasKpi[];
   blocks: AtlasBlock[];
   report: { title: string; summary: string; sections: AtlasSection[]; method: string[] };
