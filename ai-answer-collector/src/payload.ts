@@ -204,7 +204,7 @@ export async function buildPayload(collection: string, bank: Bank, opts: { crawl
       claimKinds: "price, spec and feature",
       journey: "needs and budget, then features, then brand, then model, then where to buy",
       subBrands: `${bank.brand.label}'s product lines such as ${bank.productLine}`,
-      personas: "a value seeker or a feature enthusiast",
+      personas: "a value seeker, a feature enthusiast or a neutral asker",
       rivalsExample: bank.competitors.map((c) => c.label).slice(0, 3).join(", "),
       truthSet: "prices, specs and features",
     },

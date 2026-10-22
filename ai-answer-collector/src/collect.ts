@@ -1,4 +1,4 @@
-// Asks every engine in scope every bank question, as both personas, three
+// Asks every engine in scope every bank question, as every persona, three
 // times, US market, and stores each answer, its sources, the raw scraper row
 // and the rendered session image. Safe to re-run: answered jobs are skipped,
 // failed ones retried.
@@ -139,7 +139,7 @@ async function main(): Promise<void> {
   const done = store.index();
   const pending = expandJobs(scope).filter((j) => done.get(j.id)?.status !== "ok");
   const key = scope.engines.some(isBrightData) ? await brightDataKey() : null;
-  console.log(`[collect] collection "${store.collection}" in ${store.dir} · ${scope.banks.map((b) => b.key).join(", ")} · ${COUNTRY} · both personas · ${scope.runs} runs`);
+  console.log(`[collect] collection "${store.collection}" in ${store.dir} · ${scope.banks.map((b) => b.key).join(", ")} · ${COUNTRY} · ${scope.personas.length} personas · ${scope.runs} runs`);
 
   const summary = await Promise.all(
     scope.engines.map(async (engine) => {

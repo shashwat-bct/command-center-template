@@ -25,6 +25,6 @@
       return `<li><b>${esc(x.w.label)}</b> — ${SL}'s share <span style="color:${tone(p.sh[s], x.sh[s])}">${pts(p.sh[s], x.sh[s])}</span> to <b>${pct(x.sh[s])}</b>; top pick ${pct(p.tp[s])} → ${pct(x.tp[s])}. ${gained} question${gained === 1 ? "" : "s"} gained a ${SL} mention and ${lost} lost one.${mover && Math.abs(mover.d) >= 0.005 ? ` Biggest rival move: ${esc(mover.b.label)} ${pts(0, mover.d)}.` : ""} ${lead}.</li>`;
     });
     const viz = table + `<h4 style="margin:16px 0 6px">What happened each week</h4><ul class="note" style="margin:0;padding-left:18px;line-height:1.6">${story.join("")}</ul>`;
-    cards.push(lensCard("weeks", "Lens 11a · Week by week", `${SL}, week by week`, `The same ${activeQueries().length} questions, engines and reader every week, with the same collection method (both personas, three runs, US). The other pages pool all ${n} weeks; this lens reads them one at a time.`, viz,
+    cards.push(lensCard("weeks", "Lens 11a · Week by week", `${SL}, week by week`, `The same ${activeQueries().length} questions, engines and reader every week, with the same collection method (every persona, three runs, US). The other pages pool all ${n} weeks; this lens reads them one at a time.`, viz,
       `From ${esc(prevW.w.label)} to ${esc(lastW.w.label)}, ${SL}'s share of voice went ${pct(prevW.sh[s])} → ${pct(lastW.sh[s])}. A move smaller than the run-to-run spread in Lens 10 is noise; one that holds for several weeks is a trend.`));
   }

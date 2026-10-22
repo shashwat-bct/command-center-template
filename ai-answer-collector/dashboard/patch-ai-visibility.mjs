@@ -8,7 +8,7 @@
 // What changes:
 //   1. The rail carries only the six AI Engine Visibility pages we use.
 //   2. Persona and run filters: every answer carries both; the reference read
-//      run 1 only, here the filters choose (default: both personas, all runs).
+//      run 1 only, here the filters choose (default: all personas, all runs).
 //   3. The volatility lens is built from the three runs of this capture, per
 //      persona, instead of a separate volatility set.
 //   4. Answer receipts name the persona and run beside the engine.
@@ -81,7 +81,7 @@ function syncLensChrome() {
 function buildLensChrome() {
   const host = $("lensSet"); if (!host) return;
   const seg = (k, opts) => \`<div class="seg mini" role="group">\${opts.map(([v, l]) => \`<button data-lens-k="\${k}" data-lens-v="\${v}" onclick="setLens('\${k}','\${v}')">\${esc(l)}</button>\`).join("")}</div>\`;
-  host.innerHTML = seg("persona", [["", "Both personas"], ...(D.personas || []).map(p => [p.id, p.label])]) + seg("run", [["0", "All runs"], ...Array.from({ length: D.runs || 1 }, (_, i) => [String(i + 1), "Run " + (i + 1)])])
+  host.innerHTML = seg("persona", [["", "All personas"], ...(D.personas || []).map(p => [p.id, p.label])]) + seg("run", [["0", "All runs"], ...Array.from({ length: D.runs || 1 }, (_, i) => [String(i + 1), "Run " + (i + 1)])])
     + (WEEKS().length > 1 ? seg("week", [["0", "All weeks"], ...WEEKS().map(w => [String(w.week), w.label])]) : "");
   syncLensChrome();
 }`);
@@ -100,7 +100,7 @@ patch("proof labels", "${ans.map(a => engRow(a, { label: eng[a.engine] || a.engi
 patch("qhead count", "named by ${named} of ${ans.length} engine${ans.length === 1 ? \"\" : \"s\"}", "named in ${named} of ${ans.length} answer${ans.length === 1 ? \"\" : \"s\"}");
 
 // copy that described the reference's own capture history
-patch("drift path", "the same path (the engines' APIs with web search, as the July launch report used)", "the same collection method (both personas, three runs, US)");
+patch("drift path", "the same path (the engines' APIs with web search, as the July launch report used)", "the same collection method (every persona, three runs, US)");
 patch("drift lead", "On the like-for-like API path, <b>", "Like for like, <b>");
 
 // 5 · only the pages we build
