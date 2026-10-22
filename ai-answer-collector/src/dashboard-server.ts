@@ -83,7 +83,7 @@ function landing(): string {
     ? cols.map((c) => {
         const byCat = new Map<string, string[]>();
         for (const k of c.payloads) { const cat = PAIRS.find((p) => p.key === k)?.bc.category ?? k; byCat.set(cat, [...(byCat.get(cat) ?? []), k]); }
-        return `<h2 class="sec">${esc(c.id)} <span class="tag">${esc(c.manifest.country)} · ${c.manifest.runs} runs · ${c.manifest.personas.map((p) => esc(p.label)).join(" & ")} · ${c.manifest.engines.map((e) => esc(e.label)).join(", ")}</span></h2>
+        return `<h2 class="sec">${esc(c.id)} <span class="tag">${esc(c.manifest.country)} · ${c.manifest.runs} runs · ${c.manifest.personas.map((p) => esc(p.label)).join(", ")} · ${c.manifest.engines.map((e) => esc(e.label)).join(", ")}</span></h2>
         <div class="grid g2">${[...byCat].map(([cat, keys]) => `<section class="card"><div class="card-h"><div class="ct"><h3>${esc(CATEGORIES.find((x) => x.slug === cat)?.name ?? cat)}</h3><p>${keys.length} brand${keys.length === 1 ? "" : "s"}, each as the subject</p></div></div><div class="chips">${keys.map((k) => `<a class="chip" href="/d/${encodeURIComponent(c.id)}/${encodeURIComponent(k)}#overview">${esc(pairLabel(k).split(" · ")[0])}</a>`).join("")}</div></section>`).join("")}</div>`;
       }).join("")
     : `<div class="withheld-card"><b>No dashboards yet</b><p>Run <code>npm run collect</code>, <code>npm run enrich</code> and <code>npm run payload</code> for a collection.</p></div>`;
@@ -147,7 +147,7 @@ function dashboard(collection: string, key: string): string {
     <div class="scope-sec"><h4>Parameters</h4>
       <div class="param">
         <div><label>Market</label><select id="pMarket" disabled><option value="us">United States</option></select></div>
-        <div><label>Personas</label><select disabled><option>Value Seeker &amp; Feature Enthusiast</option></select></div>
+        <div><label>Personas</label><select disabled><option>Value Seeker, Feature Enthusiast &amp; Neutral</option></select></div>
         <div><label>Runs per question</label><select disabled><option>3 · every question, every persona</option></select></div>
       </div>
       <div class="note" style="margin-top:8px" id="paramNote"></div></div>

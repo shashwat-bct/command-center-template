@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Asks ChatGPT, Gemini (Bright Data consumer apps) and Claude the AI-visibility question bank for Sony and Samsung across retail-audit categories, as two personas, three times each, US market; stores every answer with its session image, reads it, and serves the command-center AI Engine Visibility dashboards.",
+  "description": "Asks ChatGPT, Gemini (Bright Data consumer apps) and Claude the AI-visibility question bank for Sony and Samsung across retail-audit categories, as three personas (value seeker, feature enthusiast, neutral), three times each, US market; stores every answer with its session image, reads it, and serves the command-center AI Engine Visibility dashboards.",
   "scripts": {
     "banks": "tsx src/banks.ts",
     "plan": "tsx src/plan-cli.ts",

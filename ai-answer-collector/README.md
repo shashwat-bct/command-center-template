@@ -11,7 +11,7 @@ Everything follows `command-center-template` (`feat/measured-only-dashboards`): 
 | Categories | Toggled in `src/config/brands.ts` (`enabled`). Now: **TV** (Sony, Samsung, LG, TCL, Hisense), **Phones** (Apple, Samsung, Google) and **Wireless Speakers** (Sonos, Bose, Apple, Amazon, JBL) |
 | Question bank | The template's Sony TV bank, **58 questions as they are**, plus 4 promotion questions (q59–q62) — `src/config/questions.ts` |
 | Stages | Attention (awareness), Consideration, Evaluation & Trust, Decision |
-| Personas | Value Seeker and Feature Enthusiast, **both on every run** — `src/config/personas.ts` |
+| Personas | Value Seeker, Feature Enthusiast and Neutral, **all three on every run** — `src/config/personas.ts` |
 | Runs | **3** per question, per persona, per engine |
 | Market | **US only** (Bright Data sessions in the US) |
 
@@ -24,7 +24,7 @@ Every brand in a category is measured as the subject in turn, with the others as
 
 So a neutral question is asked once per engine, persona and run and read once for the whole category; only the brand-specific questions are asked per brand. Review the bank files before collecting: model names are Claude's and may need correcting.
 
-Consumer AI apps take no system prompt, so a persona is a first-person preamble before the question; every engine gets the same text.
+Consumer AI apps take no system prompt, so a persona is a first-person preamble before the question; every engine gets the same text. Neutral has no preamble: the engine gets the bare question, with nothing about who is asking.
 
 ## Setup
 
@@ -84,7 +84,7 @@ When a retail payload exists, the dashboard becomes the brand's **Command Center
 `dashboard/public/ai-visibility.js` is generated from the template's console (`dashboard/vendor/ai-visibility.reference.js`, an unchanged copy) by `npm run patch:dashboard`. The patches:
 
 - only the six pages above;
-- a persona filter (both / Value Seeker / Feature Enthusiast) and a run filter (all / 1 / 2 / 3) in the top bar — the template read run 1 only;
+- a persona filter (all / Value Seeker / Feature Enthusiast / Neutral) and a run filter (all / 1 / 2 / 3) in the top bar — the template read run 1 only;
 - volatility from the three runs, per persona;
 - receipts labelled engine · persona · run;
 - the retail pages (`retail-audit.js`) join the rail and read the answers through the console's filters (`window.__AIV`).
@@ -93,6 +93,6 @@ Styles (`cco-dashboard.css`, `ai-visibility.css`) and charts (`cco-charts.js`) a
 
 ## Scale
 
-TV (5 brands) and Phones (3 brands): 8 banks × 62 questions × 2 personas × 3 runs = 2,976 answers per engine if every brand were asked separately; with the neutral questions shared it is **1,536 distinct prompts per engine** (48% fewer), so about 1,536 Bright Data records each for ChatGPT and Gemini and 1,536 Claude calls, plus about 260 reader calls. Pilot first and measure throughput and failure rate.
+TV (5 brands) and Phones (3 brands): 8 banks × 62 questions × 3 personas × 3 runs = 4,464 answers per engine if every brand were asked separately; with the neutral questions shared it is **2,304 distinct prompts per engine** (48% fewer), so about 2,304 Bright Data records each for ChatGPT and Gemini and 2,304 Claude calls, plus about 390 reader calls. Pilot first and measure throughput and failure rate.
 
-Wireless Speakers (5 brands) adds 900 distinct prompts per engine for all five, or 372 for `--pairs sonos-wireless-speakers` alone (its 40 neutral + 22 Sonos questions × 2 personas × 3 runs).
+Wireless Speakers (5 brands) adds 1,350 distinct prompts per engine for all five, or 558 for `--pairs sonos-wireless-speakers` alone (its 40 neutral + 22 Sonos questions × 3 personas × 3 runs).
