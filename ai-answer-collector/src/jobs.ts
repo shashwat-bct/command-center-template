@@ -30,7 +30,7 @@ export type Scope = { engines: EngineId[]; banks: Bank[]; personas: Persona[]; s
 
 export const questionHash = (text: string): string => createHash("sha256").update(text.trim()).digest("hex").slice(0, 12);
 
-export const buildPrompt = (p: Persona, questionText: string): string => `${p.preamble} ${questionText.trim()}`;
+export const buildPrompt = (p: Persona, questionText: string): string => [p.preamble, questionText.trim()].filter(Boolean).join(" ");
 
 export const jobId = (engine: EngineId, category: string, persona: string, hash: string, run: number): string => `${engine}/${category}/${persona}/${hash}/r${run}`;
 
@@ -44,7 +44,7 @@ function check<T extends string>(wanted: string[] | null, known: T[], what: stri
 export type ScopeArgs = { engines?: string; pairs?: string; brands?: string; categories?: string; stages?: string; questions?: string };
 
 /**
- * Both personas and three runs always. By default every brand of every enabled
+ * Every persona and three runs always. By default every brand of every enabled
  * category (config/brands.ts); the filters narrow brands, categories, engines
  * and questions.
  */
