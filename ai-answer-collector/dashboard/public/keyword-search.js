@@ -97,6 +97,10 @@ const dot = (id) => `<span class="dot" style="background:${brand(id).color}"></s
 const qOf = (id) => D().bank.find((q) => q.id === id) || { id, text: id };
 const stageL = (id) => (D().stages.find((s) => s.id === id) || {}).label || id;
 const personaL = (id) => ((D().personas || []).find((p) => p.id === id) || {}).label || id || "";
+// example searches for the tips: a technology and a feature per category, the model from the answers themselves
+const EXAMPLES = { tv: ["Mini-LED", "anti-glare"], smartphones: ["telephoto", "battery life"], "wireless-speakers": ["Bluetooth", "waterproof"] };
+const exampleModel = (allModels) => (allModels.find((m) => m.brand === D().subject) || allModels[0] || {}).label || "";
+const shortForm = (label) => label.split(/\s+/).slice(0, 2).join(" ");
 const engL = (id) => A.engLabel(id);
 const weeks = () => D().weeks || [];
 const ansLabel = (a) => `${weeks().length > 1 && a.week ? `Week ${a.week} · ` : ""}${esc(engL(a.engine))} · ${esc(personaL(a.persona))} · run ${a.run}`;
@@ -178,7 +182,7 @@ function draw() {
   for (const a of all) { const sp = hits(plain(a), re); if (sp.length) rows.push({ a, n: sp.length, sp }); }
   const matchModels = allModels.filter((m) => { re.lastIndex = 0; return re.test(m.label) || Object.keys(m.labels).some((l) => { re.lastIndex = 0; return re.test(l); }); });
   $("kwSugg").innerHTML = rows.length ? "" : suggestions(allModels, 14, "No answer says that. Try a model the engines name:");
-  if (!rows.length) { $("kwOut").innerHTML = `<div class="withheld-card"><b>No mentions of “${esc(st.q)}”</b><p>None of the ${all.length.toLocaleString()} answers in the current scope ${st.whole ? "uses it as a whole word — untick “Whole word only” to find it inside longer words, or" : ""} contains it. Check the spelling, try a shorter form (“Bravia 9” rather than “Bravia 9 II 75-inch”), or widen the filters above.</p></div>`; return; }
+  if (!rows.length) { $("kwOut").innerHTML = `<div class="withheld-card"><b>No mentions of “${esc(st.q)}”</b><p>None of the ${all.length.toLocaleString()} answers in the current scope ${st.whole ? "uses it as a whole word — untick “Whole word only” to find it inside longer words, or" : ""} contains it. Check the spelling, try a shorter form${(() => { const l = exampleModel(allModels); return l.split(/\s+/).length > 2 ? ` (“${esc(shortForm(l))}” rather than “${esc(l)}”)` : ""; })()}, or widen the filters above.</p></div>`; return; }
 
   const mentions = rows.reduce((s, r) => s + r.n, 0);
   const qs = new Set(rows.map((r) => r.a.queryId));
@@ -253,6 +257,7 @@ function suggestions(allModels, n, lead = "Try a model the engines name:") {
   return `<span class="kw-sl">${lead}</span>${pick.map((m) => `<button type="button" class="kw-chip" onclick="KW.set(${esc(JSON.stringify(m.label))})">${dot(m.brand)}${esc(m.label)}</button>`).join("")}`;
 }
 
+const tip = (q, what) => q ? `${what} (<a href="javascript:KW.set(${esc(JSON.stringify(q))})">${esc(q)}</a>)` : what;
 function landing(allModels, all) {
   const s = D().subject;
   const top = allModels.slice(0, 30);
@@ -265,7 +270,7 @@ function landing(allModels, all) {
       html: mine.length ? bars(mine.map((m) => ({ label: `${dot(m.brand)}${esc(m.label)}`, sub: `top pick in ${m.top} · avg position ${m.rank ? m.rank.toFixed(1) : "—"}`, v: m.n / max, value: `${m.n}`, color: brand(m.brand).color, click: `KW.set(${esc(JSON.stringify(m.label))})` }))) : "" })}
   </div>
   <div class="kw-tips card"><b>Tips</b><ul>
-    <li>Search a model (<a href="javascript:KW.set('Bravia 9')">Bravia 9</a>), a technology (<a href="javascript:KW.set('Mini-LED')">Mini-LED</a>), a feature (<a href="javascript:KW.set('anti-glare')">anti-glare</a>) or a retailer (<a href="javascript:KW.set('Best Buy')">Best Buy</a>). Case doesn't matter and spaces also match hyphens.</li>
+    <li>Search ${tip(shortForm(exampleModel(allModels)), "a model")}${(EXAMPLES[D().category] || []).map((t, i) => `, ${tip(t, i ? "a feature" : "a technology")}`).join("")} or ${tip("Best Buy", "a retailer")}. Case doesn't matter and spaces also match hyphens.</li>
     <li>Tick <b>Whole word only</b> so a short word like “LG” doesn't match inside longer ones.</li>
     <li>The persona, run${weeks().length > 1 ? ", week" : ""} and scope filters at the top narrow what is searched. Copy the address bar to share a search.</li></ul></div>`;
 }
