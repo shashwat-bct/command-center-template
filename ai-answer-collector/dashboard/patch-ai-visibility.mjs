@@ -174,6 +174,39 @@ patch("kw api", "compareLabel: () => compareLabel(), engLabel: (e) => engLabel(e
 patch("kw render", "function renderRetail() { if (window.RetailAudit) RetailAudit.render(window.__AIV); }",
   "function renderRetail() { if (window.RetailAudit) RetailAudit.render(window.__AIV); if (window.KeywordSearch) KeywordSearch.render(window.__AIV); }");
 
+// 10 · explore: the Brand & Source Finder joins the Explore group, every card gets an "i" for the
+//      examples behind it (public/explore.js), and the smartphone bank's attributes get short heads
+patch("ex nav", "if (window.KeywordSearch) KeywordSearch.extendNav(NAV);\nconst PAGES", "if (window.KeywordSearch) KeywordSearch.extendNav(NAV);\nif (window.Explore) Explore.extendNav(NAV);\nconst PAGES");
+patch("ex icons", "(window.KeywordSearch && KeywordSearch.icons[k]) || I.grid", "(window.KeywordSearch && KeywordSearch.icons[k]) || (window.Explore && Explore.icons[k]) || I.grid");
+patch("ex tpl", "(p.id.startsWith(\"kw-\") ? KeywordSearch : RetailAudit).tpl(p.id)", "(p.id.startsWith(\"kw-\") ? KeywordSearch : p.id.startsWith(\"ex-\") ? Explore : RetailAudit).tpl(p.id)");
+patch("ex api", "openModal: (html) => openModal(html), md: (t) => md(t) };",
+  `openModal: (html) => openModal(html), md: (t, hl) => md(t, hl),
+  mention: (a, b) => mention(a, b), brandsOn: () => brandsOn(), isCompareStage: (id) => isCompareStage(id), isOwnedHost: (b, h) => isOwnedHost(b, h),
+  engIcon: (id, l) => engIcon(id, l), personaLabel: (p) => personaLabel(p), weeks: () => WEEKS(), attrHead: (a) => attrHead(a) };`);
+patch("ex render", "if (window.KeywordSearch) KeywordSearch.render(window.__AIV); }", "if (window.KeywordSearch) KeywordSearch.render(window.__AIV); if (window.Explore) Explore.render(window.__AIV); }");
+patch("ex lens id", `<section class="card" data-lens="\${esc(kicker)}">`, `<section class="card" data-lens="\${esc(kicker)}" data-lid="\${id}">`);
+patch("ex products base", "a model counts once per answer, however it is spelled.`", "a model counts once per answer, however it is spelled. Keyword Search and the Brand & Source Finder count every question, including those that name a brand, so their counts run higher.`");
+patch("phone heads", `"design / build": "Design",\n`, `"design / build": "Design",
+  // smartphone attributes (banks/smartphones.category.json)
+  "camera quality": "Camera", "display quality": "Display", performance: "Speed", "software and updates": "Updates", "build quality": "Build", "storage and memory": "Storage", "5g connectivity": "5G", "charging speed": "Charging", "durability and water resistance": "Durable", "price and value": "Value", "ecosystem and app support": "Ecosystem", "size and ergonomics": "Size", "security and privacy": "Privacy",
+`);
+patch("phone keywords", `const ATTR_KW = {\n`, `const ATTR_KW = {
+  "camera quality": ["camera", "photo", "video", "zoom", "lens", "night"], "battery life": ["battery", "all-day", "all day", "endurance", "mah"], "display quality": ["display", "screen", "oled", "brightness", "nits", "refresh"],
+  performance: ["performance", "fast", "speed", "chip", "processor", "snapdragon", "tensor", "a19", "gaming", "lag"], "software and updates": ["software", "update", "android", "ios", "years of", "ai feature", "gemini", "bloat"],
+  "build quality": ["build", "premium", "titanium", "aluminum", "glass", "feel"], "storage and memory": ["storage", "gb", "ram", "memory"], "5g connectivity": ["5g", "connectivity", "signal", "modem", "network"],
+  "charging speed": ["charging", "charge", "watt", "w ", "wireless"], "durability and water resistance": ["durab", "water", "ip68", "drop", "gorilla", "rugged"], "price and value": ["price", "value", "$", "cheap", "afford", "budget", "worth", "expensive", "deal"],
+  "ecosystem and app support": ["ecosystem", "apple watch", "airpods", "mac", "app", "integration"], "size and ergonomics": ["size", "compact", "small", "one-handed", "weight", "large", "fold"], "security and privacy": ["security", "privacy", "secure", "knox", "encryption"],
+`);
+
+// 11 · a list of questions folds: each question is one row with its answer count, tapped open for
+//      the answers (a single question opens unfolded)
+patch("fold attr open", 'const blocks = order.map(([qid, hs]) => `<div class="qcard"><div class="qhead">', 'const blocks = order.map(([qid, hs]) => `<details class="qcard qfold"${order.length === 1 ? " open" : ""}><summary class="qhead">');
+patch("fold attr head", "criticised</span></div></div>${hs.map(", "criticised</span></div><span class=\"qfold-n\">${hs.length} answer${hs.length === 1 ? \"\" : \"s\"}</span></summary>${hs.map(");
+patch("fold attr close", '</details>`).join("")}</div>`).join("");', '</details>`).join("")}</details>`).join("");');
+patch("fold attr lede", "Questions with criticism come first.</p>", "Questions with criticism come first; tap a question for its answers.</p>");
+patch("fold proof open", 'return `<div class="qcard">${qHead(id, ans)}${[...ans]', 'return `<details class="qcard qfold"${qids.length === 1 ? " open" : ""}><summary>${qHead(id, ans)}<span class="qfold-n">${ans.length} answer${ans.length === 1 ? "" : "s"}</span></summary>${[...ans]');
+patch("fold proof close", 'body: md(a.text, hl) })).join("")}</div>`; }).join("");', 'body: md(a.text, hl) })).join("")}</details>`; }).join("");');
+
 const header = `// GENERATED by dashboard/patch-ai-visibility.mjs from vendor/ai-visibility.reference.js
 // (command-center-template, feat/measured-only-dashboards). Edit the patch script, not this file.\n`;
 writeFileSync(join(dir, "public", "ai-visibility.js"), header + src);

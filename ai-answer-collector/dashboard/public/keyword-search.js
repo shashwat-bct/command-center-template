@@ -172,7 +172,7 @@ function draw() {
   wire();
   const all = A.activeAnswers();
   $("kwX").hidden = !st.q;
-  $("kwScope").innerHTML = `Searching <b>${all.length.toLocaleString()}</b> answers to <b>${new Set(all.map((a) => a.queryId)).size}</b> questions · follows the scope, persona, run${weeks().length > 1 ? " and week" : ""} filters above`;
+  $("kwScope").innerHTML = `Searching <b>${all.length.toLocaleString()}</b> answers to <b>${new Set(all.map((a) => a.queryId)).size}</b> questions · follows the scope, persona, run${weeks().length > 1 ? " and week" : ""} filters above · counts every question, including those that name a brand, so its numbers run higher than Picks &amp; Products, which reads the brand-neutral questions only`;
   const allModels = models(all);
   const re = matcher(st.q, st.whole);
   if (!re) { $("kwSugg").innerHTML = suggestions(allModels, 14); $("kwOut").innerHTML = landing(allModels, all); return; }

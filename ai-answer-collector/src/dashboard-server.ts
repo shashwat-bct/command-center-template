@@ -242,6 +242,7 @@ function dashboard(collection: string, key: string, retail: boolean): string {
 <script src="/cco-charts.js"></script>
 <script src="/retail-audit.js"></script>
 <script src="/keyword-search.js"></script>
+<script src="/explore.js"></script>
 <script type="module" src="/ai-visibility.js"></script>
 </body>
 </html>`;
