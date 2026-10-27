@@ -213,6 +213,28 @@ export function normaliseProfile(raw: RawProfile, ctx: { key: string; category: 
 }
 
 /**
+ * The profile narrowed to the given retailer ids (Amazon always stays), with
+ * the remaining retailers' weights renormalised.
+ */
+export function withOnlyRetailers(p: MarketProfile, keep: Set<string>): { profile: MarketProfile; dropped: string[] } {
+  const retailers = p.retailers.filter((r) => r.id === "amazon" || keep.has(r.id));
+  const dropped = p.retailers.filter((r) => !retailers.includes(r)).map((r) => r.label);
+  if (!dropped.length) return { profile: p, dropped };
+  const total = retailers.reduce((s, r) => s + r.weight, 0) || 1;
+  const ids = new Set(retailers.map((r) => r.id));
+  const only = <T>(row: Record<string, T>): Record<string, T> => Object.fromEntries(Object.entries(row).filter(([id]) => ids.has(id)));
+  return {
+    profile: {
+      ...p,
+      retailers: retailers.map((r) => ({ ...r, weight: Math.round((r.weight / total) * 100) / 100 })),
+      carriage: Object.fromEntries(Object.entries(p.carriage).map(([b, row]) => [b, only(row)])),
+      mechanics: only(p.mechanics),
+    },
+    dropped,
+  };
+}
+
+/**
  * A plain profile for when Claude cannot be reached: the three retailers that
  * sell almost every category, with the mechanics every category has.
  */

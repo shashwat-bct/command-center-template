@@ -179,7 +179,7 @@ export function laneStatuses(p: Provenance): Record<string, LaneStatus> {
     stock: amazonMixed("stock", false, true),
     delivery: (() => {
       const rd = p.record.retail?.delivery;
-      const retailPart = rd ? ` Walmart's promise for ${rd.listings === 1 ? "1 listing" : `${rd.listings} listings`} comes from ${rd.label} (${rd.readings === 1 ? "1 reading" : `${rd.readings} readings`}, weekly median, the same promise shown for every city); weeks without a reading are blank.` : "";
+      const retailPart = rd ? ` The retailer promise for ${rd.listings === 1 ? "1 listing" : `${rd.listings} listings`} comes from ${rd.label} (${rd.readings === 1 ? "1 reading" : `${rd.readings} readings`}, weekly median, the same promise shown for every city); weeks without a reading are modelled.` : "";
       const sources = [...(anyMeasured("leadTime") ? ["Apify · Amazon delivery promise"] : []), ...(rd ? [`Retailer data · ${rd.label}`] : [])];
       if (anyMeasured("leadTime")) return { status: "mixed" as const, note: `Amazon's delivery promise was read on the build date.${retailPart} Other retailers, cities and earlier weeks are modelled.`, sources };
       return rd ? { status: "mixed" as const, note: `${retailPart.trim()} Other retailers are modelled.`, sources } : modelled("Delivery promises are modelled.");

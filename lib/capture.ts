@@ -25,7 +25,7 @@ import { measuredCount } from "./provenance";
 import { RELABEL_CONFIG_ID, applyProvenance, prepareRelabelWorkDir } from "./relabel-pipeline";
 import { rebrandPayload } from "./rebrand";
 import { categoryCheck } from "./listing-relevance";
-import { generateMarketProfile, marketProfileKey, type MarketProfile } from "./market-profile";
+import { generateMarketProfile, marketProfileKey, withOnlyRetailers, type MarketProfile } from "./market-profile";
 import { brightDataKey } from "./brightdata";
 import { captureRetailOffers, loadRetailHistory, readableRetailers, retailProductsFrom, type RetailCapture } from "./retail-offers";
 import { feedPath, feedPriceImport, loadRetailFeed, type RetailFeed } from "./retail-feed";
@@ -412,6 +412,14 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
   }
 
   if (!market) logLine(`market profile: none for this build; using the plain Amazon, Walmart and Target market`);
+
+  const scopedFeed = market && hasFeed ? (() => { try { return loadRetailFeed(slug); } catch { return null; } })() : null;
+  if (market && scopedFeed?.retailersOnly) {
+    const feedRetailers = new Set(Object.values(scopedFeed.products).map((p) => p.retailer));
+    const { profile, dropped } = withOnlyRetailers(market, feedRetailers);
+    if (dropped.length) logLine(`market profile: dropped ${dropped.join(", ")} (no data in brand-data/${slug}.feed.json); retailers ${profile.retailers.map((r) => `${r.label} ${Math.round(r.weight * 100)}%`).join(", ")}`);
+    market = profile;
+  }
 
   let retail: RetailCapture | null = null;
   const retailers = readableRetailers(market?.retailers ?? []);

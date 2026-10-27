@@ -21,7 +21,7 @@ let D = null, F = null;                   // payload · CC.fmt
 // set once it has loaded, before any page renders.
 let S = "sonos", SUBJ = "";
 const PAYLOAD = document.body.dataset.payload || "/sonos-command-center-data.json";
-let cadence = "mbr", retailer = "all", page = "scorecard";
+let cadence = "qbr", retailer = "all", page = "scorecard";
 const painted = new Set();
 
 /* ── extensions ─────────────────────────────────────────────────────────

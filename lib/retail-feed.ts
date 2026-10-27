@@ -88,6 +88,7 @@ export type RetailFeed = {
   daily: Record<string, FeedDay[]>;
   reviewSummary: Record<string, FeedReviewSummary>;
   reviews: Record<string, FeedReview[]>;
+  retailersOnly?: boolean;
 };
 
 export type MeasuredListing = { price: Array<number | null>; list: Array<number | null>; stock: Array<0 | 1>; offers: Array<number | null>; buybox: Array<0 | 1 | null> };
@@ -100,6 +101,9 @@ export type MeasuredRetailRecord = {
 export const RETAILER_OWN_SELLER: Record<string, string[]> = {
   walmart: ["walmart.com", "walmart"],
   target: ["target", "target.com"],
+  bestbuy: ["best buy", "bestbuy", "bestbuy.com"],
+  newegg: ["newegg", "newegg.com"],
+  crutchfield: ["crutchfield", "crutchfield.com"],
   amazon: ["amazon.com", "amazon"],
 };
 

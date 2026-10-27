@@ -1,0 +1,362 @@
+{
+  "walmart:16998272236": {
+    "units": 1,
+    "asin": "B0FFWW5BZZ",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:16573520451": {
+    "units": 1,
+    "asin": "B0DYKBXMJX",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:20031806459": {
+    "units": 1,
+    "asin": "B0GM348H9M",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:16347258322": {
+    "units": 1,
+    "asin": "B0DYK9LY1Z",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:16375305955": {
+    "units": 1,
+    "asin": "B0DYK7Y2YB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:18196407846": {
+    "units": 1,
+    "asin": "B0GRK5D3RW",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:15013023340": {
+    "units": 1,
+    "asin": "B0DSRSTJ54",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:15153350266": {
+    "units": 1,
+    "asin": "B0DVX8WJ7S",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:19695456161": {
+    "units": 1,
+    "asin": "B0GPT7DGDR",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:16035918154": {
+    "units": 1,
+    "asin": "B0F53CZ4WT",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:19893605330": {
+    "units": 1,
+    "asin": "B0GPY6ZTJG",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:20446824532": {
+    "units": 1,
+    "asin": "B0GRKCHDWP",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:19931816238": {
+    "units": 1,
+    "asin": "B0GPY4Y2VF",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:19966221141": {
+    "units": 1,
+    "asin": "B0GT8GLWZH",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:19807559819": {
+    "units": 1,
+    "asin": "B0GJ1DBYHB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:16104452413": {
+    "units": 1,
+    "asin": "B0F1DV217B",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "walmart:18200354479": {
+    "units": 1,
+    "asin": "B0H3L589W7",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6613491": {
+    "units": 1,
+    "asin": "B0DXMJGQWC",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6617498": {
+    "units": 1,
+    "asin": "B0DSRSTJ54",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6621204": {
+    "units": 1,
+    "asin": "B0GJ1DBYHB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6621215": {
+    "units": 1,
+    "asin": "B0F1DV217B",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6621470": {
+    "units": 1,
+    "asin": "B0DVX8WJ7S",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6621486": {
+    "units": 1,
+    "asin": "B0DYVR565M",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6621824": {
+    "units": 1,
+    "asin": "B0DYQM4BDB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6623764": {
+    "units": 1,
+    "asin": "B0DYKBXMJX",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6623848": {
+    "units": 1,
+    "asin": "B0DYK9LY1Z",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6625842": {
+    "units": 1,
+    "asin": "B0F53CZ4WT",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6626032": {
+    "units": 1,
+    "asin": "B0DYK7Y2YB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6633087": {
+    "units": 1,
+    "asin": "B0FFWW5BZZ",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6671591": {
+    "units": 1,
+    "asin": "B0GPY4Y2VF",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6672938": {
+    "units": 1,
+    "asin": "B0GM348H9M",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6673112": {
+    "units": 1,
+    "asin": "B0GRK5D3RW",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6673136": {
+    "units": 1,
+    "asin": "B0GRKCHDWP",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1004123275": {
+    "units": 1,
+    "asin": "B0DYK9LY1Z",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1004052709": {
+    "units": 1,
+    "asin": "B0DYK7Y2YB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6673625": {
+    "units": 1,
+    "asin": "B0GT8GLWZH",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6671353": {
+    "units": 1,
+    "asin": "B0GPY6ZTJG",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6670835": {
+    "units": 1,
+    "asin": "B0H3L589W7",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "bestbuy:6673185": {
+    "units": 1,
+    "asin": "B0GPT7DGDR",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "crutchfield:68965C5P": {
+    "units": 1,
+    "asin": "B0DYQM4BDB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "crutchfield:68965C6PUA": {
+    "units": 1,
+    "asin": "B0GRK5D3RW",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "crutchfield:30565QN70H": {
+    "units": 1,
+    "asin": "B0GPY6ZTJG",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "crutchfield:30565S90H": {
+    "units": 1,
+    "asin": "B0GPY4Y2VF",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "crutchfield:158K65XR50": {
+    "units": 1,
+    "asin": "B0DYK9LY1Z",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "crutchfield:158K65X80M": {
+    "units": 1,
+    "asin": "B0DYK7Y2YB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:16C-001V-001E7": {
+    "units": 1,
+    "asin": "B0F1DV217B",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:16C-000P-007C6": {
+    "units": 1,
+    "asin": "B0DYQM4BDB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:16C-000P-007R4": {
+    "units": 1,
+    "asin": "B0GRKCHDWP",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:16C-0003-00W33": {
+    "units": 1,
+    "asin": "B0DXMJGQWC",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:16C-0003-010N9": {
+    "units": 1,
+    "asin": "B0GPY4Y2VF",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:26J-05G5-00034": {
+    "units": 1,
+    "asin": "B0DSRSTJ54",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:26J-05G5-00030": {
+    "units": 1,
+    "asin": "B0DVX8WJ7S",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "newegg:16C-001G-001J1": {
+    "units": 1,
+    "asin": "B0F53CZ4WT",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1006061837": {
+    "units": 1,
+    "asin": "B0DYQM4BDB",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1012385910": {
+    "units": 1,
+    "asin": "B0GPY4Y2VF",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:95003227": {
+    "units": 1,
+    "asin": "B0H3L589W7",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1011307912": {
+    "units": 1,
+    "asin": "B0DYKBXMJX",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:95001164": {
+    "units": 1,
+    "asin": "B0DSRSTJ54",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1006650308": {
+    "units": 1,
+    "asin": "B0DYVR565M",
+    "listingUnits": 1,
+    "match": "upc"
+  },
+  "target:1003254596": {
+    "units": 1,
+    "asin": "B0DXMJGQWC",
+    "listingUnits": 1,
+    "match": "upc"
+  }
+}

@@ -451,14 +451,14 @@ const fm = build(true, SUBJECT.slug, market, { ...retail, imported: feedPriceImp
 const fi = (iso: string) => fm.dims.dates.indexOf(iso);
 const fwm = fm.pricing.price[`${E1}|walmart`] ?? [];
 const fstock = fm.availability.stock[`${E1}|walmart`] ?? [];
-check(fwm[fi("2026-07-01")] === 250 && fwm[fi("2026-08-15")] == null && fwm[fi("2026-09-12")] === 255 && fwm[fi("2026-09-20")] === 249 && fwm[fi(WINDOW_END)] === 279, "a feed price carries for up to 45 days, then breaks; a live reading wins on its day", `${fwm[fi("2026-07-01")]} / ${fwm[fi("2026-08-15")]} / ${fwm[fi("2026-09-12")]} / ${fwm[fi("2026-09-20")]} / ${fwm[fi(WINDOW_END)]}`);
+check(fwm[fi("2026-07-01")] === 250 && typeof fwm[fi("2026-08-15")] === "number" && fwm[fi("2026-09-12")] === 255 && fwm[fi("2026-09-20")] === 249 && fwm[fi(WINDOW_END)] === 279, "a feed price carries for up to 45 days, then a modelled price fills the gap; a live reading wins on its day", `${fwm[fi("2026-07-01")]} / ${fwm[fi("2026-08-15")]} / ${fwm[fi("2026-09-12")]} / ${fwm[fi("2026-09-20")]} / ${fwm[fi(WINDOW_END)]}`);
 check(fstock[fi("2026-08-15")] === 1 && fstock[fi("2026-09-10")] === 0 && fstock[fi("2026-09-11")] === 0 && fstock[fi("2026-09-12")] === 1, "a day without a reading counts as in stock; an out-of-stock reading holds until the next reading", `${fstock[fi("2026-08-15")]}${fstock[fi("2026-09-10")]}${fstock[fi("2026-09-11")]}${fstock[fi("2026-09-12")]}`);
 check(fm.availability.episodes.some((e) => e.model === E1 && e.retailer === "walmart" && e.start === "2026-09-10" && e.days === 2), "the out-of-stock readings become a measured stock-out at the retailer");
 check(fm.distribution.buybox[`${E1}|walmart`] != null && (fm.distribution.buybox[`${E1}|walmart`] as number) > 0 && (fm.distribution.buybox[`${E1}|walmart`] as number) < 1, "the retailer's buy-box share comes from who held it in the feed", String(fm.distribution.buybox[`${E1}|walmart`]));
 const fWeek = Math.floor(fi("2026-09-12") / 7);
 const fDeliv = Object.entries(fm.delivery.weekly).filter(([k]) => k.startsWith(`${E1}|walmart|`)).map(([, v]) => v);
 const deliveryNote = (fm.meta.provenance?.lanes.delivery as unknown as { note: string }).note;
-check(fDeliv.length > 0 && fDeliv.every((v) => v[fWeek] === 2.5 && v.filter((x) => x != null).length === 1) && /Walmart's promise for 1 listing comes from Test feed/.test(deliveryNote), "a retailer's delivery promise fills its week of the delivery lane, other weeks blank, and the lane names the feed", `${fDeliv[0]?.join(",")} | ${deliveryNote}`);
+check(fDeliv.length > 0 && fDeliv.every((v) => v[fWeek] === 2.5 && v.every((x) => x != null)) && /retailer promise for 1 listing comes from Test feed/.test(deliveryNote), "a retailer's delivery promise fills its week of the delivery lane, other weeks are modelled, and the lane names the feed", `${fDeliv[0]?.join(",")} | ${deliveryNote}`);
 const fRec = recOf(fm) as RetailRec & { measured?: { label: string; retailers: Record<string, { listings: number }> } };
 check(fRec?.measured?.label === "Test feed" && fRec.measured.retailers.walmart?.listings === 1, "the record names the feed and the listings it measured", JSON.stringify(fRec?.measured));
 const stockLane = fm.meta.provenance?.lanes.stock as unknown as { status: string; note: string; sources: string[] };

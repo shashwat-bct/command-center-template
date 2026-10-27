@@ -386,6 +386,28 @@ for (const p of promoEvents) {
 // with promotional troughs cut into it.
 const priceSeries = {}, listSeries = {}, discSeries = {};
 
+function fillPriceGaps(key, m, price, lst) {
+  const [mid, rt] = key.split("|");
+  const known = price.map((v, i) => (v == null ? -1 : i)).filter((i) => i >= 0);
+  if (!known.length) return;
+  const rnd = rngFor("pricegap:" + key);
+  const lo = (m.msrp || price[known[0]]) * 0.55, hi = (m.msrp || price[known[0]]) * 1.02;
+  const step = (lvl) => clamp(lvl * (1 + noise(rnd) * (PRICE_DRIFT[m.brand] ?? 0.024)), lo, hi);
+  const walk = (from, to, dir, start) => {
+    let lvl = start, hold = 9 + Math.floor(rnd() * 16);
+    for (let i = from; dir > 0 ? i <= to : i >= to; i += dir) {
+      if (!isCarried(mid, rt, i)) continue;
+      if (hold-- <= 0) { lvl = step(lvl); hold = 9 + Math.floor(rnd() * 16); }
+      price[i] = r2(lvl); lst[i] = m.msrp || null;
+    }
+  };
+  if (known[0] > 0) walk(known[0] - 1, 0, -1, price[known[0]]);
+  for (let k = 0; k < known.length; k++) {
+    const a = known[k], z = k + 1 < known.length ? known[k + 1] - 1 : NDAYS - 1;
+    if (z > a) walk(a + 1, z, 1, price[a]);
+  }
+}
+
 for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const m = MID[mid];
@@ -393,6 +415,7 @@ for (const key of pairs) {
   if (real) {
     const price = real.price.map((v, i) => (isCarried(mid, rt, i) && v != null ? r2(v) : null));
     const lst = real.list.map((v, i) => (price[i] == null ? null : v ?? null));
+    if (rt !== "amazon") fillPriceGaps(key, m, price, lst);
     priceSeries[key] = price; listSeries[key] = lst;
     discSeries[key] = price.map((v, i) => (v == null || !lst[i] ? null : r1(clamp(((lst[i] - v) / lst[i]) * 100, 0, 95))));
     continue;
@@ -531,8 +554,8 @@ for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const realDays = rt === "amazon" ? (CFG.MEASURED_DELIVERY || {})[mid] : undefined;
   const retailWeekly = rt === "amazon" ? undefined : (CFG.MEASURED_DELIVERY_RETAIL || {})[key];
-  if (MID[mid].measured) {
-    for (const c of DELIV_AT) deliveryWeekly[`${key}|${c}`] = Array.from({ length: WEEKS }, (_, w) => (retailWeekly ? retailWeekly[w] ?? null : w === WEEKS - 1 && realDays != null ? realDays : null));
+  if (MID[mid].measured && rt === "amazon") {
+    for (const c of DELIV_AT) deliveryWeekly[`${key}|${c}`] = Array.from({ length: WEEKS }, (_, w) => (w === WEEKS - 1 && realDays != null ? realDays : null));
     continue;
   }
   for (const c of DELIV_AT) {
@@ -547,7 +570,7 @@ for (const key of pairs) {
       const oos = stockSeries[key][di] ? 0 : 2.4;
       out.push(r1(clamp(base + peak + oos + noise(rnd) * 0.7, 1, 12)));
     }
-    deliveryWeekly[`${key}|${c}`] = out;
+    deliveryWeekly[`${key}|${c}`] = retailWeekly ? out.map((v, w) => retailWeekly[w] ?? v) : out;
   }
 }
 
