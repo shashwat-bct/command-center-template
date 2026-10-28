@@ -53,10 +53,10 @@ P.landing = (host) => {
   </div>
   <div class="grid g2" style="margin-bottom:14px;align-items:start">
     ${card({ title: "Page score by model and retailer", help: "The content score of each model's product page at each retailer, out of 100. A pale cell is a page to fix first; a dash is a retailer where the model was not read.", sub: `${SUBJ} listings only. A pale cell is a page a shopper reaches and leaves.`, slot: "lpHeat" })}
-    ${card({ title: "Signal completeness by brand", help: "For each brand, how complete each content signal is across its listings, over the grey average of the set.", sub: "One shape per brand over the same grey category average. The shape shows what each brand systematically does and does not ship.", slot: "lpRadar" })}
+    ${card({ title: "Mean page score", help: "Each brand's average page score across its pages in scope.", sub: "Every brand, across the retailers in scope.", slot: "lpBars" })}
   </div>
   <div class="grid g2" style="align-items:start">
-    ${card({ title: "Mean page score", help: "Each brand's average page score across its pages in scope.", sub: "Every brand, across the retailers in scope.", slot: "lpBars" })}
+    ${card({ title: "Signal completeness by brand", help: "For each brand, how complete each content signal is across its listings, over the grey average of the set.", sub: "One shape per brand over the same grey category average. The shape shows what each brand systematically does and does not ship.", slot: "lpRadar" })}
     ${card({ title: "Every listing, ranked", help: "Every product page read, best first, with the signals it is missing. Click a row for the signal-by-signal breakdown and the page screenshot.", sub: "Click a row for the signal-by-signal breakdown of that page.", slot: "lpRank" })}
   </div>`;
 
