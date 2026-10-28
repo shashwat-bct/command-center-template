@@ -165,7 +165,7 @@ function context() {
 }
 
 async function askClaude(text) {
-  const system = `You are Atlas, a commercial analyst for ${brand} (flushable wipes) against its competitors. Answer only from the analyses below, which come from ${atlas.sources.join(", ")}. Quote the figures as given. If the data does not cover the question, say so in one sentence and name the closest analysis you can offer. Write two to four short paragraphs or a short list, no headings, under 200 words.\n\n${context()}`;
+  const system = `You are Atlas, a commercial analyst for ${brand} (${(window.__CC.D.meta && window.__CC.D.meta.category) || "its category"}) against its competitors. Answer only from the analyses below, which come from ${atlas.sources.join(", ")}. Quote the figures as given. If the data does not cover the question, say so in one sentence and name the closest analysis you can offer. Write two to four short paragraphs or a short list, no headings, under 200 words.\n\n${context()}`;
   const history = current.msgs.filter((m) => m.role === "user" || (m.text && !m.error)).slice(-8).map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.text }));
   try {
     const res = await fetch("/api/llm", { method: "POST", headers: { "content-type": "application/json", ...(window.__CC_AUTH ? { authorization: window.__CC_AUTH } : {}) }, body: JSON.stringify({ system, messages: history, max_tokens: 3000, temperature: 0.2 }) });

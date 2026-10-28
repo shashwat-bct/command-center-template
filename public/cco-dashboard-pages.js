@@ -6,7 +6,7 @@
 const P = window.__CCPAGES, U = window.__CC, F = CC.fmt;
 const { B, RT, MD, BIDS, AI_BIDS, RIDS, sc, metricDef, fmtFor, deltaChip, rankChip, kpi, metricKpi, readsBlock,
         card, intro, table, slot, tc, win, winDates, winBands, slice, mean, sum, pairsFor, carriedPairs,
-        retailerScope, openDrawer, esc, $, $$, period, provOf } = U;
+        retailerScope, openDrawer, esc, $, $$, period, provOf, laneOf } = U;
 const D = () => U.D;
 // Set from the payload by the shell before any renderer runs, so no screen here
 // knows or names the brand it is showing.
@@ -528,7 +528,7 @@ P.shelf = (host) => {
   const brandShelf = (b) => ds.map((_, i) => mean(readable.flatMap((rt) => d.dims.terms.map((t) => { const a = sov(rt, t.id, b); return a ? a[win()[0] + i] : null; })).filter((v) => v != null)));
   host.innerHTML = `
   ${intro(`Share of the result grid a shopper sees when they search a retailer — ${rts.length} retailer${rts.length === 1 ? "" : "s"}
-    × ${d.dims.terms.length} terms, read daily.`)}
+    × ${d.dims.terms.length} terms.${laneOf("shelf") && laneOf("shelf").status !== "measured" ? ` ${esc(laneOf("shelf").note)}` : " Read daily."}`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("shelfSov", S)}
     ${kpi({ label: "Best shelf", dot: B(S).color, value: (() => { const r = shelfByRetailer().sort((a, b) => b.v - a.v)[0]; return r ? F.pct(r.v) : "—"; })(),
@@ -684,14 +684,17 @@ P.carriage = (host) => {
     ], changes.map((c) => ({ ...c, _subject: c.brand === S })))}) : ""}
   <h2 class="sec">What distribution says</h2>${readsBlock("distribution")}`;
 
+  const readPairs = new Set(((d.retailFeed && d.retailFeed.products) || []).filter((p) => p.model).map((p) => `${p.model}|${p.retailer}`));
+  const assumed = (mid, rt) => !!d.retailFeed && rt !== "amazon" && !readPairs.has(`${mid}|${rt}`);
   CC.heatmap(el("dsHeat"), { rows: d.dims.models, cols: d.dims.retailers.filter((r) => rts.includes(r.id)), corner: "Model ╲ Retailer", ramp: "red",
     rowLabel: (r) => r.label, rowDot: (r) => B(r.brand).color, colLabel: (c) => c.label,
     value: (r, c) => d.distribution.carriage[`${r.id}|${c.id}`] ? winLen - daysCarried(r.id, c.id) : null,
     fmtCell: (r, c) => { const k = `${r.id}|${c.id}`; if (!d.distribution.carriage[k]) return null;
+      if (assumed(r.id, c.id)) return "~";
       const off = winLen - daysCarried(r.id, c.id); return off === 0 ? "✓" : `−${off}d`; },
     fmtV: (v) => String(Math.round(v)), min: 0, max: winLen,
-    cellStyle: (r, c, v) => (v === 0 ? { bg: "#e6f4ea", color: "#137333" } : null),
-    legendHtml: `<span class="dg-lg"><i style="background:#e6f4ea;color:#137333">✓</i>on the shelf all ${winLen} days</span><span class="dg-lg"><i style="background:#f6aea9"></i><i style="background:#ea4335"></i><i style="background:#a50e0e"></i>missing for some days — darker is longer, the number is days missing</span><span class="dg-lg"><i style="background:#f1f3f4;color:#80868b">—</i>not carried by that retailer</span>`,
+    cellStyle: (r, c, v) => (assumed(r.id, c.id) ? { bg: "#f1f3f4", color: "#5f6368" } : v === 0 ? { bg: "#e6f4ea", color: "#137333" } : null),
+    legendHtml: `${d.retailFeed ? '<span class="dg-lg"><i style="background:#f1f3f4;color:#5f6368">~</i>listing assumed: no reading at that retailer</span>' : ""}<span class="dg-lg"><i style="background:#e6f4ea;color:#137333">✓</i>on the shelf all ${winLen} days</span><span class="dg-lg"><i style="background:#f6aea9"></i><i style="background:#ea4335"></i><i style="background:#a50e0e"></i>missing for some days — darker is longer, the number is days missing</span><span class="dg-lg"><i style="background:#f1f3f4;color:#80868b">—</i>not carried by that retailer</span>`,
     naTip: (r, c) => `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>Not carried by ${c.label} in this window</span></div>`,
     tip: (r, c, v) => { const k = `${r.id}|${c.id}`;
       return `<div class="h">${r.label} · ${c.label}</div><div class="r"><span>On the shelf</span><b class="tnum">${winLen - v} of ${winLen} days</b></div>${v ? `<div class="r"><span>Missing</span><b class="tnum" style="color:#c5221f">${v} day${v === 1 ? "" : "s"}${v === winLen ? " (whole window)" : ""}</b></div>` : ""}<div class="r"><span>Sellers</span><b class="tnum">${d.distribution.sellers[k] ?? "—"}</b></div><div class="r"><span>Buy box</span><b class="tnum">${F.pct((d.distribution.buybox[k] ?? 0) * 100)}</b></div>` + window.__CCFEED.rows(r.id, c.id, ds[0], ds[ds.length - 1], ["fulfil", "stock", "badges", "sellers"]); } });
@@ -768,7 +771,7 @@ P.delivery = (host) => {
   // national location. The measure is the same; the breakdown behind it is what
   // is missing, and the cards that need it withhold rather than draw one column.
   const CITY = d.dims.cities.length ? d.dims.cities : [{ id: "national", label: "National" }];
-  const metros = d.dims.cities.length;
+  const metros = d.dims.cities.length && !/same promise shown for every city|cities[^.]*modelled/i.test((laneOf("delivery") || {}).note || "") ? d.dims.cities.length : 0;
   const promise = (mid, rt, c) => { const s2 = d.delivery.weekly[`${mid}|${rt}|${c}`]; return s2 ? mean(s2.slice(w0, w1 + 1)) : null; };
   const brandCity = (b, c) => mean(pairsFor(b, rts).map((k) => { const [mid, rt] = k.split("|"); return promise(mid, rt, c); }).filter((v) => v != null));
   const brandWeek = (b) => wkIds.map((_, i) => mean(pairsFor(b, rts).flatMap((k) => CITY.map((c) => (d.delivery.weekly[`${k}|${c.id}`] || [])[w0 + i])).filter((v) => v != null)));
@@ -868,7 +871,7 @@ P.pricing = (host) => {
     ${kpi({ label: "Widest cross-retailer spread", dot: "#e37400",
       value: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? F.usd0(w.meanSpread) : "—"; })(),
       note: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? `${MD(w.model).label} — ${F.usd0(w.maxSpread)} at its widest` : "Single-retailer models only"; })() })}
-    ${d.pricing.mapFloorPct == null ? kpi({ label: "Price-floor breaches", dot: "#9aa0a6", value: "—", note: "No minimum-advertised-price policy is known for this brand" }) : kpi({ label: "Price-floor breaches", dot: subjBreach.length ? "#d93025" : "#1e8e3e", value: String(subjBreach.length),
+    ${d.pricing.mapFloorPct == null ? kpi({ label: "Price-floor breaches", dot: "#9aa0a6", value: "—", note: "No minimum-advertised-price policy is known for this brand" }) : kpi({ label: "Below the inferred price floor", dot: subjBreach.length ? "#d93025" : "#1e8e3e", value: String(subjBreach.length),
       note: subjBreach.length ? `${sum(subjBreach.map((x) => x.days))} listing-days below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` : `No ${SUBJ} listing traded below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` })}
   </div>
   ${card({ title: "Price index by brand", help: "Street price as a percentage of the manufacturer's list price. The vertical distance between two lines is the difference in how much margin each brand is prepared to hand over to move a unit.", sub: "Street price as a percentage of MSRP, daily. The vertical distance between two lines is the difference in how much margin each brand is prepared to hand over to move a unit.", tag: "13 weeks", slot: "prIndex" })}
@@ -881,7 +884,7 @@ P.pricing = (host) => {
     ${card({ title: "Cross-retailer price spread", help: "For each listing, the distance between its cheapest and its dearest retailer on the same day. A wide spread is where a price policy is not holding.", sub: `Every model rebased to 100 at its cheapest shelf, so a $12 spread on a $99 listing and a $40 one on a $999 listing can be compared — the index is the comparison, the dollar spread on the right is the size of it.`, slot: "prRange" })}
     ${card({ title: "Price architecture", help: "Every listing plotted at its street price against how far below list it sits, sized by page traffic. Bottom-right is expensive and discounted; top-left is keenly priced and held.", sub: "Every listing plotted at its street price against how far below MSRP it sits. Bubble size is the listing's page traffic.", slot: "prScatter" })}
   </div>
-  ${breaches.length ? card({ title: "Below the price floor", help: "Listings priced under the brand's minimum advertised price, where one is set. Each is a conversation with a retailer, and the count is the size of that conversation.", sub: `A listing that traded under its brand's own advertised-price floor. ${SUBJ} holds a ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor; the set ranges from ${Math.round(Math.min(...Object.values(d.pricing.mapFloorPct)) * 100)}% to ${Math.round(Math.max(...Object.values(d.pricing.mapFloorPct)) * 100)}%.`, tag: `${breaches.length} listings`, tagCls: "risk", html: table([
+  ${breaches.length ? card({ title: "Below the inferred price floor", help: "Listings priced under a floor inferred from the brand's pricing (no published minimum-advertised-price policy is known), as a share of MSRP. Each is a conversation with a retailer, and the count is the size of that conversation.", sub: `A listing that traded under its brand's own advertised-price floor. ${SUBJ} holds a ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor; the set ranges from ${Math.round(Math.min(...Object.values(d.pricing.mapFloorPct)) * 100)}% to ${Math.round(Math.max(...Object.values(d.pricing.mapFloorPct)) * 100)}%.`, tag: `${breaches.length} listings`, tagCls: "risk", html: table([
       { label: "Model", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${MD(r.model).label}` },
       { label: "Retailer", lft: true, get: (r) => RT(r.retailer).label },
       { label: "Floor", get: (r) => F.usd0(r.floor) },

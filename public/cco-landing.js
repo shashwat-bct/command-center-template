@@ -69,7 +69,7 @@ P.landing = (host) => {
   ${intro(`Seven content signals on every product page, at every retailer: image gallery, video, A+ content, feature bullets, spec table, reviews and title keywords. Scored the same way everywhere, so a gap is a real gap. A feature list collapsed behind \"See all\" counts as a full list and is marked ▾. Start with the weakest cells and the signals ${SUBJ} misses most.`)}
   <div class="grid g4" style="margin-bottom:14px">
     ${metricKpi("pdpScore", S)}
-    ${kpi({ label: "Weakest retailer", dot: "#d93025", value: byRt[0] ? `${Math.round(byRt[0].v)}<small> /100</small>` : "—", note: byRt[0] ? `${RT(byRt[0].rt).label}; best is ${RT(byRt[byRt.length - 1].rt).label} at ${Math.round(byRt[byRt.length - 1].v)}` : "" })}
+    ${kpi({ label: "Weakest retailer", dot: byRt[0] ? (byRt[0].v >= 85 ? "#1e8e3e" : byRt[0].v >= 70 ? "#e37400" : "#d93025") : "#9aa0a6", value: byRt[0] ? `${Math.round(byRt[0].v)}<small> /100</small>` : "—", note: byRt[0] ? `${RT(byRt[0].rt).label}; best is ${RT(byRt[byRt.length - 1].rt).label} at ${Math.round(byRt[byRt.length - 1].v)}` : "" })}
     ${kpi({ label: missing && missing.n ? `Most often missing: ${(SIGNAL[missing.f.id] || missing.f.label).toLowerCase()}` : "Most often missing", dot: missing && missing.n ? "#e37400" : "#1e8e3e", value: missing ? `${missing.n}<small> / ${mine.length}</small>` : "0", note: `${SUBJ} pages without it` })}
     ${kpi({ label: "Pages read", dot: B(S).color, value: String(rows.length), note: `${mine.length} ${SUBJ} pages across ${retailers.length} retailers` })}
   </div>
@@ -86,7 +86,7 @@ P.landing = (host) => {
 
   const score = (m, rt) => { const x = mine.find((r) => r.model === m && r.retailer === rt); return x ? x.score : null; };
   CC.heatmap(el("lpHeat"), { rows: models.map((m) => ({ id: m })), cols: retailers.map((r) => ({ id: r, label: RT(r).label })), corner: "Model ╲ Retailer", min: 40, max: 100, ramp: "red", invert: true,
-    rowLabel: (r) => esc(shortName(r.id)), rowDot: () => B(S).color, colLabel: (c) => c.label, fmtCell: (r, c, v) => String(v), scaleNote: "Page score",
+    rowLabel: (r) => esc(shortName(r.id)), rowDot: () => B(S).color, colLabel: (c) => c.label, fmtCell: (r, c, v) => String(v), scaleNote: "Page score", cellStyle: (r, c, v) => (v >= 85 ? { bg: "#e6f4ea", color: "#137333" } : null),
     value: (r, c) => score(r.id, c.id), onPick: (r, c) => { const x = mine.find((p) => p.model === r.id && p.retailer === c.id); if (x) show(x); } });
 
   el("lpCover").innerHTML = `<div style="overflow-x:auto"><table class="cc-heat-t" style="width:100%;font-size:12.5px"><thead><tr><th style="text-align:left">Signal</th>${retailers.map((r) => `<th>${RT(r).label}</th>`).join("")}</tr></thead><tbody>${fields.map((f) => `<tr><th style="text-align:left;font-weight:500;padding:6px 8px 6px 0">${SIGNAL[f.id] || f.label}</th>${retailers.map((rt) => {
