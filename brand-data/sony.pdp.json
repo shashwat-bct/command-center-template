@@ -2,321 +2,6 @@
  "version": 1,
  "source": "Retail page captures read by Claude Sonnet 5.5",
  "pages": {
-  "l-b0dyk7y2yb|walmart": {
-   "capture": "154253-walmart-sony-bravia-8-ii-ljgyj97-crtf2nd",
-   "date": "2026-09-29",
-   "model": "l-b0dyk7y2yb",
-   "fields": {
-    "images": 9,
-    "video": 1,
-    "aplus": 1,
-    "bullets": 7,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The second thumbnail has a play icon, so I counted it as the video and not as an image; the +13 tile adds 13 more images. The first part of the full-page render is blank, but all sections were visible."
-  },
-  "l-b0dyk7y2yb|target": {
-   "capture": "155538-target-sony-bravia-8-ii-lzsoxgp-cnvgn7t",
-   "date": "2026-09-29",
-   "model": "l-b0dyk7y2yb",
-   "fields": {
-    "images": 5,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows a main image plus 4 thumbnails and a 'Show more images' button with no count, so only 5 are counted. The full-page tile is small, but review text is legible. The Details section shows only the first part of its description (truncated), with Specifications collapsed."
-  },
-  "l-b0dyk7y2yb|amazon": {
-   "capture": "155155-amazon-sony-bravia-8-ii-lv8lg0a-cxs11qy",
-   "date": "2026-09-29",
-   "model": "l-b0dyk7y2yb",
-   "fields": {
-    "images": 6,
-    "video": 3,
-    "aplus": 1,
-    "bullets": 7,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 7 thumbnails, the last being a video tile labeled '9 VIDEOS', so I counted 6 images; the 'About this item' list has a 'Show more' link, so the 7 bullets are only those visible."
-  },
-  "l-b0dyk9ly1z|target": {
-   "capture": "155438-target-sony-bravia-5-lqc6b08-cf3zf28",
-   "date": "2026-09-29",
-   "model": "l-b0dyk9ly1z",
-   "fields": {
-    "images": 5,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows a main image plus 4 thumbnails and a 'Show more images' button with no count, so the total may be higher. The product is out of stock, and the Specifications section is collapsed."
-  },
-  "l-b0dyk9ly1z|walmart": {
-   "capture": "154351-walmart-sony-bravia-5-lojs0iw-cflzz05",
-   "date": "2026-09-29",
-   "model": "l-b0dyk9ly1z",
-   "fields": {
-    "images": 9,
-    "video": 1,
-    "aplus": 1,
-    "bullets": 6,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery has 7 visible thumbnails, one of them a video thumbnail, and the last tile reads +12, so I counted 19. The top of the long page rendered blank in places, but nothing hid the key content."
-  },
-  "l-b0dykbxmjx|bestbuy": {
-   "capture": "155108-best-buy-sony-bravia-2-ii-lknrhyv-cxk7w5i",
-   "date": "2026-09-29",
-   "model": "l-b0dykbxmjx",
-   "fields": {
-    "images": 9,
-    "video": 3,
-    "aplus": 0,
-    "bullets": 4,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "Two large white sections render blank (one ends in a 'See more' link), so any brand rich content there is not visible; the fourth feature bullet is partly faded, and the 4-video count comes from the gallery tile."
-  },
-  "l-b0dykbxmjx|target": {
-   "capture": "155328-target-sony-bravia-2-ii-lkm66yj-chqs9cw",
-   "date": "2026-09-29",
-   "model": "l-b0dykbxmjx",
-   "fields": {
-    "images": 5,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 5 images plus a 'Show more images' button with no count, so only the 5 visible are counted. The item is out of stock, and the Specifications section is collapsed with its contents not shown."
-  },
-  "l-b0dykbxmjx|walmart": {
-   "capture": "154152-walmart-sony-bravia-2-ii-lcpvaab-cll7ntl",
-   "date": "2026-09-29",
-   "model": "l-b0dykbxmjx",
-   "fields": {
-    "images": 9,
-    "video": 1,
-    "aplus": 0,
-    "bullets": 7,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The first tile of the full-page capture rendered blank, but the whole page is visible across the tiles. Specs and Product details are collapsed, and there is no brand rich-content module. The +7 tile gives 6 other visible thumbnails (one is a video) plus 7 more."
-  },
-  "l-b0dyqm4bdb|walmart": {
-   "capture": "153611-walmart-lg-c5-oled-lhz3w05-cl82r9u",
-   "date": "2026-09-29",
-   "model": "l-b0dyqm4bdb",
-   "fields": {
-    "images": 9,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 0,
-    "specs": 0,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 6 thumbnails plus a '+16 View all' tile (22 total). Product details and Warranty are collapsed, with no visible specs section or bullets. The page shows 0 ratings and no reviews. A smiley feedback icon overlaps the mounting-service box, and the price is hidden ('See price in cart')."
-  },
-  "l-b0dyqm4bdb|target": {
-   "capture": "155032-target-lg-c5-oled-leui3z3-cq3yl12",
-   "date": "2026-09-29",
-   "model": "l-b0dyqm4bdb",
-   "fields": {
-    "images": 5,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 5 images and a 'Show more images' button with no count, so more images may exist. The product is out of stock. Reviews show only a 1.0 rating from one star rating, with no written review text visible. Specifications is present only as a collapsed section."
-  },
-  "l-b0dyvr565m|bestbuy": {
-   "capture": "152940-best-buy-hisense-qd7-qd7qf-lcc7bf1-c8szzl3",
-   "date": "2026-09-29",
-   "model": "l-b0dyvr565m",
-   "fields": {
-    "images": 1,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 0,
-    "specs": 0,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The item is unavailable in new condition, so the page shows one product image and a 4.4 (49) rating but no written reviews. 'Reviews' and 'From the Manufacturer' are collapsed and their content is not visible. Only link text for specifications and features appears, with no spec content or bullets."
-  },
-  "l-b0f1dv217b|walmart": {
-   "capture": "152921-walmart-hisense-u8-u8qg-l7knx6m-ctob05z",
-   "date": "2026-09-29",
-   "model": "l-b0f1dv217b",
-   "fields": {
-    "images": 9,
-    "video": 0,
-    "aplus": 1,
-    "bullets": 7,
-    "specs": 1,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The item is out of stock and the page has long blank stretches. The gallery shows 6 thumbnails plus a '+24' tile, and the reviews section says there are no ratings or reviews yet."
-  },
-  "l-b0f53cz4wt|walmart": {
-   "capture": "153125-walmart-tcl-qm8k-lc203ih-cdnhr39",
-   "date": "2026-09-29",
-   "model": "l-b0f53cz4wt",
-   "fields": {
-    "images": 9,
-    "video": 0,
-    "aplus": 1,
-    "bullets": 7,
-    "specs": 1,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The item is out of stock and the page has no reviews. The gallery shows 7 thumbnails including a '+17' tile, which I counted as 7 plus 17. Specs is a collapsed section, so its contents are not visible."
-  },
-  "l-b0gj1dbyhb|amazon": {
-   "capture": "153338-amazon-hisense-u7-2026-lmfv5j5-c1c5789",
-   "date": "2026-09-29",
-   "model": "l-b0gj1dbyhb",
-   "fields": {
-    "images": 9,
-    "video": 3,
-    "aplus": 1,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 5 plain thumbnails, a '27+' tile and an '8 VIDEOS' tile, so the image count is 5+27; the spec sections are collapsed accordions; the top of the page is repeated, and the second tile renders partly blank."
-  },
-  "l-b0gm348h9m|walmart": {
-   "capture": "154046-walmart-sony-bravia-3-ii-l79px03-cep73r2",
-   "date": "2026-09-29",
-   "model": "l-b0gm348h9m",
-   "fields": {
-    "images": 9,
-    "video": 1,
-    "aplus": 1,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The Key item features list is truncated with 'View all item details', so more bullets may exist; the Specs section is collapsed, and the +20 tile was counted as 20 extra images on top of the 6 plain thumbnails."
-  },
-  "l-b0gpy4y2vf|target": {
-   "capture": "155231-target-samsung-s90h-l1fo0hz-cjgdscc",
-   "date": "2026-09-29",
-   "model": "l-b0gpy4y2vf",
-   "fields": {
-    "images": 5,
-    "video": 1,
-    "aplus": 1,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The item is out of stock. The gallery shows the main image plus 4 thumbnails and a 'Show more images' button with no count, so 5 is the visible total. The video count comes from a play icon on the From the brand banner. The Specifications section is collapsed and its contents are not shown."
-  },
-  "l-b0gpy4y2vf|walmart": {
-   "capture": "153945-walmart-samsung-s90h-lhl04u9-c8y32n2",
-   "date": "2026-09-29",
-   "model": "l-b0gpy4y2vf",
-   "fields": {
-    "images": 9,
-    "video": 1,
-    "aplus": 1,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 6 thumbnails (one is a video) plus a '+10' tile, so I counted 5 still images + 10. The key-features box is truncated after 2 bullets with a 'View all item details' link. The brand 'Features' content shows headings and text, but its images did not render."
-  },
-  "l-b0gt8glwzh|walmart": {
-   "capture": "152814-walmart-hisense-u6-pro-2026-l1o88qz-cciyxhq",
-   "date": "2026-09-29",
-   "model": "l-b0gt8glwzh",
-   "fields": {
-    "images": 9,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The key features list is truncated with a 'View all item details' link, so only 2 bullets are visible. The item is out of stock, and the page shows a 5-star rating from 1 rating but no written reviews."
-  },
-  "l-b0h3l589w7|target": {
-   "capture": "155131-target-samsung-u8000h-l2r27t3-ckqgw84",
-   "date": "2026-09-29",
-   "model": "l-b0h3l589w7",
-   "fields": {
-    "images": 7,
-    "video": 1,
-    "aplus": 1,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery rows between the first and third tiles are partly hidden, so the image count is an estimate. The highlights section is truncated behind 'Show more', so only 2 bullets are visible."
-  },
-  "l-b0dsrstj54|target": {
-   "capture": "154927-target-tcl-qm6k-l9w91ds-c5imh1f",
-   "date": "2026-09-29",
-   "model": "l-b0dsrstj54",
-   "fields": {
-    "images": 5,
-    "video": 0,
-    "aplus": 0,
-    "bullets": 5,
-    "specs": 1,
-    "reviews": 0,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 5 images (main plus 4 thumbnails) and a 'Show more images' button with no count. The highlights list is truncated behind 'Show more', with a fifth bullet partly faded. The Specifications section is collapsed. The Guest ratings & reviews section is still loading and shows only grey placeholders, so no written review is visible."
-  },
-  "l-b0dsrstj54|bestbuy": {
-   "capture": "153721-best-buy-tcl-qm6k-lt38r9w-c5kj137",
-   "date": "2026-09-29",
-   "model": "l-b0dsrstj54",
-   "fields": {
-    "images": 9,
-    "video": 3,
-    "aplus": 0,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "A large blank panel between the reviews and the 'Featured products' section (ending in 'See more') did not render, so any brand or A+ content there could not be seen. Only 2 feature bullets show before 'See all features'. Images are 6 visible thumbnails plus the '+22 more' tile."
-  },
   "l-b0dsrstj54|walmart": {
    "capture": "153429-walmart-tcl-qm6k-lqbygz5-cfa8erk",
    "date": "2026-09-29",
@@ -330,7 +15,73 @@
     "reviews": 0,
     "titleKw": 1
    },
-   "notes": "The gallery shows 7 thumbnails including a '+19 View all' tile, and one thumbnail has a play icon. The page has no reviews ('This item does not have any reviews yet'). The first part of the page rendered mostly blank."
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 6,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Gallery shows 6 thumbnails plus a '+19' tile, which counts as 25 images. One thumbnail has a play icon, so I counted 1 video. The key features list shows 6 bullets with a 'View all item details' link. The page has no reviews: it shows 'No ratings yet' and 'This item does not have any reviews yet'."
+  },
+  "l-b0dsrstj54|target": {
+   "capture": "154927-target-tcl-qm6k-l9w91ds-c5imh1f",
+   "date": "2026-09-29",
+   "model": "l-b0dsrstj54",
+   "fields": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 4,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows one main image plus four thumbnails and a 'Show more images' button with no count. The highlights list fades out behind a 'Show more' button. The Guest ratings & reviews section only shows blank placeholders, so no written review is visible."
+  },
+  "l-b0dsrstj54|bestbuy": {
+   "capture": "153721-best-buy-tcl-qm6k-lt38r9w-c5kj137",
+   "date": "2026-09-29",
+   "model": "l-b0dsrstj54",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 2,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank panel sits between the reviews and 'Compare similar products', ending in a 'See more' link. It is probably unrendered description or A+ content, so I did not count it. A chat avatar overlaps the delivery options. The bullet count covers only the two bulleted Features items, not the six Highlights tiles."
   },
   "l-b0dsrstj54|amazon": {
    "capture": "153459-amazon-tcl-qm6k-lgzcgty-c0cgn02",
@@ -340,12 +91,24 @@
     "images": 9,
     "video": 3,
     "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
     "bullets": 5,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 image thumbnails, a '24+' tile and a video tile labelled '13 VIDEOS'; I counted the '24+' tile as the sixth visible thumbnail plus 24 more, so the image count is 30 but could be 29 if that tile is not counted separately."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The page is fully visible. The gallery shows 5 image thumbnails, a '24+' tile and a video tile labelled '13 VIDEOS'. The about-this-item list ends with a 'See more product details' link, and the specs table is cut off with a 'See more' link."
   },
   "l-b0dvx8wj7s|walmart": {
    "capture": "153232-walmart-tcl-qm7k-lotjasj-cwpzw3v",
@@ -360,7 +123,19 @@
     "reviews": 0,
     "titleKw": 1
    },
-   "notes": "The item is out of stock, with a similar-items banner at the top. The gallery shows 6 thumbnails (one is a video) plus a '+27' tile. The page has no reviews yet (0 ratings), and the first screenshot is only the top of the page."
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Item is out of stock, with a similar-items banner above the gallery. The gallery count is 7 visible thumbnails (the last is the +27 tile) plus 27 more. The page shows 0 ratings and no reviews."
   },
   "l-b0dvx8wj7s|bestbuy": {
    "capture": "153532-best-buy-tcl-qm7k-lirq4l7-cu89sxu",
@@ -370,12 +145,24 @@
     "images": 9,
     "video": 2,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
     "bullets": 2,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The item is shown as Unavailable with a Notify Me button. A large blank white module sits above a 'See more' link between the reviews and Featured products, so any brand rich content there did not render and could not be counted. The gallery shows 6 thumbnails plus a '+22 more' tile, and a '2 Videos' tile."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank card sits between the reviews and Featured products, ending in a 'See more' link. It may be unrendered brand or A+ content, but nothing in it is visible. The 28 images are 6 thumbnails plus the '+22' tile. The item shows as Unavailable."
   },
   "l-b0dxmjgqwc|amazon": {
    "capture": "154403-amazon-samsung-s90f-lj4f2kj-c8et7oy",
@@ -385,12 +172,24 @@
     "images": 9,
     "video": 3,
     "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
     "bullets": 6,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails, a '9+' tile and a video tile labelled '10 VIDEOS', so images are counted as 5 plus 9. The 'Reviews with images' strip is blank placeholders, and the Product information sections are collapsed, but a short spec table is visible."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The page is fully visible. The gallery shows 5 plain thumbnails plus a 9+ tile and a 10-video tile. The bullet list has a 'See more product details' link, and some reviews are cut off with 'Read more'."
   },
   "l-b0dvx8wj7s|amazon": {
    "capture": "153619-amazon-tcl-qm7k-lh6mb5i-cpw44bo",
@@ -400,12 +199,78 @@
     "images": 9,
     "video": 3,
     "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
     "bullets": 5,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails, a '27+' tile and a video tile labelled '7 VIDEOS', so images are counted as 5 + 27. Specs sit in collapsed Product information sections and a short attribute table, and the page is fully captured down to the footer."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Gallery shows 5 thumbnails plus a '27+' tile and a '7 VIDEOS' tile; the bullet list ends with a 'See more product details' link, and the spec table is cut off with a 'See more' link."
+  },
+  "l-b0dyk7y2yb|target": {
+   "capture": "155538-target-sony-bravia-8-ii-lzsoxgp-cnvgn7t",
+   "date": "2026-09-29",
+   "model": "l-b0dyk7y2yb",
+   "fields": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows a main image plus 4 thumbnails and a 'Show more images' button with no count, so only 5 images are counted. The only video marker is on a customer review photo, not in the gallery. Highlights end at a 'Show more' button, and Specifications is a collapsed accordion."
+  },
+  "l-b0dyk7y2yb|walmart": {
+   "capture": "154253-walmart-sony-bravia-8-ii-ljgyj97-crtf2nd",
+   "date": "2026-09-29",
+   "model": "l-b0dyk7y2yb",
+   "fields": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 6 image thumbnails, 1 video thumbnail and a +13 tile. The key features list has a 'View all item details' link, so more lines may be hidden."
   },
   "l-b0dxmjgqwc|bestbuy": {
    "capture": "154516-best-buy-samsung-s90f-ldx20lb-cbya5jj",
@@ -415,12 +280,103 @@
     "images": 9,
     "video": 3,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
     "bullets": 2,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large white block between the reviews and the 'Featured products' section rendered blank (it ends with a 'See more' link), so any brand rich content there could not be seen; the Features list was truncated, with only two bullets visible."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank panel under the reviews, ending in a 'See more' link, did not render, so any brand rich content there could not be seen. The image count is 5 thumbnails plus the '+11' tile, and the video count comes from the '4 Videos' tile. I counted only the 2 bullets under Features, not the 5 Highlights tiles."
+  },
+  "l-b0dyk7y2yb|amazon": {
+   "capture": "155155-amazon-sony-bravia-8-ii-lv8lg0a-cxs11qy",
+   "date": "2026-09-29",
+   "model": "l-b0dyk7y2yb",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The page is fully visible. The gallery shows 5 image thumbnails, a '12+' tile and a video tile, with '9 VIDEOS' labelled. The about-this-item list has a 'Show more' link."
+  },
+  "l-b0dyk9ly1z|target": {
+   "capture": "155438-target-sony-bravia-5-lqc6b08-cf3zf28",
+   "date": "2026-09-29",
+   "model": "l-b0dyk9ly1z",
+   "fields": {
+    "images": 6,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 6,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [],
+   "notes": "Gallery shows a large main image plus 4 thumbnails and a 'Show more images' button with no count, so 5 are visible and 1 is added for the button; the Specifications section is collapsed. The item is out of stock, and the 'Find alternative' carousel renders blank."
+  },
+  "l-b0dyk9ly1z|walmart": {
+   "capture": "154351-walmart-sony-bravia-5-lojs0iw-cflzz05",
+   "date": "2026-09-29",
+   "model": "l-b0dyk9ly1z",
+   "fields": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 6,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery has 6 visible thumbnails (one is a video) plus a '+12 View all' tile. The key features list has a 'View all item details' link, and Specs is a collapsed accordion. The Sony Brand Highlights banner sits under About this item."
   },
   "l-b0dykbxmjx|amazon": {
    "capture": "154912-amazon-sony-bravia-2-ii-l7jshuz-c2vwvva",
@@ -435,13 +391,7 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain image thumbnails, a '9+' tile that I counted as 9 more images, and a video tile labelled '7 VIDEOS'. The About this item list has a 'Show more' link, so I counted only the 7 bullets visible. The first tile's top part rendered blank, but the full page was readable."
-  },
-  "l-b0dyqm4bdb|amazon": {
-   "capture": "154129-amazon-lg-c5-oled-l41av2c-cxz5wnx",
-   "date": "2026-09-29",
-   "model": "l-b0dyqm4bdb",
-   "fields": {
+   "read": {
     "images": 9,
     "video": 3,
     "aplus": 1,
@@ -450,7 +400,10 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails plus a tile marked 11+ and a video tile labelled '12 VIDEOS', so the image count is an estimate. The full page is visible and nothing is covered by a pop-up."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery's sixth tile carries a '9+' overlay, which I counted as 9 extra images. The seventh tile is a video thumbnail labelled '7 VIDEOS'. The About this item list has a 'Show more' link, so it is cut short."
   },
   "l-b0dyk9ly1z|amazon": {
    "capture": "155304-amazon-sony-bravia-5-ly5dx88-cuorqd1",
@@ -465,7 +418,177 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails, a '13+' overlay tile that I read as 13 more images, and a video tile labelled '8 VIDEOS'. The '13+' reading is uncertain: if that tile is itself an image, the count would be higher. The About this item list has a 'Show more' link, so there may be more than the 7 bullets visible."
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 5 plain thumbnails, a '13+' tile and a video tile labeled '8 VIDEOS'. The About this item list ends with 'Show more', and the spec table is cut off at the fold."
+  },
+  "l-b0dykbxmjx|target": {
+   "capture": "155328-target-sony-bravia-2-ii-lkm66yj-chqs9cw",
+   "date": "2026-09-29",
+   "model": "l-b0dykbxmjx",
+   "fields": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The item is out of stock. The gallery shows 5 images plus a 'Show more images' button with no count. Highlights has a 'Show more' button and the description fades out. Specifications is a collapsed accordion. The 'Find alternative' carousel shows only loading placeholders."
+  },
+  "l-b0dykbxmjx|walmart": {
+   "capture": "154152-walmart-sony-bravia-2-ii-lcpvaab-cll7ntl",
+   "date": "2026-09-29",
+   "model": "l-b0dykbxmjx",
+   "fields": {
+    "images": 9,
+    "video": 1,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The first part of the full-page capture was blank, and the 'About this item' details and Specifications sit in collapsed accordions, so no A+ or brand banner content is visible."
+  },
+  "l-b0dykbxmjx|bestbuy": {
+   "capture": "155108-best-buy-sony-bravia-2-ii-lknrhyv-cxk7w5i",
+   "date": "2026-09-29",
+   "model": "l-b0dykbxmjx",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 4,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white card sits above a 'See more' link, so any A+ or brand content there did not render and is not counted. The fourth feature bullet is faded out, and the 'See all features' and 'See all specifications' links show that both lists are truncated."
+  },
+  "l-b0dyqm4bdb|amazon": {
+   "capture": "154129-amazon-lg-c5-oled-l41av2c-cxz5wnx",
+   "date": "2026-09-29",
+   "model": "l-b0dyqm4bdb",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 6 image thumbnails, one of which carries an '11+' overlay, plus a video tile labelled '12 videos'. The 17 count treats that overlay tile as a visible thumbnail, so it could be 16. The about-this-item list ends in a 'Show more' link, and the specs table has a 'See more' link."
+  },
+  "l-b0dyqm4bdb|walmart": {
+   "capture": "153611-walmart-lg-c5-oled-lhz3w05-cl82r9u",
+   "date": "2026-09-29",
+   "model": "l-b0dyqm4bdb",
+   "fields": {
+    "images": 9,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 0,
+    "specs": 0,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 0,
+    "specs": 0,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [],
+   "notes": "The gallery shows 7 tiles, the last marked +16, so 23 images. The About this item section only has closed Product details and Warranty accordions, so no bullets are readable and no specs section is shown. There are 0 ratings and no written reviews, and there is no A+ content or video."
+  },
+  "l-b0dyqm4bdb|target": {
+   "capture": "155032-target-lg-c5-oled-leui3z3-cq3yl12",
+   "date": "2026-09-29",
+   "model": "l-b0dyqm4bdb",
+   "fields": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 5,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [],
+   "notes": "The gallery shows 5 images plus a 'Show more images' button with no count, so only 5 are counted. The item is out of stock. Specifications is a collapsed accordion. Reviews show a 1.0 rating from 1 star rating but no written review text."
   },
   "l-b0dyqm4bdb|bestbuy": {
    "capture": "154218-best-buy-lg-c5-oled-lcrhh9m-cpmvb4h",
@@ -475,27 +598,24 @@
     "images": 9,
     "video": 3,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
     "bullets": 3,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank white module sits between the reviews and 'Featured products' with only a 'See more' link, so any brand rich content there did not render and could not be read; the features list shows only 3 bullets before 'See all features'."
-  },
-  "l-b0f1dv217b|bestbuy": {
-   "capture": "153130-best-buy-hisense-u8-u8qg-ltxfepw-cgf108r",
-   "date": "2026-09-29",
-   "model": "l-b0f1dv217b",
-   "fields": {
-    "images": 9,
-    "video": 3,
-    "aplus": 0,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "A large blank white panel sits between the reviews and the 'See more' button, so any A+ or brand content in it did not render; the Features list is also truncated, so only 2 bullets are visible."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank panel with a 'See more' link sits below the reviews, likely brand content that did not render, so I did not count it as A+; the gallery shows 5 thumbnails plus a '+19 more' tile and a '4 Videos' tile."
   },
   "l-b0dyvr565m|amazon": {
    "capture": "152834-amazon-hisense-qd7-qd7qf-lcae9jw-cg8mvhj",
@@ -510,7 +630,98 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery has 7 thumbnails; the last is a video tile labelled '7 VIDEOS', so I counted 6 images. The bullet list has a 'Show more' link, so more bullets may be hidden. The specs table is partly truncated with a 'See more' link."
+   "read": {
+    "images": 6,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery has 7 thumbnails; I counted the last one (marked '7 VIDEOS') as video, not an image. The About this item list ends with a 'Show more' link, and the spec table also has a 'See more' link."
+  },
+  "l-b0dyvr565m|bestbuy": {
+   "capture": "152940-best-buy-hisense-qd7-qd7qf-lcc7bf1-c8szzl3",
+   "date": "2026-09-29",
+   "model": "l-b0dyvr565m",
+   "fields": {
+    "images": 1,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 0,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 1,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 0,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [],
+   "notes": "The item is unavailable in new condition. The page shows one product image, a 4.4 (49) star rating, and links for 'See all specifications' and 'See all features'. Reviews and 'From the Manufacturer' are collapsed accordions, so no written review text, feature bullets, or A+ content is visible."
+  },
+  "l-b0f1dv217b|walmart": {
+   "capture": "152921-walmart-hisense-u8-u8qg-l7knx6m-ctob05z",
+   "date": "2026-09-29",
+   "model": "l-b0f1dv217b",
+   "fields": {
+    "images": 9,
+    "video": 0,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 0,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The item shows as out of stock with a smiley overlay near the price box. The gallery shows 6 thumbnails plus a '+24 View all' tile. The 'Hear overview and reviews' and 'View in 3D' buttons are not videos. The reviews section says 'This item does not have any reviews yet'."
+  },
+  "l-b0f1dv217b|bestbuy": {
+   "capture": "153130-best-buy-hisense-u8-u8qg-ltxfepw-cgf108r",
+   "date": "2026-09-29",
+   "model": "l-b0f1dv217b",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white section appears below the reviews and ends in a 'See more' button; it likely failed to render, so any brand rich content there could not be assessed. The bullet count is 6 Highlights tiles plus 2 visible Features bullets."
   },
   "l-b0f1dv217b|amazon": {
    "capture": "152954-amazon-hisense-u8-u8qg-lo4yqpf-cwa8qhy",
@@ -525,22 +736,100 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails, a '22+' tile and a '11 VIDEOS' tile. The about-this-item list has a 'Show more' link, so more than 7 bullets may exist."
-  },
-  "l-b0ffww5bzz|bestbuy": {
-   "capture": "154059-best-buy-lg-b5-oled-l7axahr-ceyp15u",
-   "date": "2026-09-29",
-   "model": "l-b0ffww5bzz",
-   "fields": {
+   "read": {
     "images": 9,
     "video": 3,
-    "aplus": 0,
-    "bullets": 4,
+    "aplus": 1,
+    "bullets": 6,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank white module sits above the Featured products section with only a 'See more' link visible, so any brand A+ content did not render; the fourth feature bullet (Ultimate Game Play) is faded and cut off."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Full page is visible. The gallery shows 5 image thumbnails plus a '22+' tile, and the video thumbnail is labelled '11 VIDEOS'. The About this item list ends with a 'Show more' link, and the spec table has a 'See more' link."
+  },
+  "l-b0f53cz4wt|bestbuy": {
+   "capture": "153417-best-buy-tcl-qm8k-ltvftrg-chy4wdp",
+   "date": "2026-09-29",
+   "model": "l-b0f53cz4wt",
+   "fields": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large white section below Reviews rendered blank (ending in a 'See more' link), so any brand rich content there could not be seen; the unavailable-for-pickup/delivery state and a chat avatar overlay were also present."
+  },
+  "l-b0f53cz4wt|walmart": {
+   "capture": "153125-walmart-tcl-qm8k-lc203ih-cdnhr39",
+   "date": "2026-09-29",
+   "model": "l-b0f53cz4wt",
+   "fields": {
+    "images": 9,
+    "video": 0,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 0,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Item is out of stock, with a 'Sorry, this item is out of stock' banner on top. The Specs section and the Product details and Specifications accordions are collapsed. Several large blank gaps appear in the page tiles. The page shows 0 ratings and no reviews."
+  },
+  "l-b0f53cz4wt|amazon": {
+   "capture": "153226-amazon-tcl-qm8k-llb4os3-ceuio0h",
+   "date": "2026-09-29",
+   "model": "l-b0f53cz4wt",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery's sixth tile carries a '15+' overlay and the thumbnail strip also shows '7 VIDEOS'. The about-this-item list is followed by a 'See more product details' link, and the spec table fades out under 'See more'."
   },
   "l-b0ffww5bzz|amazon": {
    "capture": "154008-amazon-lg-b5-oled-lvfqj46-clr59q4",
@@ -555,28 +844,7 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 image thumbnails, a '7+' tile and a '9 VIDEOS' tile. The page is fully visible, though the first tile's About this item list is cut off, so the bullets were counted from the second tile."
-  },
-  "l-b0f53cz4wt|bestbuy": {
-   "capture": "153417-best-buy-tcl-qm8k-ltvftrg-chy4wdp",
-   "date": "2026-09-29",
-   "model": "l-b0f53cz4wt",
-   "fields": {
-    "images": 9,
-    "video": 2,
-    "aplus": 0,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "A large blank white module sits below the reviews and ends in a 'See more' link, so any brand rich content there is not visible; images are 6 thumbnails plus the '+17 more' tile, and the 2 Videos and Customer Images tiles are counted separately."
-  },
-  "l-b0f53cz4wt|amazon": {
-   "capture": "153226-amazon-tcl-qm8k-llb4os3-ceuio0h",
-   "date": "2026-09-29",
-   "model": "l-b0f53cz4wt",
-   "fields": {
+   "read": {
     "images": 9,
     "video": 3,
     "aplus": 1,
@@ -585,7 +853,8 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails plus a '15+' tile, so the image count is 5 + 15 = 20, though the '15+' tile itself may be a thumbnail. The '7 VIDEOS' label gives the video count. The page was fully visible with no pop-ups, though the first tile showed some images still loading."
+   "collapsed": [],
+   "notes": "The page rendered fully. The gallery shows 5 image thumbnails plus a '7+' tile, which I counted as 7 more images, and a '9 VIDEOS' tile. The About this item list reads in full across tiles, though a faded 'See more' spec table and a 'See more product details' link remain."
   },
   "l-b0ffww5bzz|walmart": {
    "capture": "153535-walmart-lg-b5-oled-l31czwl-cd8d7nl",
@@ -595,27 +864,78 @@
     "images": 9,
     "video": 1,
     "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
     "bullets": 6,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The item is out of stock, with a 'Sorry, this item is out of stock' banner and a chat-bubble overlay partly covering the Open Box option; the Brand Highlights content is truncated behind 'See More'."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The item is out of stock, and a smiley chat widget covers part of the Open Box option. The gallery shows 6 thumbnails plus a \"+8 View all\" tile, and one thumbnail has a play icon. The key features list has 6 bullets but links to \"View all item details\". The LG brand content module is partly cut off by a \"See More\" link."
   },
-  "l-b0gj1dbyhb|walmart": {
-   "capture": "153020-walmart-hisense-u7-2026-l9k4lx8-c4eo77u",
+  "l-b0ffww5bzz|bestbuy": {
+   "capture": "154059-best-buy-lg-b5-oled-l7axahr-ceyp15u",
    "date": "2026-09-29",
-   "model": "l-b0gj1dbyhb",
+   "model": "l-b0ffww5bzz",
    "fields": {
     "images": 9,
-    "video": 0,
-    "aplus": 1,
-    "bullets": 3,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The key features list is truncated at the third bullet (\"View all item details\"), so more bullets may exist. The gallery's 7th tile shows \"+16\" and is counted as a thumbnail plus 16 more. A chat smiley widget partly covers the TV mounting add-on options, and the first part of the full-page capture was a duplicate of the top view."
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 4,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white panel with only a 'See more' link sits below the reviews, so any A+ or brand content there did not render and was not counted; the video count comes from the '5 Videos' gallery tile."
+  },
+  "l-b0gj1dbyhb|amazon": {
+   "capture": "153338-amazon-hisense-u7-2026-lmfv5j5-c1c5789",
+   "date": "2026-09-29",
+   "model": "l-b0gj1dbyhb",
+   "fields": {
+    "images": 7,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 7,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 6 thumbnails plus a 27+ tile (counted as 27 more) and a video tile, so I took 7 as the visible thumbnails count and left the +N out of the total; the 8 videos come from the '8 VIDEOS' label. The About this item list shows 5 bullets with a 'See more product details' link, and the specs table is cut off with 'See more'. The first tile repeats a sticky header and the last tile cuts off mid-review."
   },
   "l-b0gj1dbyhb|bestbuy": {
    "capture": "153309-best-buy-hisense-u7-2026-lesws1w-col5kk8",
@@ -625,12 +945,105 @@
     "images": 9,
     "video": 2,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
     "bullets": 2,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank panel below the reviews (likely the brand rich-content module) did not render, so A+ content could not be confirmed; the Features list is truncated with only two bullets fully visible, and a chat avatar overlaps the delivery options."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white section sits between the reviews and the 'See more' link, so any A+ or brand content there did not render and is not counted. The feature list fades out above 'See all features', so only two bullets are fully readable. The six Highlights tiles are spec tiles and are not counted as bullets."
+  },
+  "l-b0gm348h9m|walmart": {
+   "capture": "154046-walmart-sony-bravia-3-ii-l79px03-cep73r2",
+   "date": "2026-09-29",
+   "model": "l-b0gm348h9m",
+   "fields": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The first tile of the page rendered partly blank, and a floating smiley widget covers part of the mounting-service box. The gallery shows 5 thumbnails and a '+20 View all' tile, and the first thumbnail after the main image has a play icon, so I counted 1 video. The A+ module is shown only as a banner with a 'See More' link."
+  },
+  "l-b0gm348h9m|bestbuy": {
+   "capture": "162115-best-buy-sony-bravia-3-ii-ltg44vi-c1tnc8k",
+   "date": "2026-09-29",
+   "model": "l-b0gm348h9m",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 4,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white module sits above a 'See more' link (likely unrendered lower-page content), so any brand rich content there could not be confirmed; the features list fades out with a 'See all features' link."
+  },
+  "l-b0gj1dbyhb|walmart": {
+   "capture": "153020-walmart-hisense-u7-2026-l9k4lx8-c4eo77u",
+   "date": "2026-09-29",
+   "model": "l-b0gj1dbyhb",
+   "fields": {
+    "images": 9,
+    "video": 0,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 0,
+    "aplus": 1,
+    "bullets": 3,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 7 thumbnails plus a '+16' tile, giving 23 images. The key features list is cut off with 'View all item details', and only 3 bullets are visible, the last truncated. The Brand Highlights banner is clipped by 'See More'. No video was seen. A chat smiley icon overlaps part of the page."
   },
   "l-b0gm348h9m|amazon": {
    "capture": "155028-amazon-sony-bravia-3-ii-lsp0z7i-c1rbrju",
@@ -645,22 +1058,19 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "Page is fully visible with no pop-ups. The gallery shows 5 image thumbnails, a '23+' tile and a video tile labelled '9 VIDEOS'. The about-this-item list has a 'Show more' link, so more bullets may be hidden."
-  },
-  "l-b0gm348h9m|bestbuy": {
-   "capture": "162115-best-buy-sony-bravia-3-ii-ltg44vi-c1tnc8k",
-   "date": "2026-09-29",
-   "model": "l-b0gm348h9m",
-   "fields": {
+   "read": {
     "images": 9,
     "video": 3,
-    "aplus": 0,
-    "bullets": 4,
+    "aplus": 1,
+    "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank white panel with a 'See more' link sits below the reviews, probably unrendered content that may hold A+ material, so I could not confirm it; the feature list is truncated at four bullets, with more behind 'See all features'."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Full page was readable. The gallery shows 5 image thumbnails plus a '23+' tile and a '9 VIDEOS' tile, and the About this item list has a 'Show more' link."
   },
   "l-b0gpt7dgdr|bestbuy": {
    "capture": "153947-best-buy-tcl-qm7l-llx69c9-c4zqpe2",
@@ -670,12 +1080,51 @@
     "images": 9,
     "video": 2,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
     "bullets": 3,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank card with only a 'See more' link sits below the reviews, so any brand rich content there did not render; the Features list is truncated after three bullets, with the third cut off."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large white block below the reviews, ending in a 'See more' link, rendered blank, so any brand rich content there could not be seen and aplus is scored false; the feature list fades out at the third bullet; the image count is 6 thumbnails plus the '+20 more' tile."
+  },
+  "l-b0gpt7dgdr|amazon": {
+   "capture": "153739-amazon-tcl-qm7l-l91ujyu-cnlkwh8",
+   "date": "2026-09-29",
+   "model": "l-b0gpt7dgdr",
+   "fields": {
+    "images": 7,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 7,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Gallery shows 6 image thumbnails plus a '7 VIDEOS' tile. The video count of 7 is read from the Product Videos module, which lists 6 videos with a 7th partly cut off. The About this item list shows 7 bullets and ends with a 'Show more' link, and the spec table is also cut off by a 'See more' link."
   },
   "l-b0gpt7dgdr|walmart": {
    "capture": "153329-walmart-tcl-qm7l-l1yfj5z-c8opnzj",
@@ -685,72 +1134,24 @@
     "images": 9,
     "video": 1,
     "aplus": 1,
-    "bullets": 4,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "The gallery shows 6 thumbnails plus a '+22 View all' tile, so I counted 28 images. One thumbnail has a play icon, so I counted 1 video. The Brand Highlights banner is only partly expanded, and the Specs section is collapsed."
-  },
-  "l-b0gpt7dgdr|amazon": {
-   "capture": "153739-amazon-tcl-qm7l-l91ujyu-cnlkwh8",
-   "date": "2026-09-29",
-   "model": "l-b0gpt7dgdr",
-   "fields": {
-    "images": 9,
-    "video": 3,
-    "aplus": 1,
     "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "Page is fully visible with no pop-ups. The gallery shows 5 plain thumbnails plus a '19+' tile, counted as 19 more images, and a '7 VIDEOS' tile."
-  },
-  "l-b0gpy4y2vf|bestbuy": {
-   "capture": "154958-best-buy-samsung-s90h-ldqbedg-cou5haf",
-   "date": "2026-09-29",
-   "model": "l-b0gpy4y2vf",
-   "fields": {
+   "read": {
     "images": 9,
-    "video": 3,
-    "aplus": 0,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "A large blank white card sits below the reviews, ending in a 'See more' link, so any brand rich content there did not render. The Features list is cut off after two visible bullets, and the first image is the same top view as the second."
-  },
-  "l-b0gpy6ztjg|bestbuy": {
-   "capture": "154635-best-buy-samsung-qn70h-ldbvabz-cb114gl",
-   "date": "2026-09-29",
-   "model": "l-b0gpy6ztjg",
-   "fields": {
-    "images": 9,
-    "video": 3,
-    "aplus": 0,
-    "bullets": 2,
-    "specs": 1,
-    "reviews": 1,
-    "titleKw": 1
-   },
-   "notes": "A large blank white module sits above a 'See more' link, probably unrendered content, so A+ content could not be confirmed; the Features list is cut off after 2 visible bullets, and a separate Highlights grid shows 5 attribute tiles that I did not count as bullets."
-  },
-  "l-b0gpy6ztjg|amazon": {
-   "capture": "154629-amazon-samsung-qn70h-ltm4woq-cjdbpbn",
-   "date": "2026-09-29",
-   "model": "l-b0gpy6ztjg",
-   "fields": {
-    "images": 9,
-    "video": 3,
+    "video": 1,
     "aplus": 1,
-    "bullets": 5,
+    "bullets": 4,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The full page is visible; the gallery shows 5 plain thumbnails, a 6th tile marked '7+', and a video tile labeled '6 VIDEOS'. I counted that 6th tile as one visible image plus 7 more."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery's last tile shows '+22' (counted as 22 more) and one thumbnail has a play icon (counted as the video); the first tile is blank in the tall render and the Key item features list ends with 'View all item details'."
   },
   "l-b0gpy4y2vf|amazon": {
    "capture": "154754-amazon-samsung-s90h-l73y71w-cnco6js",
@@ -760,32 +1161,83 @@
     "images": 9,
     "video": 3,
     "aplus": 1,
-    "bullets": 5,
+    "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 0
    },
-   "notes": "The title names the 55-inch size, not 65-inch, so titleKw is false. The gallery shows 6 image thumbnails (the last one is a '7+' tile) plus a '14 VIDEOS' tile, so images is 6+7=13. The full page was visible, though the top banner area rendered blank."
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 6,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 0
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The title names Samsung, S90H, OLED and 4K, but its size is 55-Inch rather than 65-inch, so titleKw is false. The About this item list ends with a 'See more product details' link, and the gallery shows 5 thumbnails plus a '7+' tile and a '14 VIDEOS' tile."
   },
-  "l-b0grk5d3rw|bestbuy": {
-   "capture": "154326-best-buy-lg-c6-oled-l6a0ee3-c8klyxa",
+  "l-b0gpy4y2vf|walmart": {
+   "capture": "153945-walmart-samsung-s90h-lhl04u9-c8y32n2",
    "date": "2026-09-29",
-   "model": "l-b0grk5d3rw",
+   "model": "l-b0gpy4y2vf",
    "fields": {
     "images": 9,
-    "video": 2,
-    "aplus": 0,
-    "bullets": 3,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank white block with only a 'See more' link sits between the reviews and Featured products, probably unrendered brand content, so A+ is not counted. The Features list is cut off after 3 bullets, and the third is truncated."
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 2,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The Key item features box shows only 2 bullets, each cut off with an ellipsis and a 'View all item details' link. The brand features module is mostly blank with a 'See More' toggle. The video count comes from one gallery thumbnail with a play icon."
   },
-  "l-b0grkchdwp|amazon": {
-   "capture": "153850-amazon-lg-qned84b-lszjiyl-c6us0b7",
+  "l-b0gpy4y2vf|target": {
+   "capture": "155231-target-samsung-s90h-l1fo0hz-cjgdscc",
    "date": "2026-09-29",
-   "model": "l-b0grkchdwp",
+   "model": "l-b0gpy4y2vf",
+   "fields": {
+    "images": 4,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 4,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The product is out of stock. The gallery shows 4 thumbnails plus a 'Show more images' button with no count, so the image total is a minimum. The only video is a brand video in the From the brand section. The Highlights list is cut off by a 'Show more' button, and the Specifications section is collapsed."
+  },
+  "l-b0gpy6ztjg|amazon": {
+   "capture": "154629-amazon-samsung-qn70h-ltm4woq-cjdbpbn",
+   "date": "2026-09-29",
+   "model": "l-b0gpy6ztjg",
    "fields": {
     "images": 9,
     "video": 3,
@@ -795,7 +1247,46 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The full page is visible. The gallery's 10+ tile was read as 10 more images beyond the 5 plain thumbnails, and the '8 VIDEOS' label gave the video count."
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The full page is visible; the gallery shows 6 thumbnails plus a '+7' tile and a '6 VIDEOS' tile. The About this item list ends with a 'See more product details' link."
+  },
+  "l-b0gpy4y2vf|bestbuy": {
+   "capture": "154958-best-buy-samsung-s90h-ldqbedg-cou5haf",
+   "date": "2026-09-29",
+   "model": "l-b0gpy4y2vf",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 2,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white block below the reviews rendered empty and ends in a 'See more' link, so any brand rich content there could not be seen; the features list is cut off with a 'See all features' link."
   },
   "l-b0gpy6ztjg|walmart": {
    "capture": "153848-walmart-samsung-qn70h-l4k4sjw-cgxaem3",
@@ -805,12 +1296,78 @@
     "images": 9,
     "video": 1,
     "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
     "bullets": 2,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 6 thumbnails plus a '+11 View all' tile, so I counted the tile's own image and added 11. Key item features is truncated with 'View all item details' and shows only 2 bullets. A smiley-face chat widget overlaps the mounting-service box."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 7 thumbnails plus a '+11' tile, and the first thumbnails have a play icon indicating one video. The key features list is truncated with a 'View all item details' link and shows 2 bullets. The brand content under 'Brand Highlights' is cut off by 'See More'. Specs is a collapsed accordion. The first part of the page rendered partly blank, and a floating smiley feedback widget overlaps the right panel."
+  },
+  "l-b0gpy6ztjg|bestbuy": {
+   "capture": "154635-best-buy-samsung-qn70h-ldbvabz-cb114gl",
+   "date": "2026-09-29",
+   "model": "l-b0gpy6ztjg",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white card sits between the reviews and the Featured products block, with only a 'See more' link at its bottom. It may be unrendered brand content, but none is visible, so aplus is false. The Features list fades out and has a 'See all features' link. The bullet count is 2 readable feature bullets plus 5 Highlights tiles."
+  },
+  "l-b0grk5d3rw|bestbuy": {
+   "capture": "154326-best-buy-lg-c6-oled-l6a0ee3-c8klyxa",
+   "date": "2026-09-29",
+   "model": "l-b0grk5d3rw",
+   "fields": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 2,
+    "aplus": 0,
+    "bullets": 3,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank panel with only a 'See more' link sits below the reviews, so any brand rich content there did not render and is not counted; the features list fades out with a 'See all features' link."
   },
   "l-b0grk5d3rw|amazon": {
    "capture": "154249-amazon-lg-c6-oled-l910aqe-cs1hyci",
@@ -825,7 +1382,19 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery shows 5 plain thumbnails, a '25+' tile and an '8 VIDEOS' tile; I counted 5 + 25 images and took the 8 videos from the label. The About this item list is truncated behind 'Show more', so 7 bullets are visible."
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery's sixth tile shows a '25+' overlay, so the image count of 31 (6 thumbnails + 25) is an estimate. The '8 VIDEOS' tile gives the video count. The 'About this item' list has a 'Show more' link, so it continues past the 7 visible bullets."
   },
   "l-b0grkchdwp|bestbuy": {
    "capture": "153838-best-buy-lg-qned84b-lkt9hxa-cconedv",
@@ -835,12 +1404,78 @@
     "images": 9,
     "video": 1,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 0,
     "bullets": 3,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large white block below the reviews (ending in a 'See more' link) rendered blank, so any brand rich content there is not visible; the feature list is truncated with 'See all features', and a chat avatar overlay sits on the buy box."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank white module with only a 'See more' link sits below the reviews, possibly unrendered brand content, so I did not count it as A+; the feature list fades out and has a 'See all features' link."
+  },
+  "l-b0gt8glwzh|bestbuy": {
+   "capture": "152914-best-buy-hisense-u6-pro-2026-l6ov7yx-cs6fw67",
+   "date": "2026-09-29",
+   "model": "l-b0gt8glwzh",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large white module below the reviews rendered blank, ending in a 'See more' link, so any brand rich content there could not be seen. Bullets are 6 Highlights tiles plus 2 visible feature bullets, and the features text fades out above 'See all features'."
+  },
+  "l-b0grkchdwp|amazon": {
+   "capture": "153850-amazon-lg-qned84b-lszjiyl-c6us0b7",
+   "date": "2026-09-29",
+   "model": "l-b0grkchdwp",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Full page was readable. The gallery shows 5 image thumbnails plus a '10+' tile and an '8 VIDEOS' tile. The about-this-item list has a 'Show more' link, and the spec table is truncated with a 'See more' link."
   },
   "l-b0gt8glwzh|amazon": {
    "capture": "153106-amazon-hisense-u6-pro-2026-lyg4np4-cx66mql",
@@ -855,52 +1490,73 @@
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The first tile is a capture of the full page; the gallery's '25+' tile was counted as 25 extra images, and the '9 VIDEOS' tile as 9 videos. The bullet list ends with a 'Show more' link, so more bullets may be hidden."
-  },
-  "l-b0h3l589w7|amazon": {
-   "capture": "154514-amazon-samsung-u8000h-l32rl8k-citcu9e",
-   "date": "2026-09-29",
-   "model": "l-b0h3l589w7",
-   "fields": {
+   "read": {
     "images": 9,
     "video": 3,
     "aplus": 1,
-    "bullets": 5,
+    "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The gallery's last tile shows '5+', so I counted 6 plain thumbnails plus 5 more; the video count comes from the 'Videos for this product' list, which is cut off at the bottom of its tile, so more may exist."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "Gallery shows 5 plain thumbnails plus a '25+' tile and a '9 VIDEOS' tile; the About this item list ends with a 'Show more' link, and the spec table is cut off with 'See more'."
   },
-  "l-b0gt8glwzh|bestbuy": {
-   "capture": "152914-best-buy-hisense-u6-pro-2026-l6ov7yx-cs6fw67",
+  "l-b0gt8glwzh|walmart": {
+   "capture": "152814-walmart-hisense-u6-pro-2026-l1o88qz-cciyxhq",
    "date": "2026-09-29",
    "model": "l-b0gt8glwzh",
    "fields": {
     "images": 9,
-    "video": 3,
+    "video": 0,
     "aplus": 0,
-    "bullets": 6,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 0,
+    "aplus": 0,
+    "bullets": 2,
+    "specs": 1,
+    "reviews": 0,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The item is out of stock, with a smiley feedback overlay covering part of the Shop similar button. The key features list is cut off by a View all item details link. The gallery shows 7 thumbnails plus a +16 tile, and no video or written reviews appear."
+  },
+  "l-b0h3l589w7|target": {
+   "capture": "155131-target-samsung-u8000h-l2r27t3-ckqgw84",
+   "date": "2026-09-29",
+   "model": "l-b0h3l589w7",
+   "fields": {
+    "images": 5,
+    "video": 2,
+    "aplus": 1,
+    "bullets": 7,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank module with only a 'See more' link sits below the reviews, so any brand rich content did not render and is not counted; the Features list is truncated, so bullets counts the 6 Highlights tiles."
-  },
-  "l-b0h3l589w7|walmart": {
-   "capture": "153736-walmart-samsung-u8000h-lf2ry7n-comwvqf",
-   "date": "2026-09-29",
-   "model": "l-b0h3l589w7",
-   "fields": {
-    "images": 9,
-    "video": 1,
+   "read": {
+    "images": 5,
+    "video": 2,
     "aplus": 1,
     "bullets": 2,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "The key features text is truncated with 'View all item details', so only 2 bullets are visible. Specs is a collapsed section. The gallery shows 6 thumbnails plus a '+10' tile. The brand content module is cut off behind 'See More'."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The Highlights list fades out behind a 'Show more' link, so only 2 bullets are readable. The gallery has a 'Show more images' button with no count, so I counted only the 5 visible images. The 2 videos are the gallery video tile and a play-button video in the From the brand section."
   },
   "l-b0h3l589w7|bestbuy": {
    "capture": "154815-best-buy-samsung-u8000h-lkuci48-clwsb30",
@@ -910,12 +1566,78 @@
     "images": 9,
     "video": 3,
     "aplus": 0,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 0,
     "bullets": 2,
     "specs": 1,
     "reviews": 1,
     "titleKw": 1
    },
-   "notes": "A large blank panel between the reviews and the 'See more' link looks like unrendered content, possibly brand rich content, so A+ is marked false. The Features list is truncated, with only 2 bullets visible, and a chat-agent bubble overlaps the buy box."
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "A large blank panel sits above a 'See more' link, probably an unrendered content module, so I could not confirm any A+ or brand content. The images count is 5 thumbnails plus the '+11 more' tile, and the 4 Videos, 3D and Customer Images tiles are not included in it."
+  },
+  "l-b0h3l589w7|amazon": {
+   "capture": "154514-amazon-samsung-u8000h-l32rl8k-citcu9e",
+   "date": "2026-09-29",
+   "model": "l-b0h3l589w7",
+   "fields": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 3,
+    "aplus": 1,
+    "bullets": 5,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The gallery shows 6 thumbnails plus a '5+' tile, so I counted 11 images. The Product Videos list is cut off at the bottom, so 7 is the minimum visible count. The 'See more product details' link and the 'See more' under the spec table suggest more feature lines than are shown."
+  },
+  "l-b0h3l589w7|walmart": {
+   "capture": "153736-walmart-samsung-u8000h-lf2ry7n-comwvqf",
+   "date": "2026-09-29",
+   "model": "l-b0h3l589w7",
+   "fields": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 7,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "read": {
+    "images": 9,
+    "video": 1,
+    "aplus": 1,
+    "bullets": 2,
+    "specs": 1,
+    "reviews": 1,
+    "titleKw": 1
+   },
+   "collapsed": [
+    "bullets"
+   ],
+   "notes": "The key features list is truncated with a 'View all item details' link, and Specs is a collapsed accordion. The gallery count assumes 6 thumbnails plus the '+10' tile, and the single video is the thumbnail with a play icon."
   }
  }
 }

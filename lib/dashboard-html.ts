@@ -201,6 +201,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <script src="${asset("cco-dashboard-pages.js")}"></script>
 <script src="${asset("cco-measured-pages.js")}"></script>
 <script src="${asset("cco-captures.js")}"></script>
+<script src="${asset("cco-landing.js")}"></script>
 <script src="${asset("cco-card-ask.js")}"></script>
 <script src="${asset("cco-provenance.js")}"></script>
 <script src="${asset("cco-atlas-blocks.js")}"></script>

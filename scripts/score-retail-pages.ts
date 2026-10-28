@@ -4,7 +4,7 @@ import { parseJsonObject } from "../lib/market-mechanics";
 
 type Page = { capture: string; date: string; retailer: string; model: string; title: string | null; height: number; tiles: string[] };
 type Fields = { images: number; video: number; aplus: number; bullets: number; specs: number; reviews: number; titleKw: number };
-type Scored = { capture: string; date: string; fields: Fields; notes: string; model: string };
+type Scored = { capture: string; date: string; fields: Fields; notes: string; model: string; collapsed: string[]; read: Fields };
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, all) => (a.startsWith("--") ? [a.slice(2), all[i + 1]] : [])).filter((x) => x.length));
 for (const k of ["slug", "manifest"]) if (!args[k]) throw new Error(`--${k} is required`);
@@ -23,7 +23,8 @@ Return this JSON object:
   "images": number of product images in the main image gallery: the visible thumbnails, plus N for a "+N" or "View all N" indicator (a "+13" tile means 13 more images, not one),
   "video": number of product videos offered in the gallery or on the page,
   "aplus": true if the page carries brand-supplied rich content below the fold (an "About this item from the brand", "From the manufacturer", A+ or enhanced-content module with banner images), else false,
-  "bullets": number of feature bullet points or key-feature lines in the highlights/about-this-item section,
+  "bullets": number of feature bullet points or key-feature lines you can read in the features / highlights / about-this-item section,
+  "bulletsCollapsed": true if that feature list is cut short on the page (a "See all features", "Show more", "View all item details" or "Read more" link, a closed accordion, or text that fades out), so the page carries more feature lines than are visible, else false,
   "specs": true if the page has a specifications section with technical attributes (resolution, refresh rate, HDR, ports, dimensions), including a collapsed "Specs" or "Specifications" section the shopper can expand, else false,
   "reviews": true if customer reviews are shown on the page with a star rating and at least one written review, else false,
   "titleKw": true if the listing title names the brand, the model or series, the 65-inch size and the display technology (for example OLED, Mini-LED, QLED, 4K), else false,
@@ -37,8 +38,10 @@ async function score(p: Page): Promise<Scored> {
   const text = await callLLMVision({ system: SYSTEM, text: prompt(p), images, maxTokens: 1200 });
   const raw = parseJsonObject(text) as Record<string, unknown> | null;
   if (!raw) throw new Error(`no JSON for ${p.capture}: ${text.slice(0, 120)}`);
-  const fields = Object.fromEntries(Object.entries(MAX).map(([k, max]) => [k, num(raw[k], max)])) as Fields;
-  return { capture: p.capture, date: p.date, model: p.model, fields, notes: typeof raw.notes === "string" ? raw.notes : "" };
+  const read = Object.fromEntries(Object.entries(MAX).map(([k, max]) => [k, num(raw[k], max)])) as Fields;
+  const collapsed = raw.bulletsCollapsed === true && read.bullets > 0 ? ["bullets"] : [];
+  const fields: Fields = collapsed.includes("bullets") ? { ...read, bullets: MAX.bullets } : read;
+  return { capture: p.capture, date: p.date, model: p.model, fields, read, collapsed, notes: typeof raw.notes === "string" ? raw.notes : "" };
 }
 
 async function main(): Promise<void> {

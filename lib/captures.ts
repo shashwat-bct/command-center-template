@@ -54,7 +54,8 @@ const MAX_CACHED = 24;
  * A payload with the brand's product-page captures added as `captures`, or unchanged when it has none.
  */
 export function withCaptures(slug: string, buildId: string, bytes: Buffer): Buffer {
-  const stamp = existsSync(capturesPath(slug)) ? statSync(capturesPath(slug)).mtimeMs : 0;
+  const pdpPath = join(process.cwd(), "brand-data", `${slug}.pdp.json`);
+  const stamp = existsSync(capturesPath(slug)) ? statSync(capturesPath(slug)).mtimeMs + (existsSync(pdpPath) ? statSync(pdpPath).mtimeMs : 0) : 0;
   if (!stamp) return bytes;
   const key = `${slug}/${buildId}/${bytes.length}/${stamp}`;
   const hit = attached.get(key);
@@ -63,7 +64,8 @@ export function withCaptures(slug: string, buildId: string, bytes: Buffer): Buff
     const set = loadCaptures(slug);
     const end = bytes.lastIndexOf("}");
     if (!set || end < 0) return bytes;
-    const out = Buffer.concat([bytes.subarray(0, end), Buffer.from(`,"captures":${JSON.stringify(set)}`), bytes.subarray(end)]);
+    const reads = loadPdpReads(slug);
+    const out = Buffer.concat([bytes.subarray(0, end), Buffer.from(`,"captures":${JSON.stringify({ ...set, reads })}`), bytes.subarray(end)]);
     if (attached.size >= MAX_CACHED) attached.delete(attached.keys().next().value as string);
     attached.set(key, out);
     return out;
@@ -85,7 +87,14 @@ export async function readCaptureImage(slug: string, file: string): Promise<Buff
   }
 }
 
-type PdpPage = { capture: string; date: string; model: string; fields: Record<string, number>; notes: string };
+type PdpPage = { capture: string; date: string; model: string; fields: Record<string, number>; notes: string; collapsed?: string[]; read?: Record<string, number> };
+
+function loadPdpReads(slug: string): Record<string, { collapsed: string[]; read: Record<string, number> | null; notes: string }> {
+  const path = join(process.cwd(), "brand-data", `${slug}.pdp.json`);
+  if (!existsSync(path)) return {};
+  const data = JSON.parse(readFileSync(path, "utf8")) as { pages?: Record<string, PdpPage> };
+  return Object.fromEntries(Object.entries(data.pages ?? {}).map(([key, p]) => [key, { collapsed: p.collapsed ?? [], read: p.read ?? null, notes: p.notes }]));
+}
 
 /**
  * Product-page content signals read from each retailer page capture (brand-data/<slug>.pdp.json),
