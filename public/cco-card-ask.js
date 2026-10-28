@@ -35,6 +35,7 @@ function build() {
   if (pop) return pop;
   pop = document.createElement("div");
   pop.className = "qpop";
+  pop.addEventListener("transitionend", () => { if (!pop.classList.contains("on")) { pop.style.top = "0px"; pop.style.left = "0px"; } });
   pop.innerHTML = `
     <div class="qp-body">
       <h4 class="qp-t"></h4>

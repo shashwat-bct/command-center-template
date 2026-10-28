@@ -42,7 +42,7 @@ function verdict() {
   const list = (xs) => xs.map((x) => metricLink(x.m)).join(", ");
   const line = (dot, label, xs, tail) => (xs.length ? `<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0"><i style="flex:none;width:8px;height:8px;border-radius:50%;background:${dot}"></i><span><b>${label} ${xs.length}:</b> ${list(xs)}${tail ? ` <span class="mini">${tail}</span>` : ""}</span></div>` : "");
   const body = line("#1e8e3e", "Leads the set on", first) + line("#d93025", "Ranks last of " + (rows[0] ? rows[0].o.of : ""), last) + line("#e37400", "Moving the wrong way on", worse, "against the prior period")
-    + (neutral.length ? `<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0"><i style="flex:none;width:8px;height:8px;border-radius:50%;background:#9aa0a6"></i><span><b>Promotion stance:</b> ${neutral.map((x) => `${metricLink(x.m)} ${fmtFor(x.m.id)(x.o.value)} (#${x.o.rank} of ${x.o.of})`).join(", ")} <span class="mini">neither direction is better; it is a choice</span></span></div>` : "");
+    + (neutral.length ? `<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0"><i style="flex:none;width:8px;height:8px;border-radius:50%;background:#9aa0a6"></i><span><b>Pricing stance:</b> ${neutral.map((x) => `${metricLink(x.m)} ${fmtFor(x.m.id)(x.o.value)} (#${x.o.rank} of ${x.o.of})`).join(", ")} <span class="mini">neither direction is better; it is a choice</span></span></div>` : "");
   return body ? `<div class="card" style="margin-bottom:14px"><div class="card-h"><div class="ct"><h3>Where ${esc(SUBJ)} stands</h3><p>Across the ${rows.length} measures with a reading. Each measure opens the page that explains it.</p></div></div><div style="font-size:14px">${body}</div></div>` : "";
 }
 
@@ -67,7 +67,7 @@ P.scorecard = (host) => {
   <div class="grid g3" style="margin-bottom:14px">${hi.map((m) => metricKpi(m, S)).join("")}</div>
   ${card({ title: `The ${numWord(nMeasures)} measures, ${d.dims.brands.length} brands, one page`, help: "The full scorecard: every driver in the rail resolves to one of these measures, read at the cadence selected above. Rank is computed on each measure's own direction, so on delivery promise and discount depth a lower number ranks better. The sparkline is always the thirteen weekly readings, whatever cadence is showing.", sub: `${SUBJ} column highlighted. Rank is computed on each measure's own direction — on delivery promise and promotional depth a lower number ranks better. Sparkline is the 13 weekly readings, regardless of the cadence selected.`, tag: "360° scorecard", tagCls: "acc", html: `<div class="sc-wrap" id="scTable"></div>` })}
   <div class="grid g2" style="margin-top:14px">
-    ${card({ title: "Where each brand stands", help: "A radar of eight measures, each rescaled across the brands in the set, so the outer edge is the best in this category rather than an absolute. It answers shape rather than size: a brand strong everywhere looks round, a brand with one weapon looks like a star.", sub: "One shape per brand, each over the same grey category average. Read the spikes: a brand that is strong everywhere looks round, a brand with one weapon looks like a star.", slot: "scRadar" })}
+    ${card({ title: "Where each brand stands", help: "A radar of the measures where more is better, each rescaled across the brands in the set, so the outer edge is the best in this category rather than an absolute. Price against list and promotion are left off: holding or cutting price is a choice, not a strength. It answers shape rather than size: a brand strong everywhere looks round, a brand with one weapon looks like a star.", sub: "One shape per brand, each over the same grey category average. Read the spikes: a brand that is strong everywhere looks round, a brand with one weapon looks like a star.", slot: "scRadar" })}
     ${card({ title: "Rank movement through the quarter", help: "Weekly position rather than weekly level. A share chart answers how much; this answers who is winning, which is a different question. Measures are offered most-volatile first, so a flat chart means the order held all quarter — itself a finding.", sub: "Weekly rank, not level — it answers who is winning, which a share chart does not.",
       html: `<div class="seg mini wrap" id="scBumpPick" style="margin-bottom:12px"></div><div id="scBump"></div>` })}
   </div>
@@ -99,7 +99,7 @@ P.scorecard = (host) => {
   // ── radar: each brand's position, normalised across the set
   const axes = [
     { id: "trafficShare", label: "Traffic" }, { id: "aiSov", label: "AI" }, { id: "shelfSov", label: "Shelf" },
-    { id: "carriage", label: "Distr." }, { id: "inStock", label: "Stock" }, { id: "priceIndex", label: "Price" },
+    { id: "carriage", label: "Distr." }, { id: "inStock", label: "Stock" },
     { id: "rating", label: "Rating" }, { id: "pdpScore", label: "Page" },
   ].filter((a) => has(a.id));
   // A withheld measure returns null, not a middle value: half-way along the

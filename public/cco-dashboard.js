@@ -141,7 +141,7 @@ function rankTone(rank, of) { return of > 1 && rank === 1 ? " top" : of > 2 && r
 function rankChip(metricId, brand) {
   const o = sc(metricId, brand);
   if (!o.rank) return "";
-  return `<span class="rankchip${rankTone(o.rank, o.of)}">${o.tied ? "tied " : ""}#${o.rank} of ${o.of}</span>`;
+  return `<span class="rankchip${metricDef(metricId).good === "neutral" ? "" : rankTone(o.rank, o.of)}">${o.tied ? "tied " : ""}#${o.rank} of ${o.of}</span>`;
 }
 const SHOW_SRC = document.body.dataset.sources === "on";
 const SINGLE_SOURCE = new Set(["aiSov", "rating"]);

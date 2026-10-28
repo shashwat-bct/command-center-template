@@ -1205,7 +1205,7 @@ const METRICS = [
   { id: "carriage",     group: "distribution", label: "Distribution points",       unit: "%",    good: "up",   fn: carriagePoints, fmt: (v) => r1(v) + "%" },
   { id: "inStock",      group: "distribution", label: "In-stock rate",             unit: "%",    good: "up",   fn: inStockRate, fmt: (v) => r1(v) + "%" },
   { id: "leadTime",     group: "distribution", label: "Delivery promise",          unit: "d",    good: "down", fn: leadTimeDays, cells: leadTimeCells, fmt: (v) => r1(v) + "d" },
-  { id: "priceIndex",   group: "commercial",   label: "Price index vs MSRP",       unit: "%",    good: "up",   fn: priceIndex, fmt: (v) => r1(v) + "%" },
+  { id: "priceIndex",   group: "commercial",   label: "Price index vs MSRP",       unit: "%",    good: "neutral",   fn: priceIndex, fmt: (v) => r1(v) + "%" },
   { id: "promoIntensity", group: "commercial", label: "Days on promotion",         unit: "%",    good: "neutral", fn: promoIntensity, fmt: (v) => r1(v) + "%" },
   { id: "promoDepth",   group: "commercial",   label: "Mean discount depth",       unit: "%",    good: "neutral", fn: promoDepth, fmt: (v) => r1(v) + "%" },
   { id: "rating",       group: "voice",        label: "Review rating",             unit: "★",    good: "up",   fn: (b, a, z) => rangeMean(ratingSeries[b], a, z), fmt: (v) => r2(v) + "★" },
@@ -1308,10 +1308,10 @@ const reads = {};
 if (!CFG.SKIP_READS) {
 
 { // ── overview
-  const st = standing(q("trafficShare"), S), sa = standing(q("aiSov"), S), ss = standing(q("shelfSov"), S), sp = standing(q("priceIndex"), S);
+  const st = standing(q("trafficShare"), S), sa = standing(q("aiSov"), S), ss = standing(q("shelfSov"), S), sp = standing(q("priceIndex"), S, "up", ["closest to list", "furthest below list"]);
   reads.overview = [
     { tone: "watch", text: `Over the 13 weeks ${SUBJ} holds ${r1(q("aiSov")[S])}% of the AI answer — ${sa.phrase} — against ${r1(q("shelfSov")[S])}% of the retail shelf, ${ss.phrase}. The brand is being recommended far more often than it is being seen on a result grid.` },
-    { tone: "good",  text: `Price discipline is intact: ${SUBJ} transacts at ${r1(q("priceIndex")[S])}% of MSRP, ${sp.phrase}, while the set as a whole runs at ${r1(mean(BIDS.map((b) => q("priceIndex")[b])))}%.` },
+    { tone: "watch", text: `${SUBJ} sells at ${r1(q("priceIndex")[S])}% of its list price, ${sp.phrase}, while the set as a whole runs at ${r1(mean(BIDS.map((b) => q("priceIndex")[b])))}%. Holding price is a stance, not a strength: it protects margin, and leaves the shopper who waits for a deal to the brands that cut deeper.` },
     { tone: "watch", text: `Share of category traffic sits at ${r1(q("trafficShare")[S])}%, ${st.phrase}, and moved ${fmtDelta(scorecard.qbr.trafficShare[S].delta, "pp")} between the open and the close of the quarter.` },
     (() => { const eps = stockEpisodes.filter((e) => e.brand === S), post = eps.filter((e) => e.afterPromo).length;
       const stI = standing(q("inStock"), S);
@@ -1430,12 +1430,12 @@ function fmtDelta(v, unit = "") { if (v == null) return "flat"; const s = v > 0 
   ];
 }
 { // ── pricing
-  const pi = q("priceIndex"), st = standing(pi, S);
+  const pi = q("priceIndex"), st = standing(pi, S, "up", ["closest to list", "furthest below list"]);
   const disp = dispersion.filter((d) => d.brand === S);
   const worst = disp.sort((a, b) => b.meanSpread - a.meanSpread)[0];
   const br = mapBreaches.filter((m) => m.brand === S);
   reads.pricing = [
-    { tone: "good",  text: `${SUBJ} realises ${r1(pi[S])}% of MSRP across the quarter, ${st.phrase} — the category runs ${r1(mean(BIDS.map((b) => pi[b])))}% and ${L[Object.entries(pi).filter((e) => e[1] != null).sort((a, b) => a[1] - b[1])[0][0]]} clears at ${r1(Math.min(...Object.values(pi).filter((v) => v != null)))}%.` },
+    { tone: "watch", text: `${SUBJ} realises ${r1(pi[S])}% of MSRP across the quarter, ${st.phrase} — the category runs ${r1(mean(BIDS.map((b) => pi[b])))}% and ${L[Object.entries(pi).filter((e) => e[1] != null).sort((a, b) => a[1] - b[1])[0][0]]} clears at ${r1(Math.min(...Object.values(pi).filter((v) => v != null)))}%.` },
     { tone: "watch", text: worst ? `${MID[worst.model].label} carries the widest cross-retailer spread at $${worst.meanSpread.toFixed(2)} on average and $${worst.maxSpread.toFixed(2)} at its widest — a shopper comparing two tabs sees two different brands.` : `Cross-retailer price spread stayed inside a dollar on every ${SUBJ} model.` },
     { tone: br.length ? "risk" : "good", text: br.length
         ? `${br.length} listing${br.length === 1 ? "" : "s"} traded below the ${Math.round(mapFloorPct[S] * 100)}% floor for ${br.reduce((a, x) => a + x.days, 0)} days in total, worst at ${Math.max(...br.map((x) => x.worstPct))}% under.`
