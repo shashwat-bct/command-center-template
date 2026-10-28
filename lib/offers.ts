@@ -41,3 +41,13 @@ export function withOffers(slug: string, buildId: string, bytes: Buffer): Buffer
     return bytes;
   }
 }
+
+/**
+ * The offers read on a brand's retailer product pages, for the build to turn into promotion events.
+ */
+export function loadReadOffers(slug: string): PageOffer[] {
+  const path = offersPath(slug);
+  if (!existsSync(path)) return [];
+  const data = JSON.parse(readFileSync(path, "utf8")) as { offers?: PageOffer[] };
+  return Array.isArray(data.offers) ? data.offers : [];
+}

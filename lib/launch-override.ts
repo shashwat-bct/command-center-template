@@ -203,6 +203,7 @@ export function buildRelabelInputs(input: {
   market?: MarketProfile | null;
   retail?: RetailCapture | null;
   retailPdp?: Record<string, Record<string, number>>;
+  retailOffers?: Array<Record<string, unknown>>;
   pinned?: string[];
   seed?: string;
   now?: Date;
@@ -424,6 +425,7 @@ export function buildRelabelInputs(input: {
     measuredListings: measured.listings,
     measuredDelivery: delivery.weekly,
     measuredPdpRetail: input.retailPdp ?? {},
+    measuredOffers: input.retailOffers ?? [],
     retailMsrp: retailReference(retail, measured.listings),
     rating: voice ? { ...series.rating, ...voice.rating } : series.rating,
     reviews: voice ? { ...series.reviews, ...voice.reviews } : series.reviews,
@@ -464,6 +466,7 @@ export default {
   MEASURED_DELIVERY_RETAIL: overlay.measuredDelivery,
   MEASURED_PDP,
   MEASURED_PDP_RETAIL: overlay.measuredPdpRetail,
+  MEASURED_OFFERS: overlay.measuredOffers,
   MEASURED_DELIVERY,
   MEASURED_RATING: overlay.rating,
   MEASURED_REVIEWS: overlay.reviews,

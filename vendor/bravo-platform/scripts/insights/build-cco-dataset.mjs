@@ -253,6 +253,29 @@ const capturedPriceDay = dIdx[MULTI.capturedAt.slice(0, 10)] ?? null;
 
 const promoEvents = [];
 let pid = 0;
+const READ_ONLY_PROMOS = (CFG.MEASURED_OFFERS || []).length > 0;
+const OFFER_TYPE = { financing: "financing", "gift-card": "giftcard", "free-item": "bundle", bundle: "bundle", shipping: "delivery", "trade-in": "tradein" };
+function pushReadOffers() {
+  const seen = new Set();
+  for (const o of CFG.MEASURED_OFFERS || []) {
+    const m = MID[o.model], i = dIdx[o.date];
+    if (!m || i == null) continue;
+    const text = String(o.summary || "");
+    let type = OFFER_TYPE[o.type] || null;
+    if (o.type === "financing" && /card|visa|mastercard|credit/i.test(text)) type = /\$\s?\d/.test(text) && /off|gift/i.test(text) ? "card" : PT.card ? "card" : "financing";
+    if (o.type === "badge" && /clearance/i.test(text)) type = "clearance";
+    if (!type || !PT[type]) continue;
+    const key = `${o.model}|${o.retailer}|${type}|${o.date}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const usd = Number((/\$\s?([\d,]+(?:\.\d+)?)/.exec(text) || [])[1]?.replace(/,/g, "")) || 0;
+    promoEvents.push({
+      id: `p${++pid}`, brand: m.brand, model: o.model, retailer: o.retailer, type, start: o.date, end: o.date, days: 1, alwaysOn: false,
+      depthPct: usd && m.msrp ? r1(clamp((usd / m.msrp) * 100, 0, 95)) : 0, depthUsd: r2(usd), addonUsd: 0, monthly: null, measured: true, read: text,
+      onEvent: (EVENTS.find((ev) => o.date >= ev.start && o.date <= ev.end) || {}).id || null,
+    });
+  }
+}
 function pushMeasuredDiscounts(m, mid, rt, price, list, from) {
   const depth = (j) => (price[j] != null && list[j] ? (1 - price[j] / list[j]) * 100 : 0);
   for (let i = from; i < NDAYS; i++) {
@@ -278,9 +301,11 @@ for (const key of pairs) {
 
   const real = measuredFor(key);
   if (real) {
-    pushMeasuredDiscounts(m, mid, rt, real.price, real.list, 0);
+    const readPrice = !READ_ONLY_PROMOS || rt === "amazon" || !real.read ? real.price : real.price.map((v, i) => (real.read[i] === 1 ? v : null));
+    pushMeasuredDiscounts(m, mid, rt, readPrice, real.list, 0);
     continue;
   }
+  if (READ_ONLY_PROMOS && m.measured) continue;
 
   // Always-on mechanics (protection, delivery, finance) run the whole window.
   for (const t of ALWAYS_ON) {
@@ -376,6 +401,7 @@ for (const p of promoEvents) {
   if (!promoDepthByDay[key]) continue;
   for (let i = dIdx[p.start]; i <= dIdx[p.end]; i++) promoDepthByDay[key][i] = Math.max(promoDepthByDay[key][i], p.depthPct);
 }
+pushReadOffers();
 
 // =============================================================================
 // 3 · PRICING — a daily street price per model per retailer

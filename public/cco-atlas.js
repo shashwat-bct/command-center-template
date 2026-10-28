@@ -107,7 +107,7 @@ function fillAnswer(body, a, done) {
   if (!a) { body.innerHTML = `<p class="atl-err">This analysis is no longer available.</p>`; return; }
   const r = blocksHtml(a.blocks, `chat-${a.id}-${Math.random().toString(36).slice(2, 7)}`);
   body.innerHTML = `${stepsHtml(a, done)}<p class="atl-head">${esc(a.headline)}</p>${kpisHtml(a.kpis)}${insightHtml(a)}${wwwHtml(a)}${r.html}${actionsHtml(a)}
-    <div class="atl-actions"><a class="atl-report-btn" href="#${esc(a.link.page)}">View full report · ${esc(a.link.label)} ${svg("arrow")}</a><span class="atl-src">${esc(atlas.sources.join(" · "))}</span></div>`;
+    <div class="atl-actions"><a class="atl-report-btn" href="#${esc(a.link.page)}">View full report · ${esc(a.link.label)} ${svg("arrow")}</a><span class="atl-src">Prepared from data read up to ${esc(atlas.generatedOn || "")} · ${esc(atlas.sources.join(" · "))}</span></div>`;
   drawCharts(body, r.keyed);
 }
 

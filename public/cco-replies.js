@@ -49,7 +49,7 @@ P.voice = (host) => {
     { label: "Top complaint", lft: true, get: (x) => (x.s.topNegative && x.s.topNegative.text ? `<span class="mini">${x.s.topNegative.rating}★ “${esc(x.s.topNegative.text.slice(0, 140))}${x.s.topNegative.text.length > 140 ? "…" : ""}”</span>` : "—") },
   ], summaries) : "";
 
-  const section = `<div class="grid" style="margin-top:14px;grid-template-columns:minmax(0,1fr)">
+  const section = `<h2 class="sec">How each brand responds</h2><div class="grid" style="grid-template-columns:minmax(0,1fr)">
     ${card({ title: "How brands handle their reviews", help: "For each brand's reviews at the retailers read: the share with a reply from the brand, the share of 1–2★ reviews it answered, and how many are verified purchases or marked incentivized.", sub: `${retailers.map((r) => RT(r).label).join(", ")} reviews. ${esc(lead)}`, html: tbl + quote })}
     ${sumHtml ? card({ title: `${SUBJ} products: the retailer's own review summary`, help: "The retailer's rating, recommend share, star breakdown, the themes it lists and its top critical review for each of the brand's products.", sub: "As the retailer summarises them on the product page.", html: sumHtml }) : ""}
   </div>`;

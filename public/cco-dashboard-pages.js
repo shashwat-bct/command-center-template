@@ -30,6 +30,22 @@ const GROUPS = [
 /* ══════════════════════════════════════════════════════════════════════════
    360° SCORECARD
    ══════════════════════════════════════════════════════════════════════════ */
+const METRIC_PAGE = { aiSov: "ai-funnel", shelfSov: "shelf", pdpScore: "landing", carriage: "carriage", inStock: "stock", leadTime: "delivery", priceIndex: "pricing", promoIntensity: "promotions", promoDepth: "promotions", rating: "voice" };
+const metricLink = (m) => (METRIC_PAGE[m.id] ? `<a href="#${METRIC_PAGE[m.id]}" style="color:inherit;text-decoration:underline;text-underline-offset:2px">${esc(m.label)}</a>` : esc(m.label));
+function verdict() {
+  const rows = D().dims.metrics.map((m) => ({ m, o: sc(m.id, S) })).filter((x) => x.o.value != null && x.o.rank && x.o.of);
+  const ranked = rows.filter((x) => x.m.good !== "neutral");
+  const first = ranked.filter((x) => x.o.rank === 1);
+  const last = ranked.filter((x) => x.o.rank === x.o.of);
+  const neutral = rows.filter((x) => x.m.good === "neutral");
+  const worse = rows.filter((x) => x.m.good !== "neutral" && x.o.delta != null && Math.abs(x.o.deltaPct || 0) >= 2 && (x.o.delta > 0) !== (x.m.good === "up"));
+  const list = (xs) => xs.map((x) => metricLink(x.m)).join(", ");
+  const line = (dot, label, xs, tail) => (xs.length ? `<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0"><i style="flex:none;width:8px;height:8px;border-radius:50%;background:${dot}"></i><span><b>${label} ${xs.length}:</b> ${list(xs)}${tail ? ` <span class="mini">${tail}</span>` : ""}</span></div>` : "");
+  const body = line("#1e8e3e", "Leads the set on", first) + line("#d93025", "Ranks last of " + (rows[0] ? rows[0].o.of : ""), last) + line("#e37400", "Moving the wrong way on", worse, "against the prior period")
+    + (neutral.length ? `<div style="display:flex;gap:10px;align-items:baseline;padding:4px 0"><i style="flex:none;width:8px;height:8px;border-radius:50%;background:#9aa0a6"></i><span><b>Promotion stance:</b> ${neutral.map((x) => `${metricLink(x.m)} ${fmtFor(x.m.id)(x.o.value)} (#${x.o.rank} of ${x.o.of})`).join(", ")} <span class="mini">neither direction is better; it is a choice</span></span></div>` : "");
+  return body ? `<div class="card" style="margin-bottom:14px"><div class="card-h"><div class="ct"><h3>Where ${esc(SUBJ)} stands</h3><p>Across the ${rows.length} measures with a reading. Each measure opens the page that explains it.</p></div></div><div style="font-size:14px">${body}</div></div>` : "";
+}
+
 P.scorecard = (host) => {
   const p = period(), d = D();
   const has = (id) => d.dims.metrics.some((m) => m.id === id);
@@ -47,6 +63,7 @@ P.scorecard = (host) => {
         <div><b style="color:var(--ink)">Against</b> · ${esc(p.prevLabel)}</div>
         <div><b style="color:var(--ink)">Retailers</b> · ${d.dims.retailers.length === 1 ? `${RT(d.dims.retailers[0].id).label} only` : U.retailer === "all" ? `all ${d.dims.retailers.length}` : RT(U.retailer).label}</div>
       </div></div>`)}
+  ${verdict()}
   <div class="grid g3" style="margin-bottom:14px">${hi.map((m) => metricKpi(m, S)).join("")}</div>
   ${card({ title: `The ${numWord(nMeasures)} measures, ${d.dims.brands.length} brands, one page`, help: "The full scorecard: every driver in the rail resolves to one of these measures, read at the cadence selected above. Rank is computed on each measure's own direction, so on delivery promise and discount depth a lower number ranks better. The sparkline is always the thirteen weekly readings, whatever cadence is showing.", sub: `${SUBJ} column highlighted. Rank is computed on each measure's own direction — on delivery promise and promotional depth a lower number ranks better. Sparkline is the 13 weekly readings, regardless of the cadence selected.`, tag: "360° scorecard", tagCls: "acc", html: `<div class="sc-wrap" id="scTable"></div>` })}
   <div class="grid g2" style="margin-top:14px">
@@ -135,7 +152,7 @@ P.scorecard = (host) => {
   const movers = d.dims.metrics.filter((m) => !m.static).map((m) => {
     const o = sc(m.id, S); if (o.deltaPct == null) return null;
     const helps = m.good === "neutral" ? null : (o.delta > 0) === (m.good === "up");
-    return { label: m.label, value: o.deltaPct, color: helps === null ? "#5f6368" : helps ? "#1e8e3e" : "#d93025",
+    return { label: m.label, page: METRIC_PAGE[m.id], value: o.deltaPct, color: helps === null ? "#5f6368" : helps ? "#1e8e3e" : "#d93025",
       note: `${fmtFor(m.id)(o.prev)} → ${fmtFor(m.id)(o.value)}`,
       tip: `<div class="h">${m.label}</div><div class="r"><span>${esc(period().prevLabel)}</span><b class="tnum">${fmtFor(m.id)(o.prev)}</b></div><div class="r"><span>${esc(period().curLabel)}</span><b class="tnum">${fmtFor(m.id)(o.value)}</b></div><div class="vb">${m.good === "neutral" ? "No better direction — read it against strategy." : helps ? "Moving the helpful way." : "Moving the unhelpful way."}</div>` };
   }).filter(Boolean).sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
@@ -153,7 +170,7 @@ P.scorecard = (host) => {
         : `right:50%;width:${len(m2.value)}%`}"></i></span>
     <b class="tnum vv" style="color:${m2.color}">${(m2.value > 0 ? "+" : "") + m2.value.toFixed(1)}%</b></div>`).join("")}</div>
     <p class="mini" style="margin:9px 0 0">Bars run either side of the centre line, scaled on the square root of the change so a single large mover does not flatten the rest — the figure beside each bar is the true percentage. Green is movement in the helpful direction for that measure; grey has no better direction.</p>`;
-  $$("#scMove .div").forEach((n2, i) => { n2.addEventListener("mousemove", (e) => CC.showTip(movers[i].tip, e)); n2.addEventListener("mouseleave", CC.hideTip); });
+  $$("#scMove .div").forEach((n2, i) => { n2.addEventListener("mousemove", (e) => CC.showTip(movers[i].tip, e)); n2.addEventListener("mouseleave", CC.hideTip); if (movers[i].page) { n2.style.cursor = "pointer"; n2.addEventListener("click", () => { CC.hideTip(); location.hash = "#" + movers[i].page; }); } });
 };
 function eventList() {
   return `<div class="cc-hb">${D().dims.events.map((e) => {
@@ -665,8 +682,9 @@ P.carriage = (host) => {
     ${metricKpi("carriage", S)}
     ${kpi({ label: "Cells occupied", dot: B(S).color, value: `${pairsFor(S, rts).length}<small> / ${d.dims.models.filter((m) => m.brand === S).length * rts.length}</small>`,
       note: "Model × retailer combinations with a live listing at any point" })}
-    ${kpi({ label: "Buy-box ownership", dot: "#12b5cb", value: F.pct(mean(pairsFor(S, rts).map((k) => d.distribution.buybox[k] * 100))),
-      note: "Share of the marketplace listing owned by the brand rather than a reseller" })}
+    ${(() => { const amz = pairsFor(S, rts).filter((k) => k.endsWith("|amazon") && d.distribution.buybox[k] != null);
+      return kpi({ label: "Amazon buy box", dot: "#12b5cb", value: amz.length ? F.pct(mean(amz.map((k) => d.distribution.buybox[k] * 100))) : "—",
+        note: amz.length ? `Share of days Amazon itself held the buy box on ${SUBJ}'s ${amz.length} Amazon listings, rather than a third-party seller` : "Amazon is not in the retailers selected" }); })()}
     ${kpi({ label: "Listing changes", dot: changes.length ? "#e37400" : "#1e8e3e", value: String(changes.length),
       note: `Across all ${d.dims.brands.length} brands — ${changes.filter((c) => c.note.kind === "delisted").length} dropped, ${changes.filter((c) => c.note.kind === "listed").length} appeared, ${changes.filter((c) => c.note.kind === "lapsed").length} lapsed and returned. ${changes.filter((c) => c.brand === S).length} of them ${SUBJ}.` })}
   </div>
@@ -712,6 +730,7 @@ P.carriage = (host) => {
    ══════════════════════════════════════════════════════════════════════════ */
 P.stock = (host) => {
   const d = D(), ds = winDates(), rts = retailerScope();
+  const citiesRead = d.dims.cities.length && !/same promise shown for every city|cities[^.]*modelled/i.test((laneOf("delivery") || {}).note || "");
   const [a, z] = win();
   const dayOf = (iso) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
   const eps = d.availability.episodes.filter((e) => rts.includes(e.retailer) && e.start <= ds.at(-1) && dayOf(e.start) + e.days - 1 >= dayOf(ds[0]))
@@ -721,7 +740,7 @@ P.stock = (host) => {
     return live.length ? (live.filter((k) => d.availability.stock[k][a + i]).length / live.length) * 100 : null; });
   host.innerHTML = `
   <div class="grid g4" style="margin-bottom:14px">
-    ${metricKpi("inStock", S)}
+    ${metricKpi("inStock", S, d.retailFeed ? "Amazon is read daily; at Walmart, Best Buy and Target a day without a reading counts as in stock" : null)}
     ${kpi({ label: "Out-of-stock episodes", dot: eps.filter((e) => e.brand === S).length ? "#d93025" : "#1e8e3e", value: String(eps.filter((e) => e.brand === S).length),
       note: `${sum(eps.filter((e) => e.brand === S).map((e) => e.days))} listing-days lost in the window` })}
     ${kpi({ label: "Longest gap", dot: "#e37400", value: (() => { const w = eps.filter((e) => e.brand === S).sort((x, y) => y.days - x.days)[0]; return w ? `${w.days}<small>d</small>` : "—"; })(),
@@ -731,7 +750,7 @@ P.stock = (host) => {
   </div>
   ${card({ title: "In-stock rate, daily", help: "Of the listings a brand had live on a given day, the share that could actually be bought. It is the quietest number here: distribution, price and promotion all do nothing while the item cannot be added to a basket.", sub: "Share of each brand's live listings that could be bought that day.", slot: "avLine", tag: "13 weeks" })}
   <div class="grid g2" style="margin-top:14px">
-    ${d.dims.cities.length
+    ${citiesRead
       ? card({ title: "Availability by model and city", help: "The same measure by delivery location. The same model is not equally buyable everywhere, and local fulfilment is a distribution decision rather than a supply one.", sub: `${SUBJ} listings only — the same model is not equally buyable everywhere. Local fulfilment is a distribution decision, not a supply one.`, slot: "avHeat" })
       : card({ title: "Availability by model and location", help: "The same measure by delivery location. The same model is not equally buyable everywhere, and local fulfilment is a distribution decision rather than a supply one.", sub: "Whether a listing is buyable can differ by where the shopper is.", html: `<div class="withheld-card"><b>Withheld</b><p>This study read availability from the listing without setting a delivery address, so there is no location dimension behind it. A single column standing in for the country would assert a reading that was never taken.</p></div>` })}
     ${card({ title: "Out-of-stock episodes", help: "Every continuous gap in availability in the window, longest first, and whether it opened within five days of a deep discount — the signature of a promotion that outran its stock.", sub: "Every gap in the window, longest first.", html: eps.length ? table([
@@ -750,7 +769,7 @@ P.stock = (host) => {
   CC.line(el("avLine"), { height: 240, x: ds, bands: winBands(), min: Math.max(0, Math.floor((stockLo - 4) / 5) * 5), max: 100,
     fmtV: (v) => F.pct(v), fmtY: (v) => v + "%", series: stockSeries });
   const subjPairs = pairsFor(S, rts);
-  if (d.dims.cities.length) CC.heatmap(el("avHeat"), { rows: d.dims.models.filter((m) => m.brand === S), cols: d.dims.cities, corner: "Model ╲ City", ramp: "red", invert: true, min: 80, max: 98,
+  if (citiesRead) CC.heatmap(el("avHeat"), { rows: d.dims.models.filter((m) => m.brand === S), cols: d.dims.cities, corner: "Model ╲ City", ramp: "red", invert: true, min: 80, max: 98,
     rowLabel: (r) => r.label, colLabel: (c) => c.label.split(",")[0], fmtV: (v) => F.pct(v, 0),
     cellStyle: (r, c, v) => (v >= 98 ? { bg: "#e6f4ea", color: "#137333" } : null),
     legendHtml: `<span class="dg-lg"><i style="background:#e6f4ea"></i>98% or better in stock</span><span class="dg-lg"><i style="background:#fad2cf"></i><i style="background:#ee675c"></i><i style="background:#a50e0e"></i>below 98% — darker is more often out of stock</span>`,
@@ -856,7 +875,24 @@ P.pricing = (host) => {
   const measuredOnly = (d.meta.provenance || {}).mode === "measured-only";
   const listAt = (k, i) => measuredOnly ? ((d.pricing.list || {})[k] || [])[i] ?? null : MD(k.split("|")[0]).msrp;
   const brandIndex = (b) => ds.map((_, i) => mean(pairsFor(b, rts).map((k) => { const p = d.pricing.price[k][a + i], l = listAt(k, a + i); return p == null || !l ? null : (p / l) * 100; })));
-  const disp = d.pricing.dispersion.filter((x) => pairsFor(x.brand, rts).some((k) => k.startsWith(x.model + "|")));
+  const rawDisp = d.pricing.dispersion.filter((x) => pairsFor(x.brand, rts).some((k) => k.startsWith(x.model + "|")));
+  const readSpread = (x) => {
+    const ks = pairsFor(x.brand, rts).filter((k) => k.startsWith(x.model + "|"));
+    const reads = Object.fromEntries(ks.map((k) => { const rt = k.split("|")[1]; return [rt, rt === "amazon" ? null : (window.__CCFEED.days(x.model, rt) || []).filter((r) => r.price != null).map((r) => r.date).sort()]; }));
+    const isRead = (rt, date) => { const l = reads[rt]; if (l === null) return true; let last = null; for (const dd of l) { if (dd <= date) last = dd; else break; } return !!last && (Date.parse(date) - Date.parse(last)) / 864e5 <= READ_HOLD_DAYS; };
+    const per = {};
+    const days = ds.map((date, i) => {
+      const vals = ks.map((k) => { const rt = k.split("|")[1], v = slice(d.pricing.price[k])[i]; return v != null && isRead(rt, date) ? { rt, v } : null; }).filter(Boolean);
+      if (vals.length < 2) return null;
+      for (const z of vals) (per[z.rt] ||= []).push(z.v);
+      const lo = Math.min(...vals.map((z) => z.v)), hi = Math.max(...vals.map((z) => z.v));
+      return { lo, hi, spread: hi - lo, spreadPct: ((hi - lo) / lo) * 100, n: vals.length };
+    }).filter(Boolean);
+    if (!days.length) return null;
+    return { ...x, meanSpread: mean(days.map((z) => z.spread)), meanSpreadPct: mean(days.map((z) => z.spreadPct)), maxSpread: Math.max(...days.map((z) => z.spread)),
+      byRetailer: Object.fromEntries(Object.entries(per).map(([rt, v]) => [rt, mean(v)])), readDays: days.length };
+  };
+  const disp = d.retailFeed ? rawDisp.map(readSpread).filter(Boolean) : rawDisp;
   const breaches = d.pricing.mapBreaches.filter((m) => rts.includes(m.retailer));
   const subjBreach = breaches.filter((m) => m.brand === S);
   let focus = d.dims.models.filter((m) => m.brand === S && pairsFor(S, rts).some((k) => k.startsWith(m.id + "|")))[0];
@@ -870,7 +906,7 @@ P.pricing = (host) => {
       note: `Across ${pairsFor(S, rts).length} live listings` })}
     ${kpi({ label: "Widest cross-retailer spread", dot: "#e37400",
       value: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? F.usd0(w.meanSpread) : "—"; })(),
-      note: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? `${MD(w.model).label} — ${F.usd0(w.maxSpread)} at its widest` : "Single-retailer models only"; })() })}
+      note: (() => { const w = disp.filter((x) => x.brand === S).sort((x, y) => y.meanSpread - x.meanSpread)[0]; return w ? `${MD(w.model).label} — ${F.usd0(w.maxSpread)} at its widest${w.readDays ? `, on ${w.readDays} days with two or more retailers read` : ""}` : "No day with two retailers read"; })() })}
     ${d.pricing.mapFloorPct == null ? kpi({ label: "Price-floor breaches", dot: "#9aa0a6", value: "—", note: "No minimum-advertised-price policy is known for this brand" }) : kpi({ label: "Below the inferred price floor", dot: subjBreach.length ? "#d93025" : "#1e8e3e", value: String(subjBreach.length),
       note: subjBreach.length ? `${sum(subjBreach.map((x) => x.days))} listing-days below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` : `No ${SUBJ} listing traded below the ${Math.round(d.pricing.mapFloorPct[S] * 100)}% floor` })}
   </div>

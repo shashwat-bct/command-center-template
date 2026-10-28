@@ -30,6 +30,7 @@ import { brightDataKey } from "./brightdata";
 import { captureRetailOffers, loadRetailHistory, readableRetailers, retailProductsFrom, type RetailCapture } from "./retail-offers";
 import { feedPath, feedPriceImport, loadRetailFeed, type RetailFeed } from "./retail-feed";
 import { loadRetailPdp } from "./captures";
+import { loadReadOffers } from "./offers";
 import { loadReusableAi, saveAiResult } from "./ai-reuse";
 import { feedView, withFeedReviewLane, withRetailerReviews } from "./retail-feed-view";
 
@@ -451,7 +452,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     logLine(`retailer feed not applied: ${(e as Error).message}`);
   }
 
-  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, retailPdp: loadRetailPdp(slug), seed: slug, pinned: [...(asins.length ? [name] : []), ...aiCompetitors.filter((c) => (competitorAsins[c] ?? []).length)] });
+  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, retailPdp: loadRetailPdp(slug), retailOffers: loadReadOffers(slug), seed: slug, pinned: [...(asins.length ? [name] : []), ...aiCompetitors.filter((c) => (competitorAsins[c] ?? []).length)] });
   prepareRelabelWorkDir(workDir, relabelInputs);
   logLine(`applied measurements: ${JSON.stringify(relabelInputs.applied)}`);
 
