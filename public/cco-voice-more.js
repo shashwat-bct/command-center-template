@@ -1,5 +1,5 @@
-/* Voice of Customer: the charts below the aspect and rating cards — mention mix, gap to the
-   best competitor, and the Walmart star mix and recommend rate */
+/* Voice of Customer: the charts below the aspect and rating cards — mention mix and gap to the
+   best competitor */
 (function () {
 "use strict";
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
@@ -9,49 +9,15 @@ function card(id, title, sub) {
   return `<div class="card"><div class="card-h"><div class="ct"><h3>${esc(title)}</h3><p>${esc(sub)}</p></div></div><div id="${id}"></div></div>`;
 }
 
-const STARS = [{ n: 5, color: "#1e8e3e" }, { n: 4, color: "#81c995" }, { n: 3, color: "#fdd663" }, { n: 2, color: "#f29900" }, { n: 1, color: "#d93025" }];
-
-function walmartReviews(D) {
-  const feed = D.retailFeed, sums = feed && feed.reviewSummary;
-  if (!sums) return [];
-  const brandOf = new Map((feed.products || []).map((p) => [p.id, p.brand]));
-  return D.dims.brands.map((b) => {
-    const own = Object.entries(sums).filter(([id]) => brandOf.get(id) === b.id).map(([, x]) => x);
-    const stars = [0, 0, 0, 0, 0];
-    for (const x of own) (x.stars || []).forEach((v, i) => { stars[i] += v || 0; });
-    const rated = own.filter((x) => x.recommendedPct != null && x.total);
-    const weight = rated.reduce((t, x) => t + x.total, 0);
-    return { b, stars, total: stars.reduce((t, v) => t + v, 0), recommend: weight ? rated.reduce((t, x) => t + x.recommendedPct * x.total, 0) / weight : null, recommendBase: weight };
-  }).filter((r) => r.total);
-}
-
-function drawStars(host, cc, D) {
-  const rows = walmartReviews(D);
-  if (!rows.length) return;
-  const F = CC.fmt;
-  const cards = card("vmStars", "Star mix by brand", "Share of each brand's Walmart ratings at each star level, from Walmart's review summaries")
-    + card("vmRec", "Would recommend", "Share of Walmart reviewers who say they would recommend the product, weighted by each listing's review count");
-  const side = host.querySelector("#vcSide");
-  const wrap = document.createElement("div");
-  wrap.innerHTML = side ? cards : `<div class="grid g2" style="margin-top:14px">${cards}</div>`;
-  (side || host).append(...wrap.children);
-  CC.bars(document.getElementById("vmStars"), { height: 250, stacked: true, max: 100, cats: rows.map((r) => r.b.label), fmtV: (v) => `${v.toFixed(1)}%`, fmtY: (v) => `${v}%`,
-    catLabel: (c, i) => `${c} · ${F.k(rows[i].total)}`,
-    series: STARS.map((st) => ({ id: `s${st.n}`, label: `${st.n}★`, color: st.color, data: rows.map((r) => (r.stars[st.n - 1] / r.total) * 100) })) });
-  CC.hbars(document.getElementById("vmRec"), { max: 100, fmtV: (v) => `${v.toFixed(0)}%`,
-    rows: rows.filter((r) => r.recommend != null).map((r) => ({ label: esc(r.b.label), value: r.recommend, color: r.b.color, subject: r.b.id === cc.S,
-      note: `${F.n(r.recommendBase)} reviews · ${(((r.stars[0] + r.stars[1]) / r.total) * 100).toFixed(1)}% rate 1–2★` })).sort((x, y) => y.value - x.value) });
-}
 
 /**
  * Appends the extra Voice of Customer charts to the page: the aspect charts from the
- * aspect mention counts, and the star mix and recommend rate from Walmart's review summaries.
+ * aspect mention counts.
  */
 function draw(host) {
   const cc = window.__CC, D = cc && cc.D;
   if (!D) return;
   drawAspects(host, cc, D);
-  drawStars(host, cc, D);
 }
 
 function drawAspects(host, cc, D) {
