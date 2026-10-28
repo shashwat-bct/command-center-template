@@ -444,10 +444,13 @@ P.voice = (host) => {
   ${intro(`${across ? `Rating and review velocity across ${across}: daily Amazon history joined with ${esc(joined.label)}, weighted by review count` : "Rating and review velocity from daily Amazon history"}${anyAspect ? `, and what reviewers say about each aspect from Amazon's own review summaries` : ""}. A brand or aspect without enough reviews to score is withheld rather than filled in.`)}
   <div class="grid ${anyAspect ? "g4" : "g2"}" style="margin-bottom:14px">
     ${metricKpi("rating", S)}
-    ${kpi({ label: "Reviews in window", dot: B(S).color, value: velOf(S) == null ? "—" : F.k(velOf(S)),
+    ${kpi({ label: "New reviews this period", dot: B(S).color, value: velOf(S) == null ? "—" : F.k(velOf(S)),
       note: (() => {
         const other = joined && joined.added && joined.added[S] ? sum(slice(joined.added[S])) : null;
-        if (other != null && velOf(S) != null) return `Amazon ${F.k(Math.max(0, velOf(S) - other))} · ${Object.keys(joined.retailers).map((id) => RT(id).label).join(", ")} ${F.k(other)}`;
+        const f = d.retailFeed, onFile = f && f.reviewSummary ? f.products.filter((p) => p.brand === S && f.reviewSummary[p.id] && f.reviewSummary[p.id].total)
+          .reduce((m, p) => m.set(p.retailer, (m.get(p.retailer) || 0) + f.reviewSummary[p.id].total), new Map()) : new Map();
+        const file = [...onFile].map(([rt, n]) => `${RT(rt).label} ${F.k(n)}`).join(" · ");
+        if (other != null && velOf(S) != null) return `Posted in this period, not the total: Amazon ${F.k(Math.max(0, velOf(S) - other))} new, other retailers ${F.k(other)} new.${file ? ` Ratings on file: ${file}.` : ""}`;
         const lead = BIDS().map((b) => ({ b, v: velOf(b) })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0];
         return !lead ? "Not measured" : lead.b === S ? "The most new reviews in the set" : `Against ${F.k(lead.v)} for ${B(lead.b).label}`; })() })}
     ${!anyAspect ? "" : `${kpi({ label: "Strongest aspect", dot: "#1e8e3e", value: (() => { const a = topAspect(S, 1); return a ? String(a.v) : "—"; })(),
@@ -1234,11 +1237,42 @@ P.tco = (host) => {
 /* ══════════════════════════════════════════════════════════════════════════
    PROMOTION STRATEGY
    ══════════════════════════════════════════════════════════════════════════ */
+function periodStrategy(d, evs, rts, a, z) {
+  const first = d.dims.dates[a], last = d.dims.dates[z];
+  const span = (p) => Math.max(1, Math.round((Math.min(Date.parse(p.end), Date.parse(last)) - Math.max(Date.parse(p.start), Date.parse(first))) / 864e5) + 1);
+  return Object.fromEntries(d.dims.brands.map((b) => {
+    const mine = evs.filter((p) => p.brand === b.id && p.end >= first && p.start <= last);
+    const deep = mine.filter((p) => p.depthPct > 0);
+    let live = 0, on = 0;
+    for (const k of pairsFor(b.id, rts)) {
+      const c = d.distribution.carriage[k];
+      if (!c) continue;
+      const [mid, rt] = k.split("|");
+      const cuts = deep.filter((p) => p.model === mid && p.retailer === rt);
+      for (let i = a; i <= z; i++) {
+        if (c[i] !== 1) continue;
+        live++;
+        if (cuts.some((p) => p.start <= d.dims.dates[i] && p.end >= d.dims.dates[i])) on++;
+      }
+    }
+    const mix = {};
+    for (const p of mine) mix[p.type] = (mix[p.type] || 0) + 1;
+    return [b.id, { ...(d.promotions.strategy[b.id] || {}),
+      intensity: live ? Math.round((on / live) * 1000) / 10 : 0,
+      meanDepth: deep.length ? Math.round(mean(deep.map((p) => p.depthPct)) * 10) / 10 : 0,
+      maxDepth: deep.length ? Math.max(...deep.map((p) => p.depthPct)) : 0,
+      events: mine.length, meanDuration: mine.length ? Math.round(mean(mine.map(span)) * 10) / 10 : 0,
+      onEventShare: mine.length ? Math.round((mine.filter((p) => p.onEvent).length / mine.length) * 1000) / 10 : 0,
+      mechanicMix: Object.fromEntries(Object.entries(mix).map(([k, v]) => [k, Math.round((v / mine.length) * 1000) / 10])),
+      mechanicsUsed: Object.keys(mix).length, retailerSpread: new Set(mine.map((p) => p.retailer)).size }];
+  }));
+}
+
 P.strategy = (host) => {
-  const d = D(), rts = retailerScope(), ds = winDates(), [a] = win();
-  const st = d.promotions.strategy;
+  const d = D(), rts = retailerScope(), ds = winDates(), [a, z] = win();
   const famOf = (t) => (d.dims.promoTypes.find((x) => x.id === t) || {}).family;
   const evs = d.promotions.events.filter((p) => rts.includes(p.retailer) && !p.alwaysOn);
+  const st = periodStrategy(d, evs, rts, a, z);
   const axes = [
     { id: "intensity", label: "Frequency" }, { id: "meanDepth", label: "Depth" }, { id: "meanDuration", label: "Duration" },
     { id: "mechanicsUsed", label: "Mechanics" }, { id: "retailerSpread", label: "Channels" }, { id: "onEventShare", label: "Calendar fit" },
