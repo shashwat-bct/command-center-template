@@ -7,6 +7,7 @@ import { withReviewAspects } from "@/lib/aspect-backfill";
 import { withCurrentWorkbench } from "@/lib/workbench-repair";
 import { withAtlas } from "@/lib/atlas";
 import { withoutVendors } from "@/lib/vendor-names";
+import { withCaptures } from "@/lib/captures";
 import { withEvidence } from "@/lib/evidence-backfill";
 import { withSimulatedRetailers } from "@/lib/simulated-retailer";
 import type { PayloadSource } from "@/lib/payload-source";
@@ -21,7 +22,7 @@ import { isShareId, slugForShareId } from "@/lib/share-id";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: withoutVendors(slug, source.buildId, withAtlas(slug, source.buildId, withSimulatedRetailers(slug, source.buildId, withEvidence(slug, source.buildId, withCurrentWorkbench(slug, source.buildId, await withReviewAspects(slug, source.buildId, source.bytes)))))) });
+const enrich = async (slug: string, source: PayloadSource): Promise<PayloadSource> => ({ ...source, bytes: withoutVendors(slug, source.buildId, withCaptures(slug, source.buildId, withAtlas(slug, source.buildId, withSimulatedRetailers(slug, source.buildId, withEvidence(slug, source.buildId, withCurrentWorkbench(slug, source.buildId, await withReviewAspects(slug, source.buildId, source.bytes))))))) });
 
 const SHARE_STATUS = { expired: 410, invalid: 401, config: 500 } as const;
 

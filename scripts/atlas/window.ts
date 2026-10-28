@@ -22,7 +22,8 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
   });
   const di = (d: string) => P.dims.dates.indexOf(d);
   const a = di(ev.start), z = di(ev.end);
-  const wm = P.dims.models.flatMap((m) => {
+  const readAtWalmart = new Set(Object.values(ctx.feed.products).filter((p) => p.retailer === "walmart" && p.asin).map((p) => p.asin));
+  const wm = P.dims.models.filter((m) => m.asin && readAtWalmart.has(m.asin)).flatMap((m) => {
     const s = P.pricing.price[`${m.id}|walmart`], st = P.availability.stock[`${m.id}|walmart`];
     const brand = ctx.brands.find((b) => b.id === m.brand)!;
     const before = s ? median(s.slice(di(pre.from), di(pre.to) + 1)) : null, during = s ? s.slice(a, z + 1).filter((v): v is number => v != null) : [];
@@ -87,7 +88,8 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
  */
 export function availability(ctx: Ctx): AtlasAnswer {
   const P = ctx.payload, S = ctx.subject;
-  const rate = (key: string): number | null => { const s = P.availability.stock[key]; const c = P.distribution.carriage[key]; if (!s) return null; const live = s.filter((v, i) => v != null && (!c || c[i] === 1)); return live.length ? (live.filter((v) => v === 1).length / live.length) * 100 : null; };
+  const readAt = new Set(Object.values(ctx.feed.products).filter((p) => p.asin).map((p) => `${p.retailer}|${p.asin}`));
+  const rate = (key: string): number | null => { const [mid, rt] = key.split("|"); const asin = P.dims.models.find((m) => m.id === mid)?.asin; if (rt !== "amazon" && !(asin && readAt.has(`${rt}|${asin}`))) return null; const s = P.availability.stock[key]; const c = P.distribution.carriage[key]; if (!s) return null; const live = s.filter((v, i) => v != null && (!c || c[i] === 1)); return live.length ? (live.filter((v) => v === 1).length / live.length) * 100 : null; };
   const byBrand = ctx.brands.map((b) => ({ b, rate: mean(P.dims.models.filter((m) => m.brand === b.id).flatMap((m) => MEASURED.map((rt) => rate(`${m.id}|${rt}`)))) })).filter((x) => x.rate != null).sort((x, y) => (y.rate ?? 0) - (x.rate ?? 0));
   const subjRate = byBrand.find((x) => x.b.id === S.id)?.rate ?? null;
   const rank = byBrand.findIndex((x) => x.b.id === S.id) + 1;

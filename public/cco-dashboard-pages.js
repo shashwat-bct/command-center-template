@@ -843,6 +843,7 @@ P.delivery = (host) => {
 /* ══════════════════════════════════════════════════════════════════════════
    PRICING — the Chief Commercial Officer's first screen
    ══════════════════════════════════════════════════════════════════════════ */
+const READ_HOLD_DAYS = 7;
 P.pricing = (host) => {
   const d = D(), ds = winDates(), rts = retailerScope(), [a] = win();
   const priceMean = (k) => mean(slice(d.pricing.price[k]));
@@ -897,10 +898,22 @@ P.pricing = (host) => {
   function drawModel() {
     $$("#prPick button").forEach((b) => b.classList.toggle("on", b.dataset.m === focus.id));
     const ks = pairsFor(focus.brand, rts).filter((k) => k.startsWith(focus.id + "|"));
+    const fed = !!d.retailFeed;
+    const read = (rt) => (window.__CCFEED.days(focus.id, rt) || []).filter((x) => x.price != null).sort((a, z) => a.date.localeCompare(z.date));
+    const lastRead = (list, date) => { let hit = null; for (const x of list) { if (x.date <= date) hit = x; else break; } return hit && (Date.parse(date) - Date.parse(hit.date)) / 864e5 <= READ_HOLD_DAYS ? hit : null; };
+    const lines = ks.map((k) => {
+      const rt = k.split("|")[1], all = slice(d.pricing.price[k]);
+      if (!fed || rt === "amazon") return { k, rt, data: all, list: null };
+      const list = read(rt);
+      return list.length ? { k, rt, list, data: all.map((v, i) => (lastRead(list, ds[i]) ? v : null)) } : { k, rt, list, data: all, matched: true };
+    });
+    const shown = lines.filter((l) => l.data.some((v) => v != null));
+    const unread = lines.filter((l) => l.matched).map((l) => RT(l.rt).label);
     CC.line(el("prModel"), { height: 236, x: ds, bands: winBands(), zero: false, fmtV: F.usd, fmtY: F.usd0,
-      tipExtra: (i) => ks.map((k) => window.__CCFEED.rows(focus.id, k.split("|")[1], ds[i], ds[i], ["range", "unit", "sellers", "badges"])).join(""),
-      series: ks.map((k) => { const rt = k.split("|")[1]; return { id: rt, label: RT(rt).label, color: RT(rt).color, data: slice(d.pricing.price[k]) }; })
+      tipExtra: (i) => shown.map((l) => { const hit = l.list && lastRead(l.list, ds[i]); return (hit && hit.date !== ds[i] ? `<div class="r sub"><span>${RT(l.rt).label} last read</span><b>${F.date ? F.date(hit.date) : hit.date}</b></div>` : "") + window.__CCFEED.rows(focus.id, l.rt, ds[i], ds[i], ["range", "unit", "sellers", "badges"]); }).join(""),
+      series: shown.map((l) => ({ id: l.rt, label: l.matched ? `${RT(l.rt).label} (no reading · matched)` : RT(l.rt).label, color: RT(l.rt).color, dash: l.matched ? "3 3" : undefined, data: l.data }))
         .concat([{ id: "msrp", label: "MSRP " + F.usd0(focus.msrp), color: "#80868b", dash: "5 4", data: ds.map(() => focus.msrp) }]) });
+    if (fed) el("prModel").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:8px 0 0">Amazon is read daily. Other retailers are drawn only on days with a price reading, held for up to ${READ_HOLD_DAYS} days; a gap means no reading.${unread.length ? ` No reading for this model at ${unread.join(", ")}: shown dashed at the Amazon price, or MSRP where Amazon has none.` : ""}</p>`);
   }
   // Colour is the price index, not the price: a $1,009 listing is not "hotter"
   // than a $99 one, but a listing at 74% of MSRP is a different animal from one

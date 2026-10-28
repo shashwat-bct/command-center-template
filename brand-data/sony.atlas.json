@@ -946,14 +946,14 @@
       "chip": "Prime Big Deal Days · cut vs hold",
       "steps": [
         "Pulling daily Amazon prices and Best Sellers Rank for 19 Amazon listings",
-        "Pulling Walmart prices for 19 listings from the Walmart feed",
+        "Pulling Walmart prices for 17 listings from the Walmart feed",
         "Comparing Oct 13, 2026 – Oct 14, 2026 with the 14 days before",
         "Measuring each listing's sales-rank response to its own price move",
         "Separating the brands that cut and climbed from the ones that held"
       ],
-      "headline": "Sony largely held price on Prime Big Deal Days (+5.4% on average, 1 of 8 listings cut 3%+) while Hisense moved -3.5%. The clearest payoff from cutting was Hisense's U7: cut 23.4% and #2,263 → #1,086 on Amazon.",
-      "what": "Sony +5.4% (1/8 cut) · Samsung +0.9% (0/8 cut) · LG -0.4% (0/7 cut) · TCL +2.3% (0/7 cut) · Hisense -3.5% (2/8 cut).",
-      "why": "Prime Big Deal Days is an Amazon event, so the cuts land on Amazon: across the set Amazon listings moved +0.3% and Walmart +1.6%. Sony's lead Amazon listing (BRAVIA 3 II) moved +5.9% and ranked #3,131 → #2,852.",
+      "headline": "Sony largely held price on Prime Big Deal Days (+5.4% on average, 1 of 8 listings cut 3%+) while Hisense moved -3.9%. The clearest payoff from cutting was Hisense's U7: cut 23.4% and #2,263 → #1,086 on Amazon.",
+      "what": "Sony +5.4% (1/8 cut) · Samsung +1.0% (0/7 cut) · LG -0.4% (0/7 cut) · TCL +2.3% (0/7 cut) · Hisense -3.9% (2/7 cut).",
+      "why": "Prime Big Deal Days is an Amazon event, so the cuts land on Amazon: across the set Amazon listings moved +0.3% and Walmart +1.8%. Sony's lead Amazon listing (BRAVIA 3 II) moved +5.9% and ranked #3,131 → #2,852.",
       "when": "Prime Big Deal Days: Oct 13, 2026 – Oct 14, 2026. Baseline: Sep 29, 2026 – Oct 12, 2026. Rank read through Oct 16, 2026.",
       "insight": "Holding price on Prime Big Deal Days cost Sony nothing in rank: its lead listing held #2,852 without a deal, so the margin it kept was free.",
       "actions": [
@@ -969,7 +969,7 @@
         },
         {
           "title": "Keep Walmart out of Amazon events",
-          "detail": "Walmart listings moved +1.6% on average over the event.",
+          "detail": "Walmart listings moved +1.8% on average over the event.",
           "impact": "Avoids margin loss where the event does not run"
         }
       ],
@@ -985,7 +985,7 @@
         },
         {
           "label": "Deepest rival move",
-          "value": "-3.5%",
+          "value": "-3.9%",
           "note": "Hisense"
         },
         {
@@ -1028,7 +1028,7 @@
               "value": 0,
               "color": "#0891b2",
               "subject": false,
-              "note": "0 of 4 cut 3%+"
+              "note": "0 of 3 cut 3%+"
             },
             {
               "label": "LG · Amazon",
@@ -1067,10 +1067,10 @@
             },
             {
               "label": "Hisense · Walmart",
-              "value": 2.2,
+              "value": 3.1,
               "color": "#d97706",
               "subject": false,
-              "note": "0 of 4 cut 3%+"
+              "note": "0 of 3 cut 3%+"
             }
           ]
         },
@@ -1242,17 +1242,6 @@
               "—"
             ],
             [
-              "Hisense",
-              "Walmart",
-              "QD7",
-              "$494.64",
-              "$492.54",
-              "-0.4%",
-              "100%",
-              "—",
-              "—"
-            ],
-            [
               "Samsung",
               "Amazon",
               "S90H",
@@ -1339,17 +1328,6 @@
               "100%",
               "#2,091 → #1,536",
               "500+"
-            ],
-            [
-              "Samsung",
-              "Walmart",
-              "S90F",
-              "$933.89",
-              "$933.89",
-              "0.0%",
-              "100%",
-              "—",
-              "—"
             ],
             [
               "Samsung",
@@ -1596,13 +1574,13 @@
           ],
           "highlight": [
             2,
+            25,
+            26,
             27,
-            28,
             29,
-            31,
-            32,
-            36,
-            37
+            30,
+            34,
+            35
           ]
         }
       ],
@@ -1622,8 +1600,8 @@
         "Comparing in-stock rate with 4 competitors",
         "Sizing each fix by the listing's Amazon demand"
       ],
-      "headline": "Sony was buyable 99.9% of the time on Amazon and Walmart, #1 of 5 ahead of Hisense's 99.3%. ",
-      "what": "1 outages cost 1 listing-days, 0 of them on the dead listings. Sony 99.9% · Hisense 99.3% · Samsung 98.9% · LG 96.7% · TCL 90.5%.",
+      "headline": "Sony was buyable 99.9% of the time on Amazon and Walmart, #1 of 5 ahead of Samsung's 99.5%. ",
+      "what": "1 outages cost 1 listing-days, 0 of them on the dead listings. Sony 99.9% · Samsung 99.5% · Hisense 99.5% · LG 96.7% · TCL 90.5%.",
       "why": "The gaps are short and spread across listings, which points at replenishment timing.",
       "when": "Jul 27, 2026 – Oct 25, 2026 (13 weeks).",
       "insight": "Sony's availability problems are short gaps; the fix is replenishment cadence on the listings that gap most.",
@@ -1677,15 +1655,15 @@
               "subject": true
             },
             {
-              "label": "Hisense",
-              "value": 99.3,
-              "color": "#d97706",
+              "label": "Samsung",
+              "value": 99.5,
+              "color": "#0891b2",
               "subject": false
             },
             {
-              "label": "Samsung",
-              "value": 98.9,
-              "color": "#0891b2",
+              "label": "Hisense",
+              "value": 99.5,
+              "color": "#d97706",
               "subject": false
             },
             {
@@ -1779,25 +1757,25 @@
     },
     {
       "id": "reviews",
-      "question": "What drives Sony's praise and complaints, and is reliability a Sony problem or the category's?",
+      "question": "What drives Sony's praise and complaints, and is brightness a Sony problem or the category's?",
       "chip": "Review drivers · praise vs complaints",
       "steps": [
-        "Counting 1,154 aspect mentions across Amazon and Walmart reviews",
+        "Counting 1,093 aspect mentions across Amazon and Walmart reviews",
         "Scoring 6 aspects for 5 brands",
         "Reading 135 Sony Walmart reviews for the sharpest complaints",
         "Measuring Amazon review velocity from daily review counts, one count per shared review pool",
         "Benchmarking each weak aspect against the best competitor"
       ],
-      "headline": "Shoppers love Sony's picture quality (89% positive) and complain about reliability (36% positive, against LG's 47%). It rates 4.43★, #3 of 5.",
-      "what": "Picture quality 89% · Setup 88% · Quality 80% · Sound quality 80% · Value for money 78% · Reliability 36%.",
-      "why": "Reliability is where the brand loses: 62 negative mentions against 35 positive. LG scores 47% on the same aspect, so the complaint is about the product, not the category.",
+      "headline": "Shoppers love Sony's picture quality (89% positive) and complain about brightness (67% positive, against LG's 90%). It rates 4.43★, #3 of 5.",
+      "what": "Picture quality 89% · Setup 88% · Quality 80% · Sound quality 80% · Value for money 78% · Brightness 67%.",
+      "why": "Brightness is where the brand loses: 12 negative mentions against 24 positive. LG scores 90% on the same aspect, so the complaint is about the product, not the category.",
       "when": "Amazon review summaries as read on the build date; Walmart reviews from Apr 5, 2025 to Oct 15, 2026.",
-      "insight": "Sony's rating rests on picture quality and setup, and it adds new Amazon reviews faster than 0 of the set (341 this quarter). Reliability is the one attribute where a competitor proves the category can do better (LG 47%), so it is a product fix, not a messaging one.",
+      "insight": "Sony's rating rests on picture quality and setup, and it adds new Amazon reviews faster than 0 of the set (341 this quarter). Brightness is the one attribute where a competitor proves the category can do better (LG 90%), so it is a product fix, not a messaging one.",
       "actions": [
         {
-          "title": "Brief R&D on reliability",
-          "detail": "62 negative mentions; LG scores 47% on the same aspect.",
-          "impact": "Moves the aspect from 36% positive"
+          "title": "Brief R&D on brightness",
+          "detail": "12 negative mentions; LG scores 90% on the same aspect.",
+          "impact": "Moves the aspect from 67% positive"
         },
         {
           "title": "Lead listings with picture quality",
@@ -1806,7 +1784,7 @@
         },
         {
           "title": "Answer every 1–2★ Walmart review",
-          "detail": "14 of 135 Walmart reviews on file are 1–2★; 0 of them mention reliability problems.",
+          "detail": "14 of 135 Walmart reviews on file are 1–2★; 0 of them mention brightness problems.",
           "impact": "Visible brand response where the complaints sit"
         }
       ],
@@ -1825,9 +1803,9 @@
         },
         {
           "label": "Weakest aspect",
-          "value": "36%",
-          "note": "Reliability",
-          "tone": "risk"
+          "value": "67%",
+          "note": "Brightness",
+          "tone": "watch"
         },
         {
           "label": "New Amazon reviews",
@@ -1844,10 +1822,10 @@
           "unit": "pct",
           "rows": [
             {
-              "label": "Reliability",
-              "value": 36.1,
-              "color": "#d93025",
-              "note": "97 mentions"
+              "label": "Brightness",
+              "value": 66.7,
+              "color": "#f9ab00",
+              "note": "36 mentions"
             },
             {
               "label": "Value for money",
@@ -1959,32 +1937,27 @@
         {
           "type": "quotes",
           "title": "What Amazon reviewers wrote about Sony",
-          "sub": "On Reliability and Picture quality",
+          "sub": "On Brightness and Picture quality",
           "items": [
             {
-              "text": "The TV was defective.",
-              "meta": "Amazon review",
-              "tone": "positive"
-            },
-            {
-              "text": "Works great, Amazon delivered and set up for us!",
-              "meta": "Amazon review",
-              "tone": "positive"
-            },
-            {
-              "text": "...After researching I found out it is a common issue and it suddenly stopped working....",
+              "text": "...I would not get the A95L. It’s motion is worse, color is worse, not as bright. Motion improvements alone are reasons to spend more.",
               "meta": "Amazon review",
               "tone": "negative"
             },
             {
-              "text": "Arrived broke and Walmart would not exchange the tv for the discounted price it was when I bought it only gave a refund.",
+              "text": "...but this (Sony Bravia 8 II) outshines in picture quality, brightness and ease of use....",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "The TV keeps going dark for a split second multiple times while watching a program. Tried doing an update with tech support but the problem persist.",
               "meta": "Amazon review",
               "tone": "negative"
             },
             {
-              "text": "One of the Sony TV's bought in 2008 (Bravia XBR- 46\") just died and decided to replace it with this one.",
+              "text": "My only real complaint is the remote is hard to see or feel the buttons in a dimly lit room.",
               "meta": "Amazon review",
-              "tone": "positive"
+              "tone": "negative"
             },
             {
               "text": "Great picture, bright and the colors are vibrant.. Sound seemed good too, but I use a separate audio system added a few days after delivery....",

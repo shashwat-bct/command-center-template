@@ -386,26 +386,11 @@ for (const p of promoEvents) {
 // with promotional troughs cut into it.
 const priceSeries = {}, listSeries = {}, discSeries = {};
 
-function fillPriceGaps(key, m, price, lst) {
+const gapDays = {};
+function fillPriceGaps(key, m, price) {
   const [mid, rt] = key.split("|");
-  const known = price.map((v, i) => (v == null ? -1 : i)).filter((i) => i >= 0);
-  if (!known.length) return;
-  const rnd = rngFor("pricegap:" + key);
-  const lo = (m.msrp || price[known[0]]) * 0.55, hi = (m.msrp || price[known[0]]) * 1.02;
-  const step = (lvl) => clamp(lvl * (1 + noise(rnd) * (PRICE_DRIFT[m.brand] ?? 0.024)), lo, hi);
-  const walk = (from, to, dir, start) => {
-    let lvl = start, hold = 9 + Math.floor(rnd() * 16);
-    for (let i = from; dir > 0 ? i <= to : i >= to; i += dir) {
-      if (!isCarried(mid, rt, i)) continue;
-      if (hold-- <= 0) { lvl = step(lvl); hold = 9 + Math.floor(rnd() * 16); }
-      price[i] = r2(lvl); lst[i] = m.msrp || null;
-    }
-  };
-  if (known[0] > 0) walk(known[0] - 1, 0, -1, price[known[0]]);
-  for (let k = 0; k < known.length; k++) {
-    const a = known[k], z = k + 1 < known.length ? known[k + 1] - 1 : NDAYS - 1;
-    if (z > a) walk(a + 1, z, 1, price[a]);
-  }
+  if (!price.some((v) => v != null)) return;
+  gapDays[key] = price.flatMap((v, i) => (v == null && isCarried(mid, rt, i) ? [i] : []));
 }
 
 for (const key of pairs) {
@@ -415,7 +400,7 @@ for (const key of pairs) {
   if (real) {
     const price = real.price.map((v, i) => (isCarried(mid, rt, i) && v != null ? r2(v) : null));
     const lst = real.list.map((v, i) => (price[i] == null ? null : v ?? null));
-    if (rt !== "amazon") fillPriceGaps(key, m, price, lst);
+    if (rt !== "amazon") fillPriceGaps(key, m, price);
     priceSeries[key] = price; listSeries[key] = lst;
     discSeries[key] = price.map((v, i) => (v == null || !lst[i] ? null : r1(clamp(((lst[i] - v) / lst[i]) * 100, 0, 95))));
     continue;
@@ -463,6 +448,23 @@ for (const key of pairs) {
     }
   }
   priceSeries[key] = price; listSeries[key] = lst; discSeries[key] = disc;
+}
+
+// A retailer price that was not read is never invented: it takes the model's
+// Amazon price that day, or its MSRP when Amazon has none.
+for (const key of pairs) {
+  const [mid, rt] = key.split("|");
+  const m = MID[mid];
+  if (rt === "amazon" || !m.measured) continue;
+  const fill = gapDays[key] ?? (measuredFor(key) ? [] : priceSeries[key].flatMap((v, i) => (v != null && (retailFirst[key] == null || i < retailFirst[key]) ? [i] : [])));
+  const amz = priceSeries[`${mid}|amazon`];
+  for (const i of fill) {
+    const v = (amz && amz[i] != null ? amz[i] : null) ?? m.msrp ?? null;
+    if (v == null) continue;
+    priceSeries[key][i] = r2(v);
+    listSeries[key][i] = m.msrp || v;
+    discSeries[key][i] = m.msrp ? r1(clamp(((m.msrp - v) / m.msrp) * 100, 0, 95)) : 0;
+  }
 }
 
 // =============================================================================
