@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
   const guard = requireAdmin(req);
   if (guard) return guard;
   const { slug } = await params;
-  const body = (await req.json().catch(() => ({}))) as { reuse_ai?: unknown };
+  const body = (await req.json().catch(() => ({}))) as { reuse_ai?: unknown; ai_broad?: unknown };
   try {
     const saved = await savedInputsFor(slug);
     if (!saved) return NextResponse.json({ error: `"${slug}" has no saved inputs — create it from the form instead` }, { status: 404 });
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
       products: inputs.products,
       asins: inputs.asins,
       competitorAsins: inputs.competitorAsins,
-      options: { reuse_ai: body.reuse_ai === true },
+      options: { reuse_ai: body.reuse_ai === true, ...(typeof body.ai_broad === "string" && body.ai_broad.trim() ? { ai_broad: body.ai_broad.trim() } : {}) },
     });
     return withAdminSession(req, NextResponse.json({ ...result, inputs, source: saved.source }, { status: 202 }));
   } catch (e) {

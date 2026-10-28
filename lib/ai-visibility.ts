@@ -144,14 +144,15 @@ function fallbackBank(category: string): QuestionBank {
  * the same questions. Also returns the attributes shoppers judge the category
  * on and each brand's official website. Falls back to fixed questions.
  */
-export async function generateQuestionBank(subject: string, competitors: string[], category: string, perStage = 6): Promise<QuestionBank> {
+export async function generateQuestionBank(subject: string, competitors: string[], category: string, perStage = 6, broad?: string): Promise<QuestionBank> {
+  const mix = broad ? `\n\nHalf of each stage's questions are about ${broad} in general, not limited to ${category}, the way a shopper asks before settling on one ("best large screen ${broad}", "best ${broad} for movies"); the other half are about ${category}.` : "";
   const namesBrand = (text: string): boolean => patternMentions(text, [subject, ...competitors], category).length > 0;
   try {
     const text = await callLLM({
       system: "You design shopper research for AI search visibility. Reply with JSON only.",
       user: `Category: ${category} (US shoppers). Subject brand: ${subject}. Competitors: ${competitors.join(", ")}.
 
-Write ${perStage + 2} questions for each funnel stage — awareness, consideration, evaluation, decision — phrased the way a real shopper types into ChatGPT. No question may name any brand, product line or retailer-own label: every question is "neutral", so the engines choose which brands to bring up. Vary use cases, budgets and needs.
+Write ${perStage + 2} questions for each funnel stage — awareness, consideration, evaluation, decision — phrased the way a real shopper types into ChatGPT. No question may name any brand, product line or retailer-own label: every question is "neutral", so the engines choose which brands to bring up. Vary use cases, budgets and needs.${mix}
 
 The stages move from browsing to buying: awareness asks what exists ("best ${category} in <year>", "most popular ${category} brands"); consideration narrows by need ("best ${category} for <use>", "which ${category} for <need> under $<price>"); evaluation weighs proof and trade-offs ("which ${category} have the best reviews for <need>", "most reliable ${category} that <claim>"); decision is ready to buy ("best ${category} to buy on Amazon right now", "best value ${category} pack for daily use", "where to buy ${category} cheapest").
 

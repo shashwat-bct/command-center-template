@@ -26,6 +26,7 @@ export type BuildOptions = {
   run_ai_visibility?: boolean;
   simulation_only?: boolean;
   reuse_ai?: boolean;
+  ai_broad?: string;
   inputs?: {
     name?: string;
     brandLink?: string | null;

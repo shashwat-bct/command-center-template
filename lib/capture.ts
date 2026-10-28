@@ -377,7 +377,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
         logLine("AI answers: none to reuse for this category and these brands, asking the engines");
       }
       const engines = availableEngines();
-      const bank = await generateQuestionBank(name, aiCompetitors, category);
+      const bank = await generateQuestionBank(name, aiCompetitors, category, 6, options.ai_broad?.trim() || undefined);
       logLine(`question bank for "${category}": ${bank.questions.length} questions (${bank.questions.filter((q) => q.focus === "neutral").length} brand-neutral); attributes: ${bank.attributes.join(", ")}; domains: ${JSON.stringify(bank.domains)}`);
       logLine(`asking ${engines.map((e) => `${e.label} (${e.model}${e.webSearch ? ", web search" : ""})`).join(", ")} every question once`);
       const r = await fetchAiShareOfMind({ subjectName: name, category, competitors: aiCompetitors, engines, bank });
