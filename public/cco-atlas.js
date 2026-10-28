@@ -7,6 +7,7 @@ const MAX_CHATS = 30;
 const MATCH = {
   "black-friday": /black\s*friday|bfcm|cyber\s*monday|thanksgiving|holiday/i,
   "price-per-wipe": /per\s*wipe|per\s*100|unit\s*price|cheap|expensive|premium|value|pric(e|ing)\s*position/i,
+  "retailer-price-gap": /same\s*(tv|model)|across\s*retailers|channel|best\s*buy|target|msrp|price\s*gap|price\s*match/i,
   "big-deal-days": /prime|big\s*deal|deal\s*days|october\s*event/i,
   availability: /stock|availab|out\s*of|oos|unavailable|buyable/i,
   reviews: /review|rating|complain|love|hate|durab|soft|customer|shopper.*say/i,
@@ -19,7 +20,7 @@ const storeKey = () => `atlas_chats_${subject}`;
 function load() { try { chats = JSON.parse(localStorage.getItem(storeKey()) || "[]"); } catch (e) { chats = []; } }
 function save() { try { localStorage.setItem(storeKey(), JSON.stringify(chats.slice(0, MAX_CHATS))); } catch (e) {} }
 const answerOf = (id) => atlas.answers.find((a) => a.id === id) || null;
-const matchAnswer = (text) => { const exact = atlas.answers.find((a) => a.question.toLowerCase() === text.trim().toLowerCase()); if (exact) return exact; const hit = Object.keys(MATCH).find((id) => MATCH[id].test(text)); return hit ? answerOf(hit) : null; };
+const matchAnswer = (text) => { const exact = atlas.answers.find((a) => a.question.toLowerCase() === text.trim().toLowerCase()); if (exact) return exact; const hit = Object.keys(MATCH).find((id) => MATCH[id].test(text) && answerOf(id)); return hit ? answerOf(hit) : null; };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const reduced = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

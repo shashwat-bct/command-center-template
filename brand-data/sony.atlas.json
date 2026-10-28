@@ -1,0 +1,2191 @@
+{
+  "version": 1,
+  "brand": "Sony",
+  "generatedOn": "2026-10-28",
+  "sources": [
+    "Amazon (Keepa price, stock, sales rank and bought-in-past-month history)",
+    "Retailer data (RetailerAPI, Kompy, Histomart, ShopSavvy, Endless, Wayback Machine, retail audit)",
+    "Amazon reviews",
+    "AI answers from ChatGPT, Gemini and Claude"
+  ],
+  "answers": [
+    {
+      "id": "black-friday",
+      "question": "Black Friday 2025: how deep did Sony cut its 65\" TVs on Amazon, Walmart and Best Buy against rivals, and did it buy Amazon rank?",
+      "chip": "Black Friday 2025 · Amazon + Walmart + Best Buy",
+      "steps": [
+        "Loading 20 Amazon listings' daily Keepa history (price, stock, Best Sellers Rank, bought-in-past-month)",
+        "Loading Walmart and Best Buy daily readings from the retailer feed",
+        "Setting the baseline (Oct 1, 2025 – Nov 13, 2025) and Black Friday week (Nov 21, 2025 – Dec 1, 2025)",
+        "Comparing 25 model–retailer pairs on lowest price, autumn change and discount off MSRP",
+        "Reading the Amazon sales-rank response to each price move",
+        "Ranking the movers and drafting the recommended moves"
+      ],
+      "headline": "Sony cut -18.0% on Amazon, -10.8% on Walmart, -7.3% on Best Buy for Black Friday 2025, landing 26% off MSRP on average, #3 of 5 brands for depth; TCL went deepest at 37% off. On Amazon, BRAVIA 5 went $1298.00 → $998.00 and ranked #9,712 → #3,340.",
+      "what": "TCL 37% off MSRP · Hisense 30% off MSRP · Sony 26% off MSRP · LG 21% off MSRP · Samsung 18% off MSRP. 7 of 9 Sony model–retailer pairs were cut 5% or more.",
+      "why": "Black Friday is a price-match week for TVs: the same model lands within a few dollars across retailers. Sony's widest gap was BRAVIA 5: $998.00 at Amazon vs $999.99 at Best Buy. Rivals averaged 29% off MSRP against Sony's 26%, so Sony stayed the premium shelf.",
+      "when": "Black Friday was Nov 28, 2025. Black Friday week: Nov 21, 2025 – Dec 1, 2025. Baseline: Oct 1, 2025 – Nov 13, 2025. 2026 models launched after Black Friday 2025 are not in this comparison.",
+      "insight": "Sony's Black Friday cuts bought rank: BRAVIA 5 climbed #9,712 → #3,340 on Amazon at 33% off MSRP. The question for 2026 is depth, not whether to play.",
+      "actions": [
+        {
+          "title": "Set the 2026 Black Friday price for BRAVIA 5 early",
+          "detail": "It went $1298.00 → $998.00 (-23.1%) in Black Friday week 2025 and sold 500+ a month on Amazon.",
+          "impact": "Sony's highest-volume Amazon TV in the set"
+        },
+        {
+          "title": "Align BRAVIA 5 across retailers for Black Friday week",
+          "detail": "$998.00 at Amazon vs $999.99 at Best Buy in 2025.",
+          "impact": "A $1.99 gap a price-matching shopper sees"
+        },
+        {
+          "title": "Plan against TCL's QM8K",
+          "detail": "It cut 40% and climbed #7,485 → #1,241 on Amazon in the same week.",
+          "impact": "The rival most likely to take Black Friday share"
+        }
+      ],
+      "kpis": [
+        {
+          "label": "Sony on Amazon",
+          "value": "-18.0%",
+          "note": "Black Friday low vs autumn",
+          "tone": "good"
+        },
+        {
+          "label": "Sony on Walmart",
+          "value": "-10.8%",
+          "note": "Black Friday low vs autumn",
+          "tone": "good"
+        },
+        {
+          "label": "Sony on Best Buy",
+          "value": "-7.3%",
+          "note": "Black Friday low vs autumn",
+          "tone": "good"
+        },
+        {
+          "label": "Off MSRP",
+          "value": "26%",
+          "note": "#3 of 5 for depth",
+          "tone": "neutral"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Black Friday price move by brand and retailer",
+          "sub": "Mean of each model's lowest Nov 21, 2025 – Dec 1, 2025 price vs its Oct 1, 2025 – Nov 13, 2025 median",
+          "unit": "signedPct",
+          "rows": [
+            {
+              "label": "Sony · Amazon",
+              "value": -18,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "3 models · 3 cut 5%+"
+            },
+            {
+              "label": "Sony · Walmart",
+              "value": -10.8,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "3 models · 3 cut 5%+"
+            },
+            {
+              "label": "Sony · Best Buy",
+              "value": -7.3,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "3 models · 1 cut 5%+"
+            },
+            {
+              "label": "Samsung · Amazon",
+              "value": -12.5,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "1 model · 1 cut 5%+"
+            },
+            {
+              "label": "Samsung · Best Buy",
+              "value": -12.5,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "1 model · 1 cut 5%+"
+            },
+            {
+              "label": "LG · Amazon",
+              "value": -8.1,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "2 models · 2 cut 5%+"
+            },
+            {
+              "label": "LG · Best Buy",
+              "value": -4.5,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "2 models · 1 cut 5%+"
+            },
+            {
+              "label": "TCL · Amazon",
+              "value": -24.6,
+              "color": "#be123c",
+              "subject": false,
+              "note": "3 models · 3 cut 5%+"
+            },
+            {
+              "label": "TCL · Best Buy",
+              "value": -21.2,
+              "color": "#be123c",
+              "subject": false,
+              "note": "3 models · 3 cut 5%+"
+            },
+            {
+              "label": "Hisense · Amazon",
+              "value": -7.3,
+              "color": "#d97706",
+              "subject": false,
+              "note": "2 models · 2 cut 5%+"
+            },
+            {
+              "label": "Hisense · Walmart",
+              "value": -33.4,
+              "color": "#d97706",
+              "subject": false,
+              "note": "1 model · 1 cut 5%+"
+            },
+            {
+              "label": "Hisense · Best Buy",
+              "value": -4.3,
+              "color": "#d97706",
+              "subject": false,
+              "note": "1 model · 0 cut 5%+"
+            }
+          ]
+        },
+        {
+          "type": "hbars",
+          "title": "Black Friday low as % off MSRP",
+          "sub": "Mean across every tracked model and retailer",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "TCL",
+              "value": 37,
+              "color": "#be123c",
+              "subject": false,
+              "note": "6 model-retailer readings"
+            },
+            {
+              "label": "Hisense",
+              "value": 29.6,
+              "color": "#d97706",
+              "subject": false,
+              "note": "4 model-retailer readings"
+            },
+            {
+              "label": "Sony",
+              "value": 26.1,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "9 model-retailer readings"
+            },
+            {
+              "label": "LG",
+              "value": 20.6,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "4 model-retailer readings"
+            },
+            {
+              "label": "Samsung",
+              "value": 17.6,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "2 model-retailer readings"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Every tracked TV through Black Friday week",
+          "sub": "Amazon from Keepa; Walmart from Kompy, Histomart and RetailerAPI; Best Buy from archived product pages",
+          "columns": [
+            {
+              "label": "Brand",
+              "align": "left"
+            },
+            {
+              "label": "Model",
+              "align": "left"
+            },
+            {
+              "label": "Retailer",
+              "align": "left"
+            },
+            {
+              "label": "Autumn median"
+            },
+            {
+              "label": "Black Friday low"
+            },
+            {
+              "label": "Change"
+            },
+            {
+              "label": "Off MSRP"
+            },
+            {
+              "label": "Sales rank"
+            },
+            {
+              "label": "Bought / month"
+            }
+          ],
+          "rows": [
+            [
+              "Sony",
+              "BRAVIA 8 II",
+              "Amazon",
+              "$2998.00",
+              "$2298.00",
+              "-23.3%",
+              "30%",
+              "#14k → #5,929",
+              "500+"
+            ],
+            [
+              "Sony",
+              "BRAVIA 5",
+              "Amazon",
+              "$1298.00",
+              "$998.00",
+              "-23.1%",
+              "33%",
+              "#9,712 → #3,340",
+              "500+"
+            ],
+            [
+              "Sony",
+              "BRAVIA 2 II",
+              "Amazon",
+              "$648.00",
+              "$598.00",
+              "-7.7%",
+              "15%",
+              "#2,533 → #2,577",
+              "400+"
+            ],
+            [
+              "Sony",
+              "BRAVIA 8 II",
+              "Best Buy",
+              "$2798.00",
+              "$2299.99",
+              "-17.8%",
+              "30%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "BRAVIA 2 II",
+              "Best Buy",
+              "$624.99",
+              "$599.99",
+              "-4.0%",
+              "14%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "BRAVIA 5",
+              "Best Buy",
+              "$999.99",
+              "$999.99",
+              "0.0%",
+              "33%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "BRAVIA 5",
+              "Walmart",
+              "$1148.00",
+              "$998.00",
+              "-13.1%",
+              "33%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "BRAVIA 8 II",
+              "Walmart",
+              "$2599.99",
+              "$2298.00",
+              "-11.6%",
+              "30%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "BRAVIA 2 II",
+              "Walmart",
+              "$648.00",
+              "$598.00",
+              "-7.7%",
+              "15%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "QM8K",
+              "Amazon",
+              "$1497.99",
+              "$897.99",
+              "-40.1%",
+              "40%",
+              "#7,485 → #1,241",
+              "1k+"
+            ],
+            [
+              "TCL",
+              "QM6K",
+              "Amazon",
+              "$623.99",
+              "$497.99",
+              "-20.2%",
+              "38%",
+              "#739 → —",
+              "1k+"
+            ],
+            [
+              "TCL",
+              "QM7K",
+              "Amazon",
+              "$923.98",
+              "$797.99",
+              "-13.6%",
+              "34%",
+              "#2,770 → #1,172",
+              "1k+"
+            ],
+            [
+              "Samsung",
+              "S90F",
+              "Amazon",
+              "$1597.99",
+              "$1397.99",
+              "-12.5%",
+              "18%",
+              "#3,388 → #1,242",
+              "2k+"
+            ],
+            [
+              "LG",
+              "B5",
+              "Amazon",
+              "$1096.99",
+              "$996.99",
+              "-9.1%",
+              "38%",
+              "#12k → #3,338",
+              "500+"
+            ],
+            [
+              "Hisense",
+              "U8",
+              "Amazon",
+              "$1081.99",
+              "$997.99",
+              "-7.8%",
+              "50%",
+              "#3,901 → #1,233",
+              "1k+"
+            ],
+            [
+              "LG",
+              "C5",
+              "Amazon",
+              "$1396.99",
+              "$1296.99",
+              "-7.2%",
+              "7%",
+              "#717 → #755",
+              "4k+"
+            ],
+            [
+              "Hisense",
+              "QD7",
+              "Amazon",
+              "$467.99",
+              "$435.53",
+              "-6.9%",
+              "11%",
+              "#184 → #141",
+              "1k+"
+            ],
+            [
+              "TCL",
+              "QM8K",
+              "Best Buy",
+              "$1399.99",
+              "$899.99",
+              "-35.7%",
+              "40%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "QM6K",
+              "Best Buy",
+              "$599.99",
+              "$499.99",
+              "-16.7%",
+              "38%",
+              "—",
+              "—"
+            ],
+            [
+              "Samsung",
+              "S90F",
+              "Best Buy",
+              "$1599.99",
+              "$1399.99",
+              "-12.5%",
+              "18%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "QM7K",
+              "Best Buy",
+              "$899.99",
+              "$799.99",
+              "-11.1%",
+              "33%",
+              "—",
+              "—"
+            ],
+            [
+              "LG",
+              "B5",
+              "Best Buy",
+              "$1099.99",
+              "$999.99",
+              "-9.1%",
+              "37%",
+              "—",
+              "—"
+            ],
+            [
+              "Hisense",
+              "QD7",
+              "Best Buy",
+              "$469.99",
+              "$449.99",
+              "-4.3%",
+              "8%",
+              "—",
+              "—"
+            ],
+            [
+              "LG",
+              "C5",
+              "Best Buy",
+              "$1399.99",
+              "$1399.99",
+              "0.0%",
+              "0%",
+              "—",
+              "—"
+            ],
+            [
+              "Hisense",
+              "U8",
+              "Walmart",
+              "$1498.00",
+              "$998.00",
+              "-33.4%",
+              "50%",
+              "—",
+              "—"
+            ]
+          ],
+          "highlight": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "link": {
+        "page": "pricing",
+        "label": "Pricing"
+      }
+    },
+    {
+      "id": "retailer-price-gap",
+      "question": "Is the same Sony TV priced the same at Amazon, Walmart, Best Buy and Target, and how deep does Sony discount off MSRP against rivals?",
+      "chip": "Channel pricing · same TV, every retailer",
+      "steps": [
+        "Taking each model's median price over Jul 27, 2026 – Oct 25, 2026 at every retailer that sells it",
+        "Matching 20 models across Amazon, Walmart, Best Buy and Target by model number",
+        "Setting aside 3 retailer prices more than 35% from the model's median (a different variant or a list price, not a street price)",
+        "Measuring the gap between each model's cheapest and dearest retailer",
+        "Restating every price as a discount off MSRP",
+        "Ranking 5 brands on discount depth"
+      ],
+      "headline": "Sony sells 5% below MSRP at the median, #5 of 5 brands for discount depth (Hisense deepest at 29%). Its widest channel gap is BRAVIA 8 II: Amazon $2498.00 vs Target $3299.00 (32.1%).",
+      "what": "Hisense 29% off · TCL 28% off · LG 22% off · Samsung 9% off · Sony 5% off. Sony is cheapest at Amazon on 2 of 4 models sold at more than one retailer.",
+      "why": "Sony's channel gaps average 9.0% against 12.6% for rivals. A gap that wide is visible to any shopper with two tabs open, and on TVs it is usually a retailer holding last month's price after a rival cut.",
+      "when": "Jul 27, 2026 – Oct 25, 2026 (13 weeks). Medians use only days a retailer price was read. Set aside: Samsung S90H at Target ($2499.00); TCL QM7K at Amazon ($1319.00); Hisense U8 at Best Buy ($1869.00).",
+      "insight": "Sony holds a tighter price across retailers than its rivals, so its pricing lever is depth: it sits 5% off MSRP against Hisense's 29%.",
+      "actions": [
+        {
+          "title": "Close the BRAVIA 8 II gap at Target",
+          "detail": "$3299.00 at Target vs $2498.00 at Amazon over the quarter.",
+          "impact": "32.1% price gap on one model"
+        },
+        {
+          "title": "Use Amazon as the price reference",
+          "detail": "It is Sony's cheapest retailer on 2 models; other retailers' prices are read against it.",
+          "impact": "One reference price for retailer conversations"
+        },
+        {
+          "title": "Hold MSRP discipline on the premium models",
+          "detail": "Sony discounts 5% off MSRP at the median; Hisense discounts 29%.",
+          "impact": "Margin the brand keeps by not following the deepest rival"
+        }
+      ],
+      "kpis": [
+        {
+          "label": "Off MSRP",
+          "value": "5%",
+          "note": "#5 of 5 for depth"
+        },
+        {
+          "label": "Channel gap",
+          "value": "9.0%",
+          "note": "rivals 12.6%",
+          "tone": "good"
+        },
+        {
+          "label": "Widest gap",
+          "value": "32.1%",
+          "note": "BRAVIA 8 II",
+          "tone": "risk"
+        },
+        {
+          "label": "Cheapest retailer",
+          "value": "Amazon",
+          "note": "2 Sony models"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Median street price as % off MSRP",
+          "sub": "Every tracked model, median across retailers, Jul 27, 2026 – Oct 25, 2026",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Hisense",
+              "value": 29.4,
+              "color": "#d97706",
+              "subject": false
+            },
+            {
+              "label": "TCL",
+              "value": 28.3,
+              "color": "#be123c",
+              "subject": false
+            },
+            {
+              "label": "LG",
+              "value": 21.5,
+              "color": "#2563eb",
+              "subject": false
+            },
+            {
+              "label": "Samsung",
+              "value": 9.3,
+              "color": "#0891b2",
+              "subject": false
+            },
+            {
+              "label": "Sony",
+              "value": 5.1,
+              "color": "#5b21b6",
+              "subject": true
+            }
+          ]
+        },
+        {
+          "type": "hbars",
+          "title": "Sony's cheapest-to-dearest retailer gap",
+          "sub": "Median price at the dearest retailer vs the cheapest, per model",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "BRAVIA 8 II",
+              "value": 32.1,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "Amazon $2498.00 → Target $3299.00"
+            },
+            {
+              "label": "BRAVIA 5",
+              "value": 3.4,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "Best Buy $1449.99 → Target $1499.00"
+            },
+            {
+              "label": "BRAVIA 2 II",
+              "value": 0.3,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "Walmart $698.00 → Amazon $699.99"
+            },
+            {
+              "label": "BRAVIA 3 II",
+              "value": 0.1,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "Amazon $898.00 → Best Buy $899.00"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Median price by model and retailer",
+          "sub": "Jul 27, 2026 – Oct 25, 2026; Amazon from Keepa, other retailers from the retailer feed",
+          "columns": [
+            {
+              "label": "Brand",
+              "align": "left"
+            },
+            {
+              "label": "Model",
+              "align": "left"
+            },
+            {
+              "label": "MSRP"
+            },
+            {
+              "label": "Amazon"
+            },
+            {
+              "label": "Walmart"
+            },
+            {
+              "label": "Best Buy"
+            },
+            {
+              "label": "Target"
+            },
+            {
+              "label": "Gap"
+            },
+            {
+              "label": "Cheapest",
+              "align": "left"
+            }
+          ],
+          "rows": [
+            [
+              "Sony",
+              "BRAVIA 8 II",
+              "$3299.99",
+              "$2498.00",
+              "$2498.00",
+              "$2799.99",
+              "$3299.00",
+              "32.1%",
+              "Amazon"
+            ],
+            [
+              "Sony",
+              "BRAVIA 5",
+              "$1499.99",
+              "$1498.00",
+              "$1498.00",
+              "$1449.99",
+              "$1499.00",
+              "3.4%",
+              "Best Buy"
+            ],
+            [
+              "Sony",
+              "BRAVIA 2 II",
+              "$699.99",
+              "$699.99",
+              "$698.00",
+              "$699.00",
+              "$698.00",
+              "0.3%",
+              "Walmart"
+            ],
+            [
+              "Sony",
+              "BRAVIA 3 II",
+              "$899.99",
+              "$898.00",
+              "$898.00",
+              "$899.00",
+              "—",
+              "0.1%",
+              "Amazon"
+            ],
+            [
+              "TCL",
+              "QM7K",
+              "$1199.99",
+              "—",
+              "$897.00",
+              "$699.99",
+              "—",
+              "28.1%",
+              "Best Buy"
+            ],
+            [
+              "Hisense",
+              "U8",
+              "$1999.99",
+              "$1099.99",
+              "$860.00",
+              "—",
+              "—",
+              "27.9%",
+              "Walmart"
+            ],
+            [
+              "TCL",
+              "QM8K",
+              "$1499.99",
+              "$1097.99",
+              "—",
+              "$899.99",
+              "—",
+              "22.0%",
+              "Best Buy"
+            ],
+            [
+              "LG",
+              "B5",
+              "$1596.99",
+              "$1346.95",
+              "$1105.11",
+              "$1199.00",
+              "—",
+              "21.9%",
+              "Walmart"
+            ],
+            [
+              "TCL",
+              "QM6K",
+              "$799.99",
+              "$664.79",
+              "$698.00",
+              "$799.00",
+              "$699.00",
+              "20.2%",
+              "Amazon"
+            ],
+            [
+              "LG",
+              "QNED84B",
+              "$899.99",
+              "$699.99",
+              "$829.99",
+              "$699.00",
+              "—",
+              "18.7%",
+              "Best Buy"
+            ],
+            [
+              "Hisense",
+              "U7",
+              "$1499.99",
+              "$999.99",
+              "$998.00",
+              "$847.00",
+              "—",
+              "18.1%",
+              "Best Buy"
+            ],
+            [
+              "Hisense",
+              "U6 Pro",
+              "$1099.99",
+              "$647.99",
+              "$747.24",
+              "$699.00",
+              "—",
+              "15.3%",
+              "Amazon"
+            ],
+            [
+              "LG",
+              "C5",
+              "$1399.99",
+              "$1396.95",
+              "—",
+              "$1426.00",
+              "$1544.00",
+              "10.5%",
+              "Amazon"
+            ],
+            [
+              "Samsung",
+              "QN70H",
+              "$1097.99",
+              "$997.99",
+              "$997.99",
+              "$1099.00",
+              "—",
+              "10.1%",
+              "Amazon"
+            ],
+            [
+              "Samsung",
+              "U8000H",
+              "$377.99",
+              "$377.99",
+              "$378.00",
+              "$379.00",
+              "$399.00",
+              "5.6%",
+              "Amazon"
+            ],
+            [
+              "Hisense",
+              "QD7",
+              "$487.00",
+              "$497.99",
+              "—",
+              "$509.50",
+              "—",
+              "2.3%",
+              "Amazon"
+            ],
+            [
+              "Samsung",
+              "S90F",
+              "$1697.99",
+              "$1397.99",
+              "—",
+              "$1399.00",
+              "—",
+              "0.1%",
+              "Amazon"
+            ],
+            [
+              "Samsung",
+              "S90H",
+              "$1897.99",
+              "$1697.99",
+              "$1697.99",
+              "$1699.00",
+              "—",
+              "0.1%",
+              "Amazon"
+            ],
+            [
+              "LG",
+              "C6",
+              "$2699.99",
+              "$1599.99",
+              "$1599.99",
+              "$1599.00",
+              "—",
+              "0.1%",
+              "Best Buy"
+            ],
+            [
+              "TCL",
+              "QM7L",
+              "$1499.99",
+              "$997.99",
+              "$998.00",
+              "$999.00",
+              "—",
+              "0.1%",
+              "Amazon"
+            ]
+          ],
+          "highlight": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "link": {
+        "page": "pricing",
+        "label": "Pricing"
+      }
+    },
+    {
+      "id": "big-deal-days",
+      "question": "Prime Big Deal Days: who discounted, on which retailer, and did the cuts actually buy Amazon sales rank?",
+      "chip": "Prime Big Deal Days · cut vs hold",
+      "steps": [
+        "Pulling daily Keepa prices and Best Sellers Rank for 19 Amazon listings",
+        "Pulling Walmart prices for 19 listings from the Walmart feed",
+        "Comparing Oct 13, 2026 – Oct 14, 2026 with the 14 days before",
+        "Measuring each listing's sales-rank response to its own price move",
+        "Separating the brands that cut and climbed from the ones that held"
+      ],
+      "headline": "Sony largely held price on Prime Big Deal Days (+5.4% on average, 1 of 8 listings cut 3%+) while Hisense moved -3.5%. The clearest payoff from cutting was Hisense's U7: cut 23.4% and #2,263 → #1,086 on Amazon.",
+      "what": "Sony +5.4% (1/8 cut) · Samsung +0.6% (0/8 cut) · LG -0.4% (0/7 cut) · TCL +2.3% (0/7 cut) · Hisense -3.5% (2/8 cut).",
+      "why": "Prime Big Deal Days is an Amazon event, so the cuts land on Amazon: across the set Amazon listings moved +0.3% and Walmart +1.5%. Sony's lead Amazon listing (BRAVIA 3 II) moved +5.9% and ranked #3,131 → #2,852.",
+      "when": "Prime Big Deal Days: Oct 13, 2026 – Oct 14, 2026. Baseline: Sep 29, 2026 – Oct 12, 2026. Rank read through Oct 16, 2026.",
+      "insight": "Holding price on Prime Big Deal Days cost Sony nothing in rank: its lead listing held #2,852 without a deal, so the margin it kept was free.",
+      "actions": [
+        {
+          "title": "Run event deals on the lead listing only",
+          "detail": "Cut the listing that decides rank (BRAVIA 3 II) and hold the rest.",
+          "impact": "Keeps 7 other listings at full price"
+        },
+        {
+          "title": "Plan against Hisense's event playbook",
+          "detail": "It cut 23.4% on U7 and climbed #2,263 → #1,086.",
+          "impact": "The competitor most likely to take share on the next event"
+        },
+        {
+          "title": "Keep Walmart out of Amazon events",
+          "detail": "Walmart listings moved +1.5% on average over the event.",
+          "impact": "Avoids margin loss where the event does not run"
+        }
+      ],
+      "kpis": [
+        {
+          "label": "Sony price move",
+          "value": "+5.4%",
+          "note": "event low vs 14 days before"
+        },
+        {
+          "label": "Listings cut 3%+",
+          "value": "1 / 8"
+        },
+        {
+          "label": "Deepest rival move",
+          "value": "-3.5%",
+          "note": "Hisense"
+        },
+        {
+          "label": "Lead listing rank",
+          "value": "#3,131 → #2,852",
+          "note": "BRAVIA 3 II",
+          "tone": "good"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Average price move on the event days",
+          "sub": "Lowest price Oct 13, 2026 – Oct 14, 2026 vs the 14 days before",
+          "unit": "signedPct",
+          "rows": [
+            {
+              "label": "Sony · Amazon",
+              "value": 6.4,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "0 of 4 cut 3%+"
+            },
+            {
+              "label": "Sony · Walmart",
+              "value": 4.4,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "1 of 4 cut 3%+"
+            },
+            {
+              "label": "Samsung · Amazon",
+              "value": 1.8,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "0 of 4 cut 3%+"
+            },
+            {
+              "label": "Samsung · Walmart",
+              "value": -0.6,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "0 of 4 cut 3%+"
+            },
+            {
+              "label": "LG · Amazon",
+              "value": -0.2,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "0 of 4 cut 3%+"
+            },
+            {
+              "label": "LG · Walmart",
+              "value": -0.6,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "0 of 3 cut 3%+"
+            },
+            {
+              "label": "TCL · Amazon",
+              "value": 3.7,
+              "color": "#be123c",
+              "subject": false,
+              "note": "0 of 3 cut 3%+"
+            },
+            {
+              "label": "TCL · Walmart",
+              "value": 1.3,
+              "color": "#be123c",
+              "subject": false,
+              "note": "0 of 4 cut 3%+"
+            },
+            {
+              "label": "Hisense · Amazon",
+              "value": -9.2,
+              "color": "#d97706",
+              "subject": false,
+              "note": "2 of 4 cut 3%+"
+            },
+            {
+              "label": "Hisense · Walmart",
+              "value": 2.2,
+              "color": "#d97706",
+              "subject": false,
+              "note": "0 of 4 cut 3%+"
+            }
+          ]
+        },
+        {
+          "type": "hbars",
+          "title": "Amazon sales-rank response: biggest movers",
+          "sub": "Best Sellers Rank on the event and two days after vs the 14 days before (positive = climbed)",
+          "unit": "signedPct",
+          "rows": [
+            {
+              "label": "BRAVIA 5",
+              "value": 239,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "#18k → #5,211 · price +3.5%"
+            },
+            {
+              "label": "U7",
+              "value": 108.5,
+              "color": "#d97706",
+              "subject": false,
+              "note": "#2,263 → #1,086 · price -23.4%"
+            },
+            {
+              "label": "U8",
+              "value": 62.7,
+              "color": "#d97706",
+              "subject": false,
+              "note": "#4,203 → #2,584 · price -2.6%"
+            },
+            {
+              "label": "U8000H",
+              "value": -46.6,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "#260 → #487 · price 0.0%"
+            },
+            {
+              "label": "BRAVIA 8 II",
+              "value": -40.4,
+              "color": "#5b21b6",
+              "subject": true,
+              "note": "#9,997 → #17k · price +12.0%"
+            },
+            {
+              "label": "U6 Pro",
+              "value": 36.1,
+              "color": "#d97706",
+              "subject": false,
+              "note": "#2,091 → #1,536 · price 0.0%"
+            },
+            {
+              "label": "QN70H",
+              "value": 29.9,
+              "color": "#0891b2",
+              "subject": false,
+              "note": "#3,175 → #2,444 · price 0.0%"
+            },
+            {
+              "label": "C5",
+              "value": -26.6,
+              "color": "#2563eb",
+              "subject": false,
+              "note": "#2,434 → #3,314 · price -2.5%"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Every measured listing on the event",
+          "sub": "Amazon from Keepa, Walmart from Histomart, Kompy and RetailerAPI",
+          "columns": [
+            {
+              "label": "Brand",
+              "align": "left"
+            },
+            {
+              "label": "Retailer",
+              "align": "left"
+            },
+            {
+              "label": "Listing",
+              "align": "left"
+            },
+            {
+              "label": "Before"
+            },
+            {
+              "label": "Event low"
+            },
+            {
+              "label": "Change"
+            },
+            {
+              "label": "In stock"
+            },
+            {
+              "label": "Sales rank"
+            },
+            {
+              "label": "Bought / month"
+            }
+          ],
+          "rows": [
+            [
+              "Hisense",
+              "Amazon",
+              "U7",
+              "$1041.12",
+              "$797.99",
+              "-23.4%",
+              "100%",
+              "#2,263 → #1,086",
+              "500+"
+            ],
+            [
+              "Hisense",
+              "Amazon",
+              "QD7",
+              "$571.18",
+              "$509.99",
+              "-10.7%",
+              "100%",
+              "#599 → #550",
+              "50+"
+            ],
+            [
+              "Sony",
+              "Walmart",
+              "BRAVIA 2 II",
+              "$673.00",
+              "$648.00",
+              "-3.7%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Hisense",
+              "Amazon",
+              "U8",
+              "$1024.99",
+              "$997.97",
+              "-2.6%",
+              "100%",
+              "#4,203 → #2,584",
+              "300+"
+            ],
+            [
+              "LG",
+              "Amazon",
+              "C5",
+              "$1362.47",
+              "$1328.24",
+              "-2.5%",
+              "100%",
+              "#2,434 → #3,314",
+              "500+"
+            ],
+            [
+              "Samsung",
+              "Walmart",
+              "S90F",
+              "$1005.92",
+              "$981.83",
+              "-2.4%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "LG",
+              "Walmart",
+              "QNED84B",
+              "$864.99",
+              "$849.99",
+              "-1.7%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Hisense",
+              "Walmart",
+              "QD7",
+              "$494.64",
+              "$492.54",
+              "-0.4%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Samsung",
+              "Amazon",
+              "S90H",
+              "$1497.99",
+              "$1497.99",
+              "0.0%",
+              "100%",
+              "#1,621 → #1,398",
+              "1k+"
+            ],
+            [
+              "Samsung",
+              "Amazon",
+              "QN70H",
+              "$897.99",
+              "$897.99",
+              "0.0%",
+              "100%",
+              "#3,175 → #2,444",
+              "200+"
+            ],
+            [
+              "Samsung",
+              "Amazon",
+              "U8000H",
+              "$377.99",
+              "$377.99",
+              "0.0%",
+              "100%",
+              "#260 → #487",
+              "7k+"
+            ],
+            [
+              "LG",
+              "Amazon",
+              "C6",
+              "$1499.99",
+              "$1499.99",
+              "0.0%",
+              "100%",
+              "#2,550 → #2,247",
+              "500+"
+            ],
+            [
+              "LG",
+              "Amazon",
+              "B5",
+              "$1199.99",
+              "$1199.99",
+              "0.0%",
+              "100%",
+              "#63k → #56k",
+              "—"
+            ],
+            [
+              "TCL",
+              "Amazon",
+              "QM7K",
+              "$1319.00",
+              "$1319.00",
+              "0.0%",
+              "100%",
+              "#30k → #29k",
+              "—"
+            ],
+            [
+              "TCL",
+              "Amazon",
+              "QM6K",
+              "$647.99",
+              "$647.99",
+              "0.0%",
+              "100%",
+              "#817 → #929",
+              "1k+"
+            ],
+            [
+              "Hisense",
+              "Amazon",
+              "U6 Pro",
+              "$647.97",
+              "$647.97",
+              "0.0%",
+              "100%",
+              "#2,091 → #1,536",
+              "500+"
+            ],
+            [
+              "Samsung",
+              "Walmart",
+              "S90H",
+              "$1497.99",
+              "$1497.99",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Samsung",
+              "Walmart",
+              "QN70H",
+              "$897.99",
+              "$897.99",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Samsung",
+              "Walmart",
+              "U8000H",
+              "$378.00",
+              "$378.00",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "LG",
+              "Walmart",
+              "C6",
+              "$1499.99",
+              "$1499.99",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "LG",
+              "Walmart",
+              "B5",
+              "$1105.11",
+              "$1105.11",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "Walmart",
+              "QM8K",
+              "$1298.00",
+              "$1298.00",
+              "0.0%",
+              "0%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "Walmart",
+              "QM7K",
+              "$897.00",
+              "$897.00",
+              "0.0%",
+              "0%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "Walmart",
+              "QM6K",
+              "$647.99",
+              "$648.00",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Hisense",
+              "Walmart",
+              "U8",
+              "$1049.00",
+              "$1049.00",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Hisense",
+              "Walmart",
+              "U6 Pro",
+              "$647.99",
+              "$648.00",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "LG",
+              "Amazon",
+              "QNED84B",
+              "$639.99",
+              "$649.99",
+              "+1.6%",
+              "100%",
+              "#6,321 → #6,353",
+              "200+"
+            ],
+            [
+              "Sony",
+              "Amazon",
+              "BRAVIA 5",
+              "$1448.00",
+              "$1498.00",
+              "+3.5%",
+              "100%",
+              "#18k → #5,211",
+              "50+"
+            ],
+            [
+              "Sony",
+              "Walmart",
+              "BRAVIA 5",
+              "$1448.00",
+              "$1498.00",
+              "+3.5%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "Amazon",
+              "BRAVIA 2 II",
+              "$673.00",
+              "$699.99",
+              "+4.0%",
+              "100%",
+              "#4,168 → #4,246",
+              "50+"
+            ],
+            [
+              "TCL",
+              "Walmart",
+              "QM7L",
+              "$948.00",
+              "$998.00",
+              "+5.3%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Sony",
+              "Amazon",
+              "BRAVIA 3 II",
+              "$848.00",
+              "$898.00",
+              "+5.9%",
+              "100%",
+              "#3,131 → #2,852",
+              "200+"
+            ],
+            [
+              "Sony",
+              "Walmart",
+              "BRAVIA 3 II",
+              "$848.00",
+              "$898.00",
+              "+5.9%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "Samsung",
+              "Amazon",
+              "S90F",
+              "$1397.99",
+              "$1497.99",
+              "+7.2%",
+              "100%",
+              "#5,344 → #6,300",
+              "400+"
+            ],
+            [
+              "Hisense",
+              "Walmart",
+              "U7",
+              "$914.99",
+              "$999.99",
+              "+9.3%",
+              "100%",
+              "—",
+              "—"
+            ],
+            [
+              "TCL",
+              "Amazon",
+              "QM7L",
+              "$897.99",
+              "$997.99",
+              "+11.1%",
+              "100%",
+              "#2,707 → #2,603",
+              "300+"
+            ],
+            [
+              "Sony",
+              "Amazon",
+              "BRAVIA 8 II",
+              "$2498.00",
+              "$2798.00",
+              "+12.0%",
+              "100%",
+              "#9,997 → #17k",
+              "100+"
+            ],
+            [
+              "Sony",
+              "Walmart",
+              "BRAVIA 8 II",
+              "$2498.00",
+              "$2798.00",
+              "+12.0%",
+              "100%",
+              "—",
+              "—"
+            ]
+          ],
+          "highlight": [
+            2,
+            27,
+            28,
+            29,
+            31,
+            32,
+            36,
+            37
+          ]
+        }
+      ],
+      "link": {
+        "page": "calendar",
+        "label": "Promo Calendar"
+      }
+    },
+    {
+      "id": "availability",
+      "question": "How much of Sony's in-stock gap comes from dead listings versus short outages, and what to fix first?",
+      "chip": "Stock-outs · dead listings vs gaps",
+      "steps": [
+        "Reading the daily buyable state of 8 Sony listing–retailer pairs (Keepa for Amazon, Walmart feed)",
+        "Finding every continuous outage in Jul 27, 2026 – Oct 25, 2026",
+        "Separating listings with no buyable offer all quarter from short gaps",
+        "Comparing in-stock rate with 4 competitors",
+        "Sizing each fix by the listing's Amazon demand"
+      ],
+      "headline": "Sony was buyable 99.9% of the time on Amazon and Walmart, #1 of 5 ahead of Hisense's 99.3%. ",
+      "what": "1 outages cost 1 listing-days, 0 of them on the dead listings. Sony 99.9% · Hisense 99.3% · Samsung 98.9% · LG 96.7% · TCL 90.5%.",
+      "why": "The gaps are short and spread across listings, which points at replenishment timing.",
+      "when": "Jul 27, 2026 – Oct 25, 2026 (13 weeks).",
+      "insight": "Sony's availability problems are short gaps; the fix is replenishment cadence on the listings that gap most.",
+      "actions": [
+        {
+          "title": "Tighten replenishment where gaps recur",
+          "detail": "The longest short outage was BRAVIA 2 II on Walmart for 1 days.",
+          "impact": "1 listing-days in short gaps"
+        },
+        {
+          "title": "Protect BRAVIA 3 II first",
+          "detail": "Sony's biggest Amazon seller at 300+ bought a month.",
+          "impact": "Every day it is out costs the most"
+        }
+      ],
+      "kpis": [
+        {
+          "label": "In-stock rate",
+          "value": "99.9%",
+          "note": "#1 of 5",
+          "tone": "good"
+        },
+        {
+          "label": "Without dead listings",
+          "value": "99.9%",
+          "tone": "good"
+        },
+        {
+          "label": "Dead listings",
+          "value": "0",
+          "note": "no buyable offer all quarter",
+          "tone": "good"
+        },
+        {
+          "label": "Outage days",
+          "value": "1",
+          "note": "1 outages"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "In-stock rate by brand",
+          "sub": "Amazon and Walmart listings, Jul 27, 2026 – Oct 25, 2026",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Sony",
+              "value": 99.9,
+              "color": "#5b21b6",
+              "subject": true
+            },
+            {
+              "label": "Hisense",
+              "value": 99.3,
+              "color": "#d97706",
+              "subject": false
+            },
+            {
+              "label": "Samsung",
+              "value": 98.9,
+              "color": "#0891b2",
+              "subject": false
+            },
+            {
+              "label": "LG",
+              "value": 96.7,
+              "color": "#2563eb",
+              "subject": false
+            },
+            {
+              "label": "TCL",
+              "value": 90.5,
+              "color": "#be123c",
+              "subject": false
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Sony listings, in-stock rate",
+          "sub": "Share of live days each listing could be bought",
+          "columns": [
+            {
+              "label": "Listing",
+              "align": "left"
+            },
+            {
+              "label": "Amazon"
+            },
+            {
+              "label": "Walmart"
+            }
+          ],
+          "rows": [
+            [
+              "BRAVIA 8 II",
+              "100%",
+              "100%"
+            ],
+            [
+              "BRAVIA 5",
+              "100%",
+              "100%"
+            ],
+            [
+              "BRAVIA 3 II",
+              "100%",
+              "100%"
+            ],
+            [
+              "BRAVIA 2 II",
+              "100%",
+              "99%"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Every Sony outage",
+          "sub": "Longest first",
+          "columns": [
+            {
+              "label": "Listing",
+              "align": "left"
+            },
+            {
+              "label": "Retailer",
+              "align": "left"
+            },
+            {
+              "label": "From",
+              "align": "left"
+            },
+            {
+              "label": "Days"
+            }
+          ],
+          "rows": [
+            [
+              "BRAVIA 2 II",
+              "Walmart",
+              "Oct 23, 2026",
+              1
+            ]
+          ]
+        }
+      ],
+      "link": {
+        "page": "stock",
+        "label": "Availability"
+      }
+    },
+    {
+      "id": "reviews",
+      "question": "What drives Sony's praise and complaints, and is brightness a Sony problem or the category's?",
+      "chip": "Review drivers · praise vs complaints",
+      "steps": [
+        "Reading Amazon reviewers' quotes on Brightness and Picture quality",
+        "Scoring 6 aspects for 5 brands",
+        "Reading Amazon reviewers' quotes on Brightness and Picture quality",
+        "Measuring Amazon review velocity from Keepa review counts, one count per shared review pool",
+        "Benchmarking each weak aspect against the best competitor"
+      ],
+      "headline": "Shoppers love Sony's picture quality (87% positive) and complain about brightness (50% positive, against Hisense's 89%). It rates 4.43★, #3 of 5.",
+      "what": "Picture quality 87% · Setup 84% · Quality 78% · Value for money 76% · Sound quality 69% · Brightness 50%.",
+      "why": "Brightness is where the brand loses: 12 negative mentions against 12 positive. Hisense scores 89% on the same aspect, so the complaint is about the product, not the category.",
+      "when": "Amazon review summaries and aspect mentions as read on the build date.",
+      "insight": "Sony's rating rests on picture quality and setup, and it adds new Amazon reviews faster than 0 of the set (341 this quarter). Brightness is the one attribute where a competitor proves the category can do better (Hisense 89%), so it is a product fix, not a messaging one.",
+      "actions": [
+        {
+          "title": "Brief R&D on brightness",
+          "detail": "12 negative mentions; Hisense scores 89% on the same aspect.",
+          "impact": "Moves the aspect from 50% positive"
+        },
+        {
+          "title": "Lead listings with picture quality",
+          "detail": "87% of mentions are positive; make it the first bullet and image claim.",
+          "impact": "Turns the strongest proof into conversion"
+        }
+      ],
+      "kpis": [
+        {
+          "label": "Rating",
+          "value": "4.43★",
+          "note": "#3 of 5",
+          "tone": "neutral"
+        },
+        {
+          "label": "Strongest aspect",
+          "value": "87%",
+          "note": "Picture quality",
+          "tone": "good"
+        },
+        {
+          "label": "Weakest aspect",
+          "value": "50%",
+          "note": "Brightness",
+          "tone": "risk"
+        },
+        {
+          "label": "New Amazon reviews",
+          "value": "341",
+          "note": "this quarter · #5 of 5",
+          "tone": "neutral"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Sony: positive share by aspect",
+          "sub": "Weakest first, with the number of mentions behind each",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Brightness",
+              "value": 50,
+              "color": "#d93025",
+              "note": "24 mentions"
+            },
+            {
+              "label": "Sound quality",
+              "value": 69.2,
+              "color": "#f9ab00",
+              "note": "78 mentions"
+            },
+            {
+              "label": "Value for money",
+              "value": 76.2,
+              "color": "#f9ab00",
+              "note": "147 mentions"
+            },
+            {
+              "label": "Quality",
+              "value": 78.2,
+              "color": "#f9ab00",
+              "note": "331 mentions"
+            },
+            {
+              "label": "Setup",
+              "value": 83.9,
+              "color": "#1e8e3e",
+              "note": "56 mentions"
+            },
+            {
+              "label": "Picture quality",
+              "value": 87.2,
+              "color": "#1e8e3e",
+              "note": "211 mentions"
+            }
+          ]
+        },
+        {
+          "type": "hbars",
+          "title": "New Amazon reviews this quarter",
+          "sub": "Review count growth Jul 27, 2026 – Oct 25, 2026, a shared review pool counted once",
+          "unit": "num",
+          "rows": [
+            {
+              "label": "Samsung",
+              "value": 1181,
+              "color": "#0891b2",
+              "subject": false
+            },
+            {
+              "label": "Hisense",
+              "value": 791,
+              "color": "#d97706",
+              "subject": false
+            },
+            {
+              "label": "LG",
+              "value": 438,
+              "color": "#2563eb",
+              "subject": false
+            },
+            {
+              "label": "TCL",
+              "value": 415,
+              "color": "#be123c",
+              "subject": false
+            },
+            {
+              "label": "Sony",
+              "value": 341,
+              "color": "#5b21b6",
+              "subject": true
+            }
+          ]
+        },
+        {
+          "type": "quotes",
+          "title": "What Amazon reviewers wrote about Sony",
+          "sub": "On Brightness and Picture quality",
+          "items": [
+            {
+              "text": "...I would not get the A95L. It’s motion is worse, color is worse, not as bright. Motion improvements alone are reasons to spend more.",
+              "meta": "Amazon review",
+              "tone": "negative"
+            },
+            {
+              "text": "...but this (Sony Bravia 8 II) outshines in picture quality, brightness and ease of use....",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "The TV keeps going dark for a split second multiple times while watching a program. Tried doing an update with tech support but the problem persist.",
+              "meta": "Amazon review",
+              "tone": "negative"
+            },
+            {
+              "text": "Great picture, bright and the colors are vibrant.. Sound seemed good too, but I use a separate audio system added a few days after delivery....",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "...but this (Sony Bravia 8 II) outshines in picture quality, brightness and ease of use....",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "...The BRAVIA 8 II itself has excellent picture quality when it works, which makes this even more frustrating....",
+              "meta": "Amazon review",
+              "tone": "positive"
+            }
+          ]
+        }
+      ],
+      "link": {
+        "page": "voice",
+        "label": "Voice of Customer"
+      }
+    },
+    {
+      "id": "ai-visibility",
+      "question": "Where in the AI shopping funnel does Sony drop out, and who wins the top recommendation instead?",
+      "chip": "AI answers · where we drop out",
+      "steps": [
+        "Reading 72 engine answers to 24 shopper questions",
+        "Comparing 1 captured readings from Oct 27, 2026 to Oct 27, 2026",
+        "Splitting by engine (ChatGPT, Gemini, Claude) and funnel stage",
+        "Counting the top recommendation in the 51 answers that commit to one brand",
+        "Listing the questions where the brand is missing, with who is named first"
+      ],
+      "headline": "Sony holds 15.2% of brand mentions in AI answers, #5 of 5; Samsung leads at 18.6%. It is named in 48 of 72 answers, most often by Claude (23 of 24).",
+      "what": "Samsung 18.6% · TCL 18.3% · LG 17.9% · Hisense 17.5% · Sony 15.2%. Since Oct 27, 2026 Sony moved 0 points.",
+      "why": "Being named is not being recommended: of the 51 answers that commit to one top pick, LG gets 19, Sony 7. ChatGPT names Sony least often (12 of 24), so that is where the gap is widest.",
+      "when": "1 readings between Oct 27, 2026 and Oct 27, 2026.",
+      "insight": "Sony is known to the engines but rarely chosen: named in 48 of 72 answers yet the top pick in 7 of the 51 that commit to one brand. Closing the gap is about being the recommended answer, which comes from comparison and review content the engines cite, not from more mentions.",
+      "actions": [
+        {
+          "title": "Win the Decision questions",
+          "detail": "Sony is named in 6 of 18 answers at that stage, its weakest.",
+          "impact": "The stage where shoppers get a shortlist without it"
+        },
+        {
+          "title": "Close the ChatGPT gap",
+          "detail": "ChatGPT names Sony in 12 of 24 answers against 23 on Claude.",
+          "impact": "The engine with the most room"
+        },
+        {
+          "title": "Take on LG in head-to-head content",
+          "detail": "LG is the top pick in 19 of the 51 answers that commit to one brand.",
+          "impact": "Where top picks are decided"
+        }
+      ],
+      "kpis": [
+        {
+          "label": "AI share of mentions",
+          "value": "15.2%",
+          "note": "#5 of 5",
+          "tone": "watch"
+        },
+        {
+          "label": "Named in",
+          "value": "48 / 72",
+          "note": "engine answers"
+        },
+        {
+          "label": "Top pick",
+          "value": "7 / 51",
+          "note": "answers that commit · LG 19",
+          "tone": "risk"
+        },
+        {
+          "label": "Change",
+          "value": "0 pts",
+          "note": "since Oct 27, 2026",
+          "tone": "good"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "hbars",
+          "title": "Share of brand mentions in AI answers",
+          "sub": "Latest reading, Oct 27, 2026",
+          "unit": "pct",
+          "rows": [
+            {
+              "label": "Samsung",
+              "value": 18.6,
+              "color": "#0891b2",
+              "subject": false
+            },
+            {
+              "label": "TCL",
+              "value": 18.3,
+              "color": "#be123c",
+              "subject": false
+            },
+            {
+              "label": "LG",
+              "value": 17.9,
+              "color": "#2563eb",
+              "subject": false
+            },
+            {
+              "label": "Hisense",
+              "value": 17.5,
+              "color": "#d97706",
+              "subject": false
+            },
+            {
+              "label": "Sony",
+              "value": 15.2,
+              "color": "#5b21b6",
+              "subject": true
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Sony share by engine and stage",
+          "sub": "Share of brand mentions in each engine's answers at each funnel stage",
+          "columns": [
+            {
+              "label": "Engine",
+              "align": "left"
+            },
+            {
+              "label": "Awareness"
+            },
+            {
+              "label": "Consideration"
+            },
+            {
+              "label": "Evaluation & Trust"
+            },
+            {
+              "label": "Decision"
+            }
+          ],
+          "rows": [
+            [
+              "ChatGPT",
+              "19%",
+              "18%",
+              "20%",
+              "0%"
+            ],
+            [
+              "Gemini",
+              "23%",
+              "11%",
+              "22%",
+              "0%"
+            ],
+            [
+              "Claude",
+              "17%",
+              "18%",
+              "19%",
+              "15%"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Questions where Sony is not named",
+          "sub": "24 of 72 engine answers",
+          "columns": [
+            {
+              "label": "Question",
+              "align": "left"
+            },
+            {
+              "label": "Stage",
+              "align": "left"
+            },
+            {
+              "label": "Named first",
+              "align": "left"
+            }
+          ],
+          "rows": [
+            [
+              "ChatGPT: best 65-inch TV in 2026",
+              "Awareness",
+              "LG"
+            ],
+            [
+              "ChatGPT: best 65-inch TV for PS5 and Xbox gaming with 120Hz and HDMI 2.1",
+              "Consideration",
+              "LG"
+            ],
+            [
+              "ChatGPT: best 65-inch TV under $600",
+              "Consideration",
+              "TCL"
+            ],
+            [
+              "ChatGPT: which 65-inch TV is best for sports with fast motion under $1,000",
+              "Consideration",
+              "TCL"
+            ],
+            [
+              "ChatGPT: which 65-inch TV has the best reviews for picture quality",
+              "Evaluation & Trust",
+              "Samsung"
+            ],
+            [
+              "ChatGPT: best 65-inch TV with the best reflection handling according to expert reviews",
+              "Evaluation & Trust",
+              "Samsung"
+            ],
+            [
+              "ChatGPT: best 65-inch TV to buy on Amazon right now",
+              "Decision",
+              "LG"
+            ],
+            [
+              "ChatGPT: best value 65-inch TV for daily use",
+              "Decision",
+              "TCL"
+            ],
+            [
+              "ChatGPT: where to buy a 65-inch TV cheapest",
+              "Decision",
+              "TCL"
+            ],
+            [
+              "ChatGPT: best 65-inch TV deals this week at Best Buy or Walmart",
+              "Decision",
+              "TCL"
+            ],
+            [
+              "ChatGPT: which 65-inch TV should I buy for around $800 today",
+              "Decision",
+              "TCL"
+            ],
+            [
+              "ChatGPT: best 65-inch TV Black Friday deals worth buying in 2026",
+              "Decision",
+              "LG"
+            ]
+          ]
+        }
+      ],
+      "link": {
+        "page": "ai-funnel",
+        "label": "Funnel & Engines"
+      }
+    }
+  ]
+}

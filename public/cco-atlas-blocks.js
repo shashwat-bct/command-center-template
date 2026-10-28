@@ -18,7 +18,7 @@ const SVG = {
   ai: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
 };
 const svg = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true">${SVG[k] || SVG.spark}</svg>`;
-const ICON = { "black-friday": "tag", "price-per-wipe": "chart", "big-deal-days": "bolt", availability: "box", reviews: "star", "ai-visibility": "ai" };
+const ICON = { "black-friday": "tag", "price-per-wipe": "chart", "retailer-price-gap": "chart","big-deal-days": "bolt", availability: "box", reviews: "star", "ai-visibility": "ai" };
 
 const fmtFor = (unit) => ({
   usd: (v) => (v == null ? "—" : `$${Number(v).toFixed(2)}`),

@@ -6,6 +6,7 @@ import { blackFriday } from "./atlas/holiday";
 import { pricePerWipe } from "./atlas/price";
 import { availability, bigDealDays } from "./atlas/window";
 import { aiVisibility, reviews } from "./atlas/voice-ai";
+import { blackFridayTv, retailerPriceGap, reviewsTv, withModelNames } from "./atlas/tv";
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, all) => (a.startsWith("--") ? [a.slice(2), all[i + 1]] : [])).filter((x) => x.length));
 for (const k of ["slug", "payload"]) if (!args[k]) throw new Error(`--${k} is required`);
@@ -17,12 +18,15 @@ const brands = payload.dims.brands;
 const subject = brands.find((b) => b.id === payload.meta.subject) ?? brands[0];
 const ctx: Ctx = { feed, payload, amazon, subject, brands };
 
-const answers = [blackFriday(ctx), pricePerWipe(ctx), bigDealDays(ctx), availability(ctx), reviews(ctx), aiVisibility(ctx)];
+const tv = args.set === "tv";
+const answers = tv
+  ? [blackFridayTv(ctx), retailerPriceGap(ctx), bigDealDays(ctx), availability(ctx), reviewsTv(ctx), aiVisibility(ctx)].map((a) => withModelNames(ctx, a))
+  : [blackFriday(ctx), pricePerWipe(ctx), bigDealDays(ctx), availability(ctx), reviews(ctx), aiVisibility(ctx)];
 const atlas: AtlasData = {
   version: 1,
   brand: subject.label,
   generatedOn: new Date().toISOString().slice(0, 10),
-  sources: ["Amazon (Keepa price, stock, sales rank and bought-in-past-month history)", feed.label, "Amazon and Walmart reviews", "AI answers from ChatGPT, Gemini and Claude"],
+  sources: ["Amazon (Keepa price, stock, sales rank and bought-in-past-month history)", feed.label, tv ? "Amazon reviews" : "Amazon and Walmart reviews", "AI answers from ChatGPT, Gemini and Claude"],
   answers,
 };
 const out = args.out ?? `brand-data/${args.slug}.atlas.json`;

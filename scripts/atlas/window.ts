@@ -122,7 +122,7 @@ export function availability(ctx: Ctx): AtlasAnswer {
       `Comparing in-stock rate with ${byBrand.length - 1} competitors`,
       "Sizing each fix by the listing's Amazon demand",
     ],
-    headline: `${S.label} was buyable ${pct(subjRate, 1)} of the time on Amazon and Walmart, #${rank} of ${byBrand.length} against ${possessive(best.b.label)} ${pct(best.rate, 1)}. ${dead.length ? `${dead.length} Amazon listing${dead.length === 1 ? " has" : "s have"} had no buyable offer all quarter (${deadNames.join(", ")}); without them the rate is ${pct(withoutDead, 1)}.` : ""}`,
+    headline: `${S.label} was buyable ${pct(subjRate, 1)} of the time on Amazon and Walmart, #${rank} of ${byBrand.length} ${rank === 1 && byBrand[1] ? `ahead of ${possessive(byBrand[1].b.label)} ${pct(byBrand[1].rate, 1)}` : `against ${possessive(best.b.label)} ${pct(best.rate, 1)}`}. ${dead.length ? `${dead.length} Amazon listing${dead.length === 1 ? " has" : "s have"} had no buyable offer all quarter (${deadNames.join(", ")}); without them the rate is ${pct(withoutDead, 1)}.` : ""}`,
     what: `${eps.length} outages cost ${lost} listing-days, ${dead.length * days} of them on the dead listings. ${byBrand.map((x) => `${x.b.label} ${pct(x.rate, 1)}`).join(" · ")}.`,
     why: dead.length ? `The gap is mostly listing health, not supply: a listing with no buyable offer for all ${days} days is one Amazon is not selling (${deadRanks.map((d) => `${shortLabel(d.c.m.label, S.label)} ranks ${fmtRank(d.rank)}`).join(", ")}). The other ${short.length} outages are short replenishment gaps.` : "The gaps are short and spread across listings, which points at replenishment timing.",
     when: `${niceDate(window.from)} – ${niceDate(window.to)} (13 weeks).`,
