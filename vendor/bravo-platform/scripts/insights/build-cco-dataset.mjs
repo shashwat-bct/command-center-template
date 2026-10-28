@@ -192,12 +192,12 @@ for (const m of MODELS) {
     let carried;
     if (meas === "carried") carried = true;
     else if (meas === "not carried") carried = false;
-    else carried = retailFirst[key] != null || rnd() < BASE_CARRIAGE[m.brand][rt];
+    else carried = (m.measured && BASE_CARRIAGE[m.brand][rt] > 0) || retailFirst[key] != null || rnd() < BASE_CARRIAGE[m.brand][rt];
     if (!carried) { carriage[key] = null; continue; }
 
     // A listing can appear or lapse mid-quarter — that is the point of watching.
     const arr = new Array(NDAYS).fill(1);
-    const roll = rnd();
+    const roll = m.measured ? 1 : rnd();
     let note = null;
     if (roll < 0.10) {                                  // came on shelf mid-window
       const on = 6 + Math.floor(rnd() * 50);
@@ -389,7 +389,6 @@ const priceSeries = {}, listSeries = {}, discSeries = {};
 const gapDays = {};
 function fillPriceGaps(key, m, price) {
   const [mid, rt] = key.split("|");
-  if (!price.some((v) => v != null)) return;
   gapDays[key] = price.flatMap((v, i) => (v == null && isCarried(mid, rt, i) ? [i] : []));
 }
 
