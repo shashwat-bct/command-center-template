@@ -472,7 +472,7 @@
 .aiv .dbar:hover{background:#f8fafd}
 .aiv .dbar .dl{color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:6px}
 .aiv .dbar .neg,.aiv .dbar .pos{display:flex;align-items:center;height:14px;gap:5px;font-family:var(--fm);font-size:10.5px;color:var(--mute)}
-.aiv .dbar .neg{justify-content:flex-end;flex-direction:row-reverse;border-right:1px solid var(--line)}
+.aiv .dbar .neg{justify-content:flex-start;flex-direction:row-reverse;border-right:1px solid var(--line)}
 .aiv .dbar .neg i{display:block;height:100%;background:var(--div-neg);border-radius:99px 0 0 99px;min-width:0}
 .aiv .dbar .pos i{display:block;height:100%;background:var(--div-pos);border-radius:0 99px 99px 0;min-width:0}
 .aiv .dbar .neg em,.aiv .dbar .pos em{font-style:normal}
