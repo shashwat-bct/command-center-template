@@ -97,7 +97,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
         </div>
         <div class="cc-loader-actions" id="ccLoaderActions" hidden>
           <button type="button" class="cc-loader-btn" onclick="location.reload()">Try again</button>
-          <a class="cc-loader-link" href="/">All brands</a>
+          ${process.env.ATLAS_BRAND ? "" : `<a class="cc-loader-link" href="/">All brands</a>`}
         </div>
       </div>
     </div>
