@@ -1,4 +1,4 @@
-/* Ask Atlas: a chat over the brand's prepared analyses, with saved conversations and a Claude fallback */
+/* Ask Atlas: a chat over the brand's prepared analyses, with saved conversations and a model fallback */
 (function () {
 "use strict";
 const A = () => window.__ATLAS;
@@ -147,7 +147,7 @@ async function ask(host, text, picked) {
     if (sum) sum.innerHTML = `Analysed ${a.steps.length} steps<span class="atl-timer">${took}s</span>`;
     msg = { role: "atlas", answer: a.id };
   } else {
-    body.innerHTML = `<details class="atl-think" open><summary>Asking Claude with the ${A().esc(brand)} data…</summary><ol><li class="run"><i></i><span>Reading the prepared analyses and the question</span></li></ol></details>`;
+    body.innerHTML = `<details class="atl-think" open><summary>Asking Atlas with the ${A().esc(brand)} data…</summary><ol><li class="run"><i></i><span>Reading the prepared analyses and the question</span></li></ol></details>`;
     msg = await askClaude(text);
     body.innerHTML = msg.error ? `<p class="atl-err">${A().esc(msg.text)}</p>` : `<div class="atl-llm">${md(msg.text)}</div>`;
   }
@@ -170,11 +170,11 @@ async function askClaude(text) {
   try {
     const res = await fetch("/api/llm", { method: "POST", headers: { "content-type": "application/json", ...(window.__CC_AUTH ? { authorization: window.__CC_AUTH } : {}) }, body: JSON.stringify({ system, messages: history, max_tokens: 3000, temperature: 0.2 }) });
     const json = await res.json().catch(() => ({}));
-    if (!res.ok) return { role: "atlas", error: true, text: res.status === 429 ? "Too many questions this hour on this link. Try one of the prepared analyses above." : `Atlas could not reach Claude (${json.message || res.status}). The six prepared analyses still work.` };
+    if (!res.ok) return { role: "atlas", error: true, text: res.status === 429 ? "Too many questions this hour on this link. Try one of the prepared analyses above." : `Atlas could not answer (${json.message || res.status}). The six prepared analyses still work.` };
     const out = (json.content || []).map((c) => c.text || "").join("").trim();
-    return out ? { role: "atlas", text: out } : { role: "atlas", error: true, text: "Claude returned an empty answer. Try rephrasing the question." };
+    return out ? { role: "atlas", text: out } : { role: "atlas", error: true, text: "Atlas returned an empty answer. Try rephrasing the question." };
   } catch (e) {
-    return { role: "atlas", error: true, text: "Atlas could not reach Claude. Check the connection and try again." };
+    return { role: "atlas", error: true, text: "Atlas could not answer. Check the connection and try again." };
   }
 }
 

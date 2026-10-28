@@ -59,7 +59,7 @@ export function reviews(ctx: Ctx): AtlasAnswer {
       `Counting ${mentions.toLocaleString("en-US")} aspect mentions across Amazon and Walmart reviews`,
       `Scoring ${aspects.length} aspects for ${ctx.brands.length} brands`,
       `Reading ${wm.length} ${S.label} Walmart reviews for the sharpest complaints`,
-      "Measuring Amazon review velocity from Keepa review counts, one count per shared review pool",
+      "Measuring Amazon review velocity from daily review counts, one count per shared review pool",
       "Benchmarking each weak aspect against the best competitor",
     ],
     headline: `Shoppers love ${possessive(S.label)} ${strongest.a.toLowerCase()} (${pct(strongest.share, 0)} positive) and complain about ${weakest.a.toLowerCase()} (${pct(weakest.share, 0)} positive${weakest.best ? `, against ${possessive(weakest.best.b.label)} ${pct(weakest.best.v, 0)}` : ""}). It rates ${subjRating?.toFixed(2)}★, #${ratingRank} of ${ratings.length}.`,

@@ -80,7 +80,7 @@ export function blackFridayTv(ctx: Ctx): AtlasAnswer {
     rows: ctx.brands.flatMap((b) => retailers.flatMap((rt) => { const mine = of(b.id, rt); return mine.length ? [{ label: `${b.label} · ${RETAILER[rt]}`, value: r1(mean(mine.map((r) => r.change)) ?? 0), color: b.color, subject: b.id === S.id, note: `${mine.length} model${mine.length === 1 ? "" : "s"} · ${mine.filter((r) => r.change <= -5).length} cut 5%+` }] : []; })) };
   const offBars = { type: "hbars" as const, title: "Black Friday low as % off MSRP", sub: "Mean across every tracked model and retailer", unit: "pct" as const,
     rows: offByBrand.map((x) => ({ label: x.b.label, value: r1(x.v ?? 0), color: x.b.color, subject: x.b.id === S.id, note: `${x.n} model-retailer readings` })) };
-  const table = { type: "table" as const, title: "Every tracked TV through Black Friday week", sub: "Amazon from Keepa; Walmart from Kompy, Histomart and RetailerAPI; Best Buy from archived product pages",
+  const table = { type: "table" as const, title: "Every tracked TV through Black Friday week", sub: "Amazon daily price history; Walmart and Best Buy from retailer price readings",
     columns: [{ label: "Brand", align: "left" as const }, { label: "Model", align: "left" as const }, { label: "Retailer", align: "left" as const }, { label: "Autumn median" }, { label: "Black Friday low" }, { label: "Change" }, { label: "Off MSRP" }, { label: "Sales rank" }, { label: "Bought / month" }],
     rows: rows.map((r): AtlasCell[] => [r.l.brand.label, r.l.name, RETAILER[r.rt], usd(r.base), usd(r.low), signed(r.change), r.off == null ? "—" : pct(r.off, 0), r.rank0 ? `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)}` : "—", fmtSold(r.sold)]),
     highlight: rows.map((r, i) => (r.l.brand.id === S.id ? i : -1)).filter((i) => i >= 0) };
@@ -91,7 +91,7 @@ export function blackFridayTv(ctx: Ctx): AtlasAnswer {
     question: `Black Friday 2025: how deep did ${S.label} cut its 65" TVs on Amazon, Walmart and Best Buy against rivals, and did it buy Amazon rank?`,
     chip: "Black Friday 2025 · Amazon + Walmart + Best Buy",
     steps: [
-      `Loading ${amazonListings(ctx).length} Amazon listings' daily Keepa history (price, stock, Best Sellers Rank, bought-in-past-month)`,
+      `Loading ${amazonListings(ctx).length} Amazon listings' daily history (price, stock, Best Sellers Rank, bought-in-past-month)`,
       `Loading Walmart and Best Buy daily readings from the retailer feed`,
       `Setting the baseline (${niceDate(BASE.from)} – ${niceDate(BASE.to)}) and Black Friday week (${niceDate(BF.from)} – ${niceDate(BF.to)})`,
       `Comparing ${rows.length} model–retailer pairs on lowest price, autumn change and discount off MSRP`,
@@ -149,7 +149,7 @@ export function retailerPriceGap(ctx: Ctx): AtlasAnswer {
     rows: offByBrand.map((x) => ({ label: x.b.label, value: r1(x.v ?? 0), color: x.b.color, subject: x.b.id === S.id })) };
   const gapBars = { type: "hbars" as const, title: `${possessive(S.label)} cheapest-to-dearest retailer gap`, sub: "Median price at the dearest retailer vs the cheapest, per model", unit: "pct" as const,
     rows: subj.filter((m) => m.gap != null).map((m) => ({ label: m.l.name, value: m.gap!, color: S.color, subject: true, note: `${RETAILER[m.loRt]} ${usd(m.lo)} → ${RETAILER[m.hiRt]} ${usd(m.hi)}` })) };
-  const table = { type: "table" as const, title: "Median price by model and retailer", sub: `${niceDate(W.start)} – ${niceDate(W.end)}; Amazon from Keepa, other retailers from the retailer feed`,
+  const table = { type: "table" as const, title: "Median price by model and retailer", sub: `${niceDate(W.start)} – ${niceDate(W.end)}; Amazon daily price history and retailer price readings`,
     columns: [{ label: "Brand", align: "left" as const }, { label: "Model", align: "left" as const }, { label: "MSRP" }, ...cols.map((rt) => ({ label: RETAILER[rt] })), { label: "Gap" }, { label: "Cheapest", align: "left" as const }],
     rows: models.map((m): AtlasCell[] => [m.l.brand.label, m.l.name, usd(m.l.model.msrp ?? null), ...cols.map((rt) => usd(m.by[rt] ?? null)), m.gap == null ? "—" : pct(m.gap, 1), m.n > 1 ? RETAILER[m.loRt] : "—"]),
     highlight: models.map((m, i) => (m.l.brand.id === S.id ? i : -1)).filter((i) => i >= 0) };

@@ -40,7 +40,7 @@ P.traffic = (host) => {
     ${kpi({ label: "Listings tracked", dot: "#80868b", value: String(d.dims.models.length), note: `Across ${d.dims.brands.filter((b) => modelsOf(b.id).length).length} brands` })}
   </div>
   <div class="grid g2">
-    ${card({ title: "Bought in past month", help: "Amazon's \"bought in past month\" figure for each brand's tracked listings, summed, as Keepa recorded it. Amazon shows it in buckets (50+, 100+, 1K+), so each value is a floor.", sub: "Summed across each brand's tracked listings. A floor, not an exact count.", slot: "dmSold" })}
+    ${card({ title: "Bought in past month", help: "Amazon's \"bought in past month\" figure for each brand's tracked listings, summed, as recorded daily. Amazon shows it in buckets (50+, 100+, 1K+), so each value is a floor.", sub: "Summed across each brand's tracked listings. A floor, not an exact count.", slot: "dmSold" })}
     ${card({ title: "Sales rank through the quarter", help: "The best (lowest) daily Amazon sales rank among each brand's tracked listings, in one shared category so brands are comparable. Lower is better.", sub: "Best daily rank among each brand's listings. Lower is better.", slot: "dmRank" })}
   </div>
   <div style="margin-top:14px">${card({ title: "Every tracked listing", help: "Latest readings per listing.", html: table([

@@ -3,8 +3,8 @@
   "brand": "Sony",
   "generatedOn": "2026-10-28",
   "sources": [
-    "Amazon (Keepa price, stock, sales rank and bought-in-past-month history)",
-    "Retailer data (RetailerAPI, Kompy, Histomart, ShopSavvy, Endless, Wayback Machine, retail audit)",
+    "Amazon (price, stock, sales rank and bought-in-past-month history)",
+    "Retailer price and stock readings",
     "Amazon reviews",
     "AI answers from ChatGPT, Gemini and Claude"
   ],
@@ -14,7 +14,7 @@
       "question": "Black Friday 2025: how deep did Sony cut its 65\" TVs on Amazon, Walmart and Best Buy against rivals, and did it buy Amazon rank?",
       "chip": "Black Friday 2025 · Amazon + Walmart + Best Buy",
       "steps": [
-        "Loading 20 Amazon listings' daily Keepa history (price, stock, Best Sellers Rank, bought-in-past-month)",
+        "Loading 20 Amazon listings' daily history (price, stock, Best Sellers Rank, bought-in-past-month)",
         "Loading Walmart and Best Buy daily readings from the retailer feed",
         "Setting the baseline (Oct 1, 2025 – Nov 13, 2025) and Black Friday week (Nov 21, 2025 – Dec 1, 2025)",
         "Comparing 25 model–retailer pairs on lowest price, autumn change and discount off MSRP",
@@ -208,7 +208,7 @@
         {
           "type": "table",
           "title": "Every tracked TV through Black Friday week",
-          "sub": "Amazon from Keepa; Walmart from Kompy, Histomart and RetailerAPI; Best Buy from archived product pages",
+          "sub": "Amazon daily price history; Walmart and Best Buy from retailer price readings",
           "columns": [
             {
               "label": "Brand",
@@ -672,7 +672,7 @@
         {
           "type": "table",
           "title": "Median price by model and retailer",
-          "sub": "Jul 27, 2026 – Oct 25, 2026; Amazon from Keepa, other retailers from the retailer feed",
+          "sub": "Jul 27, 2026 – Oct 25, 2026; Amazon daily price history and retailer price readings",
           "columns": [
             {
               "label": "Brand",
@@ -945,7 +945,7 @@
       "question": "Prime Big Deal Days: who discounted, on which retailer, and did the cuts actually buy Amazon sales rank?",
       "chip": "Prime Big Deal Days · cut vs hold",
       "steps": [
-        "Pulling daily Keepa prices and Best Sellers Rank for 19 Amazon listings",
+        "Pulling daily Amazon prices and Best Sellers Rank for 19 Amazon listings",
         "Pulling Walmart prices for 19 listings from the Walmart feed",
         "Comparing Oct 13, 2026 – Oct 14, 2026 with the 14 days before",
         "Measuring each listing's sales-rank response to its own price move",
@@ -1141,7 +1141,7 @@
         {
           "type": "table",
           "title": "Every measured listing on the event",
-          "sub": "Amazon from Keepa, Walmart from Histomart, Kompy and RetailerAPI",
+          "sub": "Amazon daily price history and Walmart price readings",
           "columns": [
             {
               "label": "Brand",
@@ -1616,7 +1616,7 @@
       "question": "How much of Sony's in-stock gap comes from dead listings versus short outages, and what to fix first?",
       "chip": "Stock-outs · dead listings vs gaps",
       "steps": [
-        "Reading the daily buyable state of 8 Sony listing–retailer pairs (Keepa for Amazon, Walmart feed)",
+        "Reading the daily buyable state of 8 Sony listing–retailer pairs (Amazon daily history, Walmart readings)",
         "Finding every continuous outage in Jul 27, 2026 – Oct 25, 2026",
         "Separating listings with no buyable offer all quarter from short gaps",
         "Comparing in-stock rate with 4 competitors",
@@ -1785,7 +1785,7 @@
         "Reading Amazon reviewers' quotes on Brightness and Picture quality",
         "Scoring 6 aspects for 5 brands",
         "Reading Amazon reviewers' quotes on Brightness and Picture quality",
-        "Measuring Amazon review velocity from Keepa review counts, one count per shared review pool",
+        "Measuring Amazon review velocity from daily review counts, one count per shared review pool",
         "Benchmarking each weak aspect against the best competitor"
       ],
       "headline": "Shoppers love Sony's picture quality (87% positive) and complain about brightness (50% positive, against Hisense's 89%). It rates 4.43★, #3 of 5.",

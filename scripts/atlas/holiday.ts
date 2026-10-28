@@ -68,7 +68,7 @@ export function blackFriday(ctx: Ctx): AtlasAnswer {
   const rankBars = { type: "hbars" as const, title: "Amazon sales-rank response in Black Friday week", sub: "Change in Best Sellers Rank vs autumn (positive = climbed)", unit: "signedPct" as const,
     rows: amz.slice().sort((a, z) => rankMove(z) - rankMove(a)).map((r) => ({ label: `${r.brand} ${compact(r.label)}`, value: r1(rankMove(r)), color: ctx.brands.find((b) => b.id === r.brandId)!.color, subject: r.brandId === S.id, note: `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)} · price ${signed(r.change)}` })) };
   const table = {
-    type: "table" as const, title: "Every tracked listing through Black Friday week", sub: "Amazon from Keepa, Walmart from Histomart, Kompy and RetailerAPI",
+    type: "table" as const, title: "Every tracked listing through Black Friday week", sub: "Amazon daily price history and Walmart price readings",
     columns: [{ label: "Brand", align: "left" as const }, { label: "Retailer", align: "left" as const }, { label: "Listing", align: "left" as const }, { label: "Autumn median" }, { label: "Black Friday low" }, { label: "Change" }, { label: "Per 100 wipes" }, { label: "In stock" }, { label: "Amazon on buy box" }, { label: "Sales rank" }, { label: "Bought / month" }],
     rows: rows.map((r): AtlasCell[] => [r.brand, r.retailer, r.label, usd(r.base), usd(r.low), signed(r.change), usd(r.unit), r.inStock == null ? "—" : pct(r.inStock, 0), r.bb0 == null ? "—" : `${pct(r.bb0, 0)} → ${pct(r.bb1, 0)}`, r.rank0 ? `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)}` : "—", fmtSold(r.sold)]),
     highlight: rows.map((r, i) => (r.brandId === S.id ? i : -1)).filter((i) => i >= 0),
@@ -82,8 +82,8 @@ export function blackFriday(ctx: Ctx): AtlasAnswer {
     question: `Black Friday 2025: who cut price on Amazon and Walmart, and did holding price cost ${S.label} sales rank?`,
     chip: "Black Friday 2025 · Amazon + Walmart",
     steps: [
-      `Loading ${amazonListings(ctx).length} Amazon listings' daily Keepa history (price, stock, Best Sellers Rank, bought-in-past-month)`,
-      `Loading ${Object.values(ctx.feed.daily).flat().length.toLocaleString("en-US")} Walmart product-days from Histomart, Kompy and RetailerAPI`,
+      `Loading ${amazonListings(ctx).length} Amazon listings' daily history (price, stock, Best Sellers Rank, bought-in-past-month)`,
+      `Loading ${Object.values(ctx.feed.daily).flat().length.toLocaleString("en-US")} Walmart product-days of price readings`,
       `Setting the baseline (Oct 1 – Nov 13, 2025) and Black Friday week (Nov 21 – Dec 1, 2025)`,
       `Comparing ${rows.length} listings on lowest price, price per 100 wipes and stock`,
       "Reading the Amazon sales-rank response to each price move",

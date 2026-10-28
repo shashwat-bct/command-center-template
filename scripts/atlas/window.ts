@@ -44,7 +44,7 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
   const rankBars = { type: "hbars" as const, title: "Amazon sales-rank response", sub: "Best Sellers Rank on the event and two days after vs the 14 days before (positive = climbed)", unit: "signedPct" as const,
     rows: ranked.slice().sort((x, y) => rankMove(y) - rankMove(x)).map((r) => ({ label: `${r.brand.label} ${compact(r.label)}`, value: r1(rankMove(r)), color: r.brand.color, subject: r.brand.id === S.id, note: `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)} · price ${signed(r.change)}` })) };
   const sorted = rows.slice().sort((x, y) => x.change - y.change);
-  const table = { type: "table" as const, title: "Every measured listing on the event", sub: "Amazon from Keepa, Walmart from Histomart, Kompy and RetailerAPI",
+  const table = { type: "table" as const, title: "Every measured listing on the event", sub: "Amazon daily price history and Walmart price readings",
     columns: [{ label: "Brand", align: "left" as const }, { label: "Retailer", align: "left" as const }, { label: "Listing", align: "left" as const }, { label: "Before" }, { label: "Event low" }, { label: "Change" }, { label: "In stock" }, { label: "Sales rank" }, { label: "Bought / month" }],
     rows: sorted.map((r): AtlasCell[] => [r.brand.label, RETAILER[r.rt], r.label, usd(r.before), usd(r.low), signed(r.change), r.inStock == null ? "—" : pct(r.inStock, 0), r.rank0 ? `${fmtRank(r.rank0)} → ${fmtRank(r.rank1)}` : "—", fmtSold(r.sold)]),
     highlight: sorted.map((r, i) => (r.brand.id === S.id ? i : -1)).filter((i) => i >= 0) };
@@ -54,7 +54,7 @@ export function bigDealDays(ctx: Ctx): AtlasAnswer {
     question: `Prime Big Deal Days: who discounted, on which retailer, and did the cuts actually buy Amazon sales rank?`,
     chip: "Prime Big Deal Days · cut vs hold",
     steps: [
-      `Pulling daily Keepa prices and Best Sellers Rank for ${amz.length} Amazon listings`,
+      `Pulling daily Amazon prices and Best Sellers Rank for ${amz.length} Amazon listings`,
       `Pulling Walmart prices for ${wm.length} listings from the Walmart feed`,
       `Comparing ${niceDate(ev.start)} – ${niceDate(ev.end)} with the 14 days before`,
       "Measuring each listing's sales-rank response to its own price move",
@@ -116,7 +116,7 @@ export function availability(ctx: Ctx): AtlasAnswer {
     question: `How much of ${possessive(S.label)} in-stock gap comes from dead listings versus short outages, and what to fix first?`,
     chip: "Stock-outs · dead listings vs gaps",
     steps: [
-      `Reading the daily buyable state of ${cells.length} ${S.label} listing–retailer pairs (Keepa for Amazon, Walmart feed)`,
+      `Reading the daily buyable state of ${cells.length} ${S.label} listing–retailer pairs (Amazon daily history, Walmart readings)`,
       `Finding every continuous outage in ${niceDate(window.from)} – ${niceDate(window.to)}`,
       "Separating listings with no buyable offer all quarter from short gaps",
       `Comparing in-stock rate with ${byBrand.length - 1} competitors`,
