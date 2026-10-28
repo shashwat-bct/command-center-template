@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { bucket } from "./gcs";
+import { loadSnapshots } from "./snapshots";
 
 export type PageCapture = {
   id: string;
@@ -54,8 +55,8 @@ const MAX_CACHED = 24;
  * A payload with the brand's product-page captures added as `captures`, or unchanged when it has none.
  */
 export function withCaptures(slug: string, buildId: string, bytes: Buffer): Buffer {
-  const pdpPath = join(process.cwd(), "brand-data", `${slug}.pdp.json`);
-  const stamp = existsSync(capturesPath(slug)) ? statSync(capturesPath(slug)).mtimeMs + (existsSync(pdpPath) ? statSync(pdpPath).mtimeMs : 0) : 0;
+  const pdpPath = join(process.cwd(), "brand-data", `${slug}.pdp.json`), marksPath = join(process.cwd(), "brand-data", `${slug}.marks.json`);
+  const stamp = existsSync(capturesPath(slug)) ? statSync(capturesPath(slug)).mtimeMs + (existsSync(pdpPath) ? statSync(pdpPath).mtimeMs : 0) + (existsSync(marksPath) ? statSync(marksPath).mtimeMs : 0) : 0;
   if (!stamp) return bytes;
   const key = `${slug}/${buildId}/${bytes.length}/${stamp}`;
   const hit = attached.get(key);
@@ -65,7 +66,8 @@ export function withCaptures(slug: string, buildId: string, bytes: Buffer): Buff
     const end = bytes.lastIndexOf("}");
     if (!set || end < 0) return bytes;
     const reads = loadPdpReads(slug);
-    const out = Buffer.concat([bytes.subarray(0, end), Buffer.from(`,"captures":${JSON.stringify({ ...set, reads })}`), bytes.subarray(end)]);
+    const snapshots = loadSnapshots(slug, set);
+    const out = Buffer.concat([bytes.subarray(0, end), Buffer.from(`,"captures":${JSON.stringify({ ...set, reads })}${snapshots ? `,"snapshots":${JSON.stringify(snapshots)}` : ""}`), bytes.subarray(end)]);
     if (attached.size >= MAX_CACHED) attached.delete(attached.keys().next().value as string);
     attached.set(key, out);
     return out;

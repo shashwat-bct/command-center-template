@@ -71,6 +71,7 @@ export function renderDashboardHtml({ title, payloadUrl, share = false, shareId,
 <link rel="stylesheet" href="${asset("cco-dashboard.css")}">
 <link rel="stylesheet" href="${asset("ai-visibility.css")}">
 <link rel="stylesheet" href="${asset("cco-atlas.css")}">
+<link rel="stylesheet" href="${asset("cco-snapshots.css")}">
 </head>
 <body data-payload="${escapeAttr(payloadUrl)}" data-sources="on" data-view="${analyst ? "analyst" : "share"}">
 ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer ${escapeAttr(shareId)}";</script>` : ""}
@@ -205,6 +206,7 @@ ${share ? SHARE_BOOTSTRAP : ""}${shareId ? `<script>window.__CC_AUTH = "Bearer $
 <script src="${asset("cco-offers.js")}"></script>
 <script src="${asset("cco-replies.js")}"></script>
 <script src="${asset("cco-method-lanes.js")}"></script>
+<script src="${asset("cco-snapshots.js")}"></script>
 <script src="${asset("cco-card-ask.js")}"></script>
 <script src="${asset("cco-provenance.js")}"></script>
 <script src="${asset("cco-atlas-blocks.js")}"></script>
