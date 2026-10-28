@@ -12,10 +12,10 @@ P.method = (host) => {
   original(host);
   const lanes = (U.D.meta && U.D.meta.provenance && U.D.meta.provenance.lanes) || {};
   const hidden = new Set((U.D.meta && U.D.meta.hiddenPages) || []);
-  const rows = Object.entries(lanes).map(([id, l]) => ({ id, ...l })).filter((l) => LABEL[l.id]);
+  const rows = Object.entries(lanes).map(([id, l]) => ({ id, ...l })).filter((l) => LABEL[l.id] && !hidden.has(l.id));
   if (!rows.length) return;
   const html = table([
-    { label: "Page", lft: true, get: (l) => `<b style="font-weight:500">${esc(LABEL[l.id])}</b>${hidden.has(l.id) ? '<div class="mini">hidden: no measured data</div>' : ""}` },
+    { label: "Page", lft: true, get: (l) => `<b style="font-weight:500">${esc(LABEL[l.id])}</b>` },
     { label: "Status", lft: true, get: (l) => `<b style="color:${TONE[l.status] || "var(--mute)"}">${esc(WORD[l.status] || l.status)}</b>` },
     { label: "What was read and what was modelled", lft: true, get: (l) => `<span class="mini">${esc(l.note || "")}</span>` },
   ], rows);
