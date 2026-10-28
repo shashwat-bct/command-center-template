@@ -9,6 +9,11 @@ const day = (iso) => new Date(iso.slice(0, 10) + "T00:00:00Z").toLocaleDateStrin
 
 P.voice = (host) => {
   original(host);
+  addReplies(host);
+  regroup(host, U.SUBJ);
+};
+
+function addReplies(host) {
   const f = U.D.retailFeed;
   if (!f || !f.products) return;
   const S = U.S, SUBJ = U.SUBJ;
@@ -41,19 +46,64 @@ P.voice = (host) => {
 
   const summaries = withReviews.filter((p) => p.brand === S && f.reviewSummary && f.reviewSummary[p.id]).map((p) => ({ p, s: f.reviewSummary[p.id] }));
   const sumHtml = summaries.length ? table([
-    { label: "Product", lft: true, get: (x) => `${esc(x.p.title || x.p.item)}<div class="mini">${esc(RT(x.p.retailer).label)}</div>` },
+    { label: "Product", lft: true, get: (x) => { const t = x.p.title || x.p.item, m = /BRAVIA \d+(?: II)?/i.exec(t) || /\b([A-Z]{1,5}\d{1,4}[A-Z]{0,3})(\s+Pro)?\b/.exec(t); return `<span title="${esc(t)}" style="white-space:nowrap">${esc(m ? m[0] : t.slice(0, 40))}</span><div class="mini">${esc(RT(x.p.retailer).label)}</div>`; } },
     { label: "Rating", get: (x) => (x.s.avgRating != null ? `<b class="tnum">${Number(x.s.avgRating).toFixed(1)}★</b><div class="mini">${(x.s.total || 0).toLocaleString("en-US")} ratings</div>` : "—") },
     { label: "Recommend", get: (x) => (x.s.recommendedPct != null ? `${x.s.recommendedPct}%` : "—") },
     { label: "Stars 1–5", lft: true, get: (x) => (x.s.stars || []).map((v) => v ?? "—").join(" · ") },
-    { label: "Themes the retailer lists", lft: true, get: (x) => esc((x.s.aspects || []).slice(0, 5).join(", ") || "—") },
-    { label: "Top complaint", lft: true, get: (x) => (x.s.topNegative && x.s.topNegative.text ? `<span class="mini">${x.s.topNegative.rating}★ “${esc(x.s.topNegative.text.slice(0, 140))}${x.s.topNegative.text.length > 140 ? "…" : ""}”</span>` : "—") },
+    { label: "Themes the retailer lists", lft: true, get: (x) => `<span style="display:block;white-space:normal;min-width:180px">${esc((x.s.aspects || []).slice(0, 5).join(", ") || "—")}</span>` },
+    { label: "Top complaint", lft: true, get: (x) => (x.s.topNegative && x.s.topNegative.text ? `<span class="mini" style="display:block;white-space:normal;min-width:240px">${x.s.topNegative.rating}★ “${esc(x.s.topNegative.text.slice(0, 140))}${x.s.topNegative.text.length > 140 ? "…" : ""}”</span>` : "—") },
   ], summaries) : "";
 
-  const section = `<h2 class="sec">How each brand responds</h2><div class="grid" style="grid-template-columns:minmax(0,1fr)">
+  const section = `<div class="grid" style="grid-template-columns:minmax(0,1fr)">
     ${card({ title: "How brands handle their reviews", help: "For each brand's reviews at the retailers read: the share with a reply from the brand, the share of 1–2★ reviews it answered, and how many are verified purchases or marked incentivized.", sub: `${retailers.map((r) => RT(r).label).join(", ")} reviews. ${esc(lead)}`, html: tbl + quote })}
     ${sumHtml ? card({ title: `${SUBJ} products: the retailer's own review summary`, help: "The retailer's rating, recommend share, star breakdown, the themes it lists and its top critical review for each of the brand's products.", sub: "As the retailer summarises them on the product page.", html: sumHtml }) : ""}
   </div>`;
   const reads = host.querySelector("h2.sec");
   if (reads) reads.insertAdjacentHTML("beforebegin", section); else host.insertAdjacentHTML("beforeend", section);
-};
+}
+
+const GROUPS = (subj) => [
+  { h: `How ${subj} is rated`, match: /^(rating through the quarter|review velocity|star mix by brand|would recommend)/i },
+  { h: "What reviewers say", match: /^(aspect scores by brand|.*praise vs complaints|.*against the best competitor)/i, wide: /^what reviewers say about/i },
+  { h: "How each brand responds", match: /^(how brands handle their reviews|.*the retailer's own review summary)/i, single: true },
+];
+
+function regroup(host, subj) {
+  const title = (c) => ((c.querySelector(".card-h h3") || {}).textContent || "").trim();
+  const cards = [...host.querySelectorAll(".card")].filter((c) => title(c));
+  const reads = [...host.querySelectorAll("h2.sec")].find((h) => /what the reviews say/i.test(h.textContent));
+  const frag = document.createDocumentFragment();
+  for (const g of GROUPS(subj)) {
+    const mine = cards.filter((c) => g.match.test(title(c)));
+    const wide = g.wide ? cards.filter((c) => g.wide.test(title(c))) : [];
+    if (!mine.length && !wide.length) continue;
+    const h = document.createElement("h2");
+    h.className = "sec";
+    h.textContent = g.h;
+    const grid = document.createElement("div");
+    grid.style.marginBottom = "14px";
+    frag.append(h, grid);
+    if (wide.length && mine.length) {
+      grid.className = "grid g2";
+      grid.style.alignItems = "stretch";
+      const column = (cards) => {
+        const col = document.createElement("div");
+        col.style.cssText = "display:flex;flex-direction:column;gap:14px;min-width:0";
+        for (const c of cards) col.appendChild(c);
+        const last = cards[cards.length - 1];
+        if (last) last.style.flex = "1 1 auto";
+        return col;
+      };
+      grid.append(column(mine), column(wide));
+      continue;
+    }
+    const list = [...mine, ...wide];
+    grid.className = list.length > 1 && !g.single ? "grid g2" : "grid";
+    if (list.length === 1 || g.single) grid.style.gridTemplateColumns = "minmax(0,1fr)";
+    for (const c of list) grid.appendChild(c);
+  }
+  if (!frag.childNodes.length) return;
+  host.insertBefore(frag, reads || null);
+  for (const el of host.querySelectorAll(".grid, .stack-v")) if (!el.querySelector(".card, .kpi") && !el.textContent.trim()) el.remove();
+}
 })();

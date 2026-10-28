@@ -730,7 +730,7 @@ P.carriage = (host) => {
    ══════════════════════════════════════════════════════════════════════════ */
 P.stock = (host) => {
   const d = D(), ds = winDates(), rts = retailerScope();
-  const citiesRead = d.dims.cities.length && !/same promise shown for every city|cities[^.]*modelled/i.test((laneOf("delivery") || {}).note || "");
+  const citiesRead = d.dims.cities.length, citiesModelled = /same promise shown for every city|cities[^.]*modelled/i.test((laneOf("delivery") || {}).note || "");
   const [a, z] = win();
   const dayOf = (iso) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
   const eps = d.availability.episodes.filter((e) => rts.includes(e.retailer) && e.start <= ds.at(-1) && dayOf(e.start) + e.days - 1 >= dayOf(ds[0]))
@@ -751,7 +751,7 @@ P.stock = (host) => {
   ${card({ title: "In-stock rate, daily", help: "Of the listings a brand had live on a given day, the share that could actually be bought. It is the quietest number here: distribution, price and promotion all do nothing while the item cannot be added to a basket.", sub: "Share of each brand's live listings that could be bought that day.", slot: "avLine", tag: "13 weeks" })}
   <div class="grid g2" style="margin-top:14px">
     ${citiesRead
-      ? card({ title: "Availability by model and city", help: "The same measure by delivery location. The same model is not equally buyable everywhere, and local fulfilment is a distribution decision rather than a supply one.", sub: `${SUBJ} listings only — the same model is not equally buyable everywhere. Local fulfilment is a distribution decision, not a supply one.`, slot: "avHeat" })
+      ? card({ title: "Availability by model and city", help: "The same measure by delivery location. The same model is not equally buyable everywhere, and local fulfilment is a distribution decision rather than a supply one.", sub: `${SUBJ} listings only — the same model is not equally buyable everywhere. Local fulfilment is a distribution decision, not a supply one.${citiesModelled ? " Stock was read for each listing, not by city, so the differences between cities are modelled." : ""}`, slot: "avHeat" })
       : card({ title: "Availability by model and location", help: "The same measure by delivery location. The same model is not equally buyable everywhere, and local fulfilment is a distribution decision rather than a supply one.", sub: "Whether a listing is buyable can differ by where the shopper is.", html: `<div class="withheld-card"><b>Withheld</b><p>This study read availability from the listing without setting a delivery address, so there is no location dimension behind it. A single column standing in for the country would assert a reading that was never taken.</p></div>` })}
     ${card({ title: "Out-of-stock episodes", help: "Every continuous gap in availability in the window, longest first, and whether it opened within five days of a deep discount — the signature of a promotion that outran its stock.", sub: "Every gap in the window, longest first.", html: eps.length ? table([
       { label: "Model", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${MD(r.model).label}` },
@@ -790,7 +790,7 @@ P.delivery = (host) => {
   // national location. The measure is the same; the breakdown behind it is what
   // is missing, and the cards that need it withhold rather than draw one column.
   const CITY = d.dims.cities.length ? d.dims.cities : [{ id: "national", label: "National" }];
-  const metros = d.dims.cities.length && !/same promise shown for every city|cities[^.]*modelled/i.test((laneOf("delivery") || {}).note || "") ? d.dims.cities.length : 0;
+  const metros = d.dims.cities.length, citiesModelled = /same promise shown for every city|cities[^.]*modelled/i.test((laneOf("delivery") || {}).note || "");
   const promise = (mid, rt, c) => { const s2 = d.delivery.weekly[`${mid}|${rt}|${c}`]; return s2 ? mean(s2.slice(w0, w1 + 1)) : null; };
   const brandCity = (b, c) => mean(pairsFor(b, rts).map((k) => { const [mid, rt] = k.split("|"); return promise(mid, rt, c); }).filter((v) => v != null));
   const brandWeek = (b) => wkIds.map((_, i) => mean(pairsFor(b, rts).flatMap((k) => CITY.map((c) => (d.delivery.weekly[`${k}|${c.id}`] || [])[w0 + i])).filter((v) => v != null)));
@@ -808,7 +808,7 @@ P.delivery = (host) => {
     ${kpi({ label: "Slowest metro · all retailers", dot: "#d93025", value: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return F.d(r.v); })(),
       note: (() => { const r = d.dims.cities.map((c) => ({ c, v: brandCity(S, c.id) })).sort((x, y) => y.v - x.v)[0]; return r.c.label; })() })}
     ${kpi({ label: "National spread", dot: "#e37400", value: (() => { const v = d.dims.cities.map((c) => brandCity(S, c.id)); return F.d(Math.max(...v) - Math.min(...v)); })(),
-      note: "Between the fastest and slowest metro on the same catalogue" })}` : `
+      note: citiesModelled ? "Between the fastest and slowest metro; city differences are modelled around the promise read for each listing" : "Between the fastest and slowest metro on the same catalogue" })}` : `
     ${kpi({ label: "Slowest in the set", dot: "#d93025", value: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0]; return o ? F.d(o.v) : "—"; })(),
       note: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => y.v - x.v)[0]; return o ? o.b.label : "No promise captured"; })() })}
     ${kpi({ label: "Fastest in the set", dot: "#1e8e3e", value: (() => { const o = d.dims.brands.map((b) => ({ b, v: sc("leadTime", b.id).value })).filter((x) => x.v != null).sort((x, y) => x.v - y.v)[0]; return o ? F.d(o.v) : "—"; })(),
@@ -817,7 +817,7 @@ P.delivery = (host) => {
   </div>
   <div class="grid g2">
     ${card({ title: metros ? "Promise by retailer and city" : "Promise by metro", help: "Days from order to the earliest free delivery the product page promises. It is the promise as displayed to a shopper, not the delivery as performed.",
-      sub: metros ? `${SUBJ} listings, meaned. A warm cell is a slow promise — click for the model detail behind it.` : "The promise as displayed, broken out by delivery location.",
+      sub: metros ? `${SUBJ} listings, meaned. A warm cell is a slow promise — click for the model detail behind it.${citiesModelled ? " The promise was read once per listing, so the differences between cities are modelled." : ""}` : "The promise as displayed, broken out by delivery location.",
       slot: metros ? "dlHeat" : null,
       html: metros ? null : held("This study read the delivery promise once per listing, as the page showed it, without setting a delivery address. There is no metro dimension behind the figure, so none is drawn — a single column labelled with a city we did not probe would assert a reading that was never taken.") })}
     ${card({ title: "Promise through the quarter", help: "The weekly mean promise by brand. Peak weeks stretch the promise across the whole category rather than at one retailer, so the shape is a demand signal as much as a logistics one.", sub: "Weekly mean by brand. Peak weeks stretch the promise across the whole category, not just one retailer.", slot: "dlLine" })}
