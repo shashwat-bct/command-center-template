@@ -77,6 +77,9 @@ export type FeedReview = {
   variant?: string | null;
   fulfilledBy?: string | null;
   reviewerBadge?: string | null;
+  incentivized?: boolean;
+  brandReply?: string | null;
+  replyBy?: string | null;
 };
 
 export type RetailFeed = {
