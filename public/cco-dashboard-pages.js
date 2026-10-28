@@ -616,6 +616,7 @@ P.landing = (host) => {
   const sorted = rows.slice().sort((a, b) => (b.brand === S) - (a.brand === S) || b.score - a.score);
   const cell = (r, f) => { const v = r.fields[f.id] || 0; if (!v) return '<span style="color:var(--risk);font-weight:500">✕</span>'; if (f.max === 1) return '<span style="color:var(--good);font-weight:600">✓</span>'; return `<span class="tnum" style="color:${v >= f.max ? "var(--good)" : "var(--warn)"};font-weight:500">${v}/${f.max}</span>`; };
   el("lpMatrix").innerHTML = rows.length ? table([
+    ...(window.__CCCAPTURES && window.__CCCAPTURES.any() ? [{ label: "Page", lft: true, get: (r) => window.__CCCAPTURES.thumb(window.__CCCAPTURES.latest(r.model, r.retailer)) || '<span class="mini" style="color:var(--mute)">—</span>' }] : []),
     { label: "Listing", lft: true, get: (r) => `<span class="dot" style="background:${B(r.brand).color}"></span>${esc(MD(r.model).label)}${rts.length > 1 ? `<div class="mini">${RT(r.retailer).label}</div>` : ""}` },
     ...d.dims.pdpFields.map((f) => ({ label: sigLabel(f), get: (r) => cell(r, f) })),
     { label: "Score", get: (r) => `<span style="display:inline-flex;align-items:center;gap:8px"><span style="display:inline-block;width:40px;height:6px;border-radius:3px;background:var(--line2);overflow:hidden"><i style="display:block;height:100%;width:${r.score}%;background:${B(r.brand).color}"></i></span><b class="tnum">${r.score}</b></span>` },
@@ -638,10 +639,12 @@ P.landing = (host) => {
   const mineMean = brandMean(S);
   if (means.length && mineMean != null) el("lpBars").insertAdjacentHTML("beforeend", `<p class="mini" style="margin:12px 0 0">${means[0].b.id === S ? (() => { const lead = Math.round(mineMean - (means[1] ? means[1].v : mineMean)); return lead > 0 ? `${SUBJ} leads on page content by ${lead} point${lead === 1 ? "" : "s"}.` : `${SUBJ} is level with ${means[1].b.label} on page content — neither page estate has an edge.`; })() : `${SUBJ} is ${Math.round(means[0].v - mineMean)} points behind ${means[0].b.label}; closing the gaps listed beside is how that moves.`}</p>`);
   function showPdp(x) {
-    openDrawer(`${MD(x.model).label} · ${RT(x.retailer).label}`, `Page content score ${x.score}/100`,
+    const cap = window.__CCCAPTURES ? window.__CCCAPTURES.latest(x.model, x.retailer) : null;
+    openDrawer(`${MD(x.model).label} · ${RT(x.retailer).label}`, `Page content score ${x.score}/100${cap ? ` · read from the page captured ${F.date(cap.date)}` : ""}`,
       table([{ label: "Signal", lft: true, get: (f) => sigLabel(f) },
              { label: "Present", get: (f) => x.fields[f.id] ? `<b style="color:var(--good)">${f.max === 1 ? "✓" : x.fields[f.id] + " of " + f.max}</b>` : `<span style="color:var(--risk)">missing</span>` }],
-        d.dims.pdpFields));
+        d.dims.pdpFields) + (cap ? window.__CCCAPTURES.detail(cap) : ""));
+    if (cap) window.__CCCAPTURES.bind(document.getElementById("drBody"));
   }
 };
 

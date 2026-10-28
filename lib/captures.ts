@@ -84,3 +84,16 @@ export async function readCaptureImage(slug: string, file: string): Promise<Buff
     return null;
   }
 }
+
+type PdpPage = { capture: string; date: string; model: string; fields: Record<string, number>; notes: string };
+
+/**
+ * Product-page content signals read from each retailer page capture (brand-data/<slug>.pdp.json),
+ * keyed "<model id>|<retailer>", or an empty map when the brand has none.
+ */
+export function loadRetailPdp(slug: string): Record<string, Record<string, number>> {
+  const path = join(process.cwd(), "brand-data", `${slug}.pdp.json`);
+  if (!existsSync(path)) return {};
+  const data = JSON.parse(readFileSync(path, "utf8")) as { pages?: Record<string, PdpPage> };
+  return Object.fromEntries(Object.entries(data.pages ?? {}).map(([key, p]) => [key, p.fields]));
+}

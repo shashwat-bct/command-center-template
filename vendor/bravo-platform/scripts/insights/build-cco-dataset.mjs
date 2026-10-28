@@ -685,7 +685,7 @@ for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const m = MID[mid];
   const rnd = rngFor("pdp:" + key);
-  const realPdp = rt === "amazon" ? (CFG.MEASURED_PDP || {})[mid] : null;
+  const realPdp = (rt === "amazon" ? (CFG.MEASURED_PDP || {})[mid] : null) ?? (CFG.MEASURED_PDP_RETAIL || {})[key] ?? null;
   if (realPdp) {
     const score = Math.round((PDP_FIELDS.reduce((a, fld) => a + (realPdp[fld.id] ?? 0) / fld.max, 0) / PDP_FIELDS.length) * 100);
     pdpScores.push({ model: mid, brand: m.brand, retailer: rt, score, fields: { ...realPdp }, measured: true });

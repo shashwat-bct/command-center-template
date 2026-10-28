@@ -102,8 +102,6 @@ export const RETAILER_OWN_SELLER: Record<string, string[]> = {
   walmart: ["walmart.com", "walmart"],
   target: ["target", "target.com"],
   bestbuy: ["best buy", "bestbuy", "bestbuy.com"],
-  newegg: ["newegg", "newegg.com"],
-  crutchfield: ["crutchfield", "crutchfield.com"],
   amazon: ["amazon.com", "amazon"],
 };
 

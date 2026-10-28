@@ -29,6 +29,7 @@ import { generateMarketProfile, marketProfileKey, withOnlyRetailers, type Market
 import { brightDataKey } from "./brightdata";
 import { captureRetailOffers, loadRetailHistory, readableRetailers, retailProductsFrom, type RetailCapture } from "./retail-offers";
 import { feedPath, feedPriceImport, loadRetailFeed, type RetailFeed } from "./retail-feed";
+import { loadRetailPdp } from "./captures";
 import { loadReusableAi, saveAiResult } from "./ai-reuse";
 import { feedView, withFeedReviewLane, withRetailerReviews } from "./retail-feed-view";
 
@@ -450,7 +451,7 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
     logLine(`retailer feed not applied: ${(e as Error).message}`);
   }
 
-  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, seed: slug, pinned: [...(asins.length ? [name] : []), ...aiCompetitors.filter((c) => (competitorAsins[c] ?? []).length)] });
+  const relabelInputs: RelabelInputs = buildRelabelInputs({ subjectName: name, competitors: aiCompetitors, category, keepa: keepaResult, competitorKeepa, ai: aiResult, apify: apifyByAsin, shelfResults, aspects, market, retail, retailPdp: loadRetailPdp(slug), seed: slug, pinned: [...(asins.length ? [name] : []), ...aiCompetitors.filter((c) => (competitorAsins[c] ?? []).length)] });
   prepareRelabelWorkDir(workDir, relabelInputs);
   logLine(`applied measurements: ${JSON.stringify(relabelInputs.applied)}`);
 
@@ -543,6 +544,19 @@ async function runBuild(build_id: string, slug: string, name: string, options: B
       payloadJson = JSON.stringify(payload);
       logLine(`retailer feed view: ${view.products.length} products, ${Object.values(view.daily).reduce((n, d) => n + d.length, 0)} product-days in the window, ${view.products.filter((p) => p.model).length} tied to a tracked listing`);
     });
+  }
+
+  const pdpRead = loadRetailPdp(slug);
+  if (Object.keys(pdpRead).length) {
+    const payload = JSON.parse(payloadJson) as { pdpScores?: Array<{ retailer: string; measured?: boolean }>; meta: { provenance?: { lanes?: Record<string, { status: string; note: string; sources?: string[] }> } } };
+    const read = (payload.pdpScores ?? []).filter((x) => x.measured);
+    const at = [...new Set(read.map((x) => x.retailer))];
+    const lanes = payload.meta.provenance?.lanes;
+    if (lanes && read.length) {
+      lanes.landing = { status: "measured", note: `Product pages were read for ${read.length} listings across ${at.length} retailers: Amazon pages on the build date, and every retailer's page from screenshots captured in a retail audit, each checked for the seven content signals. Listings without a read page are left out.`, sources: ["Amazon product pages", "Retail page captures"] };
+      payloadJson = JSON.stringify(payload);
+      logLine(`landing: ${read.length} product pages read across ${at.join(", ")}`);
+    }
   }
 
   await setStep("upload", { status: "running", started_at: new Date().toISOString() });

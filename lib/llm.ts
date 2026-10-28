@@ -58,14 +58,28 @@ const DEFAULT_MODEL = process.env.LLM_MODEL || "claude-sonnet-5-5";
 
 const RETRYABLE = new Set([408, 425, 429, 500, 502, 503, 504]);
 
-export type ChatMessage = { role: "user" | "assistant"; content: string };
+export type ContentBlock =
+  | { type: "text"; text: string }
+  | { type: "image"; source: { type: "base64"; media_type: "image/jpeg" | "image/png"; data: string } };
+
+export type ChatMessage = { role: "user" | "assistant"; content: string | ContentBlock[] };
 
 /**
  * One Claude call through the Atlas proxy with a full message history.
  */
 export async function callLLMChat(args: { system?: string; messages: ChatMessage[]; maxTokens?: number; temperature?: number; model?: string }): Promise<string> {
-  const last = args.messages[args.messages.length - 1];
-  return callLLMRaw({ system: args.system, model: args.model, maxTokens: args.maxTokens, temperature: args.temperature, user: last ? last.content : "", messages: args.messages });
+  return callLLMRaw({ system: args.system, model: args.model, maxTokens: args.maxTokens, temperature: args.temperature, user: "", messages: args.messages });
+}
+
+/**
+ * One Claude call through the Atlas proxy that reads JPEG images alongside a text prompt.
+ */
+export async function callLLMVision(args: { system?: string; text: string; images: Buffer[]; maxTokens?: number; model?: string }): Promise<string> {
+  const content: ContentBlock[] = [
+    ...args.images.map((b): ContentBlock => ({ type: "image", source: { type: "base64", media_type: "image/jpeg", data: b.toString("base64") } })),
+    { type: "text", text: args.text },
+  ];
+  return callLLMRaw({ system: args.system, model: args.model, maxTokens: args.maxTokens, user: "", messages: [{ role: "user", content }] });
 }
 
 export async function callLLM(args: LLMArgs): Promise<string> {

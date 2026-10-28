@@ -5,7 +5,7 @@ import { reviews } from "./voice-ai";
 
 const BASE = { from: "2025-10-01", to: "2025-11-13" };
 const BF = { from: "2025-11-21", to: "2025-12-01", day: "2025-11-28" };
-const RETAILER: Record<string, string> = { amazon: "Amazon", walmart: "Walmart", bestbuy: "Best Buy", target: "Target", newegg: "Newegg", crutchfield: "Crutchfield" };
+const RETAILER: Record<string, string> = { amazon: "Amazon", walmart: "Walmart", bestbuy: "Best Buy", target: "Target" };
 const MAIN = ["amazon", "walmart", "bestbuy", "target"];
 const OUTLIER = 0.35;
 const NOT_NEW = /open box|refurb|renewed|pre-owned/i;
