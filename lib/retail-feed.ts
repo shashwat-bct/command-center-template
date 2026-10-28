@@ -94,7 +94,7 @@ export type RetailFeed = {
   retailersOnly?: boolean;
 };
 
-export type MeasuredListing = { price: Array<number | null>; list: Array<number | null>; stock: Array<0 | 1>; offers: Array<number | null>; buybox: Array<0 | 1 | null> };
+export type MeasuredListing = { price: Array<number | null>; list: Array<number | null>; stock: Array<0 | 1>; offers: Array<number | null>; buybox: Array<0 | 1 | null>; read: Array<0 | 1> };
 
 export type MeasuredRetailRecord = {
   label: string;
@@ -109,6 +109,7 @@ export const RETAILER_OWN_SELLER: Record<string, string[]> = {
 };
 
 const PRICE_STALE_DAYS = 45;
+const READ_FRESH_DAYS = 7;
 const DAY_MS = 86400000;
 
 export const feedPath = (slug: string): string => join(process.cwd(), "brand-data", `${slug}.feed.json`);
@@ -196,7 +197,8 @@ export function measuredRetailListings(input: {
     const liveDays = Object.entries(live.asins[p.asin as string] ?? {})
       .flatMap(([d, reading]) => (reading[p.retailer] ? [[d > windowEnd ? windowEnd : d, reading[p.retailer].price] as const] : []));
     const liveOn = new Map<string, number>(liveDays);
-    const out: MeasuredListing = { price: [], list: [], stock: [], offers: [], buybox: [] };
+    const out: MeasuredListing = { price: [], list: [], stock: [], offers: [], buybox: [], read: [] };
+    let readOn: string | null = null;
     let k = 0, price: { v: number; on: string } | null = null, was: number | null = null, stock: 0 | 1 = 1;
     let offers: { v: number; on: string } | null = null, buybox: { v: 0 | 1; on: string } | null = null;
     const fresh = <T>(x: { v: T; on: string } | null, date: string): T | null => (x && ageDays(x.on, date) <= PRICE_STALE_DAYS ? x.v : null);
@@ -204,7 +206,7 @@ export function measuredRetailListings(input: {
     for (const date of dates) {
       while (k < days.length && days[k].date <= date) {
         const d = days[k++];
-        if (d.price != null) { price = { v: d.price * f, on: d.date }; was = d.was == null ? null : d.was * f; stock = 1; }
+        if (d.price != null) { price = { v: d.price * f, on: d.date }; was = d.was == null ? null : d.was * f; stock = 1; readOn = d.date; }
         if (d.inStock != null) stock = d.inStock ? 1 : 0;
         if (d.offers != null) offers = { v: d.offers, on: d.date };
         const own = ownSeller(p.retailer, d.seller);
@@ -213,7 +215,8 @@ export function measuredRetailListings(input: {
       }
       const liveToday = liveOn.get(date);
       const v = liveToday ?? fresh(price, date);
-      if (liveToday != null) { stock = 1; seen.add(date); }
+      if (liveToday != null) { stock = 1; seen.add(date); readOn = date; }
+      out.read.push(readOn != null && ageDays(readOn, date) <= READ_FRESH_DAYS ? 1 : 0);
       out.price.push(v == null ? null : r2(v));
       out.list.push(v == null ? null : r2(liveToday == null && was != null && was > v ? was : v));
       out.stock.push(stock);

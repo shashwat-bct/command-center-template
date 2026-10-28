@@ -398,7 +398,7 @@ for (const key of pairs) {
   const m = MID[mid];
   const real = measuredFor(key);
   if (real) {
-    const price = real.price.map((v, i) => (isCarried(mid, rt, i) && v != null ? r2(v) : null));
+    const price = real.price.map((v, i) => (isCarried(mid, rt, i) && v != null && (rt === "amazon" || !real.read || real.read[i] === 1) ? r2(v) : null));
     const lst = real.list.map((v, i) => (price[i] == null ? null : v ?? null));
     if (rt !== "amazon") fillPriceGaps(key, m, price);
     priceSeries[key] = price; listSeries[key] = lst;
@@ -450,16 +450,29 @@ for (const key of pairs) {
   priceSeries[key] = price; listSeries[key] = lst; discSeries[key] = disc;
 }
 
-// A retailer price that was not read is never invented: it takes the model's
-// Amazon price that day, or its MSRP when Amazon has none.
+// A retailer price that was not read is never invented: it takes the median of
+// the prices read that day for the same model at the retailers that were read
+// (Amazon daily, others within a week of a reading), or MSRP when none was.
+const readThatDay = (mid, i) => pairs.filter((k) => k.startsWith(mid + "|")).flatMap((k) => {
+  const rt = k.split("|")[1], real = measuredFor(k), v = priceSeries[k] && priceSeries[k][i];
+  if (v == null || !real) return [];
+  if (rt === "amazon") return [v];
+  return real.read && real.read[i] === 1 ? [v] : [];
+});
+const midOf = (vals) => { const s = vals.slice().sort((a, z) => a - z); return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2; };
+const filled = {};
 for (const key of pairs) {
   const [mid, rt] = key.split("|");
   const m = MID[mid];
   if (rt === "amazon" || !m.measured) continue;
-  const fill = gapDays[key] ?? (measuredFor(key) ? [] : priceSeries[key].flatMap((v, i) => (v != null && (retailFirst[key] == null || i < retailFirst[key]) ? [i] : [])));
-  const amz = priceSeries[`${mid}|amazon`];
-  for (const i of fill) {
-    const v = (amz && amz[i] != null ? amz[i] : null) ?? m.msrp ?? null;
+  filled[key] = gapDays[key] ?? (measuredFor(key) ? [] : priceSeries[key].flatMap((v, i) => (v != null && (retailFirst[key] == null || i < retailFirst[key]) ? [i] : [])));
+}
+for (const [key, days] of Object.entries(filled)) {
+  const [mid] = key.split("|");
+  const m = MID[mid];
+  for (const i of days) {
+    const seen = readThatDay(mid, i);
+    const v = seen.length ? midOf(seen) : m.msrp ?? null;
     if (v == null) continue;
     priceSeries[key][i] = r2(v);
     listSeries[key][i] = m.msrp || v;
