@@ -5,7 +5,7 @@
   "sources": [
     "Amazon (price, stock, sales rank and bought-in-past-month history)",
     "Retailer price and stock readings",
-    "Amazon reviews",
+    "Amazon and Walmart reviews",
     "AI answers from ChatGPT, Gemini and Claude"
   ],
   "answers": [
@@ -952,8 +952,8 @@
         "Separating the brands that cut and climbed from the ones that held"
       ],
       "headline": "Sony largely held price on Prime Big Deal Days (+5.4% on average, 1 of 8 listings cut 3%+) while Hisense moved -3.5%. The clearest payoff from cutting was Hisense's U7: cut 23.4% and #2,263 → #1,086 on Amazon.",
-      "what": "Sony +5.4% (1/8 cut) · Samsung +0.6% (0/8 cut) · LG -0.4% (0/7 cut) · TCL +2.3% (0/7 cut) · Hisense -3.5% (2/8 cut).",
-      "why": "Prime Big Deal Days is an Amazon event, so the cuts land on Amazon: across the set Amazon listings moved +0.3% and Walmart +1.5%. Sony's lead Amazon listing (BRAVIA 3 II) moved +5.9% and ranked #3,131 → #2,852.",
+      "what": "Sony +5.4% (1/8 cut) · Samsung +0.9% (0/8 cut) · LG -0.4% (0/7 cut) · TCL +2.3% (0/7 cut) · Hisense -3.5% (2/8 cut).",
+      "why": "Prime Big Deal Days is an Amazon event, so the cuts land on Amazon: across the set Amazon listings moved +0.3% and Walmart +1.6%. Sony's lead Amazon listing (BRAVIA 3 II) moved +5.9% and ranked #3,131 → #2,852.",
       "when": "Prime Big Deal Days: Oct 13, 2026 – Oct 14, 2026. Baseline: Sep 29, 2026 – Oct 12, 2026. Rank read through Oct 16, 2026.",
       "insight": "Holding price on Prime Big Deal Days cost Sony nothing in rank: its lead listing held #2,852 without a deal, so the margin it kept was free.",
       "actions": [
@@ -969,7 +969,7 @@
         },
         {
           "title": "Keep Walmart out of Amazon events",
-          "detail": "Walmart listings moved +1.5% on average over the event.",
+          "detail": "Walmart listings moved +1.6% on average over the event.",
           "impact": "Avoids margin loss where the event does not run"
         }
       ],
@@ -1025,7 +1025,7 @@
             },
             {
               "label": "Samsung · Walmart",
-              "value": -0.6,
+              "value": 0,
               "color": "#0891b2",
               "subject": false,
               "note": "0 of 4 cut 3%+"
@@ -1231,17 +1231,6 @@
               "500+"
             ],
             [
-              "Samsung",
-              "Walmart",
-              "S90F",
-              "$1005.92",
-              "$981.83",
-              "-2.4%",
-              "100%",
-              "—",
-              "—"
-            ],
-            [
               "LG",
               "Walmart",
               "QNED84B",
@@ -1350,6 +1339,17 @@
               "100%",
               "#2,091 → #1,536",
               "500+"
+            ],
+            [
+              "Samsung",
+              "Walmart",
+              "S90F",
+              "$933.89",
+              "$933.89",
+              "0.0%",
+              "100%",
+              "—",
+              "—"
             ],
             [
               "Samsung",
@@ -1779,30 +1779,35 @@
     },
     {
       "id": "reviews",
-      "question": "What drives Sony's praise and complaints, and is brightness a Sony problem or the category's?",
+      "question": "What drives Sony's praise and complaints, and is reliability a Sony problem or the category's?",
       "chip": "Review drivers · praise vs complaints",
       "steps": [
-        "Reading Amazon reviewers' quotes on Brightness and Picture quality",
+        "Counting 1,154 aspect mentions across Amazon and Walmart reviews",
         "Scoring 6 aspects for 5 brands",
-        "Reading Amazon reviewers' quotes on Brightness and Picture quality",
+        "Reading 135 Sony Walmart reviews for the sharpest complaints",
         "Measuring Amazon review velocity from daily review counts, one count per shared review pool",
         "Benchmarking each weak aspect against the best competitor"
       ],
-      "headline": "Shoppers love Sony's picture quality (87% positive) and complain about brightness (50% positive, against Hisense's 89%). It rates 4.43★, #3 of 5.",
-      "what": "Picture quality 87% · Setup 84% · Quality 78% · Value for money 76% · Sound quality 69% · Brightness 50%.",
-      "why": "Brightness is where the brand loses: 12 negative mentions against 12 positive. Hisense scores 89% on the same aspect, so the complaint is about the product, not the category.",
-      "when": "Amazon review summaries and aspect mentions as read on the build date.",
-      "insight": "Sony's rating rests on picture quality and setup, and it adds new Amazon reviews faster than 0 of the set (341 this quarter). Brightness is the one attribute where a competitor proves the category can do better (Hisense 89%), so it is a product fix, not a messaging one.",
+      "headline": "Shoppers love Sony's picture quality (89% positive) and complain about reliability (36% positive, against LG's 47%). It rates 4.43★, #3 of 5.",
+      "what": "Picture quality 89% · Setup 88% · Quality 80% · Sound quality 80% · Value for money 78% · Reliability 36%.",
+      "why": "Reliability is where the brand loses: 62 negative mentions against 35 positive. LG scores 47% on the same aspect, so the complaint is about the product, not the category.",
+      "when": "Amazon review summaries as read on the build date; Walmart reviews from Apr 5, 2025 to Oct 15, 2026.",
+      "insight": "Sony's rating rests on picture quality and setup, and it adds new Amazon reviews faster than 0 of the set (341 this quarter). Reliability is the one attribute where a competitor proves the category can do better (LG 47%), so it is a product fix, not a messaging one.",
       "actions": [
         {
-          "title": "Brief R&D on brightness",
-          "detail": "12 negative mentions; Hisense scores 89% on the same aspect.",
-          "impact": "Moves the aspect from 50% positive"
+          "title": "Brief R&D on reliability",
+          "detail": "62 negative mentions; LG scores 47% on the same aspect.",
+          "impact": "Moves the aspect from 36% positive"
         },
         {
           "title": "Lead listings with picture quality",
-          "detail": "87% of mentions are positive; make it the first bullet and image claim.",
+          "detail": "89% of mentions are positive; make it the first bullet and image claim.",
           "impact": "Turns the strongest proof into conversion"
+        },
+        {
+          "title": "Answer every 1–2★ Walmart review",
+          "detail": "14 of 135 Walmart reviews on file are 1–2★; 0 of them mention reliability problems.",
+          "impact": "Visible brand response where the complaints sit"
         }
       ],
       "kpis": [
@@ -1814,14 +1819,14 @@
         },
         {
           "label": "Strongest aspect",
-          "value": "87%",
+          "value": "89%",
           "note": "Picture quality",
           "tone": "good"
         },
         {
           "label": "Weakest aspect",
-          "value": "50%",
-          "note": "Brightness",
+          "value": "36%",
+          "note": "Reliability",
           "tone": "risk"
         },
         {
@@ -1839,40 +1844,40 @@
           "unit": "pct",
           "rows": [
             {
-              "label": "Brightness",
-              "value": 50,
+              "label": "Reliability",
+              "value": 36.1,
               "color": "#d93025",
-              "note": "24 mentions"
-            },
-            {
-              "label": "Sound quality",
-              "value": 69.2,
-              "color": "#f9ab00",
-              "note": "78 mentions"
+              "note": "97 mentions"
             },
             {
               "label": "Value for money",
-              "value": 76.2,
+              "value": 78.4,
               "color": "#f9ab00",
-              "note": "147 mentions"
+              "note": "176 mentions"
+            },
+            {
+              "label": "Sound quality",
+              "value": 79.5,
+              "color": "#f9ab00",
+              "note": "132 mentions"
             },
             {
               "label": "Quality",
-              "value": 78.2,
-              "color": "#f9ab00",
-              "note": "331 mentions"
+              "value": 80.4,
+              "color": "#1e8e3e",
+              "note": "378 mentions"
             },
             {
               "label": "Setup",
-              "value": 83.9,
+              "value": 87.6,
               "color": "#1e8e3e",
-              "note": "56 mentions"
+              "note": "89 mentions"
             },
             {
               "label": "Picture quality",
-              "value": 87.2,
+              "value": 88.7,
               "color": "#1e8e3e",
-              "note": "211 mentions"
+              "note": "282 mentions"
             }
           ]
         },
@@ -1916,23 +1921,70 @@
         },
         {
           "type": "quotes",
-          "title": "What Amazon reviewers wrote about Sony",
-          "sub": "On Brightness and Picture quality",
+          "title": "What Walmart reviewers wrote about Sony",
+          "sub": "Most helpful complaints and praise",
           "items": [
             {
-              "text": "...I would not get the A95L. It’s motion is worse, color is worse, not as bright. Motion improvements alone are reasons to spend more.",
-              "meta": "Amazon review",
+              "text": "The title says it all. We can't get through an hour of viewing without having to powering the TV off/on to get things back in synch. We are not using a sound bar. The TV speakers are falling out of synch with the picture. It doesn't matter what input. It doesn",
+              "meta": "1★ · Jul 21, 2026",
               "tone": "negative"
             },
             {
-              "text": "...but this (Sony Bravia 8 II) outshines in picture quality, brightness and ease of use....",
+              "text": "The 55” Bravia 8 ii was intended to replace an old 43” plasma tv. I ended up returning the Bravia.\n\nThe picture on the Bravia 8 ii is superior…end of story. If I were paid to come up with a problem with the picture the only thing that I could come up with is t",
+              "meta": "2★ · Aug 25, 2025",
+              "tone": "negative"
+            },
+            {
+              "text": "Rtings reviewed it and reviews are not good. \nPoor contrast, poor viewing angles, subpar HDR performance and overall poor home theater viewing experience. We will be better off with the last year Bravia 7. See the review below\nhttps://www.rtings.com/tv/reviews",
+              "meta": "2★ · Jun 15, 2025",
+              "tone": "negative"
+            },
+            {
+              "text": "The experience of ordering a TV was horrible . First the item was supposed to come on Saturday, September 5th. Then it was delayed. I then received a notification that it was successfully delivered. I then received a notification that it was lost in transition",
+              "meta": "1★ · Sep 18, 2026 · verified purchase",
+              "tone": "negative"
+            },
+            {
+              "text": "Never comparison to other OLED tv that like LG C4 G4 what ever it may be.But always  sony it's a brand tv 0",
+              "meta": "5★ · Apr 5, 2025",
+              "tone": "positive"
+            },
+            {
+              "text": "I've been a Sony guy for more than 30 years.\r\nLove all their products, especially the TV's.\r\nOne of the Sony TV's bought in 2008 (Bravia XBR- 46\") just died and decided to replace it with this one.\r\nvery happy so far.\r\nONE QUESTION: WHY DID SONY REMOVE THE LIT",
+              "meta": "5★ · Jun 11, 2026 · verified purchase",
+              "tone": "positive"
+            }
+          ]
+        },
+        {
+          "type": "quotes",
+          "title": "What Amazon reviewers wrote about Sony",
+          "sub": "On Reliability and Picture quality",
+          "items": [
+            {
+              "text": "The TV was defective.",
               "meta": "Amazon review",
               "tone": "positive"
             },
             {
-              "text": "The TV keeps going dark for a split second multiple times while watching a program. Tried doing an update with tech support but the problem persist.",
+              "text": "Works great, Amazon delivered and set up for us!",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "...After researching I found out it is a common issue and it suddenly stopped working....",
               "meta": "Amazon review",
               "tone": "negative"
+            },
+            {
+              "text": "Arrived broke and Walmart would not exchange the tv for the discounted price it was when I bought it only gave a refund.",
+              "meta": "Amazon review",
+              "tone": "negative"
+            },
+            {
+              "text": "One of the Sony TV's bought in 2008 (Bravia XBR- 46\") just died and decided to replace it with this one.",
+              "meta": "Amazon review",
+              "tone": "positive"
             },
             {
               "text": "Great picture, bright and the colors are vibrant.. Sound seemed good too, but I use a separate audio system added a few days after delivery....",
@@ -1946,6 +1998,16 @@
             },
             {
               "text": "...The BRAVIA 8 II itself has excellent picture quality when it works, which makes this even more frustrating....",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "The picture is great and we love the multi-screen option best and it was a breeze setting up right out of the box.",
+              "meta": "Amazon review",
+              "tone": "positive"
+            },
+            {
+              "text": "The TV speakers are falling out of synch with the picture.",
               "meta": "Amazon review",
               "tone": "positive"
             }

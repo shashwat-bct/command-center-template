@@ -188,7 +188,7 @@ export function retailerPriceGap(ctx: Ctx): AtlasAnswer {
 }
 
 /**
- * The review drivers answer with Amazon reviewers' own words in place of retailer review text.
+ * The review drivers answer, quoting Walmart reviewers where the feed has them and Amazon reviewers alongside.
  */
 export function reviewsTv(ctx: Ctx): AtlasAnswer {
   const S = ctx.subject;
@@ -199,6 +199,14 @@ export function reviewsTv(ctx: Ctx): AtlasAnswer {
   const weakest = aspects[0], strongest = aspects[aspects.length - 1];
   const quotesOf = (a: string | undefined): Array<{ text: string }> => (a ? ((counts[a] as unknown as { quotes?: Array<{ text: string }> }).quotes ?? []) : []);
   const items = [...quotesOf(weakest), ...quotesOf(strongest)].map((q) => ({ text: q.text.slice(0, 260), meta: "Amazon review", tone: NEGATIVE.test(q.text) ? "negative" as const : "positive" as const }));
+  const hasRetail = base.blocks.some((b) => b.type === "quotes" && b.items.length);
+  if (hasRetail) {
+    return {
+      ...base,
+      question: `What drives ${possessive(S.label)} praise and complaints, and is ${weakest?.toLowerCase() ?? "its weakest aspect"} a ${S.label} problem or the category's?`,
+      blocks: [...base.blocks, ...(items.length ? [{ type: "quotes" as const, title: `What Amazon reviewers wrote about ${S.label}`, sub: `On ${weakest} and ${strongest}`, items }] : [])],
+    };
+  }
   return {
     ...base,
     question: `What drives ${possessive(S.label)} praise and complaints, and is ${weakest?.toLowerCase() ?? "its weakest aspect"} a ${S.label} problem or the category's?`,

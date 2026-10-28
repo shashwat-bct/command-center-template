@@ -39,6 +39,12 @@ const ASPECT_WORDS: Record<string, string[]> = {
   size: ["size", "large", "big", "small"],
   flushability: ["flush", "clog", "plumbing", "septic"],
   value: ["price", "expensive", "value", "cheap", "worth"],
+  "value for money": ["price", "expensive", "value", "cheap", "worth", "deal"],
+  reliability: ["stopped working", "died", "broke", "defect", "reliable", "went out", "black screen", "won't turn on", "lasted"],
+  "picture quality": ["picture", "image", "colors", "colour", "display"],
+  "sound quality": ["sound", "audio", "speaker"],
+  setup: ["set up", "setup", "install", "easy to use"],
+  brightness: ["bright", "dim", "glare"],
 };
 const MAX_RETAILER_QUOTES = 2;
 const MAX_PRODUCT_QUOTES = 2;

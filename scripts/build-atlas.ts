@@ -26,7 +26,7 @@ const atlas: AtlasData = {
   version: 1,
   brand: subject.label,
   generatedOn: new Date().toISOString().slice(0, 10),
-  sources: [tv ? "Amazon (price, stock, sales rank and bought-in-past-month history)" : "Amazon (Keepa price, stock, sales rank and bought-in-past-month history)", tv ? "Retailer price and stock readings" : feed.label, tv ? "Amazon reviews" : "Amazon and Walmart reviews", "AI answers from ChatGPT, Gemini and Claude"],
+  sources: [tv ? "Amazon (price, stock, sales rank and bought-in-past-month history)" : "Amazon (Keepa price, stock, sales rank and bought-in-past-month history)", tv ? "Retailer price and stock readings" : feed.label, "Amazon and Walmart reviews", "AI answers from ChatGPT, Gemini and Claude"],
   answers,
 };
 const out = args.out ?? `brand-data/${args.slug}.atlas.json`;

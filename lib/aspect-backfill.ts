@@ -1,6 +1,7 @@
 import { fetchApifyAmazon, type ReviewAspect } from "./apify";
 import { bucket } from "./gcs";
 import { applyReviewAspects, type MergePayload } from "./payload-merge";
+import { withFeedReviewLane, withRetailerReviews, type FeedView } from "./retail-feed-view";
 
 type Model = { brand: string; asin?: string | null };
 type Cached = Record<string, ReviewAspect[]>;
@@ -10,6 +11,7 @@ const done = new Map<string, Buffer>();
 const inflight = new Map<string, Promise<Buffer>>();
 
 const CACHE_VERSION = "v3";
+const DONE_VERSION = "r2";
 const cacheKey = (slug: string, buildId: string) => `review-aspects/${CACHE_VERSION}/${slug}/${buildId}.json`;
 
 async function readCache(slug: string, buildId: string): Promise<Cached | null> {
@@ -43,6 +45,11 @@ async function backfill(slug: string, buildId: string, bytes: Buffer): Promise<B
     if (aspects) await bucket().file(cacheKey(slug, buildId)).save(JSON.stringify(aspects), { contentType: "application/json", resumable: false }).catch(() => undefined);
   }
   if (!aspects || !applyReviewAspects(payload, aspects)) return bytes;
+  const extra = payload as MergePayload & { retailFeed?: FeedView; voice?: Parameters<typeof withRetailerReviews>[0] };
+  if (extra.retailFeed && Object.values(extra.retailFeed.reviews ?? {}).some((r) => r.length)) {
+    withRetailerReviews(extra.voice, payload.dims as Parameters<typeof withRetailerReviews>[1], extra.retailFeed);
+    withFeedReviewLane(payload.meta.provenance?.lanes as Parameters<typeof withFeedReviewLane>[0], extra.retailFeed);
+  }
   return Buffer.from(JSON.stringify(payload));
 }
 
@@ -52,7 +59,7 @@ async function backfill(slug: string, buildId: string, bytes: Buffer): Promise<B
  */
 export async function withReviewAspects(slug: string, buildId: string, bytes: Buffer): Promise<Buffer> {
   if (bytes.includes(MARK)) return bytes;
-  const key = `${CACHE_VERSION}/${slug}/${buildId}`;
+  const key = `${CACHE_VERSION}/${DONE_VERSION}/${slug}/${buildId}`;
   const hit = done.get(key);
   if (hit) return hit;
   const running = inflight.get(key) ?? backfill(slug, buildId, bytes).catch(() => bytes);
